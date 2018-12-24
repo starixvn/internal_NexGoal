@@ -79,9 +79,11 @@ export default class PAFocus extends Component {
             let memberOptions = response.data.map(item => {
                 return {
                     value: item.employeeId,
-                    label: `${item.fullName} (${item.nickName})`
+                    label: `${item.nickName} (${item.fullName})`
                 };
-            }); let filter = this.state.filter;
+            });
+
+            let filter = this.state.filter;
 
             if (memberOptions.indexOf(filter.employee) < 0) {
                 filter = Object.assign({}, this.state.filter, { employee: null });

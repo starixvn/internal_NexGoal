@@ -27,15 +27,17 @@ export default class DisciplineManagement extends Component {
                 employee: null
             },
             disciplines: [],
-            groupOptions: [],
-            employeeOptions: [],
-            isHost: document.getElementById('IsHost').checked,
             showCreateModal: false,
             editDiscipline: {
                 showModal: false,
                 discipline: null
             }
         };
+
+        props.isHost = document.getElementById('IsHost').checked;
+        props.groupOptions = [];
+        props.employeeOptions = [];
+        props.allEmployeeOptions = [];
     }
 
     componentDidMount() {
@@ -57,14 +59,13 @@ export default class DisciplineManagement extends Component {
                 let employeeOptions = employeeResponse.data.map(item => {
                     return {
                         value: item.employeeId,
-                        label: `${item.fullName} (${item.nickName})`
+                        label: `${item.nickName} (${item.fullName})`
                     };
                 });
 
-                this.setState({
-                    groupOptions: groupOptions,
-                    employeeOptions: employeeOptions
-                });
+                this.props.groupOptions = groupOptions;
+                this.props.employeeOptions = employeeOptions;
+                this.props.allEmployeeOptions = employeeOptions;
 
                 this.getDisciplines(this.state.filter);
             }).catch(axiosError);
@@ -90,7 +91,7 @@ export default class DisciplineManagement extends Component {
                 let employeeOptions = response.data.map(item => {
                     return {
                         value: item.employeeId,
-                        label: `${item.fullName} (${item.nickName})`
+                        label: `${item.nickName} (${item.fullName})`
                     };
                 });
                 let filter = this.state.filter;
@@ -99,9 +100,10 @@ export default class DisciplineManagement extends Component {
                     filter = Object.assign({}, this.state.filter, { employee: null });
                 }
 
+                this.props.employeeOptions = employeeOptions;
+
                 this.setState({
-                    filter: filter,
-                    employeeOptions: employeeOptions
+                    filter: filter
                 });
             }).catch(axiosError);
     }
@@ -176,8 +178,6 @@ export default class DisciplineManagement extends Component {
     }
 
     render() {
-        let employeeOptions = this.state.employeeOptions;
-
         return (
             <div className="row">
                 <ToastLayout />
@@ -187,15 +187,15 @@ export default class DisciplineManagement extends Component {
                 <div className="col-sm-12">
                     <SearchForm
                         filter={this.state.filter}
-                        groupOptions={this.state.groupOptions}
-                        employeeOptions={employeeOptions}
+                        groupOptions={this.props.groupOptions}
+                        employeeOptions={this.props.employeeOptions}
                         onChange={this.handleFilterChange}
                         onSubmit={this.handleFilterSubmit}
                     />
 
                     <Table
                         data={this.state.disciplines}
-                        isHost={this.state.isHost}
+                        isHost={this.props.isHost}
                         onCreate={this.handleClickCreate}
                         onEdit={this.handleClickEdit}
                         onEditStatus={this.handleEditStatus}
@@ -204,7 +204,7 @@ export default class DisciplineManagement extends Component {
                 {
                     this.state.showCreateModal &&
                     <Create
-                        employeeOptions={employeeOptions}
+                        employeeOptions={this.props.allEmployeeOptions}
                         showModal={this.state.showCreateModal}
                         onClose={this.handleCancelCreate}
                         onCreateSuccess={this.handleCreateSuccess}

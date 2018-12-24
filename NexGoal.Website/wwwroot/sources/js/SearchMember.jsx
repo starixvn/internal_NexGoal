@@ -33,7 +33,7 @@ export default class SearchMember extends Component {
                     response.data.map(item => {
                         options.push({
                             value: item.employeeId,
-                            label: `${item.fullName} (${item.nickName})`
+                            label: `${item.nickName} (${item.fullName})`
                         });
                     });
 
