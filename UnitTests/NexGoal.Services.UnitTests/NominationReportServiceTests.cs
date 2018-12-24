@@ -1,18 +1,10 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
-    using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Models;
     using NexGoal.Core.Services;
-    using NexGoal.Criteria.EmployeeNomination;
     using NexGoal.Criteria.NominationReport;
-    using NexGoal.Models.Common;
-    using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.NominationPeriod;
-    using NexGoal.Models.PerformanceRecord;
     using NSubstitute;
     using Xunit;
 
@@ -38,7 +30,7 @@
             var result = await service.GetNominationPeriodsForNominatorAsync(false);
 
             Assert.NotEmpty(result);
-            Assert.Equal(1, result.Count());
+            Assert.Single(result);
         }
 
         private NominationReportService GetService()

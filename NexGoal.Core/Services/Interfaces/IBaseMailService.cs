@@ -1,5 +1,6 @@
 namespace NexGoal.Core.Services
 {
+    using System;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
 
@@ -8,5 +9,9 @@ namespace NexGoal.Core.Services
         Task SendMailAsync(MailModel email);
 
         string ReadTextFile(string filePath);
+
+        string FormatStartDate(DateTime startDate);
+
+        string FormatEndDate(DateTime endDate);
     }
 }

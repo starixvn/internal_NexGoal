@@ -1,5 +1,6 @@
 namespace NexGoal.Core.Services
 {
+    using System;
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
@@ -7,6 +8,7 @@ namespace NexGoal.Core.Services
     using MailKit.Net.Smtp;
     using Microsoft.Extensions.Options;
     using MimeKit;
+    using NexGoal.Core.Constants;
     using NexGoal.Core.Models;
 
     public class BaseMailService : IBaseMailService
@@ -68,6 +70,20 @@ namespace NexGoal.Core.Services
             {
                 return sr.ReadToEnd();
             }
+        }
+
+        public string FormatStartDate(DateTime startDate)
+        {
+            var result = new DateTime(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0, 0, startDate.Kind);
+
+            return result.ToString(Constants.DateTimeFormat);
+        }
+
+        public string FormatEndDate(DateTime endDate)
+        {
+            var result = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 0, 0, endDate.Kind);
+
+            return result.ToString(Constants.DateTimeFormat);
         }
 
         private static bool IsValidEmail(string email)

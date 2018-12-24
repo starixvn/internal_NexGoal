@@ -24,5 +24,6 @@
   <Function Name="PA">
     <Setting Key="PAFocus_GetPeriodStarted" SpName="Auto_PAFocus_GetPeriodStarted" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PAFocus_Generate" SpName="Auto_PAFocus_Generate" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PAFocus_GetSettingToSendMail" SpName="PAFocus_GetSettingToSendMail" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>
