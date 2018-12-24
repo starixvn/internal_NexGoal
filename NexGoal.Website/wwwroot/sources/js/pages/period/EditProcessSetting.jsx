@@ -12,26 +12,15 @@ export default class EditProcessSetting extends Component {
         super(props);
 
         this.state = {
-            period: {},
             settings: []
         };
 
-        this.durationList = range(1, 30);
         this.remindDayList = range(0, 8);
         this.focusDayList = range(1, 8);
     }
 
     componentDidMount() {
-        this.getPeriod();
         this.getSettings();
-    }
-
-    getPeriod = () => {
-        axios.get(resolveClientUrl('Period/GetById/' + this.props.periodId))
-            .then(response => {
-                var data = response.data;
-                this.setState({ period: data });
-            }).catch(axiosError);
     }
 
     getSettings = () => {
@@ -40,17 +29,6 @@ export default class EditProcessSetting extends Component {
                 let data = response.data;
                 this.setState({ settings: data });
             }).catch(axiosError);
-    }
-
-    handleDurationChange = e => {
-        var element = e.target;
-        var processId = parseInt(element.dataset.processid);
-
-        var settings = this.state.settings.slice(0);
-        var process = settings.find(e => e.processId === processId);
-        process.duration = element.value;
-
-        this.setState({ settings: settings });
     }
 
     handleNoticeAtBeginChange = e => {
@@ -114,7 +92,6 @@ export default class EditProcessSetting extends Component {
                     <thead>
                         <tr>
                             <th />
-                            <th>{getResource('Duration')}</th>
                             <th>{getResource('NoticeAtBegin')}</th>
                             <th>{getResource('RemindDay')}</th>
                         </tr>
@@ -123,11 +100,6 @@ export default class EditProcessSetting extends Component {
                         {this.state.settings.map(e =>
                             <tr key={e.processId} >
                                 <td>{e.processName}</td>
-                                <td className="text-center">
-                                    <select data-processid={e.processId} value={e.duration} onChange={this.handleDurationChange} >
-                                        {this.durationList.map(this.renderOptions)}
-                                    </select>
-                                </td>
                                 <td className="text-center">
                                     <input type="checkbox" data-processid={e.processId} checked={e.noticeAtBegin}
                                         onChange={this.handleNoticeAtBeginChange}
