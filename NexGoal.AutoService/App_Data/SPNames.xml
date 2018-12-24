@@ -20,6 +20,7 @@
   </Function>
   <Function Name="Nomination">
     <Setting Key="EditWhenNominationFinished" SpName="Auto_Nomination_UpdateWhenFinished" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="NominationPeriod_GetSettingToSendMail" SpName="NominationPeriod_GetSettingToSendMail" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="PA">
     <Setting Key="PAFocus_GetPeriodStarted" SpName="Auto_PAFocus_GetPeriodStarted" DbName="bodb_NexGoal" Plain="0"></Setting>

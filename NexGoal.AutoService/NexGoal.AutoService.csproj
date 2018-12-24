@@ -16,6 +16,7 @@
   <ItemGroup>
     <None Remove="appsettings.json" />
     <None Remove="App_Data\SPNames.xml" />
+    <None Remove="EmailTemplates\Nomination\RemindToNominator.cshtml" />
     <None Remove="EmailTemplates\Nomination\StartToNominator.cshtml" />
     <None Remove="EmailTemplates\PAFocus\RemindToEvaluator.cshtml" />
     <None Remove="EmailTemplates\PAFocus\StartToEvaluator.cshtml" />
@@ -29,6 +30,10 @@
     </Content>
     <Content Include="App_Data\SPNames.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\Nomination\RemindToNominator.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="EmailTemplates\Nomination\StartToNominator.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

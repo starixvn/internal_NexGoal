@@ -45,7 +45,9 @@
                 paService.EditStatus();
 
                 focusService.Generate();
+                focusService.SendMail();
 
+                nominationService.SendMail();
                 nominationService.EditWhenFinished();
             }
             catch (Exception ex)

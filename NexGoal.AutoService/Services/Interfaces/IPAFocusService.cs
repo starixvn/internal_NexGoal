@@ -5,5 +5,7 @@
     public interface IPAFocusService
     {
         CommandResult Generate();
+
+        void SendMail();
     }
 }

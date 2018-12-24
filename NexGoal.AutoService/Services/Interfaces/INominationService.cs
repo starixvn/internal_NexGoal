@@ -5,5 +5,7 @@
     public interface INominationService
     {
         CommandResult EditWhenFinished();
+
+        void SendMail();
     }
 }
