@@ -56,7 +56,7 @@ export default class EditMemberPerformance extends Component {
                         : performanceRecord.grade.name
                 } : null;
                 performanceRecord.employees = performanceRecord.employees.map(employee => {
-                    return { value: employee.employeeId, label: `${employee.fullName} (${employee.nickName})` };
+                    return { value: employee.employeeId, label: `${employee.nickName} (${employee.fullName})` };
                 });
                 performanceRecord.projects = performanceRecord.projects.map(project => {
                     return { value: project.projectId, label: project.name };

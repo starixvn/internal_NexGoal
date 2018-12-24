@@ -68,7 +68,7 @@ export default class App extends Component {
             axios(resolveClientUrl('Common/GetMyGroup')),
             axios(resolveClientUrl('Common/GetCurrentPerformancePeriod')),
             axios(resolveClientUrl('member/Performance')),
-            axios(resolveClientUrl('common/GetAnnouncements')),
+            axios(resolveClientUrl('common/GetAnnouncements'))
         ];
 
         Promise.all(promises)
@@ -84,7 +84,7 @@ export default class App extends Component {
                 });
 
                 let memberOptions = memberResponse.data.map(member => {
-                    return { value: member.employeeId, label: `${member.fullName} (${member.nickName})` };
+                    return { value: member.employeeId, label: `${member.nickName} (${member.fullName})` };
                 });
 
                 let myGroupOptions = myGroupResponse.data.map(group => {

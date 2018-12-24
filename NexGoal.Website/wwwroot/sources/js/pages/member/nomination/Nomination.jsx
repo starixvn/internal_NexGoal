@@ -37,7 +37,7 @@ export default class Nomination extends Component {
 
         Promise.all(promises).then(([employeeResponse, nominationResponse, nominationPeriodResponse]) => {
             let employeeOptions = employeeResponse.data.map(member => {
-                return { value: member.employeeId, label: `${member.fullName} (${member.nickName})` };
+                return { value: member.employeeId, label: `${member.nickName} (${member.fullName})` };
             });
 
             this.setState({

@@ -40,10 +40,10 @@ export default class Create extends Component {
             .then(([employeeResponse, nominationPeriodResponse]) => {
                 this.setState({
                     employeeOptions: employeeResponse.data.map(employee => {
-                        return { value: employee.employeeId, label: `${employee.fullName} (${employee.nickName})` };
+                        return { value: employee.employeeId, label: `${employee.nickName} (${employee.fullName})` };
                     }),
                     nominationPeriodOptions: nominationPeriodResponse.data.map(np => {
-                        return { value: np.nominationPeriodId, label: np.title }
+                        return { value: np.nominationPeriodId, label: np.title };
                     })
                 });
             }).catch(axiosError);

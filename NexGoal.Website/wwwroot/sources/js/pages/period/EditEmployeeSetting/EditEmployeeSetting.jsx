@@ -33,7 +33,7 @@ export default class EditEmployeeSetting extends Component {
                         return { value: group.groupId, label: group.name };
                     }),
                     employees: employeeRes.data.map(employee => {
-                        return { value: employee.employeeId, label: `${employee.fullName} (${employee.nickName})` };
+                        return { value: employee.employeeId, label: `${employee.nickName} (${employee.fullName})` };
                     }),
                     settings: settings
                 });
