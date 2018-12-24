@@ -20,6 +20,7 @@ import MemberWorkload from './MemberWorkload';
 import Timeline from './timeline/index';
 import Nomination from './nomination/Nomination';
 import MemberPerformanceAppraisal from './performance-appraisal/MemberPerformanceAppraisal';
+import Announcement from '../../shared/components/Announcement';
 
 export default class App extends Component {
     constructor(props) {
@@ -51,7 +52,8 @@ export default class App extends Component {
             },
             activeTabKey: 1,
             loadNominationTab: false,
-            loadPATab: false
+            loadPATab: false,
+            showAnnouncementModal: false
         };
 
         this.infiniteScrollRef = React.createRef();
@@ -312,6 +314,10 @@ export default class App extends Component {
         });
     }
 
+    handleCloseAnnouncementModal = () => this.setState({ showAnnouncementModal: false })
+
+    handleOpenAnnouncementModal = () => this.setState({ showAnnouncementModal: true })
+
     render() {
         let memberOptions = this.state.memberOptions;
         let performanceGradeOptions = this.state.performanceGradeOptions;
@@ -339,7 +345,7 @@ export default class App extends Component {
                         </div>
                         <div className="main-content">
                             <div className="fixed-section">
-                                <div className="warning marquee">
+                                <div className="warning marquee" onClick={this.handleOpenAnnouncementModal}>
                                     <span>
                                         {this.state.announcements.join(' ')}
                                     </span>
@@ -434,6 +440,7 @@ export default class App extends Component {
                         onSubmit={this.handleDeletePerformanceRecord}
                     />
                 }
+                <Announcement showModal={this.state.showAnnouncementModal} onCloseModal={this.handleCloseAnnouncementModal} announcements={this.state.announcements} />
             </ToastLayout>
         );
     }

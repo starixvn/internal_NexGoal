@@ -20,6 +20,7 @@ import WorkLoad from './workload';
 import PerformanceAppraisalResult from './PerformanceAppraisalResult';
 import PersonalTimeline from './timeline/PersonalTimeline';
 import EmployeeInfo from './EmployeeInfo';
+import Announcement from '../../shared/components/Announcement';
 
 export default class MyPage extends Component {
     constructor(props) {
@@ -49,7 +50,8 @@ export default class MyPage extends Component {
                 prevDisabled: false
             },
             hrmDetail: {},
-            currentUserInfo: getCurrentUserInfo()
+            currentUserInfo: getCurrentUserInfo(),
+            showAnnouncementModal: false
         };
 
         this.infiniteScrollRef = React.createRef();
@@ -320,6 +322,10 @@ export default class MyPage extends Component {
         }
     }
 
+    handleCloseAnnouncementModal = () => this.setState({ showAnnouncementModal: false })
+
+    handleOpenAnnouncementModal = () => this.setState({ showAnnouncementModal: true })
+
     render() {
         let performanceRecords = this.state.displayedPerformanceRecords;
         let currentUserInfo = this.state.currentUserInfo;
@@ -334,7 +340,7 @@ export default class MyPage extends Component {
                     </div>
                     <div className="main-content">
                         <div className="fixed-section">
-                            <div className="warning marquee">
+                            <div className="warning marquee" onClick={this.handleOpenAnnouncementModal} >
                                 <span>
                                     {this.state.announcements.join(' ')}
                                 </span>
@@ -411,6 +417,8 @@ export default class MyPage extends Component {
                         onSubmit={this.handleDeletePerformanceRecord}
                     />
                 }
+                <Announcement showModal={this.state.showAnnouncementModal} onCloseModal={this.handleCloseAnnouncementModal} announcements={this.state.announcements} />
+
             </div >
         );
     }
