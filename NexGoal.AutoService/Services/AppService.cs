@@ -43,6 +43,7 @@
                 paService.EditGrade();
                 paService.EditWhenEvaluationFinished();
                 paService.EditStatus();
+                paService.SendMail();
 
                 focusService.Generate();
                 focusService.SendMail();

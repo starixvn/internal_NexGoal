@@ -3,6 +3,8 @@
     public enum MailMode
     {
         Start = 1,
-        Remind = 2
+        Remind,
+        RemindStartEvaluation,
+        EndEvaluation
     }
 }

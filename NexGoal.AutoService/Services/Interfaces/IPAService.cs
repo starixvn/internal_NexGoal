@@ -9,5 +9,7 @@
         CommandResult EditWhenEvaluationFinished();
 
         CommandResult EditStatus();
+
+        void SendMail();
     }
 }
