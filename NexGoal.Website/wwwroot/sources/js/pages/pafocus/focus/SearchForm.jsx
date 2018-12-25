@@ -49,7 +49,7 @@ export default class SearchForm extends Component {
             <Form inline className="form-filter">
                 <FormGroup>
                     <ControlLabel>{getResource('EvaluationPeriod')}</ControlLabel>
-                    <div className="control-content">
+                    <div className="control-content period-width">
                         <Select name="Year" isSearchable={false} isClearable={false}
                             className="react-select-container" classNamePrefix="react-select"
                             value={filter.period}
@@ -63,7 +63,7 @@ export default class SearchForm extends Component {
                     <Fragment>
                         <FormGroup>
                             <ControlLabel>{getResource('Team')}</ControlLabel>
-                            <div className="control-content">
+                            <div className="control-content team-width">
                                 <Multiselect className="react-select-container" classNamePrefix="react-select"
                                     value={filter.groups}
                                     options={groupOptions}
@@ -73,7 +73,7 @@ export default class SearchForm extends Component {
                         </FormGroup>
                         <FormGroup>
                             <ControlLabel>{getResource('Employee')}</ControlLabel>
-                            <div className="control-content">
+                            <div className="control-content employee-width">
                                 <Select className="react-select-container" classNamePrefix="react-select"
                                     value={filter.employee} options={memberOptions}
                                     name="employee" onChange={this.handleEmployeeChange} isClearable

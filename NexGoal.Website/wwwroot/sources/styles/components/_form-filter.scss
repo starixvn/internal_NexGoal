@@ -41,6 +41,15 @@
 
     .control-content {
         width: 200px;
+        &.employee-width {
+            width: 280px;
+        }
+        &.period-width, &.team-width {
+            width: 250px;
+        }
+        &.status-width {
+            width: 150px;
+        }
     }
 
     .checkbox {

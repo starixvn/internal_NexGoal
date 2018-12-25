@@ -164,7 +164,7 @@ export default class Row extends Component {
             <Fragment>
                 {
                     pafocus.isHost &&
-                    <a className="fa fa-pencil-square-o" title="Edit" name={propName} onClick={this.handleShowObjectiveModal} />
+                    <a className="icon-square-edit-outline" title="Edit" name={propName} onClick={this.handleShowObjectiveModal} />
                 }
                 {
                     !pafocus.isHost &&
@@ -174,7 +174,7 @@ export default class Row extends Component {
                             <Fragment>
                                 {
                                     pafocus[propName].length > 25 &&
-                                    <a className="fa fa-search" title="View" name={propName} onClick={this.handleShowObjectiveModal} />
+                                    <a className="icon-comment-eye-outline" title="View" name={propName} onClick={this.handleShowObjectiveModal} />
                                 }
                             </Fragment>
                         }

@@ -224,7 +224,7 @@ export default class PAFocus extends Component {
                     onExportToExcel={this.handleExportToExcel}
                 />
 
-                <EvaluationProcess period={this.state.periodSelected} />
+                {/* <EvaluationProcess period={this.state.periodSelected} /> */}
 
                 <Table
                     data={this.state.pafocuses}

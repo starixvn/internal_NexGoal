@@ -38,11 +38,14 @@ export default class Table extends Component {
         return (
             <table className="table table-bordered table-striped pa-focus-table">
                 <thead>
+                    <tr className="title">
+                        <td colspan="12">Duration: 01 Nov 2018 - 17 Nov 2018</td>
+                    </tr>
                     <tr>
-                        <th>{getResource('SymbolCount')}</th>
-                        <th>{getResource('NickName')}</th>
-                        <th>{getResource('FullName')}</th>
-                        <th>{getResource('JobTitle')}</th>
+                        <th className="width-40">{getResource('SymbolCount')}</th>
+                        <th className="width-90">{getResource('NickName')}</th>
+                        <th className="width-200">{getResource('FullName')}</th>
+                        <th className="width-300">{getResource('JobTitle')}</th>
                         <th className="width-200">
                             Best Suited to Team Goals
                             <OverlayTrigger placement="top" overlay={this.getTooltipBestSuitedToTeamGoals()}>
@@ -56,9 +59,9 @@ export default class Table extends Component {
                             </OverlayTrigger>
                         </th>
                         <th className="width-150">{getResource('ReadyForPromotion')}</th>
-                        <th>PA Grade</th>
-                        <th colSpan="2">{getResource('AccomplishedCurrentObjectives')}</th>
-                        <th colSpan="2">{getResource('NextObjectives')}</th>
+                        <th className="width-90">PA Grade</th>
+                        <th className="objective" colSpan="2">{getResource('AccomplishedCurrentObjectives')}</th>
+                        <th className="objective" colSpan="2">{getResource('NextObjectives')}</th>
                     </tr>
                 </thead>
                 <tbody>
