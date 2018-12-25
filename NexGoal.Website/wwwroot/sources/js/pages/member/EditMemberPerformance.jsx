@@ -155,6 +155,7 @@ export default class EditMemberPerformance extends Component {
                 method: 'POST',
                 data: performanceRecord,
                 headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }).then(response => {

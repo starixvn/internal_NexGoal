@@ -35,6 +35,7 @@ class CreateEOQ extends Component {
             method: 'POST',
             data: eoq,
             headers: {
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {

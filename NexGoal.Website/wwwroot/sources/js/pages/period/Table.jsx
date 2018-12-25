@@ -111,6 +111,7 @@ export default class Table extends Component {
                 isActive: isActive
             }),
             headers: {
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
@@ -142,6 +143,7 @@ export default class Table extends Component {
                 periodId: this.state.periodSelected.periodId
             }),
             headers: {
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {

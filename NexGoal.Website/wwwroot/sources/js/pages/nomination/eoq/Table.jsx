@@ -47,6 +47,7 @@ class Table extends Component {
                 id: this.state.eoqSelected.eoqyId
             }),
             headers: {
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {

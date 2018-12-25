@@ -148,6 +148,7 @@ export default class Table extends Component {
                 employeeId: employeeId
             }),
             headers: {
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
@@ -201,6 +202,7 @@ export default class Table extends Component {
                     paRecordIds: this.selectedIds.toString(),
                 }),
                 headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }).then(response => {
@@ -229,6 +231,7 @@ export default class Table extends Component {
                 isExcluded: !(this.state.selectedSettingToUpdateStatus.statusId === PAStatus.Rejected)
             }),
             headers: {
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {

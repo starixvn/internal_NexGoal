@@ -41,7 +41,17 @@
                     exception.StackTrace);
             logger.LogError(message);
 
-            context.Response.Redirect("/error/InternalError");
+            var method = context.Request.Method.ToLowerInvariant();
+            var requestedWith = context.Request.Headers["X-Requested-With"];
+
+            if ((method == "post" || method == "put" || method == "delete") && requestedWith == "XMLHttpRequest")
+            {
+                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            }
+            else
+            {
+                context.Response.Redirect("/error/InternalError");
+            }
         }
     }
 }

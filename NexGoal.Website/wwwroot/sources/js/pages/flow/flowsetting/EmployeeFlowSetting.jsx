@@ -184,6 +184,7 @@ class EmployeeFlowSetting extends Component {
                     settings: settings
                 }),
                 headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }).then(response => {
@@ -221,6 +222,7 @@ class EmployeeFlowSetting extends Component {
                 employeeId: this.state.employeeSelected.employeeId
             }),
             headers: {
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {

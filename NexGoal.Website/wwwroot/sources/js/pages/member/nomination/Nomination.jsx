@@ -106,6 +106,7 @@ export default class Nomination extends Component {
                 performanceRecordId: this.state.deletedRecordId
             }),
             headers: {
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {

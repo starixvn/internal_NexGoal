@@ -47,6 +47,7 @@ export default class EditEmployeeRole extends Component {
             method: 'POST',
             data: employeeRole,
             headers: {
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {

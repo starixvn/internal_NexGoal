@@ -182,6 +182,7 @@ class GroupFlowSetting extends Component {
                     settings: settings
                 }),
                 headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }).then(response => {
@@ -228,6 +229,7 @@ class GroupFlowSetting extends Component {
                 groupId: this.state.groupSelected.value
             }),
             headers: {
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {

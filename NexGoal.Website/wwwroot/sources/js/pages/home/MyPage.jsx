@@ -242,6 +242,7 @@ export default class MyPage extends Component {
                 id: performanceRecordId
             }),
             headers: {
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {

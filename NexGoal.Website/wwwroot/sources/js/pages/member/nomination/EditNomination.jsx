@@ -75,6 +75,7 @@ export default class EditNomination extends Component {
                 comment: values.comment
             }),
             headers: {
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {

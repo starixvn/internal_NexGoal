@@ -194,6 +194,7 @@ export default class PAFocus extends Component {
                 paFocuses: pafocuses
             }),
             headers: {
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {

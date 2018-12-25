@@ -65,6 +65,7 @@ export default class Edit extends Component {
                 }))
             }),
             headers: {
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {

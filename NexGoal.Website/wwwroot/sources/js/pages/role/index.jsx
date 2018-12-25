@@ -102,6 +102,7 @@ export default class App extends Component {
                 permissions: permissions
             }),
             headers: {
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {

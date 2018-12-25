@@ -86,6 +86,7 @@ export default class EOQAssessment extends Component {
                 statusId: statusId
             }),
             headers: {
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {

@@ -84,6 +84,7 @@ export default class CreateNomination extends Component {
                 comment: values.comment
             }),
             headers: {
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {

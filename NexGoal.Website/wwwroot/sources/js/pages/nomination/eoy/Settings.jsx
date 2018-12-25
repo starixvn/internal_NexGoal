@@ -74,6 +74,7 @@ class Settings extends Component {
             method: 'POST',
             data: eoy,
             headers: {
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {

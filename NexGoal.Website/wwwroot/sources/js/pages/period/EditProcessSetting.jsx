@@ -63,6 +63,7 @@ export default class EditProcessSetting extends Component {
                 periodId: this.props.periodId
             }),
             headers: {
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {

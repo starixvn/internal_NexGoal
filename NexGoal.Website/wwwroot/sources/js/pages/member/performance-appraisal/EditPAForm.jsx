@@ -106,6 +106,7 @@ export default class EditMemberPA extends Component {
                 method: 'POST',
                 data: paRecord,
                 headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }).then(response => {

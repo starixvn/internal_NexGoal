@@ -38,6 +38,7 @@ class Table extends Component {
                 isRevised: isRevised
             }),
             headers: {
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {

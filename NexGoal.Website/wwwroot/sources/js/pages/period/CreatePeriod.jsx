@@ -84,6 +84,7 @@ export default class CreatePeriod extends Component {
                 isActive: values.isActive
             }),
             headers: {
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
