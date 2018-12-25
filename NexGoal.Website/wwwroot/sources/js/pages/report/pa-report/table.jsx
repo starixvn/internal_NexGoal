@@ -57,7 +57,7 @@ export default class Table extends Component {
                         <td className="text-center">{this.renderGradeByProcess(record.processes, PerformanceProcess.Evaluator)}</td>
                         <td className="text-center">{this.renderGradeByProcess(record.processes, PerformanceProcess.Reviewer)}</td>
                         <td className="text-center">{record.grade ? record.grade.name : getResource('N/A')}</td>
-                        <td><span className="icon-search" onClick={() => this.showPADetails(record.paRecordId)} /></td>
+                        <td className="text-center"><span className="icon-search" onClick={() => this.showPADetails(record.paRecordId)} /></td>
                     </tr>
                 );
             })

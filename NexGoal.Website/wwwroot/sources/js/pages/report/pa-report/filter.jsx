@@ -40,9 +40,6 @@ export default class Filter extends Component {
         this.props.onSubmit();
     }
 
-    validateForm = () => {
-    }
-
     render() {
         const filter = this.props.filter;
         return (
@@ -82,6 +79,9 @@ export default class Filter extends Component {
                 </FormGroup>
                 <FormGroup>
                     <Button type="submit" bsStyle="primary">{getResource('Search')}</Button>
+                </FormGroup>
+                <FormGroup>
+                    <Button type="button" bsStyle="success">{getResource('Excel')}</Button>
                 </FormGroup>
             </Form>
         );
