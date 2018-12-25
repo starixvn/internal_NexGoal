@@ -7,7 +7,6 @@ import moment from 'moment';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import SearchForm from './SearchForm';
-import EvaluationProcess from './EvaluationProcess';
 import Table from './Table';
 
 export default class PAFocus extends Component {
@@ -25,7 +24,6 @@ export default class PAFocus extends Component {
             periodOptions: [],
             groupOptions: [],
             memberOptions: [],
-            periodSelected: null,
             pafocuses: []
         };
     }
@@ -119,7 +117,6 @@ export default class PAFocus extends Component {
             }
         }).then(response => {
             this.setState({
-                periodSelected: filter.period,
                 isHost: response.data.isHost,
                 pafocuses: response.data.paFocuses
             });
@@ -224,8 +221,6 @@ export default class PAFocus extends Component {
                     onSubmit={this.handleFilterSubmit}
                     onExportToExcel={this.handleExportToExcel}
                 />
-
-                {/* <EvaluationProcess period={this.state.periodSelected} /> */}
 
                 <Table
                     data={this.state.pafocuses}

@@ -15,6 +15,7 @@ Original:
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	DECLARE @RoleId TINYINT = 0
 		,@Nominated TINYINT = 1

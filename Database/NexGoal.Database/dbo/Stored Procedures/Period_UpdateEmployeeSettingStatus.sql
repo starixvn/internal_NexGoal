@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Period_UpdateEmployeeSettingStatus] @PARecordId INT
+﻿
+CREATE PROCEDURE [dbo].[Period_UpdateEmployeeSettingStatus] @PARecordId INT
 	,@IsExcluded BIT
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
@@ -11,6 +12,7 @@ DB: bodb_NexGoal
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	DECLARE @startRun DATETIME = GETDATE()
 		,@endRun DATETIME
@@ -18,7 +20,6 @@ BEGIN
 		,@logData NVARCHAR(MAX)
 		,@logDataOld NVARCHAR(MAX)
 		,@xml XML
-
 	DECLARE @today DATE = GETDATE()
 		,@PANotGenerated TINYINT = 1
 		,@PAOpened TINYINT = 2
@@ -26,7 +27,6 @@ BEGIN
 		,@PAClosed TINYINT = 4
 		,@PARejected TINYINT = 5
 		,@periodEndDate DATE
-
 	DECLARE @HRProcessId TINYINT = 1
 		,@ReviewerProcessId TINYINT = 5
 
@@ -43,37 +43,43 @@ BEGIN
 	SELECT @periodEndDate = p.EndDate
 	FROM dbo.Period p WITH (NOLOCK)
 	WHERE EXISTS (
-		SELECT 1
-		FROM dbo.PARecord par WITH (NOLOCK)
-		WHERE par.PeriodId = p.PeriodId AND par.PARecordId = @PARecordId
-	)
+			SELECT 1
+			FROM dbo.PARecord par WITH (NOLOCK)
+			WHERE par.PeriodId = p.PeriodId
+				AND par.PARecordId = @PARecordId
+			)
 
 	UPDATE par
-	SET StatusId = (
-		CASE 
+	SET StatusId = (CASE 
 			WHEN @IsExcluded = 1 THEN @PARejected
 			WHEN NOT EXISTS (
-				SELECT 1
-				FROM dbo.PAProcess pap WITH (NOLOCK)
-				WHERE pap.PARecordId = par.PARecordId AND pap.ProcessId <> @HRProcessId
-					AND pap.PerformanceRecordId IS NOT NULL
-			) THEN @PANotGenerated
-			WHEN @today >= hr.StartDate AND (@today <= reviewer.EndDate OR @today <= @periodEndDate)
-				THEN @PAInProgress
-			WHEN @periodEndDate < @today AND reviewer.EndDate < @today THEN @PAClosed
-			WHEN @today < hr.StartDate THEN @PAOpened 
-		END
-	)
+					SELECT 1
+					FROM dbo.PAProcess pap WITH (NOLOCK)
+					WHERE pap.PARecordId = par.PARecordId
+						AND pap.ProcessId <> @HRProcessId
+						AND pap.PerformanceRecordId IS NOT NULL
+					) THEN @PANotGenerated
+			WHEN @today >= hr.StartDate
+				AND (
+					@today <= reviewer.EndDate
+					OR @today <= @periodEndDate
+					) THEN @PAInProgress
+			WHEN @periodEndDate < @today
+				AND reviewer.EndDate < @today THEN @PAClosed
+			WHEN @today < hr.StartDate THEN @PAOpened END
+			)
 	FROM dbo.PARecord AS par WITH (ROWLOCK, UPDLOCK)
 		CROSS APPLY (
-			SELECT pap.StartDate
-			FROM dbo.PAProcess pap WITH (NOLOCK)
-			WHERE par.PARecordId = pap.PARecordId AND pap.ProcessId = @HRProcessId
+		SELECT pap.StartDate
+		FROM dbo.PAProcess pap WITH (NOLOCK)
+		WHERE par.PARecordId = pap.PARecordId
+			AND pap.ProcessId = @HRProcessId
 		) hr
 		CROSS APPLY (
-			SELECT pap.EndDate
-			FROM dbo.PAProcess pap WITH (NOLOCK)
-			WHERE par.PARecordId = pap.PARecordId AND pap.ProcessId = @ReviewerProcessId
+		SELECT pap.EndDate
+		FROM dbo.PAProcess pap WITH (NOLOCK)
+		WHERE par.PARecordId = pap.PARecordId
+			AND pap.ProcessId = @ReviewerProcessId
 		) reviewer
 	WHERE par.PARecordId = @PARecordId
 

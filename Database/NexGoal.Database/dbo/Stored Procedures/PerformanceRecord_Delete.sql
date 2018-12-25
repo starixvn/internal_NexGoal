@@ -16,6 +16,7 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	DECLARE @Draft TINYINT = 2
 	-- For write log
@@ -75,14 +76,6 @@ BEGIN
 	WHERE PerformanceRecordId = @PerformanceRecordId
 		AND CreatorId = @ActorId
 		AND StatusId = @Draft
-
-	IF @@ERROR > 0
-	BEGIN
-		SELECT @ErrCode = 1
-			,@ErrMsg = 'Failed to delete performance.'
-
-		RETURN
-	END
 
 	-- write log after delete
 	SET @endRun = GETDATE()

@@ -17,6 +17,7 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	-- For write log
 	DECLARE @startRun DATETIME = GETDATE()

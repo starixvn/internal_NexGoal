@@ -13,6 +13,7 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	DECLARE @Today DATE = GETDATE()
 		,@Month TINYINT = DATEPART(MONTH, GETDATE())
@@ -98,5 +99,6 @@ BEGIN
 			,FocusDay
 		FROM dbo.PeriodDefaultProcessSetting WITH (NOLOCK)
 		WHERE TargetTypeId = @SemiTargetTypeId
+			AND ProcessId = 5 -- reviewer
 	END
 END

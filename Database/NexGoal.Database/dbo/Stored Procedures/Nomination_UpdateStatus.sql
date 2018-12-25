@@ -14,6 +14,7 @@ Original:
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	DECLARE @startRun DATETIME = GETDATE()
 		,@endRun DATETIME

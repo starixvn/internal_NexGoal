@@ -11,6 +11,7 @@ Task: Update period process setting.
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	DECLARE @startRun DATETIME = GETDATE()
 		,@endRun DATETIME
@@ -38,7 +39,7 @@ BEGIN
 			)
 	SET @logOldData = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
 
-	UPDATE pps WITH (ROWLOCK, UPDLOCK)
+	UPDATE pps
 	SET pps.NoticeAtBegin = setting.NoticeAtBegin
 		,pps.RemindDay = setting.RemindDay
 		,pps.ModifiedBy = @ModifiedBy

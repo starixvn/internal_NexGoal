@@ -14,6 +14,7 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	DECLARE @Today DATE = GETDATE()
 		,@PAOpened TINYINT = 2
@@ -127,14 +128,6 @@ BEGIN
 		DELETE
 		FROM #tblPARecord
 		WHERE PARecordId = @PARecordId
-	END
-
-	IF @@ERROR > 0
-	BEGIN
-		SELECT @ErrCode = 1
-			,@ErrMsg = 'Failed to update PA when finished.'
-
-		RETURN
 	END
 
 	DROP TABLE #tblPARecord

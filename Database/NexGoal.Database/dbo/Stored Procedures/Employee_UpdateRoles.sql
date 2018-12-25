@@ -11,7 +11,8 @@ Task: update employee roles
 DB: bodb_NexGoal
 */
 BEGIN
-	SET NOCOUNT ON
+	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	-- For write log
 	DECLARE @startRun DATETIME = GETDATE()

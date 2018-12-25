@@ -22,6 +22,7 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	IF EXISTS (
 			SELECT 1
@@ -97,14 +98,6 @@ BEGIN
 		EXEC dbo.Auto_Nomination_UpdateWhenFinished @EOYId
 			,@ErrCode OUTPUT
 			,@ErrMsg OUTPUT
-	END
-
-	IF @@ERROR > 0
-	BEGIN
-		SELECT @ErrCode = 1
-			,@ErrMsg = 'Failed to update EOQ.'
-
-		RETURN
 	END
 
 	-- write log after update

@@ -32,6 +32,7 @@ BEGIN
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN #tblMembers AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+	ORDER BY gr.[Name]
 
 	DROP TABLE #tblMembers
 END

@@ -14,6 +14,7 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	DECLARE @Today DATE = GETDATE()
 		,@NominationId INT
@@ -95,14 +96,6 @@ BEGIN
 		DELETE
 		FROM #tblNomination
 		WHERE NominationId = @NominationId
-	END
-
-	IF @@ERROR > 0
-	BEGIN
-		SELECT @ErrCode = 1
-			,@ErrMsg = 'Failed to update Nomination when finished.'
-
-		RETURN
 	END
 
 	DROP TABLE #tblNomination

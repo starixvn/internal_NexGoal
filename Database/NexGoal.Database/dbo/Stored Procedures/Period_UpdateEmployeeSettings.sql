@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Period_UpdateEmployeeSettings] @PeriodId INT
+﻿
+CREATE PROCEDURE [dbo].[Period_UpdateEmployeeSettings] @PeriodId INT
 	,@Settings VARCHAR(MAX)
 	,@PARecordIds VARCHAR(MAX)
 	,@ModifiedBy INT = NULL
@@ -11,6 +12,7 @@ Task: Update period employee setting.
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	DECLARE @startRun DATETIME = GETDATE()
 		,@endRun DATETIME

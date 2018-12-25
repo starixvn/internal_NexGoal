@@ -13,7 +13,8 @@ DB: bodb_NexGoal
 */
 BEGIN
 	SET NOCOUNT ON;
-
+	SET XACT_ABORT ON;
+     
 	DECLARE @startRun DATETIME = GETDATE()
 		,@endRun DATETIME
 		,@duration INT
@@ -36,14 +37,6 @@ BEGIN
 		,@CreatedBy
 		,GETDATE()
 		)
-	
-	IF @@ERROR > 0
-	BEGIN
-		SELECT @ErrCode = 1
-			,@ErrMsg = 'Failed to insert discipline.'
-
-		RETURN
-	END
 
 	DECLARE @DisciplineId INT = SCOPE_IDENTITY()
 

@@ -12,6 +12,7 @@ DB: bodb_NexGoal
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	DECLARE @startRun DATETIME
 		,@endRun DATETIME

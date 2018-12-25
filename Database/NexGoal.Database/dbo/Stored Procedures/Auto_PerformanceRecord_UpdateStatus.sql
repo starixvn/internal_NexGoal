@@ -13,6 +13,7 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	DECLARE @Today DATE = GETDATE()
 		,@PerformanceRecordDuration TINYINT
@@ -31,12 +32,4 @@ BEGIN
 	WHERE DATEADD(DAY, @PerformanceRecordDuration, CreatedDate) < @Today
 		AND record.TypeId = @Checkin
 		AND StatusId = @Submitted
-
-	IF @@ERROR > 0
-	BEGIN
-		SELECT @ErrCode = 1
-			,@ErrMsg = 'Failed to update PA status.'
-
-		RETURN
-	END
 END

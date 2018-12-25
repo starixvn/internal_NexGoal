@@ -16,6 +16,7 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	DECLARE @startRun DATETIME = GETDATE()
 		,@endRun DATETIME
@@ -23,18 +24,23 @@ BEGIN
 		,@logDataOld NVARCHAR(MAX)
 		,@xml XML
 
-	IF EXISTS (SELECT 1
-			   FROM dbo.PAProcess pap WITH (NOLOCK)
-			   WHERE pap.PerformanceRecordId IS NOT NULL
-				AND EXISTS (SELECT 1 FROM dbo.PARecord par WITH (NOLOCK) WHERE par.PeriodId = @PeriodId)
-				)
+	IF EXISTS (
+			SELECT 1
+			FROM dbo.PAProcess pap WITH (NOLOCK)
+			WHERE pap.PerformanceRecordId IS NOT NULL
+				AND EXISTS (
+					SELECT 1
+					FROM dbo.PARecord par WITH (NOLOCK)
+					WHERE par.PeriodId = @PeriodId
+					)
+			)
 	BEGIN
 		SET @ErrCode = 1
 		SET @ErrMsg = 'The period has already generated PA.'
+
 		RETURN
 	END
-	
-	
+
 	SET @xml = (
 			SELECT p.PeriodId AS '@pi'
 				,p.[Name] AS '@n'
@@ -59,11 +65,13 @@ BEGIN
 
 	DELETE pap
 	FROM dbo.PAProcess pap
-	WHERE EXISTS (SELECT 1
-				  FROM dbo.PARecord par WITH (NOLOCK)
-				  WHERE par.PARecordId = pap.PARecordId 
-					AND par.PeriodId = @PeriodId)
-	
+	WHERE EXISTS (
+			SELECT 1
+			FROM dbo.PARecord par WITH (NOLOCK)
+			WHERE par.PARecordId = pap.PARecordId
+				AND par.PeriodId = @PeriodId
+			)
+
 	DELETE dbo.PARecord
 	WHERE PeriodId = @PeriodId
 

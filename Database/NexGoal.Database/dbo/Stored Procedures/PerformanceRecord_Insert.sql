@@ -22,6 +22,7 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	DECLARE @RoleId TINYINT
 		,@Draft TINYINT = 2
@@ -143,14 +144,6 @@ BEGIN
 			,@TypeId
 			,RoleId
 		FROM #tblMember WITH (NOLOCK)
-	END
-
-	IF @@ERROR > 0
-	BEGIN
-		SELECT @ErrCode = 1
-			,@ErrMsg = 'Failed to insert performance.'
-
-		RETURN
 	END
 
 	SELECT @PerformanceRecordIds = COALESCE(@PerformanceRecordIds + ',', '') + CAST(PerformanceRecordId AS VARCHAR(20))

@@ -1,6 +1,7 @@
-﻿CREATE PROCEDURE [dbo].[PARecord_QuickUpdateByReviewer] @ActorId INT
+﻿
+CREATE PROCEDURE [dbo].[PARecord_QuickUpdateByReviewer] @ActorId INT
 	,@PARecordId INT
-    ,@IsRevised BIT
+	,@IsRevised BIT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(200) = '' OUTPUT
 AS
@@ -16,6 +17,7 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	-- For write log
 	DECLARE @startRun DATETIME = GETDATE()
@@ -37,29 +39,13 @@ BEGIN
 			)
 	SET @logDataOld = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
 
-	UPDATE dbo.PARecord
-	WITH (
-			ROWLOCK
-			,UPDLOCK
-			)
-
+	UPDATE dbo.PARecord WITH (ROWLOCK, UPDLOCK)
 	SET ModifiedBy = @ActorId
-		,ModifiedDate = (
-			CASE 
-				WHEN @IsRevised = 0
-					THEN GETDATE()
-				ELSE NULL
-				END
+		,ModifiedDate = (CASE 
+			WHEN @IsRevised = 0 THEN GETDATE()
+			ELSE NULL END
 			)
 	WHERE PARecordId = @PARecordId
-
-	IF @@ERROR > 0
-	BEGIN
-		SELECT @ErrCode = 1
-			,@ErrMsg = 'Failed to update performance appraisal.'
-
-		RETURN
-	END
 
 	-- write log after insert
 	SET @xml = (

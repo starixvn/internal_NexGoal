@@ -13,6 +13,7 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	DECLARE @Today DATE = GETDATE()
 		,@PAOpened TINYINT = 2
@@ -49,12 +50,4 @@ BEGIN
 		INNER JOIN dbo.PAProcess AS reviewer WITH (NOLOCK) ON pa.PARecordId = reviewer.PARecordId
 		AND reviewer.ProcessId = @ReviewerProcessId
 	WHERE pa.StatusId IN (@PAOpened, @PAInProgress)
-
-	IF @@ERROR > 0
-	BEGIN
-		SELECT @ErrCode = 1
-			,@ErrMsg = 'Failed to update PA status.'
-
-		RETURN
-	END
 END

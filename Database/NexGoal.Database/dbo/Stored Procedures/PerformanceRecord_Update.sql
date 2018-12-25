@@ -23,6 +23,7 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	DECLARE @RoleId TINYINT
 		,@CurrentStatusId TINYINT
@@ -190,14 +191,6 @@ BEGIN
 
 	INSERT INTO #tblPerformanceRecordOutput (PerformanceRecordId)
 	VALUES (@PerformanceRecordId)
-
-	IF @@ERROR > 0
-	BEGIN
-		SELECT @ErrCode = 1
-			,@ErrMsg = 'Failed to update performance.'
-
-		RETURN
-	END
 	
 	SELECT @PerformanceRecordIds = COALESCE(@PerformanceRecordIds + ',', '') + CAST(PerformanceRecordId AS VARCHAR(20))
 	FROM #tblPerformanceRecordOutput WITH (NOLOCK)

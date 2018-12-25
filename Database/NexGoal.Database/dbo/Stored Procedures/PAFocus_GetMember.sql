@@ -35,7 +35,7 @@ BEGIN
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		INNER JOIN dbo.func_SplitString(@GroupIds, ',') AS grid ON ISNUMERIC(grid.val) = 1
 		AND grid.val = gr.GroupId
-	ORDER BY emp.FullName
+	ORDER BY emp.NickName
 
 	DROP TABLE #tblMembers
 END

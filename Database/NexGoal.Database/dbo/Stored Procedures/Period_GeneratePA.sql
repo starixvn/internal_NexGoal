@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Period_GeneratePA] @PeriodId INT
+﻿
+CREATE PROCEDURE [dbo].[Period_GeneratePA] @PeriodId INT
 	,@PARecordIds VARCHAR(MAX) = NULL
 	,@CreatedBy INT
 	,@Override BIT = 0
@@ -16,6 +17,7 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	DECLARE @periodStartDate DATE
 		,@periodEndDate DATE
@@ -78,7 +80,7 @@ BEGIN
 			)
 
 	SELECT @periodStartDate = p.StartDate
-		,@periodEndDate = p.EndDate 
+		,@periodEndDate = p.EndDate
 		,@disciplineStartDate = p.DisciplineStartDate
 		,@disciplineEndDate = p.DisciplineEndDate
 	FROM dbo.Period AS p WITH (NOLOCK)
@@ -146,17 +148,19 @@ BEGIN
 				,pr.GradeId
 			FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
 				INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pr.CreatorId = emp.EmployeeId
-					AND emp.GroupId = @PMGroupId
+				AND emp.GroupId = @PMGroupId
 				LEFT JOIN dbo.PerformanceRecord AS pr1 WITH (NOLOCK) ON pr.CreatorId = pr1.CreatorId
-					AND pr.EmployeeIds = pr1.EmployeeIds
-					AND pr.CreatedDate < pr1.CreatedDate
-					AND pr.TypeId = pr1.TypeId
-					AND pr1.CreatedDate BETWEEN @disciplineStartDate AND @disciplineEndDate
-					AND pr1.TypeId = 1
-					AND pr1.StatusId IN (@PRSubmitted, @PRClosed)
+				AND pr.EmployeeIds = pr1.EmployeeIds
+				AND pr.CreatedDate < pr1.CreatedDate
+				AND pr.TypeId = pr1.TypeId
+				AND pr1.CreatedDate BETWEEN @disciplineStartDate
+					AND @disciplineEndDate
+				AND pr1.TypeId = 1
+				AND pr1.StatusId IN (@PRSubmitted, @PRClosed)
 			WHERE pr1.CreatedDate IS NULL
 				AND pr.TypeId = 1
-				AND pr.CreatedDate BETWEEN @disciplineStartDate AND @disciplineEndDate
+				AND pr.CreatedDate BETWEEN @disciplineStartDate
+					AND @disciplineEndDate
 				AND pr.EmployeeIds = par.EmployeeId
 				AND pr.CreatorId <> pr.EmployeeIds
 				AND pr.StatusId IN (@PRSubmitted, @PRClosed)
@@ -246,25 +250,29 @@ BEGIN
 				)
 
 		UPDATE par
-		SET StatusId = (
-			CASE 
-			WHEN @today >= hr.StartDate
-					AND (@today <= reviewer.EndDate OR @today <= @periodEndDate)
-				THEN @PAInProgress
-			WHEN @periodEndDate < @today AND reviewer.EndDate < @today THEN @PAClosed
-			WHEN @today < hr.StartDate THEN @PAOpened
-			ELSE par.StatusId END
-		)
+		SET StatusId = (CASE 
+				WHEN @today >= hr.StartDate
+					AND (
+						@today <= reviewer.EndDate
+						OR @today <= @periodEndDate
+						) THEN @PAInProgress
+				WHEN @periodEndDate < @today
+					AND reviewer.EndDate < @today THEN @PAClosed
+				WHEN @today < hr.StartDate THEN @PAOpened
+				ELSE par.StatusId END
+				)
 		FROM dbo.PARecord AS par WITH (ROWLOCK, UPDLOCK)
 			CROSS APPLY (
-				SELECT pap.StartDate
-				FROM dbo.PAProcess pap WITH (NOLOCK)
-				WHERE par.PARecordId = pap.PARecordId AND pap.ProcessId = @HRProcessId
+			SELECT pap.StartDate
+			FROM dbo.PAProcess pap WITH (NOLOCK)
+			WHERE par.PARecordId = pap.PARecordId
+				AND pap.ProcessId = @HRProcessId
 			) hr
 			CROSS APPLY (
-				SELECT pap.EndDate
-				FROM dbo.PAProcess pap WITH (NOLOCK)
-				WHERE par.PARecordId = pap.PARecordId AND pap.ProcessId = @ReviewerProcessId
+			SELECT pap.EndDate
+			FROM dbo.PAProcess pap WITH (NOLOCK)
+			WHERE par.PARecordId = pap.PARecordId
+				AND pap.ProcessId = @ReviewerProcessId
 			) reviewer
 		WHERE EXISTS (
 				SELECT 1
@@ -379,15 +387,17 @@ BEGIN
 				INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pr.CreatorId = emp.EmployeeId
 				AND emp.GroupId = @PMGroupId
 				LEFT JOIN dbo.PerformanceRecord AS pr1 WITH (NOLOCK) ON pr.CreatorId = pr1.CreatorId
-					AND pr.EmployeeIds = pr1.EmployeeIds				
-					AND pr.CreatedDate < pr1.CreatedDate
-					AND pr.TypeId = pr1.TypeId
-					AND pr1.CreatedDate BETWEEN @disciplineStartDate AND @disciplineEndDate
-					AND pr1.TypeId = 1
-					AND pr1.StatusId IN (@PRSubmitted, @PRClosed)
+				AND pr.EmployeeIds = pr1.EmployeeIds
+				AND pr.CreatedDate < pr1.CreatedDate
+				AND pr.TypeId = pr1.TypeId
+				AND pr1.CreatedDate BETWEEN @disciplineStartDate
+					AND @disciplineEndDate
+				AND pr1.TypeId = 1
+				AND pr1.StatusId IN (@PRSubmitted, @PRClosed)
 			WHERE pr1.CreatedDate IS NULL
 				AND pr.TypeId = 1
-				AND pr.CreatedDate BETWEEN @disciplineStartDate AND @disciplineEndDate
+				AND pr.CreatedDate BETWEEN @disciplineStartDate
+					AND @disciplineEndDate
 				AND pr.EmployeeIds = gpar.EmployeeId
 				AND pr.CreatorId <> pr.EmployeeIds
 				AND pr.StatusId IN (@PRSubmitted, @PRClosed)
@@ -416,7 +426,8 @@ BEGIN
 		FROM #performanceRecordTbl AS prt
 			INNER JOIN @generatedPARecordTbl AS gpar ON prt.EmployeeIds = gpar.EmployeeId
 
-		DELETE FROM #performanceRecordTbl
+		DELETE
+		FROM #performanceRecordTbl
 
 		-- Capture for Self, Reviewer, Evaluator
 		INSERT INTO dbo.PerformanceRecord (
@@ -452,24 +463,26 @@ BEGIN
 			,2
 		FROM @generatedPARecordTbl AS gpar
 			INNER JOIN dbo.PAProcess AS pap WITH (NOLOCK) ON gpar.PARecordId = pap.PARecordId
-			AND pap.ProcessId IN (@SelfProcessId, @EvaluatorProcessId, @ReviewerProcessId) AND pap.PerformanceRecordId IS NULL
+			AND pap.ProcessId IN (@SelfProcessId, @EvaluatorProcessId, @ReviewerProcessId)
+			AND pap.PerformanceRecordId IS NULL
 			CROSS APPLY (
-				SELECT TOP 1 pr.CreatorId
-					,pr.GradeId
-				FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
-				WHERE pr.EmployeeIds = gpar.EmployeeId
-					AND pr.CreatorId = pap.EvaluatorId
-					AND pr.TypeId = 1
-					AND pr.CreatedDate <= @disciplineEndDate
-					AND pr.StatusId IN (@PRSubmitted, @PRClosed)
-				ORDER BY pr.CreatedDate DESC
+			SELECT TOP 1 pr.CreatorId
+				,pr.GradeId
+			FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
+			WHERE pr.EmployeeIds = gpar.EmployeeId
+				AND pr.CreatorId = pap.EvaluatorId
+				AND pr.TypeId = 1
+				AND pr.CreatedDate <= @disciplineEndDate
+				AND pr.StatusId IN (@PRSubmitted, @PRClosed)
+			ORDER BY pr.CreatedDate DESC
 			) lg
 
 		UPDATE pap
 		SET pap.PerformanceRecordId = pr.PerFormanceRecordId
-		FROM dbo.PAProcess pap WITH(ROWLOCK, UPDLOCK)
+		FROM dbo.PAProcess pap WITH (ROWLOCK, UPDLOCK)
 			INNER JOIN @generatedPARecordTbl gpar ON pap.PARecordId = gpar.PARecordId
-			INNER JOIN #performanceRecordTbl pr ON pap.EvaluatorId = pr.EvaluatorId AND gpar.EmployeeId = pr.EmployeeIds
+			INNER JOIN #performanceRecordTbl pr ON pap.EvaluatorId = pr.EvaluatorId
+			AND gpar.EmployeeId = pr.EmployeeIds
 		WHERE pap.PerformanceRecordId IS NULL
 			AND pap.ProcessId IN (@SelfProcessId, @EvaluatorProcessId, @ReviewerProcessId)
 	END

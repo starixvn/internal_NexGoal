@@ -17,6 +17,7 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	DECLARE @idoc INT
 		,@LastObjectiveDate DATE = DATEADD(MONTH, - 1, GETDATE())
@@ -93,14 +94,6 @@ BEGIN
 		INNER JOIN dbo.EmployeeObjective AS o WITH (NOLOCK) ON o.EmployeeId = pa.EmployeeId
 	WHERE o.CreatedDate = @LastObjectiveDate
 		AND pa.LastObjectiveId IS NULL
-
-	IF @@ERROR > 0
-	BEGIN
-		SELECT @ErrCode = 1
-			,@ErrMsg = 'Failed to update PA Focus.'
-
-		RETURN
-	END
 
 	DROP TABLE #tblPAFocus
 END

@@ -15,6 +15,7 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	DECLARE @employeeId INT
 		,@lastObjectiveId INT
@@ -90,14 +91,6 @@ BEGIN
 			,NULL
 
 		SET @rowIndex = @rowIndex + 1
-	END
-
-	IF @@ERROR > 0
-	BEGIN
-		SELECT @ErrCode = 1
-			,@ErrMsg = 'Failed to generate PA Focus.'
-
-		RETURN
 	END
 
 	DROP TABLE #tblEmployeeIds

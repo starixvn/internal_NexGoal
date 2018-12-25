@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[PARecord_UpdateByReviewer] @ActorId INT
+﻿
+CREATE PROCEDURE [dbo].[PARecord_UpdateByReviewer] @ActorId INT
 	,@PARecordId INT
 	,@GradeId VARCHAR(MAX) = ''
 	,@Comment NVARCHAR(MAX)
@@ -17,6 +18,7 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
 	-- For write log
 	DECLARE @startRun DATETIME = GETDATE()
@@ -46,14 +48,6 @@ BEGIN
 		,ModifiedBy = @ActorId
 		,ModifiedDate = GETDATE()
 	WHERE PARecordId = @PARecordId
-
-	IF @@ERROR > 0
-	BEGIN
-		SELECT @ErrCode = 1
-			,@ErrMsg = 'Failed to update performance appraisal.'
-
-		RETURN
-	END
 
 	-- write log after insert
 	SET @xml = (
