@@ -100,7 +100,7 @@ class Table extends Component {
                     <thead>
                         <tr>
                             <th>{getResource('NickName')}</th>
-                            <th>Toeic</th>
+                            <th>{getResource('Toeic')}</th>
                             <th>{getResource('Self')}</th>
                             <th>{getResource('ProjectManager')}</th>
                             <th>{getResource('Evaluator')}</th>

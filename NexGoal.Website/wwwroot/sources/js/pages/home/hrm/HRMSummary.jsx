@@ -12,6 +12,14 @@ export default class HRM extends Component {
         };
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if (JSON.stringify(nextProps.hrmDetail) !== JSON.stringify(this.props.hrmDetail)
+            || nextState.isShowModal !== this.state.isShowModal) {
+            return true;
+        }
+        return false;
+    }
+
     onShowModal = () => {
         this.setState({
             isShowModal: true

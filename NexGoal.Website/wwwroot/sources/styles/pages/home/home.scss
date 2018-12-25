@@ -5,6 +5,7 @@
 @import "../../components/marquee";
 @import "../../components/modal";
 @import "../../components/toast";
+@import "../../components/tables";
 @import "../../layouts/record";
 @import "../../layouts/nomination";
 @import "../../layouts/role";
@@ -45,6 +46,7 @@
     .project {
         display: inline-block;
         width: calc(100% - 230px - 16px);
+
         .react-select__value-container {
             padding: 1px 6px;
         }
