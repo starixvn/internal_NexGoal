@@ -1,24 +1,41 @@
 ﻿namespace NexGoal.Services
 {
-    using System.IO;
-    using Microsoft.AspNetCore.Hosting;
+    using System;
+    using System.Net;
+    using Microsoft.Extensions.Options;
+    using NexGoal.Core.Models;
 
     public class AvatarService : IAvatarService
     {
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IOptionsSnapshot<AppSettings> configuration;
 
-        public AvatarService(IHostingEnvironment hostingEnvironment)
+        public AvatarService(IOptionsSnapshot<AppSettings> configuration)
         {
-            this.hostingEnvironment = hostingEnvironment;
+            this.configuration = configuration;
         }
 
         public string GetFilePath(string code)
         {
-            string filePath = $"{hostingEnvironment.WebRootPath}\\dist\\avatars\\{code}.jpg";
+            bool exist;
+            var imgUrl = new Uri($"{configuration.Value.ImageUrl.ToString()}/{code}.jpg");
 
-            if (File.Exists(filePath))
+            try
             {
-                return $"/dist/avatars/{code}.jpg";
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(imgUrl);
+                request.Method = "HEAD";
+
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                exist = response.StatusCode == HttpStatusCode.OK;
+            }
+            catch
+            {
+                exist = false;
+            }
+
+            if (exist)
+            {
+                return imgUrl.ToString();
             }
 
             return "/dist/avatars/avatar.jpg";

@@ -55,7 +55,6 @@
             services.Configure<MailConfigs>(options => Configuration.GetSection("MailConfigs").Bind(options));
 
             services.ResolveCoreDI();
-            services.AddTransient<IAvatarService, AvatarService>();
             services.AddTransient<IPeriodService, PeriodService>();
             services.AddTransient<IPerformanceRecordService, PerformanceRecordService>();
             services.AddTransient<IPAService, PAService>();
