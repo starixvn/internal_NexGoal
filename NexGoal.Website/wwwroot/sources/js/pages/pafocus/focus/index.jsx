@@ -234,7 +234,7 @@ export default class PAFocus extends Component {
 
                 {
                     this.state.isHost && focusStartDate <= today && focusEndDate >= today &&
-                    <div className="navbar navbar-default navbar-fixed-bottom action-section text-center">
+                    <div className="navbar navbar-default navbar-fixed-bottom action-section button-block text-center">
                         <button className="btn btn-cancel" onClick={this.handleFilterSubmit}>{getResource('Reset')}</button>
                         <button className="btn btn-primary" onClick={this.handleSubmit}>{getResource('Submit')}</button>
                     </div>

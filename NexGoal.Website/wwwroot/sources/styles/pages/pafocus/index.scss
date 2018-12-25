@@ -156,15 +156,34 @@
     }
 }
 
-.action-section {
-    .btn + .btn {
-        margin-left: 5px;
-    }
-}
-
 #chartjs-tooltip {
     .content {
         padding: 5px 10px;
         @include border-radius(2px);
+    }
+}
+.action-section {
+    height: 46px;
+    background-color: #1a2e63;
+    line-height: 46px;
+    .btn-cancel {
+        background-color: #1a2e63;
+        border: 1px solid #fff;
+        color: #fff;
+        &:hover {
+            background-color: #fff;
+            color: #1a2e63;
+            border: 1px solid #1a2e63;
+        }
+    }
+    .btn-primary {
+        background-color: #fff;
+        color: #1a2e63;
+        border: 1px solid #1a2e63;
+        &:hover {
+            background-color: #1a2e63;
+            border: 1px solid #fff;
+            color: #fff;
+        }
     }
 }
