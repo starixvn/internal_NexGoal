@@ -10,17 +10,21 @@ $fa-font-path: "~font-awesome/fonts";
 @import "./components/navbar";
 @import "./components/sidebar";
 @import "./layouts/search-member";
+@import "./layouts/notification";
 
 .auth-info {
     margin-right: 15px;
+
     .icon-search, .icon-notification {
         font-size: 16px;
         margin-left: 16px;
     }
+
     .icon-notification {
         margin-top: 16px;
         display: inline-block;
     }
+
     .icon-search {
         cursor: pointer;
     }
@@ -34,23 +38,28 @@ $fa-font-path: "~font-awesome/fonts";
     a {
         color: #fff;
     }
+
     .dropdown-menu {
         border-radius: 0;
         border: none;
-         > li > a {
-             padding: 5px 20px;
-             color: #324476;
-             font-weight: 600;
-         }
+
+        > li > a {
+            padding: 5px 20px;
+            color: #324476;
+            font-weight: 600;
+        }
+
         > li > a:hover, > li > a:focus {
             background-color: #2C3C69;
             color: #fff;
         }
     }
 }
+
 .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
     background-color: #2C3C69;
 }
+
 .icon-chevron-down {
     position: relative;
     top: 2px;
@@ -68,13 +77,14 @@ $fa-font-path: "~font-awesome/fonts";
             .breadcrumb {
                 background: #f2f2f2;
                 font-family: $font-family;
-                font-size: $font-size + 3; 
+                font-size: $font-size + 3;
                 padding: 10px 0 10px 15px;
                 color: #545454;
                 border-radius: 0;
                 text-transform: uppercase;
                 font-weight: 600;
                 margin-bottom: 0;
+
                 li {
                     padding: 0;
 

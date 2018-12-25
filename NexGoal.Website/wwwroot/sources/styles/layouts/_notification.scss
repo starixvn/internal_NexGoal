@@ -1,0 +1,48 @@
+﻿.icon-notification {
+    cursor: pointer;
+}
+
+.noti-wrapper {
+    position: absolute;
+    width: 300px;
+    color: black;
+    background-color: #fff;
+    right: 0;
+    top: 50px;
+    box-shadow: 0 10px 10px rgba(0,0,0,0.30), 0 10px 10px rgba(0,0,0,0.22);
+
+    .noti-header {
+        padding: 5px;
+
+        .title {
+            color: #ccc;
+            text-transform: uppercase;
+            padding: 5px;
+        }
+
+        .mark-read {
+            display: inline-block;
+            float: right;
+            padding-right: 10px;
+        }
+    }
+
+    .noti-body {
+        max-height: 500px;
+
+        .noti-item {
+            padding: 10px;
+            margin: 5px;
+            background-color: #EBF4FF;
+            border-radius: 3px
+        }
+    }
+
+    .show-all-noti {
+        display: block;
+        text-transform: uppercase;
+        text-align: center;
+        margin: 0 auto;
+        padding: 5px;
+    }
+}
