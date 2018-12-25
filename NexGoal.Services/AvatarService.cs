@@ -1,7 +1,6 @@
 ﻿namespace NexGoal.Services
 {
     using System;
-    using System.Net;
     using Microsoft.Extensions.Options;
     using NexGoal.Core.Models;
 
@@ -16,29 +15,9 @@
 
         public string GetFilePath(string code)
         {
-            bool exist;
             var imgUrl = new Uri($"{configuration.Value.ImageUrl.ToString()}/{code}.jpg");
 
-            try
-            {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(imgUrl);
-                request.Method = "HEAD";
-
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-                exist = response.StatusCode == HttpStatusCode.OK;
-            }
-            catch
-            {
-                exist = false;
-            }
-
-            if (exist)
-            {
-                return imgUrl.ToString();
-            }
-
-            return "/dist/avatars/avatar.jpg";
+            return imgUrl.ToString();
         }
     }
 }
