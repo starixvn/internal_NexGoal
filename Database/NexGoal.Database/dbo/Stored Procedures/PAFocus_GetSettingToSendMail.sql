@@ -36,7 +36,7 @@ BEGIN
 		,FullName
 		,Email
 		)
-	SELECT period.PeriodId
+	SELECT DISTINCT period.PeriodId
 		,(CASE 
 			WHEN period.FocusStartDate = @Today THEN @StartMode
 			ELSE @RemindMode END
