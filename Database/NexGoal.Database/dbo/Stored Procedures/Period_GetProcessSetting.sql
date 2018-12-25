@@ -20,8 +20,5 @@ BEGIN
 		INNER JOIN dbo.PeriodProcessSetting AS pps WITH (NOLOCK) ON rr.ResourceId = pps.ProcessId
 		AND pps.PeriodId = @PeriodId
 	WHERE rr.RefName = 'PerformanceProcess'
-		AND (
-			pps.ProcessId = 1
-			OR pps.ProcessId = 5
-			)
+		AND pps.ProcessId = 5
 END

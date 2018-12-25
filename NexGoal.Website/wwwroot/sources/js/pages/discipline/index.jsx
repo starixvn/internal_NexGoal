@@ -27,15 +27,17 @@ export default class DisciplineManagement extends Component {
                 employee: null
             },
             disciplines: [],
-            groupOptions: [],
-            employeeOptions: [],
-            isHost: document.getElementById('IsHost').checked,
             showCreateModal: false,
             editDiscipline: {
                 showModal: false,
                 discipline: null
             }
         };
+
+        this.props.isHost = document.getElementById('IsHost').checked;
+        this.props.groupOptions = [];
+        this.props.employeeOptions = [];
+        this.props.allEmployeeOptions = [];
     }
 
     componentDidMount() {
@@ -61,11 +63,9 @@ export default class DisciplineManagement extends Component {
                     };
                 });
 
-                this.setState({
-                    groupOptions: groupOptions,
-                    employeeOptions: employeeOptions,
-                    allEmployeeOptions: employeeOptions
-                });
+                this.props.groupOptions = groupOptions;
+                this.props.employeeOptions = employeeOptions;
+                this.props.allEmployeeOptions = employeeOptions;
 
                 this.getDisciplines(this.state.filter);
             }).catch(axiosError);
@@ -103,8 +103,7 @@ export default class DisciplineManagement extends Component {
                 this.props.employeeOptions = employeeOptions;
 
                 this.setState({
-                    filter: filter,
-                    employeeOptions: employeeOptions
+                    filter: filter
                 });
             }).catch(axiosError);
     }
@@ -188,15 +187,15 @@ export default class DisciplineManagement extends Component {
                 <div className="col-sm-12">
                     <SearchForm
                         filter={this.state.filter}
-                        groupOptions={this.state.groupOptions}
-                        employeeOptions={this.state.employeeOptions}
+                        groupOptions={this.props.groupOptions}
+                        employeeOptions={this.props.employeeOptions}
                         onChange={this.handleFilterChange}
                         onSubmit={this.handleFilterSubmit}
                     />
 
                     <Table
                         data={this.state.disciplines}
-                        isHost={this.state.isHost}
+                        isHost={this.props.isHost}
                         onCreate={this.handleClickCreate}
                         onEdit={this.handleClickEdit}
                         onEditStatus={this.handleEditStatus}
@@ -205,7 +204,7 @@ export default class DisciplineManagement extends Component {
                 {
                     this.state.showCreateModal &&
                     <Create
-                        employeeOptions={this.state.allEmployeeOptions}
+                        employeeOptions={this.props.allEmployeeOptions}
                         showModal={this.state.showCreateModal}
                         onClose={this.handleCancelCreate}
                         onCreateSuccess={this.handleCreateSuccess}

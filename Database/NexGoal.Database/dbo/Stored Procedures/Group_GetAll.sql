@@ -15,4 +15,5 @@ BEGIN
 		,g.[Name]
 	FROM dbo.[Group] AS g WITH (NOLOCK)
 	WHERE g.IsDeleted = 0
+	ORDER BY g.[Name]
 END

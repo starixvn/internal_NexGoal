@@ -1,5 +1,4 @@
 ﻿
-/****** Object:  Stored Procedure dbo.EpaPeriod_UpdateProcessSetting    Script Date: 7/21/2016 2:45:54 PM ******/
 CREATE PROCEDURE [dbo].[Period_UpdateProcessSetting] @PeriodId INT
 	,@Settings NVARCHAR(MAX)
 	,@ModifiedBy INT = NULL
@@ -40,20 +39,18 @@ BEGIN
 	SET @logOldData = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
 
 	UPDATE pps WITH (ROWLOCK, UPDLOCK)
-	SET pps.Duration = setting.Duration
-		,pps.NoticeAtBegin = setting.NoticeAtBegin
+	SET pps.NoticeAtBegin = setting.NoticeAtBegin
 		,pps.RemindDay = setting.RemindDay
 		,pps.ModifiedBy = @ModifiedBy
 		,pps.ModifiedDate = GETDATE()
-	FROM dbo.PeriodProcessSetting pps WITH (ROWLOCK, UPDLOCK)
+	FROM dbo.PeriodProcessSetting AS pps WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN (
 		SELECT PeriodId
 			,ProcessId
-			,Duration
 			,NoticeAtBegin
 			,RemindDay
-		FROM OPENXML(@docHandler, '/Root/Row', 1) WITH (PeriodId INT, ProcessId INT, Duration INT, NoticeAtBegin BIT, RemindDay INT, FocusDay INT)
-		) setting ON pps.PeriodId = setting.PeriodId
+		FROM OPENXML(@docHandler, '/Root/Row', 1) WITH (PeriodId INT, ProcessId INT, NoticeAtBegin BIT, RemindDay INT, FocusDay INT)
+		) AS setting ON pps.PeriodId = setting.PeriodId
 		AND pps.ProcessId = setting.ProcessId
 
 	SET @xml = (
