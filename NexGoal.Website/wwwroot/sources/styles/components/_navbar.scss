@@ -32,7 +32,7 @@
         width: 32px;
         height: 32px;
         border-radius: 50%;
-        background: #fff;
+        background: #d4d4d4;
         display: inline-block;
         vertical-align: middle;
         position: relative;
@@ -40,12 +40,12 @@
         top: -3px;
 
         img {
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             position: absolute;
-            top: 1px;
-            left: 1px;
+            top: 2px;
+            left: 2px;
         }
     }
 }

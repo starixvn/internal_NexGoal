@@ -5,14 +5,16 @@
     display: flex;
 
     .avatar {
+        @include box-shadow(0, 1px, 4px, rgba(0, 0, 0, 0.2));
         @include border-radius(3px);
         float: left;
-        border: 2px solid #dedede;
+        border: 2px solid #fff;
         margin-right: 12px;
         align-self: center;
         width: 80px;
         height: 80px;
         object-fit: cover;
+        object-position: 0 20%;
     }
 
     .nick-name {

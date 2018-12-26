@@ -10,7 +10,7 @@ export default class Announcement extends Component {
         return (
             <Modal keyboard={false} backdrop="static"
                 show={this.props.showModal} onHide={this.props.onCloseModal}
-                dialogClassName="custom-modal"
+                dialogClassName="custom-modal announcement-modal"
             >
                 <Modal.Header closeButton>
                     <Modal.Title>Announcement</Modal.Title>
@@ -21,7 +21,7 @@ export default class Announcement extends Component {
                     </ul>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={this.props.onCloseModal} className="btn-cancel">Close</Button>
+                    <Button onClick={this.props.onCloseModal} className="btn btn-primary">Close</Button>
                 </Modal.Footer>
             </Modal>
         );

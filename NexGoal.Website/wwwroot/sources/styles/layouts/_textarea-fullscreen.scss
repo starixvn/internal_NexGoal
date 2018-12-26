@@ -24,11 +24,14 @@
                 &:after {
                     content: '\e91f';
                     font-family: 'NexGoalIcon';
-                    color: #8f8f8f;
+                    color: #BFBFBF;
                     position: absolute;
                     right: 0;
                     top: 10px;
                     cursor: pointer;
+                }
+                &:hover:after {
+                    color: #8f8f8f;
                 }
             }
 
