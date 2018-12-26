@@ -34,4 +34,5 @@ BEGIN
 		AND ISNULL(@IsActive, d.IsActive) = d.IsActive
 		AND ISNULL(@GroupId, g.GroupId) = g.GroupId
 	ORDER BY d.EffectiveDate DESC
+		,d.CreatedDate
 END
