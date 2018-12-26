@@ -44,7 +44,7 @@
 
             var emailTemplate = mailMode == PerformanceRecordMailMode.Create ? CreateEmailTemplate : EditEmailTemplate;
             var subject = mailMode == PerformanceRecordMailMode.Create ? ViewLang.CreatePerformanceCheckin : ViewLang.EditPerformanceCheckin;
-            var filePath = Path.Combine(hostingEnvironment.ContentRootPath, emailTemplate);
+            var filePath = Path.Combine(hostingEnvironment.WebRootPath, emailTemplate);
 
             foreach (ProcessSettingModel receiver in receivers)
             {
