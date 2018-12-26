@@ -9,7 +9,6 @@
     [CreatedDate]         DATETIME       NULL,
     [ModifiedDate]        DATETIME       NULL,
     [TypeId]              TINYINT        NULL,
-    [CopyFromId]          INT            NULL,
     [RoleId]              TINYINT        NULL,
     CONSTRAINT [PK_PerformanceRecord] PRIMARY KEY CLUSTERED ([PerformanceRecordId] ASC)
 );
