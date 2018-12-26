@@ -2,6 +2,7 @@
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { axiosError, resolveClientUrl } from './common-functions';
+import NotificationSetting from './shared/components/NotificationSetting';
 
 export default class Notification extends Component {
     constructor(props) {
@@ -9,7 +10,8 @@ export default class Notification extends Component {
 
         this.state = {
             notifications: [],
-            isShowNoti: false
+            isShowNoti: false,
+            isShowSettingModal: false
         };
     }
 
@@ -40,6 +42,18 @@ export default class Notification extends Component {
         });
     }
 
+    handleClickSetting = () => {
+        this.setState({
+            isShowSettingModal: true
+        });
+    }
+
+    handleCancelSetting = () => {
+        this.setState({
+            isShowSettingModal: false
+        });
+    }
+
     getNotifications = () => {
         axios.get(resolveClientUrl('common/GetNotification'))
             .then(response => {
@@ -54,17 +68,18 @@ export default class Notification extends Component {
         const totalNoti = notifications.length;
         return (
             <Fragment>
-                <span className={`icon-notification ${totalNoti > 0 ? "red" : ''}`}
+                <span className="icon-notification"
                     onClick={this.handleClickOnBell}
                 >
-                    {totalNoti}
+                    <span className={`noti-number ${totalNoti === 0 ? 'empty-noti' : ''}`}>{totalNoti}</span>
                 </span>
                 {
                     this.state.isShowNoti &&
                     <div className="noti-wrapper">
                         <div className="noti-header">
                             <span className="title">Notification</span>
-                            <a className="mark-read">Mark as read</a>
+                            <a className="mark-read">Mark as read</a> |
+                            <a className="mark-read" onClick={this.handleClickSetting} >Settings</a>
                         </div>
                         <div className="noti-body">
                             {
@@ -80,6 +95,13 @@ export default class Notification extends Component {
                         </div>
                         <a className="show-all-noti" href="">View all</a>
                     </div>
+                }
+                {
+                    this.state.isShowSettingModal &&
+                    <NotificationSetting
+                        isShowModal={this.state.isShowSettingModal}
+                        onCloseModal={this.handleCancelSetting}
+                    />
                 }
             </Fragment>
         );

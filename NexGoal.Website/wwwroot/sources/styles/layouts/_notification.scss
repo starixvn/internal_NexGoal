@@ -1,5 +1,23 @@
 ﻿.icon-notification {
     cursor: pointer;
+
+    .noti-number {
+        font-size: 11px;
+        border: none;
+        padding: 3px;
+        background-color: red;
+        border-radius: 50%;
+        position: absolute;
+        top: 10px;
+        left: 22px;
+        text-align: center;
+        width: 18px;
+    }
+
+    .empty-noti {
+        background-color: #fff;
+        color: #000;
+    }
 }
 
 .noti-wrapper {

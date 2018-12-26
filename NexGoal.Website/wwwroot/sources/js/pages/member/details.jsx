@@ -61,6 +61,7 @@ export default class App extends Component {
             },
             performanceGradeOptions: [],
             projectOptions: [],
+            announcements: [],
             hrmDetails: {},
             hasMore: false,
             activeTabKey: 1,
@@ -89,12 +90,13 @@ export default class App extends Component {
                     pageIndex: 0,
                     pageSize: this.timelineItemPerPage
                 }
-            })
+            }),
+            axios(resolveClientUrl('common/GetAnnouncements'))
         ];
 
         Promise.all(promises)
             .then(([periodResponse, gradeResponse, projectResponse, roleResponse,
-                nominationResponse, performanceAppraisalResponse, performanceRecordResponse, hrmResponse, timelineResponse]) => {
+                nominationResponse, performanceAppraisalResponse, performanceRecordResponse, hrmResponse, timelineResponse, announcementResponse]) => {
                 let displayedPerformanceRecords = performanceRecordResponse.data.slice(0, this.itemPerPage);
 
                 const performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
@@ -126,6 +128,7 @@ export default class App extends Component {
                     performanceAppraisals: performanceAppraisalResponse.data,
                     displayedPerformanceRecords: displayedPerformanceRecords,
                     performanceRecords: performanceRecordResponse.data,
+                    announcements: announcementResponse.data,
                     hrmDetails: hrmResponse.data,
                     hasMore: displayedPerformanceRecords.length < performanceRecordResponse.data.length
                 });
@@ -372,10 +375,11 @@ export default class App extends Component {
                         </div>
                         <div className="main-content">
                             <div className="fixed-section">
-                                <div className="warning marquee">
-                                    <div>News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed</div>
+                                <div className="warning marquee" onClick={this.handleOpenAnnouncementModal}>
+                                    <span>
+                                        {this.state.announcements.join(' ')}
+                                    </span>
                                 </div>
-
                             </div>
                             <Tabs id="tabs" activeKey={this.state.activeTabKey} onSelect={this.handleSelectTab}>
                                 <Tab eventKey={1} title="Performance">
