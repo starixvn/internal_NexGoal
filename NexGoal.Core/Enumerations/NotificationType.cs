@@ -1,6 +1,6 @@
 ﻿namespace NexGoal.Core.Enumerations
 {
-    public enum MailType
+    public enum NotificationType
     {
         PerformanceCheckin = 1,
         PerformanceAppraisal,

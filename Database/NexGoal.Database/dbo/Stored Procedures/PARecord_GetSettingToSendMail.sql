@@ -14,7 +14,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @Today DATE = GETDATE()
-		,@MailType TINYINT = 2
+		,@NotificationType TINYINT = 2
 		,@InProgress TINYINT = 3
 		,@Closed TINYINT = 4
 		,@StartMode TINYINT = 1
@@ -131,10 +131,10 @@ BEGIN
 		AND EXISTS (
 			SELECT 1
 			FROM #tblProcessSetting AS tbl WITH (NOLOCK)
-				LEFT JOIN dbo.MailConfig AS mail WITH (NOLOCK) ON tbl.EvaluatorId = mail.EmployeeId
+				LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
 			WHERE period.PeriodId = tbl.PeriodId
-				AND ISNULL(mail.[Type], @MailType) = @MailType
-				AND ISNULL(mail.Notify, 1) = 1
+				AND ISNULL(setting.TypeId, @NotificationType) = @NotificationType
+				AND ISNULL(setting.ReceiveEmail, 1) = 1
 			)
 
 	SELECT PeriodId
@@ -146,9 +146,9 @@ BEGIN
 		,StartDate
 		,EndDate
 	FROM #tblProcessSetting AS tbl WITH (NOLOCK)
-		LEFT JOIN dbo.MailConfig AS mail WITH (NOLOCK) ON tbl.EvaluatorId = mail.EmployeeId
-	WHERE ISNULL(mail.[Type], @MailType) = @MailType
-		AND ISNULL(mail.Notify, 1) = 1
+		LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
+	WHERE ISNULL(setting.TypeId, @NotificationType) = @NotificationType
+		AND ISNULL(setting.ReceiveEmail, 1) = 1
 
 	DROP TABLE #tblProcessSetting
 END

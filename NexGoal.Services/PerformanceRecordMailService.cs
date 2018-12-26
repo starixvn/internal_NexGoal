@@ -15,8 +15,8 @@
 
     public class PerformanceRecordMailService : IPerformanceRecordMailService
     {
-        private const string CreateEmailTemplate = @"EmailTemplates\\PCI\\Create.cshtml";
-        private const string EditEmailTemplate = @"EmailTemplates\\PCI\\Edit.cshtml";
+        private const string CreateEmailTemplate = @"Views\\EmailTemplates\\PCI\\Create.cshtml";
+        private const string EditEmailTemplate = @"Views\\EmailTemplates\\PCI\\Edit.cshtml";
 
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IBaseService baseService;
@@ -44,7 +44,7 @@
 
             var emailTemplate = mailMode == PerformanceRecordMailMode.Create ? CreateEmailTemplate : EditEmailTemplate;
             var subject = mailMode == PerformanceRecordMailMode.Create ? ViewLang.CreatePerformanceCheckin : ViewLang.EditPerformanceCheckin;
-            var filePath = Path.Combine(hostingEnvironment.WebRootPath, emailTemplate);
+            var filePath = Path.Combine(hostingEnvironment.ContentRootPath, emailTemplate);
 
             foreach (ProcessSettingModel receiver in receivers)
             {

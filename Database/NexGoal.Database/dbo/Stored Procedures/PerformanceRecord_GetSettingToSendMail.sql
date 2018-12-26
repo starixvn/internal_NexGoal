@@ -16,7 +16,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @Today DATE = GETDATE()
-		,@MailType TINYINT = 1
+		,@NotificationType TINYINT = 1
 		,@Submitted TINYINT = 3
 		,@PeriodId INT
 		,@PARejected TINYINT = 5
@@ -171,9 +171,9 @@ BEGIN
 		,tbl.Email
 		,tbl.ProcessId
 	FROM #tblResult AS tbl WITH (NOLOCK)
-		LEFT JOIN dbo.MailConfig AS config WITH (NOLOCK) ON tbl.EvaluatorId = config.EmployeeId
-	WHERE ISNULL(config.[Type], @MailType) = @MailType
-		AND ISNULL(config.Notify, 1) = 1
+		LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
+	WHERE ISNULL(setting.TypeId, @NotificationType) = @NotificationType
+		AND ISNULL(setting.ReceiveEmail, 1) = 1
 	ORDER BY tbl.PerformanceRecordId
 		,tbl.ProcessId
 
