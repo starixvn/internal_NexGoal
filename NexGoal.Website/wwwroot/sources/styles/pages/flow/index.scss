@@ -34,8 +34,16 @@
     }
 }
 
+.group-flow {
+    .evaluator-list {
+        margin-top: 12px;
+    }
+}
+
 .employee-flow {
     .filter {
+        padding-top: 12px;
+
         .react-select-container, .text-search {
             width: 300px;
         }
@@ -60,6 +68,7 @@
 
                 button {
                     width: 40px;
+                    min-width: 40px;
                     margin-bottom: 10px;
                 }
             }

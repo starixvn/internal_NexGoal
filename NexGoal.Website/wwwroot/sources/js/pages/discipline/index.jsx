@@ -34,10 +34,10 @@ export default class DisciplineManagement extends Component {
             }
         };
 
-        this.props.isHost = document.getElementById('IsHost').checked;
-        this.props.groupOptions = [];
-        this.props.employeeOptions = [];
-        this.props.allEmployeeOptions = [];
+        this.isHost = document.getElementById('IsHost').checked;
+        this.groupOptions = [];
+        this.employeeOptions = [];
+        this.allEmployeeOptions = [];
     }
 
     componentDidMount() {
@@ -63,9 +63,9 @@ export default class DisciplineManagement extends Component {
                     };
                 });
 
-                this.props.groupOptions = groupOptions;
-                this.props.employeeOptions = employeeOptions;
-                this.props.allEmployeeOptions = employeeOptions;
+                this.groupOptions = groupOptions;
+                this.employeeOptions = employeeOptions;
+                this.allEmployeeOptions = employeeOptions;
 
                 this.getDisciplines(this.state.filter);
             }).catch(axiosError);
@@ -100,7 +100,7 @@ export default class DisciplineManagement extends Component {
                     filter = Object.assign({}, this.state.filter, { employee: null });
                 }
 
-                this.props.employeeOptions = employeeOptions;
+                this.employeeOptions = employeeOptions;
 
                 this.setState({
                     filter: filter
@@ -187,15 +187,15 @@ export default class DisciplineManagement extends Component {
                 <div className="col-sm-12">
                     <SearchForm
                         filter={this.state.filter}
-                        groupOptions={this.props.groupOptions}
-                        employeeOptions={this.props.employeeOptions}
+                        groupOptions={this.groupOptions}
+                        employeeOptions={this.employeeOptions}
                         onChange={this.handleFilterChange}
                         onSubmit={this.handleFilterSubmit}
                     />
 
                     <Table
                         data={this.state.disciplines}
-                        isHost={this.props.isHost}
+                        isHost={this.isHost}
                         onCreate={this.handleClickCreate}
                         onEdit={this.handleClickEdit}
                         onEditStatus={this.handleEditStatus}
@@ -204,7 +204,7 @@ export default class DisciplineManagement extends Component {
                 {
                     this.state.showCreateModal &&
                     <Create
-                        employeeOptions={this.props.allEmployeeOptions}
+                        employeeOptions={this.allEmployeeOptions}
                         showModal={this.state.showCreateModal}
                         onClose={this.handleCancelCreate}
                         onCreateSuccess={this.handleCreateSuccess}

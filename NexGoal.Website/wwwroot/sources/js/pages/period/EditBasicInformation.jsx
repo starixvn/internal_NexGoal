@@ -132,8 +132,9 @@ export default class EditBasicInformation extends Component {
         };
 
         return (
-            <Form horizontal onSubmit={handleSubmit}>
-                {!isEmpty(errors) && !isEmpty(touched) &&
+            <Form horizontal className="settings-form" onSubmit={handleSubmit}>
+                {
+                    !isEmpty(errors) && !isEmpty(touched) &&
                     <ul className="list-message-error">
                         {touched.name && errors.name && <li>{errors.name}</li>}
                         {touched.startDate && errors.startDate && <li>{errors.startDate}</li>}

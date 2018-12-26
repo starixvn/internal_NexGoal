@@ -9,15 +9,15 @@
 
         .search-textbox {
             height: 30px;
-            padding: 0 20px 0 3px;
-            @include border-radius(0);
+            padding: 8px;
+            @include border-radius(2px);
             box-shadow: unset;
         }
 
         .icon {
             color: #ccc;
             position: absolute;
-            right: 5px;
+            right: 8px;
             top: 8px;
         }
     }

@@ -97,7 +97,7 @@ export default class Table extends Component {
                 dataField: 'creatorFullName',
                 text: `${getResource('Creator')}`,
                 formatter: (cell, row) => {
-                    return `${row.creatorFullName} (${row.creatorNickName})`;
+                    return `${row.creatorNickName} (${row.creatorFullName})`;
                 }
             },
             {

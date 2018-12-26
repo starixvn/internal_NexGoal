@@ -113,7 +113,7 @@ class Settings extends Component {
         ];
 
         return (
-            <Form id="edit-eoq-form" horizontal onSubmit={handleSubmit}>
+            <Form id="edit-eoq-form" horizontal className="settings-form" onSubmit={handleSubmit}>
                 {
                     !isEmpty(errors) && !isEmpty(touched) &&
                     <ul className="list-message-error">
@@ -191,7 +191,8 @@ class Settings extends Component {
                         />
                     </div>
                 </FormGroup>
-                {isHost &&
+                {
+                    isHost &&
                     <FormGroup>
                         <label className="col-sm-2 control-label" />
                         <div className="col-sm-6 field">

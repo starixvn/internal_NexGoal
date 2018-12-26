@@ -50,7 +50,6 @@ export default class App extends Component {
                             activeKey={this.state.activeKey}
                             onSelect={this.handleSelect}
                         >
-
                             <Tab eventKey={1} title={getResource('Settings')}>
                                 <Settings />
                             </Tab>

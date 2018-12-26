@@ -14,6 +14,10 @@
 @import "../../components/react-bootstrap-table";
 @import "../../components/react-select";
 
+.settings-form {
+    margin-top: 12px;
+}
+
 table select {
     @include border-radius(3px);
     border: 1px solid #dfdfdf;
