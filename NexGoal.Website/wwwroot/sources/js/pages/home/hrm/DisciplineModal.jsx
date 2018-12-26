@@ -19,8 +19,8 @@ export default function Discipline(props) {
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Description</th>
-                            <th>Effect Date</th>
+                            <th>{getResource('Description')}</th>
+                            <th>{getResource('IssueDate')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -28,7 +28,7 @@ export default function Discipline(props) {
                             disciplines.map((discipline, index) => {
                                 return (
                                     <tr>
-                                        <td>{index + 1}</td>
+                                        <td className="text-center">{index + 1}</td>
                                         <td>{discipline.description}</td>
                                         <td className="text-center">{moment(discipline.effectiveDate).format(DateFormat)}</td>
                                     </tr>
