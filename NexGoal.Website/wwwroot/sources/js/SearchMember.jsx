@@ -1,6 +1,5 @@
 ﻿import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
-import { Async } from 'react-select';
 import axios from 'axios';
 
 import { axiosError, resolveClientUrl } from './common-functions';
@@ -11,7 +10,8 @@ export default class SearchMember extends Component {
 
         this.state = {
             hasMember: false,
-            showSearchbox: false
+            showSearchbox: false,
+            memberOptions: []
         };
     }
 
@@ -24,9 +24,11 @@ export default class SearchMember extends Component {
             }).catch(axiosError);
     }
 
-    loadOptions = (inputValue) => {
-        if (inputValue.length > 1) {
-            return axios.get(resolveClientUrl('common/GetMyMember'), { params: { keyword: inputValue } })
+    handleChange = (e) => {
+        let value = e.target.value;
+
+        if (value.length > 1) {
+            axios.get(resolveClientUrl('common/GetMyMember'), { params: { keyword: value } })
                 .then(response => {
                     let options = [];
 
@@ -37,30 +39,29 @@ export default class SearchMember extends Component {
                         });
                     });
 
-                    return options;
+                    this.setState({ memberOptions: options });
                 }).catch(axiosError);
         }
 
-        return [];
-    }
-
-    handleChange = (selectedOption) => {
-        if (selectedOption && selectedOption.value) {
-            window.location = resolveClientUrl(`member/details/${selectedOption.value}`);
-        }
+        this.setState({ memberOptions: [] });
     }
 
     handleClick = () => {
         this.setState((prevState, prevProps) => {
             return { showSearchbox: !prevState.showSearchbox };
-        }, () => {
-            if (this.state.showSearchbox) {
-                this.selectElement.select.focus();
-            }
         });
     }
 
+    handleSelect = (e) => {
+        let memberId = e.target.attributes['memberid'].value;
+        if (memberId) {
+            window.location = resolveClientUrl(`member/details/${memberId}`);
+        }
+    }
+
     render() {
+        let memberOptions = this.state.memberOptions;
+
         return (
             <Fragment>
                 {
@@ -69,18 +70,21 @@ export default class SearchMember extends Component {
                         <span className="icon-search" onClick={this.handleClick} />
                         {
                             this.state.showSearchbox &&
-                            <Async ref={el => this.selectElement = el}
-                                classNamePrefix="react-select" className="react-select-container"
-                                cacheOptions
-                                loadOptions={this.loadOptions}
-                                defaultOptions
-                                placeholder=""
-                                components={{ DropdownIndicator: null }}
-                                noOptionsMessage={() => "Type full name or nickname to search"}
-                                loadingMessage={() => "Type full name or nickname to search"}
-                                isLoading={false}
+                            <input
+                                autoFocus
+                                placeholder="nickname or full name"
                                 onChange={this.handleChange}
                             />
+                        }
+                    </div>
+                }
+                {
+                    memberOptions.length > 0 &&
+                    <div className="member-list">
+                        {
+                            memberOptions.map(member => {
+                                return <div className="item" onClick={this.handleSelect} memberId={member.value}>{`${member.label}`}</div>;
+                            })
                         }
                     </div>
                 }

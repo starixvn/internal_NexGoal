@@ -11,46 +11,30 @@
             }
         }
 
-        .react-select-container {
-            width: 200px;
+        input {
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid #dfdfdf;
+            height: 30px;
+            padding: 0 8px;
+        }
+    }
 
-            .react-select__control {
-                background-color: transparent;
-                border: none;
-                border-bottom: 1px solid #dfdfdf;
-                height: 30px;
-                min-height: unset;
+    .member-list {
+        min-width: 200px;
+        max-width: 300px;
+        position: absolute;
+        right: 0;
+        background-color: #fff;
+        box-shadow: 0 10px 10px rgba(0,0,0,0.30), 0 10px 10px rgba(0,0,0,0.22);
+        color: #333;
 
-                &.react-select__control--is-focused {
-                    @include box-shadow-multiple('none');
-                    border: none;
-                    border-bottom: 1px solid #dfdfdf;
-                }
+        .item {
+            padding: 8px;
 
-                .react-select__input, .react-select__single-value, .react-select__placeholder {
-                    color: #fff;
-                }
-
-                .react-select__indicators {
-                    .react-select__indicator {
-                        padding: 4px;
-                    }
-
-                    .react-select__loading-indicator {
-                        display: none;
-                    }
-                }
-            }
-
-            .react-select__menu {
-                @include border-radius(2px);
-                margin-top: 0;
-                line-height: normal;
-
-                .react-select__option {
-                    padding: 8px;
-                    color: #333;
-                }
+            &:hover {
+                background-color: #EBF4FF;
+                cursor: pointer;
             }
         }
     }

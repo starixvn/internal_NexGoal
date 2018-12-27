@@ -30,7 +30,10 @@
     <script src="~/dist/js/main.js"></script>
     <script src="~/dist/js/search-member.js"></script>
     <script src="~/dist/js/notification.js"></script>
-    @Html.Raw(Fanex.Logging.LogManager.RenderJavascriptLogger())
+
+    <environment exclude="Development">
+        @Html.Raw(Fanex.Logging.LogManager.RenderJavascriptLogger())
+    </environment>
 
     @RenderSection("Scripts", required: false)
 </body>
