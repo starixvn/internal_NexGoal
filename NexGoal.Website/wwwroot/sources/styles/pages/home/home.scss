@@ -39,7 +39,7 @@
     }
 
     .grade {
-        width: 230px;
+        width: 260px;
         display: inline-block;
         margin-right: 16px;
         //line-height: initial;
@@ -47,7 +47,7 @@
 
     .project {
         display: inline-block;
-        width: calc(100% - 230px - 16px);
+        width: calc(100% - 260px - 16px);
 
         .react-select__value-container {
             padding: 1px 6px;
