@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[PARecord_GetByReviewer] @ActorId INT
+﻿CREATE PROCEDURE [dbo].[PARecord_GetByReviewer] @ActorId INT
 	,@PeriodId INT
 	,@GroupIds VARCHAR(MAX) = ''
 AS
@@ -14,7 +13,8 @@ Param's Explanation:
 
 */
 BEGIN
-	DECLARE @ReviewerProcessId TINYINT = 5
+	DECLARE @Today DATETIME = GETDATE() 
+		,@ReviewerProcessId TINYINT = 5
 		-- PA status
 		,@PAInProgress TINYINT = 3
 		,@PAClosed TINYINT = 4
@@ -55,12 +55,16 @@ BEGIN
 		,pa.OriginalGradeId
 		,pa.ModifiedDate
 		,(t.Listening + t.Reading) AS Toeic
-		,pa.StatusId 
+		,(CASE
+			WHEN pa.StatusId = @PAInProgress AND (@Today BETWEEN p.StartDate AND p.EndDate) THEN @PAInProgress
+			ELSE @PAClosed
+			END ) as StatusId
 		,pa.GradeId
 		,pa.Comment 
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
 		INNER JOIN #tblPARecordId AS tbl WITH (NOLOCK) ON pa.PARecordId = tbl.PARecordId
 		INNER JOIN dbo.TOEIC AS t WITH (NOLOCK) ON pa.EmployeeId = t.EmpId
+		LEFT JOIN dbo.PAProcess AS p WITH (NOLOCK) ON pa.PARecordId = p.PARecordId AND p.ProcessId = @ReviewerProcessId
 
 	SELECT process.PARecordId
 		,process.ProcessId

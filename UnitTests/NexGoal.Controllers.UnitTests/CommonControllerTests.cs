@@ -9,6 +9,7 @@
     using NexGoal.Models.Common;
     using NexGoal.Models.Period;
     using NexGoal.Services;
+    using NexGoal.Services.Interfaces;
     using NexGoal.Web.Core.Services;
     using NSubstitute;
     using Xunit;
@@ -18,6 +19,7 @@
         private ISessionService sessionService;
         private ICommonService commonService;
         private IEmployeeService employeeService;
+        private INotificationService notificationService;
 
         [Fact]
         public async Task GetEmployees_WhenCalled_ReturnAsExpectedEmployees()
@@ -330,7 +332,8 @@
             sessionService = FakeSessionService();
             commonService = Substitute.For<ICommonService>();
             employeeService = Substitute.For<IEmployeeService>();
-            var controller = new CommonController(sessionService, commonService, employeeService);
+            notificationService = Substitute.For<INotificationService>();
+            var controller = new CommonController(sessionService, commonService, employeeService, notificationService);
 
             return controller;
         }

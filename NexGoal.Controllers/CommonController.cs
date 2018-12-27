@@ -9,6 +9,7 @@
     using NexGoal.Models.Common;
     using NexGoal.Models.Period;
     using NexGoal.Services;
+    using NexGoal.Services.Interfaces;
     using NexGoal.Web.Core.Services;
 
     public class CommonController : Controller
@@ -16,15 +17,18 @@
         private readonly ISessionService sessionService;
         private readonly ICommonService commonService;
         private readonly IEmployeeService employeeService;
+        private readonly INotificationService notificationService;
 
         public CommonController(
             ISessionService sessionService,
             ICommonService commonService,
-            IEmployeeService employeeService)
+            IEmployeeService employeeService,
+            INotificationService notificationService)
         {
             this.sessionService = sessionService;
             this.commonService = commonService;
             this.employeeService = employeeService;
+            this.notificationService = notificationService;
         }
 
         [HttpGet]
@@ -165,6 +169,14 @@
         public async Task<JsonResult> GetAnnouncements()
         {
             var result = await commonService.GetAnnouncements(sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(result);
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetNotificationSetting()
+        {
+            var result = await notificationService.GetNotificationSetting(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(result);
         }

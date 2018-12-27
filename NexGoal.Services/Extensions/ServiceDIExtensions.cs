@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Services.Extensions
 {
     using Microsoft.Extensions.DependencyInjection;
+    using NexGoal.Services.Interfaces;
 
     public static class ServiceDIExtensions
     {
@@ -26,6 +27,7 @@
             services.AddScoped<IPAFocusService, PAFocusService>();
             services.AddScoped<IExportPAFocusService, ExportPAFocusService>();
             services.AddScoped<INominationReportService, NominationReportService>();
+            services.AddScoped<INotificationService, NotificationService>();
         }
     }
 }

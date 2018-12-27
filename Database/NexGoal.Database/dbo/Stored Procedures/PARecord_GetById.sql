@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[PARecord_GetById] @ActorId INT
+﻿CREATE PROCEDURE [dbo].[PARecord_GetById] @ActorId INT
 	,@PARecordId INT
 AS
 /*
@@ -37,11 +36,11 @@ BEGIN
 	SELECT pa.PARecordId
 		,pa.PeriodId
 		,pa.EmployeeId
-        ,pa.ModifiedDate
+		,pa.ModifiedDate
 		,pa.OriginalGradeId
 		,(CASE 
-			WHEN @ProcessId <> @ReviewerProcessId THEN @PAClosed
-			ELSE pa.StatusId END
+			WHEN @ProcessId = @ReviewerProcessId AND (@Today BETWEEN p.StartDate AND p.EndDate) THEN @PAInProgress
+			ELSE @PAClosed END
 			) AS StatusId
 		,(CASE @ProcessId
 			WHEN @PMProcessId THEN NULL
@@ -52,6 +51,7 @@ BEGIN
 			ELSE pa.Comment END
 			) AS Comment
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
+	LEFT JOIN dbo.PAProcess AS p WITH (NOLOCK) ON pa.PARecordId = p.PARecordId AND p.ProcessId = @ProcessId
 	WHERE pa.PARecordId = @PARecordId
 
 	SELECT process.PARecordId

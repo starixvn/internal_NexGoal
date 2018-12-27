@@ -42,6 +42,9 @@ export default class Notification extends Component {
         });
     }
 
+    handleMarkAsRead = () => {
+    }
+
     handleClickSetting = () => {
         this.setState({
             isShowSettingModal: true
@@ -58,7 +61,7 @@ export default class Notification extends Component {
         axios.get(resolveClientUrl('common/GetNotification'))
             .then(response => {
                 this.setState({
-                    notifications: response.data && response.data.length > 0
+                    notifications: response.data
                 });
             }).catch(axiosError);
     }
@@ -78,8 +81,8 @@ export default class Notification extends Component {
                     <div className="noti-wrapper">
                         <div className="noti-header">
                             <span className="title">Notification</span>
-                            <a className="mark-read">Mark as read</a> |
-                            <a className="mark-read" onClick={this.handleClickSetting} >Settings</a>
+                            <a className="mark-read" onClick={this.handleMarkAsRead}>Mark as read</a> |
+                            <a className="mark-read" onClick={this.handleClickSetting}>Settings</a>
                         </div>
                         <div className="noti-body">
                             {
