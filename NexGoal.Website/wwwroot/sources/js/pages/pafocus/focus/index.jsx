@@ -19,13 +19,15 @@ export default class PAFocus extends Component {
                 groups: [],
                 employee: null
             },
-            isHost: false,
-            focusEvaluationLevelOptions: [],
-            periodOptions: [],
-            groupOptions: [],
-            memberOptions: [],
             pafocuses: []
         };
+
+        this.periodOptions = [];
+        this.memberOptions = [];
+        this.groupOptions = [];
+        this.focusEvaluationLevelOptions = [];
+        this.periodSelected = null;
+        this.isHost = false;
     }
 
     componentDidMount() {
@@ -59,12 +61,10 @@ export default class PAFocus extends Component {
                 this.getMembers(groupIds);
                 this.getPAFocus(filter);
 
-                this.setState({
-                    filter: filter,
-                    focusEvaluationLevelOptions: levelResponse.data,
-                    periodOptions: periodOptions,
-                    groupOptions: groupOptions
-                });
+                this.periodOptions = periodOptions;
+                this.groupOptions = groupOptions;
+                this.focusEvaluationLevelOptions = levelResponse.data;
+                this.setState({ filter: filter });
             }).catch(axiosError);
     }
 
@@ -87,10 +87,8 @@ export default class PAFocus extends Component {
                 filter = Object.assign({}, this.state.filter, { employee: null });
             }
 
-            this.setState({
-                filter: filter,
-                memberOptions: memberOptions
-            });
+            this.memberOptions = memberOptions;
+            this.setState({ filter: filter });
         }).catch(axiosError);
     }
 
@@ -116,8 +114,10 @@ export default class PAFocus extends Component {
                 employeeId: filter.employee ? filter.employee.value : ''
             }
         }).then(response => {
+            this.isHost = response.data.isHost;
+            this.periodSelected = filter.period;
+
             this.setState({
-                isHost: response.data.isHost,
                 pafocuses: response.data.paFocuses
             });
         }).catch(axiosError);
@@ -214,9 +214,9 @@ export default class PAFocus extends Component {
         return (
             <Fragment>
                 <SearchForm filter={this.state.filter}
-                    periodOptions={this.state.periodOptions}
-                    groupOptions={this.state.groupOptions}
-                    memberOptions={this.state.memberOptions}
+                    periodOptions={this.periodOptions}
+                    groupOptions={this.groupOptions}
+                    memberOptions={this.memberOptions}
                     onChange={this.handleFilterChange}
                     onSubmit={this.handleFilterSubmit}
                     onExportToExcel={this.handleExportToExcel}
@@ -224,12 +224,13 @@ export default class PAFocus extends Component {
 
                 <Table
                     data={this.state.pafocuses}
-                    focusEvaluationLevelOptions={this.state.focusEvaluationLevelOptions}
+                    period={this.periodSelected}
+                    focusEvaluationLevelOptions={this.focusEvaluationLevelOptions}
                     onChange={this.handleChange}
                 />
 
                 {
-                    this.state.isHost && focusStartDate <= today && focusEndDate >= today &&
+                    this.isHost && focusStartDate <= today && focusEndDate >= today &&
                     <div className="navbar navbar-default navbar-fixed-bottom action-section button-block text-center">
                         <button className="btn btn-cancel" onClick={this.handleFilterSubmit}>{getResource('Reset')}</button>
                         <button className="btn btn-primary" onClick={this.handleSubmit}>{getResource('Submit')}</button>

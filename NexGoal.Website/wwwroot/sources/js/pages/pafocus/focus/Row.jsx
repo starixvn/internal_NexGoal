@@ -235,7 +235,7 @@ export default class Row extends Component {
                         {this.renderReadyPromotion()}
                     </td>
                     <td className="text-center">
-                        {pafocus.grade ? pafocus.grade.name : ''}
+                        {pafocus.grade ? pafocus.grade.name : 'N/A'}
                     </td>
                     <td>
                         {this.renderContentObjective(pafocus.currentObjective)}

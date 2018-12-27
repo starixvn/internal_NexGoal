@@ -1,12 +1,15 @@
 ﻿import React, { Component, Fragment } from 'react';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
+import moment from 'moment';
 
 import getResource from '../../../resourceHelper';
+import { DateFormat } from '../../../constants';
 import Row from './Row';
 
 export default class Table extends Component {
     shouldComponentUpdate(nextProps) {
         if (this.props.data !== nextProps.data
+            || this.props.period !== nextProps.period
             || this.props.focusEvaluationLevelOptions !== nextProps.focusEvaluationLevelOptions) {
             return true;
         }
@@ -33,13 +36,16 @@ export default class Table extends Component {
     }
 
     render() {
-        const pafocuses = this.props.data;
+        let period = this.props.period,
+            focusStartDate = period && period.focusStartDate ? moment(period.focusStartDate).format(DateFormat) : null,
+            focusEndDate = period && period.focusEndDate ? moment(period.focusEndDate).format(DateFormat) : null;
+        let pafocuses = this.props.data;
 
         return (
             <table className="table table-bordered table-striped pa-focus-table">
                 <thead>
                     <tr className="title">
-                        <td colspan="12">Duration: 01 Nov 2018 - 17 Nov 2018</td>
+                        <td colSpan="12">Duration: {`${focusStartDate} - ${focusEndDate}`}</td>
                     </tr>
                     <tr>
                         <th className="width-40">{getResource('SymbolCount')}</th>

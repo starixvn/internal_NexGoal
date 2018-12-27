@@ -14,12 +14,13 @@ export default class Chart extends Component {
                 period: null,
                 groups: []
             },
-            focusEvaluationLevelOptions: [],
-            periodOptions: [],
-            groupOptions: [],
-            periodSelected: null,
             pafocuses: []
         };
+
+        this.periodOptions = [];
+        this.groupOptions = [];
+        this.focusEvaluationLevelOptions = [];
+        this.periodSelected = null;
     }
 
     componentDidMount() {
@@ -51,12 +52,10 @@ export default class Chart extends Component {
 
                 this.getPAFocus(filter);
 
-                this.setState({
-                    filter: filter,
-                    focusEvaluationLevelOptions: levelResponse.data,
-                    periodOptions: periodOptions,
-                    groupOptions: groupOptions
-                });
+                this.periodOptions = periodOptions;
+                this.groupOptions = groupOptions;
+                this.focusEvaluationLevelOptions = levelResponse.data;
+                this.setState({ filter: filter });
             }).catch(axiosError);
     }
 
@@ -75,8 +74,8 @@ export default class Chart extends Component {
                 groupIds: groupIds
             }
         }).then(response => {
+            this.periodSelected = filter.period;
             this.setState({
-                periodSelected: filter.period,
                 pafocuses: response.data.paFocuses
             });
         }).catch(axiosError);
@@ -91,15 +90,15 @@ export default class Chart extends Component {
         return (
             <Fragment>
                 <SearchForm filter={this.state.filter}
-                    periodOptions={this.state.periodOptions}
-                    groupOptions={this.state.groupOptions}
+                    periodOptions={this.periodOptions}
+                    groupOptions={this.groupOptions}
                     onChange={this.handleFilterChange}
                     onSubmit={this.handleFilterSubmit}
                 />
 
                 <ScatterChart
-                    period={this.state.periodSelected}
-                    focusEvaluationLevelOptions={this.state.focusEvaluationLevelOptions}
+                    period={this.periodSelected}
+                    focusEvaluationLevelOptions={this.focusEvaluationLevelOptions}
                     pafocuses={this.state.pafocuses}
                 />
             </Fragment>
