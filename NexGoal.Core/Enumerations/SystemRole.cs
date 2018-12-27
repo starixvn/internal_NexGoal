@@ -3,10 +3,12 @@
     public enum SystemRole
     {
         SystemAdmin = 1,
-        HumanResource = 2,
-        Management = 3,
-        Evaluator = 4,
-        Reviewer = 5,
-        ProjectManager = 6
+        HumanResource,
+        Management,
+        Evaluator,
+        Reviewer,
+        ProjectManager,
+        Committee,
+        Employee = 101
     }
 }

@@ -1,4 +1,5 @@
 ﻿export const DateFormat = 'DD MMM YYYY';
+export const EmployeeRoleId = 101;
 
 export const StatusOptions = [
     { value: '', label: '-- All --' },

@@ -83,7 +83,6 @@ BEGIN
 		INNER JOIN dbo.Nomination AS n WITH (NOLOCK) ON nd.NominationId = n.NominationId
 		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON n.EOQYId = period.EOQYId
 		AND period.StartDateForNominator <= @Today
-		INNER JOIN #tblMember AS member WITH (NOLOCK) ON n.NomineeId = member.MemberId
 	WHERE pr.CreatorId = @ActorId
 		AND pr.TypeId = 3
 	

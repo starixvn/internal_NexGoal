@@ -13,12 +13,26 @@ DB: bodb_NexGoal
 BEGIN
 	SET NOCOUNT ON;
 
-	CREATE TABLE #tblRoleIds (RoleId SMALLINT)
+	DECLARE @EmployeeRole TABLE (
+		RoleId SMALLINT
+		,[Name] VARCHAR(500)
+		)
+	DECLARE @tblRoleIds TABLE (RoleId SMALLINT)
 
-	INSERT INTO #tblRoleIds (RoleId)
+	INSERT INTO @tblRoleIds (RoleId)
 	SELECT val
 	FROM dbo.func_SplitString(@RoleIds, ',')
 	WHERE ISNUMERIC(val) = 1
+
+	INSERT INTO @EmployeeRole (
+		RoleId
+		,[Name]
+		)
+	SELECT ResourceId
+		,Value
+	FROM dbo.RefResource WITH (NOLOCK)
+	WHERE RefName = 'SystemRole'
+		AND Value = 'Employee'
 
 	SELECT e.EmployeeId
 		,e.Code
@@ -28,11 +42,21 @@ BEGIN
 		,g.Code AS GroupCode
 		,g.[Name] AS GroupName
 		,STUFF((
-				SELECT ', ' + rr.Value
-				FROM dbo.EmployeeRole AS er WITH (NOLOCK)
-					INNER JOIN dbo.RefResource AS rr WITH (NOLOCK) ON er.RoleId = rr.ResourceId
-					AND rr.RefName = 'SystemRole'
-					AND er.EmployeeId = e.EmployeeId
+				SELECT ', ' + data.[Name]
+				FROM (
+					SELECT rr.ResourceId AS RoleId
+						,rr.Value AS [Name]
+					FROM dbo.EmployeeRole AS er WITH (NOLOCK)
+						INNER JOIN dbo.RefResource AS rr WITH (NOLOCK) ON er.RoleId = rr.ResourceId
+						AND rr.RefName = 'SystemRole'
+						AND er.EmployeeId = e.EmployeeId
+					
+					UNION
+					SELECT RoleId
+						,[Name]
+					FROM @EmployeeRole
+					) AS data
+				ORDER BY data.RoleId
 				FOR XML PATH('')
 				), 1, 2, '') AS Roles
 	FROM dbo.Employee AS e WITH (NOLOCK)
@@ -48,12 +72,16 @@ BEGIN
 			OR e.NickName LIKE '%' + ISNULL(@Keyword, '') + '%'
 			)
 		AND (
-			@RoleIds IS NULL
-			OR EXISTS (
+			EXISTS (
 				SELECT 1
 				FROM dbo.EmployeeRole AS emprole WITH (NOLOCK)
-					INNER JOIN #tblRoleIds AS tbl WITH (NOLOCK) ON emprole.RoleId = tbl.RoleId
+					INNER JOIN @tblRoleIds AS tbl ON emprole.RoleId = tbl.RoleId
 				WHERE emprole.EmployeeId = e.EmployeeId
+				)
+			OR EXISTS (
+				SELECT 1
+				FROM @EmployeeRole AS tblemprole
+					INNER JOIN @tblRoleIds AS tblrole ON tblemprole.RoleId = tblrole.RoleId
 				)
 			)
 	ORDER BY g.[Rank]
@@ -64,6 +92,4 @@ BEGIN
 			ELSE 0 END
 			) DESC
 		,e.JoinedDate
-
-	DROP TABLE #tblRoleIds
 END

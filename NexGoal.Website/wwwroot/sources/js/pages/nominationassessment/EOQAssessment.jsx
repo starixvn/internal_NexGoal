@@ -1,9 +1,8 @@
 ﻿import React, { Component, Fragment } from 'react';
-import ReactDOM from 'react-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import moment from 'moment';
-import { stringify } from 'qs'
+import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
@@ -20,7 +19,7 @@ export default class EOQAssessment extends Component {
 
         this.state = {
             filter: {
-                status: defaultStatus,
+                status: defaultStatus
             },
             currentDate: moment(),
             selectedNominationperiod: null,
@@ -40,7 +39,7 @@ export default class EOQAssessment extends Component {
         }).then(response => {
             this.setState(
                 {
-                    nominationPeriod: response.data,
+                    nominationPeriod: response.data
                 }, () => {
                     if (response.data) {
                         this.getNominations();

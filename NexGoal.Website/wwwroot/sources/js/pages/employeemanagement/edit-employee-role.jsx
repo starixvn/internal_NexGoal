@@ -4,6 +4,7 @@ import axios from 'axios';
 import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
+import { EmployeeRoleId } from '../../constants';
 import getResource from '../../resourceHelper';
 
 export default class EditEmployeeRole extends Component {
@@ -72,9 +73,17 @@ export default class EditEmployeeRole extends Component {
                         <FormGroup>
                             <Col componentClass={ControlLabel} sm={2}>{getResource('Roles')}</Col>
                             <Col sm={10}>
-                                {this.state.employeeRoles.map(role =>
-                                    <Checkbox key={role.roleId} defaultChecked={role.hasRole} value={role.roleId}>{role.role}</Checkbox>
-                                )}
+                                {
+                                    this.state.employeeRoles.map(role =>
+                                        <Checkbox key={role.roleId}
+                                            defaultChecked={role.hasRole}
+                                            value={role.roleId}
+                                            disabled={role.roleId === EmployeeRoleId}
+                                        >
+                                            {role.role}
+                                        </Checkbox>
+                                    )
+                                }
                             </Col>
                         </FormGroup>
                     </Modal.Body>

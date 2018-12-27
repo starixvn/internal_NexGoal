@@ -14,6 +14,13 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
+	DECLARE @EmployeeRoleId SMALLINT
+
+	SELECT @EmployeeRoleId = ResourceId
+	FROM dbo.RefResource WITH (NOLOCK)
+	WHERE RefName = 'SystemRole'
+		AND Value = 'Employee'
+
 	SELECT menu.MenuId
 		,menu.[Name]
 		,menu.[Description]
@@ -37,9 +44,11 @@ BEGIN
 		SELECT DISTINCT func.FunctionId
 		FROM dbo.[Function] AS func WITH (NOLOCK)
 			INNER JOIN dbo.RoleFunction AS rfunc WITH (NOLOCK) ON func.FunctionId = rfunc.FunctionId
-			INNER JOIN dbo.EmployeeRole AS erole WITH (NOLOCK) ON rfunc.RoleId = erole.RoleId
-			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON erole.EmployeeId = emp.EmployeeId
-		WHERE emp.EmployeeId = @EmployeeId
+			LEFT JOIN dbo.EmployeeRole AS erole WITH (NOLOCK) ON rfunc.RoleId = erole.RoleId
+		WHERE (
+				rfunc.RoleId = @EmployeeRoleId
+				OR erole.EmployeeId = @EmployeeId
+				)
 			AND func.IsActive = 1
 			AND rfunc.Policy > 0
 		) AS func ON menu.FunctionId = func.FunctionId
