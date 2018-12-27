@@ -3,15 +3,15 @@
     using System;
     using System.Globalization;
     using System.Threading.Tasks;
+    using Fanex.Logging;
     using Microsoft.AspNetCore.Http;
-    using Microsoft.Extensions.Logging;
 
     public class ErrorHandlingMiddleware
     {
         private readonly RequestDelegate next;
         private readonly ILogger logger;
 
-        public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
+        public ErrorHandlingMiddleware(RequestDelegate next, ILogger logger)
         {
             this.next = next;
             this.logger = logger;
@@ -39,7 +39,7 @@
                     context.Request.Headers["Host"],
                     exception.TargetSite,
                     exception.StackTrace);
-            logger.LogError(message);
+            logger.Error(message);
 
             var method = context.Request.Method.ToLowerInvariant();
             var requestedWith = context.Request.Headers["X-Requested-With"];

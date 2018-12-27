@@ -5,12 +5,14 @@
     using System.IO;
     using System.Linq;
     using Fanex.Data;
+    using Fanex.Logging;
+    using Fanex.Logging.Sentry;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using NexGoal.AutoService.Services;
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
-    using Serilog;
+    using Sentry;
 
     public static class Program
     {
@@ -45,16 +47,22 @@
 
         private static void ConfigureServices(IServiceCollection services)
         {
-            services.AddLogging();
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.ConfigurationSection(Configuration.GetSection("Serilog"))
-                .CreateLogger();
+            LogManager
+            .SetDefaultLogCategory(Configuration.GetSection("LogCategory").Value)
+            .Use(new List<ILogEngine>
+            {
+                new SentryLogging(new SentryEngineOptions
+                {
+                    Dsn = new Dsn(Configuration.GetSection("SentryEngineOptions:Dsn").Value)
+                })
+            });
 
             services.AddOptions();
             services.Configure<AppSettings>(options => Configuration.GetSection("AppSettings").Bind(options));
             services.Configure<MailConfigs>(options => Configuration.GetSection("MailConfigs").Bind(options));
 
             services.ResolveCoreDI();
+            services.AddTransient<ILogger, Logger>();
             services.AddTransient<IPeriodService, PeriodService>();
             services.AddTransient<IPerformanceRecordService, PerformanceRecordService>();
             services.AddTransient<IPAService, PAService>();

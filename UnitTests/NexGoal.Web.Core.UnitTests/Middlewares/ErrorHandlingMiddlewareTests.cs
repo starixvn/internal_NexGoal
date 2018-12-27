@@ -4,8 +4,8 @@
     using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
+    using Fanex.Logging;
     using Microsoft.AspNetCore.Http;
-    using Microsoft.Extensions.Logging;
     using NexGoal.Web.Core.Middlewares;
     using NSubstitute;
     using Xunit;
@@ -17,7 +17,7 @@
         {
             // Arrange
             var context = new DefaultHttpContext();
-            var logger = Substitute.For<ILogger<ErrorHandlingMiddleware>>();
+            var logger = Substitute.For<ILogger>();
             var next = Substitute.For<RequestDelegate>();
             next.Invoke(Arg.Any<HttpContext>()).Returns(x => { throw new Exception(); });
             var middleware = new ErrorHandlingMiddleware(next, logger);
@@ -40,7 +40,7 @@
             var context = new DefaultHttpContext();
             context.Request.Method = method;
             context.Request.Headers["X-Requested-With"] = "XMLHttpRequest";
-            var logger = Substitute.For<ILogger<ErrorHandlingMiddleware>>();
+            var logger = Substitute.For<ILogger>();
             var next = Substitute.For<RequestDelegate>();
             next.Invoke(Arg.Any<HttpContext>()).Returns(x => { throw new Exception(); });
             var middleware = new ErrorHandlingMiddleware(next, logger);
@@ -57,7 +57,7 @@
         {
             // Arrange
             var context = new DefaultHttpContext();
-            var logger = Substitute.For<ILogger<ErrorHandlingMiddleware>>();
+            var logger = Substitute.For<ILogger>();
             var next = Substitute.For<RequestDelegate>();
             var middleware = new ErrorHandlingMiddleware(next, logger);
 

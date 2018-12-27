@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using Fanex.Data;
+    using Fanex.Logging;
+    using Fanex.Logging.Sentry;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -17,6 +19,7 @@
     using NexGoal.Services.Extensions;
     using NexGoal.Web.Core.Extensions;
     using NexGoal.Web.Core.Middlewares;
+    using Sentry;
 
     public class Startup
     {
@@ -43,6 +46,17 @@
                 .UseConnectionStrings(connections)
                 .UseDefaultDbSettingProvider("~/App_Data")
                 .Run();
+
+            LogManager
+            .SetDefaultLogCategory(Configuration.GetSection("LogCategory").Value)
+            .Use(new List<ILogEngine>
+            {
+                new SentryLogging(new SentryEngineOptions
+                {
+                    Dsn = new Dsn(Configuration.GetSection("SentryEngineOptions:Dsn").Value),
+                    FrontEndDsn = new Dsn(Configuration.GetSection("SentryEngineOptions:FrontEndDsn").Value)
+                })
+            });
 
             services.Configure<IISOptions>(options =>
             {

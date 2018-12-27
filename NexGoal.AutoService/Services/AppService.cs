@@ -1,10 +1,11 @@
 ﻿namespace NexGoal.AutoService.Services
 {
     using System;
-    using Serilog;
+    using Fanex.Logging;
 
     public class AppService : IAppService
     {
+        private readonly ILogger logger;
         private readonly IPeriodService periodService;
         private readonly IPerformanceRecordService performanceRecordService;
         private readonly IPAService paService;
@@ -12,12 +13,14 @@
         private readonly INominationService nominationService;
 
         public AppService(
+            ILogger logger,
             IPeriodService periodService,
             IPerformanceRecordService performanceRecordService,
             IPAService paService,
             IPAFocusService focusService,
             INominationService nominationService)
         {
+            this.logger = logger;
             this.periodService = periodService;
             this.performanceRecordService = performanceRecordService;
             this.paService = paService;
@@ -48,11 +51,7 @@
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "Host terminated unexpectedly");
-            }
-            finally
-            {
-                Log.CloseAndFlush();
+                logger.Error("Host terminated unexpectedly", ex);
             }
         }
     }
