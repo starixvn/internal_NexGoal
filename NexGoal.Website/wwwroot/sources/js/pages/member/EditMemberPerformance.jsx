@@ -215,7 +215,7 @@ export default class EditMemberPerformance extends Component {
                         <div className="comment">
                             <form className="form-filter form-performance edit">
                                 <FormGroup>
-                                    <ControlLabel className="required-label">{getResource('Member')}</ControlLabel>
+                                    <ControlLabel>{getResource('Member')}</ControlLabel>
                                     <Select name="employees" isMulti closeMenuOnSelect={false} classNamePrefix="react-select"
                                         className={`react-select-container employee-field ${!isEmpty(errors) && errors.employee ? 'input-validation-error' : ''}`}
                                         placeholder="Select Employees"
@@ -225,7 +225,7 @@ export default class EditMemberPerformance extends Component {
                                     />
                                 </FormGroup>
                                 <FormGroup>
-                                    <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>
+                                    <ControlLabel>{getResource('Comment')}</ControlLabel>
                                     <TextareaFullscreenEditor
                                         className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
                                         name="comment"

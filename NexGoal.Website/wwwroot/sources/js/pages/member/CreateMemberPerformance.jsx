@@ -239,7 +239,7 @@ export default class CreateMemberPerformance extends Component {
                             {
                                 this.props.isMultiple &&
                                 <FormGroup>
-                                    <ControlLabel className="required-label">{getResource('Member')}</ControlLabel>
+                                    <ControlLabel>{getResource('Member')}</ControlLabel>
                                     <Select name="employees" isMulti closeMenuOnSelect={false} classNamePrefix="react-select"
                                         className={`react-select-container employee-field ${!isEmpty(errors) && errors.employee ? 'input-validation-error' : ''}`}
                                         placeholder="Select Members"
@@ -249,7 +249,7 @@ export default class CreateMemberPerformance extends Component {
                                 </FormGroup>
                             }
                             <FormGroup>
-                                <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>
+                                <ControlLabel>{getResource('Comment')}</ControlLabel>
                                 <TextareaFullscreenEditor ref={this.textareaEditor}
                                     className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
                                     name="comment"

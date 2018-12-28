@@ -253,7 +253,7 @@ export default class PerformanceRecord extends Component {
                     `Congratulations! You were nominated for the ${nominationPeriod} award.`
                     : this.props.pageType === PageType.MemberProfile ?
                         `${employees} was nominated for the ${nominationPeriod} award.`
-                        : <Fragment>The Nominated list of the Award: <span className="bold">{employees}</span></Fragment>;
+                        : <Fragment>Here is the list of your members who got into the Nominated round: <span className="bold">{employees}</span></Fragment>;
                 break;
 
             case NominationStatuses[1].value:
@@ -261,7 +261,7 @@ export default class PerformanceRecord extends Component {
                     `Congratulations! You were shortlisted for the ${nominationPeriod} award.`
                     : this.props.pageType === PageType.MemberProfile ?
                         `${employees} was shortlisted for the ${nominationPeriod} award.`
-                        : <Fragment>The Shortlisted list of the Award: <span className="bold">{employees}</span></Fragment>;
+                        : <Fragment>Here is the list of your members who got into the Shortlisted round: <span className="bold">{employees}</span></Fragment>;
                 break;
 
             case NominationStatuses[2].value:
@@ -269,7 +269,7 @@ export default class PerformanceRecord extends Component {
                     `Congratulations! You were the Winner of ${nominationPeriod} award.`
                     : this.props.pageType === PageType.MemberProfile ?
                         `Congratulations! ${employees} was the Winner of ${nominationPeriod} award.`
-                        : <Fragment>The Winner list of the Award: <span className="bold">{employees}</span></Fragment>;
+                        : <Fragment>Here is the list of your members who are the Winner of this Award: <span className="bold">{employees}</span></Fragment>;
 
                 break;
         }

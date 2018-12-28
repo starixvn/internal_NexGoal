@@ -17,9 +17,10 @@ export default class EvaluationPeriod extends Component {
             filter: {
                 isActive: ''
             },
-            periods: [],
-            isHost: document.getElementById('IsHost').checked
+            periods: []
         };
+
+        this.isHost = document.getElementById('IsHost').checked;
     }
 
     componentDidMount() {
@@ -73,7 +74,7 @@ export default class EvaluationPeriod extends Component {
                         onSubmit={this.handleSubmit}
                     />
                     <Table periods={this.state.periods}
-                        isHost={this.state.isHost}
+                        isHost={this.isHost}
                         refreshData={this.getPeriods}
                         onUpdateStatus={this.handleUpdateStatus}
                         onDeletePeriod={this.handleDeletePeriod}

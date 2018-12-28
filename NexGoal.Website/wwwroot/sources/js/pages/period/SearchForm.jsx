@@ -4,10 +4,6 @@ import { Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import getResource from '../../resourceHelper';
 
 export default class SearchForm extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     handleStatusChange = event => this.props.onStatusChange(event.target.value)
 
     render() {

@@ -43,7 +43,7 @@ class EmployeeFlowSetting extends Component {
                                             employeeFlowSetting.humanResources.map(humanResource => {
                                                 return (
                                                     <p key={`humanResource${humanResource.evaluatorId}`}>
-                                                        {`${humanResource.fullName} (${humanResource.nickName})`}
+                                                        {`${humanResource.nickName} (${humanResource.fullName})`}
                                                     </p>
                                                 );
                                             })
@@ -52,14 +52,14 @@ class EmployeeFlowSetting extends Component {
                                     <td>
                                         {
                                             employeeFlowSetting.evaluator ?
-                                                `${employeeFlowSetting.evaluator.fullName} (${employeeFlowSetting.evaluator.nickName})`
+                                                `${employeeFlowSetting.evaluator.nickName} (${employeeFlowSetting.evaluator.fullName})`
                                                 : ''
                                         }
                                     </td>
                                     <td>
                                         {
                                             employeeFlowSetting.reviewer ?
-                                                `${employeeFlowSetting.reviewer.fullName} (${employeeFlowSetting.reviewer.nickName})`
+                                                `${employeeFlowSetting.reviewer.nickName} (${employeeFlowSetting.reviewer.fullName})`
                                                 : ''
                                         }</td>
                                 </tr>

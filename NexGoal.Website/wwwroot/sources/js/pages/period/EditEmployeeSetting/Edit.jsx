@@ -193,7 +193,7 @@ export default class Edit extends Component {
                 evaluator: adminProcesses.map(e => {
                     return {
                         value: e.evaluator.employeeId,
-                        label: `${e.evaluator.fullName} (${e.evaluator.nickName})`
+                        label: `${e.evaluator.nickName} (${e.evaluator.fullName})`
                     };
                 }),
                 startDate: adminProcesses[0].startDate ? moment(adminProcesses[0].startDate) : null,
@@ -208,7 +208,7 @@ export default class Edit extends Component {
                         process: p.process,
                         evaluator: {
                             value: p.evaluator.employeeId,
-                            label: `${p.evaluator.fullName} (${p.evaluator.nickName})`
+                            label: `${p.evaluator.nickName} (${p.evaluator.fullName})`
                         },
                         startDate: p.startDate ? moment(p.startDate) : null,
                         endDate: p.endDate ? moment(p.endDate) : null

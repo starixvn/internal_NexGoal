@@ -37,7 +37,7 @@ class GroupFlowSetting extends Component {
                                             groupFlowSetting.humanResources.map(humanResource => {
                                                 return (
                                                     <p key={`humanResource${humanResource.evaluatorId}`}>
-                                                        {`${humanResource.fullName} (${humanResource.nickName})`}
+                                                        {`${humanResource.nickName} (${humanResource.fullName})`}
                                                     </p>
                                                 );
                                             })
@@ -46,14 +46,14 @@ class GroupFlowSetting extends Component {
                                     <td>
                                         {
                                             groupFlowSetting.evaluator ?
-                                                `${groupFlowSetting.evaluator.fullName} (${groupFlowSetting.evaluator.nickName})`
+                                                `${groupFlowSetting.evaluator.nickName} (${groupFlowSetting.evaluator.fullName})`
                                                 : ''
                                         }
                                     </td>
                                     <td>
                                         {
                                             groupFlowSetting.reviewer ?
-                                                `${groupFlowSetting.reviewer.fullName} (${groupFlowSetting.reviewer.nickName})`
+                                                `${groupFlowSetting.reviewer.nickName} (${groupFlowSetting.reviewer.fullName})`
                                                 : ''
                                         }</td>
                                 </tr>

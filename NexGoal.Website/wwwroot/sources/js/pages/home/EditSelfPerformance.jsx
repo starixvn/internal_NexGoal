@@ -176,6 +176,7 @@ export default class EditSelfPerformance extends Component {
                             </div>
                         </div>
                         <div className="comment">
+                            <ControlLabel>{getResource('Comment')}</ControlLabel>
                             <TextareaFullscreenEditor
                                 className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
                                 name="comment"

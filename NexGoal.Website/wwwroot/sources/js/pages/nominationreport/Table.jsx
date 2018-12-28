@@ -13,7 +13,7 @@ export default class Table extends Component {
                 value: x.value,
                 label: x.text
             }))
-        }
+        };
     }
 
     componentDidMount() {
@@ -40,12 +40,14 @@ export default class Table extends Component {
         return (
             <tr key={nomination.nominationId}>
                 <td className="text-center">{index + 1}</td>
-                <td>{`${nomination.nominee.fullName} (${nomination.nominee.nickName})`}</td>
+                <td>{`${nomination.nominee.nickName} (${nomination.nominee.fullName})`}</td>
                 <td>{nomination.nominee.groupName}</td>
                 <td>
                     {nomination.nominators.map((n, i, arr) =>
                         <Fragment key={n.performanceRecordId}>
-                            <a onClick={this.handleShowNominatorComment.bind(this, nomination, n.performanceRecordId)}>{`${n.creator.fullName} (${n.creator.nickName})`}</a>
+                            <a onClick={this.handleShowNominatorComment.bind(this, nomination, n.performanceRecordId)}>
+                                {`${n.creator.nickName} (${n.creator.fullName})`}
+                            </a>
                             {i < arr.length - 1 && ', '}
                         </Fragment>)
                     }
@@ -56,21 +58,21 @@ export default class Table extends Component {
                     </span>}
                 </td>
             </tr>
-        )
+        );
     }
 
     render() {
         let content = this.props.tableData.length > 0 ? this.props.tableData.map(this.renderNomination)
-            : <tr><td className="text-center" colSpan={6}>{noDataIndication()}</td></tr>
+            : <tr><td className="text-center" colSpan={6}>{noDataIndication()}</td></tr>;
 
         return (
             <table className="table table-bordered table-striped tbl-nomination-report">
                 <colgroup>
-                    <col className="order"></col>
-                    <col className="nominee"></col>
-                    <col className="team"></col>
-                    <col className="nominator"></col>
-                    <col className="status"></col>
+                    <col className="order" />
+                    <col className="nominee" />
+                    <col className="team" />
+                    <col className="nominator" />
+                    <col className="status" />
                 </colgroup>
                 <thead>
                     <tr ref='stickyHeader'>

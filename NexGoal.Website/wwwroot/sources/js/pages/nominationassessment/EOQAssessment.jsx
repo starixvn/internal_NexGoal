@@ -21,14 +21,14 @@ export default class EOQAssessment extends Component {
             filter: {
                 status: defaultStatus
             },
-            currentDate: moment(),
-            selectedNominationperiod: null,
             tableData: [],
             nominationPeriod: null,
             showModal: false,
-            statusOptions: [defaultStatus, ...NominationStatuses.map(ns => ({ value: ns.value, label: ns.text }))],
             activeTabKey: 1
         };
+
+        this.currentDate = moment();
+        this.statusOptions = [defaultStatus, ...NominationStatuses.map(ns => ({ value: ns.value, label: ns.text }))];
     }
 
     componentDidMount() {
@@ -59,7 +59,7 @@ export default class EOQAssessment extends Component {
                 let period = prevState.nominationPeriod;
                 return {
                     tableData: response.data,
-                    canUpdateNominationStatus: prevState.currentDate.isAfter(moment(period.endDateForNominator), 'day') && prevState.currentDate.isSameOrBefore(moment(period.endDateForCommittee), 'day')
+                    canUpdateNominationStatus: this.currentDate.isAfter(moment(period.endDateForNominator), 'day') && this.currentDate.isSameOrBefore(moment(period.endDateForCommittee), 'day')
                 };
             });
         }).catch(axiosError);
@@ -117,7 +117,7 @@ export default class EOQAssessment extends Component {
             return (
                 <Fragment>
                     <SearchForm filter={this.state.filter}
-                        statusOptions={this.state.statusOptions}
+                        statusOptions={this.statusOptions}
                         onFilterChange={this.handleFilterChange}
                         onFilterSubmit={this.handleFilterSubmit}
                     />

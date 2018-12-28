@@ -1,4 +1,4 @@
-﻿import React, { Component, Fragment } from 'react';
+﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Tabs, Tab } from 'react-bootstrap';
 
@@ -14,7 +14,7 @@ export default class NominationReport extends Component {
 
         this.state = {
             showModal: false,
-            loadEOYTab: false,
+            loadEOYTab: false
         };
     }
 
@@ -50,14 +50,23 @@ export default class NominationReport extends Component {
                 <div className="col-sm-12">
                     <Tabs id="tabs" activeKey={this.state.activeTabKey} onSelect={this.handleSelectTab} animation={false}>
                         <Tab eventKey={1} title="Employee Of The Quarter">
-                            <EOQReport isQuarter={true} onShowNominatorComment={this.handleShowNominatorComment} />
+                            <EOQReport isQuarter onShowNominatorComment={this.handleShowNominatorComment} />
                         </Tab>
                         <Tab eventKey={2} title="Employee Of The Year">
-                            {this.state.loadEOYTab && <EOQReport isQuarter={false} onShowNominatorComment={this.handleShowNominatorComment} />}
+                            {
+                                this.state.loadEOYTab &&
+                                <EOQReport isQuarter={false} onShowNominatorComment={this.handleShowNominatorComment} />
+                            }
                         </Tab>
                     </Tabs>
                 </div>
-                <NominatorComment activeKey={this.state.activeKey} nomination={this.state.nomination} period={this.state.period} showModal={this.state.showModal} onCloseModal={this.closeModal} />
+                <NominatorComment
+                    activeKey={this.state.activeKey}
+                    nomination={this.state.nomination}
+                    period={this.state.period}
+                    showModal={this.state.showModal}
+                    onCloseModal={this.closeModal}
+                />
                 <ToastLayout />
             </div>
         );

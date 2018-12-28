@@ -5,10 +5,6 @@ import getResource from '../../resourceHelper';
 import CustomScrollbars from '../../shared/components/CustomScrollbars';
 
 export default class NominatorComment extends PureComponent {
-    constructor(props) {
-        super(props);
-    }
-
     handleScrollLeft = () => {
         this.scrolllInterval = setInterval((element) => {
             element.scrollTo(element.scrollLeft - 10, 0);
@@ -26,40 +22,48 @@ export default class NominatorComment extends PureComponent {
     }
 
     render() {
-        if (this.props.nomination) {
-            const nominators = this.props.nomination.nominators;
+        let nomination = this.props.nomination;
+
+        if (nomination) {
+            const nominators = nomination.nominators;
 
             return (
-                <Modal backdrop="static" show={this.props.showModal} onHide={this.props.onCloseModal}
+                <Modal show={this.props.showModal} onHide={this.props.onCloseModal}
                     dialogClassName="custom-modal modal-lg nomination-comment-modal"
                 >
                     <Modal.Header>
-                        <Modal.Title>Votes for {`${this.props.nomination.nominee.fullName} (${this.props.nomination.nominee.nickName})`} - {this.props.period.title}</Modal.Title>
+                        <Modal.Title>
+                            Votes for {`${nomination.nominee.nickName} (${nomination.nominee.fullName})`} - {this.props.period.title}
+                        </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Tab.Container id="tab-container" defaultActiveKey={this.props.activeKey}>
                             <Fragment>
                                 <div className="nav-tabs-wrapper">
-                                    <span className="icon-chevron-left" onMouseDown={this.handleScrollLeft} onMouseUp={this.handleMouseUp}></span>
+                                    <span className="icon-chevron-left" onMouseDown={this.handleScrollLeft} onMouseUp={this.handleMouseUp} />
                                     <Nav id="tabs" bsStyle="tabs">
-                                        {nominators.map(n =>
-                                            <NavItem key={n.performanceRecordId} eventKey={n.performanceRecordId} >
-                                                {n.creator.nickName}
-                                            </NavItem>
-                                        )}
+                                        {
+                                            nominators.map(n =>
+                                                <NavItem key={n.performanceRecordId} eventKey={n.performanceRecordId} >
+                                                    {n.creator.nickName}
+                                                </NavItem>
+                                            )
+                                        }
                                     </Nav>
-                                    <span className="icon-chevron-right" onMouseDown={this.handleScrollRight} onMouseUp={this.handleMouseUp}></span>
+                                    <span className="icon-chevron-right" onMouseDown={this.handleScrollRight} onMouseUp={this.handleMouseUp} />
                                 </div>
                                 <Tab.Content>
-                                    {nominators.map(n =>
-                                        <Tab.Pane key={n.performanceRecordId} eventKey={n.performanceRecordId}>
-                                            <CustomScrollbars>
-                                                <p className="comment">
-                                                    {n.comment}
-                                                </p>
-                                            </CustomScrollbars>
-                                        </Tab.Pane>
-                                    )}
+                                    {
+                                        nominators.map(n =>
+                                            <Tab.Pane key={n.performanceRecordId} eventKey={n.performanceRecordId}>
+                                                <CustomScrollbars>
+                                                    <p className="comment">
+                                                        {n.comment}
+                                                    </p>
+                                                </CustomScrollbars>
+                                            </Tab.Pane>
+                                        )
+                                    }
                                 </Tab.Content>
                             </Fragment>
                         </Tab.Container>

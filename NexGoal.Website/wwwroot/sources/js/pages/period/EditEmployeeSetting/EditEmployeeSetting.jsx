@@ -1,5 +1,6 @@
 ﻿import React, { Component, Fragment } from 'react';
 import axios from 'axios';
+
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import SearchForm from './SearchForm';
 import Table from './Table';
@@ -14,11 +15,12 @@ export default class EditEmployeeSetting extends Component {
                 isEvaluated: '',
                 paStatusId: ''
             },
-            performanceStatuses: [],
-            groups: [],
-            employees: [],
             settings: []
         };
+
+        this.groupOptions = [];
+        this.employeeOptions = [];
+        this.performanceStatusOptions = [];
     }
 
     componentDidMount = () => {
@@ -27,14 +29,15 @@ export default class EditEmployeeSetting extends Component {
                 var settings = settingRes.data;
                 settings.map((e, i) => e.rowNum = i + 1);
 
+                this.groupOptions = groupRes.data.map((group) => {
+                    return { value: group.groupId, label: group.name };
+                });
+                this.employeeOptions = employeeRes.data.map(employee => {
+                    return { value: employee.employeeId, label: `${employee.nickName} (${employee.fullName})` };
+                });
+                this.performanceStatusOptions = perfRes.data;
+
                 this.setState({
-                    performanceStatuses: perfRes.data,
-                    groups: groupRes.data.map((group) => {
-                        return { value: group.groupId, label: group.name };
-                    }),
-                    employees: employeeRes.data.map(employee => {
-                        return { value: employee.employeeId, label: `${employee.nickName} (${employee.fullName})` };
-                    }),
                     settings: settings
                 });
             })).catch(axiosError);
@@ -92,14 +95,14 @@ export default class EditEmployeeSetting extends Component {
         return (
             <Fragment>
                 <SearchForm filter={this.state.filter}
-                    groups={this.state.groups}
+                    groups={this.groupOptions}
                     evaluateStatuses={this.state.evaluateStatuses}
-                    performanceStatuses={this.state.performanceStatuses}
+                    performanceStatuses={this.performanceStatusOptions}
                     onFilterChange={this.updateFilterValue}
                     onSubmit={this.getEmployeeSettings}
                 />
-                <Table periodId={this.props.periodId} groups={this.state.groups}
-                    employeeOptions={this.state.employees}
+                <Table periodId={this.props.periodId} groups={this.groupOptions}
+                    employeeOptions={this.employeeOptions}
                     data={this.state.settings}
                     refreshData={this.getEmployeeSettings}
                     getSetting={this.getEmployeeSetting}

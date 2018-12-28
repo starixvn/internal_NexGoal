@@ -42,7 +42,7 @@ export default class Table extends Component {
             text: `${getResource('StartDate')}`,
             classes: 'text-center',
             headerStyle: { width: '120px' },
-            formatter: (cell, row, rowIndex, colIndex) => {
+            formatter: (cell, row) => {
                 return row.startDate ? moment(row.startDate).format('DD MMM, YYYY') : '';
             }
         },
@@ -51,7 +51,7 @@ export default class Table extends Component {
             text: `${getResource('EndDate')}`,
             classes: 'text-center',
             headerStyle: { width: '120px' },
-            formatter: (cell, row, rowIndex, colIndex) => {
+            formatter: (cell, row) => {
                 return row.endDate ? moment(row.endDate).format('DD MMM, YYYY') : '';
             }
         },

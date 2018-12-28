@@ -200,6 +200,7 @@ export default class CreateSelfPerformance extends Component {
                         isOpenForm &&
                         <form className="form-filter form-performance create">
                             <FormGroup>
+                                <ControlLabel>{getResource('Comment')}</ControlLabel>
                                 <TextareaFullscreenEditor ref={this.textareaEditor}
                                     className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
                                     name="comment"

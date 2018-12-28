@@ -53,7 +53,7 @@ export default class Table extends Component {
             dataField: 'nickName',
             text: `${getResource('Employee')}`,
             formatter: (cell, row, rowIndex, colIndex) => {
-                return `${row.employee.fullName} (${row.employee.nickName})`;
+                return `${row.employee.nickName} (${row.employee.fullName})`;
             }
         },
         {
@@ -66,7 +66,6 @@ export default class Table extends Component {
                 return (
                     <Fragment>
                         <div>{evaluatorProcess.evaluator.nickName}</div>
-                        <div>{evaluatorProcess.status}</div>
                     </Fragment>
                 );
             }
