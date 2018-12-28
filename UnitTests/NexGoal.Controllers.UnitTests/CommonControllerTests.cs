@@ -5,8 +5,11 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Models;
     using NexGoal.Models;
     using NexGoal.Models.Common;
+    using NexGoal.Models.Notification;
     using NexGoal.Models.Period;
     using NexGoal.Services;
     using NexGoal.Services.Interfaces;
@@ -315,6 +318,63 @@
             var jsonResult = Assert.IsType<JsonResult>(actual);
             var result = Assert.IsAssignableFrom<IEnumerable<ReferenceResourceModel>>(jsonResult.Value);
             Assert.Equal(referenceResources, result);
+        }
+
+        [Fact]
+        public async Task GetNotificationSetting_WhenCalled_ReturnExpectedSettingList()
+        {
+            // Arrange
+            var settings = new List<NotificationSetting>
+            {
+                new NotificationSetting
+                {
+                    Type = NotificationType.PerformanceAppraisal,
+                    ReceiveEmail = true,
+                    ReceiveNotification = false
+                }
+            };
+            var controller = GetCommonController();
+            notificationService.GetNotificationSetting(sessionService.EmployeeId).Returns(settings);
+
+            // Act
+            var actual = await controller.GetNotificationSetting();
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(actual);
+            var result = Assert.IsAssignableFrom<IEnumerable<NotificationSetting>>(jsonResult.Value);
+            Assert.Equal(settings, result);
+        }
+
+        [Fact]
+        public async Task UpdateNotificationSetting_WhenCalled_ReturnExpectedResult()
+        {
+            // Arrange
+            var settings = new List<NotificationSetting>
+            {
+                new NotificationSetting
+                {
+                    Type = NotificationType.PerformanceAppraisal,
+                    ReceiveEmail = true,
+                    ReceiveNotification = false
+                }
+            };
+
+            var expected = new CommandResult
+            {
+                Code = 0,
+                Message = string.Empty
+            };
+
+            var controller = GetCommonController();
+            notificationService.UpdateNotificationSetting(sessionService.EmployeeId, settings).Returns(expected);
+
+            // Act
+            var actual = await controller.UpdateNotiSetting(settings);
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(actual);
+            var result = Assert.IsAssignableFrom<CommandResult>(jsonResult.Value);
+            Assert.Equal(expected, result);
         }
 
         #region Helpers

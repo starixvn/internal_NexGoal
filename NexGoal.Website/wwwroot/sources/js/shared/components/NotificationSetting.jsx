@@ -62,7 +62,7 @@ export default class NotificationSetting extends Component {
                 dialogClassName="custom-modal modal-xs form-performance edit"
             >
                 <Modal.Header>
-                    <Modal.Title>Notification Settings</Modal.Title>
+                    <Modal.Title>{getResource('NotificationSetting')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <table className="table table-bordered">

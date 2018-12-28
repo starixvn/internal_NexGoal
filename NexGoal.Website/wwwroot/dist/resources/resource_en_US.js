@@ -96,6 +96,7 @@ var resource_en_US = {
     'Nominee': 'Nominee',
     'NoticeAtBegin': 'Notice At Begin',
     'Notification': 'Notification',
+    'NotificationSetting': 'Notification Settings',
     'NoRecordFound': 'No record found',
     'NotReady': 'Not Ready',
     'Objectives': 'Objectives',
