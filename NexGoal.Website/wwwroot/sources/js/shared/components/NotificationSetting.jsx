@@ -1,9 +1,10 @@
-﻿import React, { Component, Fragment } from 'react';
-import { Button, ControlLabel, Modal } from 'react-bootstrap';
+﻿import React, { Component } from 'react';
+import { Button, Modal } from 'react-bootstrap';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { stringify } from 'qs';
 import { resolveClientUrl, axiosError } from '../../common-functions';
 import getResource from '../../resourceHelper';
-import ReactDOM from 'react-dom';
-import axios from 'axios';
 
 export default class NotificationSetting extends Component {
     constructor(props) {
@@ -23,8 +24,38 @@ export default class NotificationSetting extends Component {
             }).catch(axiosError);
     }
 
+    handleChange = (event, typeId, name) => {
+        let settings = [...this.state.notificationSettings];
+        settings.find(setting => setting.type === typeId)[name] = event.target.checked;
+        this.setState({
+            notificationSettings: settings
+        });
+    }
+
+    saveSetting = () => {
+        axios({
+            url: resolveClientUrl('Common/UpdateNotiSetting'),
+            method: 'POST',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                settings: this.state.notificationSettings
+            }),
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            let result = response.data;
+            if (result.isSuccessful) {
+                this.props.onCloseModal();
+                toast.success(getResource('UpdatedSuccessfully'));
+            } else {
+                toast.error(result.message);
+            }
+        }).catch(axiosError);
+    }
+
     render() {
-        console.log(this.state.notificationSettings);
         return (
             <Modal keyboard={false} backdrop="static"
                 show={this.props.isShowModal} onHide={this.props.onCloseModal}
@@ -37,9 +68,9 @@ export default class NotificationSetting extends Component {
                     <table className="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Type</th>
-                                <th>Notification</th>
-                                <th>Email</th>
+                                <th>{getResource('Type')}</th>
+                                <th>{getResource('Notification')}</th>
+                                <th>{getResource('Email')}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,6 +83,7 @@ export default class NotificationSetting extends Component {
                                                 <input type="checkbox" className="checkbox-custom"
                                                     id={`chb-${setting.type}-noti`}
                                                     checked={setting.receiveNotification}
+                                                    onClick={(e) => this.handleChange(e, setting.type, "receiveNotification")}
                                                 />
                                                 <label htmlFor={`chb-${setting.type}-noti`} />
                                             </td>
@@ -59,6 +91,7 @@ export default class NotificationSetting extends Component {
                                                 <input type="checkbox" className="checkbox-custom"
                                                     id={`chb-${setting.type}-email`}
                                                     checked={setting.receiveEmail}
+                                                    onClick={(e) => this.handleChange(e, setting.type, "receiveEmail")}
                                                 />
                                                 <label htmlFor={`chb-${setting.type}-email`} />
                                             </td>
@@ -71,7 +104,7 @@ export default class NotificationSetting extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="btn-cancel" onClick={this.props.onCloseModal}>{getResource('Close')}</Button>
-                    <Button type="submit" className="btn btn-primary">{getResource('Submit')}</Button>
+                    <Button className="btn btn-primary" onClick={this.saveSetting}>{getResource('Submit')}</Button>
                 </Modal.Footer>
             </Modal>
         );

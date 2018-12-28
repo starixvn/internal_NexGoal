@@ -170,7 +170,6 @@ export default class WorkLoad extends PureComponent {
     }
 
     render() {
-        const chartData = this.state.chartData;
         const periodOptions = this.props.periods.map(period => { return { name: period.name, value: period.periodId }; });
         return (
             <div className="workload box">
