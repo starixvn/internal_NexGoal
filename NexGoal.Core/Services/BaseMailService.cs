@@ -28,7 +28,7 @@ namespace NexGoal.Core.Services
             }
 
             var message = new MimeMessage();
-            message.From.Add(new MailboxAddress(configuration.Value.Username));
+            message.From.Add(new MailboxAddress("NexGoal", configuration.Value.Username));
             message.To.Add(new MailboxAddress(email.ReceiverEmail));
             message.Subject = email.Subject;
             message.Priority = configuration.Value.MailPriority;

@@ -18,26 +18,26 @@
         {
             get
             {
-                var title = $"Employee of Year - {Year}";
+                var title = $"Employee of the Year - {Year}";
 
                 if (Quarter.HasValue)
                 {
                     switch (Quarter)
                     {
                         case 1:
-                            title = $"Employee of Quarter - I {Year}";
+                            title = $"Employee of the Quarter - I {Year}";
                             break;
 
                         case 2:
-                            title = $"Employee of Quarter - II {Year}";
+                            title = $"Employee of the Quarter - II {Year}";
                             break;
 
                         case 3:
-                            title = $"Employee of Quarter - III {Year}";
+                            title = $"Employee of the Quarter - III {Year}";
                             break;
 
                         default:
-                            title = $"Employee of Quarter - IV {Year}";
+                            title = $"Employee of the Quarter - IV {Year}";
                             break;
                     }
                 }

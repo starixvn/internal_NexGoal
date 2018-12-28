@@ -9,6 +9,7 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Resources;
 
     public class PAFocusService : IPAFocusService
     {
@@ -48,21 +49,34 @@
             var path = Directory.GetCurrentDirectory();
             var startMailPath = Path.Combine(path, StartMailTemplateToEvaluator);
             var remindMailPath = Path.Combine(path, RemindMailTemplateToEvaluator);
-            var subjectStartMail = "[NexGoal] PA Focus";
-            var subjectRemindMail = "Reminder: [NexGoal] PA Focus";
+            var body = string.Empty;
 
             foreach (PeriodModel period in tuple.Item1)
             {
+                var subjectStartMail = string.Format(ViewLang.EmailSubject_PAFocus_Start, period.Name);
+                var subjectRemindMail = string.Format(ViewLang.EmailSubject_PAFocus_Remind, period.Name);
+
                 foreach (ProcessSettingModel focusSetting in tuple.Item2)
                 {
                     switch (focusSetting.MailMode)
                     {
                         case MailMode.Start:
-                            SendEmail(subjectStartMail, startMailPath, period, focusSetting);
+                            body = string.Format(
+                                mailService.ReadTextFile(startMailPath),
+                                focusSetting.Nickname,
+                                period.Name,
+                                configuration.Value.ApplicationDomain);
+                            SendEmail(subjectStartMail, body, focusSetting.Email);
                             break;
 
                         case MailMode.Remind:
-                            SendEmail(subjectRemindMail, remindMailPath, period, focusSetting);
+                            body = string.Format(
+                                mailService.ReadTextFile(remindMailPath),
+                                focusSetting.Nickname,
+                                period.Name,
+                                mailService.FormatStartDate(period.FocusEndDate),
+                                configuration.Value.ApplicationDomain);
+                            SendEmail(subjectRemindMail, body, focusSetting.Email);
                             break;
 
                         default:
@@ -79,22 +93,14 @@
             return baseService.GetDataAsync<int>(criteria).Result;
         }
 
-        private void SendEmail(string subject, string templateEmailPath, PeriodModel period, ProcessSettingModel focusSetting)
+        private void SendEmail(string subject, string body, string receiverEmail)
         {
-            var email = new MailModel();
-            string startDate = mailService.FormatStartDate(period.FocusStartDate);
-            string endDate = mailService.FormatStartDate(period.FocusEndDate);
-            var body = string.Format(
-                mailService.ReadTextFile(templateEmailPath),
-                focusSetting.Nickname,
-                period.Name,
-                configuration.Value.ApplicationDomain,
-                startDate,
-                endDate);
-
-            email.Subject = subject;
-            email.Body = body;
-            email.ReceiverEmail = focusSetting.Email;
+            var email = new MailModel
+            {
+                Subject = subject,
+                Body = body,
+                ReceiverEmail = receiverEmail
+            };
 
             mailService.SendMailAsync(email).Wait();
         }

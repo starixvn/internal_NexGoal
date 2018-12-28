@@ -7,6 +7,7 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Resources;
 
     public class NominationService : INominationService
     {
@@ -35,21 +36,33 @@
             var path = Directory.GetCurrentDirectory();
             var startMailPath = Path.Combine(path, StartMailTemplateToNominator);
             var remindMailPath = Path.Combine(path, RemindMailTemplateToNominator);
+            var body = string.Empty;
 
             foreach (NominationPeriodModel period in tuple.Item1)
             {
-                var subjectStartMail = string.Format("[NexGoal] {0} - Nomination", period.Title);
-                var subjectRemindMail = string.Format("Reminder: [NexGoal] {0} - Nomination", period.Title);
+                var subjectStartMail = string.Format(ViewLang.EmailSubject_Nomination_Start, period.Title);
+                var subjectRemindMail = string.Format(ViewLang.EmailSubject_Nomination_Remind, period.Title);
                 foreach (ProcessSettingModel setting in tuple.Item2)
                 {
                     switch (setting.MailMode)
                     {
                         case MailMode.Start:
-                            SendEmail(subjectStartMail, startMailPath, period, setting);
+                            body = string.Format(
+                                mailService.ReadTextFile(startMailPath),
+                                setting.Nickname,
+                                period.Title,
+                                configuration.Value.ApplicationDomain);
+                            SendEmail(subjectStartMail, body, setting.Email);
                             break;
 
                         case MailMode.Remind:
-                            SendEmail(subjectRemindMail, remindMailPath, period, setting);
+                            body = string.Format(
+                                mailService.ReadTextFile(remindMailPath),
+                                setting.Nickname,
+                                period.Title,
+                                mailService.FormatStartDate(period.EndDateForNominator),
+                                configuration.Value.ApplicationDomain);
+                            SendEmail(subjectRemindMail, body, setting.Email);
                             break;
 
                         default:
@@ -66,19 +79,14 @@
             return baseService.ExecuteNonQueryAsync(criteria).Result;
         }
 
-        private void SendEmail(string subject, string templateEmailPath, NominationPeriodModel period, ProcessSettingModel setting)
+        private void SendEmail(string subject, string body, string receiverEmail)
         {
-            var email = new MailModel();
-            string endDate = mailService.FormatStartDate(period.EndDateForNominator);
-            var body = string.Format(
-                mailService.ReadTextFile(templateEmailPath),
-                setting.Nickname,
-                configuration.Value.ApplicationDomain,
-                endDate);
-
-            email.Subject = subject;
-            email.Body = body;
-            email.ReceiverEmail = setting.Email;
+            var email = new MailModel
+            {
+                Subject = subject,
+                Body = body,
+                ReceiverEmail = receiverEmail
+            };
 
             mailService.SendMailAsync(email).Wait();
         }

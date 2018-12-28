@@ -186,4 +186,34 @@
   <data name="EditPerformanceCheckin" xml:space="preserve">
     <value>Edit Performance Check-in</value>
   </data>
+  <data name="EmailSubject_CreatePCI_EvaluatorToEvaluator" xml:space="preserve">
+    <value>{0} has created a Performance Record for {1}!</value>
+  </data>
+  <data name="EmailSubject_CreatePCI_EvaluatorToMember" xml:space="preserve">
+    <value>{0} has created a Performance Record for you!</value>
+  </data>
+  <data name="EmailSubject_CreatePCI_MemberToEvaluator" xml:space="preserve">
+    <value>{0} has created a Performance Record!</value>
+  </data>
+  <data name="EmailSubject_EditPCI_EvaluatorToEvaluator" xml:space="preserve">
+    <value>{0} has edited his/her Performance Record for {1}!</value>
+  </data>
+  <data name="EmailSubject_EditPCI_EvaluatorToMember" xml:space="preserve">
+    <value>{0} has edit his/her Performance Record for you!</value>
+  </data>
+  <data name="EmailSubject_EditPCI_MemberToEvaluator" xml:space="preserve">
+    <value>{0} has edited his/her Performance Record!</value>
+  </data>
+  <data name="EmailSubject_Nomination_Remind" xml:space="preserve">
+    <value>The Nomination {0} process is almost over!</value>
+  </data>
+  <data name="EmailSubject_Nomination_Start" xml:space="preserve">
+    <value>The Nomination {0} process has begun!</value>
+  </data>
+  <data name="EmailSubject_PAFocus_Remind" xml:space="preserve">
+    <value>The PA Focus for the {0} is almost over!</value>
+  </data>
+  <data name="EmailSubject_PAFocus_Start" xml:space="preserve">
+    <value>The PA Focus for the {0} has begun!</value>
+  </data>
 </root>

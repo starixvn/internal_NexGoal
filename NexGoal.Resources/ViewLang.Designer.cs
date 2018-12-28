@@ -97,6 +97,96 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} has created a Performance Record for {1}!.
+        /// </summary>
+        public static string EmailSubject_CreatePCI_EvaluatorToEvaluator {
+            get {
+                return ResourceManager.GetString("EmailSubject_CreatePCI_EvaluatorToEvaluator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has created a Performance Record for you!.
+        /// </summary>
+        public static string EmailSubject_CreatePCI_EvaluatorToMember {
+            get {
+                return ResourceManager.GetString("EmailSubject_CreatePCI_EvaluatorToMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has created a Performance Record!.
+        /// </summary>
+        public static string EmailSubject_CreatePCI_MemberToEvaluator {
+            get {
+                return ResourceManager.GetString("EmailSubject_CreatePCI_MemberToEvaluator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has edited his/her Performance Record for {1}!.
+        /// </summary>
+        public static string EmailSubject_EditPCI_EvaluatorToEvaluator {
+            get {
+                return ResourceManager.GetString("EmailSubject_EditPCI_EvaluatorToEvaluator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has edit his/her Performance Record for you!.
+        /// </summary>
+        public static string EmailSubject_EditPCI_EvaluatorToMember {
+            get {
+                return ResourceManager.GetString("EmailSubject_EditPCI_EvaluatorToMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has edited his/her Performance Record!.
+        /// </summary>
+        public static string EmailSubject_EditPCI_MemberToEvaluator {
+            get {
+                return ResourceManager.GetString("EmailSubject_EditPCI_MemberToEvaluator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Nomination {0} process is almost over!.
+        /// </summary>
+        public static string EmailSubject_Nomination_Remind {
+            get {
+                return ResourceManager.GetString("EmailSubject_Nomination_Remind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Nomination {0} process has begun!.
+        /// </summary>
+        public static string EmailSubject_Nomination_Start {
+            get {
+                return ResourceManager.GetString("EmailSubject_Nomination_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The PA Focus for the {0} is almost over!.
+        /// </summary>
+        public static string EmailSubject_PAFocus_Remind {
+            get {
+                return ResourceManager.GetString("EmailSubject_PAFocus_Remind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The PA Focus for the {0} has begun!.
+        /// </summary>
+        public static string EmailSubject_PAFocus_Start {
+            get {
+                return ResourceManager.GetString("EmailSubject_PAFocus_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Employee Nomination.
         /// </summary>
         public static string EmployeeNomination {
