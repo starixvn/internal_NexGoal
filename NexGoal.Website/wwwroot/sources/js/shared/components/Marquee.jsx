@@ -1,9 +1,9 @@
 ﻿import React from 'react';
 
 export default function Marquee(props) {
-    return (
+    return ( 
         <div className="warning marquee" onClick={props.onClick} >
-            <span>
+            <span className={`annoucement-${props.messages.length}`}>
                 {props.messages.join(' ')}
             </span>
         </div>
