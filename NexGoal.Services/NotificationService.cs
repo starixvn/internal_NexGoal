@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
@@ -62,6 +63,29 @@
             {
                 EmployeeId = employeeId,
                 Value = settings.ToXML().ToString()
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<CommandResult> ReadNotification(int notificationId, int employeeId)
+        {
+            var criteria = new UpdateNotificationStatusCriteria
+            {
+                NotificationId = notificationId,
+                EmployeeId = employeeId,
+                StatusId = (int)NotificationStatus.Read
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<CommandResult> MarkAsReadNotification(int employeeId)
+        {
+            var criteria = new MarkAsReadNotificationCriteria
+            {
+                EmployeeId = employeeId,
+                StatusId = (int)NotificationStatus.Read
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);

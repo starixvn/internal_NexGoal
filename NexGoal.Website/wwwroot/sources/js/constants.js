@@ -1,6 +1,11 @@
 ﻿export const DateFormat = 'DD MMM YYYY';
 export const EmployeeRoleId = 101;
 
+export const NotificationStatus = {
+    Unread: 0,
+    Read: 1
+};
+
 export const StatusOptions = [
     { value: '', label: '-- All --' },
     { value: 'true', label: 'Active' },

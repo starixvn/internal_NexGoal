@@ -18,7 +18,7 @@
 
         public string Content { get; set; }
 
-        public NotificationStatus Status { get; set; }
+        public NotificationStatus StatusId { get; set; }
 
         public DateTime CreatedDate { get; set; }
     }

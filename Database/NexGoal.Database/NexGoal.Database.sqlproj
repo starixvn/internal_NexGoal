@@ -234,6 +234,8 @@
     <Build Include="dbo\Stored Procedures\Notification_GetSettingByEmployee.sql" />
     <Build Include="dbo\Stored Procedures\Notification_UpdateSetting.sql" />
     <Build Include="dbo\Stored Procedures\Notification_GetByEmployee.sql" />
+    <Build Include="dbo\Stored Procedures\Notification_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\Notification_MarkAsRead.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">

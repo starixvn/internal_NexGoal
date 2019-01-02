@@ -1,8 +1,10 @@
-﻿import React, { Component, Fragment } from 'react';
+﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import { stringify } from 'qs';
 import { axiosError, resolveClientUrl } from './common-functions';
 import getResource from './resourceHelper';
+import { NotificationStatus } from './constants';
 import NotificationSetting from './shared/components/NotificationSetting';
 import ToastLayout from './shared/layouts/ToastLayout';
 
@@ -22,20 +24,14 @@ export default class Notification extends Component {
         this.getNotifications();
     }
 
-    componentWillUnmount() {
-        document.removeEventListener('mousedown', this.handleClickOutside);
+    shouldComponentUpdate(nextProps, nextState) {
+        return (nextState.isShowNoti !== this.state.isShowNoti
+            || nextState.isShowSettingModal !== this.state.isShowSettingModal
+            || JSON.stringify(nextState.notifications) !== JSON.stringify(this.state.notifications));
     }
 
-    fakeData = () => {
-        const data = [
-            { description: 'Micheal created a performance record for you.' },
-            { description: 'Micheal created a performance record for you.' },
-            { description: 'Micheal created a performance record for you.' },
-            { description: 'Micheal created a performance record for you.' },
-            { description: 'Micheal created a performance record for you.' },
-            { description: 'Micheal created a performance record for you.' }
-        ];
-        this.setState({ notifications: data });
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClickOutside);
     }
 
     handleClickOnBell = () => {
@@ -44,12 +40,45 @@ export default class Notification extends Component {
         });
     }
 
+    handleReadNotification = (notificationId) => {
+        axios({
+            url: resolveClientUrl(`Notification/ReadNotification`),
+            method: 'post',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                notificationId: notificationId
+            }),
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            let data = response.data;
+            if (data.isSuccessful) {
+                this.getNotifications();
+            } else {
+                toast.error(data.message);
+            }
+        }).catch(axiosError);
+    }
+
     handleMarkAsRead = () => {
+        axios.get(resolveClientUrl('Notification/MarkAsReadNotification'))
+            .then(response => {
+                let data = response.data;
+
+                if (data.isSuccessful) {
+                    this.getNotifications();
+                } else {
+                    toast.error(data.message);
+                }
+            }).catch(axiosError);
     }
 
     handleClickSetting = () => {
         this.setState({
-            isShowSettingModal: true
+            isShowSettingModal: true,
+            isShowNoti: false
         });
     }
 
@@ -60,7 +89,7 @@ export default class Notification extends Component {
     }
 
     getNotifications = () => {
-        axios.get(resolveClientUrl('common/GetNotification'))
+        axios.get(resolveClientUrl('Notification/GetNotification'))
             .then(response => {
                 this.setState({
                     notifications: response.data
@@ -70,8 +99,7 @@ export default class Notification extends Component {
 
     render() {
         const notifications = this.state.notifications;
-        const totalNoti = notifications.length;
-        console.log(notifications);
+        const totalNoti = notifications.filter(noti => noti.statusId === NotificationStatus.Unread).length;
         return (
             <ToastLayout>
                 <span className="icon-notification"
@@ -86,16 +114,18 @@ export default class Notification extends Component {
                             <span className="title">{getResource('Notification')}</span>
                             <span className="noti-function">
                                 <a className="mark-read" onClick={this.handleMarkAsRead}>Mark as read</a>
-                                <span className="dash"></span>
+                                <span className="dash" />
                                 <a className="setting" onClick={this.handleClickSetting}>Settings</a>
                             </span>
-                            
+
                         </div>
                         <div className="noti-body">
                             {
                                 notifications.map(item => {
                                     return (
-                                        <div className="noti-item">
+                                        <div className={`noti-item ${item.statusId === NotificationStatus.Unread ? 'unread' : ''}`}
+                                            onClick={() => this.handleReadNotification(item.notificationId)}
+                                        >
                                             <img className="avatar" src={`https://hrm.nexcel.vn/Avatars/${item.creator.code}.jpg`} />
                                             <div className="description">{item.content}</div>
                                         </div>

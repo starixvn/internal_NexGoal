@@ -27,6 +27,7 @@ BEGIN
 		,noti.CreatedDate
 	FROM dbo.[Notification] AS noti WITH (NOLOCK)
 	WHERE EmployeeId = @EmployeeId
+	ORDER BY noti.CreatedDate DESC
 
 	SELECT e.EmployeeId
 		,e.NickName

@@ -7,7 +7,6 @@
     using NexGoal.Core.Constants;
     using NexGoal.Models;
     using NexGoal.Models.Common;
-    using NexGoal.Models.Notification;
     using NexGoal.Models.Period;
     using NexGoal.Services;
     using NexGoal.Services.Interfaces;
@@ -170,30 +169,6 @@
         public async Task<JsonResult> GetAnnouncements()
         {
             var result = await commonService.GetAnnouncements(sessionService.EmployeeId).ConfigureAwait(false);
-
-            return Json(result);
-        }
-
-        [HttpGet]
-        public async Task<JsonResult> GetNotification()
-        {
-            var result = await notificationService.GetNotification(sessionService.EmployeeId).ConfigureAwait(false);
-
-            return Json(result);
-        }
-
-        [HttpGet]
-        public async Task<JsonResult> GetNotificationSetting()
-        {
-            var result = await notificationService.GetNotificationSetting(sessionService.EmployeeId).ConfigureAwait(false);
-
-            return Json(result);
-        }
-
-        [HttpPost]
-        public async Task<JsonResult> UpdateNotiSetting(IEnumerable<NotificationSetting> settings)
-        {
-            var result = await notificationService.UpdateNotificationSetting(sessionService.EmployeeId, settings).ConfigureAwait(false);
 
             return Json(result);
         }

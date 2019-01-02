@@ -11,6 +11,10 @@
 
         Task<IEnumerable<NotificationSetting>> GetNotificationSetting(int employeeId);
 
+        Task<CommandResult> ReadNotification(int notificationId, int employeeId);
+
+        Task<CommandResult> MarkAsReadNotification(int employeeId);
+
         Task<CommandResult> UpdateNotificationSetting(int employeeId, IEnumerable<NotificationSetting> settings);
     }
 }

@@ -16,7 +16,7 @@ export default class NotificationSetting extends Component {
     }
 
     componentDidMount() {
-        axios.get(resolveClientUrl('common/GetNotificationSetting'))
+        axios.get(resolveClientUrl('Notification/GetNotificationSetting'))
             .then(response => {
                 this.setState({
                     notificationSettings: response.data
@@ -34,7 +34,7 @@ export default class NotificationSetting extends Component {
 
     saveSetting = () => {
         axios({
-            url: resolveClientUrl('Common/UpdateNotiSetting'),
+            url: resolveClientUrl('Notification/UpdateNotiSetting'),
             method: 'POST',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
