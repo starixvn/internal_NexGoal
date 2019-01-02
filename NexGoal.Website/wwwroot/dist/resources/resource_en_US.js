@@ -8,6 +8,7 @@ var resource_en_US = {
     'AddEvaluationPeriod': 'Add Evaluation Period',
     'AddNominationPeriod': 'Add Nomination Period',
     'Admin': 'Admin',
+    'Announcement': 'Announcement',
     'AssignRolesToEmployee': 'Assign Roles To Employee',
     'AverageSpentTime': 'Average Spent Time',
     'AverageWorkDays': 'Average Working Days',

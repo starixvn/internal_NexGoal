@@ -22,6 +22,8 @@ import WorkLoad from '../home/workload';
 import CreateMemberPerformance from './CreateMemberPerformance';
 import EditMemberPerformance from './EditMemberPerformance';
 import Nomination from './nomination/Nomination';
+import Announcement from '../../shared/components/Announcement';
+import Marquee from '../../shared/components/Marquee';
 
 export default class App extends Component {
     constructor(props) {
@@ -357,6 +359,10 @@ export default class App extends Component {
         });
     }
 
+    handleCloseAnnouncementModal = () => this.setState({ showAnnouncementModal: false })
+
+    handleOpenAnnouncementModal = () => this.setState({ showAnnouncementModal: true })
+
     render() {
         const nominations = this.state.nominations;
         const performanceAppraisals = this.state.performanceAppraisals;
@@ -375,11 +381,7 @@ export default class App extends Component {
                         </div>
                         <div className="main-content">
                             <div className="fixed-section">
-                                <div className="warning marquee" onClick={this.handleOpenAnnouncementModal}>
-                                    <span>
-                                        {this.state.announcements.join(' ')}
-                                    </span>
-                                </div>
+                                <Marquee messages={this.state.announcements} onClick={this.handleOpenAnnouncementModal} />
                             </div>
                             <Tabs id="tabs" activeKey={this.state.activeTabKey} onSelect={this.handleSelectTab}>
                                 <Tab eventKey={1} title="Performance">
@@ -471,6 +473,8 @@ export default class App extends Component {
                         onSubmit={this.handleDeletePerformanceRecord}
                     />
                 }
+
+                <Announcement showModal={this.state.showAnnouncementModal} onCloseModal={this.handleCloseAnnouncementModal} announcements={this.state.announcements} />
             </ToastLayout>
         );
     }

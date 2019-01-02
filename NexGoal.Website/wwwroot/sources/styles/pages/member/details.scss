@@ -16,6 +16,7 @@
 @import "../../layouts/main-layout";
 @import "../../layouts/milestone";
 @import "../../layouts/textarea-fullscreen";
+@import "../../layouts/announcement";
 @import "../home/personal-timeline";
 @import "../home/nomination-system";
 @import "../home/workload";
@@ -50,13 +51,16 @@
     .employee-info {
         align-self: center;
         font-size: 12px;
+
         @media screen and (min-width: 1601px) {
             font-size: 13px;
         }
+
         .nick-name {
             color: #2475D7;
             font-size: 11px;
             font-weight: bold;
+
             @media screen and (min-width: 1601px) {
                 font-size: 12px;
             }

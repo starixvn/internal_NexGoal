@@ -21,6 +21,7 @@ import PerformanceAppraisalResult from './PerformanceAppraisalResult';
 import PersonalTimeline from './timeline/PersonalTimeline';
 import EmployeeInfo from './EmployeeInfo';
 import Announcement from '../../shared/components/Announcement';
+import Marquee from '../../shared/components/Marquee';
 
 export default class MyPage extends Component {
     constructor(props) {
@@ -341,11 +342,7 @@ export default class MyPage extends Component {
                     </div>
                     <div className="main-content">
                         <div className="fixed-section">
-                            <div className="warning marquee" onClick={this.handleOpenAnnouncementModal} >
-                                <span>
-                                    {this.state.announcements.join(' ')}
-                                </span>
-                            </div>
+                            <Marquee messages={this.state.announcements} onClick={this.handleOpenAnnouncementModal} />
                             <PersonalTimeline
                                 data={this.state.personalTimeline}
                                 onNodeClick={this.handleClickTimelineNode}

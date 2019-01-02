@@ -21,6 +21,7 @@ import Timeline from './timeline/index';
 import Nomination from './nomination/Nomination';
 import MemberPerformanceAppraisal from './performance-appraisal/MemberPerformanceAppraisal';
 import Announcement from '../../shared/components/Announcement';
+import Marquee from '../../shared/components/Marquee';
 
 export default class App extends Component {
     constructor(props) {
@@ -346,11 +347,7 @@ export default class App extends Component {
                         </div>
                         <div className="main-content">
                             <div className="fixed-section">
-                                <div className="warning marquee" onClick={this.handleOpenAnnouncementModal}>
-                                    <span>
-                                        {this.state.announcements.join(' ')}
-                                    </span>
-                                </div>
+                                <Marquee messages={this.state.announcements} onClick={this.handleOpenAnnouncementModal} />
                             </div>
                             <Tabs id="tabs" activeKey={this.state.activeTabKey} onSelect={this.handleSelectTab} animation={false}>
                                 <Tab eventKey={1} title={getResource('Performance')}>
