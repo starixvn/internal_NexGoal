@@ -31,19 +31,37 @@
 
     .noti-header {
         padding: 5px;
+        border-bottom: 1px solid #EBEBEB;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
         .title {
             color: #777;
             text-transform: uppercase;
-            padding: 5px;
             font-weight: 600;
         }
+        .noti-function {
+            .mark-read, .setting {
+                color: #0072C7;
+            }
+            .mark-read {
+                margin-right: 8px;
+            }
+            .setting {
+                margin-left: 8px;
+            }
+            .dash {
+                width: 1px;
+                height: 16px;
+                background-color: #C5C5C5;
+                display: inline-block;
 
-        .mark-read {
-            float: right;
-            padding-right: 10px;
-            color: #0072C7;
+                position: relative;
+                top: 3px;
+            }
         }
+        
     }
 
     .noti-body {

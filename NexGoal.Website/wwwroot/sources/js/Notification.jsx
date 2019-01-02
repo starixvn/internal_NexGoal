@@ -81,8 +81,12 @@ export default class Notification extends Component {
                     <div className="noti-wrapper">
                         <div className="noti-header">
                             <span className="title">Notification</span>
-                            <a className="mark-read" onClick={this.handleMarkAsRead}>Mark as read</a> |
-                            <a className="mark-read" onClick={this.handleClickSetting}>Settings</a>
+                            <span className="noti-function">
+                                <a className="mark-read" onClick={this.handleMarkAsRead}>Mark as read</a>
+                                <span className="dash"></span>
+                                <a className="setting" onClick={this.handleClickSetting}>Settings</a>
+                            </span>
+                            
                         </div>
                         <div className="noti-body">
                             {
