@@ -89,7 +89,7 @@ export default class Notification extends Component {
                                 notifications.map(item => {
                                     return (
                                         <div className="noti-item">
-                                            <div className="avatar" />
+                                            <div className="avatar"></div>
                                             <div className="description">{item.description}</div>
                                         </div>
                                     );

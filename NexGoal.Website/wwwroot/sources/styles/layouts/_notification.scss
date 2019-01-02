@@ -2,16 +2,15 @@
     cursor: pointer;
 
     .noti-number {
-        font-size: 11px;
+        font-size: 10px;
         border: none;
-        padding: 3px;
+        padding: 1px 4px 3px;
         background-color: red;
         border-radius: 50%;
         position: absolute;
-        top: 10px;
-        left: 22px;
         text-align: center;
-        width: 18px;
+        top: -9px;
+        left: 7px;
     }
 
     .empty-noti {
@@ -27,21 +26,23 @@
     background-color: #fff;
     right: 0;
     top: 50px;
-    box-shadow: 0 10px 10px rgba(0,0,0,0.30), 0 10px 10px rgba(0,0,0,0.22);
+    box-shadow: 0 10px 10px rgba(0,0,0,0.30), 0 10px 10px rgba(0,0,0,0.22);    
+    font-size: 12px;
 
     .noti-header {
         padding: 5px;
 
         .title {
-            color: #ccc;
+            color: #777;
             text-transform: uppercase;
             padding: 5px;
+            font-weight: 600;
         }
 
         .mark-read {
-            display: inline-block;
             float: right;
             padding-right: 10px;
+            color: #0072C7;
         }
     }
 
@@ -51,8 +52,20 @@
         .noti-item {
             padding: 10px;
             margin: 5px;
-            background-color: #EBF4FF;
-            border-radius: 3px
+            background-color: #E0F3FF;
+            border-radius: 3px;
+            display: flex;
+            .description {
+                color:#474747;
+                flex: auto;
+                padding-left: 12px;
+            }
+            .avatar {
+                @include border-radius(50%);
+                background-color: #2270CE;         
+                flex: 0 0 32px;  
+                height: 32px;     
+            }
         }
     }
 
