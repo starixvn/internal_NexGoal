@@ -175,6 +175,14 @@
         }
 
         [HttpGet]
+        public async Task<JsonResult> GetNotification()
+        {
+            var result = await notificationService.GetNotification(sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(result);
+        }
+
+        [HttpGet]
         public async Task<JsonResult> GetNotificationSetting()
         {
             var result = await notificationService.GetNotificationSetting(sessionService.EmployeeId).ConfigureAwait(false);

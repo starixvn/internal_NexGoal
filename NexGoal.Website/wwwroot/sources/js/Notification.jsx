@@ -2,7 +2,9 @@
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { axiosError, resolveClientUrl } from './common-functions';
+import getResource from './resourceHelper';
 import NotificationSetting from './shared/components/NotificationSetting';
+import ToastLayout from './shared/layouts/ToastLayout';
 
 export default class Notification extends Component {
     constructor(props) {
@@ -17,7 +19,7 @@ export default class Notification extends Component {
 
     componentDidMount() {
         document.addEventListener('mousedown', this.handleClickOutside);
-        this.fakeData();
+        this.getNotifications();
     }
 
     componentWillUnmount() {
@@ -69,8 +71,9 @@ export default class Notification extends Component {
     render() {
         const notifications = this.state.notifications;
         const totalNoti = notifications.length;
+        console.log(notifications);
         return (
-            <Fragment>
+            <ToastLayout>
                 <span className="icon-notification"
                     onClick={this.handleClickOnBell}
                 >
@@ -80,7 +83,7 @@ export default class Notification extends Component {
                     this.state.isShowNoti &&
                     <div className="noti-wrapper">
                         <div className="noti-header">
-                            <span className="title">Notification</span>
+                            <span className="title">{getResource('Notification')}</span>
                             <span className="noti-function">
                                 <a className="mark-read" onClick={this.handleMarkAsRead}>Mark as read</a>
                                 <span className="dash"></span>
@@ -93,8 +96,8 @@ export default class Notification extends Component {
                                 notifications.map(item => {
                                     return (
                                         <div className="noti-item">
-                                            <div className="avatar"></div>
-                                            <div className="description">{item.description}</div>
+                                            <img className="avatar" src={`https://hrm.nexcel.vn/Avatars/${item.creator.code}.jpg`} />
+                                            <div className="description">{item.content}</div>
                                         </div>
                                     );
                                 })
@@ -110,7 +113,7 @@ export default class Notification extends Component {
                         onCloseModal={this.handleCancelSetting}
                     />
                 }
-            </Fragment>
+            </ToastLayout>
         );
     }
 }
