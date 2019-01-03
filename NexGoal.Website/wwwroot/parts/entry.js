@@ -27,6 +27,7 @@ module.exports = {
         [`${jsDistPath}/main`]: "./sources/js/main.js",
         [`${jsDistPath}/search-member`]: "./sources/js/SearchMember.jsx",
         [`${jsDistPath}/notification`]: "./sources/js/Notification.jsx",
+        [`${jsDistPath}/notification-center`]: `${jsSourcePath}/notification/index.jsx`,
         [`${jsDistPath}/home`]: `${jsSourcePath}/home/index.jsx`,
         [`${jsDistPath}/assignpermission`]: `${jsSourcePath}/role/index.jsx`,
         [`${jsDistPath}/employeemanagement`]: `${jsSourcePath}/employeemanagement/index.jsx`,

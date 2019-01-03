@@ -1,5 +1,7 @@
 ﻿import React, { Fragment, Component } from 'react';
 import moment from 'moment';
+import axios from 'axios';
+import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { DateFormat } from '../../../constants';
 import getResource from '../../../resourceHelper';
 import Discipline from './DisciplineModal';
@@ -8,12 +10,24 @@ export default class HRM extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            hrmDetail: {},
             isShowModal: false
         };
     }
 
+    componentDidMount() {
+        axios.get(resolveClientUrl('Common/GetHRMSummary'), {
+            params: {
+                memberId: this.props.memberId ? this.props.memberId : null
+            }
+        }).then(response =>
+            this.setState({
+                hrmDetail: response.data
+            })).catch(axiosError);
+    }
+
     shouldComponentUpdate(nextProps, nextState) {
-        if (JSON.stringify(nextProps.hrmDetail) !== JSON.stringify(this.props.hrmDetail)
+        if (JSON.stringify(nextState.hrmDetail) !== JSON.stringify(this.state.hrmDetail)
             || nextState.isShowModal !== this.state.isShowModal
             || nextProps.memberId !== this.props.memberId) {
             return true;
@@ -60,7 +74,7 @@ export default class HRM extends Component {
     }
 
     render() {
-        const hrm = this.props.hrmDetail;
+        const hrm = this.state.hrmDetail;
         const memberId = this.props.memberId ? this.props.memberId : null;
         return (
             <div className="hrm-summary box">

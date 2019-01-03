@@ -50,7 +50,6 @@ export default class MyPage extends Component {
                 nextDisabled: false,
                 prevDisabled: false
             },
-            hrmDetail: {},
             currentUserInfo: getCurrentUserInfo(),
             showAnnouncementModal: false
         };
@@ -66,7 +65,6 @@ export default class MyPage extends Component {
             axios(resolveClientUrl('Common/GetProjects')),
             axios(resolveClientUrl('Self/Performance')),
             axios(resolveClientUrl('Common/GetAllPeriods')),
-            axios(resolveClientUrl('common/GetHRMSummary')),
             axios(resolveClientUrl('home/GetNominationResult')),
             axios(resolveClientUrl('home/GetPerformanceAppraisalResult')),
             axios(resolveClientUrl('self/Performance/Timeline'), {
@@ -79,7 +77,7 @@ export default class MyPage extends Component {
         ];
 
         Promise.all(promises)
-            .then(([gradeResponse, projectResponse, performanceRecordResponse, periodResponse, hrmDetailResponse, nominationResponse, performanceAppraisalsResponse, personalTimelineResponse, announcementsResponse]) => {
+            .then(([gradeResponse, projectResponse, performanceRecordResponse, periodResponse, nominationResponse, performanceAppraisalsResponse, personalTimelineResponse, announcementsResponse]) => {
                 const performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
                     return {
                         value: performanceGrade.gradeId,
@@ -104,7 +102,6 @@ export default class MyPage extends Component {
                         nextDisabled: true,
                         prevDisabled: this.timelineItemPerPage >= personalTimelineResponse.data.totalItems
                     },
-                    hrmDetail: hrmDetailResponse.data,
                     nominations: nominationResponse.data,
                     performanceAppraisals: performanceAppraisalsResponse.data,
                     displayedPerformanceRecords: displayedPerformanceRecords,
@@ -388,7 +385,7 @@ export default class MyPage extends Component {
                                 this.state.periods.length > 0 &&
                                 <WorkLoad periods={this.state.periods} />
                             }
-                            <HrmSummary hrmDetail={this.state.hrmDetail} />
+                            <HrmSummary />
                         </div>
                     </div>
                     <ReactTooltip id="tooltip" place="bottom" type="info" html className="tooltip" />

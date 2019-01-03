@@ -1,0 +1,15 @@
+﻿@using NexGoal.Resources
+
+@{
+    ViewData["Title"] = ViewLang.MyPage;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/dist/styles/home.css" />
+}
+
+<div id="notification-center"></div>
+
+@section Scripts{
+    <script src="~/dist/js/notification-center.js" asp-append-version="true"></script>
+}

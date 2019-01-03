@@ -5,7 +5,6 @@ import { Tabs, Tab } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroller';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
-
 import { axiosError, calculateTimelineNode, getCurrentUserInfo, resolveClientUrl } from '../../common-functions';
 import { PerformanceRecordStatus } from '../../constants';
 import getResource from '../../resourceHelper';
@@ -64,7 +63,6 @@ export default class App extends Component {
             performanceGradeOptions: [],
             projectOptions: [],
             announcements: [],
-            hrmDetails: {},
             hasMore: false,
             activeTabKey: 1,
             loadNominationTab: false
@@ -85,7 +83,6 @@ export default class App extends Component {
             axios(resolveClientUrl('member/GetMemberNominationResult'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/GetMemberPerformanceAppraisalResult'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/Performance'), { params: { memberId: memberId } }),
-            axios(resolveClientUrl('common/GetHRMSummary'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('Member/Performance/Timeline'), {
                 params: {
                     employeeId: this.state.memberInfo.id,
@@ -98,7 +95,7 @@ export default class App extends Component {
 
         Promise.all(promises)
             .then(([periodResponse, gradeResponse, projectResponse, roleResponse,
-                nominationResponse, performanceAppraisalResponse, performanceRecordResponse, hrmResponse, timelineResponse, announcementResponse]) => {
+                nominationResponse, performanceAppraisalResponse, performanceRecordResponse, timelineResponse, announcementResponse]) => {
                 let displayedPerformanceRecords = performanceRecordResponse.data.slice(0, this.itemPerPage);
 
                 const performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
@@ -131,7 +128,6 @@ export default class App extends Component {
                     displayedPerformanceRecords: displayedPerformanceRecords,
                     performanceRecords: performanceRecordResponse.data,
                     announcements: announcementResponse.data,
-                    hrmDetails: hrmResponse.data,
                     hasMore: displayedPerformanceRecords.length < performanceRecordResponse.data.length
                 });
             }).catch(axiosError);
@@ -445,7 +441,7 @@ export default class App extends Component {
                                 this.state.periods.length > 0 &&
                                 <WorkLoad periods={this.state.periods} memberId={this.state.memberInfo.id} />
                             }
-                            <HrmSummary hrmDetail={this.state.hrmDetails} memberId={this.state.memberInfo.id} />
+                            <HrmSummary memberId={this.state.memberInfo.id} />
                         </div>
 
                     </div>

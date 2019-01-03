@@ -136,7 +136,7 @@ export default class Notification extends Component {
                                 })
                             }
                         </div>
-                        <a className="show-all-noti" href="">View all</a>
+                        <a className="show-all-noti" href="/Notification">View all</a>
                     </div>
                 }
                 {

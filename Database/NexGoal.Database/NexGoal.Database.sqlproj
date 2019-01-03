@@ -236,6 +236,7 @@
     <Build Include="dbo\Stored Procedures\Notification_GetByEmployee.sql" />
     <Build Include="dbo\Stored Procedures\Notification_UpdateStatus.sql" />
     <Build Include="dbo\Stored Procedures\Notification_MarkAsRead.sql" />
+    <Build Include="dbo\Stored Procedures\Discipline_GetCurrentPeriodByEmployee.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">

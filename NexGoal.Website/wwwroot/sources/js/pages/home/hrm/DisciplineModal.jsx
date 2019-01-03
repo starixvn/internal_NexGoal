@@ -19,11 +19,10 @@ export default class Discipline extends Component {
             params: {
                 memberId: this.props.memberId ? this.props.memberId : null
             }
-        })
-            .then(response =>
-                this.setState({
-                    disciplines: response.data
-                })).catch(axiosError);
+        }).then(response =>
+            this.setState({
+                disciplines: response.data
+            })).catch(axiosError);
     }
 
     renderDisciplines = (disciplines) => {

@@ -19,6 +19,11 @@
             this.notificationService = notificationService;
         }
 
+        public ActionResult Index()
+        {
+            return View();
+        }
+
         [HttpGet]
         public async Task<JsonResult> GetNotification()
         {
