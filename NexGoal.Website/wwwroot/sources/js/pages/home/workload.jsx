@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { Doughnut } from 'react-chartjs-2';
 
-import { axiosError, resolveClientUrl, noDataIndication } from '../../common-functions';
+import { axiosError, resolveClientUrl } from '../../common-functions';
 import { ChartColors } from '../../constants';
 import getResource from '../../resourceHelper';
 import Milestone from '../../shared/components/milestone';

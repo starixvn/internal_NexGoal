@@ -99,13 +99,16 @@ export default class Notification extends Component {
 
     render() {
         const notifications = this.state.notifications;
-        const totalNoti = notifications.filter(noti => noti.statusId === NotificationStatus.Unread).length;
+        const unreadNoti = notifications.filter(noti => noti.statusId === NotificationStatus.Unread).length;
         return (
             <ToastLayout>
                 <span className="icon-notification"
                     onClick={this.handleClickOnBell}
                 >
-                    <span className={`noti-number ${totalNoti === 0 ? 'empty-noti' : ''}`}>{totalNoti}</span>
+                    {
+                        unreadNoti > 0 &&
+                        <span className={`noti-number ${unreadNoti === 0 ? 'empty-noti' : ''}`}>{unreadNoti}</span>
+                    }
                 </span>
                 {
                     this.state.isShowNoti &&

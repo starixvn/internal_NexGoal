@@ -14,7 +14,8 @@ export default class HRM extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         if (JSON.stringify(nextProps.hrmDetail) !== JSON.stringify(this.props.hrmDetail)
-            || nextState.isShowModal !== this.state.isShowModal) {
+            || nextState.isShowModal !== this.state.isShowModal
+            || nextProps.memberId !== this.props.memberId) {
             return true;
         }
         return false;
@@ -60,6 +61,7 @@ export default class HRM extends Component {
 
     render() {
         const hrm = this.props.hrmDetail;
+        const memberId = this.props.memberId ? this.props.memberId : null;
         return (
             <div className="hrm-summary box">
                 <h5>{getResource('Hrm')}</h5>
@@ -76,7 +78,8 @@ export default class HRM extends Component {
                 </ul>
                 {
                     this.state.isShowModal &&
-                    <Discipline disciplines={hrm.disciplines}
+                    <Discipline
+                        memberId={memberId}
                         isShowModal={this.state.isShowModal}
                         onCloseModal={this.onCloseModal}
                     />

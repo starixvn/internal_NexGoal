@@ -7,9 +7,9 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Models;
     using NexGoal.Models.Common;
+    using NexGoal.Models.Discipline;
     using NexGoal.Models.Period;
     using NexGoal.Services;
-    using NexGoal.Services.Interfaces;
     using NexGoal.Web.Core.Services;
     using NSubstitute;
     using Xunit;
@@ -19,7 +19,7 @@
         private ISessionService sessionService;
         private ICommonService commonService;
         private IEmployeeService employeeService;
-        private INotificationService notificationService;
+        private IDisciplineService disciplineService;
 
         [Fact]
         public async Task GetEmployees_WhenCalled_ReturnAsExpectedEmployees()
@@ -97,6 +97,21 @@
             var result = await controller.GetHRMSummary();
 
             Assert.IsType<JsonResult>(result);
+        }
+
+        [Fact]
+        public async Task GetDiscipline_WhenCalled_ReturnExpected()
+        {
+            var controller = GetCommonController();
+            var expectResult = new List<DisciplineModel> { new DisciplineModel { DisciplineId = 1 } };
+
+            disciplineService.GetCurrentPeriodDisciplineAsync(sessionService.EmployeeId).Returns(expectResult);
+
+            var jsonResult = await controller.GetDiscipline();
+
+            Assert.IsType<JsonResult>(jsonResult);
+            var result = Assert.IsAssignableFrom<IEnumerable<DisciplineModel>>(jsonResult.Value);
+            Assert.Equal(result, expectResult);
         }
 
         [Fact]
@@ -332,8 +347,8 @@
             sessionService = FakeSessionService();
             commonService = Substitute.For<ICommonService>();
             employeeService = Substitute.For<IEmployeeService>();
-            notificationService = Substitute.For<INotificationService>();
-            var controller = new CommonController(sessionService, commonService, employeeService, notificationService);
+            disciplineService = Substitute.For<IDisciplineService>();
+            var controller = new CommonController(sessionService, commonService, employeeService, disciplineService);
 
             return controller;
         }

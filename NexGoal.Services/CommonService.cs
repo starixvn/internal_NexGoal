@@ -11,7 +11,6 @@
     using NexGoal.Criteria.Periods;
     using NexGoal.Models;
     using NexGoal.Models.Common;
-    using NexGoal.Models.Discipline;
 
     public class CommonService : ICommonService
     {
@@ -131,10 +130,9 @@
                 EmployeeId = employeeId
             };
 
-            var tuple = await baseService.FetchMultipleAsync<HRMSummaryModel, DisciplineModel>(criteria).ConfigureAwait(false);
+            var hrm = await baseService.GetDataEntityAsync<HRMSummaryModel>(criteria).ConfigureAwait(false);
 
-            tuple.Item1.FirstOrDefault().Disciplines = tuple.Item2;
-            return tuple.Item1.FirstOrDefault();
+            return hrm;
         }
 
         public async Task<IEnumerable<string>> GetAnnouncements(int employeeId)

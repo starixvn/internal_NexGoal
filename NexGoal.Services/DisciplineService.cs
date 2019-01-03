@@ -67,5 +67,15 @@
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
+
+        public async Task<IEnumerable<DisciplineModel>> GetCurrentPeriodDisciplineAsync(int employeeId)
+        {
+            var criteria = new GetCurrentPeriodDisciplineCriteria
+            {
+                EmployeeId = employeeId
+            };
+
+            return await baseService.GetDataAsync<DisciplineModel>(criteria).ConfigureAwait(false);
+        }
     }
 }

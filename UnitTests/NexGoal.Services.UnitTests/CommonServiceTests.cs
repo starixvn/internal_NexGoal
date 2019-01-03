@@ -1,6 +1,5 @@
 namespace NexGoal.Services.UnitTests
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -10,7 +9,6 @@ namespace NexGoal.Services.UnitTests
     using NexGoal.Criteria.Periods;
     using NexGoal.Models;
     using NexGoal.Models.Common;
-    using NexGoal.Models.Discipline;
     using NSubstitute;
     using Xunit;
 
@@ -113,20 +111,15 @@ namespace NexGoal.Services.UnitTests
         [Fact]
         public async Task GetHRMSummary_WhenCalled_ReturnExpectedResult()
         {
-            var item1 = new List<HRMSummaryModel> { new HRMSummaryModel { UnpaidLeave = 1 } };
+            var expected = new HRMSummaryModel { UnpaidLeave = 1 };
 
-            var item2 = new List<DisciplineModel>();
-            Tuple<IEnumerable<HRMSummaryModel>, IEnumerable<DisciplineModel>> tuple = new Tuple<IEnumerable<HRMSummaryModel>, IEnumerable<DisciplineModel>>(item1, item2);
-
-            item1.FirstOrDefault().Disciplines = item2;
-            var expectResult = item1.FirstOrDefault();
             var service = GetCommonService();
 
-            baseService.FetchMultipleAsync<HRMSummaryModel, DisciplineModel>(Arg.Any<GetHRMSummaryCriteria>()).Returns(tuple);
+            baseService.GetDataEntityAsync<HRMSummaryModel>(Arg.Any<GetHRMSummaryCriteria>()).Returns(expected);
 
             var actual = await service.GetHRMSummary(363);
 
-            Assert.Equal(expectResult, actual);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]

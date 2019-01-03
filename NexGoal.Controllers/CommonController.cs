@@ -9,7 +9,6 @@
     using NexGoal.Models.Common;
     using NexGoal.Models.Period;
     using NexGoal.Services;
-    using NexGoal.Services.Interfaces;
     using NexGoal.Web.Core.Services;
 
     public class CommonController : Controller
@@ -17,18 +16,18 @@
         private readonly ISessionService sessionService;
         private readonly ICommonService commonService;
         private readonly IEmployeeService employeeService;
-        private readonly INotificationService notificationService;
+        private readonly IDisciplineService disciplineService;
 
         public CommonController(
             ISessionService sessionService,
             ICommonService commonService,
             IEmployeeService employeeService,
-            INotificationService notificationService)
+            IDisciplineService disciplineService)
         {
             this.sessionService = sessionService;
             this.commonService = commonService;
             this.employeeService = employeeService;
-            this.notificationService = notificationService;
+            this.disciplineService = disciplineService;
         }
 
         [HttpGet]
@@ -137,6 +136,15 @@
             var HRMSummay = await commonService.GetHRMSummary(employeeId).ConfigureAwait(false);
 
             return Json(HRMSummay);
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetDiscipline(int? memberId = null)
+        {
+            var employeeId = memberId ?? sessionService.EmployeeId;
+            var disciplines = await disciplineService.GetCurrentPeriodDisciplineAsync(employeeId).ConfigureAwait(false);
+
+            return Json(disciplines);
         }
 
         [HttpGet]

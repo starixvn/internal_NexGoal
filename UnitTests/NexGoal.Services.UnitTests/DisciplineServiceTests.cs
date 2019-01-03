@@ -36,6 +36,27 @@
         }
 
         [Fact]
+        public async Task GetDisciplineCurrentPeriodAsync_WhenCalled_ReturnAsExpectedDisciplines()
+        {
+            // Arrange
+            var expected = new List<DisciplineModel>
+            {
+                new DisciplineModel
+                {
+                    DisciplineId = 1
+                }
+            };
+            var service = GetDisciplineService();
+            baseService.GetDataAsync<DisciplineModel>(Arg.Any<GetCurrentPeriodDisciplineCriteria>()).Returns(expected);
+
+            // Act
+            var actual = await service.GetCurrentPeriodDisciplineAsync(363);
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
         public async Task EditStatusAsync_WhenCalled_ReturnAsExpectedCommandResult()
         {
             // Arrange

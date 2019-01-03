@@ -445,7 +445,7 @@ export default class App extends Component {
                                 this.state.periods.length > 0 &&
                                 <WorkLoad periods={this.state.periods} memberId={this.state.memberInfo.id} />
                             }
-                            <HrmSummary hrmDetail={this.state.hrmDetails} />
+                            <HrmSummary hrmDetail={this.state.hrmDetails} memberId={this.state.memberInfo.id} />
                         </div>
 
                     </div>
