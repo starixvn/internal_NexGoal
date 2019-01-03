@@ -109,6 +109,7 @@ var resource_en_US = {
     'PerformanceAppraisalReport': 'Performance Appraisal Report',
     'Period': 'Period',
     'Personal': 'Personal',
+    'PMSetting': 'Project Manager Setting',
     'ProjectManager': 'Project Manager',
     'ProjectTag': 'Project Tag',
     'Publish': 'Publish',

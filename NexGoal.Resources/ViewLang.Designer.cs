@@ -295,6 +295,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PM Setting.
+        /// </summary>
+        public static string PMSetting {
+            get {
+                return ResourceManager.GetString("PMSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remind Date For Nominator.
         /// </summary>
         public static string RemindDateForNominator {

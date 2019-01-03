@@ -216,4 +216,7 @@
   <data name="EmailSubject_PAFocus_Start" xml:space="preserve">
     <value>The PA Focus for the {0} has begun!</value>
   </data>
+  <data name="PMSetting" xml:space="preserve">
+    <value>PM Setting</value>
+  </data>
 </root>

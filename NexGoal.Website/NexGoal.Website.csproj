@@ -58,6 +58,12 @@
     <Folder Include="wwwroot\sources\js\pages\home\__tests__\__snapshots__\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\PMSetting\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
   <ProjectExtensions>
     <VisualStudio>
       <UserProperties wwwroot_4package_1json__JSONSchema="http://json.schemastore.org/modernizrrc" />

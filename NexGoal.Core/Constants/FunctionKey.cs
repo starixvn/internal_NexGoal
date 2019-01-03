@@ -12,5 +12,6 @@
         public const string EmployeeNomination = "EmployeeNomination";
         public const string PAFocus = "PAFocus";
         public const string NominationReport = "NominationReport";
+        public const string PMSetting = "PMSetting";
     }
 }
