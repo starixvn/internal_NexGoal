@@ -21,7 +21,16 @@
 #nomination-assessment-wrapper {
     margin-bottom: 24px;
 }
-
+.no-info {
+    background-color: #FFF7E2;
+    border: 1px solid #DFC681;
+    color: #AA6A00;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    padding: 4px 0;
+    margin-top: 12px;
+}
 .tbl-nomination-assessment {
     .title {
         height: 50px;

@@ -60,17 +60,29 @@
             float: left;
             margin-right: 8px;
 
-            &.icon-nomination {
-                background-color: #324476;
+            &[class*="icon-status"] {
                 text-align: center;
-                padding-top: 10px;
+                padding-top: 8px;
 
                 &:before {
                     color: #fff;
-                    font-size: 18px;
+                    font-size: 20px;
                 }
             }
-
+            &.icon-status-nomination {
+                background-color: $status-nomination-color;
+            }
+            &.icon-status-winner {
+                background: #324476;
+                background-repeat: no-repeat;
+                background-position: 50% 50%;
+                &.eoq {
+                   background-image: url('../../images/winner-eoq.svg'), linear-gradient( to top right, #5E6E9C, #324476);                   
+                }
+                &.eoy {
+                    background-image: url('../../images/winner-eoy.svg'), linear-gradient( to top right, #5E6E9C, #324476);
+                }
+            }
             &.nexgoal-system {
                 background-color: #324476;
                 text-align: center;

@@ -133,6 +133,6 @@ export default class EOQAssessment extends Component {
             );
         }
 
-        return 'There is no on going nomination';
+        return <div className='no-info'>There is no on going nomination</div>;
     }
 }

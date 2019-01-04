@@ -20,6 +20,12 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-status-nomination:before {
+    content: "\e930";
+}
+.icon-status-shortlisted:before {
+    content: "\e931";
+}
 .icon-comment-eye-outline:before {
     content: "\e92f";
 }

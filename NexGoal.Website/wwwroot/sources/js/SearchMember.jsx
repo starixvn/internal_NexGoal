@@ -68,14 +68,19 @@ export default class SearchMember extends Component {
                     this.state.hasMember &&
                     <div className={`search-member-container ${this.state.showSearchbox ? 'focused' : ''}`}>
                         <span className="icon-search" onClick={this.handleClick} />
-                        {
+                        {/* {
                             this.state.showSearchbox &&
                             <input
                                 autoFocus
                                 placeholder="nickname or full name"
                                 onChange={this.handleChange}
                             />
-                        }
+                        } */}
+                        <input
+                                autoFocus
+                                placeholder="nickname or full name"
+                                onChange={this.handleChange}
+                            />
                     </div>
                 }
                 {

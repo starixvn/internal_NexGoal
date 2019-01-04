@@ -31,8 +31,7 @@
     }
 
     .empty-noti {
-        background-color: #fff;
-        color: #000;
+        display: none;
     }
 }
 
@@ -91,6 +90,7 @@
             margin: 5px;
             border-radius: 3px;
             display: flex;
+            background-color: #F2F5F7;
 
             &.unread {
                 cursor: pointer;
