@@ -8,6 +8,7 @@ import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import SearchForm from './SearchForm';
+import Table from './Table';
 
 export default class PMSetting extends Component {
     constructor(props) {
@@ -17,7 +18,9 @@ export default class PMSetting extends Component {
             filter: {
                 pms: []
             },
-            pmOptions: []
+            pmOptions: [],
+            pms: [],
+            tableData: []
         }
     }
 
@@ -43,11 +46,19 @@ export default class PMSetting extends Component {
                     pms: pmOptions
                 };
 
-                this.setState({ filter: filter, pmOptions: pmOptions }, this.getPMSetting);
+                this.setState({ filter: filter, pmOptions: pmOptions, pms: employeeResponse.data }, this.getPMSetting);
             }).catch(axiosError);
     }
 
     getPMSetting = () => {
+        let pms = this.state.pms.filter(e => this.state.filter.pms.some(p => p.value === e.employeeId));
+
+        this.setState({
+            tableData: pms.map(pm => ({
+                pm: pm,
+                employees: []
+            }))
+        });
     }
 
     handleFilterChange = (name, value) => {
@@ -68,6 +79,7 @@ export default class PMSetting extends Component {
                         onFilterChange={this.handleFilterChange}
                         onFilterSubmit={this.getPMSetting}
                     />
+                    <Table tableData={this.state.tableData} />
                 </div>
                 <ToastLayout />
             </div>

@@ -28,6 +28,7 @@
             services.AddScoped<IExportPAFocusService, ExportPAFocusService>();
             services.AddScoped<INominationReportService, NominationReportService>();
             services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<IPMSettingService, PMSettingService>();
         }
     }
 }
