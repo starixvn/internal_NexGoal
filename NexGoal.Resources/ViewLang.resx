@@ -186,22 +186,22 @@
   <data name="EditPerformanceCheckin" xml:space="preserve">
     <value>Edit Performance Check-in</value>
   </data>
-  <data name="EmailSubject_CreatePCI_EvaluatorToEvaluator" xml:space="preserve">
+  <data name="EmailSubject_CreatePCI_SupervisorToSupervisor" xml:space="preserve">
     <value>{0} has created a Performance Record for {1}!</value>
   </data>
-  <data name="EmailSubject_CreatePCI_EvaluatorToMember" xml:space="preserve">
+  <data name="EmailSubject_CreatePCI_SupervisorToMember" xml:space="preserve">
     <value>{0} has created a Performance Record for you!</value>
   </data>
-  <data name="EmailSubject_CreatePCI_MemberToEvaluator" xml:space="preserve">
+  <data name="EmailSubject_CreatePCI_MemberToSupervisor" xml:space="preserve">
     <value>{0} has created a Performance Record!</value>
   </data>
-  <data name="EmailSubject_EditPCI_EvaluatorToEvaluator" xml:space="preserve">
+  <data name="EmailSubject_EditPCI_SupervisorToSupervisor" xml:space="preserve">
     <value>{0} has edited his/her Performance Record for {1}!</value>
   </data>
-  <data name="EmailSubject_EditPCI_EvaluatorToMember" xml:space="preserve">
+  <data name="EmailSubject_EditPCI_SupervisorToMember" xml:space="preserve">
     <value>{0} has edit his/her Performance Record for you!</value>
   </data>
-  <data name="EmailSubject_EditPCI_MemberToEvaluator" xml:space="preserve">
+  <data name="EmailSubject_EditPCI_MemberToSupervisor" xml:space="preserve">
     <value>{0} has edited his/her Performance Record!</value>
   </data>
   <data name="EmailSubject_Nomination_Remind" xml:space="preserve">
@@ -218,5 +218,17 @@
   </data>
   <data name="PMSetting" xml:space="preserve">
     <value>PM Setting</value>
+  </data>
+  <data name="EmailSubject_PA_EndEvaluation" xml:space="preserve">
+    <value>The Performance Appraisal for the {0} is complete!</value>
+  </data>
+  <data name="EmailSubject_PA_RemindStartEvaluation" xml:space="preserve">
+    <value>The Performance Appraisal for the {0} is coming!</value>
+  </data>
+  <data name="EmailSubject_PA_RemindToReviewer" xml:space="preserve">
+    <value>The Performance Appraisal for the {0} is almost over!</value>
+  </data>
+  <data name="EmailSubject_PA_StartToReviewer" xml:space="preserve">
+    <value>The Performance Appraisal for the {0} has begun!</value>
   </data>
 </root>

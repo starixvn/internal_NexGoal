@@ -38,10 +38,10 @@
                 periodService.CreateEmployeeSettings();
                 periodService.GeneratePA();
 
+                paService.SendMail();
                 paService.EditGrade();
                 paService.EditWhenEvaluationFinished();
                 paService.EditStatus();
-                paService.SendMail();
 
                 focusService.Generate();
                 focusService.SendMail();

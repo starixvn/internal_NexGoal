@@ -13,10 +13,12 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Resources;
 
     public class PAService : IPAService
     {
         private const string RemindStartEvaluationMailTemplateToSelf = "EmailTemplates\\PA\\RemindStartToSelf.cshtml";
+        private const string RemindStartEvaluationMailTemplateToSupervisor = "EmailTemplates\\PA\\RemindStartToSupervisor.cshtml";
         private const string StartMailTemplateToReviewer = "EmailTemplates\\PA\\StartToReviewer.cshtml";
         private const string RemindMailTemplateToReviewer = "EmailTemplates\\PA\\RemindToReviewer.cshtml";
         private const string EndEvaluationMailTemplateToSelf = "EmailTemplates\\PA\\EndToSelf.cshtml";
@@ -84,17 +86,18 @@
             var tuple = baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(criteria).Result;
 
             var path = Directory.GetCurrentDirectory();
-            var remindStartEvaluationMailPath = Path.Combine(path, RemindStartEvaluationMailTemplateToSelf);
-            var startMailPath = Path.Combine(path, StartMailTemplateToReviewer);
-            var remindMailPath = Path.Combine(path, RemindMailTemplateToReviewer);
+            var remindStartEvaluationToSelfPath = Path.Combine(path, RemindStartEvaluationMailTemplateToSelf);
+            var remindStartEvaluationToSupervisorPath = Path.Combine(path, RemindStartEvaluationMailTemplateToSupervisor);
+            var startToReviewerPath = Path.Combine(path, StartMailTemplateToReviewer);
+            var remindToReviewerPath = Path.Combine(path, RemindMailTemplateToReviewer);
             var endEvaluationMailPath = Path.Combine(path, EndEvaluationMailTemplateToSelf);
 
             foreach (PeriodModel period in tuple.Item1)
             {
-                var subjectRemindStartEvaluationMail = string.Format("Reminder: [NexGoal] {0}", period.Name);
-                var subjectStartMail = string.Format("[NexGoal] {0} - Review", period.Name);
-                var subjectRemindMail = string.Format("Reminder: [NexGoal] {0} - Review", period.Name);
-                var subjectEndEvaluationMail = string.Format("[NexGoal] {0} - Completed", period.Name);
+                var subjectRemindStartEvaluationMail = string.Format(ViewLang.EmailSubject_PA_RemindStartEvaluation, period.Name);
+                var subjectStartMail = string.Format(ViewLang.EmailSubject_PA_StartToReviewer, period.Name);
+                var subjectRemindMail = string.Format(ViewLang.EmailSubject_PA_RemindToReviewer, period.Name);
+                var subjectEndEvaluationMail = string.Format(ViewLang.EmailSubject_PA_EndEvaluation, period.Name);
                 var body = string.Empty;
 
                 foreach (ProcessSettingModel setting in tuple.Item2)
@@ -103,14 +106,20 @@
                     {
                         case MailMode.RemindStartEvaluation:
                             body = string.Format(
-                                mailService.ReadTextFile(remindStartEvaluationMailPath),
-                                setting.Nickname);
+                                mailService.ReadTextFile(
+                                    setting.ProcessId == PerformanceProcess.Self
+                                    ? remindStartEvaluationToSelfPath
+                                    : remindStartEvaluationToSupervisorPath),
+                                setting.Nickname,
+                                period.Name,
+                                mailService.FormatStartDate(period.StartDate),
+                                configuration.Value.ApplicationDomain);
                             SendEmail(subjectRemindStartEvaluationMail, body, setting);
                             break;
 
                         case MailMode.Start:
                             body = string.Format(
-                                mailService.ReadTextFile(startMailPath),
+                                mailService.ReadTextFile(startToReviewerPath),
                                 setting.Nickname,
                                 configuration.Value.ApplicationDomain,
                                 mailService.FormatStartDate(setting.StartDate),
@@ -120,7 +129,7 @@
 
                         case MailMode.Remind:
                             body = string.Format(
-                                mailService.ReadTextFile(remindMailPath),
+                                mailService.ReadTextFile(remindToReviewerPath),
                                 setting.Nickname,
                                 configuration.Value.ApplicationDomain,
                                 mailService.FormatStartDate(setting.StartDate),

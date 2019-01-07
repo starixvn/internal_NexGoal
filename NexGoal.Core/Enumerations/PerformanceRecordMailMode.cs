@@ -2,7 +2,8 @@
 {
     public enum PerformanceRecordMailMode
     {
-        Create = 1,
-        Edit = 2
+        MemberToSupervisor = 1,
+        SupervisorToMember,
+        SupervisorToSupervisor
     }
 }

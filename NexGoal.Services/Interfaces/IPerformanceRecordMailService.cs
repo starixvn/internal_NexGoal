@@ -5,6 +5,6 @@
 
     public interface IPerformanceRecordMailService
     {
-        Task SendMailAsync(string performanceRecordIds, int actorId, PerformanceRecordMailMode mailMode);
+        Task SendMailAsync(string performanceRecordIds, int actorId, ActionOnPerformanceRecord action);
     }
 }

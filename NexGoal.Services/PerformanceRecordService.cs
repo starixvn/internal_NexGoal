@@ -174,7 +174,7 @@
 
             if (commandResult.IsSuccessful && performanceRecord.StatusId == (int)PerformanceRecordStatus.Submitted)
             {
-                await recordMailService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, PerformanceRecordMailMode.Create).ConfigureAwait(false);
+                await recordMailService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false);
             }
 
             return commandResult;
@@ -203,11 +203,11 @@
             {
                 if (record.StatusId == PerformanceRecordStatus.Draft)
                 {
-                    await recordMailService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, PerformanceRecordMailMode.Create).ConfigureAwait(false);
+                    await recordMailService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false);
                 }
                 else
                 {
-                    await recordMailService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, PerformanceRecordMailMode.Edit).ConfigureAwait(false);
+                    await recordMailService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Edit).ConfigureAwait(false);
                 }
             }
 

@@ -21,8 +21,8 @@
     <None Remove="EmailTemplates\PAFocus\RemindToEvaluator.cshtml" />
     <None Remove="EmailTemplates\PAFocus\StartToEvaluator.cshtml" />
     <None Remove="EmailTemplates\PA\EndToSelf.cshtml" />
-    <None Remove="EmailTemplates\PA\RemindStartToEvaluator.cshtml" />
     <None Remove="EmailTemplates\PA\RemindStartToSelf.cshtml" />
+    <None Remove="EmailTemplates\PA\RemindStartToSupervisor.cshtml" />
     <None Remove="EmailTemplates\PA\RemindToReviewer.cshtml" />
     <None Remove="EmailTemplates\PA\StartToReviewer.cshtml" />
   </ItemGroup>
@@ -50,7 +50,7 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="EmailTemplates\PA\RemindStartToEvaluator.cshtml">
+    <Content Include="EmailTemplates\PA\RemindStartToSupervisor.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

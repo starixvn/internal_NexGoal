@@ -443,7 +443,7 @@
 
             // Assert
             Assert.Equal(expected, actual);
-            await recordMailService.Received(1).SendMailAsync(Arg.Any<string>(), performanceRecord.CreatorId, PerformanceRecordMailMode.Create);
+            await recordMailService.Received(1).SendMailAsync(Arg.Any<string>(), performanceRecord.CreatorId, ActionOnPerformanceRecord.Create);
         }
 
         #endregion CreatePerformanceRecordAsync
@@ -507,7 +507,7 @@
 
             // Assert
             Assert.Equal(expected, actual);
-            await recordMailService.Received(1).SendMailAsync(Arg.Any<string>(), performanceRecord.CreatorId, PerformanceRecordMailMode.Create);
+            await recordMailService.Received(1).SendMailAsync(Arg.Any<string>(), performanceRecord.CreatorId, ActionOnPerformanceRecord.Create);
         }
 
         [Fact]
@@ -541,7 +541,7 @@
 
             // Assert
             Assert.Equal(expected, actual);
-            await recordMailService.Received(1).SendMailAsync(Arg.Any<string>(), performanceRecord.CreatorId, PerformanceRecordMailMode.Edit);
+            await recordMailService.Received(1).SendMailAsync(Arg.Any<string>(), performanceRecord.CreatorId, ActionOnPerformanceRecord.Edit);
         }
 
         #endregion EditPerformanceRecordAsync
