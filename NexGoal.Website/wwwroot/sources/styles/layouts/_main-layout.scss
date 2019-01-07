@@ -3,7 +3,7 @@
 
 .main-layout {
     .general-info {
-        box-shadow: 0 0 3px #dedede;
+        border-right: 1px solid #ddd;
         position: fixed;
         width: 250px;
         top: 50px;
@@ -18,7 +18,7 @@
 
     .main-content {
         margin: 0 auto;
-        width: calc(100% - 504px);
+        width: calc(100% - 500px);
         height: calc(100vh - 50px);
     }
 
@@ -29,7 +29,7 @@
         bottom: 0;
         right: 0;
         background-color: #fff;
-        padding: 12px 12px 12px 0;
+        padding: 16px 16px 12px 0;
 
         &-content {
             border: 1px solid #e5e5e5;
@@ -41,7 +41,7 @@
         top: 50px;
         z-index: 10;
         background: #fff;
-        width: calc(100% - 504px);
+        width: calc(100% - 500px);
     }
 }
 
@@ -52,7 +52,7 @@
         }
 
         .main-content, .fixed-section {
-            width: calc(100% - 804px);
+            width: calc(100% - 800px);
         }
     }
 }
@@ -64,7 +64,7 @@
         }
 
         .main-content, .fixed-section {
-            width: calc(100% - 604px);
+            width: calc(100% - 600px);
         }
     }
 }

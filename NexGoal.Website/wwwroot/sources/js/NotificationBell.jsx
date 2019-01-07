@@ -79,7 +79,7 @@ export default class NotificationBell extends Component {
         const unreadNoti = this.state.unreadNoti;
         return (
             <Fragment>
-                <span className="icon-notification"
+                <span className="icon-bell"
                     onClick={this.handleClickOnBell}
                 >
                     {
