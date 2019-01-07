@@ -156,4 +156,8 @@
   <Function name="Notification">
     <Setting Key="Announcement_Get" SpName="Announcement_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
+  <Function name="PM Setting">
+    <Setting Key="PMSetting_Get" SpName="PMSetting_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PMSetting_Add" SpName="PMSetting_Add" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
 </Functions>

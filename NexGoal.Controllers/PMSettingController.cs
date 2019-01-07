@@ -30,5 +30,11 @@
 
             return Json(result);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddMembers(int projectManagerId, string memberIds)
+        {
+            return Json(await pmSettingService.AddMembers(projectManagerId, memberIds).ConfigureAwait(false));
+        }
     }
 }

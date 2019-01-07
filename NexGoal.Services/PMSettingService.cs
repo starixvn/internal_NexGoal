@@ -1,12 +1,11 @@
 ﻿namespace NexGoal.Services
 {
-    using System;
     using System.Collections.Generic;
-    using System.Text;
     using System.Threading.Tasks;
+    using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PMSetting;
-    using NexGoal.Models.Common;
+    using NexGoal.Models.PMSetting;
 
     public class PMSettingService : IPMSettingService
     {
@@ -17,11 +16,20 @@
             this.baseService = baseService;
         }
 
-        public async Task<IEnumerable<EmployeeBaseModel>> GetSettingAsync(string pmIds)
+        public async Task<IEnumerable<MemberModel>> GetSettingAsync(string pmIds)
         {
-            return await baseService.GetDataAsync<EmployeeBaseModel>(new GetPMSettingCriteria
+            return await baseService.GetDataAsync<MemberModel>(new GetPMSettingCriteria
             {
                 PMIds = pmIds
+            }).ConfigureAwait(false);
+        }
+
+        public async Task<CommandResult> AddMembers(int projectManagerId, string memberIds)
+        {
+            return await baseService.ExecuteNonQueryAsync(new AddMemberCriteria
+            {
+                ProjectManagerId = projectManagerId,
+                MemberIds = memberIds
             }).ConfigureAwait(false);
         }
     }

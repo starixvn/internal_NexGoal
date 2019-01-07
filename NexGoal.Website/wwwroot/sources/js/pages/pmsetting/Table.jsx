@@ -9,6 +9,8 @@ export default class Table extends Component {
         super(props);
     }
 
+    handleAddMember = pm => this.props.onAddMember(pm)
+
     renderEmployee = (employee) =>
         <tr key={employee.employeeId}>
             <td>{employee.nickName}</td>
@@ -19,10 +21,10 @@ export default class Table extends Component {
         return (
             <Fragment key={data.pm.employeeId}>
                 <tr >
-                    <td>{data.pm.nickName} <a class="fa fa-plus" title="Add"></a></td>
-                    <td className='text-center'><a class="fa fa-trash-o remove" title="Delete"></a></td>
+                    <td>{data.pm.nickName}'s members ({data.members.length}) <a className="fa fa-plus" title="Add" onClick={this.handleAddMember.bind(this, data.pm)}></a></td>
+                    <td className='text-center'><a className="fa fa-trash-o remove" title="Delete"></a></td>
                 </tr>
-                {data.employees.map(this.renderEmployee)}
+                {data.members.map(this.renderEmployee)}
             </Fragment>
 
         );
