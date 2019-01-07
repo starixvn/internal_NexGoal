@@ -14,6 +14,7 @@ import NominationResult from '../home/NominationResult';
 import WorkLoad from '../home/workload';
 import HrmSummary from '../home/hrm/HRMSummary';
 import Announcement from '../../shared/components/Announcement';
+import Notification from '../../shared/components/notification/Notification';
 
 export default class NotificationCenter extends Component {
     constructor(props) {
@@ -25,8 +26,13 @@ export default class NotificationCenter extends Component {
             performanceAppraisals: [],
             announcements: [],
             currentUserInfo: getCurrentUserInfo(),
-            showAnnouncementModal: false
+            showAnnouncementModal: false,
+            notifications: [],
+            hasMore: true,
+            pageIndex: 0
         };
+
+        this.pageSize = 8;
     }
 
     componentDidMount() {
@@ -34,16 +40,25 @@ export default class NotificationCenter extends Component {
             axios(resolveClientUrl('Common/GetAllPeriods')),
             axios(resolveClientUrl('home/GetNominationResult')),
             axios(resolveClientUrl('home/GetPerformanceAppraisalResult')),
-            axios(resolveClientUrl('common/GetAnnouncements'))
+            axios(resolveClientUrl('common/GetAnnouncements')),
+            axios(resolveClientUrl('Notification/GetNotification'), {
+                params: {
+                    pageIndex: 0,
+                    pageSize: this.pageSize
+                }
+            })
         ];
 
         Promise.all(promises)
-            .then(([periodResponse, nominationResponse, performanceAppraisalsResponse, announcementsResponse]) => {
+            .then(([periodResponse, nominationResponse, performanceAppraisalsResponse, announcementsResponse, notificationResponse]) => {
+                const notiData = notificationResponse.data;
                 this.setState({
                     periods: periodResponse.data,
                     announcements: announcementsResponse.data,
                     nominations: nominationResponse.data,
-                    performanceAppraisals: performanceAppraisalsResponse.data
+                    performanceAppraisals: performanceAppraisalsResponse.data,
+                    notifications: notiData.notifications,
+                    hasMore: notiData.notifications.length < notiData.total
                 });
             }).catch(axiosError);
     }
@@ -68,9 +83,7 @@ export default class NotificationCenter extends Component {
                             <Marquee messages={this.state.announcements} onClick={this.handleOpenAnnouncementModal} />
                         </div>
                         <div className="record-list">
-                            <CustomScrollbars>
-
-                            </CustomScrollbars>
+                            <Notification notifications={this.state.notifications} />
                         </div>
 
                     </div>

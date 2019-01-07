@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Controllers.UnitTests
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
@@ -20,25 +21,35 @@
         public async Task GetNotificationg_WhenCalled_ReturnExpectedNotification()
         {
             // Arrange
-            var notifications = new List<Notification>
+            var notifications = new List<NotificationEntity>
             {
-                new Notification
+                new NotificationEntity
                 {
                     EmployeeId = 363,
                     CreatorId = 125,
-                    Content = "Quinn has created Performance Record for you"
+                    Content = "Quinn has created Performance Record for you",
+                    StatusId = NotificationStatus.Unread,
+                    CreatedDate = DateTime.Now
                 }
             };
+
+            var expectResult = new Notification
+            {
+                Notifications = notifications,
+                UnreadNoti = 10,
+                Total = 20
+            };
             var controller = GetNotificationController();
-            notificationService.GetNotification(sessionService.EmployeeId).Returns(notifications);
+
+            notificationService.GetNotification(sessionService.EmployeeId, 0, 10).Returns(expectResult);
 
             // Act
-            var actual = await controller.GetNotification();
+            var actual = await controller.GetNotification(0, 10);
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
-            var result = Assert.IsAssignableFrom<IEnumerable<Notification>>(jsonResult.Value);
-            Assert.Equal(notifications, result);
+            var result = Assert.IsAssignableFrom<object>(jsonResult.Value);
+            Assert.Equal(expectResult, result);
         }
 
         [Fact]

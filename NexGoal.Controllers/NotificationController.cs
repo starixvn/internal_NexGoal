@@ -25,9 +25,10 @@
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetNotification()
+        public async Task<JsonResult> GetNotification(int pageIndex, int pageSize)
         {
-            var result = await notificationService.GetNotification(sessionService.EmployeeId).ConfigureAwait(false);
+            var result = await notificationService.GetNotification(sessionService.EmployeeId, pageIndex, pageSize)
+                .ConfigureAwait(false);
 
             return Json(result);
         }

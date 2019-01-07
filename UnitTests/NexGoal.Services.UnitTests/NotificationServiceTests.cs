@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
-    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
@@ -15,6 +15,7 @@
     public class NotificationServiceTests
     {
         private IBaseService baseService;
+        private ICommonService commonService;
 
         [Fact]
         public async Task GetNotificationSetting_WhenCalled_ReturnAsExpectedSetting()
@@ -43,9 +44,9 @@
         public async Task GetNotification_WhenCalled_ReturnAsExpectedNotification()
         {
             // Arrange
-            var notifications = new List<Notification>
+            var notifications = new List<NotificationEntity>
             {
-                new Notification
+                new NotificationEntity
                 {
                     NotificationId = 1,
                     CreatorId = 125,
@@ -58,15 +59,16 @@
                 new EmployeeBaseModel { EmployeeId = 263, NickName="Tim" },
             };
 
-            Tuple<IEnumerable<Notification>, IEnumerable<EmployeeBaseModel>> tupple = new Tuple<IEnumerable<Notification>, IEnumerable<EmployeeBaseModel>>(notifications, employees);
             var service = GetNotificationService();
-            baseService.FetchMultipleAsync<Notification, EmployeeBaseModel>(Arg.Any<GetNotificationByEmployeeCriteria>()).Returns(tupple);
+
+            baseService.GetDataAsync<NotificationEntity>(Arg.Any<GetNotificationByEmployeeCriteria>()).Returns(notifications);
+            commonService.GetEmployeesAsync().Returns(employees);
 
             // Act
-            var actual = await service.GetNotification(263);
+            var actual = await service.GetNotification(263, 0, 10);
 
             // Assert
-            Assert.Equal(tupple.Item1, actual);
+            Assert.Equal(notifications.Count, actual.Notifications.Count());
         }
 
         [Fact]
@@ -138,7 +140,8 @@
         private NotificationService GetNotificationService()
         {
             baseService = Substitute.For<IBaseService>();
-            var service = new NotificationService(baseService);
+            commonService = Substitute.For<ICommonService>();
+            var service = new NotificationService(baseService, commonService);
 
             return service;
         }

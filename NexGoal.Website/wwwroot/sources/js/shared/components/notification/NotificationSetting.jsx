@@ -3,8 +3,8 @@ import { Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
-import { resolveClientUrl, axiosError } from '../../common-functions';
-import getResource from '../../resourceHelper';
+import { resolveClientUrl, axiosError } from '../../../common-functions';
+import getResource from '../../../resourceHelper';
 
 export default class NotificationSetting extends Component {
     constructor(props) {

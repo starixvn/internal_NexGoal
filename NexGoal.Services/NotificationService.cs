@@ -15,30 +15,42 @@
     public class NotificationService : INotificationService
     {
         private readonly IBaseService baseService;
+        private readonly ICommonService commonService;
 
-        public NotificationService(IBaseService baseService)
+        public NotificationService(IBaseService baseService
+            , ICommonService commonService)
         {
             this.baseService = baseService;
+            this.commonService = commonService;
         }
 
-        public async Task<IEnumerable<Notification>> GetNotification(int employeeId)
+        public async Task<Notification> GetNotification(int employeeId, int pageIndex, int pageSize)
         {
             var criteria = new GetNotificationByEmployeeCriteria
             {
-                EmployeeId = employeeId
+                EmployeeId = employeeId,
+                PageIndex = pageIndex,
+                PageSize = pageSize
             };
 
-            var tuple = await baseService.FetchMultipleAsync<Notification, EmployeeBaseModel>(criteria).ConfigureAwait(false);
+            var notifications = await baseService.GetDataAsync<NotificationEntity>(criteria).ConfigureAwait(false);
 
-            if (tuple.Item1.Any())
+            if (notifications.Any())
             {
-                MappingData(tuple.Item1, tuple.Item2);
+                var employees = await commonService.GetEmployeesAsync().ConfigureAwait(false);
+                MappingData(notifications, employees);
             }
 
-            return tuple.Item1;
+            var notificationsModel = new Notification
+            {
+                Notifications = notifications,
+                UnreadNoti = criteria.UnReadNoti,
+                Total = criteria.TotalItems
+            };
+            return notificationsModel;
         }
 
-        private static void MappingData(IEnumerable<Notification> notifications, IEnumerable<EmployeeBaseModel> employees)
+        private static void MappingData(IEnumerable<NotificationEntity> notifications, IEnumerable<EmployeeBaseModel> employees)
         {
             foreach (var notification in notifications)
             {

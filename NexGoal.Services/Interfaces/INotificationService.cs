@@ -7,7 +7,7 @@
 
     public interface INotificationService
     {
-        Task<IEnumerable<Notification>> GetNotification(int employeeId);
+        Task<Notification> GetNotification(int employeeId, int pageIndex, int pageSize);
 
         Task<IEnumerable<NotificationSetting>> GetNotificationSetting(int employeeId);
 

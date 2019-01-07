@@ -8,6 +8,7 @@ module.exports = {
         [`${styleDistPath}/main`]: `${styleSourcePath}/main.scss`,
         [`${styleDistPath}/error`]: `${styleSourcePath}/pages/error.scss`,
         [`${styleDistPath}/home`]: `${styleSourcePath}/pages/home/home.scss`,
+        [`${styleDistPath}/notification-center`]: `${styleSourcePath}/pages/notification/notification-center.scss`,
         [`${styleDistPath}/assignpermission`]: `${styleSourcePath}/pages/rolemanagement.scss`,
         [`${styleDistPath}/employeemanagement`]: `${styleSourcePath}/pages/employeemanagement.scss`,
         [`${styleDistPath}/nominationmanagement`]: `${styleSourcePath}/pages/nomination/index.scss`,
@@ -27,7 +28,7 @@ module.exports = {
         //
         [`${jsDistPath}/main`]: "./sources/js/main.js",
         [`${jsDistPath}/search-member`]: "./sources/js/SearchMember.jsx",
-        [`${jsDistPath}/notification`]: "./sources/js/Notification.jsx",
+        [`${jsDistPath}/notification`]: "./sources/js/NotificationBell.jsx",
         [`${jsDistPath}/notification-center`]: `${jsSourcePath}/notification/index.jsx`,
         [`${jsDistPath}/home`]: `${jsSourcePath}/home/index.jsx`,
         [`${jsDistPath}/assignpermission`]: `${jsSourcePath}/role/index.jsx`,
