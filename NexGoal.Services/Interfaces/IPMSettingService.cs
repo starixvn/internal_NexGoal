@@ -6,6 +6,6 @@
 
     public interface IPMSettingService
     {
-        public Task<IEnumerable<EmployeeBaseModel>> GetSettingAsync(string pmIds);
+        Task<IEnumerable<EmployeeBaseModel>> GetSettingAsync(string pmIds);
     }
 }
