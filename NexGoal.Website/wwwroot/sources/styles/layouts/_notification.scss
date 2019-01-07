@@ -42,7 +42,7 @@
     background-color: #fff;
     right: 0;
     top: 50px;
-    box-shadow: 0 10px 10px rgba(0,0,0,0.30), 0 10px 10px rgba(0,0,0,0.22);
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.3);
     font-size: 12px;
 
     .noti-header {
@@ -83,7 +83,7 @@
     }
 
     .noti-body {
-        max-height: 500px;
+        height: 400px;
 
         .noti-item {
             padding: 10px;
@@ -114,10 +114,12 @@
     }
 
     .show-all-noti {
+        color: #0072C7;
+        border-top: 1px  solid #EBEBEB;
         display: block;
-        text-transform: uppercase;
         text-align: center;
         margin: 0 auto;
-        padding: 5px;
+        padding: 10px;
+        font-size: 13px;
     }
 }

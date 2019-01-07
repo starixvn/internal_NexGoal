@@ -7,6 +7,7 @@ import getResource from '../../../resourceHelper';
 import { NotificationStatus } from '../../../constants';
 import NotificationSetting from './NotificationSetting';
 import ToastLayout from '../../layouts/ToastLayout';
+import CustomScrollbars from '../CustomScrollbars';
 
 export default class Notification extends Component {
     constructor(props) {
@@ -97,20 +98,22 @@ export default class Notification extends Component {
                     }
                 </div>
                 <div className="noti-body">
-                    {
-                        notifications &&
-                        notifications.map(item => {
-                            const notiStatus = item.statusId === NotificationStatus.Unread ? 'unread' : '';
-                            return (
-                                <div className={`noti-item ${notiStatus}`}
-                                    onClick={(e) => this.handleReadNotification(e, item.notificationId)}
-                                >
-                                    <img className="avatar" src={`https://hrm.nexcel.vn/Avatars/${item.creator.code}.jpg`} />
-                                    <div className="description">{item.content}</div>
-                                </div>
-                            );
-                        })
-                    }
+                    <CustomScrollbars>
+                        {
+                            notifications &&
+                            notifications.map(item => {
+                                const notiStatus = item.statusId === NotificationStatus.Unread ? 'unread' : '';
+                                return (
+                                    <div className={`noti-item ${notiStatus}`}
+                                        onClick={(e) => this.handleReadNotification(e, item.notificationId)}
+                                    >
+                                        <img className="avatar" src={`https://hrm.nexcel.vn/Avatars/${item.creator.code}.jpg`} />
+                                        <div className="description">{item.content}</div>
+                                    </div>
+                                );
+                            })
+                        }
+                    </CustomScrollbars>
                 </div>
             </ToastLayout>
         );
