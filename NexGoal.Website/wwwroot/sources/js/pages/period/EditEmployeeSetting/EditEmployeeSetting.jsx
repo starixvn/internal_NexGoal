@@ -26,9 +26,6 @@ export default class EditEmployeeSetting extends Component {
     componentDidMount = () => {
         Promise.all([this.getPerformanceStatusesAxios(), this.getGroupsAxios(), this.getEmployeesAxios(), this.getEmployeeSettingsAxios()])
             .then(axios.spread((perfRes, groupRes, employeeRes, settingRes) => {
-                var settings = settingRes.data;
-                settings.map((e, i) => e.rowNum = i + 1);
-
                 this.groupOptions = groupRes.data.map((group) => {
                     return { value: group.groupId, label: group.name };
                 });
@@ -38,7 +35,7 @@ export default class EditEmployeeSetting extends Component {
                 this.performanceStatusOptions = perfRes.data;
 
                 this.setState({
-                    settings: settings
+                    settings: settingRes.data
                 });
             })).catch(axiosError);
     }
