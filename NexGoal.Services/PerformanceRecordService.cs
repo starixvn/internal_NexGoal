@@ -19,18 +19,18 @@
         private readonly IBaseService baseService;
         private readonly ICryptoService cryptoService;
         private readonly ICommonService commonService;
-        private readonly IPerformanceRecordMailService recordMailService;
+        private readonly INotificationPerformanceRecordService notificationService;
 
         public PerformanceRecordService(
             IBaseService baseService,
             ICryptoService cryptoService,
             ICommonService commonService,
-            IPerformanceRecordMailService recordMailService)
+            INotificationPerformanceRecordService notificationService)
         {
             this.baseService = baseService;
             this.cryptoService = cryptoService;
             this.commonService = commonService;
-            this.recordMailService = recordMailService;
+            this.notificationService = notificationService;
         }
 
         public async Task<IEnumerable<PerformanceRecordModel>> GetPerformanceRecordByEmployeeAsync(int employeeId)
@@ -174,7 +174,8 @@
 
             if (commandResult.IsSuccessful && performanceRecord.StatusId == (int)PerformanceRecordStatus.Submitted)
             {
-                await recordMailService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false);
+                await notificationService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false);
+                await notificationService.SendNotificationAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false);
             }
 
             return commandResult;
@@ -203,11 +204,13 @@
             {
                 if (record.StatusId == PerformanceRecordStatus.Draft)
                 {
-                    await recordMailService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false);
+                    await notificationService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false);
+                    await notificationService.SendNotificationAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false);
                 }
                 else
                 {
-                    await recordMailService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Edit).ConfigureAwait(false);
+                    await notificationService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Edit).ConfigureAwait(false);
+                    await notificationService.SendNotificationAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Edit).ConfigureAwait(false);
                 }
             }
 

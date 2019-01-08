@@ -19,7 +19,7 @@
             services.AddScoped<IPeriodService, PeriodService>();
             services.AddScoped<IGroupFlowSettingService, GroupFlowSettingService>();
             services.AddScoped<IEmployeeFlowSettingService, EmployeeFlowSettingService>();
-            services.AddScoped<IPerformanceRecordMailService, PerformanceRecordMailService>();
+            services.AddScoped<INotificationPerformanceRecordService, NotificationPerformanceRecordService>();
             services.AddScoped<IPerformanceRecordService, PerformanceRecordService>();
             services.AddScoped<IPARecordService, PARecordService>();
             services.AddScoped<IEmployeeNominationService, EmployeeNominationService>();

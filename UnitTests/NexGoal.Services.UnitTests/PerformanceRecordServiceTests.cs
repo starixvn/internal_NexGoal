@@ -20,7 +20,7 @@
         private IBaseService baseService;
         private ICryptoService cryptoService;
         private ICommonService commonService;
-        private IPerformanceRecordMailService recordMailService;
+        private INotificationPerformanceRecordService notificationService;
 
         #region GetPerformanceRecordByEmployeeAsync
 
@@ -422,7 +422,7 @@
         }
 
         [Fact]
-        public async Task CreatePerformanceRecordAsync_IsSuccessfulAndStatusIsSubmited_ExpectedSendMail()
+        public async Task CreatePerformanceRecordAsync_IsSuccessfulAndStatusIsSubmited_ExpectedSendMailAndNotification()
         {
             // Arrange
             var expected = new CommandResult
@@ -443,7 +443,8 @@
 
             // Assert
             Assert.Equal(expected, actual);
-            await recordMailService.Received(1).SendMailAsync(Arg.Any<string>(), performanceRecord.CreatorId, ActionOnPerformanceRecord.Create);
+            await notificationService.Received(1).SendMailAsync(Arg.Any<string>(), performanceRecord.CreatorId, ActionOnPerformanceRecord.Create);
+            await notificationService.Received(1).SendNotificationAsync(Arg.Any<string>(), performanceRecord.CreatorId, ActionOnPerformanceRecord.Create);
         }
 
         #endregion CreatePerformanceRecordAsync
@@ -477,7 +478,7 @@
         }
 
         [Fact]
-        public async Task EditPerformanceRecordAsync_IsSuccessfulAndOriginalStatusIsDraftAndStatusIsSubmited_ExpectedSendMailCreate()
+        public async Task EditPerformanceRecordAsync_IsSuccessfulAndOriginalStatusIsDraftAndStatusIsSubmited_ExpectedSendMailAndNotification()
         {
             // Arrange
             var expected = new CommandResult
@@ -507,11 +508,12 @@
 
             // Assert
             Assert.Equal(expected, actual);
-            await recordMailService.Received(1).SendMailAsync(Arg.Any<string>(), performanceRecord.CreatorId, ActionOnPerformanceRecord.Create);
+            await notificationService.Received(1).SendMailAsync(Arg.Any<string>(), performanceRecord.CreatorId, ActionOnPerformanceRecord.Create);
+            await notificationService.Received(1).SendNotificationAsync(Arg.Any<string>(), performanceRecord.CreatorId, ActionOnPerformanceRecord.Create);
         }
 
         [Fact]
-        public async Task EditPerformanceRecordAsync_IsSuccessfulAndOriginalStatusIsSubmitedAndStatusIsSubmited_ExpectedSendMailEdit()
+        public async Task EditPerformanceRecordAsync_IsSuccessfulAndOriginalStatusIsSubmitedAndStatusIsSubmited_ExpectedSendMailAndNotification()
         {
             // Arrange
             var expected = new CommandResult
@@ -541,7 +543,8 @@
 
             // Assert
             Assert.Equal(expected, actual);
-            await recordMailService.Received(1).SendMailAsync(Arg.Any<string>(), performanceRecord.CreatorId, ActionOnPerformanceRecord.Edit);
+            await notificationService.Received(1).SendMailAsync(Arg.Any<string>(), performanceRecord.CreatorId, ActionOnPerformanceRecord.Edit);
+            await notificationService.Received(1).SendNotificationAsync(Arg.Any<string>(), performanceRecord.CreatorId, ActionOnPerformanceRecord.Edit);
         }
 
         #endregion EditPerformanceRecordAsync
@@ -626,9 +629,9 @@
             baseService = Substitute.For<IBaseService>();
             cryptoService = Substitute.For<ICryptoService>();
             commonService = Substitute.For<ICommonService>();
-            recordMailService = Substitute.For<IPerformanceRecordMailService>();
+            notificationService = Substitute.For<INotificationPerformanceRecordService>();
 
-            var service = new PerformanceRecordService(baseService, cryptoService, commonService, recordMailService);
+            var service = new PerformanceRecordService(baseService, cryptoService, commonService, notificationService);
 
             return service;
         }

@@ -286,6 +286,60 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} has created a Performance Record..
+        /// </summary>
+        public static string NotificationTemplate_CreatePCI_MemberToSupervisor {
+            get {
+                return ResourceManager.GetString("NotificationTemplate_CreatePCI_MemberToSupervisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has created a Performance Record for you..
+        /// </summary>
+        public static string NotificationTemplate_CreatePCI_SupervisorToMember {
+            get {
+                return ResourceManager.GetString("NotificationTemplate_CreatePCI_SupervisorToMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has created a Performance Record for {1}..
+        /// </summary>
+        public static string NotificationTemplate_CreatePCI_SupervisorToSupervisor {
+            get {
+                return ResourceManager.GetString("NotificationTemplate_CreatePCI_SupervisorToSupervisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has edited his/her Performance Record..
+        /// </summary>
+        public static string NotificationTemplate_EditPCI_MemberToSupervisor {
+            get {
+                return ResourceManager.GetString("NotificationTemplate_EditPCI_MemberToSupervisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has edited his/her Performance Record for you..
+        /// </summary>
+        public static string NotificationTemplate_EditPCI_SupervisorToMember {
+            get {
+                return ResourceManager.GetString("NotificationTemplate_EditPCI_SupervisorToMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has edited his/her Performance Record for {1}..
+        /// </summary>
+        public static string NotificationTemplate_EditPCI_SupervisorToSupervisor {
+            get {
+                return ResourceManager.GetString("NotificationTemplate_EditPCI_SupervisorToSupervisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Nomination process for the {0} is going to be CLOSED on {1}, please submit the vote for your nominee..
         /// </summary>
         public static string NotificationTemplate_Nomination_Remind {

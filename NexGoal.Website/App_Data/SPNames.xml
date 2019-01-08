@@ -95,16 +95,17 @@
     <Setting Key="Project_GetAll" SpName="Project_GetAll" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Performanace Record">
-    <Setting Key="PerformanceRecord_GetByEmployee" SpName="PerformanceRecord_GetByEmployee" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="PerformanceRecord_GetTimeline" SpName="PerformanceRecord_GetTimeline" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="PerformanceRecord_GetMemberPerformance" SpName="PerformanceRecord_GetMemberPerformance" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="PerformanceRecord_GetMemberTimeline" SpName="PerformanceRecord_GetMemberTimeline" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="PerformanceRecord_GetById" SpName="PerformanceRecord_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="PerformanceRecord_GetByIds" SpName="PerformanceRecord_GetByIds" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="PerformanceRecord_Insert" SpName="PerformanceRecord_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="PerformanceRecord_Update" SpName="PerformanceRecord_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="PerformanceRecord_Delete" SpName="PerformanceRecord_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="PerformanceRecord_GetSettingToSendMail" SpName="PerformanceRecord_GetSettingToSendMail" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PerformanceRecord_GetByEmployee" SpName="PerformanceRecord_GetByEmployee" DbName="bodb_NexGoal" Plain="0" />
+    <Setting Key="PerformanceRecord_GetTimeline" SpName="PerformanceRecord_GetTimeline" DbName="bodb_NexGoal" Plain="0" />
+    <Setting Key="PerformanceRecord_GetMemberPerformance" SpName="PerformanceRecord_GetMemberPerformance" DbName="bodb_NexGoal" Plain="0" />
+    <Setting Key="PerformanceRecord_GetMemberTimeline" SpName="PerformanceRecord_GetMemberTimeline" DbName="bodb_NexGoal" Plain="0" />
+    <Setting Key="PerformanceRecord_GetById" SpName="PerformanceRecord_GetById" DbName="bodb_NexGoal" Plain="0" />
+    <Setting Key="PerformanceRecord_GetByIds" SpName="PerformanceRecord_GetByIds" DbName="bodb_NexGoal" Plain="0" />
+    <Setting Key="PerformanceRecord_Insert" SpName="PerformanceRecord_Insert" DbName="bodb_NexGoal" Plain="0" />
+    <Setting Key="PerformanceRecord_Update" SpName="PerformanceRecord_Update" DbName="bodb_NexGoal" Plain="0" />
+    <Setting Key="PerformanceRecord_Delete" SpName="PerformanceRecord_Delete" DbName="bodb_NexGoal" Plain="0" />
+    <Setting Key="PerformanceRecord_GetSettingToSendNotification" SpName="PerformanceRecord_GetSettingToSendNotification" DbName="bodb_NexGoal" Plain="0" />
+    <Setting Key="PerformanceRecord_InsertNotification" SpName="PerformanceRecord_InsertNotification" DbName="bodb_NexGoal" Plain="0" />
   </Function>
   <Function Name="Performanace Appraisal">
     <Setting Key="PARecord_GetPeriodByActor" SpName="PARecord_GetPeriodByActor" DbName="bodb_NexGoal" Plain="0"></Setting>

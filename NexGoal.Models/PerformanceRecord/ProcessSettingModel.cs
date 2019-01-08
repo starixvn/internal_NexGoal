@@ -5,7 +5,7 @@
     public class ProcessSettingModel
     {
         public int PerformanceRecordId { get; set; }
-        public PerformanceRecordMailMode MailMode { get; set; }
+        public PerformanceRecordMailMode NotificationMode { get; set; }
         public int Priority { get; set; }
         public int EvaluatorId { get; set; }
         public string Nickname { get; set; }

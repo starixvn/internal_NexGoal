@@ -8,14 +8,16 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Options;
     using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PerformanceRecord;
     using NexGoal.Models.Common;
+    using NexGoal.Models.Notification;
     using NexGoal.Models.PerformanceRecord;
     using NexGoal.Resources;
 
-    public class PerformanceRecordMailService : IPerformanceRecordMailService
+    public class NotificationPerformanceRecordService : INotificationPerformanceRecordService
     {
         private const string MemberToSupervisorEmailTemplate = @"EmailTemplates\\PCI\\{0}\\MemberToSupervisor.cshtml";
         private const string SupervisorToMemberEmailTemplate = @"EmailTemplates\\PCI\\{0}\\SupervisorToMember.cshtml";
@@ -27,7 +29,7 @@
         private readonly ICommonService commonService;
         private readonly IBaseMailService mailService;
 
-        public PerformanceRecordMailService(
+        public NotificationPerformanceRecordService(
             IHostingEnvironment hostingEnvironment,
             IOptionsSnapshot<AppSettings> configuration,
             IBaseService baseService,
@@ -43,35 +45,36 @@
 
         public async Task SendMailAsync(string performanceRecordIds, int actorId, ActionOnPerformanceRecord action)
         {
-            string[] recordIds = performanceRecordIds.Split(",");
-            Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<ProcessSettingModel>> tuple = await GetSettingToSendMailAsync(performanceRecordIds, actorId).ConfigureAwait(false);
+            IEnumerable<int> recordIds = performanceRecordIds.Split(",").Select(x => int.Parse(x));
+            Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<ProcessSettingModel>> tuple =
+                await GetSettingToSendNotificationAsync(performanceRecordIds, actorId, ReceiveNotificationType.Email).ConfigureAwait(false);
             IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync().ConfigureAwait(false);
             EmployeeBaseModel actor = await commonService.GetEmployeeByIdAsync(actorId).ConfigureAwait(false);
 
-            foreach (string recordId in recordIds)
+            foreach (int recordId in recordIds)
             {
-                IEnumerable<ProcessSettingModel> receivers = tuple.Item2.Where(x => x.PerformanceRecordId.ToString() == recordId);
-                if (receivers.Any(x => x.MailMode == PerformanceRecordMailMode.MemberToSupervisor))
+                IEnumerable<ProcessSettingModel> receivers = tuple.Item2.Where(x => x.PerformanceRecordId == recordId);
+                if (receivers.Any(x => x.NotificationMode == PerformanceRecordMailMode.MemberToSupervisor))
                 {
-                    var receiver = receivers.Where(x => x.MailMode == PerformanceRecordMailMode.MemberToSupervisor).OrderBy(x => x.Priority).First();
-                    var cc = receivers.Where(x => x.MailMode == PerformanceRecordMailMode.MemberToSupervisor && x.EvaluatorId != receiver.EvaluatorId)
+                    var receiver = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.MemberToSupervisor).OrderBy(x => x.Priority).First();
+                    var cc = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.MemberToSupervisor && x.EvaluatorId != receiver.EvaluatorId)
                         .Select(x => x.Email);
 
                     await SendMailFromMemberToSupervisorAsync(actor, receiver, cc, action).ConfigureAwait(false);
                 }
 
-                if (receivers.Any(x => x.MailMode == PerformanceRecordMailMode.SupervisorToMember))
+                if (receivers.Any(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToMember))
                 {
-                    var receiver = receivers.First(x => x.MailMode == PerformanceRecordMailMode.SupervisorToMember);
+                    var receiver = receivers.First(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToMember);
 
                     await SendMailFromSupervisorToMemberAsync(actor, receiver, action).ConfigureAwait(false);
                 }
 
-                if (receivers.Any(x => x.MailMode == PerformanceRecordMailMode.SupervisorToSupervisor))
+                if (receivers.Any(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToSupervisor))
                 {
-                    var employee = employees.First(x => x.EmployeeId.ToString() == tuple.Item1.First(y => y.PerformanceRecordId.ToString() == recordId).EmployeeIds);
-                    var receiver = receivers.Where(x => x.MailMode == PerformanceRecordMailMode.SupervisorToSupervisor).OrderBy(x => x.Priority).First();
-                    var cc = receivers.Where(x => x.MailMode == PerformanceRecordMailMode.SupervisorToSupervisor && x.EvaluatorId != receiver.EvaluatorId)
+                    var employee = employees.First(x => x.EmployeeId.ToString() == tuple.Item1.First(y => y.PerformanceRecordId == recordId).EmployeeIds);
+                    var receiver = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToSupervisor).OrderBy(x => x.Priority).First();
+                    var cc = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToSupervisor && x.EvaluatorId != receiver.EvaluatorId)
                         .Select(x => x.Email);
 
                     await SendMailFromSupervisorToSupervisorAsync(actor, employee, receiver, cc, action).ConfigureAwait(false);
@@ -79,12 +82,73 @@
             }
         }
 
-        private async Task<Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<ProcessSettingModel>>> GetSettingToSendMailAsync(string performanceRecordIds, int actorId)
+        public async Task SendNotificationAsync(string performanceRecordIds, int actorId, ActionOnPerformanceRecord action)
         {
-            var criteria = new GetSettingToSendMailCriteria
+            var notifications = new List<CreateNotificationModel>();
+            IEnumerable<int> recordIds = performanceRecordIds.Split(",").Select(x => int.Parse(x));
+            Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<ProcessSettingModel>> tuple =
+                await GetSettingToSendNotificationAsync(performanceRecordIds, actorId, ReceiveNotificationType.Notification).ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync().ConfigureAwait(false);
+            EmployeeBaseModel actor = await commonService.GetEmployeeByIdAsync(actorId).ConfigureAwait(false);
+
+            foreach (int recordId in recordIds)
+            {
+                var employee = employees.First(x => x.EmployeeId.ToString() == tuple.Item1.First(y => y.PerformanceRecordId == recordId).EmployeeIds);
+                IEnumerable<ProcessSettingModel> receivers = tuple.Item2.Where(x => x.PerformanceRecordId == recordId);
+
+                notifications.AddRange(receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.MemberToSupervisor)
+                    .Select(x => new CreateNotificationModel
+                    {
+                        EmployeeId = x.EvaluatorId,
+                        Content = action == ActionOnPerformanceRecord.Create
+                            ? string.Format(Message.NotificationTemplate_CreatePCI_MemberToSupervisor, actor.NickName)
+                            : string.Format(Message.NotificationTemplate_EditPCI_MemberToSupervisor, actor.NickName),
+                        StatusId = (int)NotificationStatus.Unread
+                    }));
+
+                notifications.AddRange(receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToMember)
+                    .Select(x => new CreateNotificationModel
+                    {
+                        EmployeeId = x.EvaluatorId,
+                        Content = action == ActionOnPerformanceRecord.Create
+                            ? string.Format(Message.NotificationTemplate_CreatePCI_SupervisorToMember, actor.NickName)
+                            : string.Format(Message.NotificationTemplate_EditPCI_SupervisorToMember, actor.NickName),
+                        StatusId = (int)NotificationStatus.Unread
+                    }));
+
+                notifications.AddRange(receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToSupervisor)
+                    .Select(x => new CreateNotificationModel
+                    {
+                        EmployeeId = x.EvaluatorId,
+                        Content = action == ActionOnPerformanceRecord.Create
+                            ? string.Format(Message.NotificationTemplate_CreatePCI_SupervisorToSupervisor, actor.NickName, employee.NickName)
+                            : string.Format(Message.NotificationTemplate_EditPCI_SupervisorToSupervisor, actor.NickName, employee.NickName),
+                        StatusId = (int)NotificationStatus.Unread
+                    }));
+            }
+
+            if (notifications.Any())
+            {
+                var criteria = new CreateNotificationCriteria
+                {
+                    ActorId = actorId,
+                    Notifications = notifications.ToXML().ToString()
+                };
+
+                await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            }
+        }
+
+        private async Task<Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<ProcessSettingModel>>> GetSettingToSendNotificationAsync(
+            string performanceRecordIds,
+            int actorId,
+            ReceiveNotificationType receiveType)
+        {
+            var criteria = new GetSettingToSendNotificationCriteria
             {
                 PerformanceRecordIds = performanceRecordIds,
-                ActorId = actorId
+                ActorId = actorId,
+                ReceiveType = (int)receiveType
             };
 
             return await baseService.FetchMultipleAsync<PerformanceRecordModel, ProcessSettingModel>(criteria).ConfigureAwait(false);
