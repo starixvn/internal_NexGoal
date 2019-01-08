@@ -1,7 +1,6 @@
 ﻿import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import { stringify } from 'qs';
 import { axiosError, resolveClientUrl } from './common-functions';
 import Notification from './shared/components/notification/Notification';
 import { NotificationStatus } from './constants';
@@ -20,9 +19,12 @@ export default class NotificationBell extends Component {
         };
 
         this.pageSize = 6;
+        this.setWrapperRef = this.setWrapperRef.bind(this);
+        this.handleClickOutside = this.handleClickOutside.bind(this);
     }
 
     componentDidMount() {
+        document.addEventListener('mousedown', this.handleClickOutside);
         this.getNotifications();
     }
 
@@ -35,13 +37,34 @@ export default class NotificationBell extends Component {
             || JSON.stringify(nextState.notifications) !== JSON.stringify(this.state.notifications)) {
             return true;
         }
-
         return false;
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClickOutside);
+    }
+
+    handleClickOutside(event) {
+        const notiSettings = document.getElementById('notification-settings');
+        if (this.wrapperRef && !this.wrapperRef.contains(event.target)
+            && (notiSettings === null || !notiSettings.contains(event.target))) {
+            this.onHideNoti();
+        }
+    }
+
+    setWrapperRef(node) {
+        this.wrapperRef = node;
     }
 
     handleClickOnBell = () => {
         this.setState({
             isShowNoti: !this.state.isShowNoti
+        });
+    }
+
+    onHideNoti = () => {
+        this.setState({
+            isShowNoti: false
         });
     }
 
@@ -121,7 +144,7 @@ export default class NotificationBell extends Component {
     render() {
         const unreadNoti = this.state.unreadNoti;
         return (
-            <Fragment>
+            <div ref={this.setWrapperRef}>
                 <span className="icon-bell"
                     onClick={this.handleClickOnBell}
                 >
@@ -137,13 +160,13 @@ export default class NotificationBell extends Component {
                             loadMoreNotification={this.handleLoadMoreNotification}
                             onReadNotification={this.handleReadNotification}
                             onMarkAsRead={this.handleMarkAsRead}
+                            onClickSetting={this.onHideNoti}
                             hasMore={this.state.hasMore}
                         />
                         <a className="show-all-noti" href="/Notification">View all</a>
                     </div>
                 }
-
-            </Fragment>
+            </div>
         );
     }
 }

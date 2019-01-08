@@ -60,6 +60,7 @@ export default class NotificationSetting extends Component {
             <Modal keyboard={false} backdrop="static"
                 show={this.props.isShowModal} onHide={this.props.onCloseModal}
                 dialogClassName="custom-modal modal-xs form-performance edit"
+                id="notification-settings"
             >
                 <Modal.Header>
                     <Modal.Title>{getResource('NotificationSetting')}</Modal.Title>

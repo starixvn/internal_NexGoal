@@ -59,8 +59,7 @@ export default class Notification extends Component {
 
     handleClickSetting = () => {
         this.setState({
-            isShowSettingModal: true,
-            isShowNoti: false
+            isShowSettingModal: true
         });
     }
 
@@ -81,13 +80,6 @@ export default class Notification extends Component {
                         <span className="dash" />
                         <a className="setting" onClick={this.handleClickSetting}>Settings</a>
                     </span>
-                    {
-                        this.state.isShowSettingModal &&
-                        <NotificationSetting
-                            isShowModal={this.state.isShowSettingModal}
-                            onCloseModal={this.handleCancelSetting}
-                        />
-                    }
                 </div>
                 <div className="noti-body" style={{ height: this.state.notiBodyHeight}}>
                     <CustomScrollbars>
@@ -116,6 +108,13 @@ export default class Notification extends Component {
                         }
                     </CustomScrollbars>
                 </div>
+                {
+                    this.state.isShowSettingModal &&
+                    <NotificationSetting
+                        isShowModal={this.state.isShowSettingModal}
+                        onCloseModal={this.handleCancelSetting}
+                    />
+                }
             </ToastLayout>
         );
     }

@@ -70,7 +70,7 @@ export default class NotificationBoard extends Component {
                                     notifications.map(item => {
                                         const notiStatus = item.statusId === NotificationStatus.Unread ? 'unread' : '';
                                         return (
-                                            <div className={`noti-center-item ${notiStatus}`}
+                                            <div className={`noti-center-item ${notiStatus} noti-${item.notificationId}`}
                                                 onClick={() => this.handleReadNotification(item.statusId, item.notificationId)}
                                             >
                                                 <img className="avatar" src={item.creator.avatar} />

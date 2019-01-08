@@ -29,7 +29,7 @@ export default class NotificationCenter extends Component {
             unreadNoti: 0
         };
 
-        this.pageSize = 8;
+        this.pageSize = 20;
     }
 
     componentDidMount() {
@@ -158,7 +158,6 @@ export default class NotificationCenter extends Component {
                                 markAsRead={this.handleMarkAsRead}
                             />
                         </div>
-
                     </div>
                     <div className="work-info">
                         <div className="work-info-content">
@@ -174,9 +173,7 @@ export default class NotificationCenter extends Component {
                         </div>
                     </div>
                 </div>
-
                 <Announcement showModal={this.state.showAnnouncementModal} onCloseModal={this.handleCloseAnnouncementModal} announcements={this.state.announcements} />
-
             </div >
         );
     }
