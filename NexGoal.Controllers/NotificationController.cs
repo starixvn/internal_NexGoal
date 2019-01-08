@@ -33,7 +33,6 @@
             return Json(result);
         }
 
-        [HttpPost]
         public async Task<JsonResult> ReadNotification(int notificationId)
         {
             var result = await notificationService.ReadNotification(notificationId, sessionService.EmployeeId).ConfigureAwait(false);

@@ -1,9 +1,10 @@
 ﻿import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import { stringify } from 'qs';
 import { axiosError, resolveClientUrl } from './common-functions';
-import getResource from './resourceHelper';
 import Notification from './shared/components/notification/Notification';
+import { NotificationStatus } from './constants';
 
 export default class NotificationBell extends Component {
     constructor(props) {
@@ -15,11 +16,10 @@ export default class NotificationBell extends Component {
             unreadNoti: 0,
             totalItems: 0,
             pageIndex: 0,
-            hasMore: true,
-            isShowSettingModal: false
+            hasMore: true
         };
 
-        this.pageSize = 10;
+        this.pageSize = 6;
     }
 
     componentDidMount() {
@@ -32,7 +32,6 @@ export default class NotificationBell extends Component {
             || nextState.totalItems !== this.state.totalItems
             || nextState.pageIndex !== this.state.pageIndex
             || nextState.hasMore !== this.state.hasMore
-            || nextState.isShowSettingModal !== this.state.isShowSettingModal
             || JSON.stringify(nextState.notifications) !== JSON.stringify(this.state.notifications)) {
             return true;
         }
@@ -46,14 +45,16 @@ export default class NotificationBell extends Component {
         });
     }
 
-    loadMoreNotification = () => {
-        this.setState({
-            pageIndex: this.state.pageIndex + 1
-        }, () => {
-            if (this.state.hasMore) {
-                this.getNotifications();
-            }
-        });
+    handleLoadMoreNotification = () => {
+        if (this.state.hasMore) {
+            this.setState({
+                pageIndex: this.state.pageIndex + 1
+            }, () => {
+                if (this.state.hasMore) {
+                    this.getNotifications();
+                }
+            });
+        }
     }
 
     getNotifications = () => {
@@ -65,14 +66,56 @@ export default class NotificationBell extends Component {
         }).then(response => {
             const data = response.data;
             let notifications = this.state.notifications;
-            notifications.unshift(...data.notifications);
+            notifications.push(...data.notifications);
             this.setState({
                 notifications: notifications,
                 unreadNoti: data.unreadNoti,
-                totalItems: data.total,
                 hasMore: notifications.length < data.total
-            }, () => console.log(this.state));
+            });
         }).catch(axiosError);
+    }
+
+    handleReadNotification = (notificationId) => {
+        const notiId = notificationId;
+        axios.get(resolveClientUrl('Notification/ReadNotification'), {
+            params: {
+                notificationId: notiId
+            }
+        }).then(response => {
+            let data = response.data;
+            if (data.isSuccessful) {
+                let notifications = [...this.state.notifications];
+                const notiIndex = this.state.notifications.findIndex(noti => noti.notificationId === notiId);
+                notifications[notiIndex].statusId = NotificationStatus.Read;
+                this.setState({
+                    notifications: notifications,
+                    unreadNoti: this.state.unreadNoti - 1
+                });
+            } else {
+                toast.error(data.message);
+            }
+        }).catch(axiosError);
+    }
+
+    handleMarkAsRead = () => {
+        if (this.state.unreadNoti > 0) {
+            axios.get(resolveClientUrl('Notification/MarkAsReadNotification'))
+                .then(response => {
+                    let data = response.data;
+                    if (data.isSuccessful) {
+                        let notifications = [...this.state.notifications];
+                        for (var i = 0; i < notifications.length; i++) {
+                            notifications[i].statusId = NotificationStatus.Read;
+                        }
+                        this.setState({
+                            notifications: notifications,
+                            unreadNoti: 0
+                        });
+                    } else {
+                        toast.error(data.message);
+                    }
+                }).catch(axiosError);
+        }
     }
 
     render() {
@@ -90,7 +133,12 @@ export default class NotificationBell extends Component {
                 {
                     this.state.isShowNoti &&
                     <div className="noti-wrapper">
-                        <Notification notifications={this.state.notifications} />
+                        <Notification notifications={this.state.notifications}
+                            loadMoreNotification={this.handleLoadMoreNotification}
+                            onReadNotification={this.handleReadNotification}
+                            onMarkAsRead={this.handleMarkAsRead}
+                            hasMore={this.state.hasMore}
+                        />
                         <a className="show-all-noti" href="/Notification">View all</a>
                     </div>
                 }

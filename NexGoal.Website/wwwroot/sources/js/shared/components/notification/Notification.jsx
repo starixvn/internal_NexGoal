@@ -1,8 +1,6 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import axios from 'axios';
-import { stringify } from 'qs';
-import { axiosError, resolveClientUrl } from '../../../common-functions';
+import InfiniteScroll from 'react-infinite-scroller';
 import getResource from '../../../resourceHelper';
 import { NotificationStatus } from '../../../constants';
 import NotificationSetting from './NotificationSetting';
@@ -14,55 +12,49 @@ export default class Notification extends Component {
         super(props);
 
         this.state = {
-            isShowSettingModal: false
+            isShowSettingModal: false,
+            notiBodyHeight: 400
         };
+    }
+
+    componentDidMount() {
+        this.calculateNotiBodyHeight();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
         if (nextState.isShowSettingModal !== this.state.isShowSettingModal
+            || nextState.notiBodyHeight !== this.state.notiBodyHeight
             || JSON.stringify(nextProps.notifications) !== this.props.notifications) {
             return true;
         }
         return false;
     }
 
-    onLoadMoreNotification = (pageIndex) => {
-        this.loadMoreNotification();
+    calculateNotiBodyHeight = () => {
+        let items = document.getElementsByClassName('noti-item');
+        let totalHeight = 0;
+        if (items.length > 0) {
+            for (var i = 0; i < items.length; i++) {
+                totalHeight += items[i].offsetHeight;
+            }
+        }
+        if (totalHeight < 400) {
+            this.setState({ notiBodyHeight: totalHeight });
+        }
     }
 
-    handleReadNotification = (notificationId) => {
-        axios({
-            url: resolveClientUrl(`Notification/ReadNotification`),
-            method: 'post',
-            data: stringify({
-                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                notificationId: notificationId
-            }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }).then(response => {
-            let data = response.data;
-            if (data.isSuccessful) {
-                console.log("Done");
-            } else {
-                toast.error(data.message);
-            }
-        }).catch(axiosError);
+    onLoadMoreNotification = () => {
+        this.props.loadMoreNotification();
+    }
+
+    handleReadNotification = (statusId, notificationId) => {
+        if (statusId === NotificationStatus.Unread) {
+            this.props.onReadNotification(notificationId);
+        }
     }
 
     handleMarkAsRead = () => {
-        axios.get(resolveClientUrl('Notification/MarkAsReadNotification'))
-            .then(response => {
-                let data = response.data;
-
-                if (data.isSuccessful) {
-                    this.getNotifications();
-                } else {
-                    toast.error(data.message);
-                }
-            }).catch(axiosError);
+        this.props.onMarkAsRead();
     }
 
     handleClickSetting = () => {
@@ -97,21 +89,30 @@ export default class Notification extends Component {
                         />
                     }
                 </div>
-                <div className="noti-body">
+                <div className="noti-body" style={{ height: this.state.notiBodyHeight }}>
                     <CustomScrollbars>
                         {
                             notifications &&
-                            notifications.map(item => {
-                                const notiStatus = item.statusId === NotificationStatus.Unread ? 'unread' : '';
-                                return (
-                                    <div className={`noti-item ${notiStatus}`}
-                                        onClick={(e) => this.handleReadNotification(e, item.notificationId)}
-                                    >
-                                        <img className="avatar" src={`https://hrm.nexcel.vn/Avatars/${item.creator.code}.jpg`} />
-                                        <div className="description">{item.content}</div>
-                                    </div>
-                                );
-                            })
+                            <InfiniteScroll initialLoad={false}
+                                pageStart={1}
+                                loadMore={this.onLoadMoreNotification}
+                                hasMore={this.props.hasMore}
+                                useWindow={false}
+                            >
+                                {
+                                    notifications.map(item => {
+                                        const notiStatus = item.statusId === NotificationStatus.Unread ? 'unread' : '';
+                                        return (
+                                            <div className={`noti-item ${notiStatus} noti-${item.notificationId}`}
+                                                onClick={() => this.handleReadNotification(item.statusId, item.notificationId)}
+                                            >
+                                                <img className="avatar" src={`https://hrm.nexcel.vn/Avatars/${item.creator.code}.jpg`} />
+                                                <div className="description">{item.content}</div>
+                                            </div>
+                                        );
+                                    })
+                                }
+                            </InfiniteScroll>
                         }
                     </CustomScrollbars>
                 </div>
