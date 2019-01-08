@@ -3,11 +3,13 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Notification;
+    using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.Notification;
     using NexGoal.Services.Interfaces;
@@ -54,8 +56,8 @@
         {
             foreach (var notification in notifications)
             {
-                notification.Creator = employees.FirstOrDefault(e => e.EmployeeId == notification.CreatorId);
-                notification.Employee = employees.FirstOrDefault(e => e.EmployeeId == notification.EmployeeId);
+                notification.Creator = notification.CreatorId == Constants.NexGoalSystemId ?
+                NexGoalSystemInfo.NexGoal : employees.FirstOrDefault(x => x.EmployeeId == notification.CreatorId);
             }
         }
 
