@@ -6,7 +6,7 @@
     margin: 0 16px;
     box-shadow: 0 0 3px #dedede;
     height: 100px;
-    padding: 0 32px;
+    padding: 0 52px;
 }
 
 .xaxes {
@@ -15,7 +15,7 @@
     height: 2px;
     border: 1px solid #B0CBDD;
     float: right;
-    top: 43px;
+    top: 41px;
 
     &:before {
         position: absolute;
@@ -56,7 +56,7 @@
     @include border-radius(3px);
     color: #545454;
     position: absolute;
-    top: 20px;
+    top: 17px;
     border: 2px solid #B0CBDD;
     width: 28px;
     height: 20px;
@@ -98,7 +98,7 @@
 .timeline-info {
     @include border-radius(3px);
     position: absolute;
-    top: 48px;
+    top: 46px;
     border: 1px solid #B0CBDD;
     width: 74px;
     text-align: center;
@@ -195,11 +195,11 @@
 }
 
 .previous {
-    left: 20px;
+    left: 40px;
 }
 
 .next {
-    right: 20px;
+    right: 40px;
 }
 
 .button-icon {
