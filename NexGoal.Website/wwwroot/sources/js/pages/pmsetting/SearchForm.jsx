@@ -14,6 +14,10 @@ export default class SearchForm extends Component {
         this.props.onFilterChange('pms', selectedOption);
     }
 
+    handleEmployeeChange = (selectedOption) => {
+        this.props.onFilterChange('employee', selectedOption);
+    }
+
     handleSubmit = (event) => {
         event.preventDefault();
         this.props.onFilterSubmit();
@@ -32,6 +36,17 @@ export default class SearchForm extends Component {
                             value={filter.pms}
                             options={this.props.pmOptions}
                             onChange={this.handleGroupChange}
+                        />
+                    </div>
+                </FormGroup>
+                <FormGroup>
+                    <ControlLabel>{getResource('Employee')}</ControlLabel>
+                    <div className="control-content team-width">
+                        <Select name="employee"
+                            className="react-select-container" classNamePrefix="react-select"
+                            value={filter.employee} isClearable
+                            options={this.props.employeeOptions}
+                            onChange={this.handleEmployeeChange}
                         />
                     </div>
                 </FormGroup>

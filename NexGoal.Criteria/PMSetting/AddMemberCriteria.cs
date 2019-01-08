@@ -6,8 +6,10 @@
 
         public string MemberIds { get; set; }
 
-        public override string GetSettingKey() => "PMSetting_Add";
+        public int CreatedBy { get; set; }
 
-        public override bool IsValid() => !string.IsNullOrWhiteSpace(MemberIds) && ProjectManagerId > 0;
+        public override string GetSettingKey() => "PMSetting_Insert";
+
+        public override bool IsValid() => !string.IsNullOrWhiteSpace(MemberIds) && ProjectManagerId > 0 && CreatedBy > 0;
     }
 }

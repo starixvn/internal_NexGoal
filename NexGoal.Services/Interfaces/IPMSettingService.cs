@@ -7,8 +7,10 @@
 
     public interface IPMSettingService
     {
-        Task<IEnumerable<MemberModel>> GetSettingAsync(string pmIds);
+        Task<IEnumerable<MemberModel>> GetSettingAsync(string pmIds, int? employeeId);
 
-        Task<CommandResult> AddMembers(int projectManagerId, string memberIds);
+        Task<CommandResult> AddMembers(int projectManagerId, string memberIds, int createdBy);
+
+        Task<CommandResult> RemoveMember(int projectManagerId, int memberId, int removedBy);
     }
 }

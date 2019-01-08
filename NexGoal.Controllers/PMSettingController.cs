@@ -6,15 +6,18 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Services;
     using NexGoal.Web.Core.Filters;
+    using NexGoal.Web.Core.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.PMSetting, Policy = Policy.Host)]
     public class PMSettingController : Controller
     {
         private readonly IPMSettingService pmSettingService;
+        private readonly ISessionService sessionService;
 
-        public PMSettingController(IPMSettingService pmSettingService)
+        public PMSettingController(IPMSettingService pmSettingService, ISessionService sessionService)
         {
             this.pmSettingService = pmSettingService;
+            this.sessionService = sessionService;
         }
 
         [HttpGet]
@@ -24,9 +27,9 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetSetting(string pmIds)
+        public async Task<IActionResult> GetSetting(string pmIds, int? employeeId)
         {
-            var result = await pmSettingService.GetSettingAsync(pmIds).ConfigureAwait(false);
+            var result = await pmSettingService.GetSettingAsync(pmIds, employeeId).ConfigureAwait(false);
 
             return Json(result);
         }
@@ -34,7 +37,13 @@
         [HttpPost]
         public async Task<IActionResult> AddMembers(int projectManagerId, string memberIds)
         {
-            return Json(await pmSettingService.AddMembers(projectManagerId, memberIds).ConfigureAwait(false));
+            return Json(await pmSettingService.AddMembers(projectManagerId, memberIds, sessionService.EmployeeId).ConfigureAwait(false));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveMember(int projectManagerId, int memberId)
+        {
+            return Json(await pmSettingService.RemoveMember(projectManagerId, memberId, sessionService.EmployeeId).ConfigureAwait(false));
         }
     }
 }

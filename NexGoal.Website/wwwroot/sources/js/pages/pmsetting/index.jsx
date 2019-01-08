@@ -1,11 +1,14 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import { stringify } from 'qs';
+import { toast } from 'react-toastify';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
+import ConfirmationModal from '../../shared/components/ConfirmationModal';
 import SearchForm from './SearchForm';
 import Table from './Table';
 import AddMember from './AddMember';
@@ -16,7 +19,8 @@ export default class PMSetting extends Component {
 
         this.state = {
             filter: {
-                pms: []
+                pms: [],
+                employee: null
             },
             pmOptions: [],
             employeeOptions: [],
@@ -26,6 +30,10 @@ export default class PMSetting extends Component {
                 showModal: false,
                 pm: null,
                 memberOptions: []
+            },
+            removeMember: {
+                showModal: false,
+                member: {}
             }
         }
     }
@@ -61,31 +69,48 @@ export default class PMSetting extends Component {
                     pms: pmOptions
                 };
 
-                this.setState({ filter: filter, pmOptions: pmOptions, pms: pms, employeeOptions: employeeOptions }, () => this.getPMSetting(this.state.filter.pms.map(e => e.value).toString()));
+                this.setState({ filter: filter, pmOptions: pmOptions, pms: pms, employeeOptions: employeeOptions }, () => {
+                    let filter = this.state.filter;
+                    this.getPMSetting(filter.pms.map(e => e.value).toString(), filter.employee ? filter.employee.value : null, this.updateTableData)
+                });
             }).catch(axiosError);
     }
 
-    getPMSetting = (pmIds) => {
+    updateTableData = response => {
+        let data = response.data;
+        let selectedPMs = this.state.pms.filter(pm => this.state.filter.pms.some(e => e.value === pm.employeeId));
+
+        this.setState({
+            tableData: selectedPMs.map(pm => ({
+                pm: pm,
+                members: data.filter(e => e.projectManagerId === pm.employeeId)
+            }))
+        });
+    }
+
+    getPMSetting = (pmIds, employeeId, callback) => {
         axios.get(resolveClientUrl('PMSetting/GetSetting'), {
             params: {
-                pmIds: pmIds
+                pmIds: pmIds,
+                employeeId: employeeId
             }
-        }).then(response => {
-            let data = response.data;
-            let selectedPMs = this.state.pms.filter(pm => this.state.filter.pms.some(e => e.value === pm.employeeId));
-
-            this.setState({
-                tableData: selectedPMs.map(pm => ({
-                    pm: pm,
-                    members: data.filter(e => e.projectManagerId === pm.employeeId)
-                }))
-            });
-        }).catch(axiosError);
+        }).then(callback).catch(axiosError);
     }
 
     handleAddMemberSuccess = () => {
-        this.getPMSetting(this.state.addMember.pm.employeeId);
+        this.getPMSetting(this.state.addMember.pm.employeeId, null, response => {
+            let data = response.data;
+            let tableData = this.state.tableData.slice();
+            let pmSetting = tableData.find(e => e.pm.employeeId === this.state.addMember.pm.employeeId);
+            pmSetting.members = data;
+            this.setState({ tableData: tableData });
+        });
         this.handleCloseAddMemberModal();
+    }
+
+    handleFilterSubmit = () => {
+        let filter = this.state.filter;
+        this.getPMSetting(filter.pms.map(e => e.value).toString(), filter.employee ? filter.employee.value : null, this.updateTableData);
     }
 
     handleFilterChange = (name, value) => {
@@ -95,19 +120,63 @@ export default class PMSetting extends Component {
     }
 
     handleAddMember = pm => {
-        let existingMembers = this.state.tableData.find(data => data.pm.employeeId === pm.employeeId).members
+        this.getPMSetting(pm.employeeId, null, response => {
+            this.setState({
+                addMember: {
+                    showModal: true,
+                    pm: pm,
+                    memberOptions: this.state.employeeOptions.filter(e => !response.data.some(em => em.employeeId === e.value))
+                }
+            });
+        });
+    }
 
+    handleRemoveMember = member => {
         this.setState({
-            addMember: {
+            removeMember: {
                 showModal: true,
-                pm: pm,
-                memberOptions: this.state.employeeOptions.filter(e => !existingMembers.some(em => em.employeeId === e.value))
+                member: member
             }
         });
     }
 
+    handleRemoveMemberConfirmation = () => {
+        axios({
+            url: resolveClientUrl(`PMSetting/RemoveMember`),
+            method: 'post',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                projectManagerId: this.state.removeMember.member.projectManagerId,
+                memberId: this.state.removeMember.member.employeeId
+            }),
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            let data = response.data;
+
+            if (data.isSuccessful) {
+                toast.success(getResource('RemovedSuccessfully'));
+
+                let tableData = this.state.tableData.slice();
+                let pmSetting = tableData.find(e => e.pm.employeeId === this.state.removeMember.member.projectManagerId);
+                let index = pmSetting.members.findIndex(m => m.employeeId === this.state.removeMember.member.employeeId);
+                pmSetting.members.splice(index, 1);
+                this.setState({ tableData: tableData });
+                this.handleCloseRemoveMemberModal();
+            } else {
+                toast.error(data.message);
+            }
+        }).catch(axiosError);
+    }
+
     handleCloseAddMemberModal = () => {
         this.setState({ addMember: { ... this.state.addMember, ...{ showModal: false } } });
+    }
+
+    handleCloseRemoveMemberModal = () => {
+        this.setState({ removeMember: { ... this.state.removeMember, ...{ showModal: false } } });
     }
 
     render() {
@@ -119,14 +188,19 @@ export default class PMSetting extends Component {
                 <div className="col-sm-12">
                     <SearchForm filter={this.state.filter}
                         pmOptions={this.state.pmOptions}
+                        employeeOptions={this.state.employeeOptions}
                         onFilterChange={this.handleFilterChange}
-                        onFilterSubmit={this.getPMSetting}
+                        onFilterSubmit={this.handleFilterSubmit}
                     />
-                    <Table tableData={this.state.tableData} onAddMember={this.handleAddMember} />
+                    <Table tableData={this.state.tableData} onAddMember={this.handleAddMember} onRemoveMember={this.handleRemoveMember} />
                 </div>
                 <AddMember pm={this.state.addMember.pm} memberOptions={this.state.addMember.memberOptions} showModal={this.state.addMember.showModal}
                     closeModal={this.handleCloseAddMemberModal} onAddMemberSuccess={this.handleAddMemberSuccess} />
                 <ToastLayout />
+                <ConfirmationModal action="remove" name={this.state.removeMember.member.nickName}
+                    showModal={this.state.removeMember.showModal}
+                    onCloseModal={this.handleCloseRemoveMemberModal}
+                    onSubmit={this.handleRemoveMemberConfirmation} />
             </div>
         );
     }

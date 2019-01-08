@@ -16,20 +16,32 @@
             this.baseService = baseService;
         }
 
-        public async Task<IEnumerable<MemberModel>> GetSettingAsync(string pmIds)
+        public async Task<IEnumerable<MemberModel>> GetSettingAsync(string pmIds, int? employeeId)
         {
             return await baseService.GetDataAsync<MemberModel>(new GetPMSettingCriteria
             {
-                PMIds = pmIds
+                PMIds = pmIds,
+                EmployeeId = employeeId
             }).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> AddMembers(int projectManagerId, string memberIds)
+        public async Task<CommandResult> AddMembers(int projectManagerId, string memberIds, int createdBy)
         {
             return await baseService.ExecuteNonQueryAsync(new AddMemberCriteria
             {
                 ProjectManagerId = projectManagerId,
-                MemberIds = memberIds
+                MemberIds = memberIds,
+                CreatedBy = createdBy
+            }).ConfigureAwait(false);
+        }
+
+        public async Task<CommandResult> RemoveMember(int projectManagerId, int memberId, int removedBy)
+        {
+            return await baseService.ExecuteNonQueryAsync(new RemoveMemberCriteria
+            {
+                ProjectManagerId = projectManagerId,
+                MemberId = memberId,
+                DeletedBy = removedBy
             }).ConfigureAwait(false);
         }
     }

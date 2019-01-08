@@ -1,34 +1,57 @@
 ﻿import React, { Component, Fragment } from 'react';
+import { Collapse } from 'react-bootstrap';
 
 import getResource from '../../resourceHelper';
 import { NominationStatuses } from '../../constants';
 import { getNominationClassName, noDataIndication } from '../../common-functions';
+
+class Row extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            expand: true
+        }
+    }
+
+    toggleExpand = () => this.setState({ expand: !this.state.expand })
+
+    handleAddMember = pm => this.props.onAddMember(pm)
+
+    handleRemoveMember = member => this.props.onRemoveMember(member)
+
+    renderMember = (member) =>
+        <Collapse key={member.employeeId} in={this.state.expand}>
+            <tr>
+                <td>{member.nickName} ({member.fullName})</td>
+                <td>{member.jobTitle}</td>
+                <td className='text-center'><a className="fa fa-trash-o remove" onClick={this.handleRemoveMember.bind(this, member)} title="Remove"></a></td>
+            </tr>
+        </Collapse>
+
+    render() {
+        let data = this.props.data;
+
+        return (
+            <Fragment >
+                <tr>
+                    <td colSpan={3}>
+                        <span onClick={this.toggleExpand}>{data.pm.nickName} ({data.members.length} members)</span>
+                        <a className="fa fa-plus" title="Add" onClick={this.handleAddMember.bind(this, data.pm)}></a>
+                    </td>
+                </tr>
+                {data.members.map(this.renderMember)}
+            </Fragment>
+        );
+    }
+}
 
 export default class Table extends Component {
     constructor(props) {
         super(props);
     }
 
-    handleAddMember = pm => this.props.onAddMember(pm)
-
-    renderEmployee = (employee) =>
-        <tr key={employee.employeeId}>
-            <td>{employee.nickName}</td>
-            <td></td>
-        </tr>
-
-    renderSetting = (data) => {
-        return (
-            <Fragment key={data.pm.employeeId}>
-                <tr >
-                    <td>{data.pm.nickName}'s members ({data.members.length}) <a className="fa fa-plus" title="Add" onClick={this.handleAddMember.bind(this, data.pm)}></a></td>
-                    <td className='text-center'><a className="fa fa-trash-o remove" title="Delete"></a></td>
-                </tr>
-                {data.members.map(this.renderEmployee)}
-            </Fragment>
-
-        );
-    }
+    renderSetting = (data) => <Row key={data.pm.employeeId} data={data} onAddMember={this.props.onAddMember} onRemoveMember={this.props.onRemoveMember} />
 
     render() {
         let content = this.props.tableData.length > 0 ? this.props.tableData.map(this.renderSetting)
@@ -38,8 +61,9 @@ export default class Table extends Component {
             <table className="table table-bordered table-striped tbl-nomination-report">
                 <thead>
                     <tr>
-                        <th className="order">{getResource('ProjectManager')}</th>
-                        <th className="nominee"></th>
+                        <th>{getResource('Employee')}</th>
+                        <th>{getResource('JobTitle')}</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

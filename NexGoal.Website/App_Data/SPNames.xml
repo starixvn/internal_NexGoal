@@ -159,6 +159,7 @@
   </Function>
   <Function name="PM Setting">
     <Setting Key="PMSetting_Get" SpName="PMSetting_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="PMSetting_Add" SpName="PMSetting_Add" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PMSetting_Insert" SpName="PMSetting_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PMSetting_Delete" SpName="PMSetting_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>
