@@ -35,7 +35,7 @@ export default class Notification extends Component {
         let totalHeight = 0;
         if (items.length > 0) {
             for (var i = 0; i < items.length; i++) {
-                totalHeight += items[i].offsetHeight + 10;
+                totalHeight += items[i].offsetHeight + 4;
             }
         }
         if (totalHeight < 400) {
@@ -89,7 +89,7 @@ export default class Notification extends Component {
                         />
                     }
                 </div>
-                <div className="noti-body" style={{ height: this.state.notiBodyHeight }}>
+                <div className="noti-body" style={{ height: this.state.notiBodyHeight}}>
                     <CustomScrollbars>
                         {
                             notifications &&

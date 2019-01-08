@@ -68,11 +68,11 @@
         height: calc(100% - 180px);
 
         .noti-center-item {
+            @include border-radius(5px);
             padding: 10px;
             margin: 10px;
-            border-radius: 3px;
             display: flex;
-            background-color: #F2F5F7;
+            border: 1px solid #E9E9E9;
 
             &.unread {
                 cursor: pointer;
@@ -89,7 +89,8 @@
             .avatar {
                 @include border-radius(50%);
                 background-color: #2270CE;
-                flex: 0 0 32px;
+                flex: none;
+                width: 32px;
                 height: 32px;
             }
         }
