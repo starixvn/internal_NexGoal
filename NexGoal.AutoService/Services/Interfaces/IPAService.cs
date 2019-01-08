@@ -11,5 +11,7 @@
         CommandResult EditStatus();
 
         void SendMail();
+
+        void SendNotification();
     }
 }

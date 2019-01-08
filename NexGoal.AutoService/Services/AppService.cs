@@ -39,21 +39,22 @@
                 periodService.GeneratePA();
 
                 paService.SendMail();
+                paService.SendNotification();
                 paService.EditGrade();
                 paService.EditWhenEvaluationFinished();
                 paService.EditStatus();
 
                 focusService.Generate();
                 focusService.SendMail();
-                focusService.CreateNotification();
+                focusService.SendNotification();
 
                 nominationService.SendMail();
-                nominationService.CreateNotification();
+                nominationService.SendNotification();
                 nominationService.EditWhenFinished();
             }
             catch (Exception ex)
             {
-                logger.Error("Host terminated unexpectedly", ex);
+                logger.Error(ex.Message, ex);
             }
         }
     }

@@ -78,7 +78,7 @@
             }
         }
 
-        public void CreateNotification()
+        public void SendNotification()
         {
             var notifications = new List<NotificationModel>();
             Tuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>> tuple = GetSettingToSendNotification(ReceiveNotificationType.Notification);

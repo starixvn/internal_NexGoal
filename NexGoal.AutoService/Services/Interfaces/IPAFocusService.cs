@@ -8,6 +8,6 @@
 
         void SendMail();
 
-        void CreateNotification();
+        void SendNotification();
     }
 }

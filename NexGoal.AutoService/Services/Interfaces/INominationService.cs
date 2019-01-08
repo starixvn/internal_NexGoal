@@ -6,7 +6,7 @@
     {
         void SendMail();
 
-        void CreateNotification();
+        void SendNotification();
 
         CommandResult EditWhenFinished();
     }
