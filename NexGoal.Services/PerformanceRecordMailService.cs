@@ -98,8 +98,8 @@
         {
             var emailTemplate = string.Format(MemberToSupervisorEmailTemplate, action == ActionOnPerformanceRecord.Create ? "Create" : "Edit");
             var subject = action == ActionOnPerformanceRecord.Create
-                ? string.Format(ViewLang.EmailSubject_CreatePCI_MemberToSupervisor, actor.NickName)
-                : string.Format(ViewLang.EmailSubject_EditPCI_MemberToSupervisor, actor.NickName);
+                ? string.Format(Message.EmailSubject_CreatePCI_MemberToSupervisor, actor.NickName)
+                : string.Format(Message.EmailSubject_EditPCI_MemberToSupervisor, actor.NickName);
             var filePath = Path.Combine(hostingEnvironment.WebRootPath, emailTemplate);
 
             var body = string.Format(
@@ -126,8 +126,8 @@
         {
             var emailTemplate = string.Format(SupervisorToMemberEmailTemplate, action == ActionOnPerformanceRecord.Create ? "Create" : "Edit");
             var subject = action == ActionOnPerformanceRecord.Create
-                ? string.Format(ViewLang.EmailSubject_CreatePCI_SupervisorToMember, actor.NickName)
-                : string.Format(ViewLang.EmailSubject_EditPCI_SupervisorToMember, actor.NickName);
+                ? string.Format(Message.EmailSubject_CreatePCI_SupervisorToMember, actor.NickName)
+                : string.Format(Message.EmailSubject_EditPCI_SupervisorToMember, actor.NickName);
             var filePath = Path.Combine(hostingEnvironment.WebRootPath, emailTemplate);
 
             var body = string.Format(
@@ -155,8 +155,8 @@
         {
             var emailTemplate = string.Format(SupervisorToSupervisorEmailTemplate, action == ActionOnPerformanceRecord.Create ? "Create" : "Edit");
             var subject = action == ActionOnPerformanceRecord.Create
-                ? string.Format(ViewLang.EmailSubject_CreatePCI_SupervisorToSupervisor, actor.NickName)
-                : string.Format(ViewLang.EmailSubject_EditPCI_SupervisorToSupervisor, actor.NickName);
+                ? string.Format(Message.EmailSubject_CreatePCI_SupervisorToSupervisor, actor.NickName)
+                : string.Format(Message.EmailSubject_EditPCI_SupervisorToSupervisor, actor.NickName);
             var filePath = Path.Combine(hostingEnvironment.WebRootPath, emailTemplate);
 
             var body = string.Format(

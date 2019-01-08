@@ -4,8 +4,10 @@
 
     public interface INominationService
     {
-        CommandResult EditWhenFinished();
-
         void SendMail();
+
+        void CreateNotification();
+
+        CommandResult EditWhenFinished();
     }
 }

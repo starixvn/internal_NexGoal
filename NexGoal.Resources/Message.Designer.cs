@@ -79,6 +79,132 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} has created a Performance Record!.
+        /// </summary>
+        public static string EmailSubject_CreatePCI_MemberToSupervisor {
+            get {
+                return ResourceManager.GetString("EmailSubject_CreatePCI_MemberToSupervisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has created a Performance Record for you!.
+        /// </summary>
+        public static string EmailSubject_CreatePCI_SupervisorToMember {
+            get {
+                return ResourceManager.GetString("EmailSubject_CreatePCI_SupervisorToMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has created a Performance Record for {1}!.
+        /// </summary>
+        public static string EmailSubject_CreatePCI_SupervisorToSupervisor {
+            get {
+                return ResourceManager.GetString("EmailSubject_CreatePCI_SupervisorToSupervisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has edited his/her Performance Record!.
+        /// </summary>
+        public static string EmailSubject_EditPCI_MemberToSupervisor {
+            get {
+                return ResourceManager.GetString("EmailSubject_EditPCI_MemberToSupervisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has edit his/her Performance Record for you!.
+        /// </summary>
+        public static string EmailSubject_EditPCI_SupervisorToMember {
+            get {
+                return ResourceManager.GetString("EmailSubject_EditPCI_SupervisorToMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has edited his/her Performance Record for {1}!.
+        /// </summary>
+        public static string EmailSubject_EditPCI_SupervisorToSupervisor {
+            get {
+                return ResourceManager.GetString("EmailSubject_EditPCI_SupervisorToSupervisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Nomination {0} process is almost over!.
+        /// </summary>
+        public static string EmailSubject_Nomination_Remind {
+            get {
+                return ResourceManager.GetString("EmailSubject_Nomination_Remind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Nomination {0} process has begun!.
+        /// </summary>
+        public static string EmailSubject_Nomination_Start {
+            get {
+                return ResourceManager.GetString("EmailSubject_Nomination_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Performance Appraisal for the {0} is complete!.
+        /// </summary>
+        public static string EmailSubject_PA_EndEvaluation {
+            get {
+                return ResourceManager.GetString("EmailSubject_PA_EndEvaluation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Performance Appraisal for the {0} is coming!.
+        /// </summary>
+        public static string EmailSubject_PA_RemindStartEvaluation {
+            get {
+                return ResourceManager.GetString("EmailSubject_PA_RemindStartEvaluation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Performance Appraisal for the {0} is almost over!.
+        /// </summary>
+        public static string EmailSubject_PA_RemindToReviewer {
+            get {
+                return ResourceManager.GetString("EmailSubject_PA_RemindToReviewer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Performance Appraisal for the {0} has begun!.
+        /// </summary>
+        public static string EmailSubject_PA_StartToReviewer {
+            get {
+                return ResourceManager.GetString("EmailSubject_PA_StartToReviewer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The PA Focus for the {0} is almost over!.
+        /// </summary>
+        public static string EmailSubject_PAFocus_Remind {
+            get {
+                return ResourceManager.GetString("EmailSubject_PAFocus_Remind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The PA Focus for the {0} has begun!.
+        /// </summary>
+        public static string EmailSubject_PAFocus_Start {
+            get {
+                return ResourceManager.GetString("EmailSubject_PAFocus_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Employee is required..
         /// </summary>
         public static string EmployeeRequired {
@@ -156,6 +282,87 @@ namespace NexGoal.Resources {
         public static string LessThanOrEqualCompare {
             get {
                 return ResourceManager.GetString("LessThanOrEqualCompare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Nomination process for the {0} is going to be CLOSED on {1}, please submit the vote for your nominee..
+        /// </summary>
+        public static string NotificationTemplate_Nomination_Remind {
+            get {
+                return ResourceManager.GetString("NotificationTemplate_Nomination_Remind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Nomination process for the {0} is IN PROGRESS, please submit the vote for your nominee..
+        /// </summary>
+        public static string NotificationTemplate_Nomination_Start {
+            get {
+                return ResourceManager.GetString("NotificationTemplate_Nomination_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Performance Appraisal for the {0} is COMPLETE!.
+        /// </summary>
+        public static string NotificationTemplate_PA_EndEvaluation {
+            get {
+                return ResourceManager.GetString("NotificationTemplate_PA_EndEvaluation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Performance Appraisal for the {0} will begin on {1}, you are recommended to create a neat &amp; clean Performance Record (a detailed comment &amp; selected grade) for a better evaluation result..
+        /// </summary>
+        public static string NotificationTemplate_PA_RemindStartEvaluationToMember {
+            get {
+                return ResourceManager.GetString("NotificationTemplate_PA_RemindStartEvaluationToMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Performance Appraisal for the {0} will begin on {1}, you are recommended to create a neat &amp; clean Performance Record (a detailed comment &amp; selected grade) for a better evaluation result..
+        /// </summary>
+        public static string NotificationTemplate_PA_RemindStartEvaluationToSupervisor {
+            get {
+                return ResourceManager.GetString("NotificationTemplate_PA_RemindStartEvaluationToSupervisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Performance Appraisal for the {0} is going to be CLOSED on {1}, please make sure to revise and submit the PA for all of your members..
+        /// </summary>
+        public static string NotificationTemplate_PA_RemindToReviewer {
+            get {
+                return ResourceManager.GetString("NotificationTemplate_PA_RemindToReviewer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Performance Appraisal for the {0} is IN PROGRESS, please revise and submit the PA for your members..
+        /// </summary>
+        public static string NotificationTemplate_PA_StartToReviewer {
+            get {
+                return ResourceManager.GetString("NotificationTemplate_PA_StartToReviewer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The PA Focus for the {0} is going to be CLOSED on {1}, please review the objectives for all of your members..
+        /// </summary>
+        public static string NotificationTemplate_PAFocus_Remind {
+            get {
+                return ResourceManager.GetString("NotificationTemplate_PAFocus_Remind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The PA Focus for the {0} is IN PROGRESS, please set the objectives for your members..
+        /// </summary>
+        public static string NotificationTemplate_PAFocus_Start {
+            get {
+                return ResourceManager.GetString("NotificationTemplate_PAFocus_Start", resourceCulture);
             }
         }
         

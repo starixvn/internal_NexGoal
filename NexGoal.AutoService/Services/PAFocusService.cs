@@ -1,12 +1,17 @@
 ﻿namespace NexGoal.AutoService.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using Microsoft.Extensions.Options;
+    using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.PAFocus;
+    using NexGoal.AutoService.Models.Notification;
     using NexGoal.AutoService.Models.PAFocus;
     using NexGoal.AutoService.Models.Period;
     using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Resources;
@@ -43,8 +48,7 @@
 
         public void SendMail()
         {
-            var criteria = new GetSettingToSendMailCriteria();
-            var tuple = baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(criteria).Result;
+            Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = GetSettingToSendNotification(ReceiveNotificationType.Email);
 
             var path = Directory.GetCurrentDirectory();
             var startMailPath = Path.Combine(path, StartMailTemplateToEvaluator);
@@ -53,12 +57,13 @@
 
             foreach (PeriodModel period in tuple.Item1)
             {
-                var subjectStartMail = string.Format(ViewLang.EmailSubject_PAFocus_Start, period.Name);
-                var subjectRemindMail = string.Format(ViewLang.EmailSubject_PAFocus_Remind, period.Name);
+                IEnumerable<ProcessSettingModel> settings = tuple.Item2.Where(x => x.PeriodId == period.PeriodId);
+                var subjectStartMail = string.Format(Message.EmailSubject_PAFocus_Start, period.Name);
+                var subjectRemindMail = string.Format(Message.EmailSubject_PAFocus_Remind, period.Name);
 
-                foreach (ProcessSettingModel focusSetting in tuple.Item2)
+                foreach (ProcessSettingModel focusSetting in settings)
                 {
-                    switch (focusSetting.MailMode)
+                    switch (focusSetting.NotificationMode)
                     {
                         case MailMode.Start:
                             body = string.Format(
@@ -86,11 +91,50 @@
             }
         }
 
+        public void CreateNotification()
+        {
+            var notifications = new List<NotificationModel>();
+            Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = GetSettingToSendNotification(ReceiveNotificationType.Notification);
+
+            foreach (PeriodModel period in tuple.Item1)
+            {
+                IEnumerable<ProcessSettingModel> settings = tuple.Item2.Where(x => x.PeriodId == period.PeriodId);
+                notifications.AddRange(settings.Select(x => new NotificationModel
+                {
+                    EmployeeId = x.EvaluatorId,
+                    Content = x.NotificationMode == MailMode.Start
+                    ? string.Format(Message.NotificationTemplate_PAFocus_Start, period.Name)
+                    : string.Format(Message.NotificationTemplate_PAFocus_Remind, period.Name, mailService.FormatEndDate(period.FocusEndDate)),
+                    StatusId = (int)NotificationStatus.Unread
+                }));
+            }
+
+            if (notifications.Any())
+            {
+                var criteria = new CreateNotificationCriteria
+                {
+                    Notifications = notifications.ToXML().ToString()
+                };
+
+                baseService.ExecuteNonQueryAsync(criteria).Wait();
+            }
+        }
+
         private IEnumerable<int> GetPeriodStarted()
         {
             var criteria = new GetPeriodStartedCriteria();
 
             return baseService.GetDataAsync<int>(criteria).Result;
+        }
+
+        private Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> GetSettingToSendNotification(ReceiveNotificationType receiveType)
+        {
+            var criteria = new GetSettingToSendNotificationCriteria
+            {
+                ReceiveType = (int)receiveType
+            };
+
+            return baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(criteria).Result;
         }
 
         private void SendEmail(string subject, string body, string receiverEmail)

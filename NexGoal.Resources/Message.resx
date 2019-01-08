@@ -123,6 +123,48 @@
   <data name="DisciplineStartDateRequired" xml:space="preserve">
     <value>Discipline Start Date is required.</value>
   </data>
+  <data name="EmailSubject_CreatePCI_MemberToSupervisor" xml:space="preserve">
+    <value>{0} has created a Performance Record!</value>
+  </data>
+  <data name="EmailSubject_CreatePCI_SupervisorToMember" xml:space="preserve">
+    <value>{0} has created a Performance Record for you!</value>
+  </data>
+  <data name="EmailSubject_CreatePCI_SupervisorToSupervisor" xml:space="preserve">
+    <value>{0} has created a Performance Record for {1}!</value>
+  </data>
+  <data name="EmailSubject_EditPCI_MemberToSupervisor" xml:space="preserve">
+    <value>{0} has edited his/her Performance Record!</value>
+  </data>
+  <data name="EmailSubject_EditPCI_SupervisorToMember" xml:space="preserve">
+    <value>{0} has edit his/her Performance Record for you!</value>
+  </data>
+  <data name="EmailSubject_EditPCI_SupervisorToSupervisor" xml:space="preserve">
+    <value>{0} has edited his/her Performance Record for {1}!</value>
+  </data>
+  <data name="EmailSubject_Nomination_Remind" xml:space="preserve">
+    <value>The Nomination {0} process is almost over!</value>
+  </data>
+  <data name="EmailSubject_Nomination_Start" xml:space="preserve">
+    <value>The Nomination {0} process has begun!</value>
+  </data>
+  <data name="EmailSubject_PAFocus_Remind" xml:space="preserve">
+    <value>The PA Focus for the {0} is almost over!</value>
+  </data>
+  <data name="EmailSubject_PAFocus_Start" xml:space="preserve">
+    <value>The PA Focus for the {0} has begun!</value>
+  </data>
+  <data name="EmailSubject_PA_EndEvaluation" xml:space="preserve">
+    <value>The Performance Appraisal for the {0} is complete!</value>
+  </data>
+  <data name="EmailSubject_PA_RemindStartEvaluation" xml:space="preserve">
+    <value>The Performance Appraisal for the {0} is coming!</value>
+  </data>
+  <data name="EmailSubject_PA_RemindToReviewer" xml:space="preserve">
+    <value>The Performance Appraisal for the {0} is almost over!</value>
+  </data>
+  <data name="EmailSubject_PA_StartToReviewer" xml:space="preserve">
+    <value>The Performance Appraisal for the {0} has begun!</value>
+  </data>
   <data name="EmployeeRequired" xml:space="preserve">
     <value>Employee is required.</value>
   </data>
@@ -149,6 +191,33 @@
   </data>
   <data name="LessThanOrEqualCompare" xml:space="preserve">
     <value>{0} must be less than or equal to {1}.</value>
+  </data>
+  <data name="NotificationTemplate_Nomination_Remind" xml:space="preserve">
+    <value>The Nomination process for the {0} is going to be CLOSED on {1}, please submit the vote for your nominee.</value>
+  </data>
+  <data name="NotificationTemplate_Nomination_Start" xml:space="preserve">
+    <value>The Nomination process for the {0} is IN PROGRESS, please submit the vote for your nominee.</value>
+  </data>
+  <data name="NotificationTemplate_PAFocus_Remind" xml:space="preserve">
+    <value>The PA Focus for the {0} is going to be CLOSED on {1}, please review the objectives for all of your members.</value>
+  </data>
+  <data name="NotificationTemplate_PAFocus_Start" xml:space="preserve">
+    <value>The PA Focus for the {0} is IN PROGRESS, please set the objectives for your members.</value>
+  </data>
+  <data name="NotificationTemplate_PA_EndEvaluation" xml:space="preserve">
+    <value>The Performance Appraisal for the {0} is COMPLETE!</value>
+  </data>
+  <data name="NotificationTemplate_PA_RemindStartEvaluationToMember" xml:space="preserve">
+    <value>The Performance Appraisal for the {0} will begin on {1}, you are recommended to create a neat &amp; clean Performance Record (a detailed comment &amp; selected grade) for a better evaluation result.</value>
+  </data>
+  <data name="NotificationTemplate_PA_RemindStartEvaluationToSupervisor" xml:space="preserve">
+    <value>The Performance Appraisal for the {0} will begin on {1}, you are recommended to create a neat &amp; clean Performance Record (a detailed comment &amp; selected grade) for a better evaluation result.</value>
+  </data>
+  <data name="NotificationTemplate_PA_RemindToReviewer" xml:space="preserve">
+    <value>The Performance Appraisal for the {0} is going to be CLOSED on {1}, please make sure to revise and submit the PA for all of your members.</value>
+  </data>
+  <data name="NotificationTemplate_PA_StartToReviewer" xml:space="preserve">
+    <value>The Performance Appraisal for the {0} is IN PROGRESS, please revise and submit the PA for your members.</value>
   </data>
   <data name="RequiredErrorMessage" xml:space="preserve">
     <value>{0} is required.</value>

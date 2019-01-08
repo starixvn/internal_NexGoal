@@ -7,5 +7,7 @@
         CommandResult Generate();
 
         void SendMail();
+
+        void CreateNotification();
     }
 }

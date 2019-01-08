@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.AutoService.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -8,9 +9,11 @@
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.PA;
     using NexGoal.AutoService.Models;
+    using NexGoal.AutoService.Models.Notification;
     using NexGoal.AutoService.Models.PA;
     using NexGoal.AutoService.Models.Period;
     using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Resources;
@@ -82,8 +85,7 @@
 
         public void SendMail()
         {
-            var criteria = new GetSettingToSendMailCriteria();
-            var tuple = baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(criteria).Result;
+            Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = GetSettingToSendNotification(ReceiveNotificationType.Email);
 
             var path = Directory.GetCurrentDirectory();
             var remindStartEvaluationToSelfPath = Path.Combine(path, RemindStartEvaluationMailTemplateToSelf);
@@ -94,15 +96,16 @@
 
             foreach (PeriodModel period in tuple.Item1)
             {
-                var subjectRemindStartEvaluationMail = string.Format(ViewLang.EmailSubject_PA_RemindStartEvaluation, period.Name);
-                var subjectStartMail = string.Format(ViewLang.EmailSubject_PA_StartToReviewer, period.Name);
-                var subjectRemindMail = string.Format(ViewLang.EmailSubject_PA_RemindToReviewer, period.Name);
-                var subjectEndEvaluationMail = string.Format(ViewLang.EmailSubject_PA_EndEvaluation, period.Name);
+                IEnumerable<ProcessSettingModel> settings = tuple.Item2.Where(x => x.PeriodId == period.PeriodId);
+                var subjectRemindStartEvaluationMail = string.Format(Message.EmailSubject_PA_RemindStartEvaluation, period.Name);
+                var subjectStartMail = string.Format(Message.EmailSubject_PA_StartToReviewer, period.Name);
+                var subjectRemindMail = string.Format(Message.EmailSubject_PA_RemindToReviewer, period.Name);
+                var subjectEndEvaluationMail = string.Format(Message.EmailSubject_PA_EndEvaluation, period.Name);
                 var body = string.Empty;
 
-                foreach (ProcessSettingModel setting in tuple.Item2)
+                foreach (ProcessSettingModel setting in settings)
                 {
-                    switch (setting.MailMode)
+                    switch (setting.NotificationMode)
                     {
                         case MailMode.RemindStartEvaluation:
                             body = string.Format(
@@ -152,6 +155,78 @@
             }
         }
 
+        public void CreateNotification()
+        {
+            var notifications = new List<NotificationModel>();
+            Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = GetSettingToSendNotification(ReceiveNotificationType.Notification);
+
+            foreach (PeriodModel period in tuple.Item1)
+            {
+                IEnumerable<ProcessSettingModel> settings = tuple.Item2.Where(x => x.PeriodId == period.PeriodId);
+                foreach (ProcessSettingModel setting in settings)
+                {
+                    switch (setting.NotificationMode)
+                    {
+                        case MailMode.RemindStartEvaluation:
+                            notifications.Add(new NotificationModel
+                            {
+                                EmployeeId = setting.EvaluatorId,
+                                Content = string.Format(
+                                    setting.ProcessId == PerformanceProcess.Self
+                                        ? Message.NotificationTemplate_PA_RemindStartEvaluationToMember
+                                        : Message.NotificationTemplate_PA_RemindStartEvaluationToSupervisor,
+                                    period.Name,
+                                    mailService.FormatStartDate(period.StartDate)),
+                                StatusId = (int)NotificationStatus.Unread
+                            });
+                            break;
+
+                        case MailMode.Start:
+                            notifications.Add(new NotificationModel
+                            {
+                                EmployeeId = setting.EvaluatorId,
+                                Content = string.Format(Message.NotificationTemplate_PA_StartToReviewer, period.Name),
+                                StatusId = (int)NotificationStatus.Unread
+                            });
+                            break;
+
+                        case MailMode.Remind:
+                            notifications.Add(new NotificationModel
+                            {
+                                EmployeeId = setting.EvaluatorId,
+                                Content = string.Format(Message.NotificationTemplate_PA_RemindToReviewer,
+                                    period.Name,
+                                    mailService.FormatStartDate(setting.EndDate)),
+                                StatusId = (int)NotificationStatus.Unread
+                            });
+                            break;
+
+                        case MailMode.EndEvaluation:
+                            notifications.Add(new NotificationModel
+                            {
+                                EmployeeId = setting.EvaluatorId,
+                                Content = string.Format(Message.NotificationTemplate_PA_EndEvaluation, period.Name),
+                                StatusId = (int)NotificationStatus.Unread
+                            });
+                            break;
+
+                        default:
+                            continue;
+                    }
+                }
+            }
+
+            if (notifications.Any())
+            {
+                var criteria = new CreateNotificationCriteria
+                {
+                    Notifications = notifications.ToXML().ToString()
+                };
+
+                baseService.ExecuteNonQueryAsync(criteria).Wait();
+            }
+        }
+
         private IEnumerable<PARecordModel> GetDataToEditGrade()
         {
             var criteria = new GetDataToEditGradeCriteria();
@@ -172,6 +247,16 @@
             }
 
             return records;
+        }
+
+        private Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> GetSettingToSendNotification(ReceiveNotificationType receiveType)
+        {
+            var criteria = new GetSettingToSendNotificationCriteria
+            {
+                ReceiveType = (int)receiveType
+            };
+
+            return baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(criteria).Result;
         }
 
         private void SendEmail(string subject, string body, ProcessSettingModel setting)

@@ -45,8 +45,10 @@
 
                 focusService.Generate();
                 focusService.SendMail();
+                focusService.CreateNotification();
 
                 nominationService.SendMail();
+                nominationService.CreateNotification();
                 nominationService.EditWhenFinished();
             }
             catch (Exception ex)
