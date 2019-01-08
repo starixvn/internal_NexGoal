@@ -6,121 +6,86 @@
 @import "../../components/modal";
 @import "../../components/toast";
 @import "../../layouts/nomination";
-@import "../../layouts/notification";
+@import "../../layouts/role";
 @import "../../layouts/employee-info";
 @import "../../layouts/hrm-summary";
 @import "../../layouts/main-layout";
 @import "../../layouts/milestone";
 @import "../../layouts/pa";
 @import "../../layouts/announcement";
+@import "../home/workload";
 
-.workload {
-    padding: 8px 12px;
+.noti-record {
+    padding: 50px 15px 0 15px;
+    height: calc(100% - 156px);
+    box-sizing: content-box;
+    overflow: auto;
 
-    h5 {
-        display: inline-block;
-    }
+    .noti-header {
+        padding: 5px;
+        border-bottom: 1px solid #EBEBEB;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-    .legend-container {
-        padding-top: 5px;
+        .title {
+            color: #777;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
 
-        .legend-item {
-            span {
+        .noti-function {
+            .mark-read, .setting {
+                color: #0072C7;
+            }
+
+            .mark-read {
+                margin-right: 8px;
+            }
+
+            .setting {
+                margin-left: 8px;
+            }
+
+            .dash {
+                width: 1px;
+                height: 16px;
+                background-color: #C5C5C5;
                 display: inline-block;
-                height: 10px;
-                width: 10px;
-                @include border-radius(50%);
+                position: relative;
+                top: 4px;
             }
         }
     }
-}
 
-.icon-check:before {
-    font-size: 15px;
-    font-weight: bold;
-    color: #458A00;
-}
+    .noti-body {
+        height: calc(100% - 180px);
 
-.checkbox-custom:checked + label:before {
-    background-color: #458A00;
-}
+        .noti-item {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 3px;
+            display: flex;
+            background-color: #F2F5F7;
 
-.checkbox-custom:checked + label:after {
-    background-color: #fff;
-    box-shadow: 2px 0 0 #fff, 4px 0 0 #fff, 4px -2px 0 #fff, 4px -4px 0 #fff, 4px -6px 0 #fff, 4px -8px 0 #fff;
-}
+            &.unread {
+                cursor: pointer;
+                font-weight: bold;
+                background-color: #E0F3FF;
+            }
 
-.noti-header {
-    padding: 5px;
-    border-bottom: 1px solid #EBEBEB;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+            .description {
+                color: #474747;
+                flex: auto;
+                padding-left: 12px;
+            }
 
-    .title {
-        color: #777;
-        text-transform: uppercase;
-        font-weight: 600;
-    }
-
-    .noti-function {
-        .mark-read, .setting {
-            color: #0072C7;
-        }
-
-        .mark-read {
-            margin-right: 8px;
-        }
-
-        .setting {
-            margin-left: 8px;
-        }
-
-        .dash {
-            width: 1px;
-            height: 16px;
-            background-color: #C5C5C5;
-            display: inline-block;
-            position: relative;
-            top: 4px;
+            .avatar {
+                @include border-radius(50%);
+                background-color: #2270CE;
+                flex: 0 0 32px;
+                height: 32px;
+            }
         }
     }
-}
-
-.noti-body {
-    height: 400px;
-
-    .noti-item {
-        padding: 10px;
-        margin: 5px;
-        border-radius: 3px;
-        display: flex;
-
-        &.unread {
-            cursor: pointer;
-            font-weight: bold;
-            background-color: #E0F3FF;
-        }
-
-        .description {
-            color: #474747;
-            flex: auto;
-            padding-left: 12px;
-        }
-
-        .avatar {
-            @include border-radius(50%);
-            background-color: #2270CE;
-            flex: 0 0 32px;
-            height: 32px;
-        }
-    }
-}
-
-.show-all-noti {
-    display: block;
-    text-transform: uppercase;
-    text-align: center;
-    margin: 0 auto;
-    padding: 5px;
 }

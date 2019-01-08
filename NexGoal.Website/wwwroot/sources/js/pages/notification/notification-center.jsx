@@ -1,20 +1,16 @@
 ﻿import React, { Component } from 'react';
 import axios from 'axios';
-import ReactTooltip from 'react-tooltip';
-import InfiniteScroll from 'react-infinite-scroller';
-import { toast } from 'react-toastify';
-import { stringify } from 'qs';
-import { axiosError, calculateTimelineNode, getCurrentUserInfo, resolveClientUrl } from '../../common-functions';
+import { axiosError, getCurrentUserInfo, resolveClientUrl } from '../../common-functions';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import EmployeeInfo from '../home/EmployeeInfo';
 import PerformanceAppraisalResult from '../home/PerformanceAppraisalResult';
 import Marquee from '../../shared/components/Marquee';
-import CustomScrollbars from '../../shared/components/CustomScrollbars';
 import NominationResult from '../home/NominationResult';
 import WorkLoad from '../home/workload';
 import HrmSummary from '../home/hrm/HRMSummary';
 import Announcement from '../../shared/components/Announcement';
-import Notification from '../../shared/components/notification/Notification';
+import NotificationFunction from './notification-header';
+import NotificationList from './list-notification';
 
 export default class NotificationCenter extends Component {
     constructor(props) {
@@ -68,8 +64,8 @@ export default class NotificationCenter extends Component {
     handleOpenAnnouncementModal = () => this.setState({ showAnnouncementModal: true })
 
     render() {
-        let currentUserInfo = this.state.currentUserInfo;
-
+        const currentUserInfo = this.state.currentUserInfo;
+        console.log(this.state.notifications);
         return (
             <div className="row">
                 <ToastLayout />
@@ -82,8 +78,9 @@ export default class NotificationCenter extends Component {
                         <div className="fixed-section">
                             <Marquee messages={this.state.announcements} onClick={this.handleOpenAnnouncementModal} />
                         </div>
-                        <div className="record-list">
-                            <Notification notifications={this.state.notifications} />
+                        <div className="noti-record">
+                            <NotificationFunction />
+                            <NotificationList notifications={this.state.notifications} />
                         </div>
 
                     </div>

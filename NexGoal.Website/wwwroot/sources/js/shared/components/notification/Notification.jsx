@@ -101,12 +101,14 @@ export default class Notification extends Component {
                             >
                                 {
                                     notifications.map(item => {
+                                        console.log(item);
                                         const notiStatus = item.statusId === NotificationStatus.Unread ? 'unread' : '';
+                                        const avatar = item.creatorId > 0 ? item.creator.avatar : '/dist/avatars/icon-nexgoal.svg';
                                         return (
                                             <div className={`noti-item ${notiStatus} noti-${item.notificationId}`}
                                                 onClick={() => this.handleReadNotification(item.statusId, item.notificationId)}
                                             >
-                                                <img className="avatar" src={`https://hrm.nexcel.vn/Avatars/${item.creator.code}.jpg`} />
+                                                <img className="avatar" src={avatar} />
                                                 <div className="description">{item.content}</div>
                                             </div>
                                         );
