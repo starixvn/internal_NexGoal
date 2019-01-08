@@ -47,7 +47,7 @@ class Filter extends Component {
                     <div className="control-content">
                         <input name="Keyword" className="form-control" type="text"
                             autoComplete="off"
-                            placeholder={getResource('FullNameOrNickname')}
+                            placeholder={getResource('NicknameOrFullName')}
                             onChange={this.onKeywordChange}
                         />
                     </div>
