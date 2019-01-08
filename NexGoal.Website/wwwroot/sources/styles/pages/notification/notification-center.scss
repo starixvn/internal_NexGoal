@@ -2,6 +2,8 @@
 @import "../../abstracts/mixins";
 @import "../../base/scaffolding";
 @import "../../components/form";
+@import "../../components/buttons";
+@import "../../components/tables";
 @import "../../components/marquee";
 @import "../../components/modal";
 @import "../../components/toast";
@@ -16,14 +18,18 @@
 @import "../home/workload";
 
 .noti-record {
-    padding: 50px 15px 0 15px;
+    @include box-shadow(0, 1px, 2px, rgba(0 , 0, 0, 0.15));
+    border: 1px solid #c5c5c5;
+    padding-top: 55px;
+    margin: 0 16px;
     height: calc(100% - 156px);
     box-sizing: content-box;
     overflow: auto;
 
     .noti-header {
-        padding: 5px;
-        border-bottom: 1px solid #EBEBEB;
+        padding: 8px;
+        border-bottom: 1px solid #C5C5C5;
+        border-top: 1px solid #ddd;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -63,7 +69,7 @@
 
         .noti-center-item {
             padding: 10px;
-            margin: 5px;
+            margin: 10px;
             border-radius: 3px;
             display: flex;
             background-color: #F2F5F7;
