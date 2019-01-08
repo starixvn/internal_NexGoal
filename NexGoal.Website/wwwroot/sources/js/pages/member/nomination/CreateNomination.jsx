@@ -132,7 +132,7 @@ export default class CreateNomination extends Component {
             <form onSubmit={handleSubmit} className="form-filter form-performance create">
                 <FormGroup>
                     <div className="nomination-period">
-                        <ControlLabel className="required-label" >{getResource('NominationPeriod')}</ControlLabel>
+                        <ControlLabel>{getResource('NominationPeriod')}</ControlLabel>
                         <Select name="period" className={`react-select-container ${touched.period && errors.period && 'input-validation-error'}`} classNamePrefix="react-select"
                             value={values.period} onChange={onPeriodChange}
                             options={this.state.nominationPeriodOptions}
@@ -141,7 +141,7 @@ export default class CreateNomination extends Component {
                     {
                         this.props.isEmployeeSelectable &&
                         <div className="employee">
-                            <ControlLabel className="required-label">{getResource('Employee')}</ControlLabel>
+                            <ControlLabel>{getResource('Employee')}</ControlLabel>
                             <Select name="employee" className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`} classNamePrefix="react-select"
                                 value={values.employee} onChange={value => setFieldValue('employee', value)}
                                 options={this.props.employeeOptions}
@@ -150,6 +150,7 @@ export default class CreateNomination extends Component {
                     }
                 </FormGroup>
                 <FormGroup>
+                    <ControlLabel>{getResource('Comment')}</ControlLabel>
                     <TextareaFullscreenEditor
                         className={`form-control comment-field ${touched.comment && errors.comment && 'input-validation-error'}`}
                         name="comment"

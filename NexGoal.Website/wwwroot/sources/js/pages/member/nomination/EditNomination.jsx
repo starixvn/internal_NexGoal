@@ -128,7 +128,8 @@ export default class EditNomination extends Component {
                 <FormGroup>
                     <div className="nomination-period">
                         <ControlLabel>{getResource('NominationPeriod')}</ControlLabel>
-                        <Select name="period" className={`react-select-container ${touched.period && errors.period && 'input-validation-error'}`} classNamePrefix="react-select"
+                        <Select name="period"
+                            className={`react-select-container ${touched.period && errors.period && 'input-validation-error'}`} classNamePrefix="react-select"
                             value={values.period} onChange={onPeriodChange}
                             options={this.state.nominationPeriodOptions}
                         />
@@ -137,17 +138,18 @@ export default class EditNomination extends Component {
                         <ControlLabel>{getResource('Employee')}</ControlLabel>
                         {
                             this.props.isEmployeeSelectable ?
-                            <Select name="employee" className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`} classNamePrefix="react-select"
-                                value={values.employee} onChange={value => setFieldValue('employee', value)}
-                                options={this.props.employeeOptions}
-                            />
-                            :
-                            values.employee.label
+                                <Select name="employee"
+                                    className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`} classNamePrefix="react-select"
+                                    value={values.employee} onChange={value => setFieldValue('employee', value)}
+                                    options={this.props.employeeOptions}
+                                />
+                                :
+                                values.employee.label
                         }
                     </div>
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>
+                    <ControlLabel>{getResource('Comment')}</ControlLabel>
                     <TextareaFullscreenEditor
                         className={`form-control comment-field ${touched.comment && errors.comment && 'input-validation-error'}`}
                         name="comment"
