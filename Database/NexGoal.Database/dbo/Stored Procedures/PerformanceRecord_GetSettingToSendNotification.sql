@@ -1,10 +1,11 @@
 ﻿
-CREATE PROCEDURE [dbo].[PerformanceRecord_GetSettingToSendMail] @PerformanceRecordIds VARCHAR(MAX)
+CREATE PROCEDURE [dbo].[PerformanceRecord_GetSettingToSendNotification] @ReceiveType TINYINT
+	,@PerformanceRecordIds VARCHAR(MAX)
 	,@ActorId INT
 AS
 /*
 Created: 20181127@Tim.Trinh
-Task: Get seting to send mail.
+Task: Get seting to send notification.
 DB: bodb_NexGoal
 Original:
 
@@ -20,6 +21,13 @@ BEGIN
 		,@Submitted TINYINT = 3
 		,@PeriodId INT
 		,@PARejected TINYINT = 5
+		-- mail mode
+		,@MemberToSupervisor TINYINT = 1
+		,@SupervisorToMember TINYINT = 2
+		,@SupervisorToSupervisor TINYINT = 3
+		-- receive type
+		,@ReceiveMail TINYINT = 1
+		,@ReceiveNotification TINYINT = 2
 		-- process
 		,@SelfProcessId TINYINT = 2
 		,@PMProcessId TINYINT = 3
@@ -29,15 +37,18 @@ BEGIN
 	CREATE TABLE #tblPerformanceRecordIds (
 		PerformanceRecordId INT
 		,EmployeeId INT
+		,RoleId TINYINT
 		)
 
 	CREATE TABLE #tblResult (
 		PerformanceRecordId INT
+		,NotificationMode TINYINT
+		,ProcessId TINYINT
+		,[Priority] TINYINT
 		,EvaluatorId INT
 		,Nickname NVARCHAR(20)
 		,FullName NVARCHAR(50)
 		,Email VARCHAR(50)
-		,ProcessId TINYINT
 		)
 
 	SELECT TOP 1 @PeriodId = PeriodId
@@ -50,49 +61,67 @@ BEGIN
 	INSERT INTO #tblPerformanceRecordIds (
 		PerformanceRecordId
 		,EmployeeId
+		,RoleId
 		)
 	SELECT val
 		,CAST(record.EmployeeIds AS INT)
+		,record.RoleId
 	FROM dbo.func_SplitString(@PerformanceRecordIds, ',') AS tbl
 		INNER JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON ISNUMERIC(tbl.val) = 1
 		AND tbl.val = record.PerformanceRecordId
 		AND record.StatusId = @Submitted
 
+	-- member
 	INSERT INTO #tblResult (
 		PerformanceRecordId
+		,NotificationMode
+		,ProcessId
+		,[Priority]
 		,EvaluatorId
 		,Nickname
 		,FullName
 		,Email
-		,ProcessId
 		)
 	SELECT tbl.PerformanceRecordId
+		,@SupervisorToMember AS NotificationMode
+		,@SelfProcessId AS ProcessId
+		,1 AS [Priority]
 		,emp.EmployeeId
 		,emp.NickName
 		,emp.FullName
 		,emp.Email
-		,@SelfProcessId
 	FROM #tblPerformanceRecordIds AS tbl WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON tbl.EmployeeId = emp.EmployeeId
 	WHERE tbl.EmployeeId <> @ActorId
 
+	-- evaluator, reviewer
 	INSERT INTO #tblResult (
 		PerformanceRecordId
+		,NotificationMode
+		,ProcessId
+		,[Priority]
 		,EvaluatorId
 		,Nickname
 		,FullName
 		,Email
-		,ProcessId
 		)
 	SELECT record.PerformanceRecordId
+		,(CASE record.RoleId
+			WHEN @SelfProcessId THEN @MemberToSupervisor
+			ELSE @SupervisorToSupervisor END
+			) AS NotificationMode
+		,process.ProcessId
+		,(CASE process.ProcessId
+			WHEN @EvaluatorProcessId THEN 2
+			ELSE 3 END
+			) AS [Priority]
 		,evaluator.EmployeeId
 		,evaluator.NickName
 		,evaluator.FullName
 		,evaluator.Email
-		,process.ProcessId
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
 		INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
-		AND process.ProcessId IN (@SelfProcessId, @EvaluatorProcessId, @ReviewerProcessId)
+		AND process.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
 		AND process.EvaluatorId <> @ActorId
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
 		AND period.PeriodId = @PeriodId
@@ -104,76 +133,154 @@ BEGIN
 			FROM #tblResult AS tbl WITH (NOLOCK)
 			WHERE record.PerformanceRecordId = tbl.PerformanceRecordId
 				AND process.EvaluatorId = tbl.EvaluatorId
-				AND process.ProcessId = tbl.ProcessId
 			)
 
 	INSERT INTO #tblResult (
 		PerformanceRecordId
+		,NotificationMode
+		,ProcessId
+		,[Priority]
 		,EvaluatorId
 		,Nickname
 		,FullName
 		,Email
-		,ProcessId
 		)
 	SELECT record.PerformanceRecordId
+		,(CASE record.RoleId
+			WHEN @SelfProcessId THEN @MemberToSupervisor
+			ELSE @SupervisorToSupervisor END
+			) AS NotificationMode
+		,efs.ProcessId
+		,(CASE efs.ProcessId
+			WHEN @EvaluatorProcessId THEN 2
+			ELSE 3 END
+			) AS [Priority]
 		,evaluator.EmployeeId
 		,evaluator.NickName
 		,evaluator.FullName
 		,evaluator.Email
-		,efs.ProcessId
 	FROM dbo.EmployeeFlowSetting AS efs WITH (NOLOCK)
 		INNER JOIN #tblPerformanceRecordIds AS record WITH (NOLOCK) ON efs.EmployeeId = record.EmployeeId
 		INNER JOIN dbo.Employee AS evaluator WITH (NOLOCK) ON efs.EvaluatorId = evaluator.EmployeeId
-	WHERE efs.ProcessId IN (@SelfProcessId, @EvaluatorProcessId, @ReviewerProcessId)
+		LEFT JOIN dbo.PARecord AS pa WITH (NOLOCK) ON pa.EmployeeId = efs.EmployeeId
+		AND pa.PeriodId = @PeriodId
+	WHERE efs.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
 		AND efs.EvaluatorId <> @ActorId
+		AND pa.PARecordId IS NULL
 		AND NOT EXISTS (
 			SELECT 1
 			FROM #tblResult AS tbl WITH (NOLOCK)
 			WHERE record.PerformanceRecordId = tbl.PerformanceRecordId
 				AND efs.EvaluatorId = tbl.EvaluatorId
-				AND efs.ProcessId = tbl.ProcessId
 			)
 
 	INSERT INTO #tblResult (
 		PerformanceRecordId
+		,NotificationMode
+		,ProcessId
+		,[Priority]
 		,EvaluatorId
 		,Nickname
 		,FullName
 		,Email
-		,ProcessId
 		)
 	SELECT record.PerformanceRecordId
+		,(CASE record.RoleId
+			WHEN @SelfProcessId THEN @MemberToSupervisor
+			ELSE @SupervisorToSupervisor END
+			) AS NotificationMode
+		,gfs.ProcessId
+		,(CASE gfs.ProcessId
+			WHEN @EvaluatorProcessId THEN 2
+			ELSE 3 END
+			) AS [Priority]
 		,evaluator.EmployeeId
 		,evaluator.NickName
 		,evaluator.FullName
 		,evaluator.Email
-		,gfs.ProcessId
 	FROM dbo.GroupFlowSetting AS gfs WITH (NOLOCK)
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON gfs.GroupId = gr.GroupId
 		AND gr.IsDeleted = 0
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON gr.GroupId = emp.GroupId
 		INNER JOIN #tblPerformanceRecordIds AS record WITH (NOLOCK) ON emp.EmployeeId = record.EmployeeId
 		INNER JOIN dbo.Employee AS evaluator WITH (NOLOCK) ON gfs.EvaluatorId = evaluator.EmployeeId
-	WHERE gfs.ProcessId IN (@SelfProcessId, @EvaluatorProcessId, @ReviewerProcessId)
+		LEFT JOIN dbo.PARecord AS pa WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
+		AND pa.PeriodId = @PeriodId
+	WHERE gfs.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
 		AND gfs.EvaluatorId <> @ActorId
+		AND pa.PARecordId IS NULL
 		AND NOT EXISTS (
 			SELECT 1
 			FROM #tblResult AS tbl WITH (NOLOCK)
 			WHERE record.PerformanceRecordId = tbl.PerformanceRecordId
 				AND gfs.EvaluatorId = tbl.EvaluatorId
-				AND gfs.ProcessId = tbl.ProcessId
 			)
 
+	-- project manager
+	INSERT INTO #tblResult (
+		PerformanceRecordId
+		,NotificationMode
+		,ProcessId
+		,[Priority]
+		,EvaluatorId
+		,Nickname
+		,FullName
+		,Email
+		)
+	SELECT record.PerformanceRecordId
+		,@MemberToSupervisor AS NotificationMode
+		,@PMProcessId AS ProcessId
+		,4 AS [Priority]
+		,emp.EmployeeId
+		,emp.NickName
+		,emp.FullName
+		,emp.Email
+	FROM dbo.Employee AS emp WITH (NOLOCK)
+		,#tblPerformanceRecordIds AS record WITH (NOLOCK)
+	WHERE emp.EmployeeId <> @ActorId		
+		AND record.RoleId = @SelfProcessId
+		AND EXISTS (
+			SELECT 1
+			FROM dbo.PMSetting AS pmsetting WITH (NOLOCK)
+			WHERE emp.EmployeeId = pmsetting.ProjectManagerId
+			AND record.EmployeeId = pmsetting.MemberId
+			)
+
+	SELECT PerformanceRecordId
+		,EmployeeId AS EmployeeIds
+	FROM #tblPerformanceRecordIds WITH (NOLOCK)
+
 	SELECT tbl.PerformanceRecordId
+		,tbl.NotificationMode
+		,tbl.ProcessId
+		,tbl.[Priority]
 		,tbl.EvaluatorId
 		,tbl.Nickname
 		,tbl.FullName
 		,tbl.Email
-		,tbl.ProcessId
 	FROM #tblResult AS tbl WITH (NOLOCK)
+		INNER JOIN (
+		SELECT PerformanceRecordId
+			,EvaluatorId
+			,MIN([Priority]) AS [Priority]
+		FROM #tblResult WITH (NOLOCK)
+		GROUP BY PerformanceRecordId
+			,EvaluatorId
+		) AS data ON tbl.PerformanceRecordId = data.PerformanceRecordId
+		AND data.EvaluatorId = data.EvaluatorId
+		AND tbl.[Priority] = data.[Priority]
 		LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
 	WHERE ISNULL(setting.TypeId, @NotificationType) = @NotificationType
-		AND ISNULL(setting.ReceiveEmail, 1) = 1
+		AND (
+			(
+				@ReceiveType = @ReceiveMail
+				AND ISNULL(setting.ReceiveEmail, 1) = 1
+				)
+			OR (
+				@ReceiveType = @ReceiveNotification
+				AND ISNULL(setting.ReceiveNotification, 1) = 1
+				)
+			)
 	ORDER BY tbl.PerformanceRecordId
 		,tbl.ProcessId
 

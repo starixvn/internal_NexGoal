@@ -223,10 +223,6 @@
     <Build Include="dbo\Stored Procedures\NominationReport_GetNominations.sql" />
     <Build Include="dbo\Stored Procedures\Report_GetPARecord.sql" />
     <Build Include="dbo\Stored Procedures\Announcement_Get.sql" />
-    <Build Include="dbo\Stored Procedures\PerformanceRecord_GetSettingToSendMail.sql" />
-    <Build Include="dbo\Stored Procedures\PARecord_GetSettingToSendMail.sql" />
-    <Build Include="dbo\Stored Procedures\PAFocus_GetSettingToSendMail.sql" />
-    <Build Include="dbo\Stored Procedures\NominationPeriod_GetSettingToSendMail.sql" />
     <Build Include="dbo\Stored Procedures\Auto_PAFocus_GetPeriodStarted.sql" />
     <Build Include="dbo\Stored Procedures\Auto_PAFocus_Generate.sql" />
     <Build Include="dbo\Tables\NotificationSetting.sql" />
@@ -237,6 +233,14 @@
     <Build Include="dbo\Stored Procedures\Notification_UpdateStatus.sql" />
     <Build Include="dbo\Stored Procedures\Notification_MarkAsRead.sql" />
     <Build Include="dbo\Stored Procedures\Discipline_GetCurrentPeriodByEmployee.sql" />
+    <Build Include="dbo\Tables\PMSetting.sql" />
+    <Build Include="dbo\Stored Procedures\PerformanceRecord_InsertNotification.sql" />
+    <Build Include="dbo\Stored Procedures\PerformanceRecord_GetSettingToSendNotification.sql" />
+    <Build Include="dbo\Stored Procedures\Auto_PARecord_GetSettingToSendNotification.sql" />
+    <Build Include="dbo\Stored Procedures\Auto_PAFocus_InsertNotification.sql" />
+    <Build Include="dbo\Stored Procedures\Auto_PAFocus_GetSettingToSendNotification.sql" />
+    <Build Include="dbo\Stored Procedures\Auto_Notification_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\Auto_NominationPeriod_GetSettingToSendNotification.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">

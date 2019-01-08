@@ -1,9 +1,9 @@
 ﻿
-CREATE PROCEDURE [dbo].[PAFocus_GetSettingToSendMail]
+CREATE PROCEDURE [dbo].[Auto_PAFocus_GetSettingToSendNotification] @ReceiveType TINYINT
 AS
 /*
-Created: 20181221@Tim.Trinh
-Task: get setting to send mail.
+Created: 20190107@Tim.Trinh
+Task: get setting to send notification.
 DB: bodb_NexGoal
 Original:
 
@@ -18,10 +18,13 @@ BEGIN
 		,@RemindMode TINYINT = 2
 		,@EvaluatorProcessId TINYINT = 4
 		,@NotificationType TINYINT = 4
+		-- receive type
+		,@ReceiveMail TINYINT = 1
+		,@ReceiveNotification TINYINT = 2
 
 	CREATE TABLE #tblProcessSetting (
 		PeriodId INT
-		,MailMode TINYINT
+		,NotificationMode TINYINT
 		,EvaluatorId INT
 		,Nickname NVARCHAR(20)
 		,FullName NVARCHAR(50)
@@ -30,7 +33,7 @@ BEGIN
 
 	INSERT INTO #tblProcessSetting (
 		PeriodId
-		,MailMode
+		,NotificationMode
 		,EvaluatorId
 		,Nickname
 		,FullName
@@ -40,7 +43,7 @@ BEGIN
 		,(CASE 
 			WHEN period.FocusStartDate = @Today THEN @StartMode
 			ELSE @RemindMode END
-			) AS MailMode
+			) AS NotificationMode
 		,process.EvaluatorId
 		,emp.NickName
 		,emp.FullName
@@ -69,11 +72,20 @@ BEGIN
 				LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
 			WHERE period.PeriodId = tbl.PeriodId
 				AND ISNULL(setting.TypeId, @NotificationType) = @NotificationType
-				AND ISNULL(setting.ReceiveEmail, 1) = 1
+				AND (
+					(
+						@ReceiveType = @ReceiveMail
+						AND ISNULL(setting.ReceiveEmail, 1) = 1
+						)
+					OR (
+						@ReceiveType = @ReceiveNotification
+						AND ISNULL(setting.ReceiveNotification, 1) = 1
+						)
+					)
 			)
 
 	SELECT PeriodId
-		,MailMode
+		,NotificationMode
 		,EvaluatorId
 		,Nickname
 		,FullName
@@ -81,7 +93,16 @@ BEGIN
 	FROM #tblProcessSetting AS tbl WITH (NOLOCK)
 		LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
 	WHERE ISNULL(setting.TypeId, @NotificationType) = @NotificationType
-		AND ISNULL(setting.ReceiveEmail, 1) = 1
+		AND (
+			(
+				@ReceiveType = @ReceiveMail
+				AND ISNULL(setting.ReceiveEmail, 1) = 1
+				)
+			OR (
+				@ReceiveType = @ReceiveNotification
+				AND ISNULL(setting.ReceiveNotification, 1) = 1
+				)
+			)
 
 	DROP TABLE #tblProcessSetting
 END
