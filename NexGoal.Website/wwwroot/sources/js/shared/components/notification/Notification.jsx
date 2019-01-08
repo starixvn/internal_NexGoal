@@ -35,7 +35,7 @@ export default class Notification extends Component {
         let totalHeight = 0;
         if (items.length > 0) {
             for (var i = 0; i < items.length; i++) {
-                totalHeight += items[i].offsetHeight;
+                totalHeight += items[i].offsetHeight + 10;
             }
         }
         if (totalHeight < 400) {
