@@ -36,8 +36,9 @@ class Row extends Component {
             <Fragment >
                 <tr>
                     <td colSpan={3}>
-                        <span onClick={this.toggleExpand}>{data.pm.nickName} ({data.members.length} members)</span>
-                        <a className="fa fa-plus" title="Add" onClick={this.handleAddMember.bind(this, data.pm)}></a>
+                        <span>{data.pm.nickName} ({data.members.length} members)</span>
+                        <a className="icon-plus" title="Add" onClick={this.handleAddMember.bind(this, data.pm)}></a>
+                        <a className="icon-chevron-down collapsed" title="Collapse/Expand" onClick={this.toggleExpand}></a>
                     </td>
                 </tr>
                 {data.members.map(this.renderMember)}
@@ -63,7 +64,7 @@ export default class Table extends Component {
                     <tr>
                         <th>{getResource('Employee')}</th>
                         <th>{getResource('JobTitle')}</th>
-                        <th></th>
+                        <th className="text-center col-120">Remove</th>
                     </tr>
                 </thead>
                 <tbody>

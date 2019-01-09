@@ -62,14 +62,22 @@ export default class AddMember extends Component {
         handleSubmit,
         setFieldValue }) => {
         return (
-            <Form horizontal onSubmit={handleSubmit} className="add-member-form">
+            <Form onSubmit={handleSubmit} className="add-member-form">
                 <Modal.Body>
                     {!isEmpty(errors) && !isEmpty(touched) &&
                         <ul className="list-message-error">
                             {touched.members && errors.members && <li>{errors.members}</li>}
                         </ul>
                     }
-                    <FormGroup>
+                    <div className="required-label lb-member">{getResource('Members')}</div>
+                    <Select name="members"
+                                className={`react-select-container ${touched.members && errors.members && 'input-validation-error'}`}
+                                classNamePrefix="react-select" isClearable
+                                options={this.props.memberOptions}
+                                value={values.members} isMulti closeMenuOnSelect={false}
+                                onChange={value => setFieldValue('members', value)}
+                            />
+                    {/* <FormGroup>
                         <Col componentClass={ControlLabel} className="required-label" sm={3}>{getResource('Members')}</Col>
                         <Col sm={9}>
                             <Select name="members"
@@ -80,7 +88,7 @@ export default class AddMember extends Component {
                                 onChange={value => setFieldValue('members', value)}
                             />
                         </Col>
-                    </FormGroup>
+                    </FormGroup> */}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="btn btn-cancel" onClick={this.props.closeModal}>{getResource('Cancel')}</Button>
