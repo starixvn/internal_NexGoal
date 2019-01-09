@@ -1,4 +1,8 @@
 ﻿CREATE PROCEDURE [dbo].[Notification_GetByEmployee] @EmployeeId INT
+	,@PageSize INT
+	,@PageIndex INT
+	,@TotalItems INT OUT
+	,@UnReadNoti INT OUT
 AS
 /*
 Created: 20190102@Oliver.Dang
@@ -8,17 +12,6 @@ DB: bodb_NexGoal
 BEGIN
 	SET NOCOUNT ON;
 
-	CREATE TABLE #tplEmployee (EmpId INT)
-
-	INSERT INTO #tplEmployee (EmpId)
-	SELECT DISTINCT CreatorId
-	FROM dbo.[Notification] WITH (NOLOCK)
-	WHERE CreatorId <> @EmployeeId
-	
-	UNION
-	
-	SELECT @EmployeeId
-
 	SELECT noti.NotificationId
 		,noti.CreatorId
 		,noti.EmployeeId
@@ -27,14 +20,16 @@ BEGIN
 		,noti.CreatedDate
 	FROM dbo.[Notification] AS noti WITH (NOLOCK)
 	WHERE EmployeeId = @EmployeeId
-	ORDER BY noti.CreatedDate DESC
+	ORDER BY CreatedDate DESC OFFSET(@PageIndex * @PageSize) ROWS
 
-	SELECT e.EmployeeId
-		,e.NickName
-		,e.FullName
-		,e.Code
-	FROM dbo.Employee AS e WITH (NOLOCK)
-	INNER JOIN #tplEmployee AS tpl WITH (NOLOCK) ON e.EmployeeId = tpl.EmpId
+	FETCH NEXT @PageSize ROWS ONLY
 
-	DROP TABLE #tplEmployee
+	SELECT @TotalItems = COUNT(1) 
+		,@UnreadNoti = SUM(CASE 
+				WHEN noti.StatusId = 0
+					THEN 1
+				ELSE 0
+				END)
+	FROM dbo.[Notification] AS noti WITH (NOLOCK)
+	WHERE EmployeeId = @EmployeeId
 END

@@ -136,7 +136,7 @@
     <Setting Key="Notification_GetSettingByEmployee" SpName="Notification_GetSettingByEmployee" DbName="bodb_NexGoal" Plain="0">
     </Setting>
     <Setting Key="Notification_UpdateSetting" SpName="Notification_UpdateSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="Notification_GetByEmployee" SpName="Notification_GetByEmployee_xpre" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Notification_GetByEmployee" SpName="Notification_GetByEmployee" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Notification_UpdateStatus" SpName="Notification_UpdateStatus" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Notification_MarkAsRead" SpName="Notification_MarkAsRead" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
