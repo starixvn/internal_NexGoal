@@ -25,45 +25,44 @@ BEGIN
 		,@EvaluatorProcessId TINYINT = 4
 		,@ReviewerProcessId TINYINT = 5
 
-	IF EXISTS (
-			SELECT 1
-			FROM dbo.Employee AS emp WITH (NOLOCK)
-				INNER JOIN dbo.EmployeeRole AS er WITH (NOLOCK) ON er.EmployeeId = emp.EmployeeId
-				AND er.RoleId = @SARoleId
-			WHERE emp.EmployeeId = @ActorId
-			)
-	BEGIN
-		INSERT INTO @result (
-			EmployeeId
-			,RoleId
-			)
-		SELECT EmployeeId
-			,@SARoleId
-		FROM dbo.Employee WITH (NOLOCK)
-		WHERE EmployeeId <> @ActorId
-			AND [Enabled] = 1
-			AND IsDeleted = 0
-	END
-
-	IF EXISTS (
-			SELECT 1
-			FROM dbo.Employee AS emp WITH (NOLOCK)
-				INNER JOIN dbo.EmployeeRole AS er WITH (NOLOCK) ON er.EmployeeId = emp.EmployeeId
-				AND er.RoleId = @ManagementRoleId
-			WHERE emp.EmployeeId = @ActorId
-			)
-	BEGIN
-		INSERT INTO @result (
-			EmployeeId
-			,RoleId
-			)
-		SELECT EmployeeId
-			,@ManagementRoleId
-		FROM dbo.Employee WITH (NOLOCK)
-		WHERE EmployeeId <> @ActorId
-			AND [Enabled] = 1
-			AND IsDeleted = 0
-	END
+	--IF EXISTS (
+	--		SELECT 1
+	--		FROM dbo.Employee AS emp WITH (NOLOCK)
+	--			INNER JOIN dbo.EmployeeRole AS er WITH (NOLOCK) ON er.EmployeeId = emp.EmployeeId
+	--			AND er.RoleId = @SARoleId
+	--		WHERE emp.EmployeeId = @ActorId
+	--		)
+	--BEGIN
+	--	INSERT INTO @result (
+	--		EmployeeId
+	--		,RoleId
+	--		)
+	--	SELECT EmployeeId
+	--		,@SARoleId
+	--	FROM dbo.Employee WITH (NOLOCK)
+	--	WHERE EmployeeId <> @ActorId
+	--		AND [Enabled] = 1
+	--		AND IsDeleted = 0
+	--END
+	--IF EXISTS (
+	--		SELECT 1
+	--		FROM dbo.Employee AS emp WITH (NOLOCK)
+	--			INNER JOIN dbo.EmployeeRole AS er WITH (NOLOCK) ON er.EmployeeId = emp.EmployeeId
+	--			AND er.RoleId = @ManagementRoleId
+	--		WHERE emp.EmployeeId = @ActorId
+	--		)
+	--BEGIN
+	--	INSERT INTO @result (
+	--		EmployeeId
+	--		,RoleId
+	--		)
+	--	SELECT EmployeeId
+	--		,@ManagementRoleId
+	--	FROM dbo.Employee WITH (NOLOCK)
+	--	WHERE EmployeeId <> @ActorId
+	--		AND [Enabled] = 1
+	--		AND IsDeleted = 0
+	--END
 
 	IF EXISTS (
 			SELECT 1
@@ -138,6 +137,12 @@ BEGIN
 		AND efs.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
 		AND NOT EXISTS (
 			SELECT 1
+			FROM dbo.PARecord AS pa WITH (NOLOCK)
+			WHERE efs.EmployeeId = pa.EmployeeId
+				AND pa.PeriodId = @PeriodId
+			)
+		AND NOT EXISTS (
+			SELECT 1
 			FROM @result AS result
 			WHERE emp.EmployeeId = result.EmployeeId
 				AND result.ProcessId = efs.ProcessId
@@ -161,6 +166,12 @@ BEGIN
 		AND gfs.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
 		AND NOT EXISTS (
 			SELECT 1
+			FROM dbo.PARecord AS pa WITH (NOLOCK)
+			WHERE emp.EmployeeId = pa.EmployeeId
+				AND pa.PeriodId = @PeriodId
+			)
+		AND NOT EXISTS (
+			SELECT 1
 			FROM @result AS result
 			WHERE emp.EmployeeId = result.EmployeeId
 				AND result.ProcessId = gfs.ProcessId
@@ -175,22 +186,11 @@ BEGIN
 			)
 	BEGIN
 		INSERT INTO @result
-		SELECT DISTINCT emp.EmployeeId
+		SELECT DISTINCT MemberId
 			,@PMProcessId
 			,@PMRoleId
-		FROM dbo.Employee AS emp WITH (NOLOCK)
-			INNER JOIN dbo.ProjectMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
-			AND member.EmployeeId <> @ActorId
-			AND member.RoleId NOT IN (1, 2, 3, 7) -- none member, anonymous, project manager, viewer
-			INNER JOIN dbo.ProjectSpentTime AS spenttime WITH (NOLOCK) ON member.ProjectId = spenttime.ProjectId
-			AND member.EmployeeId = spenttime.EmployeeId
-			AND spenttime.SpentOn BETWEEN @StartDate
-				AND @EndDate
-			INNER JOIN dbo.ProjectMember AS pm WITH (NOLOCK) ON member.ProjectId = pm.ProjectId
-			AND pm.EmployeeId = @ActorId
-			AND pm.RoleId = 3 -- project manager
-		WHERE emp.[Enabled] = 1
-			AND emp.IsDeleted = 0
+		FROM dbo.PMSetting WITH (NOLOCK)
+		WHERE MemberId <> @ActorId
 	END
 
 	RETURN

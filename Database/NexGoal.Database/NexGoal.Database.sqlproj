@@ -237,7 +237,6 @@
     <Build Include="dbo\Stored Procedures\PerformanceRecord_InsertNotification.sql" />
     <Build Include="dbo\Stored Procedures\PerformanceRecord_GetSettingToSendNotification.sql" />
     <Build Include="dbo\Stored Procedures\Auto_PARecord_GetSettingToSendNotification.sql" />
-    <Build Include="dbo\Stored Procedures\Auto_PAFocus_InsertNotification.sql" />
     <Build Include="dbo\Stored Procedures\Auto_PAFocus_GetSettingToSendNotification.sql" />
     <Build Include="dbo\Stored Procedures\Auto_Notification_Insert.sql" />
     <Build Include="dbo\Stored Procedures\Auto_NominationPeriod_GetSettingToSendNotification.sql" />

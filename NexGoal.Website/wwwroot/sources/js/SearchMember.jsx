@@ -83,7 +83,7 @@ export default class SearchMember extends Component {
                 {
                     this.state.hasMember &&
                     <div ref={node => this.wrapperRef = node}
-                        className={`search-member-container ${this.state.showSearchbox ? 'focused' : ''}`}
+                        className={`search-member-container ${this.state.showSearchbox ? 'focused' : ''} ${memberOptions.length > 0 ? ' has-member' : ''}`}
                     >
                         <span className="icon-search" onClick={this.handleClick} />
                         <input ref={node => this.inputRef = node}
