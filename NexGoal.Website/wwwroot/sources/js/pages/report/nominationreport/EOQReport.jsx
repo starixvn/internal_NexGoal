@@ -2,8 +2,8 @@
 import axios from 'axios';
 import moment from 'moment';
 
-import { axiosError, resolveClientUrl } from '../../common-functions';
-import { NominationStatuses } from '../../constants';
+import { axiosError, resolveClientUrl } from '../../../common-functions';
+import { NominationStatuses } from '../../../constants';
 import SearchForm from './SearchForm';
 import Table from './Table';
 

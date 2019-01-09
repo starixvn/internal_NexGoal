@@ -1,8 +1,8 @@
 ﻿import React, { PureComponent, Fragment } from 'react';
 import { Button, Modal, Tab, Nav, NavItem } from 'react-bootstrap';
 
-import getResource from '../../resourceHelper';
-import CustomScrollbars from '../../shared/components/CustomScrollbars';
+import getResource from '../../../resourceHelper';
+import CustomScrollbars from '../../../shared/components/CustomScrollbars';
 
 export default class NominatorComment extends PureComponent {
     handleScrollLeft = () => {

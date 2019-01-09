@@ -2,9 +2,9 @@
 import ReactDOM from 'react-dom';
 import { Tabs, Tab } from 'react-bootstrap';
 
-import getResource from '../../resourceHelper';
-import ToastLayout from '../../shared/layouts/ToastLayout';
-import Breadcrumb from '../../shared/components/Breadcrumb';
+import getResource from '../../../resourceHelper';
+import ToastLayout from '../../../shared/layouts/ToastLayout';
+import Breadcrumb from '../../../shared/components/Breadcrumb';
 import NominatorComment from './NominatorComment';
 import EOQReport from './EOQReport';
 

@@ -1,8 +1,8 @@
 ﻿import React, { Component, Fragment } from 'react';
 
-import getResource from '../../resourceHelper';
-import { NominationStatuses } from '../../constants';
-import { getNominationClassName, noDataIndication } from '../../common-functions';
+import getResource from '../../../resourceHelper';
+import { NominationStatuses } from '../../../constants';
+import { getNominationClassName, noDataIndication } from '../../../common-functions';
 
 export default class Table extends Component {
     constructor(props) {

@@ -15,26 +15,30 @@
 .tbl-pm-assignment {
     width: 882px;
     margin-bottom: 24px;
+
     &.table-striped > tbody > tr:nth-of-type(odd) {
         background-color: #fff;
     }
+
     > tbody > tr > td {
         color: #474747;
-        &[colspan="3"]{
+
+        &[colspan="3"] {
             background-color: #E9E9E9;
             font-weight: 600;
             font-size: 14px;
         }
+
         .icon-plus {
             @include border-radius(50%);
             background-color: #458A00;
             width: 14px;
             height: 14px;
             display: inline-block;
-
             position: relative;
             top: 2px;
             margin-left: 4px;
+
             &:before {
                 color: #fff;
                 font-size: 12px;
@@ -43,18 +47,38 @@
                 left: 1px;
             }
         }
+
         .icon-chevron-down {
             float: right;
             color: #545454;
             font-size: 24px;
             margin-right: 4px;
+
             &.collapsed {
                 transform: rotate(-180deg);
                 display: inline-block;
             }
         }
     }
+
+    tr {
+        &.collapsing {
+            position: relative;
+            height: 0;
+            overflow: hidden;
+            -webkit-transition-timing-function: ease;
+            -o-transition-timing-function: ease;
+            transition-timing-function: ease;
+            -webkit-transition-duration: .35s;
+            -o-transition-duration: .35s;
+            transition-duration: .35s;
+            -webkit-transition-property: height, visibility;
+            -o-transition-property: height, visibility;
+            transition-property: height, visibility;
+        }
+    }
 }
+
 .react-select-container .react-select__control {
     height: auto;
 }
@@ -63,6 +87,7 @@
     color: #474747;
     margin-bottom: 6px;
 }
+
 .col-120 {
     width: 120px;
 }

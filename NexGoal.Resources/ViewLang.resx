@@ -186,7 +186,7 @@
   <data name="EditPerformanceCheckin" xml:space="preserve">
     <value>Edit Performance Check-in</value>
   </data>
-  <data name="PMSetting" xml:space="preserve">
-    <value>PM Setting</value>
+  <data name="PMAssignment" xml:space="preserve">
+    <value>PM Assignment</value>
   </data>
 </root>

@@ -20,8 +20,22 @@ class Row extends Component {
 
     handleRemoveMember = member => this.props.onRemoveMember(member)
 
+    handleExit = (element) => {
+        debugger;
+        // element.classList.add('exit');
+    }
+
+    handleExiting = (element) => {
+        debugger;
+        // element.classList.add('exit-active');
+    }
+
+    handleExited = (element) => {
+        debugger;
+    }
+
     renderMember = (member) =>
-        <Collapse key={member.employeeId} in={this.state.expand}>
+        <Collapse key={member.employeeId} in={this.state.expand} onExit={this.handleExit} onExiting={this.handleExiting} onExited={this.handleExited}>
             <tr>
                 <td>{member.nickName} ({member.fullName})</td>
                 <td>{member.jobTitle}</td>
@@ -38,7 +52,7 @@ class Row extends Component {
                     <td colSpan={3}>
                         <span>{data.pm.nickName} ({data.members.length} members)</span>
                         <a className="icon-plus" title="Add" onClick={this.handleAddMember.bind(this, data.pm)}></a>
-                        <a className="icon-chevron-down collapsed" title="Collapse/Expand" onClick={this.toggleExpand}></a>
+                        <a className={`icon-chevron-down ${this.state.expand ? 'collapsed' : 'expanded'}`} title="Collapse/Expand" onClick={this.toggleExpand}></a>
                     </td>
                 </tr>
                 {data.members.map(this.renderMember)}

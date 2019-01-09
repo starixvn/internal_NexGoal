@@ -205,11 +205,11 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to PM Setting.
+        ///   Looks up a localized string similar to PM Assignment.
         /// </summary>
-        public static string PMSetting {
+        public static string PMAssignment {
             get {
-                return ResourceManager.GetString("PMSetting", resourceCulture);
+                return ResourceManager.GetString("PMAssignment", resourceCulture);
             }
         }
         

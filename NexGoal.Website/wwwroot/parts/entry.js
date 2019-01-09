@@ -44,7 +44,7 @@ module.exports = {
         [`${jsDistPath}/member-details`]: `${jsSourcePath}/member/details.jsx`,
         [`${jsDistPath}/pafocus`]: `${jsSourcePath}/pafocus/index.jsx`,
         [`${jsDistPath}/nomination-assessment`]: `${jsSourcePath}/nominationassessment/index.jsx`,
-        [`${jsDistPath}/nomination-report`]: `${jsSourcePath}/nominationreport/index.jsx`,
+        [`${jsDistPath}/nomination-report`]: `${jsSourcePath}/report/nominationreport/index.jsx`,
         [`${jsDistPath}/pa-report`]: `${jsSourcePath}/report/pa-report/index.jsx`,
         [`${jsDistPath}/pm-setting`]: `${jsSourcePath}/pmsetting/index.jsx`,
     }
