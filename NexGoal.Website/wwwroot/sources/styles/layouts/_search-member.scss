@@ -3,14 +3,16 @@
     position: relative;    
 
     .search-member-container {
+        position: relative;
         &.focused {
             @include border-radius(20px);
+            padding: 0 16px;
             background-color: #fff;
             .icon-search  {
                 cursor: pointer;
-                margin-left: 12px;
-                position: relative;
-                top: 3px;
+                margin-left: 0;
+                position: absolute;
+                top: 6px;
                 &:before {
                     color: #324476;
                 }
@@ -18,8 +20,21 @@
             input {
                 width: 280px;                
                 padding: 0 8px;
+                padding-left: 24px;
+                border-bottom: 1px solid #fff;
+            }
+            &.has-member {
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+                input {
+                    border-bottom: 1px solid #C4C4C4;
+                }
             }
         }
+        .member-list {
+            width: 312px;
+        }
+        
 
         input {            
             -webkit-transition: all .5s;
@@ -36,7 +51,6 @@
 
     .member-list {
         min-width: 200px;
-        max-width: 300px;
         position: absolute;
         right: 0;
         background-color: #fff;
@@ -44,7 +58,7 @@
         color: #333;
 
         .item {
-            padding: 8px;
+            padding: 8px 16px;
 
             &:hover {
                 background-color: #EBF4FF;
