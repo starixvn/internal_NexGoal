@@ -219,8 +219,8 @@
         {
             var emailTemplate = string.Format(SupervisorToSupervisorEmailTemplate, action == ActionOnPerformanceRecord.Create ? "Create" : "Edit");
             var subject = action == ActionOnPerformanceRecord.Create
-                ? string.Format(Message.EmailSubject_CreatePCI_SupervisorToSupervisor, actor.NickName)
-                : string.Format(Message.EmailSubject_EditPCI_SupervisorToSupervisor, actor.NickName);
+                ? string.Format(Message.EmailSubject_CreatePCI_SupervisorToSupervisor, actor.NickName, employee.NickName)
+                : string.Format(Message.EmailSubject_EditPCI_SupervisorToSupervisor, actor.NickName, employee.NickName);
             var filePath = Path.Combine(hostingEnvironment.WebRootPath, emailTemplate);
 
             var body = string.Format(
