@@ -8,7 +8,7 @@
     using NexGoal.Web.Core.Filters;
     using NexGoal.Web.Core.Services;
 
-    [NexGoalPermission(FunctionKey = FunctionKey.PMSetting, Policy = Policy.Host)]
+    [NexGoalPermission(FunctionKey = FunctionKey.PMAssignment, Policy = Policy.Host)]
     public class PMSettingController : Controller
     {
         private readonly IPMSettingService pmSettingService;

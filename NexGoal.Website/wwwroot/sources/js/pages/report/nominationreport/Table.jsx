@@ -42,7 +42,7 @@ export default class Table extends Component {
                 <tr>
                     <td colSpan={5}>{data.title}</td>
                 </tr>
-                {data.nominations.map(this.renderNomination)}
+                {data.nominations.length > 0 ? data.nominations.map(this.renderNomination) : <tr><td className="text-center" colSpan={6}>{noDataIndication()}</td></tr>}
             </Fragment>
         );
     }

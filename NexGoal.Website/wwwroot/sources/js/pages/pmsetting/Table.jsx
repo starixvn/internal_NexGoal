@@ -20,22 +20,8 @@ class Row extends Component {
 
     handleRemoveMember = member => this.props.onRemoveMember(member)
 
-    handleExit = (element) => {
-        debugger;
-        // element.classList.add('exit');
-    }
-
-    handleExiting = (element) => {
-        debugger;
-        // element.classList.add('exit-active');
-    }
-
-    handleExited = (element) => {
-        debugger;
-    }
-
     renderMember = (member) =>
-        <Collapse key={member.employeeId} in={this.state.expand} onExit={this.handleExit} onExiting={this.handleExiting} onExited={this.handleExited}>
+        <Collapse key={member.employeeId} in={this.state.expand}>
             <tr>
                 <td>{member.nickName} ({member.fullName})</td>
                 <td>{member.jobTitle}</td>
