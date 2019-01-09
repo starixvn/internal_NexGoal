@@ -16,12 +16,13 @@ export default class Nomination extends Component {
         super(props);
 
         this.state = {
-            employeeOptions: [],
             nominations: [],
-            nominationPeriods: [],
             showEditModal: false,
             showDeleteModal: false
         };
+
+        this.employeeOptions = [];
+        this.nominationPeriods = [];
     }
 
     componentDidMount() {
@@ -36,14 +37,13 @@ export default class Nomination extends Component {
         ];
 
         Promise.all(promises).then(([employeeResponse, nominationResponse, nominationPeriodResponse]) => {
-            let employeeOptions = employeeResponse.data.map(member => {
+            this.employeeOptions = employeeResponse.data.map(member => {
                 return { value: member.employeeId, label: `${member.nickName} (${member.fullName})` };
             });
+            this.nominationPeriods = nominationPeriodResponse.data;
 
             this.setState({
-                employeeOptions: employeeOptions,
-                nominations: nominationResponse.data,
-                nominationPeriods: nominationPeriodResponse.data
+                nominations: nominationResponse.data
             });
         }).catch(axiosError);
     }
@@ -148,16 +148,21 @@ export default class Nomination extends Component {
     }
 
     render() {
-        let employeeOptions = this.state.employeeOptions;
+        let employeeOptions = this.employeeOptions;
+        let nominationPeriods = this.nominationPeriods;
 
         return (
             <div className="record-list">
                 <CustomScrollbars>
                     {
-                        this.state.nominationPeriods.length > 0 &&
-                        <CreateNomination currentUser={this.props.currentUser} employeeOptions={employeeOptions}
-                            nominationPeriods={this.state.nominationPeriods} isEmployeeSelectable={!this.props.isMemberDetail}
-                            nomineeId={this.props.nomineeId} onCreateSuccess={this.handleCreateNominationSuccess}
+                        nominationPeriods.length > 0 &&
+                        <CreateNomination
+                            currentUser={this.props.currentUser}
+                            employeeOptions={employeeOptions}
+                            nominationPeriods={nominationPeriods}
+                            isEmployeeSelectable={!this.props.isMemberDetail}
+                            nomineeId={this.props.nomineeId}
+                            onCreateSuccess={this.handleCreateNominationSuccess}
                         />
                     }
                     {this.state.nominations.map(this.renderPerformanceRecord)}
@@ -168,7 +173,7 @@ export default class Nomination extends Component {
                     <EditNomination showModal={this.state.showEditModal}
                         currentUser={this.props.currentUser}
                         performanceRecord={this.state.editedNomination}
-                        nominationPeriods={this.state.nominationPeriods}
+                        nominationPeriods={nominationPeriods}
                         employeeOptions={employeeOptions}
                         onCloseModal={this.closeEditModal}
                         onEditSuccess={this.handleEditNominationSuccess}

@@ -18,23 +18,8 @@ export default class EditNomination extends Component {
         super(props);
 
         this.state = {
-            nominationPeriodOptions: props.nominationPeriods.map(np => {
-                return { value: np.nominationPeriodId, label: np.title };
-            }),
-            createdDate: moment(props.performanceRecord.createdDate),
             eoqQuestions: [],
-            eoyQuestions: [],
-            initialObj: {
-                period: {
-                    label: props.performanceRecord.nominationPeriod.title,
-                    value: props.performanceRecord.nominationPeriod.nominationPeriodId
-                },
-                employee: {
-                    label: `${props.performanceRecord.employees[0].fullName} (${props.performanceRecord.employees[0].nickName})`,
-                    value: props.performanceRecord.employees[0].employeeId
-                },
-                comment: props.performanceRecord.comment
-            }
+            eoyQuestions: []
         };
     }
 
@@ -111,7 +96,7 @@ export default class EditNomination extends Component {
         handleSubmit,
         setFieldValue }) => {
         let onPeriodChange = (value) => {
-            var period = this.props.nominationPeriods.find(x => x.nominationPeriodId === value.value);
+            let period = this.props.nominationPeriods.find(x => x.nominationPeriodId === value.value);
             let questions = '';
             if (period.quarter) {
                 questions = this.state.eoqQuestions.map(e => `${e.resourceId}. ${e.value}`).join("\r\n\r\n");
@@ -122,6 +107,9 @@ export default class EditNomination extends Component {
             setFieldValue('period', value);
             setFieldValue('comment', questions);
         };
+        let nominationPeriodOptions = this.props.nominationPeriods.map(period => {
+            return { value: period.nominationPeriodId, label: period.title };
+        });
 
         return (
             <form onSubmit={handleSubmit} className="form-filter form-performance edit">
@@ -129,9 +117,10 @@ export default class EditNomination extends Component {
                     <div className="nomination-period">
                         <ControlLabel>{getResource('NominationPeriod')}</ControlLabel>
                         <Select name="period"
-                            className={`react-select-container ${touched.period && errors.period && 'input-validation-error'}`} classNamePrefix="react-select"
+                            classNamePrefix="react-select"
+                            className={`react-select-container ${touched.period && errors.period && 'input-validation-error'}`}
                             value={values.period} onChange={onPeriodChange}
-                            options={this.state.nominationPeriodOptions}
+                            options={nominationPeriodOptions}
                         />
                     </div>
                     <div className="employee">
@@ -139,7 +128,8 @@ export default class EditNomination extends Component {
                         {
                             this.props.isEmployeeSelectable ?
                                 <Select name="employee"
-                                    className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`} classNamePrefix="react-select"
+                                    classNamePrefix="react-select"
+                                    className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`}
                                     value={values.employee} onChange={value => setFieldValue('employee', value)}
                                     options={this.props.employeeOptions}
                                 />
@@ -163,6 +153,18 @@ export default class EditNomination extends Component {
 
     render() {
         let currentUser = this.props.currentUser;
+        let initialObj = {
+            period: {
+                label: this.props.performanceRecord.nominationPeriod.title,
+                value: this.props.performanceRecord.nominationPeriod.nominationPeriodId
+            },
+            employee: {
+                label: `${this.props.performanceRecord.employees[0].fullName} (${this.props.performanceRecord.employees[0].nickName})`,
+                value: this.props.performanceRecord.employees[0].employeeId
+            },
+            comment: this.props.performanceRecord.comment
+        };
+        let createdDate = moment(this.props.performanceRecord.createdDate);
 
         return (
             <Modal keyboard={false} backdrop="static"
@@ -178,12 +180,12 @@ export default class EditNomination extends Component {
                             <img src={currentUser.avatar} className="avatar" />
                             <div className="person-info">
                                 <span className="role-member">{currentUser.nickName}</span>
-                                <div className="submit-date">{this.state.createdDate.format(DateFormat)}</div>
+                                <div className="submit-date">{createdDate.format(DateFormat)}</div>
                             </div>
                         </div>
                         <div className="comment">
-                            <Formik enableReinitialize={true}
-                                initialValues={this.state.initialObj}
+                            <Formik enableReinitialize
+                                initialValues={initialObj}
                                 validate={this.validateForm}
                                 onSubmit={this.handleSubmit}
                                 render={this.renderForm}

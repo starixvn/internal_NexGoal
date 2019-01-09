@@ -19,17 +19,8 @@ export default class CreateNomination extends Component {
 
         this.state = {
             openForm: false,
-            nominationPeriodOptions: props.nominationPeriods.map(np => {
-                return { value: np.nominationPeriodId, label: np.title };
-            }),
-            currentDate: moment(),
             eoqQuestions: [],
-            eoyQuestions: [],
-            initialObj: {
-                period: null,
-                employee: null,
-                comment: ''
-            }
+            eoyQuestions: []
         };
     }
 
@@ -117,7 +108,7 @@ export default class CreateNomination extends Component {
         handleSubmit,
         setFieldValue }) => {
         let onPeriodChange = (value) => {
-            var period = this.props.nominationPeriods.find(x => x.nominationPeriodId === value.value);
+            let period = this.props.nominationPeriods.find(x => x.nominationPeriodId === value.value);
             let questions = '';
             if (period.quarter) {
                 questions = this.state.eoqQuestions.map(e => `${e.resourceId}. ${e.value}`).join("\r\n\r\n");
@@ -128,21 +119,29 @@ export default class CreateNomination extends Component {
             setFieldValue('period', value);
             setFieldValue('comment', questions);
         };
+        let nominationPeriodOptions = this.props.nominationPeriods.map(period => {
+            return { value: period.nominationPeriodId, label: period.title };
+        });
+
         return (
             <form onSubmit={handleSubmit} className="form-filter form-performance create">
                 <FormGroup>
                     <div className="nomination-period">
                         <ControlLabel>{getResource('NominationPeriod')}</ControlLabel>
-                        <Select name="period" className={`react-select-container ${touched.period && errors.period && 'input-validation-error'}`} classNamePrefix="react-select"
+                        <Select name="period"
+                            classNamePrefix="react-select"
+                            className={`react-select-container ${touched.period && errors.period && 'input-validation-error'}`}
                             value={values.period} onChange={onPeriodChange}
-                            options={this.state.nominationPeriodOptions}
+                            options={nominationPeriodOptions}
                         />
                     </div>
                     {
                         this.props.isEmployeeSelectable &&
                         <div className="employee">
                             <ControlLabel>{getResource('Employee')}</ControlLabel>
-                            <Select name="employee" className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`} classNamePrefix="react-select"
+                            <Select name="employee"
+                                classNamePrefix="react-select"
+                                className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`}
                                 value={values.employee} onChange={value => setFieldValue('employee', value)}
                                 options={this.props.employeeOptions}
                             />
@@ -168,6 +167,12 @@ export default class CreateNomination extends Component {
 
     render() {
         let currentUser = this.props.currentUser;
+        let initialObj = {
+            period: null,
+            employee: null,
+            comment: ''
+        };
+        let currentDate = moment();
 
         return (
             <div className="record record-your-mind">
@@ -175,7 +180,7 @@ export default class CreateNomination extends Component {
                     <img src={currentUser.avatar} className="avatar" />
                     <div className="person-info">
                         <span className="role-member">{currentUser.nickName}</span>
-                        <div className="submit-date">{this.state.currentDate.format(DateFormat)}</div>
+                        <div className="submit-date">{currentDate.format(DateFormat)}</div>
                     </div>
                 </div>
                 <div className="comment">
@@ -190,7 +195,7 @@ export default class CreateNomination extends Component {
                     {
                         this.state.openForm &&
                         <Formik
-                            initialValues={this.state.initialObj}
+                            initialValues={initialObj}
                             validate={this.validateForm}
                             onSubmit={this.handleSubmit}
                             render={this.renderForm}
