@@ -133,8 +133,7 @@
     <Setting Key="Nomination_Delete" SpName="Nomination_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Notification">
-    <Setting Key="Notification_GetSettingByEmployee" SpName="Notification_GetSettingByEmployee" DbName="bodb_NexGoal" Plain="0">
-    </Setting>
+    <Setting Key="Notification_GetSettingByEmployee" SpName="Notification_GetSettingByEmployee" DbName="bodb_NexGoal" Plain="0" />
     <Setting Key="Notification_UpdateSetting" SpName="Notification_UpdateSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Notification_GetByEmployee" SpName="Notification_GetByEmployee" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Notification_UpdateStatus" SpName="Notification_UpdateStatus" DbName="bodb_NexGoal" Plain="0"></Setting>
@@ -154,7 +153,7 @@
   <Function name="Report">
     <Setting Key="Report_GetPARecord" SpName="Report_GetPARecord" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
-  <Function name="Notification">
+  <Function name="Announcement">
     <Setting Key="Announcement_Get" SpName="Announcement_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function name="PM Setting">
