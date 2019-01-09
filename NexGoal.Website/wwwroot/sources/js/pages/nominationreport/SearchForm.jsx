@@ -19,7 +19,7 @@ export default class SearchForm extends Component {
     }
 
     handlePeriodChange = (selectedOption) => {
-        this.props.onFilterChange('period', selectedOption);
+        this.props.onFilterChange('periods', selectedOption);
     }
 
     handleEmployeeChange = (selectedOption) => {
@@ -39,9 +39,9 @@ export default class SearchForm extends Component {
                 <FormGroup>
                     <ControlLabel>{getResource('Period')}</ControlLabel>
                     <div className="control-content period-width">
-                        <Select name="period"
+                        <MultiSelect name="periods"
                             className="react-select-container" classNamePrefix="react-select"
-                            value={filter.period}
+                            value={filter.periods}
                             options={this.props.periodOptions}
                             onChange={this.handlePeriodChange}
                         />

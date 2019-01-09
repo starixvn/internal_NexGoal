@@ -22,21 +22,18 @@
             this.commonService = commonService;
         }
 
-        public async Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForNominatorAsync(bool isQuarter)
+        public async Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForNominatorAsync()
         {
-            var criteria = new GetNominationPeriodsCriteria
-            {
-                IsQuarter = isQuarter
-            };
+            var criteria = new GetNominationPeriodsCriteria();
 
             return await baseService.GetDataAsync<NominationPeriodModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<NominationModel>> GetNominations(int? nominationPeriodId, string groupIds, int? employeeId, int? statusId)
+        public async Task<IEnumerable<NominationModel>> GetNominations(string nominationPeriodIds, string groupIds, int? employeeId, int? statusId)
         {
             var criteria = new GetNominationsCriteria
             {
-                NominationPeriodId = nominationPeriodId,
+                NominationPeriodIds = nominationPeriodIds,
                 GroupIds = groupIds,
                 EmployeeId = employeeId,
                 StatusId = statusId

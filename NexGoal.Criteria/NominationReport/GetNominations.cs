@@ -4,7 +4,7 @@
 
     public class GetNominationsCriteria : CriteriaBase
     {
-        public int? NominationPeriodId { get; set; }
+        public string NominationPeriodIds { get; set; }
 
         public string GroupIds { get; set; }
 

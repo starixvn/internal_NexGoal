@@ -15,7 +15,7 @@ export default class EOQAssessment extends Component {
 
         this.state = {
             filter: {
-                period: null,
+                periods: [],
                 groups: [],
                 employee: null,
                 status: defaultStatus
@@ -35,11 +35,7 @@ export default class EOQAssessment extends Component {
         const promises = [
             axios(resolveClientUrl('Common/GetGroups')),
             axios(resolveClientUrl('common/GetEmployees')),
-            axios.get(resolveClientUrl('NominationReport/GetNominationPeriods'), {
-                params: {
-                    isQuarter: this.props.isQuarter
-                }
-            })
+            axios.get(resolveClientUrl('NominationReport/GetNominationPeriods'))
         ];
 
         Promise.all(promises)
@@ -62,7 +58,7 @@ export default class EOQAssessment extends Component {
                     ... this.state.filter,
                     ...{
                         groups: this.groupOptions,
-                        period: this.periodOptions.length > 0 ? this.periodOptions[0] : null
+                        periods: this.periodOptions.length > 0 ? [this.periodOptions[0]] : []
                     }
                 };
 
@@ -75,13 +71,19 @@ export default class EOQAssessment extends Component {
     getNominations = (filter) => {
         axios.get(resolveClientUrl('NominationReport/GetNominations'), {
             params: {
-                nominationPeriodId: filter.period ? filter.period.value : null,
+                nominationPeriodIds: filter.periods.map(e => e.value).toString(),
                 groupIds: filter.groups.map(x => x.value).toString(),
                 employeeId: filter.employee ? filter.employee.value : null,
                 statusId: filter.status.value
             }
         }).then(response => {
-            this.setState({ tableData: response.data });
+            this.setState({
+                tableData: filter.periods.map(p => ({
+                    nominationPeriodId: p.value,
+                    title: p.label,
+                    nominations: response.data.filter(n => n.nominationPeriodId === p.value)
+                }))
+            });
         }).catch(axiosError);
     }
 

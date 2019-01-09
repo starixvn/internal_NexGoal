@@ -36,6 +36,17 @@ export default class Table extends Component {
         this.props.onUpdateStatus(nominationId, status.value);
     }
 
+    renderData = (data) => {
+        return (
+            <Fragment key={data.nominationPeriodId}>
+                <tr>
+                    <td colSpan={5}>{data.title}</td>
+                </tr>
+                {data.nominations.map(this.renderNomination)}
+            </Fragment>
+        );
+    }
+
     renderNomination = (nomination, index) => {
         return (
             <tr key={nomination.nominationId}>
@@ -62,7 +73,7 @@ export default class Table extends Component {
     }
 
     render() {
-        let content = this.props.tableData.length > 0 ? this.props.tableData.map(this.renderNomination)
+        let content = this.props.tableData.length > 0 ? this.props.tableData.map(this.renderData)
             : <tr><td className="text-center" colSpan={6}>{noDataIndication()}</td></tr>;
 
         return (

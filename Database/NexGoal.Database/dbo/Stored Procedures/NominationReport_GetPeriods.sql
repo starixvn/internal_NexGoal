@@ -1,5 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[NominationReport_GetPeriods]
-	@IsQuarter BIT = 1
+﻿CREATE PROCEDURE [dbo].[NominationReport_GetPeriods] 
 AS
 /*
 Created: 20181219@elton.ton
@@ -25,6 +24,5 @@ BEGIN
 		,EndDateForCommittee
 		,[Description]
 	FROM dbo.EOQY WITH (NOLOCK)
-	WHERE IsQuarter = @IsQuarter
-	ORDER BY StartDateForNominator DESC
+	ORDER BY EndDateForCommittee DESC
 END

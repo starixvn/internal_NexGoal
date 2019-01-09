@@ -1,5 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[NominationReport_GetNominations]
-@NominationPeriodId INT = NULL,
+﻿CREATE PROCEDURE [dbo].[NominationReport_GetNominations] 
+	@NominationPeriodIds VARCHAR(MAX) = NULL,
 	@GroupIds VARCHAR(MAX) = NULL,
 	@EmployeeId INT = NULL,
 	@StatusId TINYINT = NULL
@@ -32,7 +32,12 @@ BEGIN
 					WHERE #temp.val = e.GroupId
 				)
 		)
-		AND (@NominationPeriodId IS NULL OR n.EOQYId = @NominationPeriodId)
+		AND (@NominationPeriodIds IS NULL 
+			OR EXISTS(
+				SELECT 1
+				FROM dbo.func_SplitString(@NominationPeriodIds, ',') p
+				WHERE n.EOQYId = p.val
+			))
 		AND (@StatusId IS NULL OR n.StatusId = @StatusId)
 		AND (@EmployeeId IS NULL OR n.NomineeId = @EmployeeId)
 
@@ -57,7 +62,12 @@ BEGIN
 					WHERE #temp.val = e.GroupId
 				)
 		)
-		AND (@NominationPeriodId IS NULL OR n.EOQYId = @NominationPeriodId)
+		AND (@NominationPeriodIds IS NULL 
+			OR EXISTS(
+				SELECT 1
+				FROM dbo.func_SplitString(@NominationPeriodIds, ',') p
+				WHERE n.EOQYId = p.val
+			))
 		AND (@StatusId IS NULL OR n.StatusId = @StatusId)
 		AND (@EmployeeId IS NULL OR n.NomineeId = @EmployeeId)
 
