@@ -15,7 +15,6 @@ class EmployeeFlowSetting extends Component {
                         <th>{getResource('NickName')}</th>
                         <th>{getResource('FullName')}</th>
                         <th>{getResource('Team')}</th>
-                        <th>{getResource('Admin')}</th>
                         <th>{getResource('Evaluator')}</th>
                         <th>{getResource('Reviewer')}</th>
                     </tr>
@@ -24,7 +23,7 @@ class EmployeeFlowSetting extends Component {
                     {
                         employeeFlowSettings.length === 0 &&
                         <tr>
-                            <td className="empty-result" colSpan="8">{getResource('NoRecordFound')}</td>
+                            <td className="empty-result" colSpan="7">{getResource('NoRecordFound')}</td>
                         </tr>
                     }
                     {
@@ -37,18 +36,6 @@ class EmployeeFlowSetting extends Component {
                                     <td className="text-center">{employeeFlowSetting.nickName}</td>
                                     <td>{employeeFlowSetting.fullName}</td>
                                     <td>{employeeFlowSetting.groupName}</td>
-                                    <td>
-                                        {
-                                            employeeFlowSetting.humanResources.length > 0 &&
-                                            employeeFlowSetting.humanResources.map(humanResource => {
-                                                return (
-                                                    <p key={`humanResource${humanResource.evaluatorId}`}>
-                                                        {`${humanResource.nickName} (${humanResource.fullName})`}
-                                                    </p>
-                                                );
-                                            })
-                                        }
-                                    </td>
                                     <td>
                                         {
                                             employeeFlowSetting.evaluator ?

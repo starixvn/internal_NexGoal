@@ -63,12 +63,8 @@ class EvaluatorList extends Component {
     }
 
     render() {
-        let groupOptions = this.props.groupOptions.map((group) => {
-            return { value: group.groupId, label: group.name };
-        });
-        groupOptions.unshift({ value: '', label: '-- All --' });
-
-        const employees = this.state.filteredEmployees;
+        let groupOptions = this.props.groupOptions;
+        let employees = this.state.filteredEmployees;
 
         return (
             <div className="evaluator-list">

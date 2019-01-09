@@ -18,11 +18,9 @@ class GroupFlowSetting extends Component {
 
         this.state = {
             groupSettings: [],
-            humanResources: [],
             evaluators: [],
             reviewers: [],
             evaluatorSelected: null,
-            groupOptions: [],
             groupSelected: { value: '', label: '-- All --' },
             showDeleteButton: false,
             showDeleteModal: false
@@ -30,16 +28,10 @@ class GroupFlowSetting extends Component {
     }
 
     componentDidMount() {
-        const promises = [
-            axios(resolveClientUrl('Common/GetGroups')),
-            axios(resolveClientUrl('GroupFlowSetting/GetGroupHaveSetting'))
-        ];
-
-        Promise.all(promises)
-            .then(([groupResponse, groupSettingResponse]) => {
+        axios(resolveClientUrl('GroupFlowSetting/GetGroupHaveSetting'))
+            .then(response => {
                 this.setState({
-                    groupOptions: groupResponse.data,
-                    groupSettings: groupSettingResponse.data
+                    groupSettings: response.data
                 });
             }).catch(axiosError);
     }
@@ -50,10 +42,9 @@ class GroupFlowSetting extends Component {
                 const data = response.data;
 
                 this.setState({
-                    humanResources: data.humanResources,
                     evaluators: data.evaluator !== null ? [data.evaluator] : [],
                     reviewers: data.reviewer !== null ? [data.reviewer] : [],
-                    showDeleteButton: data.humanResources.length > 0 || data.evaluator !== null || data.reviewer !== null
+                    showDeleteButton: data.evaluator !== null || data.reviewer !== null
                 });
             }).catch(axiosError);
     }
@@ -71,10 +62,6 @@ class GroupFlowSetting extends Component {
         let processId;
 
         switch (sender) {
-            case 'humanResources':
-                processId = PerformanceProcess.HumanResource;
-                break;
-
             case 'evaluators':
                 processId = PerformanceProcess.Evaluator;
                 break;
@@ -143,23 +130,11 @@ class GroupFlowSetting extends Component {
     }
 
     handleSaveFlowSetting = () => {
-        if (this.state.humanResources.length === 0
-            || this.state.evaluators.length === 0
+        if (this.state.evaluators.length === 0
             || this.state.reviewers.length === 0) {
-            toast.error('Please setting flow for Human Resource, Evaluator and Reviewer.');
+            toast.error('Please setting flow for Evaluator and Reviewer.');
         } else {
             let settings = [];
-
-            let items = this.state.humanResources;
-            for (let i = 0; i < items.length; i++) {
-                let item = {
-                    processId: items[i].processId,
-                    evaluatorId: items[i].evaluatorId,
-                    priority: i
-                };
-
-                settings.push(item);
-            }
 
             settings.push({
                 processId: this.state.evaluators[0].processId,
@@ -246,7 +221,6 @@ class GroupFlowSetting extends Component {
 
                 this.setState({
                     groupSettings: groupSettings,
-                    humanResources: [],
                     evaluators: [],
                     reviewers: [],
                     showDeleteButton: false
@@ -258,21 +232,16 @@ class GroupFlowSetting extends Component {
     }
 
     render() {
-        const isHost = this.props.isHost;
-
-        let groupOptions = this.state.groupOptions.map((group) => {
-            return { value: group.groupId, label: group.name };
-        });
-        groupOptions.unshift({ value: '', label: '-- All --' });
-
-        const groupSetting = this.state.groupSettings.map((group) => {
+        let isHost = this.props.isHost;
+        let groupOptions = this.props.groupOptions;
+        let groupSetting = this.state.groupSettings.map((group) => {
             return group.name;
         }).join(', ');
 
         return (
             <div className="row group-flow">
                 <div className="col-sm-3">
-                    <EvaluatorList groupOptions={this.state.groupOptions} isHost={isHost} />
+                    <EvaluatorList groupOptions={groupOptions} isHost={isHost} />
                 </div>
                 <div className="col-sm-9 flow-settings">
                     <Form horizontal>
@@ -294,7 +263,6 @@ class GroupFlowSetting extends Component {
                     <table className="table table-bordered">
                         <thead>
                             <tr>
-                                <th>{getResource('Admin')}</th>
                                 <th>{getResource('Self')}</th>
                                 <th>{getResource('Evaluator')}</th>
                                 <th>{getResource('Reviewer')}</th>
@@ -302,16 +270,9 @@ class GroupFlowSetting extends Component {
                         </thead>
                         <tbody>
                             <tr>
-                                <td className="col-hr">
-                                    <Sortable id="humanResources" data={this.state.humanResources}
-                                        enable={isHost}
-                                        onReceive={this.handleOnReceive}
-                                        onDeactivate={this.handleOnDeactivate}
-                                        onRemove={this.handleOnRemoveItem}
-                                    />
-                                </td>
                                 <td className="col-self">
-                                    {this.state.groupSelected.value &&
+                                    {
+                                        this.state.groupSelected.value &&
                                         <ul>
                                             <li className="alert alert-info">
                                                 <img />
@@ -343,8 +304,10 @@ class GroupFlowSetting extends Component {
                         isHost && this.state.groupSelected.value &&
                         <Form inline>
                             <Button type="button" bsStyle="primary" onClick={this.handleSaveFlowSetting}>{getResource('Submit')}</Button>
-                            {this.state.showDeleteButton &&
-                                <Button type="button" bsStyle="primary" onClick={this.handleOnDeleteClick}>{getResource('Delete')}</Button>}
+                            {
+                                this.state.showDeleteButton &&
+                                <Button type="button" bsStyle="primary" onClick={this.handleOnDeleteClick}>{getResource('Delete')}</Button>
+                            }
                         </Form>
                     }
                 </div>

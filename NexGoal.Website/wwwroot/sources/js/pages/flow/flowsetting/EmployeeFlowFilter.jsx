@@ -126,15 +126,11 @@ class EmployeeFlowFilter extends Component {
     }
 
     render() {
-        const isHost = this.props.isHost;
-        const hasSetting = this.props.hasSetting;
-        let groupOptions = this.props.groupOptions.map((group) => {
-            return { value: group.groupId, label: group.name };
-        });
-        groupOptions.unshift({ value: '', label: '-- All --' });
-
-        const employees = this.state.filteredEmployees;
-        const employeeSettings = this.state.employeeSettings;
+        let isHost = this.props.isHost;
+        let hasSetting = this.props.hasSetting;
+        let groupOptions = this.props.groupOptions;
+        let employees = this.state.filteredEmployees;
+        let employeeSettings = this.state.employeeSettings;
 
         return (
             <div className="filter">

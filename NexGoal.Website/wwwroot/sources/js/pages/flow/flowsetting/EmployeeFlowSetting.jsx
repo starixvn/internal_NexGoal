@@ -17,30 +17,13 @@ class EmployeeFlowSetting extends Component {
         super(props);
 
         this.state = {
-            humanResources: [],
             evaluators: [],
             reviewers: [],
             evaluatorSelected: null,
-            groupOptions: [],
             employeeSelected: null,
             showDeleteButton: false,
             showDeleteModal: false
         };
-    }
-
-    componentDidMount() {
-        this.getGroups();
-    }
-
-    getGroups = () => {
-        axios(resolveClientUrl('Common/GetGroups'))
-            .then(response => {
-                const data = response.data;
-
-                this.setState({
-                    groupOptions: data
-                });
-            }).catch(axiosError);
     }
 
     getFlowSetting = (employeeId) => {
@@ -49,7 +32,6 @@ class EmployeeFlowSetting extends Component {
                 const data = response.data;
 
                 this.setState({
-                    humanResources: data.humanResources,
                     evaluators: data.evaluator !== null ? [data.evaluator] : [],
                     reviewers: data.reviewer !== null ? [data.reviewer] : [],
                     employeeSelected: {
@@ -59,7 +41,7 @@ class EmployeeFlowSetting extends Component {
                         fullName: data.fullName,
                         avatar: data.avatar
                     },
-                    showDeleteButton: data.humanResources.length > 0 || data.evaluator !== null || data.reviewer !== null
+                    showDeleteButton: data.evaluator !== null || data.reviewer !== null
                 });
             }).catch(axiosError);
     }
@@ -73,10 +55,6 @@ class EmployeeFlowSetting extends Component {
         let processId;
 
         switch (sender) {
-            case 'humanResources':
-                processId = PerformanceProcess.HumanResource;
-                break;
-
             case 'evaluators':
                 processId = PerformanceProcess.Evaluator;
                 break;
@@ -145,23 +123,11 @@ class EmployeeFlowSetting extends Component {
     }
 
     handleSaveFlowSetting = () => {
-        if (this.state.humanResources.length === 0
-            || this.state.evaluators.length === 0
+        if (this.state.evaluators.length === 0
             || this.state.reviewers.length === 0) {
-            toast.error('Please setting flow for Human Resource, Evaluator and Reviewer.');
+            toast.error('Please setting flow for Evaluator and Reviewer.');
         } else {
             let settings = [];
-
-            let items = this.state.humanResources;
-            for (let i = 0; i < items.length; i++) {
-                let item = {
-                    processId: items[i].processId,
-                    evaluatorId: items[i].evaluatorId,
-                    priority: i
-                };
-
-                settings.push(item);
-            }
 
             settings.push({
                 processId: this.state.evaluators[0].processId,
@@ -234,7 +200,6 @@ class EmployeeFlowSetting extends Component {
                 this.handleOnCloseModal();
 
                 this.setState({
-                    humanResources: [],
                     evaluators: [],
                     reviewers: [],
                     showDeleteButton: false
@@ -246,32 +211,27 @@ class EmployeeFlowSetting extends Component {
     }
 
     render() {
-        const employeeSelected = this.state.employeeSelected;
-        const isHost = this.props.isHost;
-
-        let groupOptions = this.state.groupOptions.map((group) => {
-            return { value: group.groupId, label: group.name };
-        });
-        groupOptions.unshift({ value: '', label: '-- All --' });
+        let employeeSelected = this.state.employeeSelected;
+        let isHost = this.props.isHost;
+        let groupOptions = this.props.groupOptions;
 
         return (
             <div className="employee-flow">
                 <EmployeeFlowFilter
                     isHost={isHost}
                     hasSetting={this.state.showDeleteButton}
-                    groupOptions={this.state.groupOptions}
+                    groupOptions={groupOptions}
                     onEmployeeSelected={this.handleOnEmployeeSelected}
                 />
                 <div className="boxtitle">PA Processing</div>
                 <div className="row">
                     <div className="col-sm-3">
-                        <EvaluatorList groupOptions={this.state.groupOptions} isHost={isHost} />
+                        <EvaluatorList groupOptions={groupOptions} isHost={isHost} />
                     </div>
                     <div className="col-sm-9 flow-settings">
                         <table className="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>{getResource('Admin')}</th>
                                     <th>{getResource('Self')}</th>
                                     <th>{getResource('Evaluator')}</th>
                                     <th>{getResource('Reviewer')}</th>
@@ -279,14 +239,6 @@ class EmployeeFlowSetting extends Component {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td className="col-hr">
-                                        <Sortable id="humanResources" data={this.state.humanResources}
-                                            enable={isHost}
-                                            onReceive={this.handleOnReceive}
-                                            onDeactivate={this.handleOnDeactivate}
-                                            onRemove={this.handleOnRemoveItem}
-                                        />
-                                    </td>
                                     <td className="col-self">
                                         {
                                             employeeSelected &&

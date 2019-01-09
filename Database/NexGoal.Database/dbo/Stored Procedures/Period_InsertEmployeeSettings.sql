@@ -7,8 +7,8 @@ CREATE PROCEDURE [dbo].[Period_InsertEmployeeSettings] @PeriodId INT
 	,@ErrMsg NVARCHAR(200) = '' OUTPUT
 AS
 /*
-Created: 20180827@Elton.ton
-Task: get employee flow setting for adding to period
+Created: 20180827@Elton.Ton
+Task: insert employee setting
 DB: bodb_NexGoal
 Original:
 
@@ -19,11 +19,12 @@ BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
 
-	DECLARE @periodStartDate DATE
-		,@hrProcessDuration INT
-		,@reviewerProcessDuration INT
+	DECLARE @PeriodStartDate DATE
+		,@PeriodEndDate DATE
+		,@SelfProcessId TINYINT = 2
+		,@ReviewerProcessId TINYINT = 5
 	DECLARE @paRecordTbl TABLE (
-		PARecordId INT PRIMARY KEY
+		PARecordId INT
 		,EmployeeId INT
 		)
 	DECLARE @startRun DATETIME = GETDATE()
@@ -32,19 +33,10 @@ BEGIN
 		,@logData NVARCHAR(MAX)
 		,@xml XML
 
-	SELECT @periodStartDate = p.StartDate
-	FROM dbo.Period AS p WITH (NOLOCK)
-	WHERE p.PeriodId = @PeriodId
-
-	SELECT @hrProcessDuration = pps.Duration
-	FROM dbo.PeriodProcessSetting AS pps WITH (NOLOCK)
-	WHERE pps.PeriodId = @PeriodId
-		AND pps.ProcessId = 1
-
-	SELECT @reviewerProcessDuration = pps.Duration
-	FROM dbo.PeriodProcessSetting AS pps WITH (NOLOCK)
-	WHERE pps.PeriodId = @PeriodId
-		AND pps.ProcessId = 5
+	SELECT @PeriodStartDate = StartDate
+		,@PeriodEndDate = EndDate
+	FROM dbo.Period WITH (NOLOCK)
+	WHERE PeriodId = @PeriodId
 
 	INSERT INTO dbo.PARecord (
 		EmployeeId
@@ -56,7 +48,7 @@ BEGIN
 	INTO @paRecordTbl
 	SELECT e.EmployeeId
 		,@PeriodId
-		,1
+		,1 -- not generated
 	FROM dbo.Employee AS e WITH (NOLOCK)
 	WHERE (
 			e.EmployeeId = @EmployeeId
@@ -72,6 +64,7 @@ BEGIN
 			WHERE par.EmployeeId = e.EmployeeId
 				AND par.PeriodId = @PeriodId
 			)
+		AND e.[Enabled] = 1
 		AND e.IsDeleted = 0
 		AND (
 			EXISTS (
@@ -88,25 +81,23 @@ BEGIN
 	ORDER BY e.GroupId
 		,e.EmployeeId
 
-	INSERT INTO [dbo].[PAProcess] (
-		[PARecordId]
-		,[ProcessId]
-		,[EvaluatorId]
-		,[StartDate]
-		,[EndDate]
+	INSERT INTO dbo.PAProcess (
+		PARecordId
+		,ProcessId
+		,EvaluatorId
+		,StartDate
+		,EndDate
 		,[Priority]
 		)
 	SELECT par.PARecordId
 		,efs.ProcessId
 		,efs.EvaluatorId
 		,CASE 
-			WHEN efs.ProcessId = 1
-				OR efs.ProcessId = 5 THEN @periodStartDate
+			WHEN efs.ProcessId = @ReviewerProcessId THEN @PeriodStartDate
 			ELSE NULL
 			END
 		,CASE 
-			WHEN efs.ProcessId = 1 THEN DATEADD(DAY, @hrProcessDuration, @periodStartDate)
-			WHEN efs.ProcessId = 5 THEN DATEADD(DAY, @reviewerProcessDuration, @periodStartDate)
+			WHEN efs.ProcessId = @ReviewerProcessId THEN @PeriodEndDate
 			ELSE NULL
 			END
 		,efs.[Priority]
@@ -115,32 +106,30 @@ BEGIN
 	
 	UNION
 	SELECT par.PARecordId
-		,2
+		,@SelfProcessId
 		,par.EmployeeId
 		,NULL
 		,NULL
 		,0
 	FROM @paRecordTbl AS par
 
-	INSERT INTO [dbo].[PAProcess] (
-		[PARecordId]
-		,[ProcessId]
-		,[EvaluatorId]
-		,[StartDate]
-		,[EndDate]
+	INSERT INTO dbo.PAProcess (
+		PARecordId
+		,ProcessId
+		,EvaluatorId
+		,StartDate
+		,EndDate
 		,[Priority]
 		)
 	SELECT par.PARecordId
 		,gfs.ProcessId
 		,gfs.EvaluatorId
 		,CASE 
-			WHEN gfs.ProcessId = 1
-				OR gfs.ProcessId = 5 THEN @periodStartDate
+			WHEN gfs.ProcessId = @ReviewerProcessId THEN @PeriodStartDate
 			ELSE NULL
 			END
 		,CASE 
-			WHEN gfs.ProcessId = 1 THEN DATEADD(DAY, @hrProcessDuration, @periodStartDate)
-			WHEN gfs.ProcessId = 5 THEN DATEADD(DAY, @reviewerProcessDuration, @periodStartDate)
+			WHEN gfs.ProcessId = @ReviewerProcessId THEN @PeriodEndDate
 			ELSE NULL
 			END
 		,gfs.[Priority]

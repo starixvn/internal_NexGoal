@@ -24,29 +24,14 @@ export default class Edit extends Component {
     }
 
     onSubmit = (values, { setErrors }) => {
-        let processes = [];
-        let adminProcess = values.processes.find(p => p.processId === PerformanceProcess.HumanResource && p.isSelected);
-
-        if (adminProcess) {
-            let adminProcessEvaluators = adminProcess.evaluator;
-            if (adminProcessEvaluators && adminProcessEvaluators.length > 0) {
-                processes = adminProcessEvaluators.map(e => {
-                    return {
-                        processId: PerformanceProcess.HumanResource,
-                        evaluatorId: e.value,
-                        startDate: adminProcess.startDate ? adminProcess.startDate.format('YYYY-MM-DD') : null,
-                        endDate: adminProcess.endDate ? adminProcess.endDate.format('YYYY-MM-DD') : null
-                    };
-                });
-            } else {
-                processes.push({
-                    processId: PerformanceProcess.HumanResource,
-                    evaluatorId: null,
-                    startDate: adminProcess.startDate ? adminProcess.startDate.format('YYYY-MM-DD') : null,
-                    endDate: adminProcess.endDate ? adminProcess.endDate.format('YYYY-MM-DD') : null
-                });
-            }
-        }
+        let processes = values.processes.filter(p => p.processId > PerformanceProcess.ProjectManager && p.isSelected).map(p => {
+            return {
+                processId: p.processId,
+                evaluatorId: p.evaluator ? p.evaluator.value : null,
+                startDate: p.startDate ? p.startDate.format('YYYY-MM-DD') : null,
+                endDate: p.endDate ? p.endDate.format('YYYY-MM-DD') : null
+            };
+        });
 
         axios({
             url: resolveClientUrl(`period/EditEmployeeSetting`),
@@ -55,14 +40,7 @@ export default class Edit extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 periodId: this.props.periodId,
                 paRecordIds: this.props.paRecordIds,
-                processes: processes.concat(values.processes.filter(p => p.processId > PerformanceProcess.HumanResource && p.isSelected).map(p => {
-                    return {
-                        processId: p.processId,
-                        evaluatorId: p.evaluator ? p.evaluator.value : null,
-                        startDate: p.startDate ? p.startDate.format('YYYY-MM-DD') : null,
-                        endDate: p.endDate ? p.endDate.format('YYYY-MM-DD') : null
-                    };
-                }))
+                processes: processes
             }),
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
@@ -141,8 +119,8 @@ export default class Edit extends Component {
                                             p.processId !== PerformanceProcess.Self &&
                                             <Select name={`processes.${i}.evaluator`}
                                                 classNamePrefix="react-select"
-                                                className={`react-select-container ${p.processId === PerformanceProcess.HumanResource ? 'human-resource' : ''}`}
-                                                value={p.evaluator} isMulti={p.processId === PerformanceProcess.HumanResource}
+                                                className="react-select-container"
+                                                value={p.evaluator}
                                                 onChange={value => setFieldValue(`processes.${i}.evaluator`, value)}
                                                 options={this.props.employeeOptions} placeholder="-- Search an employee --"
                                             />
@@ -150,7 +128,7 @@ export default class Edit extends Component {
                                     </td>
                                     <td>
                                         {
-                                            (p.processId === PerformanceProcess.HumanResource || p.processId === PerformanceProcess.Reviewer) &&
+                                            p.processId === PerformanceProcess.Reviewer &&
                                             <DatePicker autoComplete="off" className="form-control" dateFormat={DateFormat} selected={p.startDate}
                                                 onChange={value => setFieldValue(`processes.${i}.startDate`, value)} onChangeRaw={onChangeRaw}
                                                 name={`processes.${i}.startDate`} maxDate={p.endDate}
@@ -159,7 +137,7 @@ export default class Edit extends Component {
                                     </td>
                                     <td>
                                         {
-                                            (p.processId === PerformanceProcess.HumanResource || p.processId === PerformanceProcess.Reviewer) &&
+                                            p.processId === PerformanceProcess.Reviewer &&
                                             <DatePicker autoComplete="off" className="form-control" dateFormat={DateFormat} selected={p.endDate}
                                                 onChange={value => setFieldValue(`processes.${i}.endDate`, value)} onChangeRaw={onChangeRaw}
                                                 name={`processes.${i}.endDate`} minDate={p.startDate}
@@ -184,40 +162,21 @@ export default class Edit extends Component {
         let processes = [];
 
         if (paRecordIds.length === 1) {
-            let adminProcesses = this.props.settings[0].processes.filter(p => p.processId === PerformanceProcess.HumanResource);
-
-            processes = [{
-                isSelected: true,
-                processId: 1,
-                process: adminProcesses[0].process,
-                evaluator: adminProcesses.map(e => {
-                    return {
-                        value: e.evaluator.employeeId,
-                        label: `${e.evaluator.nickName} (${e.evaluator.fullName})`
-                    };
-                }),
-                startDate: adminProcesses[0].startDate ? moment(adminProcesses[0].startDate) : null,
-                endDate: adminProcesses[0].endDate ? moment(adminProcesses[0].endDate) : null
-            }];
-
-            processes = processes.concat(this.props.settings[0].processes.filter(p => p.processId > PerformanceProcess.ProjectManager)
-                .map(p => {
-                    return {
-                        isSelected: true,
-                        processId: p.processId,
-                        process: p.process,
-                        evaluator: {
-                            value: p.evaluator.employeeId,
-                            label: `${p.evaluator.nickName} (${p.evaluator.fullName})`
-                        },
-                        startDate: p.startDate ? moment(p.startDate) : null,
-                        endDate: p.endDate ? moment(p.endDate) : null
-                    };
-                }));
+            processes = this.props.settings[0].processes.filter(p => p.processId > PerformanceProcess.ProjectManager).map(p => {
+                return {
+                    isSelected: true,
+                    processId: p.processId,
+                    process: p.process,
+                    evaluator: {
+                        value: p.evaluator.employeeId,
+                        label: `${p.evaluator.nickName} (${p.evaluator.fullName})`
+                    },
+                    startDate: p.startDate ? moment(p.startDate) : null,
+                    endDate: p.endDate ? moment(p.endDate) : null
+                };
+            });
         } else {
-            processes = uniqBy(
-                this.props.settings[0].processes.filter(p => p.processId !== PerformanceProcess.Self && p.processId !== PerformanceProcess.ProjectManager),
-                p => p.processId);
+            processes = uniqBy(this.props.settings[0].processes.filter(p => p.processId > PerformanceProcess.ProjectManager), p => p.processId);
             processes = processes.map(p => {
                 return {
                     isSelected: false,

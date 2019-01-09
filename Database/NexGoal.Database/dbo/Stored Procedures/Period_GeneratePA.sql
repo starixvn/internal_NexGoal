@@ -22,11 +22,9 @@ BEGIN
 		,@periodEndDate DATE
 		,@disciplineStartDate DATE
 		,@disciplineEndDate DATE
-		,@PMGroupId TINYINT = 13
 		,@PMRoleId TINYINT = 6
 	-- process
-	DECLARE @HRProcessId TINYINT = 1
-		,@SelfProcessId TINYINT = 2
+	DECLARE @SelfProcessId TINYINT = 2
 		,@PMProcessId TINYINT = 3
 		,@EvaluatorProcessId TINYINT = 4
 		,@ReviewerProcessId TINYINT = 5
@@ -74,7 +72,7 @@ BEGIN
 		AND NOT EXISTS (
 			SELECT 1
 			FROM dbo.PAProcess AS pap WITH (NOLOCK)
-			WHERE pap.ProcessId <> @HRProcessId
+			WHERE pap.ProcessId >= @SelfProcessId
 				AND pap.PerformanceRecordId IS NOT NULL
 				AND pap.PARecordId = par.PARecordId
 			)
@@ -99,7 +97,7 @@ BEGIN
 			FROM dbo.PAProcess AS pap WITH (NOLOCK)
 				INNER JOIN @selectedPARecordTbl AS spari ON pap.PARecordId = spari.PARecordId
 				LEFT JOIN dbo.PerformanceRecord AS pr WITH (NOLOCK) ON pap.PerformanceRecordId = pr.PerformanceRecordId
-			WHERE pap.ProcessId <> @HRProcessId
+			WHERE pap.ProcessId >= @SelfProcessId
 			FOR XML PATH('r')
 				,TYPE
 			)
@@ -234,7 +232,7 @@ BEGIN
 			INNER JOIN @paRecordTbl AS par ON pap.PARecordId = par.PARecordId
 			INNER JOIN #performanceRecordTbl AS prt ON par.EmployeeId = prt.EmployeeIds
 			AND pap.EvaluatorId = prt.EvaluatorId
-		WHERE pap.ProcessId <> @HRProcessId
+		WHERE pap.ProcessId >= @SelfProcessId
 
 		-- Insert PM Process
 		INSERT INTO dbo.PAProcess (
@@ -259,32 +257,22 @@ BEGIN
 
 		UPDATE par
 		SET StatusId = (CASE 
-				WHEN @today >= hr.StartDate
+				WHEN @today >= reviewer.StartDate
 					AND (
 						@today <= reviewer.EndDate
 						OR @today <= @periodEndDate
 						) THEN @PAInProgress
 				WHEN @periodEndDate < @today
 					AND reviewer.EndDate < @today THEN @PAClosed
-				WHEN @today < hr.StartDate THEN @PAOpened
+				WHEN @today < reviewer.StartDate THEN @PAOpened
 				ELSE par.StatusId END
 				)
 		FROM dbo.PARecord AS par WITH (ROWLOCK, UPDLOCK)
-			CROSS APPLY (
-			SELECT pap.StartDate
-			FROM dbo.PAProcess pap WITH (NOLOCK)
-			WHERE par.PARecordId = pap.PARecordId
-				AND pap.ProcessId = @HRProcessId
-			) hr
-			CROSS APPLY (
-			SELECT pap.EndDate
-			FROM dbo.PAProcess pap WITH (NOLOCK)
-			WHERE par.PARecordId = pap.PARecordId
-				AND pap.ProcessId = @ReviewerProcessId
-			) reviewer
+			INNER JOIN dbo.PAProcess AS reviewer WITH (NOLOCK) ON par.PARecordId = reviewer.PARecordId
+			AND reviewer.ProcessId = @ReviewerProcessId
 		WHERE EXISTS (
 				SELECT 1
-				FROM @paRecordTbl part
+				FROM @paRecordTbl AS part
 				WHERE par.PARecordId = part.PARecordId
 				)
 	END
@@ -518,7 +506,7 @@ BEGIN
 			FROM dbo.PAProcess AS pap WITH (NOLOCK)
 				INNER JOIN @selectedPARecordTbl AS spari ON pap.PARecordId = spari.PARecordId
 				LEFT JOIN dbo.PerformanceRecord AS pr WITH (NOLOCK) ON pap.PerformanceRecordId = pr.PerformanceRecordId
-			WHERE pap.ProcessId <> @HRProcessId
+			WHERE pap.ProcessId >= @SelfProcessId
 			FOR XML PATH('r')
 				,TYPE
 			)

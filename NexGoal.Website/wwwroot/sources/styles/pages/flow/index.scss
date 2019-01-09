@@ -127,11 +127,7 @@
         tbody {
             tr {
                 td {
-                    width: 25%;
-
-                    &.col-hr {
-                        background: #fcd5b4;
-                    }
+                    width: 30%;
 
                     &.col-self {
                         background: #d8e4bc;
@@ -143,6 +139,22 @@
 
                     &.col-reviewer {
                         background: #b1a0c7;
+                    }
+                }
+
+                &:hover {
+                    td {
+                        &.col-self {
+                            background: #d8e4bc;
+                        }
+
+                        &.col-evaluator {
+                            background: #e8b8b7;
+                        }
+
+                        &.col-reviewer {
+                            background: #b1a0c7;
+                        }
                     }
                 }
             }

@@ -27,8 +27,7 @@ BEGIN
 		,@PAClosed TINYINT = 4
 		,@PARejected TINYINT = 5
 		,@periodEndDate DATE
-	DECLARE @HRProcessId TINYINT = 1
-		,@ReviewerProcessId TINYINT = 5
+	DECLARE @ReviewerProcessId TINYINT = 5
 
 	SET @xml = (
 			SELECT par.PARecordId AS '@pari'
@@ -41,10 +40,10 @@ BEGIN
 	SET @logDataOld = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
 
 	SELECT @periodEndDate = p.EndDate
-	FROM dbo.Period p WITH (NOLOCK)
+	FROM dbo.Period AS p WITH (NOLOCK)
 	WHERE EXISTS (
 			SELECT 1
-			FROM dbo.PARecord par WITH (NOLOCK)
+			FROM dbo.PARecord AS par WITH (NOLOCK)
 			WHERE par.PeriodId = p.PeriodId
 				AND par.PARecordId = @PARecordId
 			)
@@ -52,35 +51,19 @@ BEGIN
 	UPDATE par
 	SET StatusId = (CASE 
 			WHEN @IsExcluded = 1 THEN @PARejected
-			WHEN NOT EXISTS (
-					SELECT 1
-					FROM dbo.PAProcess pap WITH (NOLOCK)
-					WHERE pap.PARecordId = par.PARecordId
-						AND pap.ProcessId <> @HRProcessId
-						AND pap.PerformanceRecordId IS NOT NULL
-					) THEN @PANotGenerated
-			WHEN @today >= hr.StartDate
+			WHEN reviewer.PerformanceRecordId IS NULL THEN @PANotGenerated
+			WHEN @today >= reviewer.StartDate
 				AND (
 					@today <= reviewer.EndDate
 					OR @today <= @periodEndDate
 					) THEN @PAInProgress
 			WHEN @periodEndDate < @today
 				AND reviewer.EndDate < @today THEN @PAClosed
-			WHEN @today < hr.StartDate THEN @PAOpened END
+			WHEN @today < reviewer.StartDate THEN @PAOpened END
 			)
 	FROM dbo.PARecord AS par WITH (ROWLOCK, UPDLOCK)
-		CROSS APPLY (
-		SELECT pap.StartDate
-		FROM dbo.PAProcess pap WITH (NOLOCK)
-		WHERE par.PARecordId = pap.PARecordId
-			AND pap.ProcessId = @HRProcessId
-		) hr
-		CROSS APPLY (
-		SELECT pap.EndDate
-		FROM dbo.PAProcess pap WITH (NOLOCK)
-		WHERE par.PARecordId = pap.PARecordId
-			AND pap.ProcessId = @ReviewerProcessId
-		) reviewer
+		INNER JOIN dbo.PAProcess AS reviewer WITH (NOLOCK) ON par.PARecordId = reviewer.PARecordId
+		AND reviewer.ProcessId = @ReviewerProcessId
 	WHERE par.PARecordId = @PARecordId
 
 	SET @xml = (

@@ -1,7 +1,9 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Tabs, Tab } from 'react-bootstrap';
+import axios from 'axios';
 
+import { axiosError, resolveClientUrl } from '../../common-functions';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import getResource from '../../resourceHelper';
 import Breadcrumb from '../../shared/components/Breadcrumb';
@@ -14,11 +16,25 @@ export default class App extends Component {
         super(props);
 
         this.state = {
-            isHost: document.getElementById('IsHost').checked,
             activeKey: 1,
             isFirstLoadPersonalTab: false,
-            isFirstLoadFlowListTab: false
+            isFirstLoadFlowListTab: false,
+            groupOptions: []
         };
+
+        this.isHost = document.getElementById('IsHost').checked;
+    }
+
+    componentDidMount() {
+        axios(resolveClientUrl('Common/GetGroups'))
+            .then(response => {
+                this.groupOptions = response.data.map((group) => {
+                    return { value: group.groupId, label: group.name };
+                });
+                this.groupOptions.unshift({ value: '', label: '-- All --' });
+
+                this.setState({ activeKey: 1 });
+            }).catch(axiosError);
     }
 
     handleOnSelect = (key) => {
@@ -54,14 +70,16 @@ export default class App extends Component {
                         >
                             <Tab eventKey={1} title={getResource('Team')}>
                                 <GroupFlowSetting
-                                    isHost={this.state.isHost}
+                                    isHost={this.isHost}
+                                    groupOptions={this.groupOptions}
                                 />
                             </Tab>
                             <Tab eventKey={2} title={getResource('Personal')}>
                                 {
                                     this.state.isFirstLoadPersonalTab &&
                                     <EmployeeFlowSetting
-                                        isHost={this.state.isHost}
+                                        isHost={this.isHost}
+                                        groupOptions={this.groupOptions}
                                     />
                                 }
                             </Tab>

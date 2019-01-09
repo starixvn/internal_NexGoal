@@ -12,7 +12,6 @@ class GroupFlowSetting extends Component {
                     <tr>
                         <th>{getResource('SymbolCount')}</th>
                         <th>{getResource('Team')}</th>
-                        <th>{getResource('Admin')}</th>
                         <th>{getResource('Evaluator')}</th>
                         <th>{getResource('Reviewer')}</th>
                     </tr>
@@ -21,7 +20,7 @@ class GroupFlowSetting extends Component {
                     {
                         groupFlowSettings.length === 0 &&
                         <tr>
-                            <td className="empty-result" colSpan="5">{getResource('NoRecordFound')}</td>
+                            <td className="empty-result" colSpan="4">{getResource('NoRecordFound')}</td>
                         </tr>
                     }
                     {
@@ -31,18 +30,6 @@ class GroupFlowSetting extends Component {
                                 <tr key={`groupFlowSetting${groupFlowSetting.groupId}`}>
                                     <td className="text-center">{index + 1}</td>
                                     <td>{groupFlowSetting.name}</td>
-                                    <td>
-                                        {
-                                            groupFlowSetting.humanResources.length > 0 &&
-                                            groupFlowSetting.humanResources.map(humanResource => {
-                                                return (
-                                                    <p key={`humanResource${humanResource.evaluatorId}`}>
-                                                        {`${humanResource.nickName} (${humanResource.fullName})`}
-                                                    </p>
-                                                );
-                                            })
-                                        }
-                                    </td>
                                     <td>
                                         {
                                             groupFlowSetting.evaluator ?

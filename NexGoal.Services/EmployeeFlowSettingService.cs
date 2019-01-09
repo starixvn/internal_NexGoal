@@ -59,10 +59,6 @@
                 {
                     switch (flowSetting.ProcessId)
                     {
-                        case (int)PerformanceProcess.HumanResource:
-                            employeeFlowSetting.HumanResources.Add(flowSetting);
-                            break;
-
                         case (int)PerformanceProcess.Evaluator:
                             employeeFlowSetting.Evaluator = flowSetting;
                             break;
@@ -104,10 +100,6 @@
                 flowSetting.Avatar = avatarService.GetFilePath(flowSetting.Code);
                 switch (flowSetting.ProcessId)
                 {
-                    case (int)PerformanceProcess.HumanResource:
-                        employeeFlowSetting.HumanResources.Add(flowSetting);
-                        break;
-
                     case (int)PerformanceProcess.Evaluator:
                         employeeFlowSetting.Evaluator = flowSetting;
                         break;

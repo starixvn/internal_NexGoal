@@ -45,7 +45,6 @@
             };
             var flowSettings = new List<FlowSettingModel>
             {
-                new FlowSettingModel { ProcessId = 1, GroupId = 1, EvaluatorId = 1, NickName = "Maria" },
                 new FlowSettingModel { ProcessId = 4, GroupId = 1, EvaluatorId = 2, NickName = "Quinn" },
                 new FlowSettingModel { ProcessId = 5, GroupId = 1, EvaluatorId = 3, NickName = "Anders" }
             };
@@ -61,8 +60,6 @@
             Assert.Equal(1, actual.First().GroupId);
             Assert.Equal("NEX", actual.First().Code);
 
-            Assert.Single(actual.First().HumanResources);
-            Assert.Equal(flowSettings[0], actual.First().HumanResources.First());
             Assert.Equal(flowSettings[1], actual.First().Evaluator);
             Assert.Equal(flowSettings[2], actual.First().Reviewer);
         }
@@ -73,7 +70,6 @@
             // Arrange
             var flowSettings = new List<FlowSettingModel>
             {
-                new FlowSettingModel { ProcessId = 1, EvaluatorId = 1, NickName = "Maria" },
                 new FlowSettingModel { ProcessId = 4, EvaluatorId = 2, NickName = "Quinn" },
                 new FlowSettingModel { ProcessId = 5, EvaluatorId = 3, NickName = "Anders" }
             };
@@ -85,7 +81,6 @@
 
             // Assert
             Assert.Equal(1, actual.GroupId);
-            Assert.Single(actual.HumanResources);
             Assert.NotNull(actual.Evaluator);
             Assert.NotNull(actual.Reviewer);
         }
