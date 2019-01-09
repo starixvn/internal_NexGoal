@@ -5,6 +5,7 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PMSetting;
+    using NexGoal.Models.Common;
     using NexGoal.Models.PMSetting;
 
     public class PMSettingService : IPMSettingService
@@ -43,6 +44,11 @@
                 MemberId = memberId,
                 DeletedBy = removedBy
             }).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<EmployeeBaseModel>> GetProjectManagersAsync()
+        {
+            return await baseService.GetDataAsync<EmployeeBaseModel>(new GetProjectManagersCriteria()).ConfigureAwait(false);
         }
     }
 }

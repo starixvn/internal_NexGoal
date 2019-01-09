@@ -240,6 +240,10 @@
     <Build Include="dbo\Stored Procedures\Auto_PAFocus_GetSettingToSendNotification.sql" />
     <Build Include="dbo\Stored Procedures\Auto_Notification_Insert.sql" />
     <Build Include="dbo\Stored Procedures\Auto_NominationPeriod_GetSettingToSendNotification.sql" />
+    <Build Include="dbo\Stored Procedures\PMSetting_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\PMSetting_GetProjectManagers.sql" />
+    <Build Include="dbo\Stored Procedures\PMSetting_Get.sql" />
+    <Build Include="dbo\Stored Procedures\PMSetting_Delete.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">

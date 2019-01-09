@@ -41,11 +41,7 @@ export default class PMSetting extends Component {
     componentDidMount() {
         const promises = [
             axios(resolveClientUrl('common/GetEmployees')),
-            axios(resolveClientUrl('common/GetEmployees'), {
-                params: {
-                    groupIds: 13
-                }
-            }),
+            axios(resolveClientUrl('PMSetting/GetProjectManagers')),
         ];
 
         Promise.all(promises)

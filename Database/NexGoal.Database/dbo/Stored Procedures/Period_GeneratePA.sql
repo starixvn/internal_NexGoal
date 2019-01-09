@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[Period_GeneratePA] @PeriodId INT
+﻿CREATE PROCEDURE [dbo].[Period_GeneratePA] @PeriodId INT
 	,@PARecordIds VARCHAR(MAX) = NULL
 	,@CreatedBy INT
 	,@Override BIT = 0
@@ -24,6 +23,7 @@ BEGIN
 		,@disciplineStartDate DATE
 		,@disciplineEndDate DATE
 		,@PMGroupId TINYINT = 13
+		,@PMRoleId TINYINT = 6
 	-- process
 	DECLARE @HRProcessId TINYINT = 1
 		,@SelfProcessId TINYINT = 2
@@ -147,8 +147,6 @@ BEGIN
 			SELECT pr.CreatorId
 				,pr.GradeId
 			FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
-				INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pr.CreatorId = emp.EmployeeId
-				AND emp.GroupId = @PMGroupId
 				LEFT JOIN dbo.PerformanceRecord AS pr1 WITH (NOLOCK) ON pr.CreatorId = pr1.CreatorId
 				AND pr.EmployeeIds = pr1.EmployeeIds
 				AND pr.CreatedDate < pr1.CreatedDate
@@ -171,6 +169,16 @@ BEGIN
 						AND pap.EvaluatorId = pr.CreatorId
 						AND pap.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
 					)
+				AND EXISTS (
+					SELECT 1
+					FROM dbo.EmployeeRole er WITH (NOLOCK)
+					WHERE er.RoleId = @PMRoleId AND pr.CreatorId = er.EmployeeId
+				)
+				AND EXISTS (
+					SELECT 1
+					FROM dbo.PMSetting pms WITH (NOLOCK)
+					WHERE pms.ProjectManagerId = pr.CreatorId AND pms.MemberId = par.EmployeeId
+				)
 			) lg
 
 		-- Capture for Self, Reviewer, Evaluator
@@ -384,8 +392,6 @@ BEGIN
 			SELECT pr.CreatorId
 				,pr.GradeId
 			FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
-				INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pr.CreatorId = emp.EmployeeId
-				AND emp.GroupId = @PMGroupId
 				LEFT JOIN dbo.PerformanceRecord AS pr1 WITH (NOLOCK) ON pr.CreatorId = pr1.CreatorId
 				AND pr.EmployeeIds = pr1.EmployeeIds
 				AND pr.CreatedDate < pr1.CreatedDate
@@ -408,6 +414,16 @@ BEGIN
 						AND pap.EvaluatorId = pr.CreatorId
 						AND pap.ProcessId IN (@PMProcessId, @EvaluatorProcessId, @ReviewerProcessId)
 					)
+				AND EXISTS (
+					SELECT 1
+					FROM dbo.EmployeeRole er WITH (NOLOCK)
+					WHERE er.RoleId = @PMRoleId AND pr.CreatorId = er.EmployeeId
+				)
+				AND EXISTS (
+					SELECT 1
+					FROM dbo.PMSetting pms WITH (NOLOCK)
+					WHERE pms.ProjectManagerId = pr.CreatorId AND pms.MemberId = gpar.EmployeeId
+				)
 			) lg
 
 		-- Insert PM Process

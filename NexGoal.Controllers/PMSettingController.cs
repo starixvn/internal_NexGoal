@@ -45,5 +45,13 @@
         {
             return Json(await pmSettingService.RemoveMember(projectManagerId, memberId, sessionService.EmployeeId).ConfigureAwait(false));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetProjectManagers()
+        {
+            var result = await pmSettingService.GetProjectManagersAsync().ConfigureAwait(false);
+
+            return Json(result);
+        }
     }
 }
