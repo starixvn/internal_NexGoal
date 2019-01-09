@@ -27,7 +27,7 @@
                     }
                 });
 
-            var result = await service.GetNominationPeriodsForNominatorAsync(false);
+            var result = await service.GetNominationPeriodsForNominatorAsync();
 
             Assert.NotEmpty(result);
             Assert.Single(result);
