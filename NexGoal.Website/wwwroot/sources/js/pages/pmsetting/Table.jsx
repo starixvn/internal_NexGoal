@@ -25,7 +25,7 @@ class Row extends Component {
             <tr>
                 <td>{member.nickName} ({member.fullName})</td>
                 <td>{member.jobTitle}</td>
-                <td className='text-center'><a className="fa fa-trash-o remove" onClick={this.handleRemoveMember.bind(this, member)} title="Remove"></a></td>
+                <td className='text-center'><a className="icon-delete" onClick={this.handleRemoveMember.bind(this, member)} title="Remove"></a></td>
             </tr>
         </Collapse>
 
@@ -58,7 +58,7 @@ export default class Table extends Component {
             : <tr><td className="text-center" colSpan={2}>{noDataIndication()}</td></tr>;
 
         return (
-            <table className="table table-bordered table-striped tbl-nomination-report">
+            <table className="table table-bordered table-striped tbl-pm-assignment">
                 <thead>
                     <tr>
                         <th>{getResource('Employee')}</th>
