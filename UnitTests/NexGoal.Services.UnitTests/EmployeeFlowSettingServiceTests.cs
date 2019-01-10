@@ -79,8 +79,8 @@
             Assert.Equal(1, actual.First().EmployeeId);
             Assert.Equal("Tim", actual.First().NickName);
 
-            Assert.Equal(flowSettings[1], actual.First().Evaluator);
-            Assert.Equal(flowSettings[2], actual.First().Reviewer);
+            Assert.Equal(flowSettings[0], actual.First().Evaluator);
+            Assert.Equal(flowSettings[1], actual.First().Reviewer);
         }
 
         [Fact]
