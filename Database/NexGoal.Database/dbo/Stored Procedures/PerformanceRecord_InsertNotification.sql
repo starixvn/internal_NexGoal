@@ -17,7 +17,7 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @CreatedDate DATE = GETDATE()
+	DECLARE @CreatedDate DATETIME = GETDATE()
 		,@idoc INT
 
 	CREATE TABLE #tblNotification (

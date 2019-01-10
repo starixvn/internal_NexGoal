@@ -250,7 +250,7 @@ BEGIN
 		,EmployeeId AS EmployeeIds
 	FROM #tblPerformanceRecordIds WITH (NOLOCK)
 
-	SELECT tbl.PerformanceRecordId
+	SELECT DISTINCT tbl.PerformanceRecordId
 		,tbl.NotificationMode
 		,tbl.ProcessId
 		,tbl.[Priority]
