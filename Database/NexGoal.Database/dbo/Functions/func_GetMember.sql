@@ -191,6 +191,7 @@ BEGIN
 			,@PMRoleId
 		FROM dbo.PMSetting WITH (NOLOCK)
 		WHERE MemberId <> @ActorId
+			AND ProjectManagerId = @ActorId
 	END
 
 	RETURN
