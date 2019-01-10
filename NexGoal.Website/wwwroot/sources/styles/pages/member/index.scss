@@ -247,6 +247,7 @@
 
     .comment .form-control {
         font-size: 14px;
+        padding: 8px 16px;
     }
 
     .nomination-period, .employee {
@@ -309,6 +310,9 @@
             padding: 2px 0 2px 4px;
             font-size: 12px;
         }
+    }
+    #chart-wrapper {
+        margin-top: 6px;
     }
 }
 
