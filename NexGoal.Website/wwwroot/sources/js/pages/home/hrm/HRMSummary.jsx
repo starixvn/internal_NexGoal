@@ -48,7 +48,7 @@ export default class HRM extends Component {
     }
 
     renderToeicScore = (hrmDetail) => {
-        const toeicClass = hrmDetail.isPassedToeic ? 'role-member' : 'red';
+        const toeicClass = hrmDetail.isPassedToeic ? '' : 'red';
         const expireDate = moment(hrmDetail.toeicExamDate).add(3, 'years').format(DateFormat);
         const showExpireDate = parseInt(hrmDetail.toeicScore) < 900 ? `(exp ${expireDate})` : '';
 

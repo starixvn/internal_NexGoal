@@ -25,6 +25,7 @@ export default class NotificationBell extends Component {
 
     componentDidMount() {
         document.addEventListener('mousedown', this.handleClickOutside);
+        this.addEventListener();
         this.getNotifications();
     }
 
@@ -42,6 +43,64 @@ export default class NotificationBell extends Component {
 
     componentWillUnmount() {
         document.removeEventListener('mousedown', this.handleClickOutside);
+        this.removeEventListener();
+    }
+
+    addEventListener = () => {
+        let notiTrigger = document.getElementById('trigger-notification-bell');
+        if (notiTrigger) {
+            notiTrigger.addEventListener('click', () => {
+                let notificationId = parseInt(notiTrigger.getAttribute("notificationId"));
+                if (!notificationId) {
+                    this.markAsReadSuccess();
+                } else {
+                    this.readNotificationSucess(notificationId);
+                }
+            }, false);
+        }
+    }
+
+    removeEventListener = () => {
+        let notiTrigger = document.getElementById('trigger-notification-bell');
+        if (notiTrigger) {
+            notiTrigger.removeEventListener('click');
+        }
+    }
+
+    readNotificationSucess = (notificationId) => {
+        const notiId = notificationId;
+        let notifications = [...this.state.notifications];
+        const notiIndex = notifications.findIndex(noti => noti.notificationId === notiId);
+        if (notiIndex !== -1) {
+            notifications[notiIndex].statusId = NotificationStatus.Read;
+        }
+        this.setState({
+            notifications: notifications,
+            unreadNoti: this.state.unreadNoti - 1
+        });
+
+        this.triggerNotificationCenter(notiId);
+    }
+
+    markAsReadSuccess = () => {
+        let notifications = [...this.state.notifications];
+        for (var i = 0; i < notifications.length; i++) {
+            notifications[i].statusId = NotificationStatus.Read;
+        }
+        this.setState({
+            notifications: notifications,
+            unreadNoti: 0
+        });
+
+        this.triggerNotificationCenter();
+    }
+
+    triggerNotificationCenter = (notificationId) => {
+        let notiCenterTrigger = document.getElementById('trigger-notification-center');
+        if (notiCenterTrigger) {
+            notiCenterTrigger.setAttribute("notificationId", notificationId);
+            notiCenterTrigger.click();
+        }
     }
 
     handleClickOutside(event) {
@@ -107,13 +166,7 @@ export default class NotificationBell extends Component {
         }).then(response => {
             let data = response.data;
             if (data.isSuccessful) {
-                let notifications = [...this.state.notifications];
-                const notiIndex = this.state.notifications.findIndex(noti => noti.notificationId === notiId);
-                notifications[notiIndex].statusId = NotificationStatus.Read;
-                this.setState({
-                    notifications: notifications,
-                    unreadNoti: this.state.unreadNoti - 1
-                });
+                this.readNotificationSucess(notiId);
             } else {
                 toast.error(data.message);
             }
@@ -126,14 +179,7 @@ export default class NotificationBell extends Component {
                 .then(response => {
                     let data = response.data;
                     if (data.isSuccessful) {
-                        let notifications = [...this.state.notifications];
-                        for (var i = 0; i < notifications.length; i++) {
-                            notifications[i].statusId = NotificationStatus.Read;
-                        }
-                        this.setState({
-                            notifications: notifications,
-                            unreadNoti: 0
-                        });
+                        this.markAsReadSuccess();
                     } else {
                         toast.error(data.message);
                     }

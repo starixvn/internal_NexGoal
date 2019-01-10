@@ -15,6 +15,15 @@ export default class NotificationBoard extends Component {
         };
     }
 
+    addEventListener = () => {
+        let notiTrigger = document.getElementById('trigger-notification-center');
+        if (notiTrigger) {
+            notiTrigger.addEventListener('click', () => {
+                this.componentDidMount();
+            });
+        }
+    }
+
     handleReadNotification = (statusId, notificationId) => {
         if (statusId === NotificationStatus.Unread) {
             this.props.readNotification(notificationId);
