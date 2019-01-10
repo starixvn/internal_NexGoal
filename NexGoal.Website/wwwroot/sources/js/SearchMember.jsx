@@ -57,15 +57,17 @@ export default class SearchMember extends Component {
 
                     this.setState({ memberOptions: options });
                 }).catch(axiosError);
+        } else {
+            this.setState({ memberOptions: [] });
         }
-
-        this.setState({ memberOptions: [] });
     }
 
     handleClick = () => {
-        this.setState((prevState, prevProps) => {
-            return { showSearchbox: !prevState.showSearchbox };
-        });
+        this.inputRef.focus();
+
+        if (!this.state.showSearchbox) {
+            this.setState({ showSearchbox: true });
+        }
     }
 
     handleSelect = (e) => {
