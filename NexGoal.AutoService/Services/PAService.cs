@@ -124,9 +124,8 @@
                             body = string.Format(
                                 mailService.ReadTextFile(startToReviewerPath),
                                 setting.Nickname,
-                                configuration.Value.ApplicationDomain,
-                                mailService.FormatStartDate(setting.StartDate),
-                                mailService.FormatStartDate(setting.EndDate));
+                                period.Name,
+                                configuration.Value.ApplicationDomain);
                             SendEmail(subjectStartMail, body, setting);
                             break;
 
@@ -134,9 +133,9 @@
                             body = string.Format(
                                 mailService.ReadTextFile(remindToReviewerPath),
                                 setting.Nickname,
-                                configuration.Value.ApplicationDomain,
-                                mailService.FormatStartDate(setting.StartDate),
-                                mailService.FormatStartDate(setting.EndDate));
+                                period.Name,
+                                mailService.FormatStartDate(setting.EndDate),
+                                configuration.Value.ApplicationDomain);
                             SendEmail(subjectRemindMail, body, setting);
                             break;
 
@@ -144,7 +143,8 @@
                             body = string.Format(
                                 mailService.ReadTextFile(endEvaluationMailPath),
                                 setting.Nickname,
-                                period.Name);
+                                period.Name,
+                                configuration.Value.ApplicationDomain);
                             SendEmail(subjectEndEvaluationMail, body, setting);
                             break;
 

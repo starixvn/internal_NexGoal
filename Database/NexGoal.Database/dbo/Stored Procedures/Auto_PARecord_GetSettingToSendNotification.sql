@@ -78,14 +78,14 @@ BEGIN
 			,emp.NickName
 			,emp.FullName
 			,emp.Email
-		FROM dbo.Employee AS emp WITH (NOLOCK)
-			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-			AND gr.IsDeleted = 0
-			INNER JOIN dbo.GroupFlowSetting AS gfs WITH (NOLOCK) ON gfs.GroupId = gr.GroupId
-			AND gfs.ProcessId > @SelfProcessId
-			,dbo.Period AS period WITH (NOLOCK)
-		WHERE emp.[Enabled] = 1
+		FROM dbo.GroupFlowSetting AS gfs WITH (NOLOCK)
+			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON gfs.EvaluatorId = emp.EmployeeId
+			AND emp.[Enabled] = 1
 			AND emp.IsDeleted = 0
+			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON gfs.GroupId = gr.GroupId
+			AND gr.IsDeleted = 0
+			,dbo.Period AS period WITH (NOLOCK)
+		WHERE gfs.ProcessId > @SelfProcessId
 			AND DATEADD(DAY, - 7, period.StartDate) = @Today
 		
 		UNION
@@ -215,6 +215,8 @@ BEGIN
 
 	SELECT period.PeriodId
 		,period.[Name]
+		,period.StartDate
+		,period.EndDate
 	FROM dbo.Period AS period WITH (NOLOCK)
 	WHERE period.IsActive = 1
 		AND EXISTS (

@@ -367,7 +367,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Performance Appraisal for the {0} will begin on {1}, you are recommended to create a neat &amp; clean Performance Record (a detailed comment &amp; selected grade) for a better evaluation result..
+        ///   Looks up a localized string similar to The Performance Appraisal for the {0} will begin on {1}, you are recommended to create a neat &amp; clean Performance Record (with a detailed comment &amp; selected grade) for a better evaluation result..
         /// </summary>
         public static string NotificationTemplate_PA_RemindStartEvaluationToMember {
             get {
@@ -376,7 +376,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Performance Appraisal for the {0} will begin on {1}, you are recommended to create a neat &amp; clean Performance Record (a detailed comment &amp; selected grade) for a better evaluation result..
+        ///   Looks up a localized string similar to The Performance Appraisal for the {0} will begin on {1}, you are recommended to create a neat &amp; clean Performance Record for yourself and your members (with a detailed comment &amp; selected grade) for a better evaluation result..
         /// </summary>
         public static string NotificationTemplate_PA_RemindStartEvaluationToSupervisor {
             get {

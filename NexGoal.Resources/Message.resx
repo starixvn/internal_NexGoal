@@ -226,10 +226,10 @@
     <value>The Performance Appraisal for the {0} is COMPLETE!</value>
   </data>
   <data name="NotificationTemplate_PA_RemindStartEvaluationToMember" xml:space="preserve">
-    <value>The Performance Appraisal for the {0} will begin on {1}, you are recommended to create a neat &amp; clean Performance Record (a detailed comment &amp; selected grade) for a better evaluation result.</value>
+    <value>The Performance Appraisal for the {0} will begin on {1}, you are recommended to create a neat &amp; clean Performance Record (with a detailed comment &amp; selected grade) for a better evaluation result.</value>
   </data>
   <data name="NotificationTemplate_PA_RemindStartEvaluationToSupervisor" xml:space="preserve">
-    <value>The Performance Appraisal for the {0} will begin on {1}, you are recommended to create a neat &amp; clean Performance Record (a detailed comment &amp; selected grade) for a better evaluation result.</value>
+    <value>The Performance Appraisal for the {0} will begin on {1}, you are recommended to create a neat &amp; clean Performance Record for yourself and your members (with a detailed comment &amp; selected grade) for a better evaluation result.</value>
   </data>
   <data name="NotificationTemplate_PA_RemindToReviewer" xml:space="preserve">
     <value>The Performance Appraisal for the {0} is going to be CLOSED on {1}, please make sure to revise and submit the PA for all of your members.</value>
