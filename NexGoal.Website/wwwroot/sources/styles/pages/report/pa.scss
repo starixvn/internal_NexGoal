@@ -3,7 +3,7 @@
 @import "../../components/buttons";
 @import "../../components/form-filter";
 @import "../../components/dropdown";
-@import "../../components/_react-select.scss";
+@import "../../components/react-select";
 @import "../../components/form-inline";
 @import "../../components/form";
 @import "../../components/modal";
@@ -12,7 +12,7 @@
 @import "../../components/table-search";
 @import '~react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 @import "../../components/toast";
-@import "../../pages/member/_performance-appraisal.scss";
+@import "../../pages/member/performance-appraisal";
 
 table {
     tbody {

@@ -22,8 +22,8 @@ module.exports = {
         [`${styleDistPath}/member-details`]: `${styleSourcePath}/pages/member/details.scss`,
         [`${styleDistPath}/pafocus`]: `${styleSourcePath}/pages/pafocus/index.scss`,
         [`${styleDistPath}/nomination-assessment`]: `${styleSourcePath}/pages/nominationassessment/index.scss`,
-        [`${styleDistPath}/nomination-report`]: `${styleSourcePath}/pages/nominationreport/index.scss`,
-        [`${styleDistPath}/pa-report`]: `${styleSourcePath}/pages/report/pa-report.scss`,
+        [`${styleDistPath}/nomination-report`]: `${styleSourcePath}/pages/report/nomination.scss`,
+        [`${styleDistPath}/pa-report`]: `${styleSourcePath}/pages/report/pa.scss`,
         [`${styleDistPath}/pm-setting`]: `${styleSourcePath}/pages/pmsetting/index.scss`,
         //
         [`${jsDistPath}/main`]: "./sources/js/main.js",
@@ -44,8 +44,8 @@ module.exports = {
         [`${jsDistPath}/member-details`]: `${jsSourcePath}/member/details.jsx`,
         [`${jsDistPath}/pafocus`]: `${jsSourcePath}/pafocus/index.jsx`,
         [`${jsDistPath}/nomination-assessment`]: `${jsSourcePath}/nominationassessment/index.jsx`,
-        [`${jsDistPath}/nomination-report`]: `${jsSourcePath}/report/nominationreport/index.jsx`,
-        [`${jsDistPath}/pa-report`]: `${jsSourcePath}/report/pa-report/index.jsx`,
-        [`${jsDistPath}/pm-setting`]: `${jsSourcePath}/pmsetting/index.jsx`,
+        [`${jsDistPath}/nomination-report`]: `${jsSourcePath}/report/nomination/index.jsx`,
+        [`${jsDistPath}/pa-report`]: `${jsSourcePath}/report/pa/index.jsx`,
+        [`${jsDistPath}/pm-setting`]: `${jsSourcePath}/pmsetting/index.jsx`
     }
 };

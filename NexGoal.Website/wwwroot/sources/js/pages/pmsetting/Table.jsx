@@ -56,7 +56,7 @@ export default class Table extends Component {
 
     render() {
         let content = this.props.tableData.length > 0 ? this.props.tableData.map(this.renderSetting)
-            : <tr><td className="text-center" colSpan={2}>{noDataIndication()}</td></tr>;
+            : <tr><td className="text-center" colSpan={3}>{noDataIndication()}</td></tr>;
 
         return (
             <table className="table table-bordered table-striped tbl-pm-assignment">
