@@ -10,7 +10,7 @@ import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import ConfirmationModal from '../../shared/components/ConfirmationModal';
 import SearchForm from './SearchForm';
-import Table from './Table';
+import Table from './table/index';
 import AddMember from './AddMember';
 
 export default class PMSetting extends Component {
@@ -35,13 +35,13 @@ export default class PMSetting extends Component {
                 showModal: false,
                 member: {}
             }
-        }
+        };
     }
 
     componentDidMount() {
         const promises = [
             axios(resolveClientUrl('common/GetEmployees')),
-            axios(resolveClientUrl('PMSetting/GetProjectManagers')),
+            axios(resolveClientUrl('PMSetting/GetProjectManagers'))
         ];
 
         Promise.all(promises)
@@ -67,7 +67,7 @@ export default class PMSetting extends Component {
 
                 this.setState({ filter: filter, pmOptions: pmOptions, pms: pms, employeeOptions: employeeOptions }, () => {
                     let filter = this.state.filter;
-                    this.getPMSetting(filter.pms.map(e => e.value).toString(), filter.employee ? filter.employee.value : null, this.updateTableData)
+                    this.getPMSetting(filter.pms.map(e => e.value).toString(), filter.employee ? filter.employee.value : null, this.updateTableData);
                 });
             }).catch(axiosError);
     }
@@ -179,7 +179,7 @@ export default class PMSetting extends Component {
         return (
             <div className="row">
                 <Breadcrumb>
-                    <li className="current">{getResource('PMSetting')}</li>
+                    <li className="current">{getResource('PMAssignment')}</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
                     <SearchForm filter={this.state.filter}
@@ -190,13 +190,19 @@ export default class PMSetting extends Component {
                     />
                     <Table tableData={this.state.tableData} onAddMember={this.handleAddMember} onRemoveMember={this.handleRemoveMember} />
                 </div>
-                <AddMember pm={this.state.addMember.pm} memberOptions={this.state.addMember.memberOptions} showModal={this.state.addMember.showModal}
-                    closeModal={this.handleCloseAddMemberModal} onAddMemberSuccess={this.handleAddMemberSuccess} />
+                <AddMember pm={this.state.addMember.pm}
+                    memberOptions={this.state.addMember.memberOptions}
+                    showModal={this.state.addMember.showModal}
+                    closeModal={this.handleCloseAddMemberModal}
+                    onAddMemberSuccess={this.handleAddMemberSuccess}
+                />
                 <ToastLayout />
-                <ConfirmationModal action="remove" name={this.state.removeMember.member.nickName}
+                <ConfirmationModal action="remove"
+                    name={this.state.removeMember.member.nickName}
                     showModal={this.state.removeMember.showModal}
                     onCloseModal={this.handleCloseRemoveMemberModal}
-                    onSubmit={this.handleRemoveMemberConfirmation} />
+                    onSubmit={this.handleRemoveMemberConfirmation}
+                />
             </div>
         );
     }
