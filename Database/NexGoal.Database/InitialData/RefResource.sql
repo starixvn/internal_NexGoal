@@ -32,3 +32,4 @@ GO
 INSERT INTO dbo.RefResource(RefName, ResourceId, [Value], [Description], IsActive)
 VALUES ('ProbationDuration', 1, '60', 'total probation days', 1),
 	('ProbationRemindDay', 1, '7', 'remind before x days', 1)
+GO

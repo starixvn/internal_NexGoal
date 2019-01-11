@@ -8,7 +8,6 @@
         Evaluator,
         Reviewer,
         ProjectManager,
-        Committee,
         Employee = 101
     }
 }
