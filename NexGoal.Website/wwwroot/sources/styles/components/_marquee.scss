@@ -23,7 +23,11 @@
     }
     
 }
-
+.announcement-item:before{
+    content: '\26AC';
+    color: #4F9E00;
+    margin-right: 4px;
+}
 @keyframes marquee {
     0% {
         @include transform(translate(0, 0));
