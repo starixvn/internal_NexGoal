@@ -11,9 +11,10 @@ export default class EOY extends Component {
 
         this.state = {
             statusId: 1,
-            eoys: [],
-            isHost: document.getElementById('IsHost').checked
+            eoys: []
         };
+
+        this.isHost = document.getElementById('IsHost').checked;
     }
 
     componentDidMount() {
@@ -47,7 +48,7 @@ export default class EOY extends Component {
 
                 <Table
                     eoys={this.state.eoys}
-                    isHost={this.state.isHost}
+                    isHost={this.isHost}
                     handleFilterSubmit={this.handleSubmit}
                 />
             </Fragment>

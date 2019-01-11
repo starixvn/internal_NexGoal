@@ -76,7 +76,7 @@ class Table extends Component {
                         );
                     }
 
-                    return <input type='checkbox' name="Committee" checked={row.isCommittee} readOnly />;
+                    return <input type='checkbox' name="Committee" defaultChecked={row.isCommittee} readOnly />;
                 }
             },
             {
@@ -94,7 +94,7 @@ class Table extends Component {
                         );
                     }
 
-                    return <input type='checkbox' name="Nominator" checked={row.isCommittee} readOnly />;
+                    return <input type='checkbox' name="Nominator" defaultChecked={row.isNominator} readOnly />;
                 }
             }
         ];

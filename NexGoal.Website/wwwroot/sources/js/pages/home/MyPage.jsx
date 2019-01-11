@@ -50,7 +50,6 @@ export default class MyPage extends Component {
                 nextDisabled: false,
                 prevDisabled: false
             },
-            currentUserInfo: getCurrentUserInfo(),
             showAnnouncementModal: false
         };
 
@@ -73,7 +72,7 @@ export default class MyPage extends Component {
                     pageSize: this.timelineItemPerPage
                 }
             }),
-            axios(resolveClientUrl('common/GetAnnouncements')),
+            axios(resolveClientUrl('common/GetAnnouncements'))
         ];
 
         Promise.all(promises)
@@ -327,7 +326,7 @@ export default class MyPage extends Component {
 
     render() {
         let performanceRecords = this.state.displayedPerformanceRecords;
-        let currentUserInfo = this.state.currentUserInfo;
+        let currentUserInfo = getCurrentUserInfo();
 
         return (
             <div className="row">

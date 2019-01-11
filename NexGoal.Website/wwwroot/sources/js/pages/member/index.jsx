@@ -46,17 +46,17 @@ export default class App extends Component {
                 isShowModal: false,
                 performanceRecordId: 0
             },
-            currentUser: {
-                ...getCurrentUserInfo(),
-                roleId: 2,
-                isReviewer: document.getElementById('isReviewer').checked
-            },
             activeTabKey: 1,
             loadNominationTab: false,
             loadPATab: false,
             showAnnouncementModal: false
         };
 
+        this.currentUser = {
+            ...getCurrentUserInfo(),
+            roleId: 2,
+            isReviewer: document.getElementById('isReviewer').checked
+        };
         this.infiniteScrollRef = React.createRef();
         this.memberTimelineRef = React.createRef();
         this.itemPerPage = 10;
@@ -324,7 +324,7 @@ export default class App extends Component {
         let memberOptions = this.state.memberOptions;
         let performanceGradeOptions = this.state.performanceGradeOptions;
         let projectOptions = this.state.projectOptions;
-        let currentUser = this.state.currentUser;
+        let currentUser = this.currentUser;
         const periodOptions = this.state.periods.map(period => {
             return {
                 value: period.periodId,
@@ -388,7 +388,7 @@ export default class App extends Component {
                                         />}
                                 </Tab>
                                 {
-                                    this.state.currentUser.isReviewer &&
+                                    currentUser.isReviewer &&
                                     <Tab eventKey={3} title={getResource('PerformanceAppraisal')}>
                                         {
                                             this.state.loadPATab && this.state.periods.length > 0 &&
@@ -438,7 +438,10 @@ export default class App extends Component {
                         onSubmit={this.handleDeletePerformanceRecord}
                     />
                 }
-                <Announcement showModal={this.state.showAnnouncementModal} onCloseModal={this.handleCloseAnnouncementModal} announcements={this.state.announcements} />
+                <Announcement showModal={this.state.showAnnouncementModal}
+                    onCloseModal={this.handleCloseAnnouncementModal}
+                    announcements={this.state.announcements}
+                />
             </ToastLayout>
         );
     }

@@ -13,9 +13,10 @@ export default class EOQ extends Component {
             year: '',
             statusId: 1,
             years: [],
-            eoqs: [],
-            isHost: document.getElementById('IsHost').checked
+            eoqs: []
         };
+
+        this.isHost = document.getElementById('IsHost').checked;
     }
 
     componentDidMount() {
@@ -69,7 +70,7 @@ export default class EOQ extends Component {
 
                 <Table
                     eoqs={this.state.eoqs}
-                    isHost={this.state.isHost}
+                    isHost={this.isHost}
                     handleFilterSubmit={this.handleSubmit}
                 />
             </Fragment>

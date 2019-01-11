@@ -5,6 +5,7 @@ import { Tabs, Tab } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroller';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
+
 import { axiosError, calculateTimelineNode, getCurrentUserInfo, resolveClientUrl } from '../../common-functions';
 import { PerformanceRecordStatus } from '../../constants';
 import getResource from '../../resourceHelper';
@@ -29,13 +30,6 @@ export default class App extends Component {
         super(props);
 
         this.state = {
-            memberInfo: {
-                id: parseInt(document.getElementById('MemberId').value),
-                nickName: document.getElementById('member-nickName').value,
-                fullName: document.getElementById('member-fullName').value,
-                jobTitle: document.getElementById('member-jobTitle').value,
-                avatar: document.getElementById('member-avatar').value
-            },
             performanceAppraisals: [],
             displayedPerformanceRecords: [],
             performanceRecords: [],
@@ -47,10 +41,6 @@ export default class App extends Component {
                 pageIndex: 0,
                 nextDisabled: true,
                 prevDisabled: false
-            },
-            currentUserInfo: {
-                ...getCurrentUserInfo(),
-                roleId: 0
             },
             editPerformanceRecord: {
                 isShowModal: false,
@@ -68,13 +58,24 @@ export default class App extends Component {
             loadNominationTab: false
         };
 
+        this.currentUserInfo = {
+            ...getCurrentUserInfo(),
+            roleId: 0
+        };
+        this.memberInfo = {
+            id: parseInt(document.getElementById('MemberId').value),
+            nickName: document.getElementById('member-nickName').value,
+            fullName: document.getElementById('member-fullName').value,
+            jobTitle: document.getElementById('member-jobTitle').value,
+            avatar: document.getElementById('member-avatar').value
+        };
         this.infiniteScrollRef = React.createRef();
         this.timelineItemPerPage = calculateTimelineNode();
         this.itemPerPage = 10;
     }
 
     componentDidMount() {
-        const memberId = this.state.memberInfo.id;
+        const memberId = this.memberInfo.id;
         const promises = [
             axios(resolveClientUrl('common/GetAllPeriods')),
             axios(resolveClientUrl('Common/GetPerformanceGrades')),
@@ -85,7 +86,7 @@ export default class App extends Component {
             axios(resolveClientUrl('member/Performance'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('Member/Performance/Timeline'), {
                 params: {
-                    employeeId: this.state.memberInfo.id,
+                    employeeId: memberId,
                     pageIndex: 0,
                     pageSize: this.timelineItemPerPage
                 }
@@ -110,7 +111,8 @@ export default class App extends Component {
                 });
 
                 let timelineInfo = timelineResponse.data[0];
-                let currentUserInfo = Object.assign({}, this.state.currentUserInfo, { roleId: roleResponse.data });
+
+                this.currentUserInfo.roleId = roleResponse.data;
 
                 this.setState({
                     performanceGradeOptions: performanceGradeOptions,
@@ -123,7 +125,6 @@ export default class App extends Component {
                         nextDisabled: true,
                         prevDisabled: this.timelineItemPerPage >= timelineInfo.totalItems
                     },
-                    currentUserInfo: currentUserInfo,
                     performanceAppraisals: performanceAppraisalResponse.data,
                     displayedPerformanceRecords: displayedPerformanceRecords,
                     performanceRecords: performanceRecordResponse.data,
@@ -157,7 +158,7 @@ export default class App extends Component {
         let size = pageSize ? pageSize : calculateTimelineNode();
         axios(resolveClientUrl('Member/Performance/Timeline'), {
             params: {
-                employeeId: this.state.memberInfo.id,
+                employeeId: this.memberInfo.id,
                 pageIndex: pageIndex,
                 pageSize: size
             }
@@ -274,7 +275,7 @@ export default class App extends Component {
                         let lastIndex = performanceRecords.map(record => { return record.statusId; }).lastIndexOf(PerformanceRecordStatus.Draft);
                         lastIndex = lastIndex >= 0 ? lastIndex + 1 : 0;
 
-                        let records = response.data.filter(record => record.employees[0].employeeId === this.state.memberInfo.id);
+                        let records = response.data.filter(record => record.employees[0].employeeId === this.memberInfo.id);
                         performanceRecords.splice(lastIndex, 0, ...records);
 
                         this.handleTimelinePageChange(this.state.personalTimeline.pageIndex);
@@ -369,10 +370,10 @@ export default class App extends Component {
                 <div className="row">
                     <div className="my-page member-detail main-layout">
                         <div className="general-info">
-                            <EmployeeInfo employee={this.state.memberInfo} />
+                            <EmployeeInfo employee={this.memberInfo} />
                             <PerformanceAppraisalResult
                                 performanceAppraisals={performanceAppraisals}
-                                title={`${this.state.memberInfo.nickName}'s Performance Appraisal`}
+                                title={`${this.memberInfo.nickName}'s Performance Appraisal`}
                             />
                         </div>
                         <div className="main-content">
@@ -392,10 +393,10 @@ export default class App extends Component {
                                     <div className="record-list">
                                         <CustomScrollbars>
                                             <CreateMemberPerformance
-                                                currentUser={this.state.currentUserInfo}
+                                                currentUser={this.currentUserInfo}
                                                 performanceGradeOptions={this.state.performanceGradeOptions}
                                                 projectOptions={this.state.projectOptions}
-                                                selectedMemberId={this.state.memberInfo.id}
+                                                selectedMemberId={this.memberInfo.id}
                                                 onSubmitSuccess={this.handleCreatePerformanceRecordSuccess}
                                                 isMultiple={false}
                                             />
@@ -424,9 +425,9 @@ export default class App extends Component {
                                     {
                                         this.state.loadNominationTab &&
                                         <Nomination
-                                            currentUser={this.state.currentUserInfo}
+                                            currentUser={this.currentUserInfo}
                                             isMemberDetail
-                                            nomineeId={this.state.memberInfo.id}
+                                            nomineeId={this.memberInfo.id}
                                         />
                                     }
                                 </Tab>
@@ -439,9 +440,9 @@ export default class App extends Component {
                             }
                             {
                                 this.state.periods.length > 0 &&
-                                <WorkLoad periods={this.state.periods} memberId={this.state.memberInfo.id} />
+                                <WorkLoad periods={this.state.periods} memberId={this.memberInfo.id} />
                             }
-                            <HrmSummary memberId={this.state.memberInfo.id} />
+                            <HrmSummary memberId={this.memberInfo.id} />
                         </div>
 
                     </div>
@@ -449,7 +450,7 @@ export default class App extends Component {
                 {
                     this.state.editPerformanceRecord.isShowModal &&
                     <EditMemberPerformance
-                        currentUser={this.state.currentUserInfo}
+                        currentUser={this.currentUserInfo}
                         performanceRecordId={this.state.editPerformanceRecord.performanceRecordId}
                         performanceGradeOptions={this.state.performanceGradeOptions}
                         projectOptions={this.state.projectOptions}

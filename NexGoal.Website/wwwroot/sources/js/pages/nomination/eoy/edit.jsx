@@ -17,11 +17,9 @@ export default class App extends Component {
             activeKey: 1,
             isFirstLoad: false
         };
-
-        this.handleSelect = this.handleSelect.bind(this);
     }
 
-    handleSelect(key) {
+    handleSelect = (key) => {
         this.setState({ activeKey: key });
 
         if (key === 2 && !this.state.isFirstLoad) {

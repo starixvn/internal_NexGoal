@@ -39,7 +39,6 @@ export default class CreateSelfPerformance extends Component {
                 projects: props.currentUser.isProbation ? [ProbationTag] : [],
                 statusId: null
             },
-            currentDate: moment(),
             errors: {}
         };
 
@@ -177,6 +176,7 @@ export default class CreateSelfPerformance extends Component {
         let projectOptions = this.props.projectOptions;
         let errors = this.state.errors;
         let currentUser = this.props.currentUser;
+        let currentDate = moment();
 
         return (
             <div className="record record-your-mind">
@@ -184,7 +184,7 @@ export default class CreateSelfPerformance extends Component {
                     <img src={currentUser.avatar} className="avatar" />
                     <div className="person-info">
                         <span className="role-member">{currentUser.nickName}</span>
-                        <div className="submit-date">{this.state.currentDate.format(DateFormat)}</div>
+                        <div className="submit-date">{currentDate.format(DateFormat)}</div>
                     </div>
                 </div>
                 <div className="comment">

@@ -14,7 +14,6 @@ export default class RoleManagement extends Component {
         super(props);
 
         this.state = {
-            eoyId: document.getElementById('EOYId').value,
             filter: {
                 keyword: '',
                 groups: [],
@@ -22,9 +21,11 @@ export default class RoleManagement extends Component {
                 isShowAll: false
             },
             groupOptions: [],
-            nominators: [],
-            isHost: document.getElementById('IsHost').checked
+            nominators: []
         };
+
+        this.eoyId = document.getElementById('EOYId').value;
+        this.isHost = document.getElementById('IsHost').checked;
     }
 
     componentDidMount() {
@@ -50,7 +51,7 @@ export default class RoleManagement extends Component {
 
         axios.get(resolveClientUrl('nominationPeriod/GetRoleSetting'), {
             params: {
-                nominationPeriodId: this.state.eoyId,
+                nominationPeriodId: this.eoyId,
                 keyword: filter.keyword,
                 groupIds: groupIds,
                 roleId: filter.role.value,
@@ -64,7 +65,7 @@ export default class RoleManagement extends Component {
     editNominatorSetting = (nominator) => {
         const setting = stringify({
             __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-            nominationPeriodId: this.state.eoyId,
+            nominationPeriodId: this.eoyId,
             employeeId: nominator.employeeId,
             roleIds: nominator.roles.join(',')
         });
@@ -110,7 +111,7 @@ export default class RoleManagement extends Component {
                     onSubmit={this.handleSubmit}
                 />
 
-                <Table isHost={this.state.isHost}
+                <Table isHost={this.isHost}
                     nominators={this.state.nominators}
                     onEdit={this.editNominatorSetting}
                 />

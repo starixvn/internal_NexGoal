@@ -28,9 +28,10 @@ class Settings extends Component {
                 remindDateForNominator: null,
                 endDateForCommittee: null,
                 description: ''
-            },
-            isHost: document.getElementById('IsHost').checked
+            }
         };
+
+        this.isHost = document.getElementById('IsHost').checked;
     }
 
     componentDidMount() {
@@ -106,7 +107,7 @@ class Settings extends Component {
         handleChange,
         handleSubmit,
         setFieldValue }) => {
-        const isHost = this.state.isHost;
+        const isHost = this.isHost;
         const quarterSelected = quarterOptions.find((option) => { return option.value === values.quarter; });
         const yearOptions = [
             { value: values.year, label: values.year }

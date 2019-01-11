@@ -46,7 +46,6 @@ export default class CreateMemberPerformance extends Component {
                 projects: [],
                 statusId: null
             },
-            currentDate: moment(),
             errors: {}
         };
 
@@ -214,6 +213,7 @@ export default class CreateMemberPerformance extends Component {
         let projectOptions = this.props.projectOptions;
         let errors = this.state.errors;
         let currentUser = this.props.currentUser;
+        let currentDate = moment();
 
         return (
             <div className="record record-your-mind">
@@ -221,7 +221,7 @@ export default class CreateMemberPerformance extends Component {
                     <img src={currentUser.avatar} className="avatar" />
                     <div className="person-info">
                         <span className={getRoleClassName(currentUser.roleId)}>{currentUser.nickName}</span>
-                        <div className="submit-date">{this.state.currentDate.format(DateFormat)}</div>
+                        <div className="submit-date">{currentDate.format(DateFormat)}</div>
                     </div>
                 </div>
                 <div className="comment">
