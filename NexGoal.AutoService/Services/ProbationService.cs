@@ -5,7 +5,7 @@
     using System.Linq;
     using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
-    using NexGoal.AutoService.Criterias.PA;
+    using NexGoal.AutoService.Criterias.Probation;
     using NexGoal.AutoService.Models.Notification;
     using NexGoal.AutoService.Models.PA;
     using NexGoal.Core.Enumerations;
@@ -51,7 +51,7 @@
                         body = string.Format(
                             mailService.ReadTextFile(remindToMemberPath),
                             setting.Nickname,
-                            mailService.FormatStartDate(setting.EndDate),
+                            mailService.FormatEndDate(setting.EndDate),
                             configuration.Value.ApplicationDomain);
                         SendEmail(subjectRemindMail, body, setting.Email);
                         break;
@@ -60,7 +60,7 @@
                         body = string.Format(
                             mailService.ReadTextFile(remindToEvaluatorPath),
                             setting.Nickname,
-                            mailService.FormatStartDate(setting.EndDate),
+                            mailService.FormatEndDate(setting.EndDate),
                             configuration.Value.ApplicationDomain);
                         SendEmail(subjectRemindMail, body, setting.Email);
                         break;
@@ -80,8 +80,8 @@
             {
                 EmployeeId = x.EvaluatorId,
                 Content = x.ProcessId == PerformanceProcess.Self
-                    ? string.Format(Message.NotificationTemplate_Probation_RemindToMember, mailService.FormatStartDate(x.EndDate))
-                    : string.Format(Message.NotificationTemplate_Probation_RemindToEvaluator, mailService.FormatStartDate(x.EndDate)),
+                    ? string.Format(Message.NotificationTemplate_Probation_RemindToMember, mailService.FormatEndDate(x.EndDate))
+                    : string.Format(Message.NotificationTemplate_Probation_RemindToEvaluator, mailService.FormatEndDate(x.EndDate)),
                 StatusId = (int)NotificationStatus.Unread
             }));
 

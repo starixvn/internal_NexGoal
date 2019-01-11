@@ -73,6 +73,11 @@ export const NominationStatuses = [
     { value: 3, text: 'Winner' }
 ];
 
+export const ProbationTag = {
+    value: -1,
+    label: 'Probation'
+};
+
 export const PaginationOptions = {
     sizePerPage: 20,
     showTotal: false,

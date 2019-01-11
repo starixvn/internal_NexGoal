@@ -61,4 +61,5 @@
     <span id="employeeInfo-nickName">@employee.NickName</span>
     <span id="employeeInfo-jobTitle">@employee.JobTitle</span>
     <img id="employeeInfo-avatar" src="@employee.Avatar" />
+    <input type="checkbox" id="employeeInfo-isProbation" @(employee.IsProbation ? "checked" : string.Empty) />
 </div>

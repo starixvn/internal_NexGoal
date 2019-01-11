@@ -91,8 +91,9 @@
         public async Task<IEnumerable<ProjectModel>> GetProjectsAsync()
         {
             var criteria = new GetProjectsCriteria();
+            var projects = await baseService.GetDataAsync<ProjectModel>(criteria).ConfigureAwait(false);
 
-            return await baseService.GetDataAsync<ProjectModel>(criteria).ConfigureAwait(false);
+            return projects.OrderBy(x => x.Name);
         }
 
         public async Task<IEnumerable<PerformanceGradeModel>> GetPerformanceGradeAsync()

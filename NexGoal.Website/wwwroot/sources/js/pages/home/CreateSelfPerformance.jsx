@@ -9,7 +9,7 @@ import { stringify } from 'qs';
 import moment from 'moment';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
-import { DateFormat, PerformanceRecordStatus } from '../../constants';
+import { DateFormat, PerformanceRecordStatus, ProbationTag } from '../../constants';
 import getResource from '../../resourceHelper';
 import TextareaFullscreenEditor from '../../shared/components/textarea-fullscreen/index';
 
@@ -36,7 +36,7 @@ export default class CreateSelfPerformance extends Component {
             performanceRecord: {
                 grade: null,
                 comment: '',
-                projects: [],
+                projects: props.currentUser.isProbation ? [ProbationTag] : [],
                 statusId: null
             },
             currentDate: moment(),
@@ -163,7 +163,7 @@ export default class CreateSelfPerformance extends Component {
             performanceRecord: {
                 grade: null,
                 comment: '',
-                projects: [],
+                projects: this.props.currentUser.isProbation ? [ProbationTag] : [],
                 statusId: null
             },
             errors: {}

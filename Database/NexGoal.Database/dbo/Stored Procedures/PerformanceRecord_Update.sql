@@ -25,6 +25,19 @@ BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
 
+	IF NOT EXISTS (
+			SELECT 1
+			FROM dbo.PerformanceRecord WITH (NOLOCK)
+			WHERE PerformanceRecordId = @PerformanceRecordId
+				AND CreatorId = @CreatorId
+			)
+	BEGIN
+		SELECT @ErrCode = 1
+			,@ErrMsg = 'You can''t update this performance record.'
+
+		RETURN
+	END
+
 	DECLARE @RoleId TINYINT
 		,@CurrentStatusId TINYINT
 		,@CurrentCreatedDate DATETIME
@@ -191,7 +204,7 @@ BEGIN
 
 	INSERT INTO #tblPerformanceRecordOutput (PerformanceRecordId)
 	VALUES (@PerformanceRecordId)
-	
+
 	SELECT @PerformanceRecordIds = COALESCE(@PerformanceRecordIds + ',', '') + CAST(PerformanceRecordId AS VARCHAR(20))
 	FROM #tblPerformanceRecordOutput WITH (NOLOCK)
 

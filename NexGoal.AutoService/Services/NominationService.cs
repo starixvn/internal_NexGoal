@@ -66,7 +66,7 @@
                                 mailService.ReadTextFile(remindMailPath),
                                 setting.Nickname,
                                 period.Title,
-                                mailService.FormatStartDate(period.EndDateForNominator),
+                                mailService.FormatEndDate(period.EndDateForNominator),
                                 configuration.Value.ApplicationDomain);
                             SendEmail(subjectRemindMail, body, setting.Email);
                             break;
