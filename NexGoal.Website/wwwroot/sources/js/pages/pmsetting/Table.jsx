@@ -1,5 +1,4 @@
 ﻿import React, { Component, Fragment } from 'react';
-import { Collapse } from 'react-bootstrap';
 
 import getResource from '../../resourceHelper';
 import { NominationStatuses } from '../../constants';
@@ -21,13 +20,11 @@ class Row extends Component {
     handleRemoveMember = member => this.props.onRemoveMember(member)
 
     renderMember = (member) =>
-        <Collapse key={member.employeeId} in={this.state.expand}>
-            <tr>
-                <td>{member.nickName} ({member.fullName})</td>
-                <td>{member.jobTitle}</td>
-                <td className='text-center'><a className="icon-delete" onClick={this.handleRemoveMember.bind(this, member)} title="Remove"></a></td>
-            </tr>
-        </Collapse>
+        <tr className={this.state.expand ? '' : 'hidden'}>
+            <td>{member.nickName} ({member.fullName})</td>
+            <td>{member.jobTitle}</td>
+            <td className='text-center'><a className="icon-delete" onClick={this.handleRemoveMember.bind(this, member)} title="Remove"></a></td>
+        </tr>
 
     render() {
         let data = this.props.data;

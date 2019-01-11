@@ -121,7 +121,7 @@ export default class PMSetting extends Component {
                 addMember: {
                     showModal: true,
                     pm: pm,
-                    memberOptions: this.state.employeeOptions.filter(e => !response.data.some(em => em.employeeId === e.value))
+                    memberOptions: this.state.employeeOptions.filter(e => !response.data.some(em => em.employeeId === e.value) && e.value !== pm.employeeId)
                 }
             });
         });
