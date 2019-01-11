@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using NexGoal.Models.Common;
-    using NexGoal.Models.PARecord;
 
     public class PARecordGroupByPeriod
     {
@@ -10,6 +9,6 @@
 
         public PeriodBaseModel Period { get; set; }
 
-        public IEnumerable<PARecordModel> PARecords { get; set; }
+        public IEnumerable<PAReportModel> Groups { get; set; }
     }
 }

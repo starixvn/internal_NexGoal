@@ -212,7 +212,12 @@
                 {
                     PeriodId = item.Key,
                     Period = periods.FirstOrDefault(p => p.PeriodId == item.Key),
-                    PARecords = item
+                    Groups = item.GroupBy(g => new { g.Employee.GroupCode, g.Employee.GroupName })
+                        .Select(group => new PAReportModel
+                        {
+                            Group = new GroupBaseModel { Code = group.Key.GroupCode, Name = group.Key.GroupName },
+                            PARecords = group
+                        })
                 });
 
             return groupRecords.OrderByDescending(g => g.PeriodId);

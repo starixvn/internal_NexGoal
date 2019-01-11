@@ -1,10 +1,13 @@
 ﻿import React, { Component, Fragment } from 'react';
 import getResource from '../../../resourceHelper';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { PerformanceProcess } from '../../../constants';
 
 export default class Table extends Component {
     constructor(props) {
         super(props);
+
+        this.totalColums = 9;
     }
 
     shouldComponentUpdate(nextProps) {
@@ -14,11 +17,22 @@ export default class Table extends Component {
         return false;
     }
 
+    parseIntGradeId = (gradeId) => {
+        return gradeId !== null ? gradeId : 0;
+    }
+
+    renderToeic = (toeicPolicy, toeic) => {
+        let toeicClass = '';
+        if (toeicPolicy !== null && toeicPolicy > 0) toeicClass = 'green';
+        if (toeicPolicy === null || toeicPolicy < 0) toeicClass = 'red';
+        return <span className={`bold ${toeicClass}`}>{toeic ? toeic : getResource('N/A')}</span>;
+    }
+
     renderRows = (periodRecords) => {
         if (!periodRecords.length) {
             return (
                 <tr>
-                    <td className="empty-result" colSpan={10}>{getResource('NoRecordFound')}</td>
+                    <td className="empty-result" colSpan={this.totalColums}>{getResource('NoRecordFound')}</td>
                 </tr>
             );
         } else {
@@ -27,10 +41,12 @@ export default class Table extends Component {
                     return (
                         <Fragment>
                             <tr className="group-row">
-                                <td colSpan={10}>{periodRecord.period.name}</td>
+                                <td colSpan={this.totalColums}>{periodRecord.period.name}</td>
                             </tr>
                             {
-                                this.renderPARecordInfo(periodRecord.paRecords)
+                                periodRecord.groups.map(group => {
+                                    return this.renderGroupPA(group);
+                                })
                             }
                         </Fragment>
                     );
@@ -39,45 +55,132 @@ export default class Table extends Component {
         }
     }
 
-    showPADetails = (paRecordId) => {
-        console.log(paRecordId);
+    renderPARivisedIcon = (gradeId, originalGradeId) => {
+        let gradeChangeClass = '';
+        if (this.parseIntGradeId(gradeId) > this.parseIntGradeId(originalGradeId)) {
+            gradeChangeClass = 'icon-increase-arrow';
+        }
+
+        if (this.parseIntGradeId(gradeId) < this.parseIntGradeId(originalGradeId)) {
+            gradeChangeClass = 'icon-descrease-arrow';
+        }
+        return <span className={gradeChangeClass} />;
     }
 
+    renderGroupPA = (groupPA) => {
+        return (
+            <Fragment>
+                <tr className="team-group-row">
+                    <td colSpan={this.totalColums}>{groupPA.group.name}</td>
+                </tr>
+                {
+                    this.renderPARecordInfo(groupPA.paRecords)
+                }
+            </Fragment>
+        );
+    }
+
+    renderPAGrade = (record) => {
+        const paGrade = record.grade ? record.grade.name : getResource('N/A');
+        const revisedIcon = this.renderPARivisedIcon(record.gradeId, record.originalGradeId);
+        return (
+            <Fragment>
+                <span>{paGrade}{revisedIcon}</span>
+            </Fragment>
+        );
+    }
     renderPARecordInfo = (paRecords) => {
         return (
             paRecords.map(record => {
                 return (
                     <tr>
+                        <td>{record.employee.nickName}</td>
                         <td>{record.employee.fullName}</td>
-                        <td className="text-center">{record.employee.nickName}</td>
                         <td>{record.employee.jobTitle}</td>
-                        <td>{record.employee.groupName}</td>
+                        <td className="text-center">{this.renderToeic(record.toeicPolicy, record.toeic)}</td>
                         <td className="text-center">{this.renderGradeByProcess(record.processes, PerformanceProcess.Self)}</td>
-                        <td>{this.renderGradeByProcess(record.processes, PerformanceProcess.ProjectManager)}</td>
+                        <td className="text-center">
+                            {this.renderGradeByProcess(record.processes, PerformanceProcess.ProjectManager)}
+                        </td>
                         <td className="text-center">{this.renderGradeByProcess(record.processes, PerformanceProcess.Evaluator)}</td>
-                        <td className="text-center">{this.renderGradeByProcess(record.processes, PerformanceProcess.Reviewer)}</td>
-                        <td className="text-center">{record.grade ? record.grade.name : getResource('N/A')}</td>
-                        <td className="text-center"><span className="icon-search" onClick={() => this.showPADetails(record.paRecordId)} /></td>
+                        <td className="text-center">{this.renderPAGrade(record)}</td>
+                        <td className="text-center">
+                            <span className="icon-search"
+                                onClick={() => this.showPADetails(record.paRecordId)}
+                            />
+                        </td>
                     </tr>
                 );
             })
         );
     }
 
+    showPADetails = (paRecordId) => {
+        console.log(paRecordId);
+    }
+
+    countDuplicateGrades = (grades) => {
+        grades.sort();
+        let displayGrades = [];
+        let currentGrade = null;
+        var count = 0;
+        for (let i = 0; i < grades.length; i++) {
+            if (grades[i] !== currentGrade) {
+                if (count > 0) {
+                    displayGrades.push(count > 1 ? count + currentGrade : currentGrade);
+                }
+                currentGrade = grades[i];
+                count = 1;
+            } else {
+                count++;
+            }
+        }
+        if (count > 0) {
+            displayGrades.push(count > 1 ? count + currentGrade : currentGrade);
+        }
+
+        return displayGrades.join(', ');
+    }
+
+    renderPMGrades = (paProcesses) => {
+        const processes = paProcesses.filter(process => process.processId === PerformanceProcess.ProjectManager);
+        const grades = processes.map(process => {
+            return process.performanceRecord && process.performanceRecord.grade ?
+                process.performanceRecord.grade.name : getResource('N/A');
+        });
+        const tooltip = (
+            <Tooltip className="focus-note">
+                {
+                    processes.map(process => {
+                        return (
+                            <p>
+                                {
+                                    `${process.evaluator.nickName}: ${process.performanceRecord && process.performanceRecord.grade
+                                        ? process.performanceRecord.grade.name : getResource("N/A")} `
+                                }
+                            </p>
+                        );
+                    })
+                }
+            </Tooltip>
+        );
+
+        return (
+            <OverlayTrigger placement="top" overlay={tooltip}>
+                <span className="pointer">{this.countDuplicateGrades(grades)}</span>
+            </OverlayTrigger>
+        );
+    }
+
     renderGradeByProcess = (processes, processId) => {
-        const processRecord = processes.filter(process => process.processId === processId);
-        if (!processRecord.length) return '';
+        const processRecords = processes.filter(process => process.processId === processId);
+        if (!processRecords.length) return '';
 
         if (processId !== PerformanceProcess.ProjectManager) {
-            const grade = this.renderGrade(processRecord[0]);
+            const grade = this.renderGrade(processRecords[0]);
             return grade;
         } else {
-            return (
-                processRecord.map(process => {
-                    const grade = this.renderGrade(process);
-                    return <p className="margin-0">{`${process.evaluator.nickName} : ${grade}`}</p>;
-                })
-            );
+            return this.renderPMGrades(processRecords);
         }
     }
 
@@ -98,11 +201,10 @@ export default class Table extends Component {
                         <th>{getResource('FullName')}</th>
                         <th>{getResource('NickName')}</th>
                         <th>{getResource('JobTitle')}</th>
-                        <th>{getResource('Team')}</th>
+                        <th>{getResource('Toeic')}</th>
                         <th>{getResource('Self')}</th>
                         <th>{getResource('ProjectManager')}</th>
                         <th>{getResource('Evaluator')}</th>
-                        <th>{getResource('Reviewer')}</th>
                         <th>{getResource('PAFinalGrade')}</th>
                         <th>{getResource('Action')}</th>
                     </tr>

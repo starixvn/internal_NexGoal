@@ -24,5 +24,19 @@ table {
             color: #324373;
             cursor: pointer;
         }
+
+        .team-group-row > td {
+            background-color: $table-border;
+            padding: 0 20px;
+            font-size: 14px;
+        }
+
+        .green {
+            color: $role-member-color;
+        }
+
+        .red {
+            color: red;
+        }
     }
 }
