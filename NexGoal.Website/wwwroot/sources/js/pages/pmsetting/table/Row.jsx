@@ -1,5 +1,4 @@
 ﻿import React, { Component, Fragment } from 'react';
-import { Collapse } from 'react-bootstrap';
 
 export default class Row extends Component {
     constructor(props) {
@@ -18,15 +17,13 @@ export default class Row extends Component {
 
     renderMember = (member) => {
         return (
-            <Collapse key={member.employeeId} in={this.state.expand}>
-                <tr>
-                    <td>{member.nickName} ({member.fullName})</td>
-                    <td>{member.jobTitle}</td>
-                    <td className='text-center'>
-                        <a className="icon-delete" onClick={this.handleRemoveMember.bind(this, member)} title="Remove" />
-                    </td>
-                </tr>
-            </Collapse>
+            <tr className={this.state.expand ? '' : 'hidden'} key={member.employeeId}>
+                <td>{member.nickName} ({member.fullName})</td>
+                <td>{member.jobTitle}</td>
+                <td className='text-center'>
+                    <a className="icon-delete" onClick={this.handleRemoveMember.bind(this, member)} title="Remove" />
+                </td>
+            </tr>
         );
     }
 

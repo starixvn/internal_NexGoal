@@ -205,6 +205,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Probation process is almost over!.
+        /// </summary>
+        public static string EmailSubject_Probation_RemindToMember {
+            get {
+                return ResourceManager.GetString("EmailSubject_Probation_RemindToMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Employee is required..
         /// </summary>
         public static string EmployeeRequired {
@@ -417,6 +426,24 @@ namespace NexGoal.Resources {
         public static string NotificationTemplate_PAFocus_Start {
             get {
                 return ResourceManager.GetString("NotificationTemplate_PAFocus_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Probation process is going to be CLOSED on {0}, please create a Performance Record (with a detailed comment, selected grade, and a &quot;Probation&quot; tag) for your member(s)..
+        /// </summary>
+        public static string NotificationTemplate_Probation_RemindToEvaluator {
+            get {
+                return ResourceManager.GetString("NotificationTemplate_Probation_RemindToEvaluator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Probation process is going to be CLOSED on {0}, please create a Performance Record (with a detailed comment, selected grade, and a &quot;Probation&quot; tag) for yourself..
+        /// </summary>
+        public static string NotificationTemplate_Probation_RemindToMember {
+            get {
+                return ResourceManager.GetString("NotificationTemplate_Probation_RemindToMember", resourceCulture);
             }
         }
         

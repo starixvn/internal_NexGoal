@@ -68,6 +68,7 @@
             services.AddTransient<IPAService, PAService>();
             services.AddTransient<IPAFocusService, PAFocusService>();
             services.AddTransient<INominationService, NominationService>();
+            services.AddTransient<IProbationService, ProbationService>();
 
             services.AddTransient<IAppService, AppService>();
         }
