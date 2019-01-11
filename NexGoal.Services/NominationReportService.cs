@@ -29,14 +29,15 @@
             return await baseService.GetDataAsync<NominationPeriodModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<NominationModel>> GetNominations(string nominationPeriodIds, string groupIds, int? employeeId, int? statusId)
+        public async Task<IEnumerable<NominationModel>> GetNominations(string nominationPeriodIds, string groupIds, int? employeeId, int? statusId, int loggedEmployeeId)
         {
             var criteria = new GetNominationsCriteria
             {
                 NominationPeriodIds = nominationPeriodIds,
                 GroupIds = groupIds,
                 EmployeeId = employeeId,
-                StatusId = statusId
+                StatusId = statusId,
+                LoggedEmployeeId = loggedEmployeeId
             };
 
             var result = await baseService.FetchMultipleAsync<NominationModel, PerformanceRecordModel>(criteria).ConfigureAwait(false);

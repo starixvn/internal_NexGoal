@@ -12,8 +12,10 @@
 
         public int? StatusId { get; set; }
 
+        public int LoggedEmployeeId { get; set; }
+
         public override string GetSettingKey() => "NominationReport_GetNominations";
 
-        public override bool IsValid() => true;
+        public override bool IsValid() => LoggedEmployeeId > 0;
     }
 }

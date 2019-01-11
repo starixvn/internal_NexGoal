@@ -9,6 +9,6 @@
     {
         Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForNominatorAsync();
 
-        Task<IEnumerable<NominationModel>> GetNominations(string nominationPeriodIds, string groupIds, int? employeeId, int? statusId);
+        Task<IEnumerable<NominationModel>> GetNominations(string nominationPeriodIds, string groupIds, int? employeeId, int? statusId, int loggedEmployeeId);
     }
 }
