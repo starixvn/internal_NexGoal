@@ -87,7 +87,11 @@ export default class App extends Component {
                 });
 
                 let memberOptions = memberResponse.data.map(member => {
-                    return { value: member.employeeId, label: `${member.nickName} (${member.fullName})` };
+                    return {
+                        value: member.employeeId,
+                        label: `${member.nickName} (${member.fullName})`,
+                        isProbation: member.isProbation
+                    };
                 });
 
                 let myGroupOptions = myGroupResponse.data.map(group => {

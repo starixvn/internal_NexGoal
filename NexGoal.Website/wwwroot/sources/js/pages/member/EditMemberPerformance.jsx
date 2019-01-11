@@ -9,7 +9,7 @@ import { stringify } from 'qs';
 import moment from 'moment';
 
 import { axiosError, getRoleClassName, resolveClientUrl } from '../../common-functions';
-import { DateFormat, PerformanceRecordStatus } from '../../constants';
+import { DateFormat, PerformanceRecordStatus, ProbationTag } from '../../constants';
 import getResource from '../../resourceHelper';
 import TextareaFullscreenEditor from '../../shared/components/textarea-fullscreen/index';
 
@@ -67,6 +67,8 @@ export default class EditMemberPerformance extends Component {
     }
 
     handleEmployeeChange = (selectedOptions) => {
+        let projects = [...this.state.performanceRecord.projects];
+        let index = projects.length > 0 ? projects.findIndex(item => item.value === ProbationTag.value) : -1;
         let errors = { ...this.state.errors };
         delete errors['employee'];
 
@@ -74,8 +76,16 @@ export default class EditMemberPerformance extends Component {
             errors.employee = getResource('EmployeeRequired');
         }
 
+        if (selectedOptions.length === 1 && selectedOptions[0].isProbation && index < 0) {
+            projects.push(ProbationTag);
+        }
+
+        if (selectedOptions.length === 0 || selectedOptions.length > 1) {
+            projects.splice(index, 1);
+        }
+
         this.setState({
-            performanceRecord: Object.assign({}, this.state.performanceRecord, { employees: selectedOptions }),
+            performanceRecord: Object.assign({}, this.state.performanceRecord, { employees: selectedOptions, projects: projects }),
             errors: errors
         });
     }

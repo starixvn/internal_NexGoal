@@ -9,7 +9,7 @@ import { stringify } from 'qs';
 import moment from 'moment';
 
 import { axiosError, getRoleClassName, resolveClientUrl } from '../../common-functions';
-import { DateFormat, PerformanceRecordStatus } from '../../constants';
+import { DateFormat, PerformanceRecordStatus, ProbationTag } from '../../constants';
 import getResource from '../../resourceHelper';
 import TextareaFullscreenEditor from '../../shared/components/textarea-fullscreen/index';
 
@@ -19,7 +19,7 @@ export default class CreateMemberPerformance extends Component {
         memberOptions: PropTypes.arrayOf(PropTypes.object),
         performanceGradeOptions: PropTypes.arrayOf(PropTypes.object),
         projectOptions: PropTypes.arrayOf(PropTypes.object),
-        selectedMemberId: PropTypes.number,
+        selectedMemberInfo: PropTypes.object,
         isMultiple: PropTypes.bool,
         onSubmitSuccess: PropTypes.func
     };
@@ -29,7 +29,7 @@ export default class CreateMemberPerformance extends Component {
         memberOptions: [],
         performanceGradeOptions: [],
         projectOptions: [],
-        selectedMemberId: 0,
+        selectedMemberInfo: null,
         isMultiple: true,
         onSubmitSuccess: function () { }
     };
@@ -43,7 +43,7 @@ export default class CreateMemberPerformance extends Component {
                 employees: [],
                 grade: null,
                 comment: '',
-                projects: [],
+                projects: props.selectedMemberInfo.isProbation ? [ProbationTag] : [],
                 statusId: null
             },
             errors: {}
@@ -57,7 +57,7 @@ export default class CreateMemberPerformance extends Component {
             || JSON.stringify(this.props.memberOptions) !== JSON.stringify(nextProps.memberOptions)
             || JSON.stringify(this.props.performanceGradeOptions) !== JSON.stringify(nextProps.performanceGradeOptions)
             || JSON.stringify(this.props.projectOptions) !== JSON.stringify(nextProps.projectOptions)
-            || this.props.selectedMemberId !== nextProps.selectedMemberId
+            || JSON.stringify(this.props.selectedMemberInfo) !== JSON.stringify(nextProps.selectedMemberInfo)
             || this.props.isMultiple !== nextProps.isMultiple
             || JSON.stringify(this.state.performanceRecord) !== JSON.stringify(nextState.performanceRecord)
             || JSON.stringify(this.state.errors) !== JSON.stringify(nextState.errors)
@@ -77,6 +77,8 @@ export default class CreateMemberPerformance extends Component {
     }
 
     handleEmployeeChange = (selectedOptions) => {
+        let projects = [...this.state.performanceRecord.projects];
+        let index = projects.length > 0 ? projects.findIndex(item => item.value === ProbationTag.value) : -1;
         let errors = { ...this.state.errors };
         delete errors['employee'];
 
@@ -84,8 +86,16 @@ export default class CreateMemberPerformance extends Component {
             errors.employee = getResource('EmployeeRequired');
         }
 
+        if (selectedOptions.length === 1 && selectedOptions[0].isProbation && index < 0) {
+            projects.push(ProbationTag);
+        }
+
+        if (selectedOptions.length === 0 || selectedOptions.length > 1) {
+            projects.splice(index, 1);
+        }
+
         this.setState({
-            performanceRecord: Object.assign({}, this.state.performanceRecord, { employees: selectedOptions }),
+            performanceRecord: Object.assign({}, this.state.performanceRecord, { employees: selectedOptions, projects: projects }),
             errors: errors
         });
     }
@@ -149,8 +159,8 @@ export default class CreateMemberPerformance extends Component {
             }
 
             let record = this.state.performanceRecord;
-            let employeeIds = this.props.isMultiple ? record.employees.map((employee) => { return employee.value; }).join(',') :
-                this.props.selectedMemberId;
+            let employeeIds = this.props.isMultiple
+                ? record.employees.map((employee) => { return employee.value; }).join(',') : this.props.selectedMemberInfo.id;
             let performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 employeeIds: employeeIds,
@@ -198,7 +208,7 @@ export default class CreateMemberPerformance extends Component {
                 employees: [],
                 grade: null,
                 comment: '',
-                projects: [],
+                projects: this.props.selectedMemberInfo.isProbation ? [ProbationTag] : [],
                 statusId: null
             },
             errors: {}

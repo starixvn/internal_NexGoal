@@ -67,7 +67,8 @@ export default class App extends Component {
             nickName: document.getElementById('member-nickName').value,
             fullName: document.getElementById('member-fullName').value,
             jobTitle: document.getElementById('member-jobTitle').value,
-            avatar: document.getElementById('member-avatar').value
+            avatar: document.getElementById('member-avatar').value,
+            isProbation: document.getElementById('member-isProbation').checked
         };
         this.infiniteScrollRef = React.createRef();
         this.timelineItemPerPage = calculateTimelineNode();
@@ -396,7 +397,7 @@ export default class App extends Component {
                                                 currentUser={this.currentUserInfo}
                                                 performanceGradeOptions={this.state.performanceGradeOptions}
                                                 projectOptions={this.state.projectOptions}
-                                                selectedMemberId={this.memberInfo.id}
+                                                selectedMember={this.memberInfo}
                                                 onSubmitSuccess={this.handleCreatePerformanceRecordSuccess}
                                                 isMultiple={false}
                                             />
