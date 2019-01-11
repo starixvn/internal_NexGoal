@@ -51,6 +51,12 @@
             display: inline-block;
         }
     }
+    > tbody > tr > td[colspan="5"] {
+        height: 40px;
+        background-color: #525E86; 
+        font-size: 15px;
+        color: #fff;
+    }
 }
 
 .nomination-comment-modal {

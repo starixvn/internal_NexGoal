@@ -13,7 +13,7 @@ export default class Notification extends Component {
 
         this.state = {
             isShowSettingModal: false,
-            notiBodyHeight: 400
+            notiBodyHeight: 450
         };
     }
 
@@ -38,7 +38,7 @@ export default class Notification extends Component {
                 totalHeight += items[i].offsetHeight + 4;
             }
         }
-        if (totalHeight < 400) {
+        if (totalHeight < 450) {
             this.setState({ notiBodyHeight: totalHeight });
         }
     }

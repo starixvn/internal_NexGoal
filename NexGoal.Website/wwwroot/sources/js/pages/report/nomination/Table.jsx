@@ -39,8 +39,8 @@ export default class Table extends Component {
     renderData = (data) => {
         return (
             <Fragment key={data.nominationPeriodId}>
-                <tr>
-                    <td colSpan={5}>{data.title}</td>
+                <tr className="group-row">
+                    <td className="title" colSpan={5}>{data.title}</td>
                 </tr>
                 {data.nominations.length > 0 ? data.nominations.map(this.renderNomination) : <tr><td className="text-center" colSpan={6}>{noDataIndication()}</td></tr>}
             </Fragment>
