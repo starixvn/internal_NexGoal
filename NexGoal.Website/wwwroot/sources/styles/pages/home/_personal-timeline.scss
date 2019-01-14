@@ -117,6 +117,22 @@
         top: -9px;
     }
 
+    &.role-system:after {
+        border-color: $role-system-color;        
+    }
+
+    &.status-nomination:after {
+        border-color: $status-nomination-color;
+    }
+
+    &.status-winner:after {
+        border-color: $status-winner-color;
+    }
+
+    &.status-shortlisted:after {
+        border-color: $status-shortlisted-color;
+    }
+
     .name {
         @include border-radius(3px);
         font-weight: bold;
