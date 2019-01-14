@@ -23,7 +23,7 @@ export default class SearchForm extends Component {
     }
 
     handleEmployeeChange = (selectedOption) => {
-        this.props.onFilterChange('employee', selectedOption);
+        this.props.onFilterChange('employees', selectedOption);
     }
 
     handleSubmit = (event) => {
@@ -61,9 +61,9 @@ export default class SearchForm extends Component {
                 <FormGroup>
                     <ControlLabel>{getResource('Employee')}</ControlLabel>
                     <div className="control-content employee-width">
-                        <Select name="employee"
+                        <MultiSelect name="employees"
                             className="react-select-container" classNamePrefix="react-select"
-                            value={filter.employee}
+                            value={filter.employees}
                             options={this.props.employeeOptions}
                             onChange={this.handleEmployeeChange} isClearable
                         />

@@ -8,7 +8,7 @@
 
         public string GroupIds { get; set; }
 
-        public int? EmployeeId { get; set; }
+        public string EmployeeIds { get; set; }
 
         public int? StatusId { get; set; }
 

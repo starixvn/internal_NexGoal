@@ -64,16 +64,11 @@ export default class AddMember extends Component {
         return (
             <Form onSubmit={handleSubmit} className="add-member-form">
                 <Modal.Body>
-                    {!isEmpty(errors) && !isEmpty(touched) &&
-                        <ul className="list-message-error">
-                            {touched.members && errors.members && <li>{errors.members}</li>}
-                        </ul>
-                    }
                     <div className="required-label lb-member">{getResource('Members')}</div>
                     <Select name="members"
                         className={`react-select-container ${touched.members && errors.members && 'input-validation-error'}`}
                         classNamePrefix="react-select" isClearable
-                        options={this.props.memberOptions}
+                        options={this.props.memberOptions} placeholder="Nickname or Full name"
                         value={values.members} isMulti closeMenuOnSelect={false}
                         onChange={value => setFieldValue('members', value)}
                     />
@@ -93,7 +88,7 @@ export default class AddMember extends Component {
                 dialogClassName="custom-modal modal-md"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Add {this.props.pm ? this.props.pm.nickName : ''}'s member</Modal.Title>
+                    <Modal.Title>Assign new member to {this.props.pm ? this.props.pm.nickName : ''}</Modal.Title>
                 </Modal.Header>
                 <Formik initialValues={this.initialObj} validate={this.validateForm} onSubmit={this.onSubmit} render={this.renderForm} />
             </Modal>

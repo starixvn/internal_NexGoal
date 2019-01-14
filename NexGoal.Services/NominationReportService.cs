@@ -29,13 +29,13 @@
             return await baseService.GetDataAsync<NominationPeriodModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<NominationModel>> GetNominations(string nominationPeriodIds, string groupIds, int? employeeId, int? statusId, int loggedEmployeeId)
+        public async Task<IEnumerable<NominationModel>> GetNominations(string nominationPeriodIds, string groupIds, string employeeIds, int? statusId, int loggedEmployeeId)
         {
             var criteria = new GetNominationsCriteria
             {
                 NominationPeriodIds = nominationPeriodIds,
                 GroupIds = groupIds,
-                EmployeeId = employeeId,
+                EmployeeIds = employeeIds,
                 StatusId = statusId,
                 LoggedEmployeeId = loggedEmployeeId
             };

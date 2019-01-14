@@ -17,7 +17,7 @@ export default class EOQAssessment extends Component {
             filter: {
                 periods: [],
                 groups: [],
-                employee: null,
+                employees: [],
                 status: defaultStatus
             },
             tableData: [],
@@ -73,7 +73,7 @@ export default class EOQAssessment extends Component {
             params: {
                 nominationPeriodIds: filter.periods.map(e => e.value).toString(),
                 groupIds: filter.groups.map(x => x.value).toString(),
-                employeeId: filter.employee ? filter.employee.value : null,
+                employeeIds: filter.employees.map(x => x.value).toString(),
                 statusId: filter.status.value
             }
         }).then(response => {

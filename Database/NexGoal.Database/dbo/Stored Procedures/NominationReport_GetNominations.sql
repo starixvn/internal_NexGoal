@@ -1,8 +1,9 @@
 ﻿CREATE PROCEDURE [dbo].[NominationReport_GetNominations] 
-	@NominationPeriodIds VARCHAR(MAX) = NULL,
-	@GroupIds VARCHAR(MAX) = NULL,
-	@EmployeeId INT = NULL,
-	@StatusId TINYINT = NULL
+	@NominationPeriodIds VARCHAR(MAX) = NULL
+	,@GroupIds VARCHAR(MAX) = NULL
+	,@EmployeeIds VARCHAR(MAX) = NULL
+	,@LoggedEmployeeId INT
+	,@StatusId TINYINT = NULL
 AS
 /*
 Created: 20181221@Elton.Ton
@@ -11,6 +12,10 @@ DB: bodb_NexGoal
 */
 BEGIN
 	SET NOCOUNT ON;
+
+	DECLARE @HRSystemRoleId TINYINT = 2
+		,@MNGSystemRoleId TINYINT = 3
+		,@CommitteeRoleId TINYINT = 2
 
 	SELECT val
 	INTO #temp
@@ -39,7 +44,32 @@ BEGIN
 				WHERE n.EOQYId = p.val
 			))
 		AND (@StatusId IS NULL OR n.StatusId = @StatusId)
-		AND (@EmployeeId IS NULL OR n.NomineeId = @EmployeeId)
+		AND (@EmployeeIds IS NULL OR EXISTS (SELECT 1 FROM dbo.func_SplitString(@EmployeeIds, ',') emp WHERE emp.val = n.NomineeId))
+		AND (EXISTS (
+				SELECT 1
+				FROM dbo.EOQYNominatorSetting ens WITH (NOLOCK)
+				WHERE ens.EOQYId = n.EOQYId and ens.NominatorId = @LoggedEmployeeId
+					AND EXISTS (SELECT 1 FROM dbo.func_SplitString(ens.RoleIds, ',') r WHERE r.val = @CommitteeRoleId)
+			)
+			OR EXISTS (
+				SELECT 1
+				FROM dbo.EmployeeRole er WITH (NOLOCK)
+				WHERE er.EmployeeId = @LoggedEmployeeId
+					AND (er.RoleId = @HRSystemRoleId OR er.RoleId = @MNGSystemRoleId)
+			)
+			OR (
+				EXISTS (
+					SELECT 1
+					FROM dbo.EOQYNominatorSetting ens WITH (NOLOCK)
+					WHERE ens.EOQYId = n.EOQYId and ens.NominatorId = @LoggedEmployeeId AND ens.RoleIds = '1'
+				)
+				AND EXISTS (
+					SELECT 1
+					FROM dbo.NominationDetail nd WITH (NOLOCK)
+					WHERE nd.NominationId = n.NominationId AND nd.NominatorId = @LoggedEmployeeId
+				)
+			)
+		)
 
 	SELECT pr.PerformanceRecordId
 		,pr.Comment
@@ -69,7 +99,28 @@ BEGIN
 				WHERE n.EOQYId = p.val
 			))
 		AND (@StatusId IS NULL OR n.StatusId = @StatusId)
-		AND (@EmployeeId IS NULL OR n.NomineeId = @EmployeeId)
+		AND (@EmployeeIds IS NULL OR EXISTS (SELECT 1 FROM dbo.func_SplitString(@EmployeeIds, ',') emp WHERE emp.val = n.NomineeId))
+		AND (EXISTS (
+				SELECT 1
+				FROM dbo.EOQYNominatorSetting ens WITH (NOLOCK)
+				WHERE ens.EOQYId = n.EOQYId and ens.NominatorId = @LoggedEmployeeId
+					AND EXISTS (SELECT 1 FROM dbo.func_SplitString(ens.RoleIds, ',') r WHERE r.val = @CommitteeRoleId)
+			)
+			OR EXISTS (
+				SELECT 1
+				FROM dbo.EmployeeRole er WITH (NOLOCK)
+				WHERE er.EmployeeId = @LoggedEmployeeId
+					AND (er.RoleId = @HRSystemRoleId OR er.RoleId = @MNGSystemRoleId)
+			)
+			OR (
+				EXISTS (
+					SELECT 1
+					FROM dbo.EOQYNominatorSetting ens WITH (NOLOCK)
+					WHERE ens.EOQYId = n.EOQYId and ens.NominatorId = @LoggedEmployeeId AND ens.RoleIds = '1'
+				)
+				AND nd.NominatorId = @LoggedEmployeeId
+			)
+		)
 
 	DROP TABLE #temp
 END

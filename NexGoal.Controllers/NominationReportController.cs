@@ -32,9 +32,9 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetNominations(string nominationPeriodIds, string groupIds, int? employeeId, int? statusId)
+        public async Task<IActionResult> GetNominations(string nominationPeriodIds, string groupIds, string employeeIds, int? statusId)
         {
-            return Json(await nominationReportService.GetNominations(nominationPeriodIds, groupIds, employeeId, statusId, sessionService.EmployeeId).ConfigureAwait(false));
+            return Json(await nominationReportService.GetNominations(nominationPeriodIds, groupIds, employeeIds, statusId, sessionService.EmployeeId).ConfigureAwait(false));
         }
     }
 }
