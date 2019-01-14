@@ -28,14 +28,9 @@ export default class App extends Component {
         super(props);
 
         this.state = {
-            memberOptions: [],
-            myGroupOptions: [],
-            performanceGradeOptions: [],
-            projectOptions: [],
             performanceRecords: [],
             displayedPerformanceRecords: [],
             memberPerformanceAppraisals: [],
-            periods: [],
             announcements: [],
             currentPerformancePeriod: null,
             editPerformanceRecord: {
@@ -52,14 +47,20 @@ export default class App extends Component {
             showAnnouncementModal: false
         };
 
+        this.infiniteScrollRef = React.createRef();
+        this.memberTimelineRef = React.createRef();
+
         this.currentUser = {
             ...getCurrentUserInfo(),
             roleId: 2,
             isReviewer: document.getElementById('isReviewer').checked
         };
-        this.infiniteScrollRef = React.createRef();
-        this.memberTimelineRef = React.createRef();
         this.itemPerPage = 10;
+        this.memberOptions = [];
+        this.myGroupOptions = [];
+        this.performanceGradeOptions = [];
+        this.projectOptions = [];
+        this.periods = [];
     }
 
     componentDidMount() {
@@ -76,36 +77,30 @@ export default class App extends Component {
 
         Promise.all(promises)
             .then(([periodResponse, gradeResponse, projectResponse, memberResponse, myGroupResponse, currentPerformancePeriodResponse, memberPerformanceResponse, announcementsResponse]) => {
-                let performanceGradeOptions = gradeResponse.data.map(performanceGrade => {
+                this.performanceGradeOptions = gradeResponse.data.map(performanceGrade => {
                     return {
                         value: performanceGrade.gradeId,
                         label: `(${performanceGrade.name}) ${performanceGrade.description}`
                     };
                 });
-                let projectOptions = projectResponse.data.map(project => {
+                this.projectOptions = projectResponse.data.map(project => {
                     return { value: project.projectId, label: project.name };
                 });
-
-                let memberOptions = memberResponse.data.map(member => {
+                this.memberOptions = memberResponse.data.map(member => {
                     return {
                         value: member.employeeId,
                         label: `${member.nickName} (${member.fullName})`,
                         isProbation: member.isProbation
                     };
                 });
-
-                let myGroupOptions = myGroupResponse.data.map(group => {
+                this.myGroupOptions = myGroupResponse.data.map(group => {
                     return { value: group.groupId, label: group.name };
                 });
+                this.periods = periodResponse.data;
 
                 let displayedPerformanceRecords = memberPerformanceResponse.data.slice(0, this.itemPerPage);
 
                 this.setState({
-                    periods: periodResponse.data,
-                    performanceGradeOptions: performanceGradeOptions,
-                    projectOptions: projectOptions,
-                    memberOptions: memberOptions,
-                    myGroupOptions: myGroupOptions,
                     currentPerformancePeriod: currentPerformancePeriodResponse.data,
                     performanceRecords: memberPerformanceResponse.data,
                     displayedPerformanceRecords: displayedPerformanceRecords,
@@ -325,11 +320,8 @@ export default class App extends Component {
     handleOpenAnnouncementModal = () => this.setState({ showAnnouncementModal: true })
 
     render() {
-        let memberOptions = this.state.memberOptions;
-        let performanceGradeOptions = this.state.performanceGradeOptions;
-        let projectOptions = this.state.projectOptions;
         let currentUser = this.currentUser;
-        const periodOptions = this.state.periods.map(period => {
+        let periodOptions = this.periods.map(period => {
             return {
                 value: period.periodId,
                 label: period.name
@@ -344,7 +336,7 @@ export default class App extends Component {
                             <CustomScrollbars>
                                 <Timeline ref="memberTimelineRef"
                                     currentPerformancePeriod={this.state.currentPerformancePeriod}
-                                    groupOptions={this.state.myGroupOptions}
+                                    groupOptions={this.myGroupOptions}
                                     onNodeClick={this.handleClickTimelineNode}
                                 />
                             </CustomScrollbars >
@@ -360,9 +352,9 @@ export default class App extends Component {
                                         <CustomScrollbars style={{ height: '100%' }} autoHide>
                                             <CreateMemberPerformance
                                                 currentUser={currentUser}
-                                                memberOptions={memberOptions}
-                                                performanceGradeOptions={performanceGradeOptions}
-                                                projectOptions={projectOptions}
+                                                memberOptions={this.memberOptions}
+                                                performanceGradeOptions={this.performanceGradeOptions}
+                                                projectOptions={this.projectOptions}
                                                 onSubmitSuccess={this.handleCreatePerformanceRecordSuccess}
                                                 isMultiple
                                             />
@@ -395,11 +387,11 @@ export default class App extends Component {
                                     currentUser.isReviewer &&
                                     <Tab eventKey={3} title={getResource('PerformanceAppraisal')}>
                                         {
-                                            this.state.loadPATab && this.state.periods.length > 0 &&
-                                            < MemberPerformanceAppraisal
-                                                periodOptions={periodOptions}
-                                                gradeOptions={this.state.performanceGradeOptions}
-                                                groupOptions={this.state.myGroupOptions}
+                                            this.state.loadPATab && this.periodOptions.length > 0 &&
+                                            <MemberPerformanceAppraisal
+                                                periodOptions={this.periodOptions}
+                                                gradeOptions={this.performanceGradeOptions}
+                                                groupOptions={this.myGroupOptions}
                                             />
                                         }
                                     </Tab>
@@ -411,8 +403,8 @@ export default class App extends Component {
                                 <div className="work-info-content">
                                     <NominationResult />
                                     {
-                                        this.state.periods.length > 0 &&
-                                        <MemberWorkload groupOptions={this.state.myGroupOptions} periods={this.state.periods} />
+                                        this.periods.length > 0 &&
+                                        <MemberWorkload groupOptions={this.myGroupOptions} periods={this.periods} />
                                     }
                                 </div>
                             </CustomScrollbars >
@@ -424,9 +416,9 @@ export default class App extends Component {
                     <EditMemberPerformance
                         currentUser={currentUser}
                         performanceRecordId={this.state.editPerformanceRecord.performanceRecordId}
-                        memberOptions={memberOptions}
-                        performanceGradeOptions={performanceGradeOptions}
-                        projectOptions={projectOptions}
+                        memberOptions={this.memberOptions}
+                        performanceGradeOptions={this.performanceGradeOptions}
+                        projectOptions={this.projectOptions}
                         isShowModal={this.state.editPerformanceRecord.isShowModal}
                         onCloseModal={this.handleCancelEditPerformanceRecord}
                         onSubmitSuccess={this.handleEditPerformanceRecordSuccess}

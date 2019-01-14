@@ -30,10 +30,7 @@ export default class MemberWorkload extends Component {
         }).then(response => {
             let workloads = response.data.map(this.generateWorkload);
 
-            this.setState(
-                {
-                    workloads: workloads
-                });
+            this.setState({ workloads: workloads });
         }).catch(axiosError);
     }
 

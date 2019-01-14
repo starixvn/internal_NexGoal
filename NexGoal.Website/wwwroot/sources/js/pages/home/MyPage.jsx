@@ -31,8 +31,6 @@ export default class MyPage extends Component {
             performanceRecords: [],
             displayedPerformanceRecords: [],
             nominations: [],
-            performanceGradeOptions: [],
-            projectOptions: [],
             performanceAppraisals: [],
             announcements: [],
             editPerformanceRecord: {
@@ -56,6 +54,8 @@ export default class MyPage extends Component {
         this.infiniteScrollRef = React.createRef();
         this.timelineItemPerPage = calculateTimelineNode();
         this.itemPerPage = 10;
+        this.performanceGradeOptions = [];
+        this.projectOptions = [];
     }
 
     componentDidMount() {
@@ -77,21 +77,19 @@ export default class MyPage extends Component {
 
         Promise.all(promises)
             .then(([gradeResponse, projectResponse, performanceRecordResponse, periodResponse, nominationResponse, performanceAppraisalsResponse, personalTimelineResponse, announcementsResponse]) => {
-                const performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
+                this.performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
                     return {
                         value: performanceGrade.gradeId,
                         label: `(${performanceGrade.name}) ${performanceGrade.description}`
                     };
                 });
-                const projectOptions = projectResponse.data.map((project) => {
+                this.projectOptions = projectResponse.data.map((project) => {
                     return { value: project.projectId, label: project.name };
                 });
 
                 let displayedPerformanceRecords = performanceRecordResponse.data.slice(0, this.itemPerPage);
 
                 this.setState({
-                    performanceGradeOptions: performanceGradeOptions,
-                    projectOptions: projectOptions,
                     performanceRecords: performanceRecordResponse.data,
                     periods: periodResponse.data,
                     announcements: announcementsResponse.data,
@@ -313,10 +311,12 @@ export default class MyPage extends Component {
             this.refs.infiniteScrollRef.pageLoaded = page;
 
             this.loadMorePerformanceRecord(page, () => {
-                this.setState({ performanceRecordIdHighlighted: performanceRecordId }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
+                this.setState({ performanceRecordIdHighlighted: performanceRecordId },
+                    () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
             });
         } else {
-            this.setState({ performanceRecordIdHighlighted: performanceRecordId }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
+            this.setState({ performanceRecordIdHighlighted: performanceRecordId },
+                () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
         }
     }
 
@@ -349,11 +349,12 @@ export default class MyPage extends Component {
                             <CustomScrollbars>
                                 <CreateSelfPerformance
                                     currentUser={currentUserInfo}
-                                    performanceGradeOptions={this.state.performanceGradeOptions}
-                                    projectOptions={this.state.projectOptions}
+                                    performanceGradeOptions={this.performanceGradeOptions}
+                                    projectOptions={this.projectOptions}
                                     onSubmitSuccess={this.handleCreatePerformanceRecordSuccess}
                                 />
-                                {performanceRecords.length > 0 &&
+                                {
+                                    performanceRecords.length > 0 &&
                                     <InfiniteScroll initialLoad={false}
                                         pageStart={1}
                                         loadMore={this.loadMorePerformanceRecord}
@@ -394,8 +395,8 @@ export default class MyPage extends Component {
                     <EditSelfPerformance
                         currentUser={currentUserInfo}
                         performanceRecordId={this.state.editPerformanceRecord.performanceRecordId}
-                        performanceGradeOptions={this.state.performanceGradeOptions}
-                        projectOptions={this.state.projectOptions}
+                        performanceGradeOptions={this.performanceGradeOptions}
+                        projectOptions={this.projectOptions}
                         showModal={this.state.editPerformanceRecord.isShowModal}
                         onCloseModal={this.handleCancelEditPerformanceRecord}
                         onSubmitSuccess={this.handleEditPerformanceRecordSuccess}
@@ -411,7 +412,10 @@ export default class MyPage extends Component {
                         onSubmit={this.handleDeletePerformanceRecord}
                     />
                 }
-                <Announcement showModal={this.state.showAnnouncementModal} onCloseModal={this.handleCloseAnnouncementModal} announcements={this.state.announcements} />
+                <Announcement showModal={this.state.showAnnouncementModal}
+                    onCloseModal={this.handleCloseAnnouncementModal}
+                    announcements={this.state.announcements}
+                />
 
             </div >
         );
