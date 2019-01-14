@@ -21,14 +21,6 @@ export default class Filter extends Component {
 
     handleGroupChange = (selectedOption) => {
         this.props.onFilterChange('groups', selectedOption);
-        //const groupNames = selectedOption.map(option => option.label);
-        //let employeeOptions = this.props.employeeOptions.filter((employee) => {
-        //    return groupNames.includes(employee.groupName);
-        //});
-
-        //this.setState({
-        //    employeeOptions: employeeOptions
-        //}, () => this.props.onFilterChange('groups', selectedOption));
     }
 
     handleEmployeeChange = (selectedOption) => {

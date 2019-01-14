@@ -1,0 +1,124 @@
+﻿namespace NexGoal.Controllers.UnitTests
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using NexGoal.Core.Constants;
+    using NexGoal.Models.Common;
+    using NexGoal.Models.PARecord;
+    using NexGoal.Models.Report;
+    using NexGoal.Services;
+    using NexGoal.Services.Interfaces;
+    using NexGoal.Web.Core.Services;
+    using NSubstitute;
+    using Xunit;
+
+    public class ReportControllerTests
+    {
+        private ISessionService sessionService;
+        private IPARecordService paRecordService;
+        private IExportPAReportService exportService;
+
+        [Fact]
+        public void Index_WhenCalled_ReturnExpectView()
+        {
+            // Arrange
+            var controller = GetReportController();
+
+            // Act
+            var actual = controller.PAReport();
+
+            // Assert
+            Assert.IsType<ViewResult>(actual);
+        }
+
+        [Fact]
+        public async Task GetPARecords_WhenCalled_ReturnAsExpectedPARecords()
+        {
+            // Arrange
+            var param = new GetPARecordMultiPeriodParam
+            {
+                PeriodIds = "1,2,3,4",
+                GroupIds = "1,2"
+            };
+            var records = FakeDataListPA();
+            var controller = GetReportController();
+
+            paRecordService.GetPAReportAsync(Arg.Any<GetPARecordMultiPeriodParam>()).Returns(records);
+
+            // Act
+            var actual = await controller.GetPARecords(param);
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(actual);
+            Assert.IsAssignableFrom<IEnumerable<PARecordGroupByPeriod>>(jsonResult.Value);
+        }
+
+        [Fact]
+        public async Task ExportPAReport_WhenCalled_ReturnAsExpectedFile()
+        {
+            // Arrange
+            var param = new GetPARecordMultiPeriodParam
+            {
+                PeriodIds = "1,2,3,4",
+                GroupIds = "1,2"
+            };
+            var records = FakeDataListPA();
+
+            var controller = GetReportController();
+
+            paRecordService.GetPAReportAsync(Arg.Any<GetPARecordMultiPeriodParam>()).Returns(records);
+            byte[] bytes = Convert.FromBase64String("text");
+            exportService.ExportExcel(records).Returns(bytes);
+
+            // Act
+            var actual = await controller.ExportPAReport(param);
+
+            // Assert
+            var fileResult = Assert.IsType<FileContentResult>(actual);
+            Assert.Equal(bytes, fileResult.FileContents);
+            Assert.Equal(MimeType.XLSX, fileResult.ContentType);
+        }
+
+        #region Helpers
+
+        private ISessionService FakeSessionService()
+        {
+            var service = Substitute.For<ISessionService>();
+            service.EmployeeId = 165;
+
+            return service;
+        }
+
+        private IEnumerable<PARecordGroupByPeriod> FakeDataListPA()
+        {
+            var listPARecords = new List<PARecordModel>
+            {
+                new PARecordModel { EmployeeId = 363, Toeic = 760}
+            };
+            var listGroup = new List<PAReportModel>
+            {
+                new PAReportModel { Group = new GroupBaseModel { Name = "Nexus" }, PARecords = listPARecords}
+            };
+            var records = new List<PARecordGroupByPeriod>
+            {
+               new PARecordGroupByPeriod {PeriodId = 1, Groups = listGroup }
+            };
+
+            return records;
+        }
+
+        private ReportController GetReportController()
+        {
+            sessionService = FakeSessionService();
+            paRecordService = Substitute.For<IPARecordService>();
+            exportService = Substitute.For<IExportPAReportService>();
+            var controller = new ReportController(sessionService, paRecordService, exportService);
+
+            return controller;
+        }
+
+        #endregion Helpers
+    }
+}

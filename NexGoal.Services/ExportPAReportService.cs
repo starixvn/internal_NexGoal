@@ -16,11 +16,14 @@
         private const int TotalCells = 8;
 
         private readonly IHostingEnvironment hostingEnvironment;
+        private readonly ICommonService commonService;
 
         public ExportPAReportService(
-            IHostingEnvironment hostingEnvironment)
+            IHostingEnvironment hostingEnvironment,
+            ICommonService commonService)
         {
             this.hostingEnvironment = hostingEnvironment;
+            this.commonService = commonService;
         }
 
         public byte[] ExportExcel(IEnumerable<PARecordGroupByPeriod> paRecords)
@@ -93,7 +96,7 @@
                 worksheet.Cells[currentRow, 5].Value = WriteGradeByProcess(pa.Processes, PerformanceProcess.Self);
                 worksheet.Cells[currentRow, 6].Value = WriteGradeByProcess(pa.Processes, PerformanceProcess.ProjectManager);
                 worksheet.Cells[currentRow, 7].Value = WriteGradeByProcess(pa.Processes, PerformanceProcess.Evaluator);
-                worksheet.Cells[currentRow, 8].Value = pa.Grade.Name;
+                worksheet.Cells[currentRow, 8].Value = pa.Grade != null ? pa.Grade.Name : "N/A";
 
                 currentRow++;
             }

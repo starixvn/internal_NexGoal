@@ -11,9 +11,6 @@ export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            periodOptions: [],
-            groupOptions: [],
-            employeeOptions: [],
             filter: {
                 periods: [],
                 groups: [],
@@ -21,6 +18,10 @@ export default class App extends Component {
             },
             paPeriodRecords: []
         };
+
+        this.periodOptions = [];
+        this.groupOptions = [];
+        this.employeeOptions = [];
     }
 
     componentDidMount() {
@@ -53,11 +54,11 @@ export default class App extends Component {
                         groupName: employee.groupName
                     };
                 });
+                this.periodOptions = periodOptions;
+                this.groupOptions = groupOptions;
+                this.employeeOptions = employeeOptions;
 
                 this.setState({
-                    periodOptions: periodOptions,
-                    groupOptions: groupOptions,
-                    employeeOptions: employeeOptions,
                     filter: {
                         periods: [periodOptions[0]],
                         groups: groupOptions
@@ -69,7 +70,35 @@ export default class App extends Component {
     handleFilterChange = (filterName, values) => {
         this.setState({
             filter: Object.assign({}, this.state.filter, { [filterName]: values })
+        }, () => {
+            if (filterName === 'groups') {
+                const groupIds = values.length > 0 ? values.map(group => group.value).join(',') : '-1';
+                this.getEmployees(groupIds);
+            }
         });
+    }
+
+    getEmployees = (groupIds) => {
+        axios(resolveClientUrl('common/GetEmployees'), { params: { groupIds: groupIds } })
+            .then(response => {
+                let employeeOptions = response.data.map(item => {
+                    return {
+                        value: item.employeeId,
+                        label: `${item.nickName} (${item.fullName})`
+                    };
+                });
+                let filter = this.state.filter;
+
+                if (employeeOptions.indexOf(filter.employee) < 0) {
+                    filter = Object.assign({}, this.state.filter, { employee: null });
+                }
+
+                this.employeeOptions = employeeOptions;
+
+                this.setState({
+                    filter: filter
+                });
+            }).catch(axiosError);
     }
 
     handleFilterSubmit = () => {
@@ -95,25 +124,7 @@ export default class App extends Component {
             link.setAttribute('download', `PA Report.xlsx`);
             document.body.appendChild(link);
             link.click();
-        });
-    }
-
-    handleExportPDF = (paRecordId) => {
-        axios({
-            url: resolveClientUrl('report/ExportPADetailReport'),
-            params: {
-                paRecordId: paRecordId
-            },
-            method: 'get',
-            responseType: 'blob'
-        }).then((response) => {
-            let url = window.URL.createObjectURL(new Blob([response.data]));
-            let link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', `PA Detail.pdf`);
-            document.body.appendChild(link);
-            link.click();
-        });
+        }).catch(axiosError);
     }
 
     getPARecords = () => {
@@ -138,9 +149,9 @@ export default class App extends Component {
                     <li className="current">{getResource('PerformanceAppraisalReport')}</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    <Filter periodOptions={this.state.periodOptions}
-                        groupOptions={this.state.groupOptions}
-                        employeeOptions={this.state.employeeOptions}
+                    <Filter periodOptions={this.periodOptions}
+                        groupOptions={this.groupOptions}
+                        employeeOptions={this.employeeOptions}
                         filter={this.state.filter}
                         onFilterChange={this.handleFilterChange}
                         onSubmit={this.handleFilterSubmit}

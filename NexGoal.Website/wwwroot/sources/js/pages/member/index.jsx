@@ -387,9 +387,9 @@ export default class App extends Component {
                                     currentUser.isReviewer &&
                                     <Tab eventKey={3} title={getResource('PerformanceAppraisal')}>
                                         {
-                                            this.state.loadPATab && this.periodOptions.length > 0 &&
+                                            this.state.loadPATab && periodOptions.length > 0 &&
                                             <MemberPerformanceAppraisal
-                                                periodOptions={this.periodOptions}
+                                                periodOptions={periodOptions}
                                                 gradeOptions={this.performanceGradeOptions}
                                                 groupOptions={this.myGroupOptions}
                                             />
