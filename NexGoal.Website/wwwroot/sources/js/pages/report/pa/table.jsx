@@ -198,8 +198,8 @@ export default class Table extends Component {
             <table className="table table-bordered">
                 <thead>
                     <tr>
-                        <th>{getResource('FullName')}</th>
                         <th>{getResource('NickName')}</th>
+                        <th>{getResource('FullName')}</th>
                         <th>{getResource('JobTitle')}</th>
                         <th>{getResource('Toeic')}</th>
                         <th>{getResource('Self')}</th>

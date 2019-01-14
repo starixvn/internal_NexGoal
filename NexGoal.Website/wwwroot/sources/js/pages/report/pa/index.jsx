@@ -76,6 +76,28 @@ export default class App extends Component {
         this.getPARecords();
     }
 
+    handleExportExcel = () => {
+        const filter = this.state.filter;
+
+        axios({
+            url: resolveClientUrl('report/ExportPAReport'),
+            params: {
+                periodIds: filter.periods.map((period) => { return period.value; }).join(','),
+                groupIds: filter.groups.map(group => { return group.value; }).join(','),
+                employeeId: filter.employee ? filter.employee.value : null
+            },
+            method: 'get',
+            responseType: 'blob'
+        }).then((response) => {
+            let url = window.URL.createObjectURL(new Blob([response.data]));
+            let link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `PA Report.xlsx`);
+            document.body.appendChild(link);
+            link.click();
+        });
+    }
+
     getPARecords = () => {
         const filter = this.state.filter;
         axios.get(resolveClientUrl('Report/GetPARecords'), {
@@ -104,6 +126,7 @@ export default class App extends Component {
                         filter={this.state.filter}
                         onFilterChange={this.handleFilterChange}
                         onSubmit={this.handleFilterSubmit}
+                        exportExcel={this.handleExportExcel}
                     />
                     <Table periodRecords={this.state.paPeriodRecords} />
                 </div>

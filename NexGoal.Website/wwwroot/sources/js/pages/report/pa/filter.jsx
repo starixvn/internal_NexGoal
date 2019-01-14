@@ -81,7 +81,7 @@ export default class Filter extends Component {
                     <Button type="submit" bsStyle="primary">{getResource('Search')}</Button>
                 </FormGroup>
                 <FormGroup>
-                    <Button type="button" bsStyle="success">{getResource('Excel')}</Button>
+                    <Button type="button" bsStyle="success" onClick={this.props.exportExcel}>{getResource('Excel')}</Button>
                 </FormGroup>
             </Form>
         );
