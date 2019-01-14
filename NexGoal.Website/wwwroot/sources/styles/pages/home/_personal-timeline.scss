@@ -141,6 +141,13 @@
         width: 74px;
         margin-left: -1px;
 
+        &[class*="status"] {
+            height: 36px;
+            display: table-cell;
+            vertical-align: middle;
+            padding: 0 8px;
+        }
+
         &.role-default {
             background-color: $role-default-color;
         }

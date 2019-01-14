@@ -12,11 +12,14 @@
     margin: 12px 16px;
 
     &.record-system {
-        grid-template-rows: 50px 1fr 0;
+        grid-template-rows: 50px 1fr 20px;
         background-color: #EBF4FF;
         border: 1px solid #5191DF;
         .comment {
             padding-bottom: 0;
+        }
+        &[class*="status"] {
+            grid-template-rows: 50px 1fr 0;
         }
     }
 
