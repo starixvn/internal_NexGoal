@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Text;
     using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.PA;
@@ -50,18 +49,7 @@
 
             if (records != null && records.Any())
             {
-                var xmlTemplate = "<Row PARecordId='{0}' GradeId='{1}' ToeicPolicy='{2}' />";
-                var xml = new StringBuilder();
-                xml.Append("<Root>");
-
-                foreach (PARecordModel record in records)
-                {
-                    xml.AppendFormat(xmlTemplate, record.PARecordId, record.GradeId, record.ToeicPolicy);
-                }
-
-                xml.Append("</Root>");
-
-                var criteria = new EditGradeCriteria { Value = xml.ToString() };
+                var criteria = new EditGradeCriteria { Value = records.ToXML().ToString() };
 
                 commandResult = baseService.ExecuteNonQueryAsync(criteria).Result;
             }
@@ -241,6 +229,11 @@
                 if (!grades.Any(x => x.ResourceId == gradeId))
                 {
                     gradeId = gradeId > grades.Max(x => x.ResourceId) ? grades.Max(x => x.ResourceId) : 0;
+                }
+
+                if (gradeId == 0 && record.StatusId == (int)PARecordStatus.Closed)
+                {
+                    gradeId = grades.Min(x => x.ResourceId);
                 }
 
                 record.GradeId = gradeId == 0 ? null : cryptoService.Encrypt(gradeId.ToString());

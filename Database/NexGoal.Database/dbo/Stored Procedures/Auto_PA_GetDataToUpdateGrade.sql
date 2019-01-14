@@ -16,12 +16,14 @@ BEGIN
 	DECLARE @Tomorrow DATE = DATEADD(DAY, 1, GETDATE())
 		,@PAOpened TINYINT = 2
 		,@PAInProgress TINYINT = 3
+		,@PAClosed TINYINT = 4
 		,@EvaluatorProcessId TINYINT = 4
 		,@ReviewerProcessId TINYINT = 5
 
 	SELECT pa.PARecordId
 		,pa.EmployeeId
 		,record.GradeId
+		,pa.StatusId
 		,toeic.Score AS ToeicPolicy
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
@@ -38,4 +40,14 @@ BEGIN
 				AND reviewer.ProcessId = @ReviewerProcessId
 				AND reviewer.StartDate = @Tomorrow
 			)
+	
+	UNION
+	SELECT PARecordId
+		,EmployeeId
+		,GradeId
+		,StatusId
+		,0 AS ToeicPolicy
+	FROM dbo.PARecord WITH (NOLOCK)
+	WHERE StatusId = @PAClosed
+		AND ISNULL(GradeId, '') = ''
 END
