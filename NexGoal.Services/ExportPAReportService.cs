@@ -16,14 +16,11 @@
         private const int TotalCells = 8;
 
         private readonly IHostingEnvironment hostingEnvironment;
-        private readonly ICommonService commonService;
 
         public ExportPAReportService(
-            IHostingEnvironment hostingEnvironment,
-            ICommonService commonService)
+            IHostingEnvironment hostingEnvironment)
         {
             this.hostingEnvironment = hostingEnvironment;
-            this.commonService = commonService;
         }
 
         public byte[] ExportExcel(IEnumerable<PARecordGroupByPeriod> paRecords)

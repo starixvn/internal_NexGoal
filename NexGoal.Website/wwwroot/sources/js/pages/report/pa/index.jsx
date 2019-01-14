@@ -98,6 +98,24 @@ export default class App extends Component {
         });
     }
 
+    handleExportPDF = (paRecordId) => {
+        axios({
+            url: resolveClientUrl('report/ExportPADetailReport'),
+            params: {
+                paRecordId: paRecordId
+            },
+            method: 'get',
+            responseType: 'blob'
+        }).then((response) => {
+            let url = window.URL.createObjectURL(new Blob([response.data]));
+            let link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `PA Detail.pdf`);
+            document.body.appendChild(link);
+            link.click();
+        });
+    }
+
     getPARecords = () => {
         const filter = this.state.filter;
         axios.get(resolveClientUrl('Report/GetPARecords'), {
@@ -128,7 +146,7 @@ export default class App extends Component {
                         onSubmit={this.handleFilterSubmit}
                         exportExcel={this.handleExportExcel}
                     />
-                    <Table periodRecords={this.state.paPeriodRecords} />
+                    <Table periodRecords={this.state.paPeriodRecords} exportPDF={this.handleExportPDF} />
                 </div>
             </div>
         );
