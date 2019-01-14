@@ -28,13 +28,13 @@
         [HttpGet]
         public async Task<IActionResult> GetNominationPeriods()
         {
-            return Json(await nominationReportService.GetNominationPeriodsForNominatorAsync().ConfigureAwait(false));
+            return Json(await nominationReportService.GetNominationPeriodsAsync().ConfigureAwait(false));
         }
 
         [HttpGet]
         public async Task<IActionResult> GetNominations(string nominationPeriodIds, string groupIds, string employeeIds, int? statusId)
         {
-            return Json(await nominationReportService.GetNominations(nominationPeriodIds, groupIds, employeeIds, statusId, sessionService.EmployeeId).ConfigureAwait(false));
+            return Json(await nominationReportService.GetNominationsAsync(nominationPeriodIds, groupIds, employeeIds, statusId, sessionService.EmployeeId).ConfigureAwait(false));
         }
     }
 }

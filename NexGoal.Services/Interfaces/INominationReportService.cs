@@ -7,8 +7,8 @@
 
     public interface INominationReportService
     {
-        Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForNominatorAsync();
+        Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsAsync();
 
-        Task<IEnumerable<NominationModel>> GetNominations(string nominationPeriodIds, string groupIds, string employeeIds, int? statusId, int loggedEmployeeId);
+        Task<IEnumerable<NominationModel>> GetNominationsAsync(string nominationPeriodIds, string groupIds, string employeeIds, int? statusId, int loggedEmployeeId);
     }
 }
