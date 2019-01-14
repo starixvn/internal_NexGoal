@@ -43,7 +43,7 @@ export default class CreateMemberPerformance extends Component {
                 employees: [],
                 grade: null,
                 comment: '',
-                projects: props.selectedMemberInfo.isProbation ? [ProbationTag] : [],
+                projects: props.selectedMemberInfo && props.selectedMemberInfo.isProbation ? [ProbationTag] : [],
                 statusId: null
             },
             errors: {}
