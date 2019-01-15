@@ -1,0 +1,138 @@
+﻿import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import axios from 'axios';
+import { Tabs, Tab } from 'react-bootstrap';
+
+import { axiosError, resolveClientUrl } from '../../../common-functions';
+import getResource from '../../../resourceHelper';
+import ToastLayout from '../../../shared/layouts/ToastLayout';
+import Breadcrumb from '../../../shared/components/Breadcrumb';
+import ObjectiveMessage from './ObjectiveMessage';
+import SearchForm from './SearchForm';
+import Table from './Table';
+
+export default class MasterReport extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            showModal: false,
+            filter: {
+                period: null,
+                groups: [],
+                employees: [],
+            },
+            tableData: [],
+            groupOptions: [],
+            employeeOptions: [],
+            periodOptions: [],
+            objectiveMessageModal: {
+                showModal: false,
+                message: ''
+            }
+        };
+    }
+
+    componentDidMount() {
+        const promises = [
+            axios(resolveClientUrl('Common/GetGroups')),
+            axios(resolveClientUrl('common/GetEmployees')),
+            axios.get(resolveClientUrl('MasterReport/GetPeriods'))
+        ];
+
+        Promise.all(promises)
+            .then(([groupResponse, employeeResponse, periodResponse]) => {
+                let groupOptions = groupResponse.data.map((group) => {
+                    return {
+                        value: group.groupId,
+                        label: group.name
+                    };
+                });
+                let employeeOptions = employeeResponse.data.map(item => {
+                    return {
+                        value: item.employeeId,
+                        label: `${item.nickName} (${item.fullName})`
+                    };
+                });
+
+                let periodOptions = periodResponse.data.map(x => ({ value: x.periodId, label: x.name }));
+
+                let filter = {
+                    ... this.state.filter,
+                    ...{
+                        groups: groupOptions,
+                        period: periodOptions[0]
+                    }
+                };
+
+                this.setState({ filter, employeeOptions, groupOptions, periodOptions }, () => this.getRecords());
+            }).catch(axiosError);
+    }
+
+    getRecords = () => {
+        let filter = this.state.filter
+
+        axios.get(resolveClientUrl('MasterReport/GetRecords'), {
+            params: {
+                periodId: filter.period.value,
+                groupIds: filter.groups.map(x => x.value).toString(),
+                employeeIds: filter.employees.map(x => x.value).toString(),
+            }
+        }).then(response => {
+            let groups = this.state.groupOptions.filter(g => response.data.some(e => e.groupId === g.value));
+
+            this.setState({
+                tableData: groups.map(g => ({
+                    group: g.label,
+                    records: response.data.filter(e => e.groupId === g.value)
+                }))
+            });
+        }).catch(axiosError);
+    }
+
+    handleFilterChange = (name, value) => {
+        this.setState({
+            filter: { ...this.state.filter, ...{ [name]: value } }
+        });
+    }
+
+    handleOpenObjectiveMessageModal = message => this.setState({
+        objectiveMessageModal: {
+            message: message,
+            showModal: true
+        }
+    })
+
+    handleCloseObjectiveMessageModal = () =>
+        this.setState({
+            objectiveMessageModal: { showModal: false }
+        })
+
+    render() {
+        return (
+            <div className="row">
+                <Breadcrumb>
+                    <li className="current">{getResource('MasterReport')}</li>
+                </Breadcrumb>
+                <div className="col-sm-12">
+                    <SearchForm filter={this.state.filter}
+                        groupOptions={this.state.groupOptions}
+                        periodOptions={this.state.periodOptions}
+                        employeeOptions={this.state.employeeOptions}
+                        onFilterChange={this.handleFilterChange}
+                        onFilterSubmit={this.getRecords}
+                    />
+                    <Table tableData={this.state.tableData} onViewObjectiveMessage={this.handleOpenObjectiveMessageModal} />
+                </div>
+                <ObjectiveMessage
+                    message={this.state.objectiveMessageModal.message}
+                    showModal={this.state.objectiveMessageModal.showModal}
+                    onCloseModal={this.handleCloseObjectiveMessageModal}
+                />
+                <ToastLayout />
+            </div>
+        );
+    }
+}
+
+ReactDOM.render(<MasterReport />, document.getElementById("master-report-wrapper"));

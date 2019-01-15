@@ -13,5 +13,6 @@
         public const string PAFocus = "PAFocus";
         public const string NominationReport = "NominationReport";
         public const string PMAssignment = "PMAssignment";
+        public const string MasterReport = "MasterReport";
     }
 }

@@ -1,0 +1,43 @@
+﻿@import "../../abstracts/variables";
+@import "../../abstracts/mixins";
+@import "../../layouts/nomination";
+@import "../../components/buttons";
+@import "../../components/form";
+@import "../../components/form-filter";
+@import "../../components/form-inline";
+@import "../../components/modal";
+@import "../../components/react-select";
+@import "../../components/tables";
+@import "../../components/toast";
+@import "../../components/tooltip";
+
+#master-report-wrapper {
+    margin-bottom: 24px;
+}
+
+.tbl-master-report {
+    .sticky {
+        position: fixed;
+        top: 50px;
+        left: 15px;
+        right: 15px;
+        z-index: 1;
+
+        th {
+            display: inline-block;
+        }
+    }
+
+    .title {
+        height: 40px;
+        background-color: #525E86;
+        font-size: 15px;
+        color: #fff;
+    }
+}
+
+.objective-message-modal {
+    .comment {
+        white-space: pre-wrap;
+    }
+}

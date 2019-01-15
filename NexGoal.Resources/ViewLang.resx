@@ -189,4 +189,7 @@
   <data name="PMAssignment" xml:space="preserve">
     <value>PM Assignment</value>
   </data>
+  <data name="MasterReport" xml:space="preserve">
+    <value>Master Report</value>
+  </data>
 </root>

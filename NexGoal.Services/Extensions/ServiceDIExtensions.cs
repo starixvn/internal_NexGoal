@@ -31,6 +31,7 @@
             services.AddScoped<INominationReportService, NominationReportService>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IPMSettingService, PMSettingService>();
+            services.AddScoped<IMasterReportService, MasterReportService>();
         }
     }
 }

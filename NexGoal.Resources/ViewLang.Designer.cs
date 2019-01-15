@@ -151,6 +151,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Master Report.
+        /// </summary>
+        public static string MasterReport {
+            get {
+                return ResourceManager.GetString("MasterReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Member Page.
         /// </summary>
         public static string MemberPage {

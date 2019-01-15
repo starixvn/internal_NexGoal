@@ -64,7 +64,7 @@ export default class AddMember extends Component {
         return (
             <Form onSubmit={handleSubmit} className="add-member-form">
                 <Modal.Body>
-                    <div className="required-label lb-member">{getResource('Members')}</div>
+                    <div className="lb-member">{getResource('Members')}</div>
                     <Select name="members"
                         className={`react-select-container ${touched.members && errors.members && 'input-validation-error'}`}
                         classNamePrefix="react-select" isClearable
