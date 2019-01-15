@@ -61,6 +61,7 @@
 
             var tuple = await baseService.FetchMultipleAsync<PARecordModel, PAProcessModel, PerformanceRecordModel>(criteria).ConfigureAwait(false);
             IEnumerable<ProjectModel> projects = await commonService.GetProjectsAsync().ConfigureAwait(false);
+            IEnumerable<PeriodBaseModel> periods = await commonService.GetAllPeriods().ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
             IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
 
@@ -68,6 +69,7 @@
 
             if (record != null)
             {
+                record.Period = periods.FirstOrDefault(p => p.PeriodId == record.PeriodId);
                 MappingData(record, tuple.Item2, tuple.Item3, employees, performanceGrades, projects);
             }
 

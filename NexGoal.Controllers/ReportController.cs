@@ -46,5 +46,13 @@
 
             return File(fileContent, MimeType.XLSX, fileName);
         }
+
+        public async Task<IActionResult> ExportPADetail(int paRecordId)
+        {
+            var record = await paRecordService.GetPARecordByIdAsync(paRecordId, sessionService.EmployeeId).ConfigureAwait(false);
+            byte[] fileContent = exportService.ExportPADetail(record);
+            var fileName = string.Format("{0}'s_PA_on_{1}", record.Employee.NickName, record.Period.Name);
+            return File(fileContent, MimeType.PDF, fileName);
+        }
     }
 }

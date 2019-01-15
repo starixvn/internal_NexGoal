@@ -81,6 +81,35 @@
             Assert.Equal(MimeType.XLSX, fileResult.ContentType);
         }
 
+        [Fact]
+        public async Task ExportPADetail_WhenCalled_ReturnAsExpectedFile()
+        {
+            // Arrange
+
+            var record = new PARecordModel
+            {
+                EmployeeId = 363,
+                Toeic = 760,
+                Employee = new EmployeeBaseModel { NickName = "Tim" },
+                Period = new PeriodBaseModel { Name = "1H-2019" }
+            };
+
+            var controller = GetReportController();
+
+            paRecordService.GetPARecordByIdAsync(999, sessionService.EmployeeId).Returns(record);
+            byte[] bytes = Convert.FromBase64String("text");
+            exportService.ExportPADetail(record).Returns(bytes);
+
+            // Act
+            var actual = await controller.ExportPADetail(999);
+
+            // Assert
+            var fileResult = Assert.IsType<FileContentResult>(actual);
+            Assert.Equal(bytes, fileResult.FileContents);
+            Assert.Equal(MimeType.PDF, fileResult.ContentType);
+            Assert.Equal("Tim's_PA_on_1H-2019", fileResult.FileDownloadName);
+        }
+
         #region Helpers
 
         private ISessionService FakeSessionService()
@@ -95,15 +124,29 @@
         {
             var listPARecords = new List<PARecordModel>
             {
-                new PARecordModel { EmployeeId = 363, Toeic = 760}
+                new PARecordModel
+                {
+                    EmployeeId = 363,
+                    Toeic = 760,
+                    Employee = new EmployeeBaseModel { NickName = "Tim"}
+                }
             };
             var listGroup = new List<PAReportModel>
             {
-                new PAReportModel { Group = new GroupBaseModel { Name = "Nexus" }, PARecords = listPARecords}
+                new PAReportModel
+                {
+                    Group = new GroupBaseModel{ Name = "Nexus" },
+                    PARecords = listPARecords
+                }
             };
             var records = new List<PARecordGroupByPeriod>
             {
-               new PARecordGroupByPeriod {PeriodId = 1, Groups = listGroup }
+               new PARecordGroupByPeriod
+               {
+                   PeriodId = 1,
+                   Groups = listGroup,
+                   Period = new PeriodBaseModel { Name="1H-2019"}
+               }
             };
 
             return records;
