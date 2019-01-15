@@ -21,5 +21,8 @@
         public NotificationStatus StatusId { get; set; }
 
         public DateTime CreatedDate { get; set; }
+
+        public NotificationActionType ActionTypeId { get; set; }
+        public int? RecordId { get; set; }
     }
 }

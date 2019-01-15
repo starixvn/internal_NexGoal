@@ -165,7 +165,8 @@
                                         : Message.NotificationTemplate_PA_RemindStartEvaluationToSupervisor,
                                     period.Name,
                                     mailService.FormatStartDate(period.StartDate)),
-                                StatusId = (int)NotificationStatus.Unread
+                                StatusId = (int)NotificationStatus.Unread,
+                                ActionTypeId = (int)NotificationActionType.MyPageWithCreatePerformanceCheckin
                             });
                             break;
 
@@ -174,7 +175,8 @@
                             {
                                 EmployeeId = setting.EvaluatorId,
                                 Content = string.Format(Message.NotificationTemplate_PA_StartToReviewer, period.Name),
-                                StatusId = (int)NotificationStatus.Unread
+                                StatusId = (int)NotificationStatus.Unread,
+                                ActionTypeId = (int)NotificationActionType.MemberPageWithActivePerformanceAppraisalTab
                             });
                             break;
 
@@ -185,7 +187,8 @@
                                 Content = string.Format(Message.NotificationTemplate_PA_RemindToReviewer,
                                     period.Name,
                                     mailService.FormatStartDate(setting.EndDate)),
-                                StatusId = (int)NotificationStatus.Unread
+                                StatusId = (int)NotificationStatus.Unread,
+                                ActionTypeId = (int)NotificationActionType.MemberPageWithActivePerformanceAppraisalTab
                             });
                             break;
 
@@ -194,7 +197,9 @@
                             {
                                 EmployeeId = setting.EvaluatorId,
                                 Content = string.Format(Message.NotificationTemplate_PA_EndEvaluation, period.Name),
-                                StatusId = (int)NotificationStatus.Unread
+                                StatusId = (int)NotificationStatus.Unread,
+                                ActionTypeId = (int)NotificationActionType.MyPageWithSpecificPerformanceCheckin,
+                                RecordId = setting.PerformanceRecordId
                             });
                             break;
 

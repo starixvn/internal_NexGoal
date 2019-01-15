@@ -26,7 +26,7 @@
             this.commonService = commonService;
         }
 
-        public async Task<Notification> GetNotification(int employeeId, int pageIndex, int pageSize)
+        public async Task<Notification> GetNotificationAsync(int employeeId, int pageIndex, int pageSize)
         {
             var criteria = new GetNotificationByEmployeeCriteria
             {
@@ -52,16 +52,7 @@
             return notificationsModel;
         }
 
-        private static void MappingData(IEnumerable<NotificationEntity> notifications, IEnumerable<EmployeeBaseModel> employees)
-        {
-            foreach (var notification in notifications)
-            {
-                notification.Creator = notification.CreatorId == Constants.NexGoalSystemId ?
-                NexGoalSystemInfo.NexGoal : employees.FirstOrDefault(x => x.EmployeeId == notification.CreatorId);
-            }
-        }
-
-        public async Task<IEnumerable<NotificationSetting>> GetNotificationSetting(int employeeId)
+        public async Task<IEnumerable<NotificationSetting>> GetSettingAsync(int employeeId)
         {
             var criteria = new GetNotificationSettingCriteria
             {
@@ -71,7 +62,7 @@
             return await baseService.GetDataAsync<NotificationSetting>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> UpdateNotificationSetting(int employeeId, IEnumerable<NotificationSetting> settings)
+        public async Task<CommandResult> EditSettingAsync(int employeeId, IEnumerable<NotificationSetting> settings)
         {
             var criteria = new UpdateNotificationSettingCriteria
             {
@@ -82,7 +73,7 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> ReadNotification(int notificationId, int employeeId)
+        public async Task<CommandResult> ReadNotificationAsync(int notificationId, int employeeId)
         {
             var criteria = new UpdateNotificationStatusCriteria
             {
@@ -94,7 +85,7 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> MarkAsReadNotification(int employeeId)
+        public async Task<CommandResult> MarkAsReadAsync(int employeeId)
         {
             var criteria = new MarkAsReadNotificationCriteria
             {
@@ -103,6 +94,15 @@
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
+
+        private static void MappingData(IEnumerable<NotificationEntity> notifications, IEnumerable<EmployeeBaseModel> employees)
+        {
+            foreach (var notification in notifications)
+            {
+                notification.Creator = notification.CreatorId == Constants.NexGoalSystemId ?
+                NexGoalSystemInfo.NexGoal : employees.FirstOrDefault(x => x.EmployeeId == notification.CreatorId);
+            }
         }
     }
 }

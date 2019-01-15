@@ -80,11 +80,11 @@
         {
             try
             {
-                paService.SendMail();
-                paService.SendNotification();
                 paService.EditGrade();
                 paService.EditWhenEvaluationFinished();
                 paService.EditStatus();
+                paService.SendMail();
+                paService.SendNotification();
             }
             catch (Exception ex)
             {

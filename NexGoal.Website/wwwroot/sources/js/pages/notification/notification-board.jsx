@@ -15,19 +15,8 @@ export default class NotificationBoard extends Component {
         };
     }
 
-    addEventListener = () => {
-        let notiTrigger = document.getElementById('trigger-notification-center');
-        if (notiTrigger) {
-            notiTrigger.addEventListener('click', () => {
-                this.componentDidMount();
-            });
-        }
-    }
-
     handleReadNotification = (statusId, notificationId) => {
-        if (statusId === NotificationStatus.Unread) {
-            this.props.readNotification(notificationId);
-        }
+        this.props.onReadNotification(notificationId, statusId);
     }
 
     onLoadMoreNotification = () => {
@@ -48,12 +37,13 @@ export default class NotificationBoard extends Component {
 
     render() {
         const notifications = this.props.notifications;
+
         return (
             <ToastLayout>
                 <div className="noti-header">
                     <span className="title">{getResource('Notification')}</span>
                     <span className="noti-function">
-                        <a className="mark-read" onClick={this.props.markAsRead}>Mark as read</a>
+                        <a className="mark-read" onClick={this.props.onMarkAsRead}>Mark as read</a>
                         <span className="dash" />
                         <a className="setting" onClick={this.handleClickSetting}>Settings</a>
                     </span>

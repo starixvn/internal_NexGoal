@@ -85,15 +85,16 @@
     .noti-body {
         padding: 4px 10px 0 10px;
         box-sizing: content-box;
+
         .noti-item {
             padding: 10px;
             margin-bottom: 4px;
             border-radius: 3px;
             display: flex;
             background-color: #F2F5F7;
+            cursor: pointer;
 
             &.unread {
-                cursor: pointer;
                 font-weight: bold;
                 background-color: #E0F3FF;
             }

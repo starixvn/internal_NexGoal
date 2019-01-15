@@ -18,7 +18,7 @@
         private ICommonService commonService;
 
         [Fact]
-        public async Task GetNotificationSetting_WhenCalled_ReturnAsExpectedSetting()
+        public async Task GetSettingAsync_WhenCalled_ReturnAsExpectedSetting()
         {
             // Arrange
             var expected = new List<NotificationSetting>
@@ -34,14 +34,14 @@
             baseService.GetDataAsync<NotificationSetting>(Arg.Any<GetNotificationSettingCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.GetNotificationSetting(163);
+            var actual = await service.GetSettingAsync(163);
 
             // Assert
             Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public async Task GetNotification_WhenCalled_ReturnAsExpectedNotification()
+        public async Task GetNotificationAsync_WhenCalled_ReturnAsExpectedNotification()
         {
             // Arrange
             var notifications = new List<NotificationEntity>
@@ -65,14 +65,14 @@
             commonService.GetEmployeesAsync().Returns(employees);
 
             // Act
-            var actual = await service.GetNotification(263, 0, 10);
+            var actual = await service.GetNotificationAsync(263, 0, 10);
 
             // Assert
             Assert.Equal(notifications.Count, actual.Notifications.Count());
         }
 
         [Fact]
-        public async Task UpdateNotificationSetting_WhenCalled_ReturnAsExpectedCommand()
+        public async Task EditSettingAsync_WhenCalled_ReturnAsExpectedCommandResult()
         {
             // Arrange
             var expected = new CommandResult
@@ -93,14 +93,14 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<UpdateNotificationSettingCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.UpdateNotificationSetting(163, settings);
+            var actual = await service.EditSettingAsync(163, settings);
 
             // Assert
             Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public async Task ReadNotification_WhenCalled_ReturnAsExpectedCommand()
+        public async Task ReadNotificationAsync_WhenCalled_ReturnAsExpectedCommandResult()
         {
             // Arrange
             var expected = new CommandResult
@@ -112,14 +112,14 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<UpdateNotificationStatusCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.ReadNotification(1, 163);
+            var actual = await service.ReadNotificationAsync(1, 163);
 
             // Assert
             Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public async Task MarkAsReadNotification_WhenCalled_ReturnAsExpectedCommand()
+        public async Task MarkAsReadAsync_WhenCalled_ReturnAsExpectedCommandResult()
         {
             // Arrange
             var expected = new CommandResult
@@ -131,7 +131,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<MarkAsReadNotificationCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.MarkAsReadNotification(163);
+            var actual = await service.MarkAsReadAsync(163);
 
             // Assert
             Assert.Equal(expected, actual);

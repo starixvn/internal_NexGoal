@@ -23,6 +23,8 @@ import EmployeeInfo from './EmployeeInfo';
 import Announcement from '../../shared/components/Announcement';
 import Marquee from '../../shared/components/Marquee';
 
+const queryString = require('query-string');
+
 export default class MyPage extends Component {
     constructor(props) {
         super(props);
@@ -53,6 +55,7 @@ export default class MyPage extends Component {
 
         this.infiniteScrollRef = React.createRef();
         this.timelineItemPerPage = calculateTimelineNode();
+        this.createPerformanceCheckinWrapperRef = React.createRef();
         this.itemPerPage = 10;
         this.performanceGradeOptions = [];
         this.projectOptions = [];
@@ -103,12 +106,24 @@ export default class MyPage extends Component {
                     performanceAppraisals: performanceAppraisalsResponse.data,
                     displayedPerformanceRecords: displayedPerformanceRecords,
                     hasMore: displayedPerformanceRecords.length < performanceRecordResponse.data.length
-                });
+                }, () => this.checkUrlParams());
             }).catch(axiosError);
     }
 
     componentDidUpdate() {
         ReactTooltip.rebuild();
+    }
+
+    checkUrlParams = () => {
+        let params = queryString.parse(location.search);
+
+        if (params) {
+            if (params.recordId && parseInt(params.recordId)) {
+                this.handleClickTimelineNode(parseInt(params.recordId));
+            } else if (params.action && params.action === 'newrecord') {
+                this.createPerformanceCheckinWrapperRef.current.handleOpenForm();
+            }
+        }
     }
 
     handleTimelinePageChange = (pageIndex, pageSize) => {
@@ -306,14 +321,16 @@ export default class MyPage extends Component {
                 return element.performanceRecordId === performanceRecordId;
             });
 
-            let page = Math.ceil((index + 1) / this.itemPerPage);
+            if (index >= 0) {
+                let page = Math.ceil((index + 1) / this.itemPerPage);
 
-            this.refs.infiniteScrollRef.pageLoaded = page;
+                this.refs.infiniteScrollRef.pageLoaded = page;
 
-            this.loadMorePerformanceRecord(page, () => {
-                this.setState({ performanceRecordIdHighlighted: performanceRecordId },
-                    () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
-            });
+                this.loadMorePerformanceRecord(page, () => {
+                    this.setState({ performanceRecordIdHighlighted: performanceRecordId },
+                        () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
+                });
+            }
         } else {
             this.setState({ performanceRecordIdHighlighted: performanceRecordId },
                 () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
@@ -347,7 +364,7 @@ export default class MyPage extends Component {
                         </div>
                         <div className="record-list">
                             <CustomScrollbars>
-                                <CreateSelfPerformance
+                                <CreateSelfPerformance ref={this.createPerformanceCheckinWrapperRef}
                                     currentUser={currentUserInfo}
                                     performanceGradeOptions={this.performanceGradeOptions}
                                     projectOptions={this.projectOptions}

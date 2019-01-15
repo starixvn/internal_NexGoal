@@ -105,7 +105,8 @@
                     Content = x.NotificationMode == MailMode.Start
                     ? string.Format(Message.NotificationTemplate_PAFocus_Start, period.Name)
                     : string.Format(Message.NotificationTemplate_PAFocus_Remind, period.Name, mailService.FormatEndDate(period.FocusEndDate)),
-                    StatusId = (int)NotificationStatus.Unread
+                    StatusId = (int)NotificationStatus.Unread,
+                    ActionTypeId = (int)NotificationActionType.PAFocus
                 }));
             }
 

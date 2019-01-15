@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import InfiniteScroll from 'react-infinite-scroller';
+
 import getResource from '../../../resourceHelper';
 import { NotificationStatus } from '../../../constants';
 import NotificationSetting from './NotificationSetting';
@@ -27,6 +28,7 @@ export default class Notification extends Component {
             || JSON.stringify(nextProps.notifications) !== this.props.notifications) {
             return true;
         }
+
         return false;
     }
 
@@ -48,9 +50,7 @@ export default class Notification extends Component {
     }
 
     handleReadNotification = (statusId, notificationId) => {
-        if (statusId === NotificationStatus.Unread) {
-            this.props.onReadNotification(notificationId);
-        }
+        this.props.onReadNotification(notificationId, statusId);
     }
 
     handleMarkAsRead = () => {

@@ -103,7 +103,9 @@
                         Content = action == ActionOnPerformanceRecord.Create
                             ? string.Format(Message.NotificationTemplate_CreatePCI_MemberToSupervisor, actor.NickName)
                             : string.Format(Message.NotificationTemplate_EditPCI_MemberToSupervisor, actor.NickName),
-                        StatusId = (int)NotificationStatus.Unread
+                        StatusId = (int)NotificationStatus.Unread,
+                        ActionTypeId = (int)NotificationActionType.MemberPageWithSpecificPerformanceCheckin,
+                        RecordId = recordId
                     }));
 
                 notifications.AddRange(receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToMember)
@@ -113,7 +115,9 @@
                         Content = action == ActionOnPerformanceRecord.Create
                             ? string.Format(Message.NotificationTemplate_CreatePCI_SupervisorToMember, actor.NickName)
                             : string.Format(Message.NotificationTemplate_EditPCI_SupervisorToMember, actor.NickName),
-                        StatusId = (int)NotificationStatus.Unread
+                        StatusId = (int)NotificationStatus.Unread,
+                        ActionTypeId = (int)NotificationActionType.MyPageWithSpecificPerformanceCheckin,
+                        RecordId = recordId
                     }));
 
                 notifications.AddRange(receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToSupervisor)
@@ -123,7 +127,9 @@
                         Content = action == ActionOnPerformanceRecord.Create
                             ? string.Format(Message.NotificationTemplate_CreatePCI_SupervisorToSupervisor, actor.NickName, employee.NickName)
                             : string.Format(Message.NotificationTemplate_EditPCI_SupervisorToSupervisor, actor.NickName, employee.NickName),
-                        StatusId = (int)NotificationStatus.Unread
+                        StatusId = (int)NotificationStatus.Unread,
+                        ActionTypeId = (int)NotificationActionType.MemberPageWithSpecificPerformanceCheckin,
+                        RecordId = recordId
                     }));
             }
 

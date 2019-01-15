@@ -6,6 +6,7 @@
     public class ProcessSettingModel
     {
         public int PeriodId { get; set; }
+        public int? PerformanceRecordId { get; set; }
         public MailMode NotificationMode { get; set; }
         public PerformanceProcess ProcessId { get; set; }
         public int EvaluatorId { get; set; }

@@ -28,6 +28,7 @@
     "jsdom": "^12.2.0",
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",
+    "query-string": "^6.2.0",
     "react": "^16.4.2",
     "react-bootstrap": "^0.32.1",
     "react-bootstrap-table-next": "^1.1.4",

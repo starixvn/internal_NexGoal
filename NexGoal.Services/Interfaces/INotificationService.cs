@@ -7,14 +7,14 @@
 
     public interface INotificationService
     {
-        Task<Notification> GetNotification(int employeeId, int pageIndex, int pageSize);
+        Task<Notification> GetNotificationAsync(int employeeId, int pageIndex, int pageSize);
 
-        Task<IEnumerable<NotificationSetting>> GetNotificationSetting(int employeeId);
+        Task<IEnumerable<NotificationSetting>> GetSettingAsync(int employeeId);
 
-        Task<CommandResult> ReadNotification(int notificationId, int employeeId);
+        Task<CommandResult> ReadNotificationAsync(int notificationId, int employeeId);
 
-        Task<CommandResult> MarkAsReadNotification(int employeeId);
+        Task<CommandResult> MarkAsReadAsync(int employeeId);
 
-        Task<CommandResult> UpdateNotificationSetting(int employeeId, IEnumerable<NotificationSetting> settings);
+        Task<CommandResult> EditSettingAsync(int employeeId, IEnumerable<NotificationSetting> settings);
     }
 }

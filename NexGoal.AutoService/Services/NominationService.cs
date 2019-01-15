@@ -92,7 +92,8 @@
                     Content = x.NotificationMode == MailMode.Start
                     ? string.Format(Message.NotificationTemplate_Nomination_Start, period.Title)
                     : string.Format(Message.NotificationTemplate_Nomination_Remind, period.Title, mailService.FormatEndDate(period.EndDateForNominator)),
-                    StatusId = (int)NotificationStatus.Unread
+                    StatusId = (int)NotificationStatus.Unread,
+                    ActionTypeId = (int)NotificationActionType.MemberPageWithActiveNominationTab
                 }));
             }
 

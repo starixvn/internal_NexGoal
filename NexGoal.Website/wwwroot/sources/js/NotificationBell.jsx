@@ -1,9 +1,10 @@
-﻿import React, { Component, Fragment } from 'react';
+﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+
 import { axiosError, resolveClientUrl } from './common-functions';
 import Notification from './shared/components/notification/Notification';
-import { NotificationStatus } from './constants';
+import { NotificationActionType, NotificationStatus } from './constants';
 
 export default class NotificationBell extends Component {
     constructor(props) {
@@ -19,8 +20,6 @@ export default class NotificationBell extends Component {
         };
 
         this.pageSize = 6;
-        this.setWrapperRef = this.setWrapperRef.bind(this);
-        this.handleClickOutside = this.handleClickOutside.bind(this);
     }
 
     componentDidMount() {
@@ -38,6 +37,7 @@ export default class NotificationBell extends Component {
             || JSON.stringify(nextState.notifications) !== JSON.stringify(this.state.notifications)) {
             return true;
         }
+
         return false;
     }
 
@@ -53,8 +53,6 @@ export default class NotificationBell extends Component {
                 let notificationId = parseInt(notiTrigger.getAttribute("notificationId"));
                 if (!notificationId) {
                     this.markAsReadSuccess();
-                } else {
-                    this.readNotificationSucess(notificationId);
                 }
             }, false);
         }
@@ -67,52 +65,72 @@ export default class NotificationBell extends Component {
         }
     }
 
-    readNotificationSucess = (notificationId) => {
-        const notiId = notificationId;
-        let notifications = [...this.state.notifications];
-        const notiIndex = notifications.findIndex(noti => noti.notificationId === notiId);
+    handleRedirectToAction = (notificationId) => {
+        let notifications = this.state.notifications.slice();
+        let notiIndex = notifications.findIndex(noti => noti.notificationId === notificationId);
         if (notiIndex !== -1) {
-            notifications[notiIndex].statusId = NotificationStatus.Read;
-        }
-        this.setState({
-            notifications: notifications,
-            unreadNoti: this.state.unreadNoti - 1
-        });
+            let actionTypeId = notifications[notiIndex].actionTypeId;
+            let recordId = notifications[notiIndex].recordId;
+            let url = '';
+            switch (actionTypeId) {
+                case NotificationActionType.MyPageWithCreatePerformanceCheckin:
+                    url = resolveClientUrl('?action=newrecord');
+                    break;
 
-        this.triggerNotificationCenter(notiId);
+                case NotificationActionType.MyPageWithSpecificPerformanceCheckin:
+                    url = resolveClientUrl(`?recordId=${recordId}`);
+                    break;
+
+                case NotificationActionType.MemberPageWithCreatePerformanceCheckin:
+                    url = resolveClientUrl('member?action=newrecord');
+                    break;
+
+                case NotificationActionType.MemberPageWithSpecificPerformanceCheckin:
+                    url = resolveClientUrl(`member?recordId=${recordId}`);
+                    break;
+
+                case NotificationActionType.MemberPageWithActiveNominationTab:
+                    url = resolveClientUrl('member?activeTab=2');
+                    break;
+
+                case NotificationActionType.MemberPageWithActivePerformanceAppraisalTab:
+                    url = resolveClientUrl('member?activeTab=3');
+                    break;
+
+                case NotificationActionType.PAFocus:
+                    url = resolveClientUrl('pafocus');
+                    break;
+            }
+
+            if (url) {
+                window.location = url;
+            }
+        }
     }
 
     markAsReadSuccess = () => {
-        let notifications = [...this.state.notifications];
-        for (var i = 0; i < notifications.length; i++) {
+        let notifications = this.state.notifications.slice();
+        for (let i = 0; i < notifications.length; i++) {
             notifications[i].statusId = NotificationStatus.Read;
         }
+
         this.setState({
             notifications: notifications,
             unreadNoti: 0
         });
 
-        this.triggerNotificationCenter();
-    }
-
-    triggerNotificationCenter = (notificationId) => {
         let notiCenterTrigger = document.getElementById('trigger-notification-center');
         if (notiCenterTrigger) {
-            notiCenterTrigger.setAttribute("notificationId", notificationId);
             notiCenterTrigger.click();
         }
     }
 
-    handleClickOutside(event) {
+    handleClickOutside = (event) => {
         const notiSettings = document.getElementById('notification-settings');
         if (this.wrapperRef && !this.wrapperRef.contains(event.target)
             && (notiSettings === null || !notiSettings.contains(event.target))) {
             this.onHideNoti();
         }
-    }
-
-    setWrapperRef(node) {
-        this.wrapperRef = node;
     }
 
     handleClickOnBell = () => {
@@ -157,25 +175,28 @@ export default class NotificationBell extends Component {
         }).catch(axiosError);
     }
 
-    handleReadNotification = (notificationId) => {
-        const notiId = notificationId;
-        axios.get(resolveClientUrl('Notification/ReadNotification'), {
-            params: {
-                notificationId: notiId
-            }
-        }).then(response => {
-            let data = response.data;
-            if (data.isSuccessful) {
-                this.readNotificationSucess(notiId);
-            } else {
-                toast.error(data.message);
-            }
-        }).catch(axiosError);
+    handleReadNotification = (notificationId, statusId) => {
+        if (statusId === NotificationStatus.Unread) {
+            axios.get(resolveClientUrl('Notification/ReadNotification'), {
+                params: {
+                    notificationId: notificationId
+                }
+            }).then(response => {
+                let data = response.data;
+                if (data.isSuccessful) {
+                    this.handleRedirectToAction(notificationId);
+                } else {
+                    toast.error(data.message);
+                }
+            }).catch(axiosError);
+        } else {
+            this.handleRedirectToAction(notificationId);
+        }
     }
 
     handleMarkAsRead = () => {
         if (this.state.unreadNoti > 0) {
-            axios.get(resolveClientUrl('Notification/MarkAsReadNotification'))
+            axios.get(resolveClientUrl('Notification/MarkAsRead'))
                 .then(response => {
                     let data = response.data;
                     if (data.isSuccessful) {
@@ -190,7 +211,7 @@ export default class NotificationBell extends Component {
     render() {
         const unreadNoti = this.state.unreadNoti;
         return (
-            <div ref={this.setWrapperRef}>
+            <div ref={node => this.wrapperRef = node}>
                 <span className="icon-bell"
                     onClick={this.handleClickOnBell}
                 >
@@ -209,7 +230,7 @@ export default class NotificationBell extends Component {
                             onClickSetting={this.onHideNoti}
                             hasMore={this.state.hasMore}
                         />
-                        <a className="show-all-noti" href="/Notification">View all</a>
+                        <a className="show-all-noti" href={resolveClientUrl('Notification')}>View all</a>
                     </div>
                 }
             </div>

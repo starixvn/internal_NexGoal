@@ -18,7 +18,7 @@
         private INotificationService notificationService;
 
         [Fact]
-        public async Task GetNotificationg_WhenCalled_ReturnExpectedNotification()
+        public async Task GetNotification_WhenCalled_ReturnExpectedNotification()
         {
             // Arrange
             var notifications = new List<NotificationEntity>
@@ -41,7 +41,7 @@
             };
             var controller = GetNotificationController();
 
-            notificationService.GetNotification(sessionService.EmployeeId, 0, 10).Returns(expectResult);
+            notificationService.GetNotificationAsync(sessionService.EmployeeId, 0, 10).Returns(expectResult);
 
             // Act
             var actual = await controller.GetNotification(0, 10);
@@ -53,7 +53,7 @@
         }
 
         [Fact]
-        public async Task GetNotificationSetting_WhenCalled_ReturnExpectedSettingList()
+        public async Task GetSetting_WhenCalled_ReturnExpectedSettingList()
         {
             // Arrange
             var settings = new List<NotificationSetting>
@@ -66,10 +66,10 @@
                 }
             };
             var controller = GetNotificationController();
-            notificationService.GetNotificationSetting(sessionService.EmployeeId).Returns(settings);
+            notificationService.GetSettingAsync(sessionService.EmployeeId).Returns(settings);
 
             // Act
-            var actual = await controller.GetNotificationSetting();
+            var actual = await controller.GetSetting();
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
@@ -78,7 +78,7 @@
         }
 
         [Fact]
-        public async Task UpdateNotificationSetting_WhenCalled_ReturnExpectedResult()
+        public async Task EditSettingAsync_WhenCalled_ReturnExpectedResult()
         {
             // Arrange
             var settings = new List<NotificationSetting>
@@ -98,10 +98,10 @@
             };
 
             var controller = GetNotificationController();
-            notificationService.UpdateNotificationSetting(sessionService.EmployeeId, settings).Returns(expected);
+            notificationService.EditSettingAsync(sessionService.EmployeeId, settings).Returns(expected);
 
             // Act
-            var actual = await controller.UpdateNotiSetting(settings);
+            var actual = await controller.EditSetting(settings);
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
@@ -120,7 +120,7 @@
             };
 
             var controller = GetNotificationController();
-            notificationService.ReadNotification(1, sessionService.EmployeeId).Returns(expected);
+            notificationService.ReadNotificationAsync(1, sessionService.EmployeeId).Returns(expected);
 
             // Act
             var actual = await controller.ReadNotification(1);
@@ -132,7 +132,7 @@
         }
 
         [Fact]
-        public async Task MarkAsReadNoti_WhenCalled_ReturnExpectedResult()
+        public async Task MarkAsRead_WhenCalled_ReturnExpectedResult()
         {
             // Arrange
             var expected = new CommandResult
@@ -142,10 +142,10 @@
             };
 
             var controller = GetNotificationController();
-            notificationService.MarkAsReadNotification(sessionService.EmployeeId).Returns(expected);
+            notificationService.MarkAsReadAsync(sessionService.EmployeeId).Returns(expected);
 
             // Act
-            var actual = await controller.MarkAsReadNotification();
+            var actual = await controller.MarkAsRead();
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);

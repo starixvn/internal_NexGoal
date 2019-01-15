@@ -23,6 +23,8 @@ import MemberPerformanceAppraisal from './performance-appraisal/MemberPerformanc
 import Announcement from '../../shared/components/Announcement';
 import Marquee from '../../shared/components/Marquee';
 
+const queryString = require('query-string');
+
 export default class App extends Component {
     constructor(props) {
         super(props);
@@ -49,6 +51,7 @@ export default class App extends Component {
 
         this.infiniteScrollRef = React.createRef();
         this.memberTimelineRef = React.createRef();
+        this.createPerformanceCheckinWrapperRef = React.createRef();
 
         this.currentUser = {
             ...getCurrentUserInfo(),
@@ -106,8 +109,22 @@ export default class App extends Component {
                     displayedPerformanceRecords: displayedPerformanceRecords,
                     hasMore: displayedPerformanceRecords.length < memberPerformanceResponse.data.length,
                     announcements: announcementsResponse.data
-                });
+                }, () => this.checkUrlParams());
             }).catch(axiosError);
+    }
+
+    checkUrlParams = () => {
+        let params = queryString.parse(location.search);
+
+        if (params) {
+            if (params.recordId && parseInt(params.recordId)) {
+                this.handleClickTimelineNode(parseInt(params.recordId));
+            } else if (params.action && params.action === 'newrecord') {
+                this.createPerformanceCheckinWrapperRef.current.handleOpenForm();
+            } else if (params.activeTab && parseInt(params.activeTab)) {
+                this.handleSelectTab(parseInt(params.activeTab));
+            }
+        }
     }
 
     handleSelectTab = (key) => {
@@ -150,16 +167,18 @@ export default class App extends Component {
                 return element.performanceRecordId === performanceRecordId;
             });
 
-            let page = Math.ceil((index + 1) / this.itemPerPage);
+            if (index >= 0) {
+                let page = Math.ceil((index + 1) / this.itemPerPage);
 
-            this.refs.infiniteScrollRef.pageLoaded = page;
+                this.refs.infiniteScrollRef.pageLoaded = page;
 
-            this.loadMorePerformanceRecord(page, () => {
-                this.setState({
-                    performanceRecordIdHighlighted: performanceRecordId,
-                    activeTabKey: 1
-                }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
-            });
+                this.loadMorePerformanceRecord(page, () => {
+                    this.setState({
+                        performanceRecordIdHighlighted: performanceRecordId,
+                        activeTabKey: 1
+                    }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
+                });
+            }
         } else {
             this.setState({
                 performanceRecordIdHighlighted: performanceRecordId,
@@ -350,7 +369,7 @@ export default class App extends Component {
 
                                     <div className="record-list">
                                         <CustomScrollbars style={{ height: '100%' }} autoHide>
-                                            <CreateMemberPerformance
+                                            <CreateMemberPerformance ref={this.createPerformanceCheckinWrapperRef}
                                                 currentUser={currentUser}
                                                 memberOptions={this.memberOptions}
                                                 performanceGradeOptions={this.performanceGradeOptions}

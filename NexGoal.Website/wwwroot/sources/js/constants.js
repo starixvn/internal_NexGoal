@@ -78,6 +78,16 @@ export const ProbationTag = {
     label: 'Probation'
 };
 
+export const NotificationActionType = {
+    MyPageWithCreatePerformanceCheckin: 1,
+    MyPageWithSpecificPerformanceCheckin: 2,
+    MemberPageWithCreatePerformanceCheckin: 3,
+    MemberPageWithSpecificPerformanceCheckin: 4,
+    MemberPageWithActiveNominationTab: 5,
+    MemberPageWithActivePerformanceAppraisalTab: 6,
+    PAFocus: 7
+};
+
 export const PaginationOptions = {
     sizePerPage: 20,
     showTotal: false,

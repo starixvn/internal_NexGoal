@@ -10,5 +10,7 @@
         public int EmployeeId { get; set; }
         public string Content { get; set; }
         public int StatusId { get; set; }
+        public int ActionTypeId { get; set; }
+        public int? RecordId { get; set; }
     }
 }
