@@ -30,6 +30,7 @@ BEGIN
 
 	CREATE TABLE #tblProcessSetting (
 		PeriodId INT
+		,PerformanceRecordId INT
 		,NotificationMode TINYINT
 		,ProcessId TINYINT
 		,EvaluatorId INT
@@ -155,6 +156,7 @@ BEGIN
 
 	INSERT INTO #tblProcessSetting (
 		PeriodId
+		,PerformanceRecordId
 		,NotificationMode
 		,ProcessId
 		,EvaluatorId
@@ -165,6 +167,7 @@ BEGIN
 		,EndDate
 		)
 	SELECT DISTINCT period.PeriodId
+		,NULL AS PerformanceRecordId
 		,(CASE 
 			WHEN process.StartDate = @Today THEN @StartMode
 			ELSE @RemindMode END
@@ -191,6 +194,7 @@ BEGIN
 	
 	UNION
 	SELECT DISTINCT period.PeriodId
+		,pa.PerformanceRecordId
 		,@EndEvaluationMode AS NotificationMode
 		,process.ProcessId
 		,emp.EmployeeId
@@ -238,6 +242,7 @@ BEGIN
 			)
 
 	SELECT PeriodId
+		,PerformanceRecordId
 		,NotificationMode
 		,ProcessId
 		,EvaluatorId

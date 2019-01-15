@@ -11,7 +11,7 @@ Original:
 
 Revisions:
 Param's Explanation:
-    Notifications : '<ROOT><Row EmployeeId="" Content="" StatusId=""></Row></ROOT>'
+    Notifications : '<ROOT><Row EmployeeId="" Content="" StatusId="" ActionTypeId="" RecordId=""></Row></ROOT>'
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -23,6 +23,8 @@ BEGIN
 		EmployeeId INT
 		,Content NVARCHAR(MAX)
 		,StatusId TINYINT
+		,ActionTypeId TINYINT
+		,RecordId INT NULL
 		)
 
 	EXEC sp_xml_preparedocument @idoc OUTPUT
@@ -32,23 +34,31 @@ BEGIN
 		EmployeeId
 		,Content
 		,StatusId
+		,ActionTypeId
+		,RecordId
 		)
 	SELECT EmployeeId
 		,Content
 		,StatusId
-	FROM OPENXML(@idoc, '/Root/Row', 1) WITH (EmployeeId INT, Content NVARCHAR(MAX), StatusId TINYINT) AS data
+		,ActionTypeId
+		,RecordId
+	FROM OPENXML(@idoc, '/Root/Row', 1) WITH (EmployeeId INT, Content NVARCHAR(MAX), StatusId TINYINT, ActionTypeId TINYINT, RecordId INT) AS data
 
 	INSERT INTO dbo.[Notification] (
 		CreatorId
 		,EmployeeId
 		,Content
 		,StatusId
+		,ActionTypeId
+		,RecordId
 		,CreatedDate
 		)
 	SELECT - 1
 		,EmployeeId
 		,Content
 		,StatusId
+		,ActionTypeId
+		,RecordId
 		,@CreatedDate
 	FROM #tblNotification WITH (NOLOCK)
 

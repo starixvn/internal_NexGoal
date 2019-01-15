@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Notification_GetByEmployee] @EmployeeId INT
+﻿
+CREATE PROCEDURE [dbo].[Notification_GetByEmployee] @EmployeeId INT
 	,@PageSize INT
 	,@PageIndex INT
 	,@TotalItems INT OUT
@@ -17,6 +18,8 @@ BEGIN
 		,noti.EmployeeId
 		,noti.Content
 		,noti.StatusId
+		,noti.ActionTypeId
+		,noti.RecordId
 		,noti.CreatedDate
 	FROM dbo.[Notification] AS noti WITH (NOLOCK)
 	WHERE EmployeeId = @EmployeeId
@@ -24,10 +27,9 @@ BEGIN
 
 	FETCH NEXT @PageSize ROWS ONLY
 
-	SELECT @TotalItems = COUNT(1) 
+	SELECT @TotalItems = COUNT(1)
 		,@UnreadNoti = SUM(CASE 
-				WHEN noti.StatusId = 0
-					THEN 1
+				WHEN noti.StatusId = 0 THEN 1
 				ELSE 0
 				END)
 	FROM dbo.[Notification] AS noti WITH (NOLOCK)

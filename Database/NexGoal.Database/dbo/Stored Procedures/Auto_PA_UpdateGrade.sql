@@ -17,7 +17,8 @@ BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
 
-	DECLARE @idoc INT
+	DECLARE @PAClosed TINYINT = 4
+		,@idoc INT
 
 	CREATE TABLE #tblPARecord (
 		PARecordId INT
@@ -46,6 +47,13 @@ BEGIN
 	FROM dbo.PARecord AS pa WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN #tblPARecord AS tbl WITH (NOLOCK) ON pa.PARecordId = tbl.PARecordId
 		LEFT JOIN dbo.TOEIC AS toeic WITH (NOLOCK) ON pa.EmployeeId = toeic.EmpId
+
+	UPDATE record
+	SET record.GradeId = pa.GradeId
+	FROM dbo.PerformanceRecord AS record WITH (ROWLOCK, UPDLOCK)
+		INNER JOIN dbo.PARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
+		AND pa.StatusId = @PAClosed
+		INNER JOIN #tblPARecord AS tbl WITH (NOLOCK) ON pa.PARecordId = tbl.PARecordId
 
 	DROP TABLE #tblPARecord
 END

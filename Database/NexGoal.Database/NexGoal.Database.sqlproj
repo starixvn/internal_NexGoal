@@ -94,7 +94,6 @@
     <Build Include="dbo\Tables\EOQY.sql" />
     <Build Include="dbo\Tables\EOQYNominatorSetting.sql" />
     <Build Include="dbo\Tables\Discipline.sql" />
-    <Build Include="dbo\Tables\FlowTemplate.sql" />
     <Build Include="dbo\Views\ProjectSpentTime.sql" />
     <Build Include="dbo\Views\ProjectMember.sql" />
     <Build Include="dbo\Views\Employee.sql" />
