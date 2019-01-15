@@ -18,6 +18,20 @@
         private INotificationService notificationService;
 
         [Fact]
+        public void Index_WhenCalled_ReturnExpectedViewResult()
+        {
+            // Arrange
+            var controller = GetNotificationController();
+
+            // Act
+            var result = controller.Index();
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.Null(viewResult.ViewName);
+        }
+
+        [Fact]
         public async Task GetNotification_WhenCalled_ReturnExpectedNotification()
         {
             // Arrange
