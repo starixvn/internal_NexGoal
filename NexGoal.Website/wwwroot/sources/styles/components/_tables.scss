@@ -14,10 +14,11 @@
                 border-color: $table-border !important;
                 text-align: center;
                 vertical-align: middle !important;
-                padding: 11px 10px !important;
+                padding: 9px 10px !important;
                 background: $table-header-bg;
                 color: $table-header-color;
                 border-bottom: 0;
+                font-size: 16px;
             }
         }
 
@@ -34,7 +35,7 @@
             border-color: $table-border !important;
             vertical-align: middle !important;
             word-break: break-word;
-            padding: 4px;
+            padding: 4px 12px;
             height: 36px;
             box-sizing: border-box;
             &.title {
@@ -49,7 +50,7 @@
             font-weight: 600;
         }
 
-        &:not(.group-row):hover td:not(.title) {
+        &:not(.group-row):not(.team-group-row):hover td:not(.title) {
             background: $table-td-bg-hover;
         }
     }

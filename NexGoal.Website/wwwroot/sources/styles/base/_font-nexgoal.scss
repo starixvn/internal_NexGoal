@@ -19,6 +19,11 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+.icon-pdf:before {
+    content: "\e933";
+    color: #d10000;
+}
 .icon-bell:before {
     content: "\e932";
     color: #fff;

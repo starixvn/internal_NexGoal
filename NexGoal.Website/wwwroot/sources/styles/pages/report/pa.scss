@@ -14,29 +14,33 @@
 @import "../../components/toast";
 @import "../../pages/member/performance-appraisal";
 
-table {
+.table {
+    margin-bottom: 24px;
     tbody {
         p {
             margin: 0 !important;
         }
 
-        .icon-search:before {
-            color: #324373;
+        .icon-search{
+            margin-right: 20px;
+            &:before {
+                color: #0072C7;
+            }
+        }
+        [class*="icon-"] {
             cursor: pointer;
         }
 
         .team-group-row > td {
-            background-color: $table-border;
-            padding: 0 20px;
+            background-color: #E9E9E9;
+            padding: 0 12px;
             font-size: 14px;
+            color: #474747;
         }
 
         .green {
             color: $role-member-color;
         }
 
-        .red {
-            color: red;
-        }
     }
 }
