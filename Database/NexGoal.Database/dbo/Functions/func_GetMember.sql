@@ -63,7 +63,7 @@ BEGIN
 	--		AND [Enabled] = 1
 	--		AND IsDeleted = 0
 	--END
-
+	
 	IF EXISTS (
 			SELECT 1
 			FROM dbo.Period WITH (NOLOCK)
@@ -140,6 +140,7 @@ BEGIN
 			FROM dbo.PARecord AS pa WITH (NOLOCK)
 			WHERE efs.EmployeeId = pa.EmployeeId
 				AND pa.PeriodId = @PeriodId
+				AND pa.StatusId <> @PARejected
 			)
 		AND NOT EXISTS (
 			SELECT 1
@@ -169,6 +170,7 @@ BEGIN
 			FROM dbo.PARecord AS pa WITH (NOLOCK)
 			WHERE emp.EmployeeId = pa.EmployeeId
 				AND pa.PeriodId = @PeriodId
+				AND pa.StatusId <> @PARejected
 			)
 		AND NOT EXISTS (
 			SELECT 1

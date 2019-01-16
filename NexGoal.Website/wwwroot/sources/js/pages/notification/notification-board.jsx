@@ -15,14 +15,6 @@ export default class NotificationBoard extends Component {
         };
     }
 
-    handleReadNotification = (statusId, notificationId) => {
-        this.props.onReadNotification(notificationId, statusId);
-    }
-
-    onLoadMoreNotification = () => {
-        this.props.loadMoreNotification;
-    }
-
     handleClickSetting = () => {
         this.setState({
             isShowSettingModal: true
@@ -61,7 +53,7 @@ export default class NotificationBoard extends Component {
                             notifications &&
                             <InfiniteScroll initialLoad={false}
                                 pageStart={1}
-                                loadMore={this.onLoadMoreNotification}
+                                loadMore={this.props.onLoadMore}
                                 hasMore={this.props.hasMore}
                                 useWindow={false}
                             >
@@ -70,10 +62,12 @@ export default class NotificationBoard extends Component {
                                         const notiStatus = item.statusId === NotificationStatus.Unread ? 'unread' : '';
                                         return (
                                             <div className={`noti-center-item ${notiStatus} noti-${item.notificationId}`}
-                                                onClick={() => this.handleReadNotification(item.statusId, item.notificationId)}
+                                                onClick={() => this.props.onChangeStatus(item.notificationId, item.statusId)}
                                             >
                                                 <img className="avatar" src={item.creator.avatar} />
-                                                <div className="description">{item.content}</div>
+                                                <div className="description">
+                                                    <a onClick={() => this.props.onRedirect(item.notificationId)}>{item.content}</a>
+                                                </div>
                                             </div>
                                         );
                                     })

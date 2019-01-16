@@ -82,7 +82,10 @@
                 Content = x.ProcessId == PerformanceProcess.Self
                     ? string.Format(Message.NotificationTemplate_Probation_RemindToMember, mailService.FormatEndDate(x.EndDate))
                     : string.Format(Message.NotificationTemplate_Probation_RemindToEvaluator, mailService.FormatEndDate(x.EndDate)),
-                StatusId = (int)NotificationStatus.Unread
+                StatusId = (int)NotificationStatus.Unread,
+                ActionTypeId = x.ProcessId == PerformanceProcess.Self
+                    ? (int)NotificationActionType.MyPageWithCreatePerformanceCheckin
+                    : (int)NotificationActionType.MemberPageWithCreatePerformanceCheckin
             }));
 
             if (notifications.Any())

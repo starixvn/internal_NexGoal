@@ -175,7 +175,7 @@ export default class NotificationBell extends Component {
         }).catch(axiosError);
     }
 
-    handleReadNotification = (notificationId, statusId) => {
+    handleChangeStatus = (notificationId, statusId) => {
         if (statusId === NotificationStatus.Unread) {
             axios.get(resolveClientUrl('Notification/ReadNotification'), {
                 params: {
@@ -183,14 +183,10 @@ export default class NotificationBell extends Component {
                 }
             }).then(response => {
                 let data = response.data;
-                if (data.isSuccessful) {
-                    this.handleRedirectToAction(notificationId);
-                } else {
+                if (!data.isSuccessful) {
                     toast.error(data.message);
                 }
             }).catch(axiosError);
-        } else {
-            this.handleRedirectToAction(notificationId);
         }
     }
 
@@ -224,10 +220,11 @@ export default class NotificationBell extends Component {
                     this.state.isShowNoti &&
                     <div className="noti-wrapper">
                         <Notification notifications={this.state.notifications}
-                            loadMoreNotification={this.handleLoadMoreNotification}
-                            onReadNotification={this.handleReadNotification}
+                            onLoadMore={this.handleLoadMoreNotification}
+                            onChangeStatus={this.handleChangeStatus}
                             onMarkAsRead={this.handleMarkAsRead}
                             onClickSetting={this.onHideNoti}
+                            onRedirect={this.handleRedirectToAction}
                             hasMore={this.state.hasMore}
                         />
                         <a className="show-all-noti" href={resolveClientUrl('Notification')}>View all</a>

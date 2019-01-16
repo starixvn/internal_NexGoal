@@ -244,6 +244,8 @@
     <Build Include="dbo\Stored Procedures\PMSetting_Get.sql" />
     <Build Include="dbo\Stored Procedures\PMSetting_Delete.sql" />
     <Build Include="dbo\Stored Procedures\Auto_Probation_GetSettingToSendNotification.sql" />
+    <Build Include="dbo\Stored Procedures\PARecord_GetPerformanceAppraisalResult.sql" />
+    <Build Include="dbo\Stored Procedures\PARecord_GetMemberPerformanceAppraisalResult.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">

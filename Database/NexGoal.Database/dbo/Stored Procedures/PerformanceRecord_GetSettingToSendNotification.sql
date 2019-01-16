@@ -132,7 +132,7 @@ BEGIN
 			SELECT 1
 			FROM #tblResult AS tbl WITH (NOLOCK)
 			WHERE record.PerformanceRecordId = tbl.PerformanceRecordId
-				AND process.EvaluatorId = tbl.EvaluatorId
+				AND process.ProcessId = tbl.ProcessId
 			)
 
 	INSERT INTO #tblResult (
@@ -164,6 +164,7 @@ BEGIN
 		INNER JOIN dbo.Employee AS evaluator WITH (NOLOCK) ON efs.EvaluatorId = evaluator.EmployeeId
 		LEFT JOIN dbo.PARecord AS pa WITH (NOLOCK) ON pa.EmployeeId = efs.EmployeeId
 		AND pa.PeriodId = @PeriodId
+		AND pa.StatusId <> @PARejected
 	WHERE efs.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
 		AND efs.EvaluatorId <> @ActorId
 		AND pa.PARecordId IS NULL
@@ -171,7 +172,7 @@ BEGIN
 			SELECT 1
 			FROM #tblResult AS tbl WITH (NOLOCK)
 			WHERE record.PerformanceRecordId = tbl.PerformanceRecordId
-				AND efs.EvaluatorId = tbl.EvaluatorId
+				AND efs.ProcessId = tbl.ProcessId
 			)
 
 	INSERT INTO #tblResult (
@@ -206,6 +207,7 @@ BEGIN
 		INNER JOIN dbo.Employee AS evaluator WITH (NOLOCK) ON gfs.EvaluatorId = evaluator.EmployeeId
 		LEFT JOIN dbo.PARecord AS pa WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
 		AND pa.PeriodId = @PeriodId
+		AND pa.StatusId <> @PARejected
 	WHERE gfs.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
 		AND gfs.EvaluatorId <> @ActorId
 		AND pa.PARecordId IS NULL
@@ -213,7 +215,7 @@ BEGIN
 			SELECT 1
 			FROM #tblResult AS tbl WITH (NOLOCK)
 			WHERE record.PerformanceRecordId = tbl.PerformanceRecordId
-				AND gfs.EvaluatorId = tbl.EvaluatorId
+				AND gfs.ProcessId = tbl.ProcessId
 			)
 
 	-- project manager
@@ -237,13 +239,13 @@ BEGIN
 		,emp.Email
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		,#tblPerformanceRecordIds AS record WITH (NOLOCK)
-	WHERE emp.EmployeeId <> @ActorId		
+	WHERE emp.EmployeeId <> @ActorId
 		AND record.RoleId = @SelfProcessId
 		AND EXISTS (
 			SELECT 1
 			FROM dbo.PMSetting AS pmsetting WITH (NOLOCK)
 			WHERE emp.EmployeeId = pmsetting.ProjectManagerId
-			AND record.EmployeeId = pmsetting.MemberId
+				AND record.EmployeeId = pmsetting.MemberId
 			)
 
 	SELECT PerformanceRecordId

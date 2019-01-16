@@ -1,11 +1,10 @@
-﻿import React, { Component } from 'react';
+﻿import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import InfiniteScroll from 'react-infinite-scroller';
 
 import getResource from '../../../resourceHelper';
 import { NotificationStatus } from '../../../constants';
 import NotificationSetting from './NotificationSetting';
-import ToastLayout from '../../layouts/ToastLayout';
 import CustomScrollbars from '../CustomScrollbars';
 
 export default class Notification extends Component {
@@ -45,18 +44,6 @@ export default class Notification extends Component {
         }
     }
 
-    onLoadMoreNotification = () => {
-        this.props.loadMoreNotification();
-    }
-
-    handleReadNotification = (statusId, notificationId) => {
-        this.props.onReadNotification(notificationId, statusId);
-    }
-
-    handleMarkAsRead = () => {
-        this.props.onMarkAsRead();
-    }
-
     handleClickSetting = () => {
         this.setState({
             isShowSettingModal: true
@@ -72,11 +59,11 @@ export default class Notification extends Component {
     render() {
         const notifications = this.props.notifications;
         return (
-            <ToastLayout>
+            <Fragment>
                 <div className="noti-header">
                     <span className="title">{getResource('Notification')}</span>
                     <span className="noti-function">
-                        <a className="mark-read" onClick={this.handleMarkAsRead}>Mark as read</a>
+                        <a className="mark-read" onClick={this.props.onMarkAsRead}>Mark as read</a>
                         <span className="dash" />
                         <a className="setting" onClick={this.handleClickSetting}>Settings</a>
                     </span>
@@ -87,7 +74,7 @@ export default class Notification extends Component {
                             notifications &&
                             <InfiniteScroll initialLoad={false}
                                 pageStart={1}
-                                loadMore={this.onLoadMoreNotification}
+                                loadMore={this.props.onLoadMore}
                                 hasMore={this.props.hasMore}
                                 useWindow={false}
                             >
@@ -96,10 +83,12 @@ export default class Notification extends Component {
                                         const notiStatus = item.statusId === NotificationStatus.Unread ? 'unread' : '';
                                         return (
                                             <div className={`noti-item ${notiStatus} noti-${item.notificationId}`}
-                                                onClick={() => this.handleReadNotification(item.statusId, item.notificationId)}
+                                                onClick={() => this.props.onChangeStatus(item.notificationId, item.statusId)}
                                             >
                                                 <img className="avatar" src={item.creator.avatar} />
-                                                <div className="description">{item.content}</div>
+                                                <div className="description">
+                                                    <a onClick={() => this.props.onRedirect(item.notificationId)}>{item.content}</a>
+                                                </div>
                                             </div>
                                         );
                                     })
@@ -115,7 +104,7 @@ export default class Notification extends Component {
                         onCloseModal={this.handleCancelSetting}
                     />
                 }
-            </ToastLayout>
+            </Fragment>
         );
     }
 }

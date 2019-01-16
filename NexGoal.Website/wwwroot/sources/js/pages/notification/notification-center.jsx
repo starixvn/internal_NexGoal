@@ -172,7 +172,7 @@ export default class NotificationCenter extends Component {
         }
     }
 
-    handleReadNotification = (notificationId, statusId) => {
+    handleChangeStatus = (notificationId, statusId) => {
         if (statusId === NotificationStatus.Unread) {
             axios.get(resolveClientUrl('Notification/ReadNotification'), {
                 params: {
@@ -180,14 +180,10 @@ export default class NotificationCenter extends Component {
                 }
             }).then(response => {
                 let data = response.data;
-                if (data.isSuccessful) {
-                    this.handleRedirectToAction(notificationId);
-                } else {
+                if (!data.isSuccessful) {
                     toast.error(data.message);
                 }
             }).catch(axiosError);
-        } else {
-            this.handleRedirectToAction(notificationId);
         }
     }
 
@@ -230,9 +226,10 @@ export default class NotificationCenter extends Component {
                         </div>
                         <div className="noti-record">
                             <NotificationBoard notifications={this.state.notifications}
-                                onLoadMoreNotification={this.handleLoadMoreNotification}
-                                onReadNotification={this.handleReadNotification}
+                                onLoadMore={this.handleLoadMoreNotification}
+                                onChangeStatus={this.handleChangeStatus}
                                 onMarkAsRead={this.handleMarkAsRead}
+                                onRedirect={this.handleRedirectToAction}
                             />
                         </div>
                     </div>

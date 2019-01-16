@@ -13,10 +13,10 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @Tomorrow DATE = DATEADD(DAY, 1, GETDATE())
+	DECLARE @Today DATE = GETDATE()
 
 	SELECT PeriodId
 	FROM dbo.Period WITH (NOLOCK)
-	WHERE FocusStartDate = @Tomorrow
+	WHERE FocusStartDate = @Today
 		AND IsActive = 1
 END

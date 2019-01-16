@@ -25,6 +25,7 @@ BEGIN
 		-- PA Status
 		,@PAOpened TINYINT = 2
 		,@PAInProgress TINYINT = 3
+		,@PAClosed TINYINT = 4
 
 	CREATE TABLE #tblEmployeeIds (
 		RowNum INT NOT NULL IDENTITY(1, 1) PRIMARY KEY
@@ -35,7 +36,7 @@ BEGIN
 	SELECT emp.EmployeeId
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN dbo.PARecord AS record WITH (NOLOCK) ON emp.EmployeeId = record.EmployeeId
-		AND record.StatusId IN (@PAOpened, @PAInProgress)
+		AND record.StatusId IN (@PAOpened, @PAInProgress, @PAClosed)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON record.PeriodId = period.PeriodId
 		AND period.PeriodId = @PeriodId
 		AND period.IsActive = 1

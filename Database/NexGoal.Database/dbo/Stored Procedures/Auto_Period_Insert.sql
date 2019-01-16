@@ -46,7 +46,8 @@ BEGIN
 		SELECT @DisciplineEndDate = MAX(DisciplineEndDate)
 		FROM dbo.Period WITH (NOLOCK)
 		WHERE TargetTypeId = @SemiTargetTypeId
-
+		
+		SET @DisciplineEndDate = ISNULL(@DisciplineEndDate, @Today)
 		SET @StartDate = DATEADD(DAY, 1 - DAY(DATEADD(MONTH, 6, @DisciplineEndDate)), DATEADD(MONTH, 6, @DisciplineEndDate))
 		SET @EndDate = DATEADD(DAY, - 1, DATEADD(MONTH, 1, @StartDate))
 		SET @DisciplineStartDate = DATEADD(DAY, 1, @DisciplineEndDate)

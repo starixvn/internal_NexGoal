@@ -20,7 +20,7 @@
                         return pa;
                     },
                     "PeriodId",
-                    criteria.GetSpParams());
+                    criteria).ConfigureAwait(false);
 
                 return records;
             }
@@ -38,7 +38,7 @@
                         return pa;
                     },
                     "EmployeeId, PeriodId",
-                    criteria.GetSpParams());
+                    criteria).ConfigureAwait(false);
 
                 return records;
             }
