@@ -24,5 +24,6 @@ BEGIN
 		,EndDateForCommittee
 		,[Description]
 	FROM dbo.EOQY WITH (NOLOCK)
+	WHERE EndDateForCommittee < @Today
 	ORDER BY EndDateForCommittee DESC
 END

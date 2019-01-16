@@ -45,7 +45,6 @@ export default class Table extends Component {
     }
 
     renderRecord = (record, index) => {
-        let adjustmentScore = parseInt(record.gradeId) - parseInt(record.originalGradeId);
         let rowSpan = record.awards.length === 0 ? 1 : record.awards.length;
 
         return (
@@ -54,7 +53,6 @@ export default class Table extends Component {
                     <td rowSpan={rowSpan} className="text-center">{index + 1}</td>
                     <td rowSpan={rowSpan} >{record.nickName} ({record.fullName})</td>
                     <td rowSpan={rowSpan} >{record.jobTitle}</td>
-                    <td rowSpan={rowSpan} className="text-center">{adjustmentScore !== 0 && (adjustmentScore > 0 ? `+${adjustmentScore}` : adjustmentScore)}</td>
                     <td rowSpan={rowSpan} className="text-center">{record.grade}</td>
                     <td rowSpan={rowSpan} className="text-center">{record.contribution}</td>
                     <td rowSpan={rowSpan} className="text-center">{record.bonusGiven}</td>
@@ -100,19 +98,11 @@ export default class Table extends Component {
 
         return (
             <table className="table table-bordered table-striped tbl-master-report">
-                <colgroup>
-                    <col className="" />
-                    <col className="" />
-                    <col className="" />
-                    <col className="" />
-                    <col className="" />
-                </colgroup>
                 <thead ref='stickyHeader'>
                     <tr>
                         <th rowSpan={2} className="order">{getResource('SymbolCount')}</th>
                         <th rowSpan={2} className="">{getResource('Employee')}</th>
                         <th rowSpan={2} className="">{getResource('JobTitle')}</th>
-                        <th rowSpan={2}>Reviewer's Adjustment</th>
                         <th rowSpan={2} className="">PA Final Score</th>
                         <th rowSpan={2}>
                             Best Suited to Team Goals

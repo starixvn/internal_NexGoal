@@ -2,6 +2,7 @@
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { Tabs, Tab } from 'react-bootstrap';
+import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
@@ -29,7 +30,7 @@ export default class MasterReport extends Component {
             objectiveMessageModal: {
                 showModal: false,
                 message: ''
-            }
+            },
         };
     }
 
@@ -109,6 +110,8 @@ export default class MasterReport extends Component {
         })
 
     render() {
+        const filter = this.state.filter;
+
         return (
             <div className="row">
                 <Breadcrumb>
@@ -121,6 +124,11 @@ export default class MasterReport extends Component {
                         employeeOptions={this.state.employeeOptions}
                         onFilterChange={this.handleFilterChange}
                         onFilterSubmit={this.getRecords}
+                        exportUrl={`MasterReport/Export?${stringify({
+                            periodId: filter.period ? filter.period.value : null,
+                            groupIds: filter.groups.map(x => x.value).toString(),
+                            employeeIds: filter.employees.map(x => x.value).toString(),
+                        })}`}
                     />
                     <Table tableData={this.state.tableData} onViewObjectiveMessage={this.handleOpenObjectiveMessageModal} />
                 </div>

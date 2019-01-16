@@ -14,6 +14,8 @@
 
         public int GroupId { get; set; }
 
+        public string GroupName { get; set; }
+
         public string OriginalGradeId { get; set; }
 
         public string OriginalGrade { get; set; }

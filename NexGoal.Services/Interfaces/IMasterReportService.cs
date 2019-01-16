@@ -10,5 +10,7 @@
         Task<IEnumerable<PeriodBaseModel>> GetPeriods();
 
         Task<IEnumerable<MasterReportModel>> GetRecords(int periodId, string groupIds, string employeeIds);
+
+        Task<byte[]> ExportAsync(int periodId, string groupIds, string employeeIds);
     }
 }
