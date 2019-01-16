@@ -6,27 +6,33 @@
 @import "../../components/react-select";
 @import "../../components/form-inline";
 @import "../../components/form";
+@import "../../components/tabs";
 @import "../../components/modal";
 @import "../../components/messages";
 @import "../../components/tables";
 @import "../../components/table-search";
+@import "../../layouts/record";
+@import "../../layouts/role";
 @import '~react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 @import "../../components/toast";
-@import "../../pages/member/performance-appraisal";
+@import "../member/performance-appraisal";
 
 .table {
     margin-bottom: 24px;
+
     tbody {
         p {
             margin: 0 !important;
         }
 
-        .icon-search{
+        .icon-search {
             margin-right: 20px;
+
             &:before {
                 color: #0072C7;
             }
         }
+
         [class*="icon-"] {
             cursor: pointer;
         }
@@ -41,6 +47,5 @@
         .green {
             color: $role-member-color;
         }
-
     }
 }

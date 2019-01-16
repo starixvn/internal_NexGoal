@@ -14,6 +14,9 @@
         public int EmployeeId { get; set; }
         public EmployeeBaseModel Employee { get; set; }
 
+        public int ReviewerId { get; set; }
+        public EmployeeBaseModel Reviewer { get; set; }
+
         public int StatusId { get; set; }
         public string Status { get; set; }
 

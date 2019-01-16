@@ -35,6 +35,7 @@
         {
             services.Configure<AppSettings>(options => Configuration.GetSection("AppSettings").Bind(options));
             services.Configure<MailConfigs>(options => Configuration.GetSection("MailConfigs").Bind(options));
+            services.Configure<ChatbotConfigs>(options => Configuration.GetSection("ChatbotConfigs").Bind(options));
             //// string encryptedPassword = Cryptography.EncryptPassword("@357$abc^FFZ%");
             Dictionary<string, string> connections = Configuration
                 .GetSection("ConnectionStrings")

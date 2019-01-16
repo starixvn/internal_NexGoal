@@ -290,7 +290,7 @@ export default class PerformanceRecord extends Component {
                     this.props.pageType === PageType.MemberPage &&
                     <Fragment>
                         <div className="avatar-user">
-                            <span className={`icon-${getNominationClassName(nominationStatusId)} ${record.nominationPeriod.quarter ? 'eoq' : 'eoy'} avatar`}/>
+                            <span className={`icon-${getNominationClassName(nominationStatusId)} ${record.nominationPeriod.quarter ? 'eoq' : 'eoy'} avatar`} />
                             <div className="person-info">
                                 <span className={getRoleClassName(record.roleId)}>
                                     {record.nominationPeriod && record.nominationPeriod.title}

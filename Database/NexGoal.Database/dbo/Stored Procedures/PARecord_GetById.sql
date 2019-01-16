@@ -20,6 +20,11 @@ BEGIN
 		-- PA status
 		,@PAInProgress TINYINT = 3
 		,@PAClosed TINYINT = 4
+		,@ReviewerId INT
+
+	SELECT @ReviewerId = p.EvaluatorId
+	FROM dbo.PAProcess as p WITH (NOLOCK)
+	WHERE p.PARecordId = @PARecordId AND p.ProcessId = @ReviewerProcessId
 
 	SELECT @ProcessId = MAX(process.ProcessId)
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
@@ -38,6 +43,7 @@ BEGIN
 		,pa.EmployeeId
 		,pa.ModifiedDate
 		,pa.OriginalGradeId
+		,@ReviewerId as ReviewerId
 		,(CASE 
 			WHEN @ProcessId = @ReviewerProcessId AND (@Today BETWEEN p.StartDate AND p.EndDate) THEN @PAInProgress
 			ELSE @PAClosed END

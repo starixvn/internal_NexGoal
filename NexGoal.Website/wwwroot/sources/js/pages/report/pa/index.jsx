@@ -6,6 +6,7 @@ import getResource from '../../../resourceHelper';
 import Breadcrumb from '../../../shared/components/Breadcrumb';
 import Filter from './filter';
 import Table from './table';
+import ViewPADetail from '../../../shared/components/performance-appraisal/ViewPADetail';
 
 export default class App extends Component {
     constructor(props) {
@@ -16,7 +17,9 @@ export default class App extends Component {
                 groups: [],
                 employee: null
             },
-            paPeriodRecords: []
+            paPeriodRecords: [],
+            isShowPADetail: false,
+            paDetailId: null
         };
 
         this.periodOptions = [];
@@ -101,6 +104,20 @@ export default class App extends Component {
             }).catch(axiosError);
     }
 
+    handleClickViewPADetail = (paRecordId) => {
+        this.setState({
+            isShowPADetail: true,
+            paDetailId: paRecordId
+        });
+    }
+
+    handleClosePADetailModel = () => {
+        this.setState({
+            paDetailId: null,
+            isShowPADetail: false
+        });
+    }
+
     handleFilterSubmit = () => {
         this.getPARecords();
     }
@@ -177,7 +194,18 @@ export default class App extends Component {
                         onSubmit={this.handleFilterSubmit}
                         exportExcel={this.handleExportExcel}
                     />
-                    <Table periodRecords={this.state.paPeriodRecords} exportPDF={this.handleExportPDF} />
+                    <Table periodRecords={this.state.paPeriodRecords}
+                        exportPDF={this.handleExportPDF}
+                        showPaDetail={this.handleClickViewPADetail}
+                    />
+                    {
+                        this.state.isShowPADetail &&
+                        <ViewPADetail
+                            isShowModal={this.state.isShowPADetail}
+                            paRecordId={this.state.paDetailId}
+                            onCloseModal={this.handleClosePADetailModel}
+                        />
+                    }
                 </div>
             </div>
         );

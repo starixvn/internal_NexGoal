@@ -228,7 +228,7 @@
             }
 
             paRecord.Employee = employees.FirstOrDefault(x => x.EmployeeId == paRecord.EmployeeId);
-
+            paRecord.Reviewer = employees.FirstOrDefault(x => x.EmployeeId == paRecord.ReviewerId);
             paRecord.GradeId = cryptoService.Decrypt(paRecord.GradeId);
             paRecord.OriginalGradeId = cryptoService.Decrypt(paRecord.OriginalGradeId);
             int.TryParse(paRecord.GradeId, out gradeId);

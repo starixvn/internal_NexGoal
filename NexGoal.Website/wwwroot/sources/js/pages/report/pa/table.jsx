@@ -119,7 +119,7 @@ export default class Table extends Component {
     }
 
     showPADetails = (paRecordId) => {
-        console.log(paRecordId);
+        this.props.showPaDetail(paRecordId);
     }
 
     countDuplicateGrades = (grades) => {
