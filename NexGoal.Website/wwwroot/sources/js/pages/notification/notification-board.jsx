@@ -62,11 +62,11 @@ export default class NotificationBoard extends Component {
                                         const notiStatus = item.statusId === NotificationStatus.Unread ? 'unread' : '';
                                         return (
                                             <div className={`noti-center-item ${notiStatus} noti-${item.notificationId}`}
-                                                onClick={() => this.props.onChangeStatus(item.notificationId, item.statusId)}
+                                                onClick={() => this.props.onChangeStatus(item.notificationId, item.statusId, false)}
                                             >
                                                 <img className="avatar" src={item.creator.avatar} />
                                                 <div className="description">
-                                                    <a onClick={() => this.props.onRedirect(item.notificationId)}>{item.content}</a>
+                                                    <a onClick={() => this.props.onChangeStatus(item.notificationId, item.statusId, true)}>{item.content}</a>
                                                 </div>
                                             </div>
                                         );

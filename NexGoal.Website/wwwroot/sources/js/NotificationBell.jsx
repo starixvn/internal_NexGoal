@@ -46,6 +46,32 @@ export default class NotificationBell extends Component {
         this.removeEventListener();
     }
 
+    getNotifications = () => {
+        axios.get(resolveClientUrl('Notification/GetNotification'), {
+            params: {
+                pageIndex: this.state.pageIndex,
+                pageSize: this.pageSize
+            }
+        }).then(response => {
+            const data = response.data;
+            let notifications = this.state.notifications;
+            notifications.push(...data.notifications);
+            this.setState({
+                notifications: notifications,
+                unreadNoti: data.unreadNoti,
+                hasMore: notifications.length < data.total
+            });
+        }).catch(axiosError);
+    }
+
+    triggerNotificationCenter = (notificationId) => {
+        let notiCenterTrigger = document.getElementById('trigger-notification-center');
+        if (notiCenterTrigger) {
+            notiCenterTrigger.setAttribute("notificationId", notificationId);
+            notiCenterTrigger.click();
+        }
+    }
+
     addEventListener = () => {
         let notiTrigger = document.getElementById('trigger-notification-bell');
         if (notiTrigger) {
@@ -53,6 +79,8 @@ export default class NotificationBell extends Component {
                 let notificationId = parseInt(notiTrigger.getAttribute("notificationId"));
                 if (!notificationId) {
                     this.markAsReadSuccess();
+                } else {
+                    this.handleChangeStatusSuccess(notificationId);
                 }
             }, false);
         }
@@ -119,10 +147,7 @@ export default class NotificationBell extends Component {
             unreadNoti: 0
         });
 
-        let notiCenterTrigger = document.getElementById('trigger-notification-center');
-        if (notiCenterTrigger) {
-            notiCenterTrigger.click();
-        }
+        this.triggerNotificationCenter();
     }
 
     handleClickOutside = (event) => {
@@ -157,25 +182,22 @@ export default class NotificationBell extends Component {
         }
     }
 
-    getNotifications = () => {
-        axios.get(resolveClientUrl('Notification/GetNotification'), {
-            params: {
-                pageIndex: this.state.pageIndex,
-                pageSize: this.pageSize
-            }
-        }).then(response => {
-            const data = response.data;
-            let notifications = this.state.notifications;
-            notifications.push(...data.notifications);
+    handleChangeStatusSuccess = (notificationId) => {
+        let notifications = this.state.notifications.slice();
+        let index = notifications.findIndex(x => x.notificationId === notificationId);
+
+        if (index >= 0) {
+            notifications[index].statusId = NotificationStatus.Read;
             this.setState({
                 notifications: notifications,
-                unreadNoti: data.unreadNoti,
-                hasMore: notifications.length < data.total
+                unreadNoti: this.state.unreadNoti - 1
             });
-        }).catch(axiosError);
+
+            this.triggerNotificationCenter(notificationId);
+        }
     }
 
-    handleChangeStatus = (notificationId, statusId) => {
+    handleChangeStatus = (notificationId, statusId, isRedirect) => {
         if (statusId === NotificationStatus.Unread) {
             axios.get(resolveClientUrl('Notification/ReadNotification'), {
                 params: {
@@ -183,10 +205,18 @@ export default class NotificationBell extends Component {
                 }
             }).then(response => {
                 let data = response.data;
-                if (!data.isSuccessful) {
+                if (data.isSuccessful) {
+                    if (isRedirect) {
+                        this.handleRedirectToAction(notificationId);
+                    } else {
+                        this.handleChangeStatusSuccess(notificationId);
+                    }
+                } else {
                     toast.error(data.message);
                 }
             }).catch(axiosError);
+        } else if (isRedirect) {
+            this.handleRedirectToAction(notificationId);
         }
     }
 
@@ -224,7 +254,6 @@ export default class NotificationBell extends Component {
                             onChangeStatus={this.handleChangeStatus}
                             onMarkAsRead={this.handleMarkAsRead}
                             onClickSetting={this.onHideNoti}
-                            onRedirect={this.handleRedirectToAction}
                             hasMore={this.state.hasMore}
                         />
                         <a className="show-all-noti" href={resolveClientUrl('Notification')}>View all</a>

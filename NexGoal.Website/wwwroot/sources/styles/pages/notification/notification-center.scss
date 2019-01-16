@@ -73,9 +73,9 @@
             margin: 10px;
             display: flex;
             border: 1px solid #E9E9E9;
-            cursor: pointer;
 
             &.unread {
+                cursor: pointer;
                 font-weight: bold;
                 background-color: #E0F3FF;
             }
