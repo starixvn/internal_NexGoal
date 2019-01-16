@@ -12,6 +12,7 @@ import axios from 'axios';
 import { axiosError, getCurrentUserInfo, resolveClientUrl } from '../../../common-functions';
 import { PerformanceProcess, PAStatus, DateFormat } from '../../../constants';
 import PerformanceRecord from '../../../shared/components/PerformanceRecord';
+import PAProcessTab from '../../../shared/components/performance-appraisal/PAProcessTab';
 
 export default class EditMemberPA extends Component {
     constructor(props) {
@@ -27,8 +28,7 @@ export default class EditMemberPA extends Component {
             paProcesses: [],
             currentUserInfo: getCurrentUserInfo(),
             currentDate: moment(),
-            errors: {},
-            activeTabKey: 1
+            errors: {}
         };
     }
 
@@ -132,53 +132,23 @@ export default class EditMemberPA extends Component {
         }
     }
 
-    handleSelectTab = (key) => {
-        this.setState({ activeTabKey: key });
-    }
-
-    renderRecordByProcess = (processId) => {
-        let paProcesses = this.state.paProcesses.filter(p => p.processId === processId);
-        if (paProcesses.length > 0) {
-            return paProcesses.map(process => {
-                if (process.performanceRecord) {
-                    const paRecord = {
-                        typeId: 1,
-                        roleId: process.processId,
-                        creator: process.evaluator,
-                        comment: process.performanceRecord.comment,
-                        grade: process.performanceRecord.grade
-                    };
-                    return (
-                        <PerformanceRecord data={paRecord} isHideProjectTag />
-                    );
-                } else {
-                    return <span>{getResource('NoRecordFound')}</span>;
-                }
-            });
-        }
-        return <span>{getResource('NoRecordFound')}</span>;
-    };
-
     render() {
         let paRecord = this.state.paRecord;
         let errors = this.state.errors;
-        const selfRecord = this.renderRecordByProcess(PerformanceProcess.Self);
-        const pmRecords = this.renderRecordByProcess(PerformanceProcess.ProjectManager);
-        const evaluatorRecord = this.renderRecordByProcess(PerformanceProcess.Evaluator);
-        const reviewerRecord = this.renderRecordByProcess(PerformanceProcess.Reviewer);
+        let employees = [];
+        employees.push(this.state.employee);
         const currentUserInfo = this.state.currentUserInfo;
-
+        let title = this.state.paRecord.paStatus === PAStatus.Closed ?
+            getResource('PerformanceAppraisal') :
+            getResource('EditPerformanceAppraisal');
+        title += " OF " + this.state.employee.nickName;
         return (
             <Modal keyboard={false} backdrop="static"
                 show={this.props.isShowModal} onHide={this.props.onCloseModal}
                 dialogClassName="custom-modal modal-md form-performance edit performance-appraisal"
             >
                 <Modal.Header>
-                    <Modal.Title>
-                        {this.state.paRecord.paStatus === PAStatus.Closed ?
-                            getResource('PerformanceAppraisal') :
-                            getResource('EditPerformanceAppraisal')}
-                    </Modal.Title>
+                    <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <CustomScrollbars>
@@ -187,14 +157,13 @@ export default class EditMemberPA extends Component {
                                 <img src={currentUserInfo.avatar} className="avatar" />
                                 <div className="person-info">
                                     <span className="role-reviewer">{currentUserInfo.nickName}</span>
+                                    <span className="icon-checkin" />
+                                    <span className="role-member">{this.state.employee.nickName}</span>
                                     <div className="submit-date">{this.state.currentDate.format(DateFormat)}</div>
                                 </div>
                             </div>
                             <div className="comment">
                                 <form className="form-filter form-performance edit">
-                                    <FormGroup>
-                                        <div>Member: <strong>{this.state.employee.nickName}</strong></div>
-                                    </FormGroup>
                                     <FormGroup>
                                         <ControlLabel>{getResource('Comment')}</ControlLabel>
                                         <TextareaFullscreenEditor
@@ -222,22 +191,7 @@ export default class EditMemberPA extends Component {
                                 </form>
                             </div>
                         </div>
-                        <div>
-                            <Tabs id="tabs" activeKey={this.state.activeTabKey} onSelect={this.handleSelectTab} animation={false}>
-                                <Tab eventKey={1} title={getResource("Self")}>
-                                    {selfRecord}
-                                </Tab>
-                                <Tab eventKey={2} title={getResource("ProjectManager")}>
-                                    {pmRecords}
-                                </Tab>
-                                <Tab eventKey={3} title={getResource("Evaluator")}>
-                                    {evaluatorRecord}
-                                </Tab>
-                                <Tab eventKey={4} title={getResource("Reviewer")}>
-                                    {reviewerRecord}
-                                </Tab>
-                            </Tabs>
-                        </div>
+                        <PAProcessTab processes={this.state.paProcesses} employees={employees} />
                     </CustomScrollbars>
 
                 </Modal.Body>
