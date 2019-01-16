@@ -17,6 +17,7 @@
     {
         private ISessionService sessionService;
         private IEmployeeService employeeService;
+        private IPARecordService paRecordService;
         private IRedmineService redmineService;
 
         [Fact]
@@ -37,19 +38,19 @@
         public async Task GetPerformanceAppraisalResult_WhenCalled_ReturnAsExpectedPerformanceAppraisals()
         {
             // Arrange
-            var expected = new List<PARecordModel>
+            var expected = new List<PerformanceAppraisalResult>
             {
-                new PARecordModel { PARecordId = 1, Employee = new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" } }
+                new PerformanceAppraisalResult { PARecordId = 1, Employee = new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" } }
             };
             var homeController = GetHomeController();
-            employeeService.GetPerformanceAppraisalResultAsync(sessionService.EmployeeId).Returns(expected);
+            paRecordService.GetPerformanceAppraisalResultAsync(sessionService.EmployeeId).Returns(expected);
 
             // Act
             var result = await homeController.GetPerformanceAppraisalResult();
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
-            var actual = Assert.IsAssignableFrom<IEnumerable<PARecordModel>>(jsonResult.Value);
+            var actual = Assert.IsAssignableFrom<IEnumerable<PerformanceAppraisalResult>>(jsonResult.Value);
             Assert.Equal(expected, actual);
         }
 
@@ -111,8 +112,9 @@
         {
             sessionService = FakeSessionService();
             employeeService = Substitute.For<IEmployeeService>();
+            paRecordService = Substitute.For<IPARecordService>();
             redmineService = Substitute.For<IRedmineService>();
-            var controller = new HomeController(sessionService, employeeService, redmineService);
+            var controller = new HomeController(sessionService, employeeService, paRecordService, redmineService);
 
             return controller;
         }

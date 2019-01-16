@@ -1,4 +1,4 @@
-﻿namespace NexGoal.Criteria.Employee
+﻿namespace NexGoal.Criteria.PARecord
 {
     using Fanex.Data.Repository;
 
@@ -8,7 +8,7 @@
         public int? PeriodId { get; set; }
         public int? EmployeeId { get; set; }
 
-        public override string GetSettingKey() => "Employee_GetMemberPerformanceAppraisalResult";
+        public override string GetSettingKey() => "PARecord_GetMemberPerformanceAppraisalResult";
 
         public override bool IsValid() => ActorId > 0;
     }

@@ -20,6 +20,7 @@
         private ICommonService commonService;
         private ISessionService sessionService;
         private IEmployeeService employeeService;
+        private IPARecordService paRecordService;
         private INominationPeriodService nominationPeriodService;
         private IRedmineService redmineService;
 
@@ -80,18 +81,18 @@
         {
             // Arrange
             var controller = GetMemberController();
-            var expected = new List<PARecordModel>
+            var expected = new List<PerformanceAppraisalResult>
             {
-                new PARecordModel { PARecordId = 1, Employee = new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" } }
+                new PerformanceAppraisalResult { PARecordId = 1, Employee = new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" } }
             };
 
             // Act
-            employeeService.GetMemberPerformanceAppraisalResultAsync(sessionService.EmployeeId, null, null).Returns(expected);
+            paRecordService.GetMemberPerformanceAppraisalResultAsync(sessionService.EmployeeId, null, null).Returns(expected);
             var result = await controller.GetMemberPerformanceAppraisalResult(null, null);
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
-            var actual = Assert.IsAssignableFrom<IEnumerable<PARecordModel>>(jsonResult.Value);
+            var actual = Assert.IsAssignableFrom<IEnumerable<PerformanceAppraisalResult>>(jsonResult.Value);
             Assert.Equal(expected, actual);
         }
 
@@ -191,9 +192,10 @@
             sessionService = FakeSessionService();
             employeeService = Substitute.For<IEmployeeService>();
             commonService = Substitute.For<ICommonService>();
+            paRecordService = Substitute.For<IPARecordService>();
             nominationPeriodService = Substitute.For<INominationPeriodService>();
             redmineService = Substitute.For<IRedmineService>();
-            var controller = new MemberController(sessionService, commonService, employeeService, nominationPeriodService, redmineService);
+            var controller = new MemberController(sessionService, commonService, employeeService, paRecordService, nominationPeriodService, redmineService);
 
             return controller;
         }

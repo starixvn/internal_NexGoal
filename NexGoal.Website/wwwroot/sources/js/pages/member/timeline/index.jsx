@@ -81,23 +81,25 @@ export default class Timeline extends Component {
     }
 
     getMemberPerformanceTimeline = (pageSize) => {
-        axios(resolveClientUrl('Member/Performance/Timeline'), {
-            params: {
-                periodId: this.props.currentPerformancePeriod ? this.props.currentPerformancePeriod.periodId : null,
-                pageIndex: 0,
-                pageSize: pageSize
-            }
-        }).then((response) => {
-            response.data.map(memberPerformance => {
-                memberPerformance.pageIndex = 0;
-                memberPerformance.nextDisabled = memberPerformance.pageIndex === 0;
-                memberPerformance.prevDisabled = (memberPerformance.pageIndex + 1) * pageSize >= memberPerformance.totalItems;
-            });
+        if (this.props.currentPerformancePeriod) {
+            axios(resolveClientUrl('Member/Performance/Timeline'), {
+                params: {
+                    periodId: this.props.currentPerformancePeriod.periodId,
+                    pageIndex: 0,
+                    pageSize: pageSize
+                }
+            }).then((response) => {
+                response.data.map(memberPerformance => {
+                    memberPerformance.pageIndex = 0;
+                    memberPerformance.nextDisabled = memberPerformance.pageIndex === 0;
+                    memberPerformance.prevDisabled = (memberPerformance.pageIndex + 1) * pageSize >= memberPerformance.totalItems;
+                });
 
-            this.setState({
-                memberPerformances: response.data
-            });
-        }).catch(axiosError);
+                this.setState({
+                    memberPerformances: response.data
+                });
+            }).catch(axiosError);
+        }
     }
 
     updateFilter = (name, value) => {
@@ -110,9 +112,10 @@ export default class Timeline extends Component {
         let memberPerformances = this.state.memberPerformances.slice();
         let index = memberPerformances.findIndex(memberPerformance => memberPerformance.employeeId === employeeId);
 
-        if (index >= 0) {
+        if (index >= 0 && this.props.currentPerformancePeriod) {
             axios(resolveClientUrl('Member/Performance/Timeline'), {
                 params: {
+                    periodId: this.props.currentPerformancePeriod.periodId,
                     employeeId: employeeId,
                     pageIndex: pageIndex,
                     pageSize: this.state.pageSize

@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="4.5.2.1" />
-    <PackageReference Include="Fanex.Data" Version="3.0.0" />
+    <PackageReference Include="Fanex.Data" Version="3.0.2" />
     <PackageReference Include="Fanex.Data.Repository" Version="3.0.0" />
     <PackageReference Include="iTextSharp.LGPLv2.Core" Version="1.4.5" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.1.1" />
@@ -30,5 +30,6 @@
     <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj" />
     <ProjectReference Include="..\NexGoal.Criteria\NexGoal.Criteria.csproj" />
     <ProjectReference Include="..\NexGoal.Models\NexGoal.Models.csproj" />
+    <ProjectReference Include="..\NexGoal.Repositories\NexGoal.Repositories.csproj" />
   </ItemGroup>
 </Project>

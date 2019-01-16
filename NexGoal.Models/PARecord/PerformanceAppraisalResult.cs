@@ -1,0 +1,18 @@
+﻿namespace NexGoal.Models.PARecord
+{
+    using Newtonsoft.Json;
+    using NexGoal.Models.Common;
+
+    public class PerformanceAppraisalResult
+    {
+        public int PARecordId { get; set; }
+
+        public EmployeeBaseModel Employee { get; set; }
+
+        public PeriodBaseModel Period { get; set; }
+
+        [JsonIgnore]
+        public string GradeId { get; set; }
+        public PerformanceGradeModel Grade { get; set; }
+    }
+}

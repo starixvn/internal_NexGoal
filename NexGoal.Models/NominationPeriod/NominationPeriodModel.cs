@@ -54,26 +54,26 @@
         {
             get
             {
-                var title = $"EOY - {Year}";
+                var title = $"EOY {Year}";
 
                 if (Quarter.HasValue)
                 {
                     switch (Quarter)
                     {
                         case 1:
-                            title = $"EOQ - I {Year}";
+                            title = $"EOQ I {Year}";
                             break;
 
                         case 2:
-                            title = $"EOQ - II {Year}";
+                            title = $"EOQ II {Year}";
                             break;
 
                         case 3:
-                            title = $"EOQ - III {Year}";
+                            title = $"EOQ III {Year}";
                             break;
 
                         default:
-                            title = $"EOQ - IV {Year}";
+                            title = $"EOQ IV {Year}";
                             break;
                     }
                 }

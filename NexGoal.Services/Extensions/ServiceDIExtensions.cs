@@ -1,12 +1,14 @@
 ﻿namespace NexGoal.Services.Extensions
 {
     using Microsoft.Extensions.DependencyInjection;
+    using NexGoal.Repositories.Extensions;
     using NexGoal.Services.Interfaces;
 
     public static class ServiceDIExtensions
     {
         public static void ResolveServiceDI(this IServiceCollection services)
         {
+            services.ResolveRepositoryDI();
             services.AddTransient<IAuthService, AuthService>();
             services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddScoped<ICommonService, CommonService>();

@@ -1,17 +1,21 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PARecord;
+    using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
+    using NexGoal.Repositories;
     using NSubstitute;
     using Xunit;
 
     public class PARecordServiceTests
     {
+        private IPARepository paRepository;
         private IBaseService baseService;
         private ICryptoService cryptoService;
         private ICommonService commonService;
@@ -51,6 +55,88 @@
             // Assert
             Assert.Equal(expected, actual);
         }
+
+        #region GetPerformanceAppraisalResultAsync
+
+        [Fact]
+        public async Task GetPerformanceAppraisalResultAsync_DataAreNotExist_ReturnEmpty()
+        {
+            // Arrange
+            var performanceAppraisals = new List<PerformanceAppraisalResult>();
+            var service = GetPARecordService();
+            paRepository.GetPerformanceAppraisalResultAsync(Arg.Any<GetPerformanceAppraisalResult>()).Returns(performanceAppraisals);
+
+            // Act
+            var actual = await service.GetPerformanceAppraisalResultAsync(1);
+
+            // Assert
+            Assert.Empty(actual);
+        }
+
+        [Fact]
+        public async Task GetPerformanceAppraisalResultAsync_MappingData_ReturnAsExpectedPerformanceAppraisals()
+        {
+            // Arrange
+            var performanceAppraisals = new List<PerformanceAppraisalResult>
+            {
+                new PerformanceAppraisalResult { PARecordId = 1, GradeId = "cipher text", Period = new PeriodBaseModel { PeriodId = 1, Name = "2h 2018" } }
+            };
+            IEnumerable<PerformanceGradeModel> performanceGrades = GetPerformanceGradeForTest();
+            var service = GetPARecordService();
+            paRepository.GetPerformanceAppraisalResultAsync(Arg.Any<GetPerformanceAppraisalResult>()).Returns(performanceAppraisals);
+            commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
+            cryptoService.Decrypt(Arg.Any<string>()).Returns("1");
+
+            // Act
+            var actual = await service.GetPerformanceAppraisalResultAsync(1);
+
+            // Assert
+            Assert.Equal(performanceAppraisals, actual);
+            Assert.Equal(performanceGrades.First(), actual.First().Grade);
+        }
+
+        #endregion GetPerformanceAppraisalResultAsync
+
+        #region GetMemberPerformanceAppraisalResultAsync
+
+        [Fact]
+        public async Task GetMemberPerformanceAppraisalResultAsync_DataAreNotExist_ReturnEmpty()
+        {
+            // Arrange
+            var performanceAppraisals = new List<PerformanceAppraisalResult>();
+            var service = GetPARecordService();
+            paRepository.GetMemberPerformanceAppraisalResultAsync(Arg.Any<GetMemberPerformanceAppraisalResult>()).Returns(performanceAppraisals);
+
+            // Act
+            var actual = await service.GetMemberPerformanceAppraisalResultAsync(1);
+
+            // Assert
+            Assert.Empty(actual);
+        }
+
+        [Fact]
+        public async Task GetMemberPerformanceAppraisalResultAsync_MappingData_ReturnAsExpectedPerformanceAppraisals()
+        {
+            // Arrange
+            var performanceAppraisals = new List<PerformanceAppraisalResult>
+            {
+                new PerformanceAppraisalResult { PARecordId = 1, GradeId = "cipher text", Period = new PeriodBaseModel { PeriodId = 1, Name = "2h 2018" } }
+            };
+            IEnumerable<PerformanceGradeModel> performanceGrades = GetPerformanceGradeForTest();
+            var service = GetPARecordService();
+            paRepository.GetMemberPerformanceAppraisalResultAsync(Arg.Any<GetMemberPerformanceAppraisalResult>()).Returns(performanceAppraisals);
+            commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
+            cryptoService.Decrypt(Arg.Any<string>()).Returns("1");
+
+            // Act
+            var actual = await service.GetMemberPerformanceAppraisalResultAsync(1);
+
+            // Assert
+            Assert.Equal(performanceAppraisals, actual);
+            Assert.Equal(performanceGrades.First(), actual.First().Grade);
+        }
+
+        #endregion GetMemberPerformanceAppraisalResultAsync
 
         [Fact]
         public async Task EditPARecordByReviewerAsync_WhenCalled_ReturnAsExpectedCommandResult()
@@ -96,13 +182,25 @@
 
         #region Helpers
 
+        private IEnumerable<PerformanceGradeModel> GetPerformanceGradeForTest()
+        {
+            var performanceGrades = new List<PerformanceGradeModel>
+            {
+                new PerformanceGradeModel { GradeId = 1, Name = "EE" },
+                new PerformanceGradeModel { GradeId = 2, Name = "EE+" }
+            };
+
+            return performanceGrades;
+        }
+
         private PARecordService GetPARecordService()
         {
+            paRepository = Substitute.For<IPARepository>();
             baseService = Substitute.For<IBaseService>();
             cryptoService = Substitute.For<ICryptoService>();
             commonService = Substitute.For<ICommonService>();
 
-            var service = new PARecordService(baseService, cryptoService, commonService);
+            var service = new PARecordService(paRepository, baseService, cryptoService, commonService);
 
             return service;
         }

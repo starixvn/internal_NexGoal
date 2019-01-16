@@ -13,15 +13,18 @@
     {
         private readonly ISessionService sessionService;
         private readonly IEmployeeService employeeService;
+        private readonly IPARecordService paRecordService;
         private readonly IRedmineService redmineService;
 
         public HomeController(
             ISessionService sessionService,
             IEmployeeService employeeService,
+            IPARecordService paRecordService,
             IRedmineService redmineService)
         {
             this.sessionService = sessionService;
             this.employeeService = employeeService;
+            this.paRecordService = paRecordService;
             this.redmineService = redmineService;
         }
 
@@ -32,7 +35,7 @@
 
         public async Task<JsonResult> GetPerformanceAppraisalResult()
         {
-            IEnumerable<PARecordModel> records = await employeeService.GetPerformanceAppraisalResultAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<PerformanceAppraisalResult> records = await paRecordService.GetPerformanceAppraisalResultAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(records);
         }

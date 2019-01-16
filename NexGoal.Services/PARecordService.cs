@@ -13,18 +13,22 @@
     using NexGoal.Models.PARecord;
     using NexGoal.Models.PerformanceRecord;
     using NexGoal.Models.Report;
+    using NexGoal.Repositories;
 
     public class PARecordService : IPARecordService
     {
+        private readonly IPARepository paRepository;
         private readonly IBaseService baseService;
         private readonly ICryptoService cryptoService;
         private readonly ICommonService commonService;
 
         public PARecordService(
+            IPARepository paRepository,
             IBaseService baseService,
             ICryptoService cryptoService,
             ICommonService commonService)
         {
+            this.paRepository = paRepository;
             this.baseService = baseService;
             this.cryptoService = cryptoService;
             this.commonService = commonService;
@@ -49,6 +53,51 @@
             };
 
             return await baseService.GetDataAsync<GroupBaseModel>(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<PerformanceAppraisalResult>> GetPerformanceAppraisalResultAsync(int employeeId)
+        {
+            var criteria = new GetPerformanceAppraisalResult
+            {
+                EmployeeId = employeeId
+            };
+
+            IEnumerable<PerformanceAppraisalResult> performanceAppraisals = await paRepository.GetPerformanceAppraisalResultAsync(criteria).ConfigureAwait(false);
+            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+
+            foreach (PerformanceAppraisalResult performanceAppraisal in performanceAppraisals)
+            {
+                performanceAppraisal.GradeId = cryptoService.Decrypt(performanceAppraisal.GradeId);
+                int.TryParse(performanceAppraisal.GradeId, out int gradeId);
+                performanceAppraisal.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+            }
+
+            return performanceAppraisals;
+        }
+
+        public async Task<IEnumerable<PerformanceAppraisalResult>> GetMemberPerformanceAppraisalResultAsync(
+            int actorId,
+            int? periodId = null,
+            int? employeeId = null)
+        {
+            var criteria = new GetMemberPerformanceAppraisalResult
+            {
+                ActorId = actorId,
+                PeriodId = periodId,
+                EmployeeId = employeeId
+            };
+
+            IEnumerable<PerformanceAppraisalResult> performanceAppraisals = await paRepository.GetMemberPerformanceAppraisalResultAsync(criteria).ConfigureAwait(false);
+            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+
+            foreach (PerformanceAppraisalResult performanceAppraisal in performanceAppraisals)
+            {
+                performanceAppraisal.GradeId = cryptoService.Decrypt(performanceAppraisal.GradeId);
+                int.TryParse(performanceAppraisal.GradeId, out int gradeId);
+                performanceAppraisal.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+            }
+
+            return performanceAppraisals;
         }
 
         public async Task<PARecordModel> GetPARecordByIdAsync(int paRecordId, int actorId)

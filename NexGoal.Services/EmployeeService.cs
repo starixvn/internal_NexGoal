@@ -6,27 +6,18 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Employee;
-    using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.Employee;
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.NominationPeriod;
-    using NexGoal.Models.PARecord;
 
     public class EmployeeService : IEmployeeService
     {
         private readonly IBaseService baseService;
-        private readonly ICryptoService cryptoService;
-        private readonly ICommonService commonService;
 
-        public EmployeeService(
-            IBaseService baseService,
-            ICryptoService cryptoService,
-            ICommonService commonService)
+        public EmployeeService(IBaseService baseService)
         {
             this.baseService = baseService;
-            this.cryptoService = cryptoService;
-            this.commonService = commonService;
         }
 
         public async Task<IEnumerable<EmployeeBaseModel>> GetEmployeesAsync(GetEmployeeParam param)
@@ -83,57 +74,6 @@
             };
 
             return await baseService.GetDataEntityAsync<int>(criteria).ConfigureAwait(false);
-        }
-
-        public async Task<IEnumerable<PARecordModel>> GetPerformanceAppraisalResultAsync(int employeeId)
-        {
-            var criteria = new GetPerformanceAppraisalResult
-            {
-                EmployeeId = employeeId
-            };
-
-            var tuple = await baseService.FetchMultipleAsync<PARecordModel, PeriodBaseModel>(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
-
-            foreach (PARecordModel performanceAppraisal in tuple.Item1)
-            {
-                performanceAppraisal.GradeId = cryptoService.Decrypt(performanceAppraisal.GradeId);
-                int.TryParse(performanceAppraisal.GradeId, out int gradeId);
-                performanceAppraisal.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
-
-                performanceAppraisal.Period = tuple.Item2.FirstOrDefault(x => x.PeriodId == performanceAppraisal.PeriodId);
-            }
-
-            return tuple.Item1;
-        }
-
-        public async Task<IEnumerable<PARecordModel>> GetMemberPerformanceAppraisalResultAsync(
-            int actorId,
-            int? periodId = null,
-            int? employeeId = null)
-        {
-            var criteria = new GetMemberPerformanceAppraisalResult
-            {
-                ActorId = actorId,
-                PeriodId = periodId,
-                EmployeeId = employeeId
-            };
-
-            var tuple = await baseService.FetchMultipleAsync<PARecordModel, PeriodBaseModel>(criteria).ConfigureAwait(false);
-            IEnumerable<EmployeeBaseModel> members = await commonService.GetEmployeesAsync().ConfigureAwait(false);
-            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
-
-            foreach (PARecordModel performanceAppraisal in tuple.Item1)
-            {
-                performanceAppraisal.GradeId = cryptoService.Decrypt(performanceAppraisal.GradeId);
-                int.TryParse(performanceAppraisal.GradeId, out int gradeId);
-                performanceAppraisal.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
-
-                performanceAppraisal.Employee = members.FirstOrDefault(x => x.EmployeeId == performanceAppraisal.EmployeeId);
-                performanceAppraisal.Period = tuple.Item2.FirstOrDefault(x => x.PeriodId == performanceAppraisal.PeriodId);
-            }
-
-            return tuple.Item1;
         }
 
         public async Task<IEnumerable<EmployeeNominationModel>> GetNominationResultAsync(int employeeId)

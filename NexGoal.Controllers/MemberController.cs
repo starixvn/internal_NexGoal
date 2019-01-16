@@ -22,6 +22,7 @@
         private readonly ICommonService commonService;
         private readonly ISessionService sessionService;
         private readonly IEmployeeService employeeService;
+        private readonly IPARecordService paRecordService;
         private readonly INominationPeriodService nominationPeriodService;
         private readonly IRedmineService redmineService;
 
@@ -29,12 +30,14 @@
             ISessionService sessionService,
             ICommonService commonService,
             IEmployeeService employeeService,
+            IPARecordService paRecordService,
             INominationPeriodService nominationPeriodService,
             IRedmineService redmineService)
         {
             this.sessionService = sessionService;
             this.commonService = commonService;
             this.employeeService = employeeService;
+            this.paRecordService = paRecordService;
             this.nominationPeriodService = nominationPeriodService;
             this.redmineService = redmineService;
         }
@@ -64,8 +67,8 @@
 
         public async Task<JsonResult> GetMemberPerformanceAppraisalResult(int? periodId = null, int? memberId = null)
         {
-            IEnumerable<PARecordModel> performanceAppraisals =
-                await employeeService.GetMemberPerformanceAppraisalResultAsync(sessionService.EmployeeId, periodId, memberId).ConfigureAwait(false);
+            IEnumerable<PerformanceAppraisalResult> performanceAppraisals =
+                await paRecordService.GetMemberPerformanceAppraisalResultAsync(sessionService.EmployeeId, periodId, memberId).ConfigureAwait(false);
 
             return Json(performanceAppraisals);
         }

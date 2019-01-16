@@ -22,8 +22,6 @@
     <Setting Key="Employee_UpdateRoles" SpName="Employee_UpdateRoles" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_GetById" SpName="Employee_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_Search" SpName="Employee_Search" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="Employee_GetPerformanceAppraisalResult" SpName="Employee_GetPerformanceAppraisalResult" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="Employee_GetMemberPerformanceAppraisalResult" SpName="Employee_GetMemberPerformanceAppraisalResult" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_GetWorkload" SpName="Employee_GetWorkload" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_GetNominationResult" SpName="Employee_GetNominationResult" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_GetMemberNominationResult" SpName="Employee_GetMemberNominationResult" DbName="bodb_NexGoal" Plain="0"></Setting>
@@ -114,6 +112,8 @@
     <Setting Key="PARecord_GetById" SpName="PARecord_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PARecord_UpdateByReviewer" SpName="PARecord_UpdateByReviewer" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PARecord_QuickUpdateByReviewer" SpName="PARecord_QuickUpdateByReviewer" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PARecord_GetPerformanceAppraisalResult" SpName="PARecord_GetPerformanceAppraisalResult" DbName="bodb_NexGoal" Plain="0" />
+    <Setting Key="PARecord_GetMemberPerformanceAppraisalResult" SpName="PARecord_GetMemberPerformanceAppraisalResult" DbName="bodb_NexGoal" Plain="0" />
   </Function>
   <Function Name="Nomination Period">
     <Setting Key="NominationPeriod_Get" SpName="NominationPeriod_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
