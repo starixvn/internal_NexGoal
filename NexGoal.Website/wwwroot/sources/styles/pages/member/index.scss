@@ -239,15 +239,28 @@
 
 .record-your-mind {
     grid-template-columns: 1fr;
-    grid-template-rows: 50px 1fr;
+    grid-template-rows: 40px 1fr;
 
     .comment {
         padding-bottom: 0;
     }
 
+    .employee-field .react-select__multi-value {
+        @include border-radius(2px);
+        border: 1px solid #B0CBDD;
+        background-color: #E1EEF7;
+        margin: 2px 4px;
+        padding: 0px 4px 1px;
+        font-size: 11px;
+        .react-select__multi-value__label {
+            font-size: 100%;
+            padding: 0;
+        }
+    }
+
     .comment .form-control {
         font-size: 14px;
-        padding: 8px 16px;
+        padding: 12px 16px;
     }
 
     .nomination-period, .employee {

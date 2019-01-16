@@ -16,7 +16,7 @@
     &.btn-primary {
         background: #324476;
         border-color: unset;
-
+        transition: background-color 250ms ease-in;
         &:hover, &:focus, &:active {
             background: darken(#324476, 10%);
         }
@@ -26,9 +26,10 @@
         background: #fff;
         border: 1px solid #545454;
         color: #545454;
+        transition: background-color 250ms ease-in;
         &:hover, &:focus, &:active {
-            // background: #8a8d9c;
-            // color: #fff;
+             background: darken(#324476, 10%);;
+             color: #fff;
         }
     }
 
