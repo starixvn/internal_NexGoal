@@ -24,14 +24,6 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPeriods()
-        {
-            var result = await masterReportService.GetPeriods().ConfigureAwait(false);
-
-            return Json(result);
-        }
-
-        [HttpGet]
         public async Task<IActionResult> GetRecords(int periodId, string groupIds, string employeeIds)
         {
             var result = await masterReportService.GetRecords(periodId, groupIds, employeeIds).ConfigureAwait(false);

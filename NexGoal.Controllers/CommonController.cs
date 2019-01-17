@@ -180,5 +180,13 @@
 
             return Json(result);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPeriodsForReport()
+        {
+            var result = await commonService.GetPeriodsForReportAsync().ConfigureAwait(false);
+
+            return Json(result);
+        }
     }
 }

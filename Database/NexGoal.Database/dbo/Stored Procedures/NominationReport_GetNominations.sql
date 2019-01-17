@@ -37,14 +37,13 @@ BEGIN
 					WHERE #temp.val = e.GroupId
 				)
 		)
-		AND (@NominationPeriodIds IS NULL 
-			OR EXISTS(
+		AND EXISTS(
 				SELECT 1
 				FROM dbo.func_SplitString(@NominationPeriodIds, ',') p
 				WHERE n.EOQYId = p.val
-			))
+			)
 		AND (@StatusId IS NULL OR n.StatusId = @StatusId)
-		AND (@EmployeeIds IS NULL OR EXISTS (SELECT 1 FROM dbo.func_SplitString(@EmployeeIds, ',') emp WHERE emp.val = n.NomineeId))
+		AND EXISTS (SELECT 1 FROM dbo.func_SplitString(@EmployeeIds, ',') emp WHERE emp.val = n.NomineeId)
 		AND (EXISTS (
 				SELECT 1
 				FROM dbo.EOQYNominatorSetting ens WITH (NOLOCK)
@@ -92,14 +91,13 @@ BEGIN
 					WHERE #temp.val = e.GroupId
 				)
 		)
-		AND (@NominationPeriodIds IS NULL 
-			OR EXISTS(
+		AND EXISTS(
 				SELECT 1
 				FROM dbo.func_SplitString(@NominationPeriodIds, ',') p
 				WHERE n.EOQYId = p.val
-			))
+			)
 		AND (@StatusId IS NULL OR n.StatusId = @StatusId)
-		AND (@EmployeeIds IS NULL OR EXISTS (SELECT 1 FROM dbo.func_SplitString(@EmployeeIds, ',') emp WHERE emp.val = n.NomineeId))
+		AND EXISTS (SELECT 1 FROM dbo.func_SplitString(@EmployeeIds, ',') emp WHERE emp.val = n.NomineeId)
 		AND (EXISTS (
 				SELECT 1
 				FROM dbo.EOQYNominatorSetting ens WITH (NOLOCK)

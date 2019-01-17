@@ -38,7 +38,7 @@ export default class MasterReport extends Component {
         const promises = [
             axios(resolveClientUrl('Common/GetGroups')),
             axios(resolveClientUrl('common/GetEmployees')),
-            axios.get(resolveClientUrl('MasterReport/GetPeriods'))
+            axios.get(resolveClientUrl('Common/GetPeriodsForReport'))
         ];
 
         Promise.all(promises)

@@ -8,7 +8,6 @@
     using NexGoal.Core.Constants;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.MasterReport;
-    using NexGoal.Models.Common;
     using NexGoal.Models.MasterReport;
     using OfficeOpenXml;
 
@@ -27,11 +26,6 @@
             this.cryptoService = cryptoService;
             this.commonService = commonService;
             this.hostingEnvironment = hostingEnvironment;
-        }
-
-        public async Task<IEnumerable<PeriodBaseModel>> GetPeriods()
-        {
-            return await baseService.GetDataAsync<PeriodBaseModel>(new GetPeriodsCriteria()).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<MasterReportModel>> GetRecords(int periodId, string groupIds, string employeeIds)

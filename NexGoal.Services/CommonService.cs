@@ -9,6 +9,7 @@
     using NexGoal.Criteria;
     using NexGoal.Criteria.Common;
     using NexGoal.Criteria.Periods;
+    using NexGoal.Criteria.Report;
     using NexGoal.Models;
     using NexGoal.Models.Common;
 
@@ -144,6 +145,11 @@
             };
 
             return await baseService.GetDataAsync<string>(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<PeriodBaseModel>> GetPeriodsForReportAsync()
+        {
+            return await baseService.GetDataAsync<PeriodBaseModel>(new GetPeriodsForReportCriteria()).ConfigureAwait(false);
         }
     }
 }
