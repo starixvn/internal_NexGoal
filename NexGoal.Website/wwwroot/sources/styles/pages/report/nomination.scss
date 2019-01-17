@@ -13,8 +13,6 @@
 @import "../../components/tooltip";
 @import "../../components/tabs";
 
-
-
 #nomination-report-wrapper {
     margin-bottom: 24px;
 }
@@ -25,11 +23,15 @@
     }
 
     .nominee {
-        width: 30%;
+        width: 25%;
     }
 
     .team {
-        width: 25%;
+        width: 20%;
+    }
+
+    .vote {
+        width: 10%;
     }
 
     .nominator {
@@ -51,9 +53,10 @@
             display: inline-block;
         }
     }
+
     > tbody > tr > td[colspan="5"] {
         height: 36px;
-        background-color: #525E86; 
+        background-color: #525E86;
         font-size: 14px;
         color: #fff;
     }

@@ -40,7 +40,7 @@ export default class Table extends Component {
         return (
             <Fragment key={data.nominationPeriodId}>
                 <tr className="group-row">
-                    <td className="title" colSpan={5}>{data.title}</td>
+                    <td className="title" colSpan={6}>{data.title}</td>
                 </tr>
                 {data.nominations.length > 0 ? data.nominations.map(this.renderNomination) : <tr><td className="text-center" colSpan={6}>{noDataIndication()}</td></tr>}
             </Fragment>
@@ -53,6 +53,7 @@ export default class Table extends Component {
                 <td className="text-center">{index + 1}</td>
                 <td>{`${nomination.nominee.nickName} (${nomination.nominee.fullName})`}</td>
                 <td>{nomination.nominee.groupName}</td>
+                <td className="text-center"><a onClick={this.handleShowNominatorComment.bind(this, nomination, nomination.nominators[0].performanceRecordId)}>{nomination.nominators.length}</a></td>
                 <td>
                     {nomination.nominators.map((n, i, arr) =>
                         <Fragment key={n.performanceRecordId}>
@@ -82,6 +83,7 @@ export default class Table extends Component {
                     <col className="order" />
                     <col className="nominee" />
                     <col className="team" />
+                    <col className="vote" />
                     <col className="nominator" />
                     <col className="status" />
                 </colgroup>
@@ -90,6 +92,7 @@ export default class Table extends Component {
                         <th className="order">{getResource('SymbolCount')}</th>
                         <th className="nominee">{getResource('Nominee')}</th>
                         <th className="team">{getResource('Team')}</th>
+                        <th className="vote">{getResource('Vote')}</th>
                         <th className="nominator">{getResource('Nominator')}</th>
                         <th className="status">{getResource('Status')}</th>
                     </tr>
