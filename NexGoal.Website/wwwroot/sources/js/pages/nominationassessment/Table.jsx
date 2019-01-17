@@ -62,7 +62,7 @@ export default class Table extends Component {
                 <td className="text-center">{index + 1}</td>
                 <td>{`${nomination.nominee.nickName} (${nomination.nominee.fullName})`}</td>
                 <td>{nomination.nominee.groupName}</td>
-                <td className="text-center">{nomination.nominators.length}</td>
+                <td className="text-center"><a onClick={this.handleShowNominatorComment.bind(this, nomination, nomination.nominators[0].performanceRecordId)}>{nomination.nominators.length}</a></td>
                 <td>
                     {nomination.nominators.map((n, i, arr) =>
                         <Fragment key={n.performanceRecordId}>

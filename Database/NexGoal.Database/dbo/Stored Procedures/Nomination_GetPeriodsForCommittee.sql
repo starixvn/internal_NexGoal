@@ -25,7 +25,7 @@ BEGIN
 					WHERE eoqy.EOQYId = ens.EOQYId AND ens.NominatorId = @CommitteeId
 						AND EXISTS (SELECT 1 FROM dbo.func_SplitString(ens.RoleIds, ',') r WHERE r.val = 2)
 					)
-		AND @today BETWEEN eoqy.StartDateForNominator AND eoqy.EndDateForCommittee
+		AND @today > eoqy.StartDateForNominator AND @today <= eoqy.EndDateForCommittee
 		AND eoqy.IsQuarter = @IsQuarter
 	ORDER BY eoqy.EndDateForCommittee DESC
 END
