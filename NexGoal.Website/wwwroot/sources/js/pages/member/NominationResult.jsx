@@ -119,7 +119,7 @@ export default class NominationResult extends Component {
                     {
                         memberNominations.map((nomination, index) => {
                             return (
-                                <Fragment key={`nominationResult${index}`}>
+                                <div className="result-item" key={`nominationResult${index}`}>
                                     <div className="nomination-period-title">{nomination.period.shortTitle}</div>
                                     {
                                         nomination.winners.length > 0 &&
@@ -142,7 +142,7 @@ export default class NominationResult extends Component {
                                             <span>: {nomination.nominateds.join(', ')}</span>
                                         </div>
                                     }
-                                </Fragment>
+                                </div>
                             );
                         })
                     }

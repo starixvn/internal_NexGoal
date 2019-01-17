@@ -53,7 +53,7 @@ export default class NominationResult extends Component {
                 {
                     nominations && nominations.map((nomination, index) => {
                         return (
-                            <div key={`nominationResult${index}`}>
+                            <div className="result-item" key={`nominationResult${index}`}>
                                 <span className={getNominationClassName(nomination.statusId)}>
                                     {nomination.statusText}
                                 </span>: <span>{nomination.periods.map(period => period.shortTitle).join(', ')}</span>

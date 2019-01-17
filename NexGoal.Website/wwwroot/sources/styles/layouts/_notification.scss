@@ -100,9 +100,11 @@
             }
 
             .description {
-                color: #474747;
                 flex: auto;
                 padding-left: 12px;
+                a {
+                    color: #474747;
+                }
             }
 
             .avatar {
