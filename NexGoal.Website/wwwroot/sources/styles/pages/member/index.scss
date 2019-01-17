@@ -24,16 +24,16 @@
     padding: 0;
 
     .member-timeline {
-        padding: 0 20px 12px 12px;
+        padding: 0 16px 10px 20px;
     }
 
     .title {
-        padding: 12px;
+        padding: 24px 16px 10px 20px;
         margin-bottom: 0;
     }
 
     .ddl-team {
-        padding: 0 12px 12px;
+        padding: 0 16px 10px 20px;
 
         .team {
             padding-bottom: 4px;
@@ -45,7 +45,10 @@
     .group-name {
         font-weight: bold;
         font-size: 14px;
-        margin-top: 16px;
+        margin: 20px 0 10px;
+        &:first-child {
+            margin-top: 0;
+        }
     }
 }
 
@@ -91,7 +94,7 @@
     padding: 52px 0px 0;
 
     .record {
-        margin: 12px;
+        margin: 16px;
     }
 
     .nav-tabs {
@@ -99,8 +102,8 @@
         top: 102px;
         z-index: 55;
         background-color: #fff;
-        width: calc(100% - 504px - 24px);
-        margin: 0 12px;
+        width: calc(100% - 500px - 32px);
+        margin: 0 16px;
     }
 
     .tab-content {
@@ -354,7 +357,7 @@
 @media screen and (min-width: 1600px) {
     .main-content #tabs {
         .nav-tabs {
-            width: calc(100% - 804px - 24px);
+            width: calc(100% - 800px - 32px);
         }
     }
 }
@@ -362,7 +365,7 @@
 @media screen and (min-width: 1280px) and (max-width: 1600px) {
     .main-content #tabs {
         .nav-tabs {
-            width: calc(100% - 604px - 24px);
+            width: calc(100% - 600px - 32px);
         }
     }
 }
