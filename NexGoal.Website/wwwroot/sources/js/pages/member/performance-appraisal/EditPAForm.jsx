@@ -10,8 +10,7 @@ import CustomScrollbars from '../../../shared/components/CustomScrollbars';
 import getResource from '../../../resourceHelper';
 import axios from 'axios';
 import { axiosError, getCurrentUserInfo, resolveClientUrl } from '../../../common-functions';
-import { PerformanceProcess, PAStatus, DateFormat } from '../../../constants';
-import PerformanceRecord from '../../../shared/components/PerformanceRecord';
+import { PAStatus, DateFormat } from '../../../constants';
 import PAProcessTab from '../../../shared/components/performance-appraisal/PAProcessTab';
 
 export default class EditMemberPA extends Component {
@@ -36,6 +35,7 @@ export default class EditMemberPA extends Component {
         axios(resolveClientUrl(`Review/GetPARecordById/${this.props.paRecordId}`)).then(response => {
             if (response.data) {
                 let pa = response.data;
+                console.log(pa);
                 let grade = pa.isEdited ? pa.grade : pa.originalGrade;
                 this.setState({
                     paRecord: {

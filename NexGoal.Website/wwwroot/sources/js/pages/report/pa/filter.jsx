@@ -16,6 +16,7 @@ export default class Filter extends Component {
     }
 
     handlePeriodChange = (selectedOption) => {
+        console.log(selectedOption);
         this.props.onFilterChange('periods', selectedOption);
     }
 
@@ -47,17 +48,20 @@ export default class Filter extends Component {
                         />
                     </div>
                 </FormGroup>
-                <FormGroup>
-                    <ControlLabel>{getResource('Team')}</ControlLabel>
-                    <div className="control-content team">
-                        <MultiSelect className="react-select-container" classNamePrefix="react-select"
-                            name="groups"
-                            value={filter.groups}
-                            options={this.props.groupOptions}
-                            onChange={this.handleGroupChange}
-                        />
-                    </div>
-                </FormGroup>
+                {
+                    this.props.groupOptions.length > 1 &&
+                    <FormGroup>
+                        <ControlLabel>{getResource('Team')}</ControlLabel>
+                        <div className="control-content team">
+                            <MultiSelect className="react-select-container" classNamePrefix="react-select"
+                                name="groups"
+                                value={filter.groups}
+                                options={this.props.groupOptions}
+                                onChange={this.handleGroupChange}
+                            />
+                        </div>
+                    </FormGroup>
+                }
                 <FormGroup>
                     <ControlLabel>{getResource('Employee')}</ControlLabel>
                     <div className="control-content">

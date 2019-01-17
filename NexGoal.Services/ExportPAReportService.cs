@@ -4,7 +4,6 @@
     using System.IO;
     using System.Linq;
     using iTextSharp.text;
-    using iTextSharp.text.html;
     using iTextSharp.text.html.simpleparser;
     using iTextSharp.text.pdf;
     using Microsoft.AspNetCore.Hosting;
@@ -17,7 +16,7 @@
     public class ExportPAReportService : IExportPAReportService
     {
         private const string ExcelTemplatePath = @"ExcelTemplates\\PAReport.xlsx";
-        private const string PdfTemplatePath = @"wwwroot\\EmailTemplates\\PaDetail.cshtml";
+        private const string PdfTemplatePath = @"Views\\Report\\PaDetail.cshtml";
         private const int TotalCells = 8;
 
         private readonly IHostingEnvironment hostingEnvironment;
@@ -169,7 +168,6 @@
                 pdfDocument.Open();
 
                 var styles = new StyleSheet();
-                styles.LoadTagStyle(HtmlTags.SPAN, "color", "red");
                 var workers = HtmlWorker.ParseToList(new StringReader(htmlText), styles);
 
                 foreach (IElement element in workers)

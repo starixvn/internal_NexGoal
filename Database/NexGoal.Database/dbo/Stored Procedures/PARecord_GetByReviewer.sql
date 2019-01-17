@@ -54,7 +54,7 @@ BEGIN
 		,pa.ToeicPolicy
 		,pa.OriginalGradeId
 		,pa.ModifiedDate
-		,(t.Listening + t.Reading) AS Toeic
+		,pa.Toeic
 		,(CASE
 			WHEN pa.StatusId = @PAInProgress AND (@Today BETWEEN p.StartDate AND p.EndDate) THEN @PAInProgress
 			ELSE @PAClosed
