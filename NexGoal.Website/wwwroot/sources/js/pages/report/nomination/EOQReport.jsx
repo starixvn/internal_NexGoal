@@ -59,7 +59,8 @@ export default class EOQReport extends Component {
                     ... this.state.filter,
                     ...{
                         groups: this.groupOptions,
-                        periods: this.periodOptions.length > 0 ? [this.periodOptions[0]] : []
+                        periods: this.periodOptions.length > 0 ? [this.periodOptions[0]] : [],
+                        employees: this.employeeOptions
                     }
                 };
 
@@ -95,10 +96,21 @@ export default class EOQReport extends Component {
                     value: e.employeeId,
                     label: `${e.nickName} (${e.fullName})`
                 }));
+
+            this.setState({
+                filter: {
+                    ...this.state.filter,
+                    ...{
+                        [name]: value,
+                        employees: this.employeeOptions
+                    }
+                }
+            });
+        } else {
+            this.setState({
+                filter: { ...this.state.filter, ...{ [name]: value } }
+            });
         }
-        this.setState({
-            filter: { ...this.state.filter, ...{ [name]: value } }
-        });
     }
 
     handleFilterSubmit = () => {
