@@ -49,7 +49,7 @@
 
             MappingData(performanceRecords, employees, nominations);
 
-            return nominations.OrderBy(x => x.Nominee.NickName);
+            return nominations.OrderByDescending(x => x.StatusId).ThenBy(x => x.Nominee.NickName);
         }
 
         private static void MappingData(IEnumerable<PerformanceRecordModel> performanceRecords, IEnumerable<EmployeeBaseModel> employees, IEnumerable<NominationModel> nominations)
