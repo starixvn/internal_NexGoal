@@ -49,6 +49,8 @@ export default class MasterReport extends Component {
                         label: group.name
                     };
                 });
+
+                this.employees = employeeResponse.data;
                 let employeeOptions = employeeResponse.data.map(item => {
                     return {
                         value: item.employeeId,
@@ -62,7 +64,8 @@ export default class MasterReport extends Component {
                     ... this.state.filter,
                     ...{
                         groups: groupOptions,
-                        period: periodOptions[0]
+                        period: periodOptions[0],
+                        employees: employeeOptions
                     }
                 };
 
@@ -92,9 +95,28 @@ export default class MasterReport extends Component {
     }
 
     handleFilterChange = (name, value) => {
-        this.setState({
-            filter: { ...this.state.filter, ...{ [name]: value } }
-        });
+        if (name === 'groups') {
+            let employeeOptions = this.employees.filter(e => value.some(v => v.value === e.groupId))
+                .map(e => ({
+                    value: e.employeeId,
+                    label: `${e.nickName} (${e.fullName})`
+                }));
+
+            this.setState({
+                employeeOptions: employeeOptions,
+                filter: {
+                    ...this.state.filter,
+                    ...{
+                        [name]: value,
+                        employees: employeeOptions
+                    }
+                }
+            });
+        } else {
+            this.setState({
+                filter: { ...this.state.filter, ...{ [name]: value } }
+            });
+        }
     }
 
     handleOpenObjectiveMessageModal = message => this.setState({

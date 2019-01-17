@@ -317,6 +317,7 @@ export default class PerformanceRecord extends Component {
 
         switch (record.typeId) {
             case PerformanceRecordType.PerformanceCheckin:
+            case PerformanceRecordType.PerformanceAppraisal:
                 return this.renderPerformanceCheckin();
 
             case PerformanceRecordType.Nomination:
