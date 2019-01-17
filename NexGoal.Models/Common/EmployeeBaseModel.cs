@@ -6,6 +6,7 @@
         public virtual string Code { get; set; }
         public virtual string NickName { get; set; }
         public virtual string FullName { get; set; }
+        public virtual int GroupId { get; set; }
         public virtual string GroupCode { get; set; }
         public virtual string GroupName { get; set; }
         public virtual string JobTitle { get; set; }

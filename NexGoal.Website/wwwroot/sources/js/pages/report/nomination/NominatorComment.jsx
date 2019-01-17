@@ -33,7 +33,7 @@ export default class NominatorComment extends PureComponent {
                 >
                     <Modal.Header>
                         <Modal.Title>
-                            Votes for {`${nomination.nominee.nickName} (${nomination.nominee.fullName})`} - {this.props.period.title}
+                            Votes for {`${nomination.nominee.nickName} (${nomination.nominee.fullName})`} - {this.props.period}
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>

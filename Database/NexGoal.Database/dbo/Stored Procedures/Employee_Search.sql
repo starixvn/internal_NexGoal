@@ -28,6 +28,7 @@ BEGIN
 		,emp.Code
 		,emp.FullName
 		,emp.NickName
+		,emp.GroupId
 		,gr.Code AS GroupCode
 		,gr.[Name] AS GroupName
 		,job.[Name] AS JobTitle

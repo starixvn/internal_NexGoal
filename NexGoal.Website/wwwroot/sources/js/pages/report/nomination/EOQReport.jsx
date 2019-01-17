@@ -7,7 +7,7 @@ import { NominationStatuses } from '../../../constants';
 import SearchForm from './SearchForm';
 import Table from './Table';
 
-export default class EOQAssessment extends Component {
+export default class EOQReport extends Component {
     constructor(props) {
         super(props);
 
@@ -52,6 +52,7 @@ export default class EOQAssessment extends Component {
                         label: `${item.nickName} (${item.fullName})`
                     };
                 });
+                this.employees = employeeResponse.data;
                 this.periodOptions = nominationPeriodResponse.data.map(x => ({ value: x.nominationPeriodId, label: x.title }));
 
                 let filter = {
@@ -88,6 +89,13 @@ export default class EOQAssessment extends Component {
     }
 
     handleFilterChange = (name, value) => {
+        if (name === 'groups') {
+            this.employeeOptions = this.employees.filter(e => value.some(v => v.value === e.groupId))
+                .map(e => ({
+                    value: e.employeeId,
+                    label: `${e.nickName} (${e.fullName})`
+                }));
+        }
         this.setState({
             filter: { ...this.state.filter, ...{ [name]: value } }
         });
@@ -101,7 +109,7 @@ export default class EOQAssessment extends Component {
         this.props.onShowNominatorComment(
             nomination,
             performanceRecordId,
-            this.periodOptions.find(x => x.value === nomination.nominationPeriodId)
+            this.periodOptions.find(x => x.value === nomination.nominationPeriodId).label
         );
     }
 
