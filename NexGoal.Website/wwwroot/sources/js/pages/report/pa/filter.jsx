@@ -16,7 +16,6 @@ export default class Filter extends Component {
     }
 
     handlePeriodChange = (selectedOption) => {
-        console.log(selectedOption);
         this.props.onFilterChange('periods', selectedOption);
     }
 
@@ -62,17 +61,20 @@ export default class Filter extends Component {
                         </div>
                     </FormGroup>
                 }
-                <FormGroup>
-                    <ControlLabel>{getResource('Employee')}</ControlLabel>
-                    <div className="control-content">
-                        <Select className="react-select-container" classNamePrefix="react-select"
-                            name="employee"
-                            value={filter.employee}
-                            options={this.props.employeeOptions}
-                            onChange={this.handleEmployeeChange}
-                        />
-                    </div>
-                </FormGroup>
+                {
+                    this.props.employeeOptions > 0 &&
+                    <FormGroup>
+                        <ControlLabel>{getResource('Employee')}</ControlLabel>
+                        <div className="control-content">
+                            <Select className="react-select-container" classNamePrefix="react-select"
+                                name="employee"
+                                value={filter.employee}
+                                options={this.props.employeeOptions}
+                                onChange={this.handleEmployeeChange}
+                            />
+                        </div>
+                    </FormGroup>
+                }
                 <FormGroup>
                     <Button type="submit" bsStyle="primary">{getResource('Search')}</Button>
                 </FormGroup>

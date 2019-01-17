@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services
 {
-    using System;
     using System.Text;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Options;
@@ -30,7 +29,7 @@
 
         private async Task ForwardToBot(string message, string conversationId, ChatbotToken token)
         {
-            webClient.BaseUrl = new Uri(configuration.Value.BotServiceUrl);
+            webClient.BaseUrl = configuration.Value.BotServiceUrl;
 
             var request = new RestRequest("/messages/forward", Method.POST);
             request.AddHeader("Authorization", $"Bearer {token.AccessToken}");
@@ -43,7 +42,7 @@
 
         private async Task<ChatbotToken> GetToken()
         {
-            webClient.BaseUrl = new Uri(configuration.Value.TokenUrl);
+            webClient.BaseUrl = configuration.Value.TokenUrl;
 
             var request = new RestRequest(Method.POST);
             request.AddParameter("grant_type", "client_credentials");
