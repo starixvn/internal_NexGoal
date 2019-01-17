@@ -62,7 +62,7 @@ export default class Filter extends Component {
                     </FormGroup>
                 }
                 {
-                    this.props.employeeOptions > 0 &&
+                    this.props.employeeOptions.length > 0 &&
                     <FormGroup>
                         <ControlLabel>{getResource('Employee')}</ControlLabel>
                         <div className="control-content">

@@ -29,7 +29,7 @@ export default class App extends Component {
 
     componentDidMount() {
         const promises = [
-            axios(resolveClientUrl('Common/GetAllPeriods')),
+            axios(resolveClientUrl('Common/GetPeriodsForReport')),
             axios(resolveClientUrl('Common/GetMyGroup')),
             axios(resolveClientUrl('Common/GetMyMember'))
         ];
