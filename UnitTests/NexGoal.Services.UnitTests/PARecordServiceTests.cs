@@ -19,6 +19,7 @@
         private IBaseService baseService;
         private ICryptoService cryptoService;
         private ICommonService commonService;
+        private IAvatarService avatarService;
 
         [Fact]
         public async Task GetPeriodByActorAsync_WhenCalled_ReturnAsExpectedPeriods()
@@ -199,8 +200,9 @@
             baseService = Substitute.For<IBaseService>();
             cryptoService = Substitute.For<ICryptoService>();
             commonService = Substitute.For<ICommonService>();
+            avatarService = Substitute.For<IAvatarService>();
 
-            var service = new PARecordService(paRepository, baseService, cryptoService, commonService);
+            var service = new PARecordService(paRepository, baseService, cryptoService, commonService, avatarService);
 
             return service;
         }

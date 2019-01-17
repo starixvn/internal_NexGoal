@@ -111,7 +111,6 @@
     <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_GetEmployeeUnsetting.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetMemberNominationResult.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetMember.sql" />
-    <Build Include="dbo\Stored Procedures\Employee_GetMemberPerformanceAppraisalResult.sql" />
     <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_Get.sql" />
     <Build Include="dbo\Stored Procedures\Discipline_Get.sql" />
     <Build Include="dbo\Stored Procedures\Discipline_UpdateStatus.sql" />
@@ -122,7 +121,6 @@
     <Build Include="dbo\Stored Procedures\Auto_PA_UpdateStatus.sql" />
     <Build Include="dbo\Stored Procedures\Discipline_Insert.sql" />
     <Build Include="dbo\Stored Procedures\Discipline_Update.sql" />
-    <Build Include="dbo\Stored Procedures\Employee_GetPerformanceAppraisalResult.sql" />
     <Build Include="dbo\Stored Procedures\Employee_Search.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetWorkload.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetRolesById.sql" />

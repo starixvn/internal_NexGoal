@@ -15,21 +15,12 @@ export default class PAProcessTab extends Component {
 
     renderRecordByProcess = (processId) => {
         let paProcesses = this.props.processes.filter(p => p.processId === processId);
-        let employees = this.props.employees;
         if (paProcesses.length > 0) {
             return paProcesses.map(process => {
                 if (process.performanceRecord) {
-                    const paRecord = {
-                        typeId: 1,
-                        roleId: process.processId,
-                        creator: process.evaluator,
-                        employees: employees,
-                        createdDate: process.createdDate ? process.createdDate : null,
-                        comment: process.performanceRecord.comment,
-                        grade: process.performanceRecord.grade
-                    };
+                    process.performanceRecord.employees = processId === PerformanceProcess.Self ? null : this.props.employees;
                     return (
-                        <PerformanceRecord data={paRecord} isHideProjectTag />
+                        <PerformanceRecord data={process.performanceRecord} isHideProjectTag />
                     );
                 } else {
                     return <span>{getResource('NoRecordFound')}</span>;

@@ -18,6 +18,7 @@
     {
         private ISessionService sessionService;
         private IPARecordService paRecordService;
+        private IPAReportService reportService;
         private IExportPAReportService exportService;
 
         [Fact]
@@ -45,7 +46,7 @@
             var records = FakeDataListPA();
             var controller = GetReportController();
 
-            paRecordService.GetPAReportAsync(Arg.Any<GetPARecordMultiPeriodParam>()).Returns(records);
+            reportService.GetPAReportAsync(Arg.Any<GetPARecordMultiPeriodParam>()).Returns(records);
 
             // Act
             var actual = await controller.GetPARecords(param);
@@ -68,7 +69,7 @@
 
             var controller = GetReportController();
 
-            paRecordService.GetPAReportAsync(Arg.Any<GetPARecordMultiPeriodParam>()).Returns(records);
+            reportService.GetPAReportAsync(Arg.Any<GetPARecordMultiPeriodParam>()).Returns(records);
             byte[] bytes = Convert.FromBase64String("text");
             exportService.ExportExcel(records).Returns(bytes);
 
@@ -156,8 +157,9 @@
         {
             sessionService = FakeSessionService();
             paRecordService = Substitute.For<IPARecordService>();
+            reportService = Substitute.For<IPAReportService>();
             exportService = Substitute.For<IExportPAReportService>();
-            var controller = new ReportController(sessionService, paRecordService, exportService);
+            var controller = new ReportController(sessionService, paRecordService, reportService, exportService);
 
             return controller;
         }

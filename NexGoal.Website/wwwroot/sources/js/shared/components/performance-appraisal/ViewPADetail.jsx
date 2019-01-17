@@ -27,12 +27,14 @@ export default class PADetail extends Component {
         axios(resolveClientUrl(`Review/GetPARecordById/${this.props.paRecordId}`)).then(response => {
             if (response.data) {
                 let pa = response.data;
+                let reviewer = pa.processes.filter(x => x.processId === PerformanceProcess.Reviewer)[0].evaluator;
+
                 this.setState({
                     paRecord: {
                         paRecordId: pa.paRecordId,
                         grade: pa.grade,
                         comment: pa.comment,
-                        reviewer: pa.reviewer,
+                        reviewer: reviewer,
                         modifiedDate: pa.modifiedDate
                     },
                     employee: pa.employee,
@@ -56,6 +58,7 @@ export default class PADetail extends Component {
             grade: pa.grade
         };
         const title = getResource('PerformanceAppraisal') + " OF " + this.state.employee.nickName;
+
         return (
             <Modal keyboard={false} backdrop="static"
                 show={this.props.isShowModal} onHide={this.props.onCloseModal}
