@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Report_GetPARecord] @ActorId INT
+﻿
+CREATE PROCEDURE [dbo].[Report_GetPARecord] @ActorId INT
 	,@PeriodIds VARCHAR(MAX) = ''
 	,@GroupIds VARCHAR(MAX) = ''
 	,@EmployeeId INT = NULL
@@ -10,6 +11,7 @@ DB: bodb_NexGoal
 Original:
 
 Revisions:
+    20190117@Tim.Trinh: refactor
 Param's Explanation:
 
 */
@@ -18,82 +20,97 @@ BEGIN
 		,@EvaluatorProcessId TINYINT = 4
 		,@PAInProgress TINYINT = 3
 		,@PAClosed TINYINT = 4
-	
-	CREATE TABLE #tblGroupId(GroupId INT)
 
-	CREATE TABLE #tblPARecordId (
-		PARecordId INT
-		)
-	CREATE TABLE #tblPeriodId(PeriodId INT)
+	CREATE TABLE #tblGroupId (GroupId INT)
 
-	INSERT INTO #tblPeriodId(PeriodId)
+	CREATE TABLE #tblPARecordId (PARecordId INT)
+
+	CREATE TABLE #tblPeriodId (PeriodId INT)
+
+	INSERT INTO #tblPeriodId (PeriodId)
 	SELECT val
 	FROM dbo.func_SplitString(@PeriodIds, ',')
 	WHERE ISNUMERIC(val) = 1
 
-	INSERT INTO #tblGroupId(GroupId)
+	INSERT INTO #tblGroupId (GroupId)
 	SELECT val
 	FROM dbo.func_SplitString(@GroupIds, ',')
 	WHERE ISNUMERIC(val) = 1
 
-	INSERT INTO #tblPARecordId (
-		PARecordId
-		)
+	INSERT INTO #tblPARecordId (PARecordId)
 	SELECT pa.PARecordId
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
-		AND period.IsActive = 1
 		INNER JOIN #tblPeriodId AS p WITH (NOLOCK) ON period.PeriodId = p.PeriodId
 		INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
-		AND (process.EvaluatorId = @ActorId)
+		AND process.EvaluatorId = @ActorId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
-		AND emp.[Enabled] = 1
-		AND emp.IsDeleted = 0
 		INNER JOIN #tblGroupId AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 	WHERE pa.StatusId IN (@PAInProgress, @PAClosed)
-		AND process.ProcessId IN (@ReviewerProcessId, @EvaluatorProcessId) 
-		AND (@EmployeeId IS NULL OR @EmployeeId = emp.EmployeeId)
+		AND process.ProcessId IN (@ReviewerProcessId, @EvaluatorProcessId)
+		AND (
+			@EmployeeId IS NULL
+			OR @EmployeeId = emp.EmployeeId
+			)
 	GROUP BY pa.PARecordId
+	
 	UNION
 	SELECT pa.PARecordId
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
-		AND period.IsActive = 1
 		INNER JOIN #tblPeriodId AS p WITH (NOLOCK) ON period.PeriodId = p.PeriodId
-	WHERE pa.EmployeeId = @ActorId AND @EmployeeId IS NULL
+	WHERE pa.EmployeeId = @ActorId
+		AND @EmployeeId IS NULL
 	GROUP BY pa.PARecordId
 
 	SELECT pa.PARecordId
-		,pa.PeriodId
-		,pa.EmployeeId
+		,pa.Toeic
 		,pa.ToeicPolicy
 		,pa.OriginalGradeId
 		,pa.ModifiedDate
-		,pa.Toeic
-		,pa.StatusId 
+		,pa.StatusId
 		,pa.GradeId
+		,emp.EmployeeId
+		,emp.NickName
+		,emp.FullName
+		,emp.Code
+		,gr.Code AS GroupCode
+		,gr.[Name] AS GroupName
+		,jobtitle.[Name] AS JobTitle
+		,period.PeriodId
+		,period.[Name]
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
-		INNER JOIN #tblPARecordId AS tbl WITH (NOLOCK) ON pa.PARecordId = tbl.PARecordId 
+		INNER JOIN #tblPARecordId AS tbl WITH (NOLOCK) ON pa.PARecordId = tbl.PARecordId
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		INNER JOIN dbo.JobTitle AS jobtitle WITH (NOLOCK) ON emp.JobTitleId = jobtitle.JobTitleId
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
 
 	SELECT process.PARecordId
 		,process.ProcessId
 		,process.EvaluatorId
+		,emp.NickName
+		,emp.FullName
+		,emp.Code
 		,record.PerformanceRecordId
-	FROM dbo.PAProcess AS process WITH (NOLOCK)
-		INNER JOIN #tblPARecordId AS tbl WITH (NOLOCK) ON process.PARecordId = tbl.PARecordId
-		LEFT JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON process.PerformanceRecordId = record.PerformanceRecordId
-
-	SELECT record.PerformanceRecordId
-		,record.CreatorId
 		,record.GradeId
 		,record.CreatedDate
 		,record.ModifiedDate
-	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
-		INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON record.PerformanceRecordId = process.PerformanceRecordId
+		,process.ProcessId AS RoleId
+		,record.TypeId
+		,record.CreatorId
+		,creator.NickName
+		,creator.FullName
+		,creator.Code
+	FROM dbo.PAProcess AS process WITH (NOLOCK)
 		INNER JOIN #tblPARecordId AS tbl WITH (NOLOCK) ON process.PARecordId = tbl.PARecordId
-	
-	DROP TABLE #tblGroupId
-	DROP TABLE #tblPARecordId
-	DROP TABLE #tblPeriodId
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON process.EvaluatorId = emp.EmployeeId
+		LEFT JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON process.PerformanceRecordId = record.PerformanceRecordId
+		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 
+	DROP TABLE #tblGroupId
+
+	DROP TABLE #tblPARecordId
+
+	DROP TABLE #tblPeriodId
 END

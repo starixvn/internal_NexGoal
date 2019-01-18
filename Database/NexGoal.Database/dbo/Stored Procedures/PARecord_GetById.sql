@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[PARecord_GetById] @ActorId INT
+﻿
+CREATE PROCEDURE [dbo].[PARecord_GetById] @ActorId INT
 	,@PARecordId INT
 AS
 /*
@@ -8,12 +9,12 @@ DB: bodb_NexGoal
 Original:
 
 Revisions:
+    20190117@Tim.Trinh: refactor
 Param's Explanation:
 
 */
 BEGIN
 	DECLARE @Today DATE = GETDATE()
-		,@ProcessId TINYINT
 		,@HRProcessId TINYINT = 1
 		,@PMProcessId TINYINT = 3
 		,@ReviewerProcessId TINYINT = 5
@@ -22,76 +23,51 @@ BEGIN
 		,@PAClosed TINYINT = 4
 		,@ReviewerId INT
 
-	SELECT @ReviewerId = p.EvaluatorId
-	FROM dbo.PAProcess as p WITH (NOLOCK)
-	WHERE p.PARecordId = @PARecordId AND p.ProcessId = @ReviewerProcessId
-
-	SELECT @ProcessId = MAX(process.ProcessId)
-	FROM dbo.PARecord AS pa WITH (NOLOCK)
-		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
-		AND period.IsActive = 1
-		INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
-		AND process.ProcessId > @HRProcessId
-		AND process.EvaluatorId = @ActorId
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
-		AND emp.[Enabled] = 1
-		AND emp.IsDeleted = 0
-	WHERE pa.PARecordId = @PARecordId
-
 	SELECT pa.PARecordId
-		,pa.PeriodId
-		,pa.EmployeeId
 		,pa.ModifiedDate
 		,pa.OriginalGradeId
-		,@ReviewerId as ReviewerId
 		,(CASE 
-			WHEN @ProcessId = @ReviewerProcessId AND (@Today BETWEEN p.StartDate AND p.EndDate) THEN @PAInProgress
+			WHEN @Today BETWEEN reviewer.StartDate
+					AND reviewer.EndDate THEN @PAInProgress
 			ELSE @PAClosed END
 			) AS StatusId
-		,(CASE @ProcessId
-			WHEN @PMProcessId THEN NULL
-			ELSE pa.GradeId END
-			) AS GradeId
-		,(CASE @ProcessId
-			WHEN @PMProcessId THEN NULL
-			ELSE pa.Comment END
-			) AS Comment
+		,pa.GradeId
+		,pa.Comment
+		,pa.EmployeeId
+		,emp.NickName
+		,emp.FullName
+		,emp.Code
+		,pa.PeriodId
+		,period.[Name]
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
-	LEFT JOIN dbo.PAProcess AS p WITH (NOLOCK) ON pa.PARecordId = p.PARecordId AND p.ProcessId = @ProcessId
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+		INNER JOIN dbo.PAProcess AS reviewer WITH (NOLOCK) ON pa.PARecordId = reviewer.PARecordId
+		AND reviewer.ProcessId = @ReviewerProcessId
 	WHERE pa.PARecordId = @PARecordId
 
 	SELECT process.PARecordId
 		,process.ProcessId
 		,process.EvaluatorId
+		,emp.NickName
+		,emp.FullName
+		,emp.Code
 		,record.PerformanceRecordId
-	FROM dbo.PAProcess AS process WITH (NOLOCK)
-		LEFT JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON process.PerformanceRecordId = record.PerformanceRecordId
-	WHERE process.PARecordId = @PARecordId
-		AND process.ProcessId > @HRProcessId
-		AND (
-			@ProcessId <> @PMProcessId
-			OR (
-				@ProcessId = @PMProcessId
-				AND process.EvaluatorId = @ActorId
-				)
-			)
-
-	SELECT record.PerformanceRecordId
-		,record.CreatorId
 		,record.GradeId
 		,record.Comment
 		,record.ProjectIds
 		,record.CreatedDate
 		,record.ModifiedDate
-	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
-		INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON record.PerformanceRecordId = process.PerformanceRecordId
+		,process.ProcessId AS RoleId
+		,record.TypeId
+		,record.CreatorId
+		,creator.NickName
+		,creator.FullName
+		,creator.Code
+	FROM dbo.PAProcess AS process WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON process.EvaluatorId = emp.EmployeeId
+		LEFT JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON process.PerformanceRecordId = record.PerformanceRecordId
+		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 	WHERE process.PARecordId = @PARecordId
-		AND process.ProcessId > @HRProcessId
-		AND (
-			@ProcessId <> @PMProcessId
-			OR (
-				@ProcessId = @PMProcessId
-				AND process.EvaluatorId = @ActorId
-				)
-			)
+		AND process.ProcessId NOT IN (@HRProcessId, @PMProcessId)
 END

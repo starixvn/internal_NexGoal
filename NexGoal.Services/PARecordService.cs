@@ -194,6 +194,7 @@
             int gradeId;
             foreach (PAProcessModel process in performanceAppraisal.Processes)
             {
+                process.Evaluator.Avatar = avatarService.GetFilePath(process.Evaluator.Code);
                 if (process.PerformanceRecord != null)
                 {
                     process.PerformanceRecord.Creator.Avatar = avatarService.GetFilePath(process.PerformanceRecord.Creator.Code);
