@@ -93,6 +93,7 @@
                 NickName = employee.NickName,
                 FullName = employee.FullName,
                 Code = employee.Code,
+                Avatar = employee.Avatar
             };
 
             foreach (FlowSettingModel flowSetting in flowSettings)

@@ -20,9 +20,9 @@
         private const string StartMailTemplateToNominator = "EmailTemplates\\Nomination\\StartToNominator.cshtml";
         private const string RemindMailTemplateToNominator = "EmailTemplates\\Nomination\\RemindToNominator.cshtml";
 
+        private readonly IOptionsSnapshot<AppSettings> configuration;
         private readonly IBaseService baseService;
         private readonly IBaseMailService mailService;
-        private readonly IOptionsSnapshot<AppSettings> configuration;
 
         public NominationService(
             IOptionsSnapshot<AppSettings> configuration,
