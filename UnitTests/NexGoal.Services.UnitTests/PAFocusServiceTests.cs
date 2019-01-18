@@ -9,6 +9,7 @@
     using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.PAFocus;
+    using NexGoal.Repositories;
     using NSubstitute;
     using Xunit;
 
@@ -17,6 +18,7 @@
         private IBaseService baseService;
         private ICryptoService cryptoService;
         private ICommonService commonService;
+        private IPAFocusRepository focusRepository;
 
         [Fact]
         public async Task GetPeriodAsync_WhenCalled_ReturnAsExpectedPeriods()
@@ -79,19 +81,14 @@
             var plainText = "1";
             var focuses = new List<PAFocusModel>
             {
-                new PAFocusModel { PAFocusId = 1, EmployeeId = 1 }
-            };
-            var employees = new List<EmployeeBaseModel>
-            {
-                new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" }
+                new PAFocusModel { PAFocusId = 1, Employee = new EmployeeBaseModel { EmployeeId = 1 } }
             };
             var performanceGrades = new List<PerformanceGradeModel>
             {
                 new PerformanceGradeModel { GradeId = 1, Name = "E+" }
             };
             var service = GetPAFocusService();
-            baseService.GetDataAsync<PAFocusModel>(Arg.Any<GetPAFocusCriteria>()).Returns(focuses);
-            commonService.GetEmployeesAsync().Returns(employees);
+            focusRepository.GetPAFocusAsync(Arg.Any<GetPAFocusCriteria>()).Returns(focuses);
             commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
             cryptoService.Decrypt(Arg.Any<string>()).Returns(plainText);
 
@@ -100,7 +97,6 @@
 
             // Assert
             Assert.Single(actual);
-            Assert.Equal(employees[0], actual.First().Employee);
             Assert.Equal(performanceGrades[0], actual.First().Grade);
             Assert.Equal(plainText, actual.First().IsReadyPromotion);
             Assert.Equal(plainText, actual.First().Contribution);
@@ -137,7 +133,8 @@
             baseService = Substitute.For<IBaseService>();
             cryptoService = Substitute.For<ICryptoService>();
             commonService = Substitute.For<ICommonService>();
-            var service = new PAFocusService(baseService, cryptoService, commonService);
+            focusRepository = Substitute.For<IPAFocusRepository>();
+            var service = new PAFocusService(baseService, cryptoService, commonService, focusRepository);
 
             return service;
         }

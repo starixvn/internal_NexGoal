@@ -10,21 +10,25 @@
     using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.PAFocus;
+    using NexGoal.Repositories;
 
     public class PAFocusService : IPAFocusService
     {
         private readonly IBaseService baseService;
         private readonly ICryptoService cryptoService;
         private readonly ICommonService commonService;
+        private readonly IPAFocusRepository focusRepository;
 
         public PAFocusService(
             IBaseService baseService,
             ICryptoService cryptoService,
-            ICommonService commonService)
+            ICommonService commonService,
+            IPAFocusRepository focusRepository)
         {
             this.baseService = baseService;
             this.cryptoService = cryptoService;
             this.commonService = commonService;
+            this.focusRepository = focusRepository;
         }
 
         public async Task<IEnumerable<PeriodBaseModel>> GetPeriodAsync()
@@ -65,24 +69,21 @@
                 EmployeeId = param.EmployeeId
             };
 
-            var paFocuses = await baseService.GetDataAsync<PAFocusModel>(criteria).ConfigureAwait(false);
-            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync().ConfigureAwait(false);
+            IEnumerable<PAFocusModel> pafocuses = await focusRepository.GetPAFocusAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
-            foreach (PAFocusModel paFocus in paFocuses)
+            foreach (PAFocusModel pafocus in pafocuses)
             {
-                paFocus.Employee = employees.FirstOrDefault(x => x.EmployeeId == paFocus.EmployeeId);
+                pafocus.IsReadyPromotion = cryptoService.Decrypt(pafocus.IsReadyPromotion);
+                pafocus.Contribution = cryptoService.Decrypt(pafocus.Contribution);
+                pafocus.BonusGiven = cryptoService.Decrypt(pafocus.BonusGiven);
 
-                paFocus.IsReadyPromotion = cryptoService.Decrypt(paFocus.IsReadyPromotion);
-                paFocus.Contribution = cryptoService.Decrypt(paFocus.Contribution);
-                paFocus.BonusGiven = cryptoService.Decrypt(paFocus.BonusGiven);
-
-                paFocus.GradeId = cryptoService.Decrypt(paFocus.GradeId);
-                int.TryParse(paFocus.GradeId, out int gradeId);
-                paFocus.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+                pafocus.GradeId = cryptoService.Decrypt(pafocus.GradeId);
+                int.TryParse(pafocus.GradeId, out int gradeId);
+                pafocus.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
             }
 
-            return paFocuses;
+            return pafocuses;
         }
 
         public async Task<CommandResult> EditPAFocusAsync(int actorId, IEnumerable<EditPAFocusModel> paFocuses)

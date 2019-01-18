@@ -7,8 +7,6 @@
     {
         public int PAFocusId { get; set; }
 
-        [JsonIgnore]
-        public int EmployeeId { get; set; }
         public EmployeeBaseModel Employee { get; set; } = new EmployeeBaseModel();
 
         public string CurrentObjective { get; set; }
@@ -20,6 +18,7 @@
         [JsonIgnore]
         public string GradeId { get; set; }
         public PerformanceGradeModel Grade { get; set; }
+
         public bool IsHost { get; set; }
     }
 }

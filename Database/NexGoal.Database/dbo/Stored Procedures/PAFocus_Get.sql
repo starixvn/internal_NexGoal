@@ -125,7 +125,6 @@ BEGIN
 	END
 
 	SELECT focus.PAFocusId
-		,focus.PeriodId
 		,l.[Description] AS CurrentObjective
 		,n.[Description] AS NextObjective
 		,focus.Contribution
@@ -138,16 +137,21 @@ BEGIN
 					AND period.FocusEndDate THEN 1
 			ELSE 0 END
 			) AS IsHost
-		,emp.EmployeeId
 		,parecord.GradeId
+		,emp.EmployeeId
+		,emp.NickName
+		,emp.FullName
+		,emp.Code
+		,jobtitle.[Name] AS JobTitle
 	FROM #tblPAFocusIds AS focusid WITH (NOLOCK)
 		INNER JOIN dbo.PAFocus AS focus WITH (NOLOCK) ON focus.PAFocusId = focusid.PAFocusId
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON focus.PeriodId = period.PeriodId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON emp.EmployeeId = focus.EmployeeId
-		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON gr.GroupId = emp.GroupId
-		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON period.PeriodId = focus.PeriodId
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		INNER JOIN dbo.JobTitle AS jobtitle WITH (NOLOCK) ON emp.JobTitleId = jobtitle.JobTitleId
 		INNER JOIN dbo.PARecord AS parecord WITH (NOLOCK) ON parecord.EmployeeId = emp.EmployeeId
-		AND parecord.PeriodId = period.PeriodId
-		INNER JOIN #tblGroupIds AS grid WITH (NOLOCK) ON gr.GroupId = grid.GroupId
+		AND parecord.PeriodId = focus.PeriodId
+		INNER JOIN #tblGroupIds AS grid WITH (NOLOCK) ON emp.GroupId = grid.GroupId
 		LEFT JOIN dbo.EmployeeObjective AS l WITH (NOLOCK) ON l.ObjectiveId = focus.LastObjectiveId
 		LEFT JOIN dbo.EmployeeObjective AS n WITH (NOLOCK) ON n.ObjectiveId = focus.NextObjectiveId
 	ORDER BY gr.[Name]

@@ -7,6 +7,7 @@
         public static void ResolveRepositoryDI(this IServiceCollection services)
         {
             services.AddScoped<IPARepository, PARepository>();
+            services.AddScoped<IPAFocusRepository, PAFocusRepository>();
             services.AddScoped<IPAReportRepository, PAReportRepository>();
         }
     }
