@@ -11,7 +11,7 @@
 
     public class PAReportRepository : IPAReportRepository
     {
-        public async Task<IEnumerable<PARecordModel>> GetPARecordByReviewerAsync(ICriteria criteria)
+        public async Task<IEnumerable<PARecordModel>> GetPAReportAsync(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {

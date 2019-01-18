@@ -7,6 +7,6 @@
 
     public interface IPAReportRepository
     {
-        Task<IEnumerable<PARecordModel>> GetPARecordByReviewerAsync(ICriteria criteria);
+        Task<IEnumerable<PARecordModel>> GetPAReportAsync(ICriteria criteria);
     }
 }

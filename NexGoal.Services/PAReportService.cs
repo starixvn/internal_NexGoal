@@ -36,7 +36,7 @@
                 GroupIds = param.GroupIds,
                 EmployeeId = param.EmployeeId
             };
-            IEnumerable<PARecordModel> performanceAppraisals = await reportRepository.GetPARecordByReviewerAsync(criteria).ConfigureAwait(false);
+            IEnumerable<PARecordModel> performanceAppraisals = await reportRepository.GetPAReportAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
             MappingData(performanceAppraisals, performanceGrades);
