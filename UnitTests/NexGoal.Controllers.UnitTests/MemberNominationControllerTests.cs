@@ -156,10 +156,10 @@
                 }
             };
             var controller = GetController();
-            nominationService.GetMemberNominationsAsync(1, sessionService.EmployeeId).Returns(expected);
+            nominationService.GetMemberNominationsAsync(sessionService.EmployeeId).Returns(expected);
 
             // Act
-            var result = await controller.GetMemberNominations(1);
+            var result = await controller.GetMemberNominations();
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);

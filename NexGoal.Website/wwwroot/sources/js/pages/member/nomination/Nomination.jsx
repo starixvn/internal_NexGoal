@@ -26,17 +26,25 @@ export default class Nomination extends Component {
     }
 
     componentDidMount() {
-        const promises = [
+        let promises = [
             axios(resolveClientUrl('Common/GetEmployees')),
-            axios(resolveClientUrl('MemberNomination/GetMemberNominations'), {
-                params: {
-                    memberId: this.props.isMemberDetail ? this.props.nomineeId : null
-                }
-            }),
-            axios(resolveClientUrl('MemberNomination/GetNominationPeriodsForNominator'))
+            axios(resolveClientUrl('MemberNomination/GetNominationPeriodsForNominator')),
+            axios(resolveClientUrl('MemberNomination/GetMemberNominations'))
         ];
 
-        Promise.all(promises).then(([employeeResponse, nominationResponse, nominationPeriodResponse]) => {
+        if (this.props.isMemberDetails) {
+            promises = [
+                axios(resolveClientUrl('Common/GetEmployees')),
+                axios(resolveClientUrl('MemberNomination/GetNominationPeriodsForNominator')),
+                axios(resolveClientUrl('MemberNomination/GetMemberNominationById'), {
+                    params: {
+                        memberId: this.props.nomineeId
+                    }
+                })
+            ];
+        }
+
+        Promise.all(promises).then(([employeeResponse, nominationPeriodResponse, nominationResponse]) => {
             this.employeeOptions = employeeResponse.data.map(member => {
                 return { value: member.employeeId, label: `${member.nickName} (${member.fullName})` };
             });

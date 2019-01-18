@@ -427,7 +427,7 @@ export default class App extends Component {
                                         this.state.loadNominationTab &&
                                         <Nomination
                                             currentUser={this.currentUserInfo}
-                                            isMemberDetail
+                                            isMemberDetails
                                             nomineeId={this.memberInfo.id}
                                         />
                                     }

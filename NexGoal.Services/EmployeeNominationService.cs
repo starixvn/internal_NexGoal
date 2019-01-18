@@ -13,18 +13,25 @@
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.NominationPeriod;
     using NexGoal.Models.PerformanceRecord;
+    using NexGoal.Repositories;
 
     public class EmployeeNominationService : IEmployeeNominationService
     {
         private readonly IBaseService baseService;
         private readonly ICommonService commonService;
+        private readonly IAvatarService avatarService;
+        private readonly IEmployeeNominationRepository nominationRepository;
 
         public EmployeeNominationService(
             IBaseService baseService,
-            ICommonService commonService)
+            ICommonService commonService,
+            IAvatarService avatarService,
+            IEmployeeNominationRepository nominationRepository)
         {
             this.baseService = baseService;
             this.commonService = commonService;
+            this.avatarService = avatarService;
+            this.nominationRepository = nominationRepository;
         }
 
         public async Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForNominatorAsync(int nominatorId)
@@ -89,12 +96,11 @@
             return performanceRecord;
         }
 
-        public async Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationsAsync(int nominatorId, int? memberId)
+        public async Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationsAsync(int nominatorId)
         {
             var criteria = new GetMemberNominationCriteria
             {
-                ActorId = nominatorId,
-                MemberId = memberId
+                ActorId = nominatorId
             };
 
             var result = await baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(criteria).ConfigureAwait(false);
@@ -106,6 +112,23 @@
             employees = employees.Where(x => performanceRecords.Any(r => r.CreatorId == x.EmployeeId || r.EmployeeIds.Split(',').Select(int.Parse).Any(e => e == x.EmployeeId)));
 
             MappingData(performanceRecords, employees, nominationPeriods);
+
+            return performanceRecords;
+        }
+
+        public async Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationByIdAsync(int nominatorId, int memberId)
+        {
+            var criteria = new GetMemberNominationByIdCriteria
+            {
+                ActorId = nominatorId,
+                MemberId = memberId
+            };
+            IEnumerable<PerformanceRecordModel> performanceRecords = await nominationRepository.GetMemberNominationAsync(criteria).ConfigureAwait(false);
+
+            foreach (PerformanceRecordModel record in performanceRecords)
+            {
+                record.Creator.Avatar = avatarService.GetFilePath(record.Creator.Code);
+            }
 
             return performanceRecords;
         }

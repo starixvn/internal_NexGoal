@@ -12,6 +12,7 @@
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.NominationPeriod;
     using NexGoal.Models.PerformanceRecord;
+    using NexGoal.Repositories;
     using NSubstitute;
     using Xunit;
 
@@ -19,6 +20,8 @@
     {
         private IBaseService baseService;
         private ICommonService commonService;
+        private IAvatarService avatarService;
+        private IEmployeeNominationRepository nominationRepository;
 
         [Fact]
         public async Task GetNominationPeriodsForNominator_WhenCalled_ReturnExpectedResult()
@@ -138,7 +141,7 @@
                 new EmployeeBaseModel { EmployeeId = 2 }
             });
 
-            var result = await service.GetMemberNominationsAsync(1, null);
+            var result = await service.GetMemberNominationsAsync(1);
 
             Assert.NotEmpty(result);
             Assert.All(result, record =>
@@ -230,8 +233,10 @@
         {
             baseService = Substitute.For<IBaseService>();
             commonService = Substitute.For<ICommonService>();
+            avatarService = Substitute.For<IAvatarService>();
+            nominationRepository = Substitute.For<IEmployeeNominationRepository>();
 
-            var service = new EmployeeNominationService(baseService, commonService);
+            var service = new EmployeeNominationService(baseService, commonService, avatarService, nominationRepository);
 
             return service;
         }

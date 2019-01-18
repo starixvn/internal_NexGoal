@@ -131,6 +131,7 @@
     <Setting Key="Nomination_GetByPeriodIds" SpName="Nomination_GetByPeriodIds" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_UpdateStatus" SpName="Nomination_UpdateStatus" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_Delete" SpName="Nomination_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Nomination_GetMemberNominationById" SpName="Nomination_GetMemberNominationById" DbName="bodb_NexGoal" Plain="0" />
   </Function>
   <Function Name="Notification">
     <Setting Key="Notification_GetSettingByEmployee" SpName="Notification_GetSettingByEmployee" DbName="bodb_NexGoal" Plain="0" />

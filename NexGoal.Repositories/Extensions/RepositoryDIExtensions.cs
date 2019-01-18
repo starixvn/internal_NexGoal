@@ -8,6 +8,7 @@
         {
             services.AddScoped<IPARepository, PARepository>();
             services.AddScoped<IPAFocusRepository, PAFocusRepository>();
+            services.AddScoped<IEmployeeNominationRepository, EmployeeNominationRepository>();
             services.AddScoped<IPAReportRepository, PAReportRepository>();
         }
     }
