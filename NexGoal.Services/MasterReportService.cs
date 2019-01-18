@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -10,6 +11,7 @@
     using NexGoal.Criteria.MasterReport;
     using NexGoal.Models.MasterReport;
     using OfficeOpenXml;
+    using OfficeOpenXml.Style;
 
     public class MasterReportService : IMasterReportService
     {
@@ -67,9 +69,9 @@
         public async Task<byte[]> ExportAsync(int periodId, string groupIds, string employeeIds)
         {
             var records = await GetRecords(periodId, groupIds, employeeIds).ConfigureAwait(false);
+            records = records.OrderBy(x => x.GroupName).ThenBy(x => x.NickName);
 
             var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.WebRootPath, ExcelTemplatePath));
-
             using (var package = new ExcelPackage(fileInfo, true))
             {
                 ExcelWorksheet worksheet = package.Workbook.Worksheets.First();
@@ -79,20 +81,65 @@
                 var currentRow = 6;
                 foreach (var record in records)
                 {
-                    worksheet.Cells[currentRow, 1].Value = rowIndex;
-                    worksheet.Cells[currentRow, 2].Value = record.NickName;
-                    worksheet.Cells[currentRow, 3].Value = record.FullName;
-                    worksheet.Cells[currentRow, 4].Value = record.JobTitle;
-                    worksheet.Cells[currentRow, 5].Value = record.GroupName;
+                    var numberOfAwards = record.Awards.Count();
+                    var toRow = numberOfAwards > 0 ? currentRow + numberOfAwards - 1 : currentRow;
+                    var merge = currentRow != toRow;
+
+                    var indexCell = worksheet.Cells[currentRow, 1, toRow, 1];
+                    indexCell.Merge = merge;
+                    indexCell.Value = rowIndex;
+
+                    var nickNameCell = worksheet.Cells[currentRow, 2, toRow, 2];
+                    nickNameCell.Merge = merge;
+                    nickNameCell.Value = record.NickName;
+
+                    var fullNameCell = worksheet.Cells[currentRow, 3, toRow, 3];
+                    fullNameCell.Merge = merge;
+                    fullNameCell.Value = record.FullName;
+
+                    var jobTitleCell = worksheet.Cells[currentRow, 4, toRow, 4];
+                    jobTitleCell.Merge = merge;
+                    jobTitleCell.Value = record.JobTitle;
+
+                    var groupNameCell = worksheet.Cells[currentRow, 5, toRow, 5];
+                    groupNameCell.Merge = merge;
+                    groupNameCell.Value = record.GroupName;
+
+                    var gradeCell = worksheet.Cells[currentRow, 7, toRow, 7];
+                    gradeCell.Merge = merge;
+                    gradeCell.Value = record.Grade;
+
+                    var contributionCell = worksheet.Cells[currentRow, 9, toRow, 9];
+                    contributionCell.Merge = merge;
+                    contributionCell.Value = record.Contribution;
+
+                    var bonusGivenCell = worksheet.Cells[currentRow, 10, toRow, 10];
+                    bonusGivenCell.Merge = merge;
+                    bonusGivenCell.Value = record.Contribution;
+
+                    var readyPromotionCell = worksheet.Cells[currentRow, 11, toRow, 11];
+                    readyPromotionCell.Merge = merge;
+                    readyPromotionCell.Value = record.IsReadyPromotion == "true" ? "Yes" : "No";
+
+                    var currentObjectiveCell = worksheet.Cells[currentRow, 13, toRow, 13];
+                    currentObjectiveCell.Merge = merge;
+                    currentObjectiveCell.Value = record.CurrentObjective;
+
+                    var nextObjectiveCell = worksheet.Cells[currentRow, 14, toRow, 14];
+                    nextObjectiveCell.Merge = merge;
+                    nextObjectiveCell.Value = record.NextObjective;
+
+                    var rowPosition = currentRow;
+                    foreach (var award in record.Awards)
+                    {
+                        worksheet.Cells[rowPosition, 15].Value = award.Title;
+                        worksheet.Cells[rowPosition, 16].Value = award.Status;
+                        rowPosition++;
+                    }
 
                     rowIndex++;
-                    currentRow++;
+                    currentRow = toRow + 1;
                 }
-
-                worksheet.Column(2).AutoFit();
-                worksheet.Column(3).AutoFit();
-                worksheet.Column(4).AutoFit();
-                worksheet.Column(5).AutoFit();
 
                 return package.GetAsByteArray();
             }
