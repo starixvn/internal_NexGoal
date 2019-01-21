@@ -305,7 +305,7 @@
 }
 
 .workload {
-    padding: 8px 12px;
+    //padding: 8px 12px;
 
     h5 {
         display: inline-block;
@@ -314,8 +314,7 @@
     position: relative;
 
     .team {
-        display: inline-block;
-        width: 40px;
+       margin-bottom: 4px;
     }
 
     .react-select-container {
@@ -342,7 +341,7 @@
     .nomination-period-title {
         font-weight: bold;
         font-size: 15px;
-        padding: 12px 0 8px;
+        //padding: 12px 0 8px;
     }
 
     h5 {

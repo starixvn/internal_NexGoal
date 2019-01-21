@@ -97,15 +97,7 @@
                 cursor: pointer;
                 font-weight: bold;
                 background-color: #E0F3FF;
-            }
-
-            .description {
-                flex: auto;
-                padding-left: 12px;
-                a {
-                    color: #474747;
-                }
-            }
+            }           
 
             .avatar {
                 @include border-radius(50%);
@@ -113,6 +105,13 @@
                 flex: none;
                 height: 32px;
                 width: 32px;
+            }
+        }
+        .description {
+            flex: auto;
+            padding-left: 12px;
+            a {
+                color: #474747;
             }
         }
     }

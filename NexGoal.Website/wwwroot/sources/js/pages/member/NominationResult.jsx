@@ -119,25 +119,25 @@ export default class NominationResult extends Component {
                     {
                         memberNominations.map((nomination, index) => {
                             return (
-                                <div className="result-item" key={`nominationResult${index}`}>
+                                <div key={`nominationResult${index}`}>
                                     <div className="nomination-period-title">{nomination.period.shortTitle}</div>
                                     {
                                         nomination.winners.length > 0 &&
-                                        <div>
+                                        <div  className="result-item">
                                             <span className={getNominationClassName(NominationStatuses[2].value)}>Winner</span>
                                             <span>: {nomination.winners.join(', ')}</span>
                                         </div>
                                     }
                                     {
                                         nomination.shortlisteds.length > 0 &&
-                                        <div>
+                                        <div  className="result-item">
                                             <span className={getNominationClassName(NominationStatuses[1].value)}>Shortlisted</span>
                                             <span>: {nomination.shortlisteds.join(', ')}</span>
                                         </div>
                                     }
                                     {
                                         nomination.nominateds.length > 0 &&
-                                        <div>
+                                        <div  className="result-item">
                                             <span className={getNominationClassName(NominationStatuses[0].value)}>Nominated</span>
                                             <span>: {nomination.nominateds.join(', ')}</span>
                                         </div>
