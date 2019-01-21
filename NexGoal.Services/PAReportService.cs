@@ -14,14 +14,17 @@
     public class PAReportService : IPAReportService
     {
         private readonly IPAReportRepository reportRepository;
+        private readonly IPARecordService paRecordService;
         private readonly ICryptoService cryptoService;
         private readonly ICommonService commonService;
 
         public PAReportService(
             IPAReportRepository reportRepository,
+            IPARecordService paRecordService,
             ICryptoService cryptoService,
             ICommonService commonService)
         {
+            this.paRecordService = paRecordService;
             this.reportRepository = reportRepository;
             this.cryptoService = cryptoService;
             this.commonService = commonService;
@@ -36,6 +39,7 @@
                 GroupIds = param.GroupIds,
                 EmployeeId = param.EmployeeId
             };
+
             IEnumerable<PARecordModel> performanceAppraisals = await reportRepository.GetPAReportAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
@@ -81,6 +85,17 @@
                     }
                 }
             }
+        }
+
+        public async Task<PAReportDetail> GetPAReportDetailAsync(GetPADetailParam model)
+        {
+            var paRecord = await paRecordService.GetPARecordByIdAsync(model.PARecordId, model.ActorId).ConfigureAwait(false);
+
+            var paDetail = new PAReportDetail
+            {
+                PARecord = paRecord
+            };
+            return paDetail;
         }
     }
 }

@@ -8,5 +8,7 @@
     public interface IPAReportService
     {
         Task<IEnumerable<PARecordGroupByPeriod>> GetPAReportAsync(GetPARecordMultiPeriodParam param);
+
+        Task<PAReportDetail> GetPAReportDetailAsync(GetPADetailParam model);
     }
 }

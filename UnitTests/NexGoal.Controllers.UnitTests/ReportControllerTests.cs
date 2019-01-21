@@ -17,7 +17,6 @@
     public class ReportControllerTests
     {
         private ISessionService sessionService;
-        private IPARecordService paRecordService;
         private IPAReportService reportService;
         private IExportPAReportService exportService;
 
@@ -119,10 +118,9 @@
         private ReportController GetReportController()
         {
             sessionService = Helpers.FakeSessionService();
-            paRecordService = Substitute.For<IPARecordService>();
             reportService = Substitute.For<IPAReportService>();
             exportService = Substitute.For<IExportPAReportService>();
-            var controller = new ReportController(sessionService, paRecordService, reportService, exportService);
+            var controller = new ReportController(sessionService, reportService, exportService);
 
             return controller;
         }

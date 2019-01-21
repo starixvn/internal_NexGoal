@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Models.PARecord;
+    using NexGoal.Models.Report;
     using NexGoal.Services;
     using NexGoal.Services.Interfaces;
     using NexGoal.Web.Core.Services;
@@ -12,18 +13,15 @@
     public class ReportController : Controller
     {
         private readonly ISessionService sessionService;
-        private readonly IPARecordService paRecordService;
         private readonly IPAReportService reportService;
         private readonly IExportPAReportService exportService;
 
         public ReportController(
             ISessionService sessionService,
-            IPARecordService paRecordService,
             IPAReportService reportService,
             IExportPAReportService exportService)
         {
             this.sessionService = sessionService;
-            this.paRecordService = paRecordService;
             this.reportService = reportService;
             this.exportService = exportService;
         }
@@ -51,14 +49,13 @@
             return File(fileContent, MimeType.XLSX, fileName);
         }
 
-        //[MiddlewareFilter(typeof(JsReportPipeline))]
         [AllowAnonymous]
-        public async Task<IActionResult> PaDetail(int paRecordId)
+        public async Task<IActionResult> PaDetail(GetPADetailParam model)
         {
-            var record = await paRecordService.GetPARecordByIdAsync(paRecordId, sessionService.EmployeeId).ConfigureAwait(false);
-            //HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf);
+            var reportDetail = await reportService.GetPAReportDetailAsync(model).ConfigureAwait(false);
+
             ViewData["NoLayout"] = true;
-            return View(record);
+            return View(reportDetail);
         }
     }
 }
