@@ -33,7 +33,7 @@
 
         private PerformanceRecordService GetPerformanceRecordService()
         {
-            baseService = Substitute.For<IBaseService>();
+            baseService = Helpers.FakeBaseService();
 
             return new PerformanceRecordService(baseService);
         }

@@ -74,7 +74,7 @@
 
         private PeriodService GetPeriodService()
         {
-            baseService = Substitute.For<IBaseService>();
+            baseService = Helpers.FakeBaseService();
 
             return new PeriodService(baseService);
         }
