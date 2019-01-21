@@ -50,17 +50,9 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
-        {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
-
-            return service;
-        }
-
         private FlowController GetFlowController()
         {
-            sessionService = FakeSessionService();
+            sessionService = Helpers.FakeSessionService();
             commonService = Substitute.For<ICommonService>();
             var controller = new FlowController(sessionService, commonService);
 

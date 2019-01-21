@@ -3,11 +3,8 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    using NexGoal.Core.Models;
-    using NexGoal.Models.Common;
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.NominationPeriod;
-    using NexGoal.Models.PMSetting;
     using NexGoal.Services;
     using NexGoal.Web.Core.Services;
     using NSubstitute;
@@ -73,8 +70,7 @@
         private NominationReportController GetContronller()
         {
             nominationReportService = Substitute.For<INominationReportService>();
-            sessionService = Substitute.For<ISessionService>();
-            sessionService.EmployeeId = 1;
+            sessionService = Helpers.FakeSessionService();
 
             var controller = new NominationReportController(nominationReportService, sessionService);
 

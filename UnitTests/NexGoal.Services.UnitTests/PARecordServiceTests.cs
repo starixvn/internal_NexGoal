@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PARecord;
@@ -176,6 +177,21 @@
 
             // Act
             var actual = await service.QuickEditPARecordByReviewerAsync(165, 1, true);
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task GetPermissionOnPerformanceAppraisalAsync_WhenCalled_ReturnAsExpectedPermission()
+        {
+            // Arrange
+            var expected = Policy.Read;
+            var service = GetPARecordService();
+            baseService.GetDataEntityAsync<Policy>(Arg.Any<GetPermissionOnPACriteria>()).Returns(expected);
+
+            // Act
+            var actual = await service.GetPermissionOnPerformanceAppraisalAsync(1, 1);
 
             // Assert
             Assert.Equal(expected, actual);

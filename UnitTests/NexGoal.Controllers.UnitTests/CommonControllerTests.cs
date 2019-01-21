@@ -334,17 +334,9 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
-        {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
-
-            return service;
-        }
-
         private CommonController GetCommonController()
         {
-            sessionService = FakeSessionService();
+            sessionService = Helpers.FakeSessionService();
             commonService = Substitute.For<ICommonService>();
             employeeService = Substitute.For<IEmployeeService>();
             disciplineService = Substitute.For<IDisciplineService>();

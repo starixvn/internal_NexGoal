@@ -224,17 +224,9 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
-        {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
-
-            return service;
-        }
-
         private MemberPerformanceController GetMemberPerformanceController()
         {
-            sessionService = FakeSessionService();
+            sessionService = Helpers.FakeSessionService();
             performanceService = Substitute.For<IPerformanceRecordService>();
             var controller = new MemberPerformanceController(sessionService, performanceService);
 

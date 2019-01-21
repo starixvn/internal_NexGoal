@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
@@ -26,5 +27,7 @@
         Task<CommandResult> EditPARecordByReviewerAsync(int actorId, EditPARecordByReviewerModel paRecord);
 
         Task<CommandResult> QuickEditPARecordByReviewerAsync(int actorId, int paRecordId, bool isRevised);
+
+        Task<Policy> GetPermissionOnPerformanceAppraisalAsync(int actorId, int recordId);
     }
 }

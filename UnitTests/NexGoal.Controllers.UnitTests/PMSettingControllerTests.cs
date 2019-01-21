@@ -101,8 +101,7 @@
         private PMSettingController GetContronller()
         {
             pmSettingService = Substitute.For<IPMSettingService>();
-            sessionService = Substitute.For<ISessionService>();
-            sessionService.EmployeeId = 1;
+            sessionService = Helpers.FakeSessionService();
 
             var controller = new PMSettingController(pmSettingService, sessionService);
 

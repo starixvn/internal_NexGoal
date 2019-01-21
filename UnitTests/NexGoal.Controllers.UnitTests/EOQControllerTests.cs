@@ -227,17 +227,9 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
-        {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
-
-            return service;
-        }
-
         private EOQController GetEOQController()
         {
-            sessionService = FakeSessionService();
+            sessionService = Helpers.FakeSessionService();
             eoqService = Substitute.For<IEOQService>();
             var controller = new EOQController(sessionService, eoqService);
 

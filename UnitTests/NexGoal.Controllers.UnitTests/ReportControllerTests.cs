@@ -84,14 +84,6 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
-        {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 165;
-
-            return service;
-        }
-
         private IEnumerable<PARecordGroupByPeriod> FakeDataListPA()
         {
             var listPARecords = new List<PARecordModel>
@@ -126,7 +118,7 @@
 
         private ReportController GetReportController()
         {
-            sessionService = FakeSessionService();
+            sessionService = Helpers.FakeSessionService();
             paRecordService = Substitute.For<IPARecordService>();
             reportService = Substitute.For<IPAReportService>();
             exportService = Substitute.For<IExportPAReportService>();

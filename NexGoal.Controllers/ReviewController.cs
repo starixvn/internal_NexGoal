@@ -81,12 +81,5 @@
 
             return Json(commandResult);
         }
-
-        public async Task<JsonResult> GetPARecordById(int id)
-        {
-            PARecordModel paRecord = await paRecordService.GetPARecordByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
-
-            return Json(paRecord);
-        }
     }
 }

@@ -197,8 +197,7 @@
         private MemberNominationController GetController()
         {
             nominationService = Substitute.For<IEmployeeNominationService>();
-            sessionService = Substitute.For<ISessionService>();
-            sessionService.EmployeeId = 1;
+            sessionService = Helpers.FakeSessionService();
 
             return new MemberNominationController(nominationService, sessionService);
         }

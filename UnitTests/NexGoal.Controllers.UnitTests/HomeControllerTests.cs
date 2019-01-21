@@ -100,17 +100,9 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
-        {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
-
-            return service;
-        }
-
         private HomeController GetHomeController()
         {
-            sessionService = FakeSessionService();
+            sessionService = Helpers.FakeSessionService();
             employeeService = Substitute.For<IEmployeeService>();
             paRecordService = Substitute.For<IPARecordService>();
             redmineService = Substitute.For<IRedmineService>();

@@ -101,17 +101,9 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
-        {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
-
-            return service;
-        }
-
         private NominationPeriodController GetNominationPeriodController()
         {
-            sessionService = FakeSessionService();
+            sessionService = Helpers.FakeSessionService();
             nominationPeriodService = Substitute.For<INominationPeriodService>();
             var controller = new NominationPeriodController(sessionService, nominationPeriodService);
 

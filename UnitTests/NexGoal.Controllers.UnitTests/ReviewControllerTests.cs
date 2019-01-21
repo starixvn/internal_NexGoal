@@ -142,36 +142,11 @@
 
         #endregion Edit
 
-        [Fact]
-        public async Task GetById_WhenCalled_ReturnAsExpectedJsonResult()
-        {
-            // Arrange
-            var paRecord = new PARecordModel { PARecordId = 1, EmployeeId = 1, StatusId = 3 };
-            var controller = GetReviewController();
-            paRecordService.GetPARecordByIdAsync(1, sessionService.EmployeeId).Returns(paRecord);
-
-            // Act
-            var actual = await controller.GetPARecordById(1);
-
-            // Assert
-            var jsonResult = Assert.IsType<JsonResult>(actual);
-            var result = Assert.IsAssignableFrom<PARecordModel>(jsonResult.Value);
-            Assert.Equal(paRecord, result);
-        }
-
         #region Helpers
-
-        private ISessionService FakeSessionService()
-        {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
-
-            return service;
-        }
 
         private ReviewController GetReviewController()
         {
-            sessionService = FakeSessionService();
+            sessionService = Helpers.FakeSessionService();
             paRecordService = Substitute.For<IPARecordService>();
             var controller = new ReviewController(sessionService, paRecordService);
 

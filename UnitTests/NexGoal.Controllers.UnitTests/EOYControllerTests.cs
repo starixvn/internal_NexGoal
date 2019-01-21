@@ -210,17 +210,9 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
-        {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
-
-            return service;
-        }
-
         private EOYController GetEOYController()
         {
-            sessionService = FakeSessionService();
+            sessionService = Helpers.FakeSessionService();
             eoyService = Substitute.For<IEOYService>();
             var controller = new EOYController(sessionService, eoyService);
 

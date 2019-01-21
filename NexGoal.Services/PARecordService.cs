@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PARecord;
@@ -158,6 +159,17 @@
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<Policy> GetPermissionOnPerformanceAppraisalAsync(int actorId, int recordId)
+        {
+            var criteria = new GetPermissionOnPACriteria
+            {
+                ActorId = actorId,
+                PARecordId = recordId
+            };
+
+            return await baseService.GetDataEntityAsync<Policy>(criteria).ConfigureAwait(false);
         }
 
         private void MappingData(

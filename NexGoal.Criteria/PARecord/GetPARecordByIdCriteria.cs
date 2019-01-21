@@ -1,6 +1,4 @@
-﻿
-
-namespace NexGoal.Criteria.PARecord
+﻿namespace NexGoal.Criteria.PARecord
 {
     using Fanex.Data.Repository;
 

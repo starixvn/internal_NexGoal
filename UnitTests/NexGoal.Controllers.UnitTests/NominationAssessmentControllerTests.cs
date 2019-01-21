@@ -14,7 +14,6 @@
     public class NominationAssessmentControllerTests
     {
         private ISessionService sessionService;
-
         private IEmployeeNominationService employeeNominationService;
 
         [Fact]
@@ -68,14 +67,6 @@
             Assert.True(commandResult.IsSuccessful);
         }
 
-        private ISessionService FakeSessionService()
-        {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
-
-            return service;
-        }
-
         private IEmployeeNominationService FakeEmployeeNominationService()
         {
             var service = Substitute.For<IEmployeeNominationService>();
@@ -85,7 +76,7 @@
 
         private NominationAssessmentController GetNominationAssessmentController()
         {
-            sessionService = FakeSessionService();
+            sessionService = Helpers.FakeSessionService();
             employeeNominationService = FakeEmployeeNominationService();
 
             var controller = new NominationAssessmentController(sessionService, employeeNominationService);

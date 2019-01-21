@@ -5,7 +5,6 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
-    using NexGoal.Core.Services;
     using NexGoal.Models.PARecord;
     using NexGoal.Models.Period;
     using NexGoal.Services;
@@ -393,17 +392,9 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
-        {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
-
-            return service;
-        }
-
         private PeriodController GetPeriodController()
         {
-            sessionService = FakeSessionService();
+            sessionService = Helpers.FakeSessionService();
             periodService = Substitute.For<IPeriodService>();
             var controller = new PeriodController(sessionService, periodService);
 

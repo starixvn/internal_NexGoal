@@ -106,7 +106,7 @@ export default class App extends Component {
     }
 
     handleClickViewPADetail = (paRecordId) => {
-        axios(resolveClientUrl(`Review/GetPARecordById/${paRecordId}`)).then(response => {
+        axios(resolveClientUrl(`PA/GetById/${paRecordId}`)).then(response => {
             if (response.data) {
                 let pa = response.data;
                 let reviewer = pa.processes.filter(x => x.processId === PerformanceProcess.Reviewer)[0].evaluator;

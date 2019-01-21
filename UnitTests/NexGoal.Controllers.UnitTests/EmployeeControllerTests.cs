@@ -122,7 +122,7 @@
         private EmployeeController GetEmployeeController()
         {
             employeeService = Substitute.For<IEmployeeService>();
-            sessionService = Substitute.For<ISessionService>();
+            sessionService = Helpers.FakeSessionService();
 
             return new EmployeeController(employeeService, sessionService);
         }

@@ -169,17 +169,9 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
-        {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 363;
-
-            return service;
-        }
-
         private NotificationController GetNotificationController()
         {
-            sessionService = FakeSessionService();
+            sessionService = Helpers.FakeSessionService();
             notificationService = Substitute.For<INotificationService>();
             var controller = new NotificationController(sessionService, notificationService);
 

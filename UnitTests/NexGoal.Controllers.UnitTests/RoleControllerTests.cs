@@ -95,18 +95,10 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
-        {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
-
-            return service;
-        }
-
         private RoleController GetRoleController()
         {
             commonService = Substitute.For<ICommonService>();
-            sessionService = FakeSessionService();
+            sessionService = Helpers.FakeSessionService();
             functionService = Substitute.For<IFunctionService>();
             var controller = new RoleController(sessionService, commonService, functionService);
 

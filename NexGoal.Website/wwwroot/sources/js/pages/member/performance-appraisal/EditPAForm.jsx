@@ -32,10 +32,9 @@ export default class EditMemberPA extends Component {
     }
 
     componentDidMount() {
-        axios(resolveClientUrl(`Review/GetPARecordById/${this.props.paRecordId}`)).then(response => {
+        axios(resolveClientUrl(`PA/GetById/${this.props.paRecordId}`)).then(response => {
             if (response.data) {
                 let pa = response.data;
-                console.log(pa);
                 let grade = pa.isEdited ? pa.grade : pa.originalGrade;
                 this.setState({
                     paRecord: {

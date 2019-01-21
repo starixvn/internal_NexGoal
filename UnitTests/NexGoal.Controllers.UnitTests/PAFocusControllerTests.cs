@@ -197,17 +197,9 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
-        {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
-
-            return service;
-        }
-
         private PAFocusController GetPAFocusController()
         {
-            sessionService = FakeSessionService();
+            sessionService = Helpers.FakeSessionService();
             commonService = Substitute.For<ICommonService>();
             focusService = Substitute.For<IPAFocusService>();
             exportExcelService = Substitute.For<IExportPAFocusService>();

@@ -179,17 +179,9 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
-        {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 363;
-
-            return service;
-        }
-
         private MemberController GetMemberController()
         {
-            sessionService = FakeSessionService();
+            sessionService = Helpers.FakeSessionService();
             employeeService = Substitute.For<IEmployeeService>();
             commonService = Substitute.For<ICommonService>();
             paRecordService = Substitute.For<IPARecordService>();
