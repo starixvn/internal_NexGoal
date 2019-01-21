@@ -21,9 +21,9 @@
         private const string StartMailTemplateToEvaluator = "EmailTemplates\\PAFocus\\StartToEvaluator.cshtml";
         private const string RemindMailTemplateToEvaluator = "EmailTemplates\\PAFocus\\RemindToEvaluator.cshtml";
 
+        private readonly IOptionsSnapshot<AppSettings> configuration;
         private readonly IBaseService baseService;
         private readonly IBaseMailService mailService;
-        private readonly IOptionsSnapshot<AppSettings> configuration;
 
         public PAFocusService(
             IOptionsSnapshot<AppSettings> configuration,
