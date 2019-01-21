@@ -14,6 +14,8 @@ export default class SearchMember extends Component {
             showSearchbox: false,
             memberOptions: []
         };
+
+        this.members = [];
     }
 
     componentDidMount() {
@@ -21,8 +23,10 @@ export default class SearchMember extends Component {
 
         axios.get(resolveClientUrl('common/GetMyMember'))
             .then(response => {
+                this.members = response.data;
+
                 this.setState({
-                    hasMember: response.data && response.data.length > 0
+                    hasMember: this.members.length > 0
                 });
             }).catch(axiosError);
     }
@@ -44,19 +48,16 @@ export default class SearchMember extends Component {
         let value = e.target.value;
 
         if (value.length > 1) {
-            axios.get(resolveClientUrl('common/GetMyMember'), { params: { keyword: value } })
-                .then(response => {
-                    let options = [];
+            let options = this.members.slice()
+                .filter(member => member.nickName.toLowerCase().indexOf(value) >= 0 || member.fullName.toLowerCase().indexOf(value) >= 0)
+                .map(member => {
+                    return {
+                        value: member.employeeId,
+                        label: `${member.nickName} (${member.fullName})`
+                    };
+                });
 
-                    response.data.map(item => {
-                        options.push({
-                            value: item.employeeId,
-                            label: `${item.nickName} (${item.fullName})`
-                        });
-                    });
-
-                    this.setState({ memberOptions: options });
-                }).catch(axiosError);
+            this.setState({ memberOptions: options });
         } else {
             this.setState({ memberOptions: [] });
         }
