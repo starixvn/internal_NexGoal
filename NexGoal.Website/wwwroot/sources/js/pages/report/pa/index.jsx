@@ -4,6 +4,7 @@ import axios from 'axios';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import Breadcrumb from '../../../shared/components/Breadcrumb';
+import { PerformanceProcess } from '../../../constants';
 import Filter from './filter';
 import Table from './table';
 import ViewPADetail from '../../../shared/components/performance-appraisal/ViewPADetail';
@@ -105,15 +106,31 @@ export default class App extends Component {
     }
 
     handleClickViewPADetail = (paRecordId) => {
-        this.setState({
-            isShowPADetail: true,
-            paDetailId: paRecordId
-        });
+        axios(resolveClientUrl(`Review/GetPARecordById/${paRecordId}`)).then(response => {
+            if (response.data) {
+                let pa = response.data;
+                let reviewer = pa.processes.filter(x => x.processId === PerformanceProcess.Reviewer)[0].evaluator;
+
+                this.setState({
+                    isShowPADetail: true,
+                    paDetail: {
+                        paRecord: {
+                            paRecordId: pa.paRecordId,
+                            grade: pa.grade,
+                            comment: pa.comment,
+                            reviewer: reviewer,
+                            modifiedDate: pa.modifiedDate
+                        },
+                        employee: pa.employee,
+                        paProcesses: pa.processes
+                    }
+                });
+            }
+        }).catch(axiosError);
     }
 
     handleClosePADetailModel = () => {
         this.setState({
-            paDetailId: null,
             isShowPADetail: false
         });
     }
@@ -188,7 +205,9 @@ export default class App extends Component {
                         this.state.isShowPADetail &&
                         <ViewPADetail
                             isShowModal={this.state.isShowPADetail}
-                            paRecordId={this.state.paDetailId}
+                            paRecord={this.state.paDetail.paRecord}
+                            employee={this.state.paDetail.employee}
+                            paProcesses={this.state.paDetail.paProcesses}
                             onCloseModal={this.handleClosePADetailModel}
                         />
                     }

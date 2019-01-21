@@ -6,11 +6,13 @@ import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
+import { PerformanceProcess } from '../../../constants';
 import ToastLayout from '../../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../../shared/components/Breadcrumb';
 import ObjectiveMessage from './ObjectiveMessage';
 import SearchForm from './SearchForm';
 import Table from './Table';
+import ViewPADetail from '../../../shared/components/performance-appraisal/ViewPADetail';
 
 export default class MasterReport extends Component {
     constructor(props) {
@@ -31,6 +33,10 @@ export default class MasterReport extends Component {
                 showModal: false,
                 message: ''
             },
+            viewPADetail: {
+                showModal: false,
+                paDetail: null,
+            }
         };
     }
 
@@ -126,6 +132,34 @@ export default class MasterReport extends Component {
         }
     })
 
+    handleViewPADetail = paRecordId => {
+        axios(resolveClientUrl(`Review/GetPARecordById/${paRecordId}`)).then(response => {
+            if (response.data) {
+                let pa = response.data;
+                let reviewer = pa.processes.filter(x => x.processId === PerformanceProcess.Reviewer)[0].evaluator;
+
+                this.setState({
+                    viewPADetail: {
+                        showModal: true,
+                        paDetail: {
+                            paRecord: {
+                                paRecordId: pa.paRecordId,
+                                grade: pa.grade,
+                                comment: pa.comment,
+                                reviewer: reviewer,
+                                modifiedDate: pa.modifiedDate
+                            },
+                            employee: pa.employee,
+                            paProcesses: pa.processes
+                        }
+                    }
+                });
+            }
+        }).catch(axiosError);
+    }
+
+    handleClosePADetail = () => this.setState({ viewPADetail: { showModal: false } })
+
     handleCloseObjectiveMessageModal = () =>
         this.setState({
             objectiveMessageModal: { showModal: false }
@@ -152,13 +186,23 @@ export default class MasterReport extends Component {
                             employeeIds: filter.employees.map(x => x.value).toString(),
                         })}`}
                     />
-                    <Table tableData={this.state.tableData} onViewObjectiveMessage={this.handleOpenObjectiveMessageModal} />
+                    <Table tableData={this.state.tableData} onViewObjectiveMessage={this.handleOpenObjectiveMessageModal} handleViewPADetail={this.handleViewPADetail} />
                 </div>
                 <ObjectiveMessage
                     message={this.state.objectiveMessageModal.message}
                     showModal={this.state.objectiveMessageModal.showModal}
                     onCloseModal={this.handleCloseObjectiveMessageModal}
                 />
+                {
+                    this.state.viewPADetail.showModal &&
+                    <ViewPADetail
+                        isShowModal={this.state.viewPADetail.showModal}
+                        paRecord={this.state.viewPADetail.paDetail.paRecord}
+                        employee={this.state.viewPADetail.paDetail.employee}
+                        paProcesses={this.state.viewPADetail.paDetail.paProcesses}
+                        onCloseModal={this.handleClosePADetail}
+                    />
+                }
                 <ToastLayout />
             </div>
         );

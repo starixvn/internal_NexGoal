@@ -44,16 +44,32 @@ export default class Table extends Component {
         this.props.onViewObjectiveMessage(message);
     }
 
+    handleViewPADetail = paRecordId => this.props.handleViewPADetail(paRecordId)
+
+    renderPAAdjustmentIndicator = (gradeId, originalGradeId) => {
+        let gradeChangeClass = '';
+        if (parseInt(gradeId) > parseInt(originalGradeId)) {
+            gradeChangeClass = 'icon-increase-arrow';
+        }
+
+        if (parseInt(gradeId) < parseInt(originalGradeId)) {
+            gradeChangeClass = 'icon-descrease-arrow';
+        }
+        return <span className={gradeChangeClass} />;
+    }
+
     renderRecord = (record, index) => {
         let rowSpan = record.awards.length === 0 ? 1 : record.awards.length;
-
         return (
             <Fragment key={record.employeeId}>
                 <tr>
                     <td rowSpan={rowSpan} className="text-center">{index + 1}</td>
                     <td rowSpan={rowSpan} >{record.nickName} ({record.fullName})</td>
                     <td rowSpan={rowSpan} >{record.jobTitle}</td>
-                    <td rowSpan={rowSpan} className="text-center">{record.grade}</td>
+                    <td rowSpan={rowSpan} className="text-center">
+                        <a onClick={this.handleViewPADetail.bind(this, record.paRecordId)}>{record.grade}</a>
+                        {this.renderPAAdjustmentIndicator(record.gradeId, record.originalGradeId)}
+                    </td>
                     <td rowSpan={rowSpan} className="text-center">{record.contribution}</td>
                     <td rowSpan={rowSpan} className="text-center">{record.bonusGiven}</td>
                     <td rowSpan={rowSpan} className="text-center">{record.isReadyPromotion === 'true' ? 'Yes' : 'No'}</td>

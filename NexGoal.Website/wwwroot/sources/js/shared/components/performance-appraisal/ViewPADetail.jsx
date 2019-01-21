@@ -11,43 +11,12 @@ import CustomScrollbars from '../CustomScrollbars';
 export default class PADetail extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            paRecord: {
-                paRecordId: null,
-                grade: {},
-                comment: null,
-                reviewer: {}
-            },
-            employee: {},
-            paProcesses: []
-        };
-    }
-
-    componentDidMount() {
-        axios(resolveClientUrl(`Review/GetPARecordById/${this.props.paRecordId}`)).then(response => {
-            if (response.data) {
-                let pa = response.data;
-                let reviewer = pa.processes.filter(x => x.processId === PerformanceProcess.Reviewer)[0].evaluator;
-
-                this.setState({
-                    paRecord: {
-                        paRecordId: pa.paRecordId,
-                        grade: pa.grade,
-                        comment: pa.comment,
-                        reviewer: reviewer,
-                        modifiedDate: pa.modifiedDate
-                    },
-                    employee: pa.employee,
-                    paProcesses: pa.processes
-                });
-            }
-        }).catch(axiosError);
     }
 
     render() {
         let employees = [];
-        employees.push(this.state.employee);
-        const pa = this.state.paRecord;
+        employees.push(this.props.employee);
+        const pa = this.props.paRecord;
         const paRecord = {
             typeId: 1,
             roleId: PerformanceProcess.Reviewer,
@@ -57,7 +26,7 @@ export default class PADetail extends Component {
             comment: pa.comment,
             grade: pa.grade
         };
-        const title = getResource('PerformanceAppraisal') + " OF " + this.state.employee.nickName;
+        const title = getResource('PerformanceAppraisal') + " OF " + this.props.employee.nickName;
 
         return (
             <Modal keyboard={false} backdrop="static"
@@ -70,7 +39,7 @@ export default class PADetail extends Component {
                 <Modal.Body>
                     <CustomScrollbars>
                         <PerformanceRecord data={paRecord} isHideProjectTag />
-                        <PAProcessTab processes={this.state.paProcesses} employees={employees} />
+                        <PAProcessTab processes={this.props.paProcesses} employees={employees} />
                     </CustomScrollbars>
                 </Modal.Body>
                 <Modal.Footer>

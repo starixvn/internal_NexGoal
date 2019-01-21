@@ -16,6 +16,8 @@
 
         public string GroupName { get; set; }
 
+        public int PARecordId { get; set; }
+
         public string OriginalGradeId { get; set; }
 
         public string OriginalGrade { get; set; }
