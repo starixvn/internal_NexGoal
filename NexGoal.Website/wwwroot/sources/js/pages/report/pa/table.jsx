@@ -7,7 +7,7 @@ export default class Table extends Component {
     constructor(props) {
         super(props);
 
-        this.totalColums = 9;
+        this.totalColums = 10;
     }
 
     shouldComponentUpdate(nextProps) {
@@ -91,9 +91,10 @@ export default class Table extends Component {
     }
     renderPARecordInfo = (paRecords) => {
         return (
-            paRecords.map(record => {
+            paRecords.map((record, index) => {
                 return (
                     <tr>
+                        <td className="text-center">{index + 1}</td>
                         <td>{record.employee.nickName}</td>
                         <td>{record.employee.fullName}</td>
                         <td>{record.employee.jobTitle}</td>
@@ -201,6 +202,7 @@ export default class Table extends Component {
             <table className="table table-bordered">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>{getResource('NickName')}</th>
                         <th>{getResource('FullName')}</th>
                         <th>{getResource('JobTitle')}</th>

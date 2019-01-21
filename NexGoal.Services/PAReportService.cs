@@ -41,10 +41,11 @@
 
             MappingData(performanceAppraisals, performanceGrades);
 
-            var groupRecords = performanceAppraisals.GroupBy(r => r.Period)
+            var groupRecords = performanceAppraisals.GroupBy(r => r.Period.PeriodId)
                 .Select(item => new PARecordGroupByPeriod
                 {
-                    Period = item.Key,
+                    PeriodId = item.Key,
+                    Period = item.First().Period,
                     Groups = item.GroupBy(g => new { g.Employee.GroupCode, g.Employee.GroupName })
                         .Select(group => new PAReportModel
                         {

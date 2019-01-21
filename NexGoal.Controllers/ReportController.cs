@@ -1,8 +1,7 @@
 ﻿namespace NexGoal.Controllers
 {
     using System.Threading.Tasks;
-    using jsreport.AspNetCore;
-    using jsreport.Types;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Models.PARecord;
@@ -52,11 +51,12 @@
             return File(fileContent, MimeType.XLSX, fileName);
         }
 
-        [MiddlewareFilter(typeof(JsReportPipeline))]
+        //[MiddlewareFilter(typeof(JsReportPipeline))]
+        [AllowAnonymous]
         public async Task<IActionResult> PaDetail(int paRecordId)
         {
             var record = await paRecordService.GetPARecordByIdAsync(paRecordId, sessionService.EmployeeId).ConfigureAwait(false);
-            HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf);
+            //HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf);
             ViewData["NoLayout"] = true;
             return View(record);
         }

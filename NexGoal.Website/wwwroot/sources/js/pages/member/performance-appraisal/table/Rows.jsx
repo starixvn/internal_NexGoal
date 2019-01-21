@@ -106,15 +106,12 @@ class Rows extends Component {
 
     renderEvaluatorGrade = (paProcesses, statusId) => {
         const evaluatorProcess = paProcesses.filter(process => process.processId === PerformanceProcess.Evaluator)[0];
+        const naClass = statusId === PAStatus.InProgress ? 'red' : '';
         if (evaluatorProcess.performanceRecord && evaluatorProcess.performanceRecord.grade) {
             return <span>{evaluatorProcess.performanceRecord.grade.name}</span>;
         }
 
-        if (statusId === PAStatus.InProgress) {
-            return this.renderNotAvailableGrade();
-        }
-
-        return <span>{getResource('N/A')}</span>;
+        return <span className={naClass}>{getResource('N/A')}</span>;
     }
 
     renderPAForReviewer = (record) => {
