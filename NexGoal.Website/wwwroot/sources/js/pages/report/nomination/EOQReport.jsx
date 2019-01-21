@@ -53,6 +53,7 @@ export default class EOQReport extends Component {
                     };
                 });
                 this.employees = employeeResponse.data;
+                this.periods = nominationPeriodResponse.data;
                 this.periodOptions = nominationPeriodResponse.data.map(x => ({ value: x.nominationPeriodId, label: x.title }));
 
                 let filter = {
@@ -80,10 +81,10 @@ export default class EOQReport extends Component {
             }
         }).then(response => {
             this.setState({
-                tableData: filter.periods.map(p => ({
-                    nominationPeriodId: p.value,
-                    title: p.label,
-                    nominations: response.data.filter(n => n.nominationPeriodId === p.value)
+                tableData: this.periods.filter(p => filter.periods.some(e => e.value === p.nominationPeriodId)).map(p => ({
+                    nominationPeriodId: p.nominationPeriodId,
+                    title: p.title,
+                    nominations: response.data.filter(n => n.nominationPeriodId === p.nominationPeriodId)
                 }))
             });
         }).catch(axiosError);

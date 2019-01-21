@@ -51,7 +51,6 @@ export default class SearchForm extends Component {
                             value={filter.groups}
                             options={this.props.groupOptions}
                             onChange={this.handleGroupChange}
-                            menuIsOpen={true}
                         />
                     </div>
                 </FormGroup>
