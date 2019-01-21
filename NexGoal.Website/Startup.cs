@@ -6,6 +6,9 @@
     using Fanex.Data;
     using Fanex.Logging;
     using Fanex.Logging.Sentry;
+    using jsreport.AspNetCore;
+    using jsreport.Binary;
+    using jsreport.Local;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -69,6 +72,12 @@
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
+
+            services.AddJsReport(new LocalReporting()
+                 .UseBinary(JsReportBinary.GetBinary())
+                 .Configure(cfg => cfg.AllowedLocalFilesAccess().BaseUrlAsWorkingDirectory())
+                 .AsUtility()
+                 .Create());
 
             services.AddSession();
 

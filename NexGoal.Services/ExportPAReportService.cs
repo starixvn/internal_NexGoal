@@ -3,9 +3,6 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using iTextSharp.text;
-    using iTextSharp.text.html.simpleparser;
-    using iTextSharp.text.pdf;
     using Microsoft.AspNetCore.Hosting;
     using NexGoal.Core.Enumerations;
     using NexGoal.Models.PARecord;
@@ -16,18 +13,13 @@
     public class ExportPAReportService : IExportPAReportService
     {
         private const string ExcelTemplatePath = @"ExcelTemplates\\PAReport.xlsx";
-        private const string PdfTemplatePath = @"Views\\Report\\PaDetail.cshtml";
         private const int TotalCells = 8;
 
         private readonly IHostingEnvironment hostingEnvironment;
-        private readonly IViewRenderService viewRenderService;
 
-        public ExportPAReportService(
-            IHostingEnvironment hostingEnvironment,
-            IViewRenderService viewRenderService)
+        public ExportPAReportService(IHostingEnvironment hostingEnvironment)
         {
             this.hostingEnvironment = hostingEnvironment;
-            this.viewRenderService = viewRenderService;
         }
 
         public byte[] ExportExcel(IEnumerable<PARecordGroupByPeriod> paRecords)
@@ -132,53 +124,6 @@
         private static string CalculateGrade(PAProcessModel process)
         {
             return process.PerformanceRecord != null && process.PerformanceRecord.Grade != null ? process.PerformanceRecord.Grade.Name : "N/A";
-        }
-
-        public byte[] ExportPADetail(PARecordModel record)
-        {
-            var htmlText = viewRenderService.Render(PdfTemplatePath, record);
-            var paDetail = RenderPDF(htmlText);
-            return paDetail;
-        }
-
-        private static byte[] RenderPDF(string htmlText)
-        {
-            byte[] content = RenderContent(htmlText);
-
-            using (var input = new MemoryStream(content))
-            {
-                using (var output = new MemoryStream())
-                {
-                    var reader = new PdfReader(input);
-                    PdfEncryptor.Encrypt(reader, output, true, "", "", PdfWriter.ALLOW_SCREENREADERS);
-
-                    return output.ToArray();
-                }
-            }
-        }
-
-        private static byte[] RenderContent(string htmlText)
-        {
-            using (var stream = new MemoryStream())
-            {
-                var pdfDocument = new Document(PageSize.A4);
-                pdfDocument.SetPageSize(PageSize.A4);
-
-                PdfWriter.GetInstance(pdfDocument, stream);
-                pdfDocument.Open();
-
-                var styles = new StyleSheet();
-                var workers = HtmlWorker.ParseToList(new StringReader(htmlText), styles);
-
-                foreach (IElement element in workers)
-                {
-                    pdfDocument.Add(element);
-                }
-
-                pdfDocument.Close();
-
-                return stream.ToArray();
-            }
         }
     }
 }

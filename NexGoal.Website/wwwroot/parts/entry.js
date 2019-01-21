@@ -26,6 +26,7 @@ module.exports = {
         [`${styleDistPath}/pa-report`]: `${styleSourcePath}/pages/report/pa.scss`,
         [`${styleDistPath}/pm-setting`]: `${styleSourcePath}/pages/pmsetting/index.scss`,
         [`${styleDistPath}/master-report`]: `${styleSourcePath}/pages/report/master.scss`,
+        [`${styleDistPath}/paDetail-pdf`]: `${styleSourcePath}/pages/report/pa-detail-pdf.scss`,
 
         //
         [`${jsDistPath}/main`]: "./sources/js/main.js",

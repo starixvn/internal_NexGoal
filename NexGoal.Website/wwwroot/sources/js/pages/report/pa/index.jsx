@@ -145,23 +145,9 @@ export default class App extends Component {
     }
 
     handleExportPDF = (paRecordId) => {
-        axios({
-            url: resolveClientUrl('report/ExportPADetail'),
-            params: {
-                paRecordId: paRecordId
-            },
-            method: 'get',
-            responseType: 'blob'
-        }).then((response) => {
-            const header = response.headers['content-disposition'];
-            const fileName = header.match(/filename="(.+)"/)[1] ? header.match(/filename="(.+)"/)[1] : "PA Details";
-            let url = window.URL.createObjectURL(new Blob([response.data]));
-            let link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', `${fileName}.pdf`);
-            document.body.appendChild(link);
-            link.click();
-        });
+        const url = resolveClientUrl('Report/PaDetail?paRecordId=' + paRecordId);
+        const win = window.open(url, '_blank');
+        win.focus();
     }
 
     getPARecords = () => {

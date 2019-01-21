@@ -67,8 +67,8 @@ class Rows extends Component {
         return displayGrades.join(', ');
     }
 
-    renderGrade = (paProcesses, processId) => {
-        const processes = paProcesses.filter(process => process.processId === processId);
+    renderSelfGrade = (paProcesses) => {
+        const processes = paProcesses.filter(process => process.processId === PerformanceProcess.Self);
         const grade = processes[0].performanceRecord && processes[0].performanceRecord.grade ?
             processes[0].performanceRecord.grade.name : getResource('N/A');
         return <span>{grade}</span>;
@@ -102,6 +102,19 @@ class Rows extends Component {
                 <span className="pointer">{this.countDuplicateGrades(grades)}</span>
             </OverlayTrigger>
         );
+    }
+
+    renderEvaluatorGrade = (paProcesses, statusId) => {
+        const evaluatorProcess = paProcesses.filter(process => process.processId === PerformanceProcess.Evaluator)[0];
+        if (evaluatorProcess.performanceRecord && evaluatorProcess.performanceRecord.grade) {
+            return <span>{evaluatorProcess.performanceRecord.grade.name}</span>;
+        }
+
+        if (statusId === PAStatus.InProgress) {
+            return this.renderNotAvailableGrade();
+        }
+
+        return <span>{getResource('N/A')}</span>;
     }
 
     renderPAForReviewer = (record) => {
@@ -179,12 +192,12 @@ class Rows extends Component {
                             <tr>
                                 <td>{this.renderNickName(record)}</td>
                                 <td className="text-center">{this.renderToeic(record.toeicPolicy, record.toeic)}</td>
-                                <td className="text-center">{this.renderGrade(record.processes, PerformanceProcess.Self)}</td>
+                                <td className="text-center">{this.renderSelfGrade(record.processes)}</td>
                                 <td className="text-center">
                                     {this.renderPMGrades(record.processes)}
                                 </td>
                                 <td className="text-center">
-                                    {this.renderGrade(record.processes, PerformanceProcess.Evaluator)}
+                                    {this.renderEvaluatorGrade(record.processes, record.statusId)}
                                 </td>
                                 <td className="">{this.renderPAForReviewer(record)}</td>
                                 <td className="text-center">

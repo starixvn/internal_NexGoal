@@ -1,12 +1,11 @@
 ﻿@using NexGoal.Models.PARecord
 @model PARecordModel
-<div>
-    <strong class="header">Dear @Model.Employee.NickName,</strong>
-</div>
-<p>
-    <span style="color: blue">Welcome to Nexgoal</span>
-    <br />
-    Thank you,
-    <br />
-    NexGoal
-</p>
+
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="~/dist/styles/paDetail-pdf.css" />
+</head>
+<body>
+    <h2>Hello @Model.Employee.NickName</h2>
+</body>
+</html>

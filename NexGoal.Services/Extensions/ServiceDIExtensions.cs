@@ -10,7 +10,6 @@
         {
             services.ResolveRepositoryDI();
             services.AddTransient<IAuthService, AuthService>();
-            services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddScoped<ICommonService, CommonService>();
             services.AddScoped<IAvatarService, AvatarService>();
             services.AddScoped<IFunctionService, FunctionService>();
