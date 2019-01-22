@@ -29,5 +29,7 @@
         Task<CommandResult> QuickEditPARecordByReviewerAsync(int actorId, int paRecordId, bool isRevised);
 
         Task<Policy> GetPermissionOnPerformanceAppraisalAsync(int actorId, int recordId);
+
+        Task<string> GetPreviousPAGrade(int currentPeriodId, int actorId, int employeeId);
     }
 }

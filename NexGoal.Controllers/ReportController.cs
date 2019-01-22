@@ -52,6 +52,7 @@
         [AllowAnonymous]
         public async Task<IActionResult> PaDetail(GetPADetailParam model)
         {
+            model.ActorId = sessionService.EmployeeId;
             var reportDetail = await reportService.GetPAReportDetailAsync(model).ConfigureAwait(false);
 
             ViewData["NoLayout"] = true;

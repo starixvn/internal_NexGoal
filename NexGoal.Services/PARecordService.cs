@@ -228,5 +228,17 @@
             int.TryParse(performanceAppraisal.OriginalGradeId, out gradeId);
             performanceAppraisal.OriginalGrade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
         }
+
+        public async Task<string> GetPreviousPAGrade(int currentPeriodId, int actorId, int employeeId)
+        {
+            var criteria = new GetLastPAGradeCriteria
+            {
+                CurrentPeriodId = currentPeriodId,
+                ActorId = actorId,
+                EmployeeId = employeeId
+            };
+
+            return await baseService.GetDataEntityAsync<string>(criteria).ConfigureAwait(false);
+        }
     }
 }

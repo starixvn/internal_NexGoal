@@ -245,6 +245,9 @@
     <Build Include="dbo\Stored Procedures\PARecord_GetPerformanceAppraisalResult.sql" />
     <Build Include="dbo\Stored Procedures\PARecord_GetMemberPerformanceAppraisalResult.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_GetMemberNominationById.sql" />
+    <Build Include="dbo\Stored Procedures\Discipline_GetByEmployeeAndPeriod.sql" />
+    <Build Include="dbo\Stored Procedures\PARecord_GetPreviousGrade.sql" />
+    <Build Include="dbo\Stored Procedures\Nomination_GetByEmployeeInPeriod.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">

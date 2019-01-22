@@ -161,8 +161,9 @@ export default class App extends Component {
         }).catch(axiosError);
     }
 
-    handleExportPDF = (paRecordId) => {
-        const url = resolveClientUrl('Report/PaDetail?paRecordId=' + paRecordId);
+    handleExportPDF = (paRecordId, periodId, employeeId) => {
+        const url = resolveClientUrl(
+            'Report/PaDetail?paRecordId=' + paRecordId + '&periodId=' + periodId + '&employeeId=' + employeeId);
         const win = window.open(url, '_blank');
         win.focus();
     }

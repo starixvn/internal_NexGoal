@@ -92,6 +92,7 @@ export default class Table extends Component {
     renderPARecordInfo = (paRecords) => {
         return (
             paRecords.map((record, index) => {
+                console.log(record);
                 return (
                     <tr>
                         <td className="text-center">{index + 1}</td>
@@ -110,7 +111,10 @@ export default class Table extends Component {
                                 onClick={() => this.showPADetails(record.paRecordId)}
                             />
                             <span className="icon-pdf"
-                                onClick={() => this.props.exportPDF(record.paRecordId)}
+                                onClick={() =>
+                                    this.props.exportPDF(record.paRecordId,
+                                        record.period.periodId,
+                                        record.employee.employeeId)}
                             />
                         </td>
                     </tr>

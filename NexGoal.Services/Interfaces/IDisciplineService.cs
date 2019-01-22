@@ -11,6 +11,8 @@
 
         Task<IEnumerable<DisciplineModel>> GetCurrentPeriodDisciplineAsync(int employeeId);
 
+        Task<IEnumerable<DisciplineModel>> GetEmployeeDisciplineByPeriodAsync(int employeeId, int periodId);
+
         Task<CommandResult> EditStatusAsync(int disciplineId, bool isActive, int modifiedBy);
 
         Task<CommandResult> CreateAsync(AddDisciplineModel model);

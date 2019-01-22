@@ -52,6 +52,7 @@
     <Setting Key="Discipline_Insert" SpName="Discipline_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Discipline_Update" SpName="Discipline_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Discipline_GetCurrentPeriodByEmployee" SpName="Discipline_GetCurrentPeriodByEmployee" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Discipline_GetByEmployeeAndPeriod" SpName="Discipline_GetByEmployeeAndPeriod" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Group Flow Setting">
     <Setting Key="GroupFlowSetting_GetGroupHaveSetting" SpName="GroupFlowSetting_GetGroupHaveSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
@@ -115,6 +116,7 @@
     <Setting Key="PARecord_GetPerformanceAppraisalResult" SpName="PARecord_GetPerformanceAppraisalResult" DbName="bodb_NexGoal" Plain="0" />
     <Setting Key="PARecord_GetMemberPerformanceAppraisalResult" SpName="PARecord_GetMemberPerformanceAppraisalResult" DbName="bodb_NexGoal" Plain="0" />
     <Setting Key="PARecord_GetPermission" SpName="PARecord_GetPermission" DbName="bodb_NexGoal" Plain="0" />
+    <Setting Key="PARecord_GetPreviousPAGrade" SpName="PARecord_GetPreviousPAGrade" DbName="bodb_NexGoal" Plain="0" />
   </Function>
   <Function Name="Nomination Period">
     <Setting Key="NominationPeriod_Get" SpName="NominationPeriod_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
@@ -133,6 +135,7 @@
     <Setting Key="Nomination_UpdateStatus" SpName="Nomination_UpdateStatus" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_Delete" SpName="Nomination_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_GetMemberNominationById" SpName="Nomination_GetMemberNominationById" DbName="bodb_NexGoal" Plain="0" />
+    <Setting Key="Nomination_GetByEmployeeInPeriod" SpName="Nomination_GetByEmployeeInPeriod" DbName="bodb_NexGoal" Plain="0" />
   </Function>
   <Function Name="Notification">
     <Setting Key="Notification_GetSettingByEmployee" SpName="Notification_GetSettingByEmployee" DbName="bodb_NexGoal" Plain="0" />
