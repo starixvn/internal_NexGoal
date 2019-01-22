@@ -1,5 +1,9 @@
-﻿@using NexGoal.Models.PARecord
-@model PARecordModel
+﻿@using NexGoal.Models.Report
+@model PAReportDetail
+
+@{ 
+    var avatar = "https://hrm.nexcel.vn/Avatars/02242.jpg";
+}
 
 <html>
 <head>
@@ -7,20 +11,20 @@
 </head>
 <body>
     <div class="pa-pdf">
-        <div class="title">Performance appraisal of nickname (2nd 2018)</div>
+        <div class="title">Performance appraisal of @Model.Employee.NickName (@Model.PARecord.Period.Name)</div>
         <div class="box">
             <div class="title">Information Profile</div>
             <div class="content info">
                 <div class="section">
-                    <div class="item"><span class="key">Staff code:</span><span class="value">12345</span></div>
-                    <div class="item"><span class="key">Nickname:</span><span class="value">Nickname 1</span></div>
-                    <div class="item"><span class="key">Job title:</span><span class="value">Job title 1</span></div>
+                    <div class="item"><span class="key">Staff code:</span><span class="value">@Model.Employee.Code</span></div>
+                    <div class="item"><span class="key">Nickname:</span><span class="value">@Model.Employee.NickName</span></div>
+                    <div class="item"><span class="key">Job title:</span><span class="value">@Model.Employee.JobTitle</span></div>
                     <div class="item"><span class="key">Department:</span><span class="value">Software Development</span></div>
                 </div>
                 <div class="section">
-                    <div class="item"><span class="key">Full name:</span><span class="value">Full name 1</span></div>
-                    <div class="item"><span class="key">Team:</span><span class="value">Team 1</span></div>
-                    <div class="item"><span class="key">Joined date:</span><span class="value">DD MM YYYY</span></div>
+                    <div class="item"><span class="key">Full name:</span><span class="value">@Model.Employee.FullName</span></div>
+                    <div class="item"><span class="key">Team:</span><span class="value">@Model.Employee.GroupName</span></div>
+                    <div class="item"><span class="key">Joined date:</span><span class="value"></span></div>
                 </div>
             </div>
         </div>
@@ -128,12 +132,32 @@
                     <div class="sub-content">
                         <table class="table table-bordered">
                             <thead>
-                                <th>#</th>
-                                <th>Remark</th>
-                                <th>Issue Date</th>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Remark</th>
+                                    <th>Issue Date</th>
+                                </tr>
                             </thead>
                             <tbody>
-                                <td colspan="3" class="text-center">No Record Found</td>
+                                @if (Model.Disciplines.Any())
+                                {
+                                    var index = 0;
+                                    foreach (var discipline in Model.Disciplines)
+                                    {
+                                        index++;
+                                        <tr>
+                                            <td class="text-center">@index</td>
+                                            <td class="text-center">@discipline.Description</td>
+                                            <td class="text-center">@discipline.EffectiveDate</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="3" class="text-center">No Record Found</td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -148,39 +172,51 @@
                     <div class="sub-content">
                         <table class="table table-bordered">
                             <thead>
-                                <th>#</th>
-                                <th>Title</th>
-                                <th>Status</th>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Title</th>
+                                    <th>Status</th>
+                                </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Employee of 1st Quarter, 2017</td>
-                                    <td class="status-winner">Winner</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Employee of Year 2017</td>
-                                    <td class="status-shortlisted">Shortlisted</td>
-                                </tr>
-                            </tbody>                    
+                                @if (Model.Achievements.Any())
+                                {
+                                    var index = 0;
+                                    foreach (var achievement in Model.Achievements)
+                                    {
+                                        index++;
+                                        string statusClass = string.Format("status-{0}",
+                                            achievement.StatusId.ToString().ToLowerInvariant());
+                                        <tr>
+                                            <td>@index</td>
+                                            <td>@achievement.Period.Title</td>
+                                            <td class="@statusClass">@achievement.StatusId.ToString()</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="3" class="text-center">No Record Found</td>
+                                    </tr>
+                                }
+                            </tbody>
                         </table>
                     </div>
                 </div>
                 <div class="sub-box">
                     <div class="title">B. Performance Summary</div>
                     <div class="sub-box performance-sum">
-                            <div class="title">1. Self</div>
-                            <div class="sub-content">
-                                <div class="record">
+                        <div class="title">1. Self</div>
+                        <div class="sub-content">
+                            <div class="record">
 
-                                </div>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 </body>
 </html>

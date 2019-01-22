@@ -54,8 +54,8 @@
         {
             model.ActorId = sessionService.EmployeeId;
             var reportDetail = await reportService.GetPAReportDetailAsync(model).ConfigureAwait(false);
-
             ViewData["NoLayout"] = true;
+
             return View(reportDetail);
         }
     }
