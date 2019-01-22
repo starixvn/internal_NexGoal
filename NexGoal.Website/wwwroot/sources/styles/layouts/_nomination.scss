@@ -4,11 +4,11 @@
     font-weight: 600;
 }
 .status-shortlisted {
-    color: $status-shortlisted-color;
+    color: $status-shortlisted-color !important;
 }
 .status-nomination {
-    color: $status-nomination-color;
+    color: $status-nomination-color !important;
 }
 .status-winner {
-    color: $status-winner-color;
+    color: $status-winner-color !important;
 }
