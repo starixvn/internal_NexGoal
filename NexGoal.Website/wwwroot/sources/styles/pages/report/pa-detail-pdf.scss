@@ -1,8 +1,11 @@
 ﻿@import "../../abstracts/variables";
 @import "../../abstracts/mixins";
+//@import "../../base/font-nexgoal";
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "../../components/tables";
 @import "../../layouts/nomination";
+@import "../../layouts/role";
+@import "../../layouts/record";
 
 
 .pa-pdf {
@@ -27,6 +30,10 @@
         font-size: 14px;
         color: #fff;
         text-transform: initial;
+        &.final {
+            background-color: #F4783D;
+            color: #fff;
+        }
     }
     .content {
         table {
@@ -65,6 +72,9 @@
     }
     .sub-content {
         padding: 8px;
+        .record {
+            margin: 0;
+        }
     }
     .sub-box {
         .title {
