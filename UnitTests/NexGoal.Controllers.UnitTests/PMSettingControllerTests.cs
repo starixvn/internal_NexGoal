@@ -88,9 +88,9 @@
         public async Task GetProjectManagers_WhenCalled_ReturnsExpectedJsonResult()
         {
             // Arrange
-            var projectManagers = new List<EmployeeBaseModel>
+            var projectManagers = new List<Employee>
             {
-                new EmployeeBaseModel { EmployeeId = 2, NickName = "richard" }
+                new Employee { EmployeeId = 2, NickName = "richard" }
             };
             var controller = GetContronller();
             pmSettingService.GetProjectManagerAsync().Returns(projectManagers);
@@ -100,7 +100,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
-            var actual = Assert.IsAssignableFrom<IEnumerable<EmployeeBaseModel>>(jsonResult.Value);
+            var actual = Assert.IsAssignableFrom<IEnumerable<Employee>>(jsonResult.Value);
             Assert.Equal(projectManagers, actual);
         }
 

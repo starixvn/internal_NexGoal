@@ -5,7 +5,6 @@
     public class GetMemberPerformanceCriteria : CriteriaBase
     {
         public int ActorId { get; set; }
-        public int? EmployeeId { get; set; }
 
         public override string GetSettingKey() => "PerformanceRecord_GetMemberPerformance";
 

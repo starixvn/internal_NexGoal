@@ -7,8 +7,8 @@
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Models.Common;
-    using NexGoal.Models.Employee;
     using NexGoal.Models.EmployeeNomination;
+    using NexGoal.Models.EmployeeRole;
     using NexGoal.Models.NominationPeriod;
     using NexGoal.Models.PARecord;
     using NexGoal.Models.Redmine;
@@ -56,14 +56,14 @@
 
         public async Task<IActionResult> Details(int id)
         {
-            IEnumerable<EmployeeBaseModel> members = await employeeService.GetMemberAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<Employee> members = await employeeService.GetMemberAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             if (!members.Any(x => x.EmployeeId == id))
             {
                 return RedirectToAction("AccessDenied", "Error");
             }
 
-            EmployeeBaseModel member = await commonService.GetEmployeeByIdAsync(id).ConfigureAwait(false);
+            Employee member = await commonService.GetEmployeeByIdAsync(id).ConfigureAwait(false);
 
             return View(member);
         }

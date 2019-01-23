@@ -96,7 +96,7 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        private static void MappingData(IEnumerable<NotificationEntity> notifications, IEnumerable<EmployeeBaseModel> employees)
+        private static void MappingData(IEnumerable<NotificationEntity> notifications, IEnumerable<Employee> employees)
         {
             foreach (var notification in notifications)
             {

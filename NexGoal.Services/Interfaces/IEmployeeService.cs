@@ -4,13 +4,14 @@
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Models.Common;
-    using NexGoal.Models.Employee;
+
+    using NexGoal.Models.EmployeeRole;
 
     public interface IEmployeeService
     {
-        Task<IEnumerable<EmployeeBaseModel>> GetEmployeesAsync(GetEmployeeParam param);
+        Task<IEnumerable<Employee>> GetEmployeesAsync(GetEmployeeParam param);
 
-        Task<EmployeeBaseModel> GetEmployeeByIdAsync(int employeeId);
+        Task<Employee> GetEmployeeByIdAsync(int employeeId);
 
         Task<IEnumerable<EmployeeRoleModel>> GetRolesByEmployeeIdAsync(int employeeId);
 
@@ -18,7 +19,7 @@
 
         Task<int> GetRoleAccordingToMemberAsync(int actorId, int memberId);
 
-        Task<IEnumerable<EmployeeBaseModel>> GetMemberAsync(int actorId, string keyword = null);
+        Task<IEnumerable<Employee>> GetMemberAsync(int actorId, string keyword = null);
 
         Task<IEnumerable<GroupBaseModel>> GetGroupAsync(int actorId);
     }

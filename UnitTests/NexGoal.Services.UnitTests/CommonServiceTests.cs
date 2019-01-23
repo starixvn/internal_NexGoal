@@ -3,6 +3,7 @@ namespace NexGoal.Services.UnitTests
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Microsoft.Extensions.Caching.Memory;
     using NexGoal.Core.Services;
     using NexGoal.Criteria;
     using NexGoal.Criteria.Common;
@@ -15,7 +16,7 @@ namespace NexGoal.Services.UnitTests
     public class CommonServiceTests
     {
         private IBaseService baseService;
-        private IAvatarService avatarService;
+        private IMemoryCache memoryCache;
 
         #region GetReferenceResourcesByNames
 
@@ -75,12 +76,12 @@ namespace NexGoal.Services.UnitTests
         public async Task GetEmployeesAsync_WhenCalled_ReturnAsExpectedEmployees()
         {
             // Arrange
-            var expected = new List<EmployeeBaseModel>
+            var expected = new List<Employee>
             {
-                new EmployeeBaseModel { EmployeeId = 1, Code = "NEX", NickName = "Nexus" }
+                new Employee { EmployeeId = 1, Code = "NEX", NickName = "Nexus" }
             };
             var service = GetCommonService();
-            baseService.GetDataAsync<EmployeeBaseModel>(Arg.Any<SearchEmployeeCriteria>()).Returns(expected);
+            baseService.GetDataAsync<Employee>(Arg.Any<SearchEmployeeCriteria>()).Returns(expected);
 
             // Act
             var actual = await service.GetEmployeesAsync();
@@ -93,10 +94,9 @@ namespace NexGoal.Services.UnitTests
         public async Task GetEmployeeByIdAsync_WhenCalled_ReturnAsExpectedEmployee()
         {
             // Arrange
-            var employee = new EmployeeBaseModel { EmployeeId = 1, Code = "NEX", NickName = "Nexus" };
+            var employee = new Employee { EmployeeId = 1, Code = "NEX", NickName = "Nexus" };
             var service = GetCommonService();
-            baseService.GetDataEntityAsync<EmployeeBaseModel>(Arg.Any<SearchEmployeeCriteria>()).Returns(employee);
-            avatarService.GetFilePath(Arg.Any<string>()).Returns("filepath");
+            baseService.GetDataEntityAsync<Employee>(Arg.Any<SearchEmployeeCriteria>()).Returns(employee);
 
             // Act
             var actual = await service.GetEmployeeByIdAsync(1);
@@ -105,7 +105,6 @@ namespace NexGoal.Services.UnitTests
             Assert.Equal(employee.EmployeeId, actual.EmployeeId);
             Assert.Equal(employee.Code, actual.Code);
             Assert.Equal(employee.NickName, actual.NickName);
-            Assert.Equal("filepath", actual.Avatar);
         }
 
         [Fact]
@@ -226,8 +225,8 @@ namespace NexGoal.Services.UnitTests
         private CommonService GetCommonService()
         {
             baseService = Substitute.For<IBaseService>();
-            avatarService = Substitute.For<IAvatarService>();
-            var service = new CommonService(baseService, avatarService);
+            memoryCache = Substitute.For<IMemoryCache>();
+            var service = new CommonService(baseService, memoryCache);
 
             return service;
         }

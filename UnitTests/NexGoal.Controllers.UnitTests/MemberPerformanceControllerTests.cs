@@ -20,14 +20,14 @@
         public async Task Index_WhenCalled_ReturnAsExpectedPerformanceRecords()
         {
             // Arrange
-            var expected = new List<PerformanceRecordModel>
+            var expected = new List<PerformanceRecord>
             {
-                new PerformanceRecordModel
+                new PerformanceRecord
                 {
                     PerformanceRecordId = 1,
-                    Employees = new List<EmployeeBaseModel>
+                    Employees = new List<Employee>
                     {
-                        new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" }
+                        new Employee { EmployeeId = 1, NickName = "Tim" }
                     },
                     Comment = "test"
                 }
@@ -40,7 +40,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
-            var actual = Assert.IsAssignableFrom<IEnumerable<PerformanceRecordModel>>(jsonResult.Value);
+            var actual = Assert.IsAssignableFrom<IEnumerable<PerformanceRecord>>(jsonResult.Value);
             Assert.Equal(expected, actual);
         }
 
@@ -55,9 +55,9 @@
                 {
                     EmployeeId = 1,
                     NickName = "Tim",
-                    PerformanceRecords = new List<PerformanceRecordModel>
+                    PerformanceRecords = new List<PerformanceRecord>
                     {
-                        new PerformanceRecordModel
+                        new PerformanceRecord
                         {
                             PerformanceRecordId = 1,
                             Comment = "test"
@@ -148,79 +148,6 @@
         }
 
         #endregion Edit
-
-        [Fact]
-        public async Task Delete_WhenCalled_ReturnAsExpectedCommandResult()
-        {
-            // Arrange
-            var expected = new CommandResult
-            {
-                Code = 0
-            };
-            var controller = GetMemberPerformanceController();
-            performanceService.DeletePerformanceRecordAsync(1, sessionService.EmployeeId).Returns(expected);
-
-            // Act
-            var actual = await controller.Delete(1);
-
-            // Assert
-            var jsonResult = Assert.IsType<JsonResult>(actual);
-            var commandResult = Assert.IsAssignableFrom<CommandResult>(jsonResult.Value);
-            Assert.Equal(expected, commandResult);
-        }
-
-        [Fact]
-        public async Task GetById_WhenCalled_ReturnAsExpectedPerformanceRecord()
-        {
-            // Arrange
-            var expected = new PerformanceRecordModel
-            {
-                PerformanceRecordId = 1,
-                Employees = new List<EmployeeBaseModel>
-                {
-                    new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" }
-                },
-                Comment = "test"
-            };
-            var controller = GetMemberPerformanceController();
-            performanceService.GetPerformanceRecordByIdAsync(1, sessionService.EmployeeId).Returns(expected);
-
-            // Act
-            var result = await controller.GetById(1);
-
-            // Assert
-            var jsonResult = Assert.IsType<JsonResult>(result);
-            var actual = Assert.IsAssignableFrom<PerformanceRecordModel>(jsonResult.Value);
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public async Task GetByIds_WhenCalled_ReturnAsExpectedPerformanceRecords()
-        {
-            // Arrange
-            var expected = new List<PerformanceRecordModel>
-            {
-                new PerformanceRecordModel
-                {
-                    PerformanceRecordId = 1,
-                    Employees = new List<EmployeeBaseModel>
-                    {
-                        new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" }
-                    },
-                    Comment = "test"
-                }
-            };
-            var controller = GetMemberPerformanceController();
-            performanceService.GetPerformanceRecordByIdsAsync("1", sessionService.EmployeeId).Returns(expected);
-
-            // Act
-            var result = await controller.GetByIds("1");
-
-            // Assert
-            var jsonResult = Assert.IsType<JsonResult>(result);
-            var actual = Assert.IsAssignableFrom<IEnumerable<PerformanceRecordModel>>(jsonResult.Value);
-            Assert.Equal(expected, actual);
-        }
 
         #region Helpers
 

@@ -60,12 +60,12 @@
         public async Task GetMemberAsync_WhenCalled_ReturnAsExpectedEmployees()
         {
             // Arrange
-            var expected = new List<EmployeeBaseModel>
+            var expected = new List<Employee>
             {
-                new EmployeeBaseModel { EmployeeId = 1, Code = "NEX", NickName = "Nexus" }
+                new Employee { EmployeeId = 1, Code = "NEX", NickName = "Nexus" }
             };
             var service = GetPAFocusService();
-            baseService.GetDataAsync<EmployeeBaseModel>(Arg.Any<GetMemberCriteria>()).Returns(expected);
+            baseService.GetDataAsync<Employee>(Arg.Any<GetMemberCriteria>()).Returns(expected);
 
             // Act
             var actual = await service.GetMemberAsync(1);
@@ -81,7 +81,7 @@
             var plainText = "1";
             var focuses = new List<PAFocusModel>
             {
-                new PAFocusModel { PAFocusId = 1, Employee = new EmployeeBaseModel { EmployeeId = 1 } }
+                new PAFocusModel { PAFocusId = 1, Employee = new Employee { EmployeeId = 1 } }
             };
             var performanceGrades = new List<PerformanceGradeModel>
             {

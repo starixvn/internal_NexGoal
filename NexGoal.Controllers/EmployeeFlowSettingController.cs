@@ -28,7 +28,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
         public async Task<JsonResult> GetEmployeeHaveSetting(int? groupId = null)
         {
-            IEnumerable<EmployeeBaseModel> employees = await flowSettingService.GetEmployeeHaveSettingAsync(groupId).ConfigureAwait(false);
+            IEnumerable<Employee> employees = await flowSettingService.GetEmployeeHaveSettingAsync(groupId).ConfigureAwait(false);
 
             return Json(employees);
         }
@@ -36,7 +36,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
         public async Task<JsonResult> GetEmployeeUnsetting(int? groupId = null)
         {
-            IEnumerable<EmployeeBaseModel> employees = await flowSettingService.GetEmployeeUnsettingAsync(groupId).ConfigureAwait(false);
+            IEnumerable<Employee> employees = await flowSettingService.GetEmployeeUnsettingAsync(groupId).ConfigureAwait(false);
 
             return Json(employees);
         }

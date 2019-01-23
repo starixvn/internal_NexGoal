@@ -11,7 +11,7 @@
 
         [JsonIgnore]
         public int NominatorId { get; set; }
-        public EmployeeBaseModel Nominator { get; set; }
+        public Employee Nominator { get; set; }
 
         public string Comment { get; set; }
         public DateTime CreatedDate { get; set; }

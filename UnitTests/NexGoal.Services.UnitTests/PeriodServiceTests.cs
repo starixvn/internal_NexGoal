@@ -203,7 +203,7 @@
 
             var service = GetPeriodService();
             baseService.FetchMultipleAsync<PARecordModel, PAProcessModel>(Arg.Any<GetEmployeeSettingsCriteria>()).Returns(settings);
-            commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<EmployeeBaseModel>());
+            commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<Employee>());
 
             // Act
             var result = await service.GetEmployeeSettingAsync(1, null, null, null);
@@ -286,7 +286,7 @@
 
             var service = GetPeriodService();
             baseService.FetchMultipleAsync<PARecordModel, PAProcessModel>(Arg.Any<GetEmployeeSettingByIdCriteria>()).Returns(settings);
-            commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<EmployeeBaseModel>());
+            commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<Employee>());
 
             // Act
             var result = await service.GetEmployeeSettingByIdAsync(1);

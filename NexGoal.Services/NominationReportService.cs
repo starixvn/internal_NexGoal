@@ -45,14 +45,14 @@
             var nominations = result.Item1;
             var performanceRecords = result.Item2;
 
-            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+            IEnumerable<Employee> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
 
             MappingData(performanceRecords, employees, nominations);
 
             return nominations.OrderByDescending(x => x.StatusId).ThenBy(x => x.Nominee.NickName);
         }
 
-        private static void MappingData(IEnumerable<PerformanceRecordModel> performanceRecords, IEnumerable<EmployeeBaseModel> employees, IEnumerable<NominationModel> nominations)
+        private static void MappingData(IEnumerable<PerformanceRecordModel> performanceRecords, IEnumerable<Employee> employees, IEnumerable<NominationModel> nominations)
         {
             foreach (var record in performanceRecords)
             {

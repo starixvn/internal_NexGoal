@@ -48,8 +48,8 @@
             IEnumerable<int> recordIds = performanceRecordIds.Split(",").Select(x => int.Parse(x));
             Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<ProcessSettingModel>> tuple =
                 await GetSettingToSendNotificationAsync(performanceRecordIds, actorId, ReceiveNotificationType.Email).ConfigureAwait(false);
-            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync().ConfigureAwait(false);
-            EmployeeBaseModel actor = await commonService.GetEmployeeByIdAsync(actorId).ConfigureAwait(false);
+            IEnumerable<Employee> employees = await commonService.GetEmployeesAsync().ConfigureAwait(false);
+            Employee actor = await commonService.GetEmployeeByIdAsync(actorId).ConfigureAwait(false);
 
             foreach (int recordId in recordIds)
             {
@@ -88,8 +88,8 @@
             IEnumerable<int> recordIds = performanceRecordIds.Split(",").Select(x => int.Parse(x));
             Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<ProcessSettingModel>> tuple =
                 await GetSettingToSendNotificationAsync(performanceRecordIds, actorId, ReceiveNotificationType.Notification).ConfigureAwait(false);
-            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync().ConfigureAwait(false);
-            EmployeeBaseModel actor = await commonService.GetEmployeeByIdAsync(actorId).ConfigureAwait(false);
+            IEnumerable<Employee> employees = await commonService.GetEmployeesAsync().ConfigureAwait(false);
+            Employee actor = await commonService.GetEmployeeByIdAsync(actorId).ConfigureAwait(false);
 
             foreach (int recordId in recordIds)
             {
@@ -161,7 +161,7 @@
         }
 
         private async Task SendMailFromMemberToSupervisorAsync(
-            EmployeeBaseModel actor,
+            Employee actor,
             ProcessSettingModel receiver,
             IEnumerable<string> cc,
             ActionOnPerformanceRecord action)
@@ -190,7 +190,7 @@
         }
 
         private async Task SendMailFromSupervisorToMemberAsync(
-            EmployeeBaseModel actor,
+            Employee actor,
             ProcessSettingModel receiver,
             ActionOnPerformanceRecord action)
         {
@@ -217,8 +217,8 @@
         }
 
         private async Task SendMailFromSupervisorToSupervisorAsync(
-            EmployeeBaseModel actor,
-            EmployeeBaseModel employee,
+            Employee actor,
+            Employee employee,
             ProcessSettingModel receiver,
             IEnumerable<string> cc,
             ActionOnPerformanceRecord action)

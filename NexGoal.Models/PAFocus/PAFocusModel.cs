@@ -7,7 +7,7 @@
     {
         public int PAFocusId { get; set; }
 
-        public EmployeeBaseModel Employee { get; set; } = new EmployeeBaseModel();
+        public Employee Employee { get; set; } = new Employee();
 
         public string CurrentObjective { get; set; }
         public string NextObjective { get; set; }

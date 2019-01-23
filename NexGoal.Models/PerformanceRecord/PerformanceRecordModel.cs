@@ -21,6 +21,9 @@
 
         public string Comment { get; set; }
         public PerformanceRecordStatus StatusId { get; set; }
+
+        public bool IsDraft { get; set; }
+
         public DateTime CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
 
@@ -30,11 +33,11 @@
 
         [JsonIgnore]
         public string EmployeeIds { get; set; }
-        public IEnumerable<EmployeeBaseModel> Employees { get; set; } = new List<EmployeeBaseModel>();
+        public IEnumerable<Employee> Employees { get; set; } = new List<Employee>();
 
         [JsonIgnore]
         public int CreatorId { get; set; }
-        public EmployeeBaseModel Creator { get; set; } = new EmployeeBaseModel();
+        public Employee Creator { get; set; }
 
         public int RoleId { get; set; }
 
@@ -46,6 +49,6 @@
 
         public int TypeId { get; set; }
 
-        public bool IsHost => StatusId == PerformanceRecordStatus.Draft || StatusId == PerformanceRecordStatus.Submitted;
+        public bool IsHost => IsDraft || (!IsDraft && (DateTime.Now - CreatedDate).Days < 7);
     }
 }

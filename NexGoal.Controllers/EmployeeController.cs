@@ -7,7 +7,7 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Models.Common;
-    using NexGoal.Models.Employee;
+    using NexGoal.Models.EmployeeRole;
     using NexGoal.Services;
     using NexGoal.Web.Core.Filters;
     using NexGoal.Web.Core.Services;
@@ -35,14 +35,14 @@
 
         public async Task<JsonResult> GetEmployees(GetEmployeeParam param)
         {
-            IEnumerable<EmployeeBaseModel> employees = await employeeService.GetEmployeesAsync(param).ConfigureAwait(false);
+            IEnumerable<Employee> employees = await employeeService.GetEmployeesAsync(param).ConfigureAwait(false);
 
             return Json(employees);
         }
 
         public async Task<JsonResult> GetEmployeeById(int employeeId)
         {
-            EmployeeBaseModel employee = await employeeService.GetEmployeeByIdAsync(employeeId).ConfigureAwait(false);
+            Employee employee = await employeeService.GetEmployeeByIdAsync(employeeId).ConfigureAwait(false);
 
             return Json(employee);
         }

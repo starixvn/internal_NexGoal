@@ -68,6 +68,8 @@
             });
             services.AddAuthentication(IISDefaults.AuthenticationScheme);
 
+            services.AddMemoryCache();
+
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());

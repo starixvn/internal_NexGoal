@@ -84,7 +84,8 @@ export default class App extends Component {
             axios(resolveClientUrl('member/GetRoleAccordingToMember'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/GetMemberNominationResult'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/GetMemberPerformanceAppraisalResult'), { params: { memberId: memberId } }),
-            axios(resolveClientUrl('member/Performance'), { params: { memberId: memberId } }),
+            axios(resolveClientUrl('member/Performance/MemmberDetail'), { params: { memberId: memberId } }),
+            axios(resolveClientUrl('common/GetHRMSummary'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('Member/Performance/Timeline'), {
                 params: {
                     employeeId: memberId,
@@ -112,7 +113,6 @@ export default class App extends Component {
                 });
 
                 let timelineInfo = timelineResponse.data[0];
-
                 this.currentUserInfo.roleId = roleResponse.data;
 
                 this.setState({
@@ -210,7 +210,7 @@ export default class App extends Component {
     }
 
     handleCreatePerformanceRecordSuccess = (performanceRecordIds, statusId) => {
-        axios(resolveClientUrl(`Member/Performance/GetByIds/${performanceRecordIds}`))
+        axios(resolveClientUrl(`Performance/GetByIds/${performanceRecordIds}`))
             .then((response) => {
                 let performanceRecords = this.state.performanceRecords.slice();
 
@@ -261,7 +261,7 @@ export default class App extends Component {
     }
 
     handleEditPerformanceRecordSuccess = (performanceRecordIds, statusId) => {
-        axios(resolveClientUrl(`Member/Performance/GetByIds/${performanceRecordIds}`))
+        axios(resolveClientUrl(`Performance/GetByIds/${performanceRecordIds}`))
             .then((response) => {
                 let performanceRecords = this.state.performanceRecords.slice();
                 let currentRecordIndex = performanceRecords.findIndex(record => record.performanceRecordId === this.state.editPerformanceRecord.performanceRecordId);
@@ -310,7 +310,7 @@ export default class App extends Component {
     handleDeletePerformanceRecord = () => {
         let performanceRecordId = this.state.deletePerformanceRecord.performanceRecordId;
         axios({
-            url: resolveClientUrl('Member/Performance/Delete'),
+            url: resolveClientUrl('Performance/Delete'),
             method: 'DELETE',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,

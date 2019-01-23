@@ -7,7 +7,7 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Models.Common;
-    using NexGoal.Models.Employee;
+    using NexGoal.Models.EmployeeRole;
     using NexGoal.Services;
     using NexGoal.Web.Core.Services;
     using NSubstitute;
@@ -35,9 +35,9 @@
         public async Task GetEmployees_WhenCalled_ReturnExpectedData()
         {
             // Arrange
-            var expected = new List<EmployeeBaseModel>
+            var expected = new List<Employee>
             {
-                new EmployeeBaseModel
+                new Employee
                 {
                     EmployeeId = 1,
                     Code = "123",
@@ -52,14 +52,14 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
-            var actual = Assert.IsAssignableFrom<IEnumerable<EmployeeBaseModel>>(jsonResult.Value);
+            var actual = Assert.IsAssignableFrom<IEnumerable<Employee>>(jsonResult.Value);
             Assert.Equal(expected, actual);
         }
 
         [Fact]
         public async Task GetEmployeeById_WhenCalled_ReturnExpectedData()
         {
-            var expectedResult = new EmployeeBaseModel
+            var expectedResult = new Employee
             {
                 EmployeeId = 1,
                 Code = "123",
@@ -71,7 +71,7 @@
             var result = await controller.GetEmployeeById(1);
 
             var jsonResult = Assert.IsType<JsonResult>(result);
-            var employees = Assert.IsAssignableFrom<EmployeeBaseModel>(jsonResult.Value);
+            var employees = Assert.IsAssignableFrom<Employee>(jsonResult.Value);
             Assert.Equal(expectedResult, employees);
         }
 

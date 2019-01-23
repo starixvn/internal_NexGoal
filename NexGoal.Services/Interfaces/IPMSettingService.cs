@@ -14,6 +14,6 @@
 
         Task<CommandResult> RemoveMember(int projectManagerId, int memberId, int actorId);
 
-        Task<IEnumerable<EmployeeBaseModel>> GetProjectManagerAsync();
+        Task<IEnumerable<Employee>> GetProjectManagerAsync();
     }
 }

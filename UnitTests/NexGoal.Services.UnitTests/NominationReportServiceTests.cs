@@ -62,13 +62,13 @@
                        }
                    }
                 ));
-            commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<EmployeeBaseModel>
+            commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<Employee>
             {
-                new EmployeeBaseModel
+                new Employee
                 {
                     EmployeeId = 1
                 },
-                new EmployeeBaseModel
+                new Employee
                 {
                     EmployeeId = 2
                 }

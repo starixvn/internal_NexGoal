@@ -35,7 +35,7 @@
         public async Task GetEmployeeById_WhenCalled_ReturnAsExpectedEmployee()
         {
             // Arrange
-            var employee = new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" };
+            var employee = new Employee { EmployeeId = 1, NickName = "Tim" };
             var controller = GetFlowController();
             commonService.GetEmployeeByIdAsync(1).Returns(employee);
 
@@ -44,7 +44,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
-            var result = Assert.IsAssignableFrom<EmployeeBaseModel>(jsonResult.Value);
+            var result = Assert.IsAssignableFrom<Employee>(jsonResult.Value);
             Assert.Equal(employee, result);
         }
 

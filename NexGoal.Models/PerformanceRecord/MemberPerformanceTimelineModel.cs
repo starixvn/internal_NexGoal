@@ -4,9 +4,9 @@
     using Newtonsoft.Json;
     using NexGoal.Models.Common;
 
-    public class MemberPerformanceTimelineModel : EmployeeBaseModel
+    public class MemberPerformanceTimelineModel : Employee
     {
-        public IEnumerable<PerformanceRecordModel> PerformanceRecords { get; set; } = new List<PerformanceRecordModel>();
+        public IEnumerable<PerformanceRecord> PerformanceRecords { get; set; } = new List<PerformanceRecord>();
 
         public int TotalItems { get; set; }
 

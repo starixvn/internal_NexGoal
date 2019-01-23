@@ -106,22 +106,11 @@ export default class CreateSelfPerformance extends Component {
         event.preventDefault();
 
         if (this.validateForm()) {
-            let statusId = 0;
-            switch (event.target.name) {
-                case 'save':
-                    statusId = PerformanceRecordStatus.Submitted;
-                    break;
-                case 'saveAsDraft':
-                    statusId = PerformanceRecordStatus.Draft;
-                    break;
-            }
-
             let performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 gradeId: this.state.performanceRecord.grade ? this.state.performanceRecord.grade.value : null,
                 comment: this.state.performanceRecord.comment,
-                projectIds: this.state.performanceRecord.projects.map((project) => { return project.value; }).join(','),
-                statusId: statusId
+                projectIds: this.state.performanceRecord.projects.map((project) => { return project.value; }).join(',')
             });
 
             axios({
@@ -139,7 +128,50 @@ export default class CreateSelfPerformance extends Component {
                     toast.success(getResource('CreatedSuccessfully'));
 
                     this.handleCancel();
-                    this.props.onSubmitSuccess(data.objectIds, statusId);
+                    this.props.onSubmitSuccess(data.objectIds);
+                } else {
+                    if (data.errors) {
+                        let errors = {};
+                        data.errors.map(error => {
+                            errors[camelCase(error.key)] = error.errorMessage;
+                        });
+
+                        this.setState({ errors });
+                    } else {
+                        toast.error(data.message);
+                    }
+                }
+            }).catch(axiosError);
+        }
+    }
+
+    handleSaveAsDraft = (event) => {
+        event.preventDefault();
+
+        if (this.validateForm()) {
+            let performanceRecord = stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                gradeId: this.state.performanceRecord.grade ? this.state.performanceRecord.grade.value : null,
+                comment: this.state.performanceRecord.comment,
+                projectIds: this.state.performanceRecord.projects.map((project) => { return project.value; }).join(',')
+            });
+
+            axios({
+                url: resolveClientUrl('Self/Performance/CreateDraft'),
+                method: 'POST',
+                data: performanceRecord,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }).then(response => {
+                let data = response.data;
+
+                if (data.isSuccessful) {
+                    toast.success(getResource('CreatedSuccessfully'));
+
+                    this.handleCancel();
+                    this.props.onSubmitDraftSuccess(data.objectIds);
                 } else {
                     if (data.errors) {
                         let errors = {};
@@ -233,7 +265,7 @@ export default class CreateSelfPerformance extends Component {
 
                             <FormGroup className="text-right">
                                 <Button className="btn-cancel" onClick={this.handleCancel}>{getResource('Cancel')}</Button>
-                                <Button className="btn-cancel" type="submit" name="saveAsDraft" onClick={this.handleSubmit}>{getResource('SaveAsDraft')}</Button>
+                                <Button className="btn-cancel" type="submit" name="saveAsDraft" onClick={this.handleSaveAsDraft}>{getResource('SaveAsDraft')}</Button>
                                 <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit}>{getResource('Publish')}</Button>
                             </FormGroup>
                         </form>

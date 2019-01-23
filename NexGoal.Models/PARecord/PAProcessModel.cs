@@ -12,7 +12,7 @@
         public string Process { get; set; }
 
         public int EvaluatorId { get; set; }
-        public EmployeeBaseModel Evaluator { get; set; }
+        public Employee Evaluator { get; set; }
 
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

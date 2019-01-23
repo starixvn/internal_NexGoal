@@ -20,7 +20,6 @@
     {
         private IBaseService baseService;
         private ICommonService commonService;
-        private IAvatarService avatarService;
         private IEmployeeNominationRepository nominationRepository;
 
         [Fact]
@@ -120,9 +119,9 @@
         {
             var service = GetService();
 
-            baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(Arg.Any<GetNominationByRecordIdCriteria>())
-                .Returns(new Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<NominationPeriodModel>>(
-                    Enumerable.Empty<PerformanceRecordModel>(), Enumerable.Empty<NominationPeriodModel>()));
+            baseService.FetchMultipleAsync<PerformanceRecord, NominationPeriodModel>(Arg.Any<GetNominationByRecordIdCriteria>())
+                .Returns(new Tuple<IEnumerable<PerformanceRecord>, IEnumerable<NominationPeriodModel>>(
+                    Enumerable.Empty<PerformanceRecord>(), Enumerable.Empty<NominationPeriodModel>()));
 
             var result = await service.GetNominationByRecordIdAsync(0);
 
@@ -144,8 +143,8 @@
             baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(Arg.Any<GetNominationByRecordIdCriteria>())
                 .Returns(new Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<NominationPeriodModel>>(
                     new List<PerformanceRecordModel> { performanceRecord }, Enumerable.Empty<NominationPeriodModel>()));
-            commonService.GetEmployeeByIdAsync(performanceRecord.CreatorId).Returns(new EmployeeBaseModel { EmployeeId = 1 });
-            commonService.GetEmployeeByIdAsync(2).Returns(new EmployeeBaseModel { EmployeeId = 2 });
+            commonService.GetEmployeeByIdAsync(performanceRecord.CreatorId).Returns(new Employee { EmployeeId = 1 });
+            commonService.GetEmployeeByIdAsync(2).Returns(new Employee { EmployeeId = 2 });
 
             var result = await service.GetNominationByRecordIdAsync(1);
 
@@ -237,10 +236,10 @@
                         new List<PerformanceRecordModel> { performanceRecord }
                     ));
 
-            commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<EmployeeBaseModel>
+            commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<Employee>
             {
-                new EmployeeBaseModel { EmployeeId = 1 },
-                new EmployeeBaseModel { EmployeeId = 2 }
+                new Employee { EmployeeId = 1 },
+                new Employee { EmployeeId = 2 }
             });
 
             var result = await service.GetNominationsByPeriodIdsAsync("1", null);
@@ -269,10 +268,9 @@
         {
             baseService = Substitute.For<IBaseService>();
             commonService = Substitute.For<ICommonService>();
-            avatarService = Substitute.For<IAvatarService>();
             nominationRepository = Substitute.For<IEmployeeNominationRepository>();
 
-            var service = new EmployeeNominationService(baseService, commonService, avatarService, nominationRepository);
+            var service = new EmployeeNominationService(baseService, commonService, nominationRepository);
 
             return service;
         }

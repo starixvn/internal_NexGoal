@@ -1,4 +1,4 @@
-﻿namespace NexGoal.Models.Employee
+﻿namespace NexGoal.Models.EmployeeRole
 {
     public class EmployeeRoleModel
     {

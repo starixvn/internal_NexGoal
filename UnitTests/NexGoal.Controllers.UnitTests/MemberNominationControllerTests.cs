@@ -148,9 +148,9 @@
                 new PerformanceRecordModel
                 {
                     PerformanceRecordId = 1,
-                    Employees = new List<EmployeeBaseModel>
+                    Employees = new List<Employee>
                     {
-                        new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" }
+                        new Employee { EmployeeId = 1, NickName = "Tim" }
                     },
                     Comment = "test"
                 }
@@ -174,9 +174,9 @@
             var expected = new PerformanceRecordModel
             {
                 PerformanceRecordId = 1,
-                Employees = new List<EmployeeBaseModel>
+                Employees = new List<Employee>
                 {
-                    new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" }
+                    new Employee { EmployeeId = 1, NickName = "Tim" }
                 },
                 Comment = "test"
             };

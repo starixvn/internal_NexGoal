@@ -8,9 +8,9 @@
 
     public interface IEmployeeFlowSettingService
     {
-        Task<IEnumerable<EmployeeBaseModel>> GetEmployeeHaveSettingAsync(int? groupId = null);
+        Task<IEnumerable<Employee>> GetEmployeeHaveSettingAsync(int? groupId = null);
 
-        Task<IEnumerable<EmployeeBaseModel>> GetEmployeeUnsettingAsync(int? groupId = null);
+        Task<IEnumerable<Employee>> GetEmployeeUnsettingAsync(int? groupId = null);
 
         Task<IEnumerable<EmployeeFlowSettingModel>> GetEmployeeFlowSettingAsync();
 

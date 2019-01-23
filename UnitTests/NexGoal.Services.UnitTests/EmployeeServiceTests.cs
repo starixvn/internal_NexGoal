@@ -1,5 +1,6 @@
-﻿namespace NexGoal.Services.UnitTests
+namespace NexGoal.Services.UnitTests
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -7,7 +8,7 @@
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Employee;
     using NexGoal.Models.Common;
-    using NexGoal.Models.Employee;
+    using NexGoal.Models.EmployeeRole;
     using NSubstitute;
     using Xunit;
 
@@ -19,9 +20,9 @@
         public async Task GetEmployeesAsync_WhenCalled_ReturnExpectedEmployees()
         {
             // Arrange
-            var employees = new List<EmployeeBaseModel>
+            var employees = new List<Employee>
             {
-                new EmployeeBaseModel
+                new Employee
                 {
                     EmployeeId = 1,
                     FullName = "Eha",
@@ -30,7 +31,7 @@
             };
             var param = new GetEmployeeParam();
             var service = GetEmployeeService();
-            baseService.GetDataAsync<EmployeeBaseModel>(Arg.Any<GetEmployeesCriteria>()).Returns(employees);
+            baseService.GetDataAsync<Employee>(Arg.Any<GetEmployeesCriteria>()).Returns(employees);
 
             // Act
             var result = await service.GetEmployeesAsync(param);
@@ -42,7 +43,7 @@
         [Fact]
         public async Task GetEmployeeByIdAsync_WhenCalled_ReturnExpectedEmployee()
         {
-            var employee = new EmployeeBaseModel
+            var employee = new Employee
             {
                 EmployeeId = 1,
                 FullName = "Eha",
@@ -50,7 +51,7 @@
             };
 
             var service = GetEmployeeService();
-            baseService.GetDataEntityAsync<EmployeeBaseModel>(Arg.Any<GetEmployeeByIdCriteria>()).Returns(employee);
+            baseService.GetDataEntityAsync<Employee>(Arg.Any<GetEmployeeByIdCriteria>()).Returns(employee);
 
             var result = await service.GetEmployeeByIdAsync(1);
 
@@ -105,12 +106,12 @@
         public async Task GetMemberAsync_WhenCalled_ReturnAsExpectedEmployees()
         {
             // Arrange
-            var employees = new List<EmployeeBaseModel>
+            var employees = new List<Employee>
             {
-                new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" }
+                new Employee { EmployeeId = 1, NickName = "Tim" }
             };
             var service = GetEmployeeService();
-            baseService.GetDataAsync<EmployeeBaseModel>(Arg.Any<GetMemberByActorIdCriteria>()).Returns(employees);
+            baseService.GetDataAsync<Employee>(Arg.Any<GetMemberByActorIdCriteria>()).Returns(employees);
 
             // Act
             var actual = await service.GetMemberAsync(1);

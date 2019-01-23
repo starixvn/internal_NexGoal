@@ -21,7 +21,8 @@ export default class CreateMemberPerformance extends Component {
         projectOptions: PropTypes.arrayOf(PropTypes.object),
         selectedMemberInfo: PropTypes.object,
         isMultiple: PropTypes.bool,
-        onSubmitSuccess: PropTypes.func
+        onSubmitSuccess: PropTypes.func,
+        onSubmitDraftSuccess: PropTypes.func
     };
 
     static defaultProps = {
@@ -31,7 +32,8 @@ export default class CreateMemberPerformance extends Component {
         projectOptions: [],
         selectedMemberInfo: null,
         isMultiple: true,
-        onSubmitSuccess: function () { }
+        onSubmitSuccess: function () { },
+        onSubmitDraftSuccess: function () { }
     };
 
     constructor(props) {
@@ -46,6 +48,7 @@ export default class CreateMemberPerformance extends Component {
                 projects: props.selectedMemberInfo && props.selectedMemberInfo.isProbation ? [ProbationTag] : [],
                 statusId: null
             },
+            currentDate: moment(),
             errors: {}
         };
 
@@ -148,16 +151,6 @@ export default class CreateMemberPerformance extends Component {
         event.preventDefault();
 
         if (this.validateForm()) {
-            let statusId = 0;
-            switch (event.target.name) {
-                case 'save':
-                    statusId = PerformanceRecordStatus.Submitted;
-                    break;
-                case 'saveAsDraft':
-                    statusId = PerformanceRecordStatus.Draft;
-                    break;
-            }
-
             let record = this.state.performanceRecord;
             let employeeIds = this.props.isMultiple
                 ? record.employees.map((employee) => { return employee.value; }).join(',') : this.props.selectedMemberInfo.id;
@@ -166,8 +159,7 @@ export default class CreateMemberPerformance extends Component {
                 employeeIds: employeeIds,
                 gradeId: record.grade ? record.grade.value : null,
                 comment: record.comment,
-                projectIds: record.projects.map((project) => { return project.value; }).join(','),
-                statusId: statusId
+                projectIds: record.projects.map((project) => { return project.value; }).join(',')
             });
 
             axios({
@@ -183,7 +175,53 @@ export default class CreateMemberPerformance extends Component {
                 if (data.isSuccessful) {
                     toast.success(getResource('CreatedSuccessfully'));
 
-                    this.props.onSubmitSuccess(data.objectIds, statusId);
+                    this.props.onSubmitSuccess(data.objectIds);
+                    this.handleCancel();
+                } else {
+                    if (data.errors) {
+                        let errors = {};
+                        data.errors.map(error => {
+                            errors[camelCase(error.key)] = error.errorMessage;
+                        });
+
+                        this.setState({ errors });
+                    } else {
+                        toast.error(data.message);
+                    }
+                }
+            }).catch(axiosError);
+        }
+    }
+
+    handleSaveAsDraft = (event) => {
+        event.preventDefault();
+
+        if (this.validateForm()) {
+            let record = this.state.performanceRecord;
+            let employeeIds = this.props.isMultiple ? record.employees.map((employee) => { return employee.value; }).join(',') :
+                this.props.selectedMemberId;
+            let performanceRecord = stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                employeeIds: employeeIds,
+                gradeId: record.grade ? record.grade.value : null,
+                comment: record.comment,
+                projectIds: record.projects.map((project) => { return project.value; }).join(',')
+            });
+
+            axios({
+                url: resolveClientUrl('Member/Performance/CreateDraft'),
+                method: 'POST',
+                data: performanceRecord,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }).then(response => {
+                let data = response.data;
+                if (data.isSuccessful) {
+                    toast.success(getResource('CreatedSuccessfully'));
+
+                    this.props.onSubmitDraftSuccess(data.objectIds);
                     this.handleCancel();
                 } else {
                     if (data.errors) {
@@ -292,7 +330,7 @@ export default class CreateMemberPerformance extends Component {
 
                             <FormGroup className="text-right">
                                 <Button className="btn-cancel" onClick={this.handleCancel}>{getResource('Cancel')}</Button>
-                                <Button className="btn-cancel" type="submit" name="saveAsDraft" onClick={this.handleSubmit}>{getResource('SaveAsDraft')}</Button>
+                                <Button className="btn-cancel" type="submit" name="saveAsDraft" onClick={this.handleSaveAsDraft}>{getResource('SaveAsDraft')}</Button>
                                 <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit}>{getResource('Publish')}</Button>
                             </FormGroup>
                         </form>

@@ -17,6 +17,7 @@ export default class PerformanceRecord extends Component {
         isHighlighted: PropTypes.bool,
         onDelete: PropTypes.func,
         onEdit: PropTypes.func,
+        onEditDraft: PropTypes.func,
         pageType: PropTypes.number
     };
 
@@ -25,6 +26,7 @@ export default class PerformanceRecord extends Component {
         pageType: PageType.MyPage,
         isHighlighted: false,
         onEdit: function () { },
+        onEditDraft: function () { },
         onDelete: function () { }
     };
 
@@ -75,6 +77,8 @@ export default class PerformanceRecord extends Component {
 
     handleEdit = () => this.props.onEdit(this.props.data.performanceRecordId);
 
+    handleEditDraft = () => this.props.onEditDraft(this.props.data.performanceRecordId);
+
     handleDelete = () => this.props.onDelete(this.props.data.performanceRecordId);
 
     renderPerformanceCheckin = () => {
@@ -102,10 +106,6 @@ export default class PerformanceRecord extends Component {
                         }
                         <div>
                             <span className="submit-date">{createdDate}</span>
-                            {
-                                record.statusId === PerformanceRecordStatus.Draft &&
-                                <span className="draft">draft</span>
-                            }
                         </div>
                     </div>
                     {
@@ -113,15 +113,74 @@ export default class PerformanceRecord extends Component {
                         <div className="date">
                             <div className="edit-date">
                                 {
-                                    record.statusId !== PerformanceRecordStatus.Draft && modifiedDate &&
+                                    modifiedDate &&
                                     <Fragment>Edited on {modifiedDate}</Fragment>
                                 }
                                 {
                                     record.isHost &&
                                     <a className="icon-edit" title={getResource('Edit')} onClick={this.handleEdit} />
                                 }
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div className="comment" >
+                    <p className={this.state.isExpanded ? "collapsed" : "expanded"} ref={(element) => this.element = element}>{record.comment}</p>
+                    {
+                        this.state.showCollapseExpandButton ?
+                            <span className={this.state.isExpanded ? "see-more" : "see-less"} onClick={this.collapseExpandComment} />
+                            : null
+                    }
+                </div>
+                <div className="grade">
+                    {`${getResource('Grade')}:`} <div className="grade-detail">{grade}</div>
+                </div>
+                {
+                    !this.props.isHideProjectTag &&
+                    <div className="project">
+                        <div className="lb-project">{`${getResource('ProjectTag')}:`}</div> <div className="project-detail">{projects}</div>
+                    </div>
+                }
+            </div>
+        );
+    }
+
+    renderDraftPerformanceCheckin = () => {
+        let record = this.props.data;
+        let employees = record.employees;
+        let creator = record.creator;
+        let grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : getResource('N/A');
+        let projects = record.projects && record.projects.length > 0 ?
+            record.projects.map(project => <span key={project.projectId} className="tag">{project.name}</span>) : getResource('N/A');
+        let createdDate = record.createdDate ? moment(record.createdDate).format(DateFormat) : '';
+
+        return (
+            <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-draft-${record.performanceRecordId}`}>
+                <div className="avatar-user">
+                    <img src={creator.avatar} alt="avatar" className="avatar" />
+                    <div className="person-info">
+                        <span className={getRoleClassName(record.roleId)}>{creator.nickName}</span>
+                        {
+                            employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
+                            <Fragment>
+                                <span className="icon-checkin" />
+                                <span className="role-member">{employees.map(employee => { return employee.nickName; }).join(', ')}</span>
+                            </Fragment>
+                        }
+                        <div>
+                            <span className="submit-date">{createdDate}</span>
+                            {
+                                <span className="draft">draft</span>
+                            }
+                        </div>
+                    </div>
+                    {
+                        <div className="date">
+                            <div className="edit-date">
                                 {
-                                    record.isHost && record.statusId === PerformanceRecordStatus.Draft &&
+                                    <a className="icon-edit" title={getResource('Edit')} onClick={this.handleEditDraft} />
+                                }
+                                {
                                     <a className="icon-delete" title={getResource('Delete')} onClick={this.handleDelete} />
                                 }
                             </div>
@@ -318,7 +377,12 @@ export default class PerformanceRecord extends Component {
         switch (record.typeId) {
             case PerformanceRecordType.PerformanceCheckin:
             case PerformanceRecordType.PerformanceAppraisal:
-                return this.renderPerformanceCheckin();
+                if (record.isDraft) {
+                    return this.renderDraftPerformanceCheckin();
+                }
+                else {
+                    return this.renderPerformanceCheckin();
+                }
 
             case PerformanceRecordType.Nomination:
                 return this.renderNomination();

@@ -140,7 +140,7 @@
             };
 
             var result = await baseService.FetchMultipleAsync<PARecordModel, PAProcessModel>(criteria).ConfigureAwait(false);
-            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+            IEnumerable<Employee> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
 
             IEnumerable<PARecordModel> paRecords = result.Item1;
             IEnumerable<PAProcessModel> paProcesses = result.Item2;
@@ -213,7 +213,7 @@
             PARecordModel paRecord = result.Item1.FirstOrDefault();
             if (paRecord != null)
             {
-                IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+                IEnumerable<Employee> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
                 paRecord.Employee = employees.FirstOrDefault(x => x.EmployeeId == paRecord.EmployeeId);
 
                 foreach (PAProcessModel process in result.Item2)

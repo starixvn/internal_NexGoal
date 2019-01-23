@@ -102,6 +102,10 @@
     <Setting Key="PerformanceRecord_Delete" SpName="PerformanceRecord_Delete" DbName="bodb_NexGoal" Plain="0" />
     <Setting Key="PerformanceRecord_GetSettingToSendNotification" SpName="PerformanceRecord_GetSettingToSendNotification" DbName="bodb_NexGoal" Plain="0" />
     <Setting Key="PerformanceRecord_InsertNotification" SpName="PerformanceRecord_InsertNotification" DbName="bodb_NexGoal" Plain="0" />
+    <Setting Key="PerformanceRecord_GetMemberPerformanceByMemberId" SpName="PerformanceRecord_GetMemberPerformanceByMemberId" DbName="bodb_NexGoal" Plain="0" />
+    <Setting Key="DraftPerformanceRecord_GetById" SpName="DraftPerformanceRecord_GetById" DbName="bodb_NexGoal" Plain="0" />
+    <Setting Key="PerformanceRecord_InsertDraft" SpName="PerformanceRecord_InsertDraft" DbName="bodb_NexGoal" Plain="0" />
+    <Setting Key="PerformanceRecord_UpdateDraft" SpName="PerformanceRecord_UpdateDraft" DbName="bodb_NexGoal" Plain="0" />
   </Function>
   <Function Name="Performanace Appraisal">
     <Setting Key="PARecord_GetPeriodByActor" SpName="PARecord_GetPeriodByActor" DbName="bodb_NexGoal" Plain="0"></Setting>

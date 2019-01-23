@@ -25,9 +25,9 @@
         public async Task GetEmployees_WhenCalled_ReturnAsExpectedEmployees()
         {
             // Arrange
-            var employees = new List<EmployeeBaseModel>
+            var employees = new List<Employee>
             {
-                new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" }
+                new Employee { EmployeeId = 1, NickName = "Tim" }
             };
             var controller = GetCommonController();
             commonService.GetEmployeesAsync().Returns(employees);
@@ -37,7 +37,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
-            var result = Assert.IsAssignableFrom<IEnumerable<EmployeeBaseModel>>(jsonResult.Value);
+            var result = Assert.IsAssignableFrom<IEnumerable<Employee>>(jsonResult.Value);
             Assert.Equal(employees, result);
         }
 
@@ -235,9 +235,9 @@
         public async Task GetMyMember_WhenCalled_ReturnAsExpectedEmployees()
         {
             // Arrange
-            var employees = new List<EmployeeBaseModel>
+            var employees = new List<Employee>
             {
-                new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" }
+                new Employee { EmployeeId = 1, NickName = "Tim" }
             };
             var controller = GetCommonController();
             employeeService.GetMemberAsync(sessionService.EmployeeId).Returns(employees);
@@ -247,7 +247,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
-            var result = Assert.IsAssignableFrom<IEnumerable<EmployeeBaseModel>>(jsonResult.Value);
+            var result = Assert.IsAssignableFrom<IEnumerable<Employee>>(jsonResult.Value);
             Assert.Equal(employees, result);
         }
 

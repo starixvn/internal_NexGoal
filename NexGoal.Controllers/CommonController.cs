@@ -37,7 +37,7 @@
             string groupIds = null,
             bool? isEnabled = true)
         {
-            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(keyword, groupIds, isEnabled).ConfigureAwait(false);
+            IEnumerable<Employee> employees = await commonService.GetEmployeesAsync(keyword, groupIds, isEnabled).ConfigureAwait(false);
 
             return Json(employees);
         }
@@ -117,7 +117,7 @@
         [HttpGet]
         public async Task<JsonResult> GetMyMember(string keyword = null)
         {
-            IEnumerable<EmployeeBaseModel> members = await employeeService.GetMemberAsync(sessionService.EmployeeId, keyword).ConfigureAwait(false);
+            IEnumerable<Employee> members = await employeeService.GetMemberAsync(sessionService.EmployeeId, keyword).ConfigureAwait(false);
 
             return Json(members);
         }

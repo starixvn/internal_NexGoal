@@ -17,7 +17,7 @@
             {
                 using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria).ConfigureAwait(false))
                 {
-                    var performanceAppraisals = multi.Read<PARecordModel, EmployeeBaseModel, PeriodBaseModel, PARecordModel>(
+                    var performanceAppraisals = multi.Read<PARecordModel, Employee, PeriodBaseModel, PARecordModel>(
                         (pa, employee, period) =>
                         {
                             pa.Employee = employee;
@@ -26,7 +26,7 @@
                         },
                         "EmployeeId, PeriodId");
 
-                    var processes = multi.Read<PAProcessModel, EmployeeBaseModel, PerformanceRecordModel, PAProcessModel>(
+                    var processes = multi.Read<PAProcessModel, Employee, PerformanceRecordModel, PAProcessModel>(
                             (process, evaluator, performance) =>
                             {
                                 process.Evaluator = evaluator;

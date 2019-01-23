@@ -12,7 +12,7 @@
         public PeriodBaseModel Period { get; set; }
 
         public int EmployeeId { get; set; }
-        public EmployeeBaseModel Employee { get; set; }
+        public Employee Employee { get; set; }
 
         public int StatusId { get; set; }
         public string Status { get; set; }

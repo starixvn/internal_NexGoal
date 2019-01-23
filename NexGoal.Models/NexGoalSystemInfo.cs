@@ -5,12 +5,11 @@
 
     public static class NexGoalSystemInfo
     {
-        public static EmployeeBaseModel NexGoal => new EmployeeBaseModel
+        public static Employee NexGoal => new Employee
         {
             EmployeeId = Constants.NexGoalSystemId,
             NickName = "NexGoal",
-            FullName = "NexGoal",
-            Avatar = "/dist/avatars/nexgoal.jpg"
+            FullName = "NexGoal"
         };
     }
 }

@@ -13,7 +13,7 @@
 
         public int NomineeId { get; set; }
 
-        public EmployeeBaseModel Nominee { get; set; }
+        public Employee Nominee { get; set; }
 
         public int NominationPeriodId { get; set; }
 

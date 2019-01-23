@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Repositories.Extensions
 {
     using Microsoft.Extensions.DependencyInjection;
+    using NexGoal.Repositories.Interfaces;
 
     public static class RepositoryDIExtensions
     {
@@ -11,6 +12,7 @@
             services.AddScoped<IPAFocusRepository, PAFocusRepository>();
             services.AddScoped<IEmployeeNominationRepository, EmployeeNominationRepository>();
             services.AddScoped<IPAReportRepository, PAReportRepository>();
+            services.AddScoped<IPerformanceRecordRepository, PerformanceRecordRepository>();
         }
     }
 }

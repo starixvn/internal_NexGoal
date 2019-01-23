@@ -21,14 +21,14 @@
         public async Task Index_WhenCalled_ReturnAsExpectedPerformanceRecords()
         {
             // Arrange
-            var expected = new List<PerformanceRecordModel>
+            var expected = new List<PerformanceRecord>
             {
-                new PerformanceRecordModel
+                new PerformanceRecord
                 {
                     PerformanceRecordId = 1,
-                    Employees = new List<EmployeeBaseModel>
+                    Employees = new List<Employee>
                     {
-                        new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" }
+                        new Employee { EmployeeId = 1, NickName = "Tim" }
                     },
                     Comment = "test"
                 }
@@ -41,7 +41,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
-            var actual = Assert.IsAssignableFrom<IEnumerable<PerformanceRecordModel>>(jsonResult.Value);
+            var actual = Assert.IsAssignableFrom<IEnumerable<PerformanceRecord>>(jsonResult.Value);
             Assert.Equal(expected, actual);
         }
 
@@ -50,19 +50,19 @@
         {
             // Arrange
             var param = new GetPerformanceTimelineParam();
-            var performanceRecords = new List<PerformanceRecordModel>
+            var performanceRecords = new List<PerformanceRecord>
             {
-                new PerformanceRecordModel
+                new PerformanceRecord
                 {
                     PerformanceRecordId = 1,
-                    Employees = new List<EmployeeBaseModel>
+                    Employees = new List<Employee>
                     {
-                        new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" }
+                        new Employee { EmployeeId = 1, NickName = "Tim" }
                     },
                     Comment = "test"
                 }
             };
-            var tuple = new Tuple<IEnumerable<PerformanceRecordModel>, int>(performanceRecords, 1);
+            var tuple = new Tuple<IEnumerable<PerformanceRecord>, int>(performanceRecords, 1);
             var controller = GetMyPerformanceController();
             performanceService.GetPerformanceTimelineAsync(Arg.Any<GetPerformanceTimelineParam>()).Returns(tuple);
 
@@ -71,7 +71,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
-            var records = (IEnumerable<PerformanceRecordModel>)jsonResult.Value.GetType().GetProperty("performanceRecords").GetValue(jsonResult.Value);
+            var records = (IEnumerable<PerformanceRecord>)jsonResult.Value.GetType().GetProperty("performanceRecords").GetValue(jsonResult.Value);
             var totalItems = (int)jsonResult.Value.GetType().GetProperty("totalItems").GetValue(jsonResult.Value);
             Assert.Equal(performanceRecords, records);
             Assert.Equal(1, totalItems);
@@ -173,12 +173,12 @@
         public async Task GetById_WhenCalled_ReturnAsExpectedPerformanceRecord()
         {
             // Arrange
-            var expected = new PerformanceRecordModel
+            var expected = new PerformanceRecord
             {
                 PerformanceRecordId = 1,
-                Employees = new List<EmployeeBaseModel>
+                Employees = new List<Employee>
                 {
-                    new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" }
+                    new Employee { EmployeeId = 1, NickName = "Tim" }
                 },
                 Comment = "test"
             };
@@ -190,7 +190,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
-            var actual = Assert.IsAssignableFrom<PerformanceRecordModel>(jsonResult.Value);
+            var actual = Assert.IsAssignableFrom<PerformanceRecord>(jsonResult.Value);
             Assert.Equal(expected, actual);
         }
 
@@ -198,14 +198,14 @@
         public async Task GetByIds_WhenCalled_ReturnAsExpectedPerformanceRecords()
         {
             // Arrange
-            var expected = new List<PerformanceRecordModel>
+            var expected = new List<PerformanceRecord>
             {
-                new PerformanceRecordModel
+                new PerformanceRecord
                 {
                     PerformanceRecordId = 1,
-                    Employees = new List<EmployeeBaseModel>
+                    Employees = new List<Employee>
                     {
-                        new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" }
+                        new Employee { EmployeeId = 1, NickName = "Tim" }
                     },
                     Comment = "test"
                 }
@@ -218,7 +218,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
-            var actual = Assert.IsAssignableFrom<IEnumerable<PerformanceRecordModel>>(jsonResult.Value);
+            var actual = Assert.IsAssignableFrom<IEnumerable<PerformanceRecord>>(jsonResult.Value);
             Assert.Equal(expected, actual);
         }
 

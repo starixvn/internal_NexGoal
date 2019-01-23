@@ -3,7 +3,7 @@
 @model IEnumerable<MenuItemSession>
 
 @{
-    var employee = (EmployeeBaseModel)ViewData["employee"];
+    var employee = (Employee)ViewData["employee"];
     var currentController = ViewContext.RouteData.Values["Controller"].ToString().ToLowerInvariant();
     var currentAction = ViewContext.RouteData.Values["Action"].ToString().ToLowerInvariant();
     var currentUrl = string.Format("/{0}/{1}", currentController, currentAction);

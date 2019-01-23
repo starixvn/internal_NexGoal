@@ -52,9 +52,9 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<EmployeeBaseModel>> GetProjectManagerAsync()
+        public async Task<IEnumerable<Employee>> GetProjectManagerAsync()
         {
-            var criteria = new GetProjectManagersCriteria();
+            return await baseService.GetDataAsync<Employee>(new GetProjectManagersCriteria()).ConfigureAwait(false);
 
             return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
         }

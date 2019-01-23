@@ -55,14 +55,14 @@
                 new PerformanceRecordModel
                 {
                     PerformanceRecordId = 1,
-                    Employees = new List<EmployeeBaseModel>{ new  EmployeeBaseModel { EmployeeId = 1, NickName = "tim" } },
-                    Creator = new EmployeeBaseModel { EmployeeId = 2, NickName = "quinn" },
+                    Employees = new List<Employee>{ new  Employee { EmployeeId = 1, NickName = "tim" } },
+                    Creator = new Employee { EmployeeId = 2, NickName = "quinn" },
                     NominationPeriod = new NominationPeriodModel { NominationPeriodId = 1, Year = 2018 }
                 }
             };
             var criteria = Helpers.FakeCriteria();
             var repository = new EmployeeNominationRepository();
-            objectDb.QueryAsync(Arg.Any<Func<PerformanceRecordModel, EmployeeBaseModel, EmployeeBaseModel, NominationPeriodModel, PerformanceRecordModel>>(),
+            objectDb.QueryAsync(Arg.Any<Func<PerformanceRecordModel, Employee, Employee, NominationPeriodModel, PerformanceRecordModel>>(),
                 "EmployeeId, EmployeeId, NominationPeriodId",
                 criteria).Returns(records);
 

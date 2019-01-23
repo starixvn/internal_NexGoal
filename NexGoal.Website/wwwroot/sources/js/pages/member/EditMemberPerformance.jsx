@@ -22,7 +22,8 @@ export default class EditMemberPerformance extends Component {
         projectOptions: PropTypes.arrayOf(PropTypes.object),
         isShowModal: PropTypes.bool,
         onCloseModal: PropTypes.func,
-        onSubmitSuccess: PropTypes.func
+        onSubmitSuccess: PropTypes.func,
+        isDraft: PropTypes.bool
     };
 
     static defaultProps = {
@@ -31,6 +32,7 @@ export default class EditMemberPerformance extends Component {
         memberOptions: [],
         performanceGradeOptions: [],
         projectOptions: [],
+        isDraft: false,
         isShowModal: false,
         onCloseModal: function () { },
         onSubmitSuccess: function () { }
@@ -46,7 +48,8 @@ export default class EditMemberPerformance extends Component {
     }
 
     componentDidMount() {
-        axios(resolveClientUrl(`Member/Performance/GetById/${this.props.performanceRecordId}`))
+        let url = this.props.isDraft ? `Performance/GetDraftById/${this.props.performanceRecordId}` : `Performance/GetById/${this.props.performanceRecordId}`;
+        axios(resolveClientUrl(url))
             .then((response) => {
                 let performanceRecord = response.data;
                 performanceRecord.grade = performanceRecord.grade ? {
@@ -138,16 +141,6 @@ export default class EditMemberPerformance extends Component {
         event.preventDefault();
 
         if (this.validateForm()) {
-            let statusId = 0;
-            switch (event.target.name) {
-                case 'save':
-                    statusId = PerformanceRecordStatus.Submitted;
-                    break;
-                case 'saveAsDraft':
-                    statusId = PerformanceRecordStatus.Draft;
-                    break;
-            }
-
             let record = this.state.performanceRecord;
 
             let performanceRecord = stringify({
@@ -156,8 +149,8 @@ export default class EditMemberPerformance extends Component {
                 employeeIds: record.employees.map((employee) => { return employee.value; }).join(','),
                 gradeId: record.grade ? record.grade.value : null,
                 comment: record.comment,
-                projectIds: record.projects.map((project) => { return project.value; }).join(','),
-                statusId: statusId
+                isFromDraft: record.isDraft,
+                projectIds: record.projects.map((project) => { return project.value; }).join(',')
             });
 
             axios({
@@ -174,7 +167,53 @@ export default class EditMemberPerformance extends Component {
                 if (data.isSuccessful) {
                     toast.success(getResource('CreatedSuccessfully'));
 
-                    this.props.onSubmitSuccess(data.objectIds, statusId);
+                    this.props.onSubmitSuccess(data.objectIds);
+                } else {
+                    if (data.errors) {
+                        let errors = {};
+                        data.errors.map(error => {
+                            errors[camelCase(error.key)] = error.errorMessage;
+                        });
+
+                        this.setState({ errors });
+                    } else {
+                        toast.error(data.message);
+                    }
+                }
+            }).catch(axiosError);
+        }
+    }
+
+    handleSaveAsDraft = (event) => {
+        event.preventDefault();
+
+        if (this.validateForm()) {
+            let record = this.state.performanceRecord;
+
+            let performanceRecord = stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                performanceRecordId: record.performanceRecordId,
+                employeeIds: record.employees.map((employee) => { return employee.value; }).join(','),
+                gradeId: record.grade ? record.grade.value : null,
+                comment: record.comment,
+                projectIds: record.projects.map((project) => { return project.value; }).join(',')
+            });
+
+            axios({
+                url: resolveClientUrl('Member/Performance/EditDraft'),
+                method: 'POST',
+                data: performanceRecord,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }).then(response => {
+                let data = response.data;
+
+                if (data.isSuccessful) {
+                    toast.success(getResource('CreatedSuccessfully'));
+
+                    this.props.onSubmitDraftSuccess(record.performanceRecordId);
                 } else {
                     if (data.errors) {
                         let errors = {};
@@ -216,7 +255,7 @@ export default class EditMemberPerformance extends Component {
                                 <div>
                                     <span className="submit-date">{moment().format(DateFormat)}</span>
                                     {
-                                        performanceRecord.statusId === PerformanceRecordStatus.Draft &&
+                                        performanceRecord.isDraft &&
                                         <span className="draft">draft</span>
                                     }
                                 </div>
@@ -231,7 +270,7 @@ export default class EditMemberPerformance extends Component {
                                         placeholder="Select Employees"
                                         value={performanceRecord.employees} options={memberOptions}
                                         onChange={this.handleEmployeeChange} isClearable
-                                        isDisabled={this.props.isDisabledAddMember || performanceRecord.statusId !== PerformanceRecordStatus.Draft}
+                                        isDisabled={this.props.isDisabledAddMember || !performanceRecord.isDraft}
                                     />
                                 </FormGroup>
                                 <FormGroup>
@@ -272,8 +311,8 @@ export default class EditMemberPerformance extends Component {
                 <Modal.Footer>
                     <Button className="btn-cancel" onClick={this.props.onCloseModal}>{getResource('Cancel')}</Button>
                     {
-                        performanceRecord.statusId === PerformanceRecordStatus.Draft &&
-                        <Button type="submit" className="btn-cancel" name="saveAsDraft" onClick={this.handleSubmit}>{getResource('SaveAsDraft')}</Button>
+                        performanceRecord.isDraft &&
+                        <Button type="submit" className="btn-cancel" name="saveAsDraft" onClick={this.handleSaveAsDraft}>{getResource('SaveAsDraft')}</Button>
                     }
                     <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit}>{getResource('Publish')}</Button>
                 </Modal.Footer>

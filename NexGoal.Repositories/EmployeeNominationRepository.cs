@@ -33,10 +33,10 @@
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                var nominations = await db.QueryAsync<PerformanceRecordModel, EmployeeBaseModel, EmployeeBaseModel, NominationPeriodModel, PerformanceRecordModel>(
+                var nominations = await db.QueryAsync<PerformanceRecordModel, Employee, Employee, NominationPeriodModel, PerformanceRecordModel>(
                     (nomination, employee, creator, period) =>
                     {
-                        nomination.Employees = new List<EmployeeBaseModel> { employee };
+                        nomination.Employees = new List<Employee> { employee };
                         nomination.Creator = creator;
                         nomination.NominationPeriod = period;
 

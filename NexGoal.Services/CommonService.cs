@@ -1,9 +1,11 @@
 ﻿namespace NexGoal.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.Extensions.Caching.Memory;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Services;
     using NexGoal.Criteria;
@@ -16,14 +18,14 @@
     public class CommonService : ICommonService
     {
         private readonly IBaseService baseService;
-        private readonly IAvatarService avatarService;
+        private readonly IMemoryCache memoryCache;
 
         public CommonService(
             IBaseService baseService,
-            IAvatarService avatarService)
+            IMemoryCache memoryCache)
         {
             this.baseService = baseService;
-            this.avatarService = avatarService;
+            this.memoryCache = memoryCache;
         }
 
         public async Task<IEnumerable<ReferenceResourceModel>> GetReferenceResourcesByNamesAsync(string[] refNames, bool? isActive = true)
@@ -49,7 +51,7 @@
             return new SelectList(items, dataValueField, dataTextField);
         }
 
-        public async Task<IEnumerable<EmployeeBaseModel>> GetEmployeesAsync(
+        public async Task<IEnumerable<Employee>> GetEmployeesAsync(
             string keyword = null,
             string groupIds = null,
             bool? isEnabled = true)
@@ -61,23 +63,17 @@
                 IsEnabled = isEnabled
             };
 
-            var employees = await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
-            foreach (EmployeeBaseModel employee in employees)
-            {
-                employee.Avatar = avatarService.GetFilePath(employee.Code);
-            }
-
+            var employees = await baseService.GetDataAsync<Employee>(criteria).ConfigureAwait(false);
             return employees;
         }
 
-        public async Task<EmployeeBaseModel> GetEmployeeByIdAsync(int employeeId)
+        public async Task<Employee> GetEmployeeByIdAsync(int employeeId)
         {
             var criteria = new SearchEmployeeCriteria
             {
                 EmployeeId = employeeId
             };
-            var employee = await baseService.GetDataEntityAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false) ?? new EmployeeBaseModel();
-            employee.Avatar = avatarService.GetFilePath(employee.Code);
+            var employee = await baseService.GetDataEntityAsync<Employee>(criteria).ConfigureAwait(false) ?? new Employee();
 
             return employee;
         }
@@ -99,14 +95,25 @@
 
         public async Task<IEnumerable<PerformanceGradeModel>> GetPerformanceGradeAsync()
         {
-            string[] refNames = { ReferenceResource.PerformanceGrade };
-            IEnumerable<ReferenceResourceModel> referenceResources = await GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
-            IEnumerable<PerformanceGradeModel> performanceGrades = referenceResources.Select(x => new PerformanceGradeModel
+            memoryCache.TryGetValue(CacheKeys.PerformanceGrades, out IList<PerformanceGradeModel> performanceGrades);
+            if (performanceGrades == null)
             {
-                GradeId = x.ResourceId,
-                Name = x.Value,
-                Description = x.Description
-            }).OrderBy(x => x.GradeId);
+                string[] refNames = { ReferenceResource.PerformanceGrade };
+                IEnumerable<ReferenceResourceModel> referenceResources = await GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
+                performanceGrades = referenceResources.Select(x => new PerformanceGradeModel
+                {
+                    GradeId = x.ResourceId,
+                    Name = x.Value,
+                    Description = x.Description
+                }).OrderBy(x => x.GradeId).ToList();
+
+                var cacheExpirationOptions = new MemoryCacheEntryOptions
+                {
+                    SlidingExpiration = TimeSpan.FromDays(30),
+                    Priority = CacheItemPriority.Normal
+                };
+                memoryCache.Set(CacheKeys.PerformanceGrades, performanceGrades, cacheExpirationOptions);
+            }
 
             return performanceGrades;
         }

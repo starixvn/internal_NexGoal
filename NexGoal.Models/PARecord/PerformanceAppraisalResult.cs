@@ -7,7 +7,7 @@
     {
         public int PARecordId { get; set; }
 
-        public EmployeeBaseModel Employee { get; set; }
+        public Employee Employee { get; set; }
 
         public PeriodBaseModel Period { get; set; }
 

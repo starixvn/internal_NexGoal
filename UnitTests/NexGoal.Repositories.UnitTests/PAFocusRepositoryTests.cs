@@ -32,12 +32,12 @@
                 new PAFocusModel
                 {
                     PAFocusId = 1,
-                    Employee = new EmployeeBaseModel { EmployeeId = 1, NickName = "tim" }
+                    Employee = new Employee { EmployeeId = 1, NickName = "tim" }
                 }
             };
             var criteria = Helpers.FakeCriteria();
             var repository = new PAFocusRepository();
-            objectDb.QueryAsync(Arg.Any<Func<PAFocusModel, EmployeeBaseModel, PAFocusModel>>(),
+            objectDb.QueryAsync(Arg.Any<Func<PAFocusModel, Employee, PAFocusModel>>(),
                 "EmployeeId",
                 criteria).Returns(pafcuses);
 

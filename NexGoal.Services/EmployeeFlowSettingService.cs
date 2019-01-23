@@ -27,24 +27,24 @@
             this.avatarService = avatarService;
         }
 
-        public async Task<IEnumerable<EmployeeBaseModel>> GetEmployeeHaveSettingAsync(int? groupId = null)
+        public async Task<IEnumerable<Employee>> GetEmployeeHaveSettingAsync(int? groupId = null)
         {
             var criteria = new GetEmployeeHaveSettingCriteria
             {
                 GroupId = groupId
             };
 
-            return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<Employee>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<EmployeeBaseModel>> GetEmployeeUnsettingAsync(int? groupId = null)
+        public async Task<IEnumerable<Employee>> GetEmployeeUnsettingAsync(int? groupId = null)
         {
             var criteria = new GetEmployeeUnsettingCriteria
             {
                 GroupId = groupId
             };
 
-            return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<Employee>(criteria).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<EmployeeFlowSettingModel>> GetEmployeeFlowSettingAsync()
@@ -85,15 +85,14 @@
             };
 
             var flowSettings = await baseService.GetDataAsync<FlowSettingModel>(criteria).ConfigureAwait(false);
-            EmployeeBaseModel employee = await commonService.GetEmployeeByIdAsync(employeeId).ConfigureAwait(false);
+            Employee employee = await commonService.GetEmployeeByIdAsync(employeeId).ConfigureAwait(false);
 
             var employeeFlowSetting = new EmployeeFlowSettingModel
             {
                 EmployeeId = employee.EmployeeId,
                 NickName = employee.NickName,
                 FullName = employee.FullName,
-                Code = employee.Code,
-                Avatar = employee.Avatar
+                Code = employee.Code
             };
 
             foreach (FlowSettingModel flowSetting in flowSettings)

@@ -29,8 +29,17 @@
         [Route("Member/Performance")]
         public async Task<JsonResult> Index(int? memberId = null)
         {
-            IEnumerable<PerformanceRecordModel> memberPerformances =
-                await performanceService.GetMemberPerformanceAsync(sessionService.EmployeeId, memberId).ConfigureAwait(false);
+            IEnumerable<PerformanceRecord> memberPerformances =
+                await performanceService.GetMemberPerformanceAsync(sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(memberPerformances);
+        }
+
+        [Route("Member/Performance/MemmberDetail")]
+        public async Task<JsonResult> MemmberDetail(int memberId)
+        {
+            IEnumerable<PerformanceRecord> memberPerformances =
+                await performanceService.GetMemberPerformanceDetailAsync(sessionService.EmployeeId, memberId).ConfigureAwait(false);
 
             return Json(memberPerformances);
         }
@@ -44,6 +53,23 @@
                 performanceRecord.CreatorId = sessionService.EmployeeId;
                 performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
                 CommandResult commandResult = await performanceService.CreatePerformanceRecordAsync(performanceRecord).ConfigureAwait(false);
+
+                return Json(commandResult);
+            }
+
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
+            return Json(new { isSuccessful = false, errors });
+        }
+
+        [Route("Member/Performance/CreateDraft")]
+        [HttpPost]
+        public async Task<JsonResult> CreateDraft(CreatePerformanceRecordModel performanceRecord)
+        {
+            if (ModelState.IsValid)
+            {
+                performanceRecord.CreatorId = sessionService.EmployeeId;
+                performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
+                CommandResult commandResult = await performanceService.CreateDraftPerformanceRecordAsync(performanceRecord).ConfigureAwait(false);
 
                 return Json(commandResult);
             }
@@ -69,29 +95,21 @@
             return Json(new { isSuccessful = false, errors });
         }
 
-        [Route("Member/Performance/Delete")]
-        [HttpDelete]
-        public async Task<JsonResult> Delete(int id)
+        [Route("Member/Performance/EditDraft")]
+        [HttpPost]
+        public async Task<JsonResult> EditDraft(EditPerformanceRecordModel performanceRecord)
         {
-            CommandResult commandResult = await performanceService.DeletePerformanceRecordAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
+            if (ModelState.IsValid)
+            {
+                performanceRecord.CreatorId = sessionService.EmployeeId;
+                performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
+                CommandResult commandResult = await performanceService.EditDraftPerformanceRecordAsync(performanceRecord).ConfigureAwait(false);
 
-            return Json(commandResult);
-        }
+                return Json(commandResult);
+            }
 
-        [Route("Member/Performance/GetById/{id}")]
-        public async Task<JsonResult> GetById(int id)
-        {
-            PerformanceRecordModel record = await performanceService.GetPerformanceRecordByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
-
-            return Json(record);
-        }
-
-        [Route("Member/Performance/GetByIds/{ids:minlength(1)}")]
-        public async Task<JsonResult> GetByIds(string ids)
-        {
-            IEnumerable<PerformanceRecordModel> records = await performanceService.GetPerformanceRecordByIdsAsync(ids, sessionService.EmployeeId).ConfigureAwait(false);
-
-            return Json(records);
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
+            return Json(new { isSuccessful = false, errors });
         }
 
         [Route("Member/Performance/Timeline")]

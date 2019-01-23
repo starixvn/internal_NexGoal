@@ -5,8 +5,8 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Enumerations;
     using NexGoal.Models.Common;
-    using NexGoal.Models.Employee;
     using NexGoal.Models.EmployeeNomination;
+    using NexGoal.Models.EmployeeRole;
     using NexGoal.Models.NominationPeriod;
     using NexGoal.Models.PARecord;
     using NexGoal.Models.Redmine;
@@ -46,7 +46,7 @@
         {
             // Arrange
             var controller = GetMemberController();
-            var employees = new List<EmployeeBaseModel>();
+            var employees = new List<Employee>();
             employeeService.GetMemberAsync(sessionService.EmployeeId).Returns(employees);
 
             // Act
@@ -63,8 +63,8 @@
         {
             // Arrange
             var controller = GetMemberController();
-            var employees = new List<EmployeeBaseModel>();
-            var employee = new EmployeeBaseModel { EmployeeId = 363 };
+            var employees = new List<Employee>();
+            var employee = new Employee { EmployeeId = 363 };
             employees.Add(employee);
 
             // Act
@@ -74,7 +74,7 @@
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(actual);
-            Assert.IsType<EmployeeBaseModel>(viewResult.Model);
+            Assert.IsType<Employee>(viewResult.Model);
         }
 
         [Fact]
@@ -84,7 +84,7 @@
             var controller = GetMemberController();
             var expected = new List<PerformanceAppraisalResult>
             {
-                new PerformanceAppraisalResult { PARecordId = 1, Employee = new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" } }
+                new PerformanceAppraisalResult { PARecordId = 1, Employee = new Employee { EmployeeId = 1, NickName = "Tim" } }
             };
 
             // Act

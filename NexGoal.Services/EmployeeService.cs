@@ -1,12 +1,13 @@
 ﻿namespace NexGoal.Services
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Employee;
     using NexGoal.Models.Common;
-    using NexGoal.Models.Employee;
+    using NexGoal.Models.EmployeeRole;
 
     public class EmployeeService : IEmployeeService
     {
@@ -17,7 +18,7 @@
             this.baseService = baseService;
         }
 
-        public async Task<IEnumerable<EmployeeBaseModel>> GetEmployeesAsync(GetEmployeeParam param)
+        public async Task<IEnumerable<Employee>> GetEmployeesAsync(GetEmployeeParam param)
         {
             var criteria = new GetEmployeesCriteria
             {
@@ -27,17 +28,17 @@
                 IsDisabled = param.IsDisabled
             };
 
-            return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<Employee>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<EmployeeBaseModel> GetEmployeeByIdAsync(int employeeId)
+        public async Task<Employee> GetEmployeeByIdAsync(int employeeId)
         {
             var criteria = new GetEmployeeByIdCriteria
             {
                 EmployeeId = employeeId
             };
 
-            return await baseService.GetDataEntityAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataEntityAsync<Employee>(criteria).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<EmployeeRoleModel>> GetRolesByEmployeeIdAsync(int employeeId)
@@ -73,7 +74,7 @@
             return await baseService.GetDataEntityAsync<int>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<EmployeeBaseModel>> GetMemberAsync(int actorId, string keyword = null)
+        public async Task<IEnumerable<Employee>> GetMemberAsync(int actorId, string keyword = null)
         {
             var criteria = new GetMemberByActorIdCriteria
             {
@@ -81,7 +82,7 @@
                 Keyword = keyword
             };
 
-            return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<Employee>(criteria).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<GroupBaseModel>> GetGroupAsync(int actorId)

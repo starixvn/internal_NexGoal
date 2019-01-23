@@ -19,18 +19,15 @@
     {
         private readonly IBaseService baseService;
         private readonly ICommonService commonService;
-        private readonly IAvatarService avatarService;
         private readonly IEmployeeNominationRepository nominationRepository;
 
         public EmployeeNominationService(
             IBaseService baseService,
             ICommonService commonService,
-            IAvatarService avatarService,
             IEmployeeNominationRepository nominationRepository)
         {
             this.baseService = baseService;
             this.commonService = commonService;
-            this.avatarService = avatarService;
             this.nominationRepository = nominationRepository;
         }
 
@@ -119,7 +116,7 @@
                 performanceRecord.NominationPeriod = nominationPeriod;
 
                 var nominee = await commonService.GetEmployeeByIdAsync(int.Parse(performanceRecord.EmployeeIds)).ConfigureAwait(false);
-                performanceRecord.Employees = new List<EmployeeBaseModel> { nominee };
+                performanceRecord.Employees = new List<Employee> { nominee };
             }
 
             return performanceRecord;
@@ -158,19 +155,6 @@
             };
             IEnumerable<PerformanceRecordModel> records = await nominationRepository.GetMemberNominationAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceRecordModel> performanceRecords = GroupDataMemberPerformance(records);
-
-            foreach (PerformanceRecordModel record in performanceRecords)
-            {
-                if (record.Creator.EmployeeId == Constants.NexGoalSystemId)
-                {
-                    record.Creator = NexGoalSystemInfo.NexGoal;
-                }
-                else
-                {
-                    record.Creator.Avatar = avatarService.GetFilePath(record.Creator.Code);
-                }
-            }
-
             return performanceRecords;
         }
 
@@ -182,11 +166,6 @@
                 MemberId = memberId
             };
             IEnumerable<PerformanceRecordModel> performanceRecords = await nominationRepository.GetMemberNominationAsync(criteria).ConfigureAwait(false);
-
-            foreach (PerformanceRecordModel record in performanceRecords)
-            {
-                record.Creator.Avatar = avatarService.GetFilePath(record.Creator.Code);
-            }
 
             return performanceRecords;
         }
@@ -204,7 +183,7 @@
             var nominations = result.Item1;
             var performanceRecords = result.Item2;
 
-            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+            IEnumerable<Employee> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
 
             MappingData(performanceRecords, employees, nominations);
 
@@ -227,7 +206,7 @@
 
         private static void MappingData(
             IEnumerable<PerformanceRecordModel> performanceRecords,
-            IEnumerable<EmployeeBaseModel> employees,
+            IEnumerable<Employee> employees,
             IEnumerable<NominationModel> nominations)
         {
             foreach (var record in performanceRecords)

@@ -12,12 +12,12 @@
 
         SelectList GetSelectList<T>(IEnumerable<T> items, string dataValueField, string dataTextField);
 
-        Task<IEnumerable<EmployeeBaseModel>> GetEmployeesAsync(
+        Task<IEnumerable<Employee>> GetEmployeesAsync(
             string keyword = null,
             string groupIds = null,
             bool? isEnabled = true);
 
-        Task<EmployeeBaseModel> GetEmployeeByIdAsync(int employeeId);
+        Task<Employee> GetEmployeeByIdAsync(int employeeId);
 
         Task<IEnumerable<GroupBaseModel>> GetGroupsAsync();
 

@@ -6,7 +6,7 @@
     using NexGoal.Models.Common;
     using NexGoal.Models.NominationPeriod;
 
-    public class EmployeeNominationModel : EmployeeBaseModel
+    public class EmployeeNominationModel : Employee
     {
         [JsonIgnore]
         public int NominationPeriodId { get; set; }

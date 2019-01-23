@@ -32,7 +32,7 @@
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                var performanceAppraisals = await db.QueryAsync<PerformanceAppraisalResult, EmployeeBaseModel, PeriodBaseModel, PerformanceAppraisalResult>(
+                var performanceAppraisals = await db.QueryAsync<PerformanceAppraisalResult, Employee, PeriodBaseModel, PerformanceAppraisalResult>(
                     (pa, employee, period) =>
                     {
                         pa.Employee = employee;
@@ -52,7 +52,7 @@
             {
                 using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria).ConfigureAwait(false))
                 {
-                    var performanceAppraisals = multi.Read<PARecordModel, EmployeeBaseModel, PeriodBaseModel, PARecordModel>(
+                    var performanceAppraisals = multi.Read<PARecordModel, Employee, PeriodBaseModel, PARecordModel>(
                         (pa, employee, period) =>
                         {
                             pa.Employee = employee;
@@ -65,7 +65,7 @@
 
                     if (performanceAppraisal != null)
                     {
-                        performanceAppraisal.Processes = multi.Read<PAProcessModel, EmployeeBaseModel, PerformanceRecordModel, EmployeeBaseModel, PAProcessModel>(
+                        performanceAppraisal.Processes = multi.Read<PAProcessModel, Employee, PerformanceRecordModel, Employee, PAProcessModel>(
                             (process, evaluator, performance, creator) =>
                             {
                                 if (performance != null)
@@ -90,7 +90,7 @@
             {
                 using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria).ConfigureAwait(false))
                 {
-                    var performanceAppraisals = multi.Read<PARecordModel, EmployeeBaseModel, PARecordModel>(
+                    var performanceAppraisals = multi.Read<PARecordModel, Employee, PARecordModel>(
                         (pa, employee) =>
                         {
                             pa.Employee = employee;
@@ -98,7 +98,7 @@
                         },
                         "EmployeeId");
 
-                    var processes = multi.Read<PAProcessModel, EmployeeBaseModel, PerformanceRecordModel, PAProcessModel>(
+                    var processes = multi.Read<PAProcessModel, Employee, PerformanceRecordModel, PAProcessModel>(
                             (process, evaluator, performance) =>
                             {
                                 process.Evaluator = evaluator;

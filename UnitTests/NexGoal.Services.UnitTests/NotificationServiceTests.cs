@@ -53,10 +53,10 @@
                     EmployeeId = 263
                 }
             };
-            var employees = new List<EmployeeBaseModel>
+            var employees = new List<Employee>
             {
-                new EmployeeBaseModel { EmployeeId = 125, NickName="Quinn" },
-                new EmployeeBaseModel { EmployeeId = 263, NickName="Tim" },
+                new Employee { EmployeeId = 125, NickName="Quinn" },
+                new Employee { EmployeeId = 263, NickName="Tim" },
             };
 
             var service = GetNotificationService();

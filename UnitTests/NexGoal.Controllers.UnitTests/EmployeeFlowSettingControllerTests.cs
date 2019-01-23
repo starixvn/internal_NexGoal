@@ -20,9 +20,9 @@
         public async Task GetEmployeeHaveSetting_WhenCalled_ReturnAsExpectedEmployees()
         {
             // Arrange
-            var employees = new List<EmployeeBaseModel>
+            var employees = new List<Employee>
             {
-                new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" }
+                new Employee { EmployeeId = 1, NickName = "Tim" }
             };
             var controller = GetEmployeeFlowSettingController();
             flowSettingService.GetEmployeeHaveSettingAsync(1).Returns(employees);
@@ -32,7 +32,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
-            var result = Assert.IsAssignableFrom<IEnumerable<EmployeeBaseModel>>(jsonResult.Value);
+            var result = Assert.IsAssignableFrom<IEnumerable<Employee>>(jsonResult.Value);
             Assert.Equal(employees, result);
         }
 
@@ -40,9 +40,9 @@
         public async Task GetEmployeeUnsetting_WhenCalled_ReturnAsExpectedEmployees()
         {
             // Arrange
-            var employees = new List<EmployeeBaseModel>
+            var employees = new List<Employee>
             {
-                new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" }
+                new Employee { EmployeeId = 1, NickName = "Tim" }
             };
             var controller = GetEmployeeFlowSettingController();
             flowSettingService.GetEmployeeUnsettingAsync(1).Returns(employees);
@@ -52,7 +52,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
-            var result = Assert.IsAssignableFrom<IEnumerable<EmployeeBaseModel>>(jsonResult.Value);
+            var result = Assert.IsAssignableFrom<IEnumerable<Employee>>(jsonResult.Value);
             Assert.Equal(employees, result);
         }
 

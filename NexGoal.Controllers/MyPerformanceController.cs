@@ -27,7 +27,7 @@
         [Route("Self/Performance")]
         public async Task<JsonResult> Index()
         {
-            IEnumerable<PerformanceRecordModel> performanceRecords = await performanceService.GetPerformanceRecordByEmployeeAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<PerformanceRecord> performanceRecords = await performanceService.GetPerformanceRecordByEmployeeAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(performanceRecords);
         }
@@ -36,7 +36,7 @@
         public async Task<JsonResult> GetPerformanceTimeline(GetPerformanceTimelineParam param)
         {
             param.EmployeeId = sessionService.EmployeeId;
-            Tuple<IEnumerable<PerformanceRecordModel>, int> tuple = await performanceService.GetPerformanceTimelineAsync(param).ConfigureAwait(false);
+            Tuple<IEnumerable<PerformanceRecord>, int> tuple = await performanceService.GetPerformanceTimelineAsync(param).ConfigureAwait(false);
 
             return Json(new { performanceRecords = tuple.Item1, totalItems = tuple.Item2 });
         }
@@ -51,6 +51,24 @@
                 performanceRecord.CreatorId = sessionService.EmployeeId;
                 performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
                 CommandResult commandResult = await performanceService.CreatePerformanceRecordAsync(performanceRecord).ConfigureAwait(false);
+
+                return Json(commandResult);
+            }
+
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
+            return Json(new { isSuccessful = false, errors });
+        }
+
+        [Route("Self/Performance/CreateDraft")]
+        [HttpPost]
+        public async Task<JsonResult> CreateDraft(CreatePerformanceRecordModel performanceRecord)
+        {
+            if (ModelState.IsValid)
+            {
+                performanceRecord.EmployeeIds = sessionService.EmployeeId.ToString();
+                performanceRecord.CreatorId = sessionService.EmployeeId;
+                performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
+                CommandResult commandResult = await performanceService.CreateDraftPerformanceRecordAsync(performanceRecord).ConfigureAwait(false);
 
                 return Json(commandResult);
             }
@@ -77,7 +95,25 @@
             return Json(new { isSuccessful = false, errors });
         }
 
-        [Route("Self/Performance/Delete")]
+        [Route("Self/Performance/EditDraft")]
+        [HttpPost]
+        public async Task<JsonResult> EditDraft(EditPerformanceRecordModel performanceRecord)
+        {
+            if (ModelState.IsValid)
+            {
+                performanceRecord.EmployeeIds = sessionService.EmployeeId.ToString();
+                performanceRecord.CreatorId = sessionService.EmployeeId;
+                performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
+                CommandResult commandResult = await performanceService.EditDraftPerformanceRecordAsync(performanceRecord).ConfigureAwait(false);
+
+                return Json(commandResult);
+            }
+
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
+            return Json(new { isSuccessful = false, errors });
+        }
+
+        [Route("Performance/Delete")]
         [HttpDelete]
         public async Task<JsonResult> Delete(int id)
         {
@@ -86,18 +122,26 @@
             return Json(commandResult);
         }
 
-        [Route("Self/Performance/GetById/{id}")]
+        [Route("Performance/GetById/{id}")]
         public async Task<JsonResult> GetById(int id)
         {
-            PerformanceRecordModel record = await performanceService.GetPerformanceRecordByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
+            PerformanceRecord record = await performanceService.GetPerformanceRecordByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(record);
         }
 
-        [Route("Self/Performance/GetByIds/{ids:minlength(1)}")]
+        [Route("Performance/GetDraftById/{id}")]
+        public async Task<JsonResult> GetDraftById(int id)
+        {
+            PerformanceRecord record = await performanceService.GetDraftPerformanceRecordByIdAsync(id).ConfigureAwait(false);
+
+            return Json(record);
+        }
+
+        [Route("Performance/GetByIds/{ids:minlength(1)}")]
         public async Task<JsonResult> GetByIds(string ids)
         {
-            IEnumerable<PerformanceRecordModel> records = await performanceService.GetPerformanceRecordByIdsAsync(ids, sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<PerformanceRecord> records = await performanceService.GetPerformanceRecordByIdsAsync(ids, sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(records);
         }

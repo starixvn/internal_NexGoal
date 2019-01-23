@@ -20,20 +20,17 @@
         private readonly IBaseService baseService;
         private readonly ICryptoService cryptoService;
         private readonly ICommonService commonService;
-        private readonly IAvatarService avatarService;
 
         public PARecordService(
             IPARepository paRepository,
             IBaseService baseService,
             ICryptoService cryptoService,
-            ICommonService commonService,
-            IAvatarService avatarService)
+            ICommonService commonService)
         {
             this.paRepository = paRepository;
             this.baseService = baseService;
             this.cryptoService = cryptoService;
             this.commonService = commonService;
-            this.avatarService = avatarService;
         }
 
         public async Task<IEnumerable<PeriodBaseModel>> GetPeriodByActorAsync(int actorId)
@@ -217,11 +214,8 @@
             int gradeId;
             foreach (PAProcessModel process in performanceAppraisal.Processes)
             {
-                process.Evaluator.Avatar = avatarService.GetFilePath(process.Evaluator.Code);
                 if (process.PerformanceRecord != null)
                 {
-                    process.PerformanceRecord.Creator.Avatar = avatarService.GetFilePath(process.PerformanceRecord.Creator.Code);
-
                     string[] projectIds = !string.IsNullOrWhiteSpace(process.PerformanceRecord.ProjectIds) ? process.PerformanceRecord.ProjectIds.Split(",") : new string[] { };
                     process.PerformanceRecord.Projects = projects.Where(x => projectIds.Contains(x.ProjectId.ToString()));
 

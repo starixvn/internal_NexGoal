@@ -40,7 +40,7 @@
             // Arrange
             var expected = new List<PerformanceAppraisalResult>
             {
-                new PerformanceAppraisalResult { PARecordId = 1, Employee = new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" } }
+                new PerformanceAppraisalResult { PARecordId = 1, Employee = new Employee { EmployeeId = 1, NickName = "Tim" } }
             };
             var homeController = GetHomeController();
             paRecordService.GetPerformanceAppraisalResultAsync(sessionService.EmployeeId).Returns(expected);

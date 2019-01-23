@@ -10,11 +10,11 @@
 
         public int CreatorId { get; set; }
 
-        public EmployeeBaseModel Creator { get; set; }
+        public Employee Creator { get; set; }
 
         public int EmployeeId { get; set; }
 
-        public EmployeeBaseModel Employee { get; set; }
+        public Employee Employee { get; set; }
 
         public string Content { get; set; }
 

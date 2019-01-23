@@ -81,6 +81,7 @@
             Assert.Equal(MimeType.XLSX, fileResult.ContentType);
         }
 
+                Employee = new Employee { NickName = "Tim" },
         #region Helpers
 
         private IEnumerable<PARecordGroupByPeriod> FakeDataListPA()
@@ -91,7 +92,7 @@
                 {
                     EmployeeId = 363,
                     Toeic = 760,
-                    Employee = new EmployeeBaseModel { NickName = "Tim"}
+                    Employee = new Employee { NickName = "Tim"}
                 }
             };
             var listGroup = new List<PAReportModel>

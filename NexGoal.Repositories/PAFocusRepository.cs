@@ -13,7 +13,7 @@
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                var pafcuses = await db.QueryAsync<PAFocusModel, EmployeeBaseModel, PAFocusModel>(
+                var pafcuses = await db.QueryAsync<PAFocusModel, Employee, PAFocusModel>(
                     (pafcus, employee) =>
                     {
                         pafcus.Employee = employee;

@@ -35,33 +35,33 @@ namespace NexGoal.Repositories.UnitTests
                 new PARecordModel
                 {
                     PARecordId = 1,
-                    Employee = new EmployeeBaseModel { EmployeeId = 1, NickName = "tim" },
+                    Employee = new Employee { EmployeeId = 1, NickName = "tim" },
                     Period = new PeriodBaseModel { PeriodId = 1, Name = "2h 2018" }
                 },
                 new PARecordModel
                 {
                     PARecordId = 2,
-                    Employee = new EmployeeBaseModel { EmployeeId = 2, NickName = "quinn" },
+                    Employee = new Employee { EmployeeId = 2, NickName = "quinn" },
                     Period = new PeriodBaseModel { PeriodId = 1, Name = "2h 2018" }
                 }
             };
             var processes = new List<PAProcessModel>
             {
-                new PAProcessModel { PARecordId = 1, ProcessId = (int)PerformanceProcess.Self, Evaluator = new EmployeeBaseModel { EmployeeId = 1, NickName = "tim" } },
-                new PAProcessModel { PARecordId = 1, ProcessId = (int)PerformanceProcess.Evaluator, Evaluator = new EmployeeBaseModel { EmployeeId = 2, NickName = "quinn" } },
-                new PAProcessModel { PARecordId = 1, ProcessId = (int)PerformanceProcess.Reviewer, Evaluator = new EmployeeBaseModel { EmployeeId = 3, NickName = "anders" } },
-                new PAProcessModel { PARecordId = 2, ProcessId = (int)PerformanceProcess.Self, Evaluator = new EmployeeBaseModel { EmployeeId = 2, NickName = "quinn" } },
-                new PAProcessModel { PARecordId = 2, ProcessId = (int)PerformanceProcess.Evaluator, Evaluator = new EmployeeBaseModel { EmployeeId = 3, NickName = "anders" } },
-                new PAProcessModel { PARecordId = 2, ProcessId = (int)PerformanceProcess.Reviewer, Evaluator = new EmployeeBaseModel { EmployeeId = 4, NickName = "phuong" } }
+                new PAProcessModel { PARecordId = 1, ProcessId = (int)PerformanceProcess.Self, Evaluator = new Employee { EmployeeId = 1, NickName = "tim" } },
+                new PAProcessModel { PARecordId = 1, ProcessId = (int)PerformanceProcess.Evaluator, Evaluator = new Employee { EmployeeId = 2, NickName = "quinn" } },
+                new PAProcessModel { PARecordId = 1, ProcessId = (int)PerformanceProcess.Reviewer, Evaluator = new Employee { EmployeeId = 3, NickName = "anders" } },
+                new PAProcessModel { PARecordId = 2, ProcessId = (int)PerformanceProcess.Self, Evaluator = new Employee { EmployeeId = 2, NickName = "quinn" } },
+                new PAProcessModel { PARecordId = 2, ProcessId = (int)PerformanceProcess.Evaluator, Evaluator = new Employee { EmployeeId = 3, NickName = "anders" } },
+                new PAProcessModel { PARecordId = 2, ProcessId = (int)PerformanceProcess.Reviewer, Evaluator = new Employee { EmployeeId = 4, NickName = "phuong" } }
             };
             var multiResultReader = Helpers.FakeMultipleResultReader();
             var criteria = Helpers.FakeCriteria();
             var repository = new PAReportRepository();
             multiResultReader.Read(
-                Arg.Any<Func<PARecordModel, EmployeeBaseModel, PeriodBaseModel, PARecordModel>>(),
+                Arg.Any<Func<PARecordModel, Employee, PeriodBaseModel, PARecordModel>>(),
                 "EmployeeId, PeriodId").Returns(performanceAppraisals);
             multiResultReader.Read(
-                Arg.Any<Func<PAProcessModel, EmployeeBaseModel, PerformanceRecordModel, PAProcessModel>>(),
+                Arg.Any<Func<PAProcessModel, Employee, PerformanceRecord, PAProcessModel>>(),
                 "EvaluatorId, PerformanceRecordId").Returns(processes);
             objectDb.QueryMultipleAsync(criteria).Returns(multiResultReader);
 

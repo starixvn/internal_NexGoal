@@ -8,21 +8,29 @@
 
     public interface IPerformanceRecordService
     {
-        Task<IEnumerable<PerformanceRecordModel>> GetPerformanceRecordByEmployeeAsync(int employeeId);
+        Task<IEnumerable<PerformanceRecord>> GetPerformanceRecordByEmployeeAsync(int employeeId);
 
-        Task<PerformanceRecordModel> GetPerformanceRecordByIdAsync(int performanceRecordId, int creatorId);
+        Task<PerformanceRecord> GetPerformanceRecordByIdAsync(int performanceRecordId, int creatorId);
 
-        Task<IEnumerable<PerformanceRecordModel>> GetPerformanceRecordByIdsAsync(string performanceRecordIds, int creatorId);
+        Task<PerformanceRecord> GetDraftPerformanceRecordByIdAsync(int performanceRecordId);
 
-        Task<Tuple<IEnumerable<PerformanceRecordModel>, int>> GetPerformanceTimelineAsync(GetPerformanceTimelineParam param);
+        Task<IEnumerable<PerformanceRecord>> GetPerformanceRecordByIdsAsync(string performanceRecordIds, int creatorId);
 
-        Task<IEnumerable<PerformanceRecordModel>> GetMemberPerformanceAsync(int actorId, int? employeeId = null);
+        Task<Tuple<IEnumerable<PerformanceRecord>, int>> GetPerformanceTimelineAsync(GetPerformanceTimelineParam param);
+
+        Task<IEnumerable<PerformanceRecord>> GetMemberPerformanceAsync(int actorId);
+
+        Task<IEnumerable<PerformanceRecord>> GetMemberPerformanceDetailAsync(int actorId, int employeeId);
 
         Task<IEnumerable<MemberPerformanceTimelineModel>> GetMemberPerformanceTimelineAsync(GetMemberPerformanceTimelineParam param);
 
         Task<CommandResult> CreatePerformanceRecordAsync(CreatePerformanceRecordModel performanceRecord);
 
+        Task<CommandResult> CreateDraftPerformanceRecordAsync(CreatePerformanceRecordModel performanceRecord);
+
         Task<CommandResult> EditPerformanceRecordAsync(EditPerformanceRecordModel performanceRecord);
+
+        Task<CommandResult> EditDraftPerformanceRecordAsync(EditPerformanceRecordModel performanceRecord);
 
         Task<CommandResult> DeletePerformanceRecordAsync(int performanceRecordId, int actorId);
     }

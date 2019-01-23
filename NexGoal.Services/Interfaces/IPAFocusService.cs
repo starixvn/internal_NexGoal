@@ -12,7 +12,7 @@
 
         Task<IEnumerable<GroupBaseModel>> GetGroupAsync(int actorId);
 
-        Task<IEnumerable<EmployeeBaseModel>> GetMemberAsync(int actorId, string groupIds = null);
+        Task<IEnumerable<Employee>> GetMemberAsync(int actorId, string groupIds = null);
 
         Task<IEnumerable<PAFocusModel>> GetPAFocusAsync(GetPAFocusParam param);
 

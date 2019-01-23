@@ -55,6 +55,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NexGoal.Controllers\NexGoal.Controllers.csproj" />
+    <ProjectReference Include="..\NexGoal.Models\NexGoal.Models.csproj" />
   </ItemGroup>
 
   <ItemGroup>
