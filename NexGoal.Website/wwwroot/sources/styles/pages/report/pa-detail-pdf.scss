@@ -1,7 +1,7 @@
 ﻿@import "../../abstracts/variables";
 @import "../../abstracts/mixins";
 //@import "../../base/font-nexgoal";
-@import "~bootstrap/dist/css/bootstrap.css";
+//@import "~bootstrap/dist/css/bootstrap.css";
 @import "../../components/tables";
 @import "../../layouts/nomination";
 @import "../../layouts/role";
@@ -38,6 +38,11 @@
     .content {
         table {
             width: 100%;
+            margin: 0;
+            border: none;
+            background-color: #fff;
+            border-collapse: collapse;
+            border-spacing: 0;
             > thead > tr > th {
                 background-color: #B8BECF;
                 color: #474747;
@@ -89,6 +94,16 @@
     }
    
         
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border: 1px solid #C4C4C4;
+}
+.text-center {
+    text-align: center;
 }
 
 $default-pci: #3B83DA;
