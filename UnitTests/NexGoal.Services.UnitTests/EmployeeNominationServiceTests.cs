@@ -157,10 +157,10 @@
         public async Task GetMemberNominationAsync_ValidData_ReturnExpectedResult()
         {
             // Arrange
-            var employees = new List<EmployeeBaseModel>
+            var employees = new List<Employee>
             {
-                new EmployeeBaseModel { EmployeeId = 2, NickName = "elton" },
-                new EmployeeBaseModel { EmployeeId = 3, NickName = "oliver" }
+                new Employee { EmployeeId = 2, NickName = "elton" },
+                new Employee { EmployeeId = 3, NickName = "oliver" }
             };
             var performanceRecords = new List<PerformanceRecordModel> {
                 new PerformanceRecordModel
@@ -172,7 +172,7 @@
                 new PerformanceRecordModel
                 {
                     PerformanceRecordId = 2,
-                    Employees = new List<EmployeeBaseModel>{ new EmployeeBaseModel { EmployeeId = 2, NickName = "elton" } },
+                    Employees = new List<Employee>{ new Employee { EmployeeId = 2, NickName = "elton" } },
                     NominationPeriod = new NominationPeriodModel { NominationPeriodId = 2, Year = 2018 },
                     NominationStatusId = 2,
                     TypeId = (int)PerformanceRecordType.SystemNomination
@@ -180,7 +180,7 @@
                 new PerformanceRecordModel
                 {
                     PerformanceRecordId = 3,
-                    Employees = new List<EmployeeBaseModel>{ new EmployeeBaseModel { EmployeeId = 3, NickName = "oliver" } },
+                    Employees = new List<Employee>{ new Employee { EmployeeId = 3, NickName = "oliver" } },
                     NominationPeriod = new NominationPeriodModel { NominationPeriodId = 2, Year = 2018 },
                     NominationStatusId = 2,
                     TypeId = (int)PerformanceRecordType.SystemNomination

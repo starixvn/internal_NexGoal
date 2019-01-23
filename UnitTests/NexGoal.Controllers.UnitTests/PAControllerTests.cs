@@ -58,7 +58,7 @@
             var expected = new PARecordModel
             {
                 PARecordId = 1,
-                Employee = new EmployeeBaseModel { EmployeeId = 1, NickName = "tim" },
+                Employee = new Employee { EmployeeId = 1, NickName = "tim" },
                 Grade = new PerformanceGradeModel { GradeId = 1, Name = "E" }
             };
             var controller = GetPAController();

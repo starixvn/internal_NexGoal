@@ -8,7 +8,7 @@
 
     public class PAReportDetail
     {
-        public EmployeeBaseModel Employee { get; set; }
+        public Employee Employee { get; set; }
 
         public IEnumerable<HRMInfo> HRM { get; set; }
 

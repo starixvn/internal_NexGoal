@@ -81,7 +81,6 @@
             Assert.Equal(MimeType.XLSX, fileResult.ContentType);
         }
 
-                Employee = new Employee { NickName = "Tim" },
         #region Helpers
 
         private IEnumerable<PARecordGroupByPeriod> FakeDataListPA()
