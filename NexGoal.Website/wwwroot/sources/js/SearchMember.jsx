@@ -45,7 +45,7 @@ export default class SearchMember extends Component {
     }
 
     handleChange = (e) => {
-        let value = e.target.value;
+        let value = e.target.value.toLowerCase();
 
         if (value.length > 1) {
             let options = this.members.slice()

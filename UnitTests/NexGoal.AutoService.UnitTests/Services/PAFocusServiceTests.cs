@@ -48,7 +48,6 @@
         public void SendMail_Start_ExpectedSendMail()
         {
             // Arrange
-
             var periods = new List<PeriodModel>
             {
                 new PeriodModel { PeriodId = 1, Name = "2h 2018" }
