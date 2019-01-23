@@ -112,6 +112,10 @@
             padding-left: 12px;
             a {
                 color: #474747;
+                transition: color 0.5s ease;
+                &:hover {
+                    color: #0072C7;
+                }
             }
         }
     }

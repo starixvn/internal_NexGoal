@@ -132,13 +132,13 @@ export default class Table extends Component {
                         <th rowSpan={2} className="">{getResource('Employee')}</th>
                         <th rowSpan={2} className="">{getResource('JobTitle')}</th>
                         <th rowSpan={2} className="">{getResource('PAFinal')}</th>
-                        <th rowSpan={2}>
+                        <th rowSpan={2} className="best suited">
                             {getResource('BestSuitedToTeamGoals')}
                             <OverlayTrigger placement="top" overlay={this.getTooltipBestSuitedToTeamGoals()}>
                                 <i className="fa fa-info-circle" />
                             </OverlayTrigger>
                         </th>
-                        <th rowSpan={2} className="">
+                        <th rowSpan={2} className="deserve highest">
                             Deserve Highest Reward (Increment And Bonus)
                             <OverlayTrigger placement="top" overlay={this.getTooltipDeserveHighestReward()}>
                                 <i className="fa fa-info-circle" />

@@ -11,6 +11,7 @@
     padding: 16px;
     margin: 12px 16px;
     grid-row-gap: 12px;
+    border: 1px solid #fff;
 
     &.record-system {
         grid-template-rows: 50px 1fr 20px;
@@ -46,7 +47,7 @@
 
     &:focus-within {
         box-shadow: 0 0 32px #cecece;
-        border: 1px solid #E5E5E5;
+        border-color:#E5E5E5;
     }
 
     .avatar-user {
