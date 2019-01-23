@@ -1,9 +1,9 @@
-﻿@using NexGoal.Models.Report
+﻿@using NexGoal.Web.Core.Extensions
+@using NexGoal.Core.Enumerations
+@using NexGoal.Models.Report
+@using NexGoal.Models.PARecord
+@using NexGoal.Models.PerformanceRecord
 @model PAReportDetail
-
-@{ 
-    var avatar = "https://hrm.nexcel.vn/Avatars/02242.jpg";
-}
 
 <html>
 <head>
@@ -19,7 +19,6 @@
                     <div class="item"><span class="key">Staff code:</span><span class="value">@Model.Employee.Code</span></div>
                     <div class="item"><span class="key">Nickname:</span><span class="value">@Model.Employee.NickName</span></div>
                     <div class="item"><span class="key">Job title:</span><span class="value">@Model.Employee.JobTitle</span></div>
-                    <div class="item"><span class="key">Department:</span><span class="value">Software Development</span></div>
                 </div>
                 <div class="section">
                     <div class="item"><span class="key">Full name:</span><span class="value">@Model.Employee.FullName</span></div>
@@ -44,83 +43,40 @@
                                     <th>Unpaid Leave</th>
                                     <th>Unplanned Annual Leave</th>
                                     <th>Average Working Hours</th>
-                                    <th>Overtime</th>
                                     <th>Toiec</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="text-center">6/2018</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">8h15'</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center" rowspan="6">665 (exp 27 Nov 2019)</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">7/2018</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">8h15'</td>
-                                    <td class="text-center">0</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">8/2018</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">8h15'</td>
-                                    <td class="text-center">0</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">9/2018</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">8h15'</td>
-                                    <td class="text-center">0</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">10/2018</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">8h15'</td>
-                                    <td class="text-center">0</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">11/2018</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">8h15'</td>
-                                    <td class="text-center">0</td>
-                                </tr>
+                                @{
+                                    var i = 0;
+                                    foreach (var month in Model.HRM)
+                                    {
+                                        <tr>
+                                            <td class="text-center">@string.Format("{0}/{1}", month.Month, month.Year)</td>
+                                            <td class="text-center">@month.MissingCheckInCheckOut</td>
+                                            <td class="text-center">@month.LateIn</td>
+                                            <td class="text-center">@month.EarlyOut</td>
+                                            <td class="text-center">@month.UnpaidLeave</td>
+                                            <td class="text-center">@month.UnplanedAnnualLeave</td>
+                                            <td class="text-center">@Helper.RenderHour(month.AverageWorkingHours)</td>
+                                            @if (i == 0)
+                                            {
+                                                i++;
+                                                <td class="text-center" rowspan="@Model.HRM.Count()">@Model.PARecord.Toeic</td>
+                                            }
+                                        </tr>
+                                    }
+                                }
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <td class="text-center">Total</td>
-                                    <td class="text-center">1</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">2</td>
-                                    <td class="text-center">2</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-center">8h15'</td>
-                                    <td class="text-center">0</td>
+                                    <td class="text-center">@Model.HRM.Sum(x => x.MissingCheckInCheckOut)</td>
+                                    <td class="text-center">@Model.HRM.Sum(x => x.LateIn)</td>
+                                    <td class="text-center">@Model.HRM.Sum(x => x.EarlyOut)</td>
+                                    <td class="text-center">@Model.HRM.Sum(x => x.UnpaidLeave)</td>
+                                    <td class="text-center">@Model.HRM.Sum(x => x.UnplanedAnnualLeave)</td>
+                                    <td class="text-center">@Helper.RenderHour(Model.HRM.Average(x => x.AverageWorkingHours))</td>
                                     <td class="text-center"></td>
                                 </tr>
                             </tfoot>
@@ -209,85 +165,51 @@
                     <div class="sub-box performance-sum">
                         <div class="title">1. Self</div>
                         <div class="sub-content">
-                            <div class="record">
-                                <div class="avatar-user">
-                                    <img src=@avatar class="avatar" />
-                                    <div class="person-info">
-                                        <span class="role-member">Member</span>
-                                        <div class="submit-date">01 Aug 2018</div>
-                                    </div>
-                                </div>
-                                <div class="comment">
-                                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. 
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. 
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page.</p>
-                                </div>
-                                <div class="grade">Grade: <div class="grade-detail">(ME+) Meets Expectations +</div></div>
-                            </div>
+                            @{
+                                var selfPA = Model.PARecord.Processes
+                                    .FirstOrDefault(x => x.ProcessId == (int)PerformanceProcess.Self);
+                            }
+                            @await Component.InvokeAsync("PARecord", selfPA)
                         </div>
                         <div class="title">2. Project Manager</div>
                         <div class="sub-content">
                             <div class="list-pci">
-                                <div class="record">
-                                    <div class="avatar-user">
-                                    <img src=@avatar class="avatar" />
-                                    <div class="person-info">
-                                        <span class="role-pm">PM</span>
-                                        <span class="icon-checkin"></span>
-                                        <span class="role-member">Member</span>
-                                        <div><span class="submit-date">01 Aug 2018</span></div>
-                                    </div>
-                                </div>
-                                <div class="comment">
-                                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. 
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. 
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page.</p>
-                                </div>
-                                <div class="grade">Grade: <div class="grade-detail">(ME+) Meets Expectations +</div></div>
-                                </div>
+                                @{
+                                    var pmProcesses = Model.PARecord.Processes.Where(p => p.ProcessId == (int)PerformanceProcess.ProjectManager);
+
+                                    if (pmProcesses.Any())
+                                    {
+                                        foreach (var pm in pmProcesses)
+                                        {
+                                            @await Component.InvokeAsync("PARecord", pm)
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="record-list">
+                                            <p class="text-center">No Record Found</p>
+                                        </div>
+                                    }
+                                }
                             </div>
                         </div>
                         <div class="title">3. Evaluator</div>
                         <div class="sub-content">
                             <div class="list-pci">
-                                <div class="record">
-                                    <div class="avatar-user">
-                                    <img src=@avatar class="avatar" />
-                                    <div class="person-info">
-                                        <span class="role-evaluator">Evaluator</span>
-                                        <span class="icon-checkin"></span>
-                                        <span class="role-member">Member</span>
-                                        <div><span class="submit-date">01 Aug 2018</span></div>
-                                    </div>
-                                </div>
-                                <div class="comment">
-                                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. 
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. 
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page.</p>
-                                </div>
-                                <div class="grade">Grade: <div class="grade-detail">(ME+) Meets Expectations +</div></div>
-                                </div>
+                                @{
+                                    var evaluatorProcess = Model.PARecord.Processes
+                                        .FirstOrDefault(x => x.ProcessId == (int)PerformanceProcess.Evaluator);
+                                }
+                                @await Component.InvokeAsync("PARecord", evaluatorProcess)
                             </div>
                         </div>
                         <div class="title">4. Reviewer</div>
                         <div class="sub-content">
-                            <div class="record">
-                                 <div class="avatar-user">
-                                    <img src=@avatar class="avatar" />
-                                    <div class="person-info">
-                                        <span class="role-reviewer">Reviewer</span>
-                                        <span class="icon-checkin"></span>
-                                        <span class="role-member">Member</span>
-                                        <div><span class="submit-date">01 Aug 2018</span></div>
-                                    </div>
-                                </div>
-                                <div class="comment">
-                                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. 
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. 
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page.</p>
-                                </div>
-                                <div class="grade">Grade: <div class="grade-detail">(ME+) Meets Expectations +</div></div>
-                            </div>
+                            @{
+                                var reviewerProcess = Model.PARecord.Processes
+                                    .FirstOrDefault(x => x.ProcessId == (int)PerformanceProcess.Reviewer);
+                            }
+                            @await Component.InvokeAsync("PARecord", reviewerProcess)
                         </div>
                     </div>
                 </div>
@@ -296,59 +218,55 @@ It is a long established fact that a reader will be distracted by the readable c
         <div class="box">
             <div class="title final">Final Result</div>
             <div class="sub-content">
-                <div class="record">
-                        <div class="avatar-user">
-                        <img src=@avatar class="avatar" />
-                        <div class="person-info">
-                            <span class="role-reviewer">Reviewer</span>
-                            <span class="icon-checkin"></span>
-                            <span class="role-member">Member</span>
-                            <div><span class="submit-date">01 Aug 2018</span></div>
-                        </div>
-                    </div>
-                    <div class="comment">
-                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. 
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. 
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing It is a long established fact that a reader will be distracted by the readable content of a page.</p>
-                    </div>
-                    <div class="grade">Grade: <div class="grade-detail">(ME+) Meets Expectations +</div></div>
-                </div>
+                @{
+                    var finalResult = new PAProcessModel
+                    {
+                        Evaluator = reviewerProcess.Evaluator,
+                        PerformanceRecord = new PerformanceRecordModel
+                        {
+                            Grade = Model.PARecord.Grade,
+                            Comment = Model.PARecord.Comment
+                        },
+
+                    };
+                }
             </div>
         </div>
         <div class="box">
             <div class="sub-box">
-                 <div class="title">The Rating Scale</div>
+                <div class="title">The Rating Scale</div>
                 <div class="sub-box performance-sum">
                     <div class="title">A. Current Period</div>
                     <div class="sub-content">
                         <ul class="evaluation-process">
-                            <li class="process-item default-pci">Unsatisfactory <div>U</div></li>
-                            <li class="process-item default-pci">Unsatisfactory+ <div>U+</div></li>
-                            <li class="process-item default-pci">Need Improvement <div>NI</div></li>
-                            <li class="process-item default-pci">Need Improvement+ <div>NI+</div></li>
-                            <li class="process-item default-pci">Meet Expectation <div>ME</div></li>
-                            <li class="process-item current-pci">Meet Expectation+ <div>ME+</div></li>
-                            <li class="process-item default-pci">Exceeds Expectation <div>EE</div></li>
-                            <li class="process-item default-pci">Exceeds Expectation+ <div>EE+</div></li>
-                            <li class="process-item default-pci">Expectation <div>E</div></li>
+                            @{
+                                var listGrade = Model.AllGrades;
+                                foreach (var grade in listGrade)
+                                {
+                                    var currentGradeClass = grade.GradeId == Model.PARecord.Grade.GradeId
+                                        ? "current-pci" : "default-pci";
+                                    <li class="process-item @currentGradeClass">@grade.Description<div>@grade.Name</div></li>
+
+                                }
+                            }
                         </ul>
                     </div>
-                    <div class="title">B. Last Period</div>
-                    <div class="sub-content">
-                        <ul class="evaluation-process">
-                            <li class="process-item default-pci">Unsatisfactory <div>U</div></li>
-                            <li class="process-item default-pci">Unsatisfactory+ <div>U+</div></li>
-                            <li class="process-item default-pci">Need Improvement <div>NI</div></li>
-                            <li class="process-item default-pci">Need Improvement+ <div>NI+</div></li>
-                            <li class="process-item last-pci">Meet Expectation <div>ME</div></li>
-                            <li class="process-item default-pci">Meet Expectation+ <div>ME+</div></li>
-                            <li class="process-item default-pci">Exceeds Expectation <div>EE</div></li>
-                            <li class="process-item default-pci">Exceeds Expectation+ <div>EE+</div></li>
-                            <li class="process-item default-pci">Expectation <div>E</div></li>
-                        </ul>
-                    </div>
+                    @if (Model.PreviousGrade != null)
+                    {
+                        <div class="title">B. Last Period</div>
+                        <div class="sub-content">
+                            <ul class="evaluation-process">
+                                @foreach (var grade in listGrade)
+                                {
+                                    var previousGradeClass = grade.GradeId == Model.PreviousGrade.GradeId
+                                    ? "last-pci" : "default-pci";
+                                    <li class="process-item @previousGradeClass">@grade.Description<div>@grade.Name</div></li>
+                                }
+                            </ul>
+                        </div>
+                    }
                 </div>
-            </div>           
+            </div>
         </div>
     </div>
 </body>

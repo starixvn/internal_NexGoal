@@ -1,7 +1,8 @@
 ﻿namespace NexGoal.Controllers
 {
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Authorization;
+    using jsreport.AspNetCore;
+    using jsreport.Types;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Models.PARecord;
@@ -49,13 +50,21 @@
             return File(fileContent, MimeType.XLSX, fileName);
         }
 
-        [AllowAnonymous]
+        [MiddlewareFilter(typeof(JsReportPipeline))]
         public async Task<IActionResult> PaDetail(GetPADetailParam model)
         {
             model.ActorId = sessionService.EmployeeId;
             var reportDetail = await reportService.GetPAReportDetailAsync(model).ConfigureAwait(false);
             ViewData["NoLayout"] = true;
 
+            HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf).Configure((r) => r.Template.Chrome = new Chrome
+            {
+                MarginTop = ".5cm",
+                MarginLeft = ".5cm",
+                MarginBottom = ".5cm",
+                MarginRight = ".5cm",
+                PrintBackground = true
+            });
             return View(reportDetail);
         }
     }

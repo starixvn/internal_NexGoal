@@ -7,11 +7,10 @@
 @import "../../layouts/role";
 @import "../../layouts/record";
 
-
 .pa-pdf {
     font-family: $font-family;
-    padding: 20px;
 }
+
 .title {
     color: #E15F00;
     font-size: 16px;
@@ -19,9 +18,15 @@
     font-weight: 600;
     padding-bottom: 8px;
 }
+
+.box .title {
+    background-color: #324373;
+}
+
 .box {
     border: 1px solid #C4C4C4;
     margin-bottom: 10px;
+
     .title {
         height: 36px;
         line-height: 36px;
@@ -30,11 +35,13 @@
         font-size: 14px;
         color: #fff;
         text-transform: initial;
+
         &.final {
             background-color: #F4783D;
             color: #fff;
         }
     }
+
     .content {
         table {
             width: 100%;
@@ -43,48 +50,60 @@
             background-color: #fff;
             border-collapse: collapse;
             border-spacing: 0;
+
             > thead > tr > th {
                 background-color: #B8BECF;
                 color: #474747;
             }
-            >tfoot > tr > td {
+
+            > tfoot > tr > td {
                 background-color: #E3E6EE;
                 color: #474747;
                 font-weight: 600;
             }
-         }
-         &.info {
-             display: flex;
-             .section {
-                 flex: 1;
-                 border-right: 1px solid #C4C4C4;
-                 padding: 8px 16px;
-                 &:last-child {
-                     border-right: none;
-                 }
-                 .item {
-                     padding: 4px 0;
-                 }
-                 .key {
-                     min-width: 90px;
-                     display: inline-block;
-                 }
-                 .value {
+        }
+
+        &.info {
+            display: flex;
+
+            .section {
+                flex: 1;
+                border-right: 1px solid #C4C4C4;
+                padding: 8px 16px;
+
+                &:last-child {
+                    border-right: none;
+                }
+
+                .item {
+                    padding: 4px 0;
+                }
+
+                .key {
+                    min-width: 90px;
+                    display: inline-block;
+                }
+
+                .value {
                     font-weight: 600;
-                 }
-             }
-         }
+                }
+            }
+        }
     }
+
     .sub-content {
         padding: 8px;
+
         .record {
             margin: 0;
         }
     }
+
     .sub-box {
         .title {
             background-color: #525E86;
         }
+
         &.performance-sum {
             .title {
                 background-color: #B8BECF;
@@ -92,8 +111,6 @@
             }
         }
     }
-   
-        
 }
 
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
@@ -102,6 +119,7 @@
     vertical-align: top;
     border: 1px solid #C4C4C4;
 }
+
 .text-center {
     text-align: center;
 }
@@ -109,6 +127,7 @@
 $default-pci: #3B83DA;
 $current-pci: #D75E25;
 $last-pci: #46607F;
+
 .evaluation-process {
     list-style: none;
     margin: 0;
@@ -127,18 +146,18 @@ $last-pci: #46607F;
     }
 
     li {
-        width: 103px;
+        width: 40px;
         height: 50px;
         padding: 0 16px;
         position: relative;
         margin-right: 10px;
         vertical-align: top;
         font-weight: 600;
-        font-size: 11px;
-        text-align: center;   
+        font-size: 7px;
+        text-align: center;
         display: flex;
         flex-direction: column;
-        justify-content: center;    
+        justify-content: center;
 
         &:after {
             content: "";

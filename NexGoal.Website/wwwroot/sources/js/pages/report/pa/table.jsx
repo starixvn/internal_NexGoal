@@ -7,7 +7,7 @@ export default class Table extends Component {
     constructor(props) {
         super(props);
 
-        this.totalColums = 10;
+        this.totalColums = 9;
     }
 
     shouldComponentUpdate(nextProps) {
@@ -97,7 +97,6 @@ export default class Table extends Component {
                     <tr>
                         <td className="text-center">{index + 1}</td>
                         <td>{record.employee.nickName}</td>
-                        <td>{record.employee.fullName}</td>
                         <td>{record.employee.jobTitle}</td>
                         <td className="text-center">{this.renderToeic(record.toeicPolicy, record.toeic)}</td>
                         <td className="text-center">{this.renderGradeByProcess(record.processes, PerformanceProcess.Self)}</td>
@@ -208,7 +207,6 @@ export default class Table extends Component {
                     <tr>
                         <th>#</th>
                         <th>{getResource('NickName')}</th>
-                        <th>{getResource('FullName')}</th>
                         <th>{getResource('JobTitle')}</th>
                         <th>{getResource('Toeic')}</th>
                         <th>{getResource('Self')}</th>
