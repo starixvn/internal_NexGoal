@@ -40,8 +40,8 @@ export default class Table extends Component {
         );
     }
 
-    handleObjectiveMessage = message => {
-        this.props.onViewObjectiveMessage(message);
+    handleObjectiveMessage = record => {
+        this.props.onViewObjectiveMessage(record);
     }
 
     handleViewPADetail = paRecordId => this.props.handleViewPADetail(paRecordId)
@@ -62,7 +62,7 @@ export default class Table extends Component {
         let rowSpan = record.awards.length === 0 ? 1 : record.awards.length;
         return (
             <Fragment key={record.employeeId}>
-                <tr>
+                <tr className={this.getBackgroundClass(record)}>
                     <td rowSpan={rowSpan} className="text-center">{index + 1}</td>
                     <td rowSpan={rowSpan} >{record.nickName} ({record.fullName})</td>
                     <td rowSpan={rowSpan} >{record.jobTitle}</td>
@@ -74,13 +74,10 @@ export default class Table extends Component {
                     <td rowSpan={rowSpan} className="text-center">{record.bonusGiven}</td>
                     <td rowSpan={rowSpan} className="text-center">{record.isReadyPromotion === 'true' ? 'Yes' : 'No'}</td>
                     <td rowSpan={rowSpan} className="text-center">
-                        {record.currentObjective && <a className="fa fa-search" onClick={this.handleObjectiveMessage.bind(this, record.currentObjective)} ></a>}
-                    </td>
-                    <td rowSpan={rowSpan} className="text-center">
-                        {record.nextObjective && <a className="fa fa-search" onClick={this.handleObjectiveMessage.bind(this, record.nextObjective)}></a>}
+                        {(record.nextObjective || record.currentObjective) && <a className="fa fa-search" onClick={this.handleObjectiveMessage.bind(this, record)}></a>}
                     </td>
                     <td>{record.awards[0] && record.awards[0].title}</td>
-                    <td>{record.awards[0] &&
+                    <td className="text-center">{record.awards[0] &&
                         <span className={getNominationClassName(record.awards[0].statusId)}>
                             {record.awards[0].status}
                         </span>}
@@ -108,9 +105,24 @@ export default class Table extends Component {
             {data.records.map(this.renderRecord)}
         </Fragment>
 
+    getBackgroundClass = (record) => {
+        let className = '';
+        let contribution = record.contributionId;
+        let bonusGiven = record.bonusGivenId;
+        let isReadyPromotion = record.isReadyPromotion ? record.isReadyPromotion === 'true' : false;
+
+        if (contribution + bonusGiven > 8) {
+            className = `noticeable-performance ${isReadyPromotion ? 'outstanding' : 'very-good'}`;
+        } else if (contribution > 0 && bonusGiven > 0 && contribution + bonusGiven < 4) {
+            className = 'noticeable-performance poor';
+        }
+
+        return className;
+    }
+
     render() {
         let content = this.props.tableData.length > 0 ? this.props.tableData.map(this.renderData)
-            : <tr><td className="text-center" colSpan={12}>{noDataIndication()}</td></tr>;
+            : <tr><td className="text-center" colSpan={11}>{noDataIndication()}</td></tr>;
 
         return (
             <table className="table table-bordered table-striped tbl-master-report">
@@ -119,9 +131,9 @@ export default class Table extends Component {
                         <th rowSpan={2} className="order">{getResource('SymbolCount')}</th>
                         <th rowSpan={2} className="">{getResource('Employee')}</th>
                         <th rowSpan={2} className="">{getResource('JobTitle')}</th>
-                        <th rowSpan={2} className="">PA Final Score</th>
+                        <th rowSpan={2} className="">{getResource('PAFinal')}</th>
                         <th rowSpan={2}>
-                            Best Suited to Team Goals
+                            {getResource('BestSuitedToTeamGoals')}
                             <OverlayTrigger placement="top" overlay={this.getTooltipBestSuitedToTeamGoals()}>
                                 <i className="fa fa-info-circle" />
                             </OverlayTrigger>
@@ -132,14 +144,13 @@ export default class Table extends Component {
                                 <i className="fa fa-info-circle" />
                             </OverlayTrigger>
                         </th>
-                        <th rowSpan={2} className="">Ready for Promotion</th>
-                        <th rowSpan={2} className="">Assessing Of Current Objective Achievement</th>
-                        <th rowSpan={2} className="">Next Objectives</th>
-                        <th colSpan={2}>Award</th>
+                        <th rowSpan={2} className="">{getResource('ReadyForPromotion')}</th>
+                        <th rowSpan={2} className=""> {getResource('Objectives')}</th>
+                        <th colSpan={2}>{getResource('Nomination')}</th>
                     </tr>
                     <tr>
-                        <th>Title</th>
-                        <th>Status</th>
+                        <th className="nomination-period">{getResource('Period')}</th>
+                        <th className="nomination-status">{getResource('Status')}</th>
                     </tr>
                 </thead>
                 <tbody>

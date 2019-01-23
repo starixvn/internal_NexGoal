@@ -125,9 +125,9 @@ export default class MasterReport extends Component {
         }
     }
 
-    handleOpenObjectiveMessageModal = message => this.setState({
+    handleOpenObjectiveMessageModal = record => this.setState({
         objectiveMessageModal: {
-            message: message,
+            record: record,
             showModal: true
         }
     })
@@ -189,7 +189,7 @@ export default class MasterReport extends Component {
                     <Table tableData={this.state.tableData} onViewObjectiveMessage={this.handleOpenObjectiveMessageModal} handleViewPADetail={this.handleViewPADetail} />
                 </div>
                 <ObjectiveMessage
-                    message={this.state.objectiveMessageModal.message}
+                    record={this.state.objectiveMessageModal.record}
                     showModal={this.state.objectiveMessageModal.showModal}
                     onCloseModal={this.handleCloseObjectiveMessageModal}
                 />

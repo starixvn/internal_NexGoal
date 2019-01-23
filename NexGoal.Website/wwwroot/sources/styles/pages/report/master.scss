@@ -19,6 +19,14 @@
 }
 
 .tbl-master-report {
+    .nomination-period {
+        width: 110px;
+    }
+
+    .nomination-status {
+        width: 100px;
+    }
+
     .sticky {
         position: fixed;
         top: 50px;
@@ -36,6 +44,40 @@
         background-color: #525E86;
         font-size: 15px;
         color: #fff;
+    }
+
+    .noticeable-performance {
+        &.outstanding {
+            background: #59b03b;
+        }
+
+        &.very-good {
+            background: #68a9bd;
+        }
+
+        &.poor {
+            background: #ff5f5f;
+        }
+
+        &:hover {
+            &.outstanding {
+                td {
+                    background: #59b03b !important;
+                }
+            }
+
+            &.very-good {
+                td {
+                    background: #68a9bd !important;
+                }
+            }
+
+            &.poor {
+                td {
+                    background: #ff5f5f !important;
+                }
+            }
+        }
     }
 }
 

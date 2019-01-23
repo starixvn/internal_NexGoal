@@ -1,4 +1,4 @@
-﻿import React, { PureComponent } from 'react';
+﻿import React, { PureComponent, Fragment } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 
 import getResource from '../../../resourceHelper';
@@ -11,13 +11,24 @@ export default class ObjectiveMessage extends PureComponent {
             >
                 <Modal.Header>
                     <Modal.Title>
-                        Objectives
+                        {getResource('Objectives')}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p className="comment">
-                        {this.props.message}
-                    </p>
+                    {this.props.record &&
+                        <Fragment>
+                            <h5>{getResource('CurrentObjectives')}</h5>
+                            <p className="comment">
+                                {this.props.record.currentObjective}
+                            </p>
+
+                            <h5>{getResource('NextObjectives')}</h5>
+                            <p className="comment">
+                                {this.props.record.nextObjective}
+                            </p>
+                        </Fragment>
+                    }
+
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="btn-cancel" onClick={this.props.onCloseModal}>{getResource('Close')}</Button>

@@ -26,7 +26,11 @@
 
         public string Grade { get; set; }
 
+        public int? ContributionId { get; set; }
+
         public string Contribution { get; set; }
+
+        public int? BonusGivenId { get; set; }
 
         public string BonusGiven { get; set; }
 

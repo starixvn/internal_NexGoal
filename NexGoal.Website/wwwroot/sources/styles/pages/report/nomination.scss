@@ -42,24 +42,18 @@
         width: 10%;
     }
 
-    .sticky {
-        position: fixed;
-        top: 50px;
-        left: 15px;
-        right: 15px;
-        z-index: 1;
-
-        th {
-            display: inline-block;
-        }
-    }
-
     > tbody > tr > td[colspan="5"] {
         height: 36px;
         background-color: #525E86;
         font-size: 14px;
         color: #fff;
     }
+}
+
+.sticky-block {
+    position: sticky;
+    top: 50px;
+    z-index: 1;
 }
 
 .nomination-comment-modal {

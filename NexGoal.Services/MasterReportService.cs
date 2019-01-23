@@ -49,8 +49,13 @@
             foreach (var record in records)
             {
                 record.IsReadyPromotion = cryptoService.Decrypt(record.IsReadyPromotion);
-                record.Contribution = focusEvaluationLevels.FirstOrDefault(x => x.ResourceId.ToString() == cryptoService.Decrypt(record.Contribution))?.Value;
-                record.BonusGiven = focusEvaluationLevels.FirstOrDefault(x => x.ResourceId.ToString() == cryptoService.Decrypt(record.BonusGiven))?.Value;
+                var contribution = focusEvaluationLevels.FirstOrDefault(x => x.ResourceId.ToString() == cryptoService.Decrypt(record.Contribution));
+                record.Contribution = contribution?.Value;
+                record.ContributionId = contribution?.ResourceId;
+
+                var bonusGiven = focusEvaluationLevels.FirstOrDefault(x => x.ResourceId.ToString() == cryptoService.Decrypt(record.BonusGiven));
+                record.BonusGivenId = bonusGiven?.ResourceId;
+                record.BonusGiven = bonusGiven?.Value;
 
                 record.GradeId = cryptoService.Decrypt(record.GradeId);
                 int.TryParse(record.GradeId, out int gradeId);
