@@ -34,6 +34,51 @@
             this.nominationRepository = nominationRepository;
         }
 
+        public async Task<CommandResult> CreateAsync(CreateEmployeeNominationModel model)
+        {
+            var criteria = new CreateEmployeeNominationCriteria
+            {
+                NominationPeriodId = model.NominationPeriodId,
+                NominatorId = model.NominatorId,
+                NomineeId = model.NomineeId,
+                Comment = model.Comment
+            };
+
+            var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            commandResult.ObjectIds = criteria.PerformanceRecordId.ToString();
+
+            return commandResult;
+        }
+
+        public async Task<CommandResult> EditAsync(EditEmployeeNominationModel model)
+        {
+            var criteria = new EditEmployeeNominationCriteria
+            {
+                NominationPeriodId = model.NominationPeriodId,
+                NominatorId = model.NominatorId,
+                NomineeId = model.NomineeId,
+                Comment = model.Comment,
+                PerformanceRecordId = model.PerformanceRecordId,
+            };
+
+            var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+
+            return commandResult;
+        }
+
+        public async Task<CommandResult> DeleteAsync(int performanceRecordId, int deletedById)
+        {
+            var criteria = new DeleteNominationCriteria
+            {
+                PerformanceRecordId = performanceRecordId,
+                DeletedById = deletedById
+            };
+
+            var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+
+            return commandResult;
+        }
+
         public async Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForNominatorAsync(int nominatorId)
         {
             var criteria = new GetNominationPeriodsForNominatorCriteria
@@ -53,22 +98,6 @@
             };
 
             return await baseService.GetDataEntityAsync<NominationPeriodModel>(criteria).ConfigureAwait(false);
-        }
-
-        public async Task<CommandResult> CreateAsync(CreateEmployeeNominationModel model)
-        {
-            var criteria = new CreateEmployeeNominationCriteria
-            {
-                NominationPeriodId = model.NominationPeriodId,
-                NominatorId = model.NominatorId,
-                NomineeId = model.NomineeId,
-                Comment = model.Comment
-            };
-
-            var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
-            commandResult.ObjectIds = criteria.PerformanceRecordId.ToString();
-
-            return commandResult;
         }
 
         public async Task<PerformanceRecordModel> GetNominationByRecordIdAsync(int performanceRecordId)
@@ -94,6 +123,31 @@
             }
 
             return performanceRecord;
+        }
+
+        public async Task<IEnumerable<EmployeeNominationModel>> GetNominationResultAsync(int employeeId)
+        {
+            var criteria = new GetNominationResultCriteria
+            {
+                EmployeeId = employeeId
+            };
+
+            return await nominationRepository.GetNominationResultAsync(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<EmployeeNominationModel>> GetMemberNominationResultAsync(
+            int actorId,
+            int? employeeId = null,
+            int? year = null)
+        {
+            var criteria = new GetMemberNominationResultCriteria
+            {
+                ActorId = actorId,
+                Year = year,
+                EmployeeId = employeeId
+            };
+
+            return await nominationRepository.GetNominationResultAsync(criteria).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationAsync(int nominatorId)
@@ -157,22 +211,6 @@
             return nominations.OrderBy(x => x.Nominee.NickName);
         }
 
-        public async Task<CommandResult> EditAsync(EditEmployeeNominationModel model)
-        {
-            var criteria = new EditEmployeeNominationCriteria
-            {
-                NominationPeriodId = model.NominationPeriodId,
-                NominatorId = model.NominatorId,
-                NomineeId = model.NomineeId,
-                Comment = model.Comment,
-                PerformanceRecordId = model.PerformanceRecordId,
-            };
-
-            var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
-
-            return commandResult;
-        }
-
         public async Task<CommandResult> EditStatusAsync(int nominationId, int statusId, int updatedById)
         {
             var criteria = new EditNominationStatusCriteria
@@ -180,19 +218,6 @@
                 NominationId = nominationId,
                 StatusId = statusId,
                 UpdatedById = updatedById
-            };
-
-            var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
-
-            return commandResult;
-        }
-
-        public async Task<CommandResult> DeleteAsync(int performanceRecordId, int deletedById)
-        {
-            var criteria = new DeleteNominationCriteria
-            {
-                PerformanceRecordId = performanceRecordId,
-                DeletedById = deletedById
             };
 
             var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);

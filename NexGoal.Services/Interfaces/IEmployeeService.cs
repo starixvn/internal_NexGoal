@@ -5,7 +5,6 @@
     using NexGoal.Core.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.Employee;
-    using NexGoal.Models.EmployeeNomination;
 
     public interface IEmployeeService
     {
@@ -18,10 +17,6 @@
         Task<CommandResult> EditEmployeeRolesAsync(EditEmployeeRolesModel model);
 
         Task<int> GetRoleAccordingToMemberAsync(int actorId, int memberId);
-
-        Task<IEnumerable<EmployeeNominationModel>> GetNominationResultAsync(int employeeId);
-
-        Task<IEnumerable<EmployeeNominationModel>> GetMemberNominationResultAsync(int actorId, int? employeeId = null, int? year = null);
 
         Task<IEnumerable<EmployeeBaseModel>> GetMemberAsync(int actorId, string keyword = null);
 

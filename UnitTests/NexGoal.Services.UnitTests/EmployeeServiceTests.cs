@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -9,8 +8,6 @@
     using NexGoal.Criteria.Employee;
     using NexGoal.Models.Common;
     using NexGoal.Models.Employee;
-    using NexGoal.Models.EmployeeNomination;
-    using NexGoal.Models.NominationPeriod;
     using NSubstitute;
     using Xunit;
 
@@ -154,96 +151,6 @@
             // Assert
             Assert.Equal(expected, actual);
         }
-
-        #region GetNominationResultAsync
-
-        [Fact]
-        public async Task GetNominationResultAsync_DataAreNotExist_ReturnEmpty()
-        {
-            // Arrange
-            var nominations = new List<EmployeeNominationModel>();
-            var periods = new List<NominationPeriodModel>();
-            var tuple = new Tuple<IEnumerable<EmployeeNominationModel>, IEnumerable<NominationPeriodModel>>(nominations, periods);
-            var service = GetEmployeeService();
-            baseService.FetchMultipleAsync<EmployeeNominationModel, NominationPeriodModel>(Arg.Any<GetNominationResultCriteria>()).Returns(tuple);
-
-            // Act
-            var actual = await service.GetNominationResultAsync(1);
-
-            // Assert
-            Assert.Empty(actual);
-        }
-
-        [Fact]
-        public async Task GetNominationResultAsync_MappingData_ReturnAsExpectedNominations()
-        {
-            // Arrange
-            var nominations = new List<EmployeeNominationModel>
-            {
-                new EmployeeNominationModel { NominationPeriodId = 1 }
-            };
-            var periods = new List<NominationPeriodModel>
-            {
-                new NominationPeriodModel { NominationPeriodId = 1, Quarter = 4, Year = 2018 }
-            };
-            var tuple = new Tuple<IEnumerable<EmployeeNominationModel>, IEnumerable<NominationPeriodModel>>(nominations, periods);
-            var service = GetEmployeeService();
-            baseService.FetchMultipleAsync<EmployeeNominationModel, NominationPeriodModel>(Arg.Any<GetNominationResultCriteria>()).Returns(tuple);
-
-            // Act
-            var actual = await service.GetNominationResultAsync(1);
-
-            // Assert
-            Assert.Equal(nominations, actual);
-            Assert.Equal(periods.First(), actual.First().Period);
-        }
-
-        #endregion GetNominationResultAsync
-
-        #region GetMemberNominationResultAsync
-
-        [Fact]
-        public async Task GetMemberNominationResultAsync_DataAreNotExist_ReturnEmpty()
-        {
-            // Arrange
-            var nominations = new List<EmployeeNominationModel>();
-            var periods = new List<NominationPeriodModel>();
-            var tuple = new Tuple<IEnumerable<EmployeeNominationModel>, IEnumerable<NominationPeriodModel>>(nominations, periods);
-            var service = GetEmployeeService();
-            baseService.FetchMultipleAsync<EmployeeNominationModel, NominationPeriodModel>(Arg.Any<GetMemberNominationResultCriteria>()).Returns(tuple);
-
-            // Act
-            var actual = await service.GetMemberNominationResultAsync(1);
-
-            // Assert
-            Assert.Empty(actual);
-        }
-
-        [Fact]
-        public async Task GetMemberNominationResultAsync_MappingData_ReturnAsExpectedNominations()
-        {
-            // Arrange
-            var nominations = new List<EmployeeNominationModel>
-            {
-                new EmployeeNominationModel { NominationPeriodId = 1 }
-            };
-            var periods = new List<NominationPeriodModel>
-            {
-                new NominationPeriodModel { NominationPeriodId = 1, Quarter = 4, Year = 2018 }
-            };
-            var tuple = new Tuple<IEnumerable<EmployeeNominationModel>, IEnumerable<NominationPeriodModel>>(nominations, periods);
-            var service = GetEmployeeService();
-            baseService.FetchMultipleAsync<EmployeeNominationModel, NominationPeriodModel>(Arg.Any<GetMemberNominationResultCriteria>()).Returns(tuple);
-
-            // Act
-            var actual = await service.GetMemberNominationResultAsync(1);
-
-            // Assert
-            Assert.Equal(nominations, actual);
-            Assert.Equal(periods.First(), actual.First().Period);
-        }
-
-        #endregion GetMemberNominationResultAsync
 
         #region Helpers
 

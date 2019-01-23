@@ -186,7 +186,7 @@
                                 EmployeeId = setting.EvaluatorId,
                                 Content = string.Format(Message.NotificationTemplate_PA_RemindToReviewer,
                                     period.Name,
-                                    mailService.FormatStartDate(setting.EndDate)),
+                                    mailService.FormatEndDate(setting.EndDate)),
                                 StatusId = (int)NotificationStatus.Unread,
                                 ActionTypeId = (int)NotificationActionType.MemberPageWithActivePerformanceAppraisalTab
                             });

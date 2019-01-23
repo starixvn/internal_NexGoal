@@ -24,6 +24,7 @@
         private readonly IEmployeeService employeeService;
         private readonly IPARecordService paRecordService;
         private readonly INominationPeriodService nominationPeriodService;
+        private readonly IEmployeeNominationService nominationService;
         private readonly IRedmineService redmineService;
 
         public MemberController(
@@ -32,6 +33,7 @@
             IEmployeeService employeeService,
             IPARecordService paRecordService,
             INominationPeriodService nominationPeriodService,
+            IEmployeeNominationService nominationService,
             IRedmineService redmineService)
         {
             this.sessionService = sessionService;
@@ -39,6 +41,7 @@
             this.employeeService = employeeService;
             this.paRecordService = paRecordService;
             this.nominationPeriodService = nominationPeriodService;
+            this.nominationService = nominationService;
             this.redmineService = redmineService;
         }
 
@@ -83,7 +86,7 @@
         public async Task<JsonResult> GetMemberNominationResult(int? memberId = null, int? year = null)
         {
             IEnumerable<EmployeeNominationModel> nominations =
-                await employeeService.GetMemberNominationResultAsync(sessionService.EmployeeId, memberId, year).ConfigureAwait(false);
+                await nominationService.GetMemberNominationResultAsync(sessionService.EmployeeId, memberId, year).ConfigureAwait(false);
 
             return Json(nominations);
         }

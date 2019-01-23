@@ -12,18 +12,18 @@
     public class HomeController : Controller
     {
         private readonly ISessionService sessionService;
-        private readonly IEmployeeService employeeService;
+        private readonly IEmployeeNominationService nominationService;
         private readonly IPARecordService paRecordService;
         private readonly IRedmineService redmineService;
 
         public HomeController(
             ISessionService sessionService,
-            IEmployeeService employeeService,
+            IEmployeeNominationService nominationService,
             IPARecordService paRecordService,
             IRedmineService redmineService)
         {
             this.sessionService = sessionService;
-            this.employeeService = employeeService;
+            this.nominationService = nominationService;
             this.paRecordService = paRecordService;
             this.redmineService = redmineService;
         }
@@ -50,7 +50,7 @@
 
         public async Task<JsonResult> GetNominationResult()
         {
-            IEnumerable<EmployeeNominationModel> nominations = await employeeService.GetNominationResultAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<EmployeeNominationModel> nominations = await nominationService.GetNominationResultAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(nominations);
         }

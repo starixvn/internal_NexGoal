@@ -1,4 +1,4 @@
-﻿namespace NexGoal.Criteria.Employee
+﻿namespace NexGoal.Criteria.EmployeeNomination
 {
     using Fanex.Data.Repository;
 
@@ -8,7 +8,7 @@
         public int? Year { get; set; }
         public int? EmployeeId { get; set; }
 
-        public override string GetSettingKey() => "Employee_GetMemberNominationResult";
+        public override string GetSettingKey() => "Nomination_GetMemberNominationResult";
 
         public override bool IsValid() => ActorId > 0;
     }

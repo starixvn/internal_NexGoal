@@ -109,7 +109,6 @@
     <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_Delete.sql" />
     <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_GetEmployeeHaveSetting.sql" />
     <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_GetEmployeeUnsetting.sql" />
-    <Build Include="dbo\Stored Procedures\Employee_GetMemberNominationResult.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetMember.sql" />
     <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_Get.sql" />
     <Build Include="dbo\Stored Procedures\Discipline_Get.sql" />
@@ -127,7 +126,6 @@
     <Build Include="dbo\Stored Procedures\Employee_GetById.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetAll.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetHRMSummary.sql" />
-    <Build Include="dbo\Stored Procedures\Employee_GetNominationResult.sql" />
     <Build Include="dbo\Stored Procedures\EOQ_Get.sql" />
     <Build Include="dbo\Stored Procedures\EOQ_GetById.sql" />
     <Build Include="dbo\Stored Procedures\EOQ_GetYear.sql" />
@@ -249,6 +247,8 @@
     <Build Include="dbo\Stored Procedures\Nomination_GetByEmployeeInPeriod.sql" />
     <Build Include="dbo\Stored Procedures\PARecord_GetPermission.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_GetMemberNomination.sql" />
+    <Build Include="dbo\Stored Procedures\Nomination_GetNominationResult.sql" />
+    <Build Include="dbo\Stored Procedures\Nomination_GetMemberNominationResult.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">

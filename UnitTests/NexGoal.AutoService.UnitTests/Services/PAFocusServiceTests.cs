@@ -113,7 +113,7 @@
         #region SendNotification
 
         [Fact]
-        public void SendNotification_NominationIsNotBeginOrRemind_NotSendNotification()
+        public void SendNotification_DoNotHaveData_NotSendNotification()
         {
             // Arrange
             var tuple = new Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>>
@@ -129,7 +129,7 @@
         }
 
         [Fact]
-        public void SendNotification_NominationIsBeginOrRemind_ExpectedSendNotification()
+        public void SendNotification_HasData_ExpectedSendNotification()
         {
             // Arrange
             var endDate = new DateTime(2018, 12, 20);

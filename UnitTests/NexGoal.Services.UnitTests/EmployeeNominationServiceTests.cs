@@ -24,6 +24,41 @@
         private IEmployeeNominationRepository nominationRepository;
 
         [Fact]
+        public async Task CreateAsync_ValidData_ReturnExpectedCommandResult()
+        {
+            var service = GetService();
+            baseService.ExecuteNonQueryAsync(Arg.Any<CreateEmployeeNominationCriteria>()).Returns(new CommandResult { Code = 0 });
+
+            var result = await service.CreateAsync(new CreateEmployeeNominationModel());
+
+            Assert.True(result.IsSuccessful);
+        }
+
+        [Fact]
+        public async Task DeleteAsync_ValidData_ReturnExpectedCommandResult()
+        {
+            var service = GetService();
+
+            baseService.ExecuteNonQueryAsync(Arg.Any<DeleteNominationCriteria>()).Returns(new CommandResult { Code = 0 });
+
+            var result = await service.DeleteAsync(1, 1);
+
+            Assert.True(result.IsSuccessful);
+        }
+
+        [Fact]
+        public async Task EditAsync_ValidData_ReturnExpectedCommandResult()
+        {
+            var service = GetService();
+
+            baseService.ExecuteNonQueryAsync(Arg.Any<EditEmployeeNominationCriteria>()).Returns(new CommandResult { Code = 0 });
+
+            var result = await service.EditAsync(new EditEmployeeNominationModel());
+
+            Assert.True(result.IsSuccessful);
+        }
+
+        [Fact]
         public async Task GetNominationPeriodsForNominator_WhenCalled_ReturnExpectedResult()
         {
             var expectedPeriods = new List<NominationPeriodModel>
@@ -45,14 +80,39 @@
         }
 
         [Fact]
-        public async Task Create_ValidData_ReturnExpectedCommandResult()
+        public async Task GetNominationResultAsync_WhenCalled_ReturnAsExpectedNominations()
         {
+            // Arrange
+            var nominations = new List<EmployeeNominationModel>
+            {
+                new EmployeeNominationModel { Period = new NominationPeriodModel { NominationPeriodId = 1, Quarter = 4, Year = 2018 } }
+            };
             var service = GetService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<CreateEmployeeNominationCriteria>()).Returns(new CommandResult { Code = 0 });
+            nominationRepository.GetNominationResultAsync(Arg.Any<GetNominationResultCriteria>()).Returns(nominations);
 
-            var result = await service.CreateAsync(new CreateEmployeeNominationModel());
+            // Act
+            var actual = await service.GetNominationResultAsync(1);
 
-            Assert.True(result.IsSuccessful);
+            // Assert
+            Assert.Equal(nominations, actual);
+        }
+
+        [Fact]
+        public async Task GetMemberNominationResultAsync_WhenCalled_ReturnAsExpectedNominations()
+        {
+            // Arrange
+            var nominations = new List<EmployeeNominationModel>
+            {
+                new EmployeeNominationModel { Period = new NominationPeriodModel { NominationPeriodId = 1, Quarter = 4, Year = 2018 } }
+            };
+            var service = GetService();
+            nominationRepository.GetNominationResultAsync(Arg.Any<GetMemberNominationResultCriteria>()).Returns(nominations);
+
+            // Act
+            var actual = await service.GetMemberNominationResultAsync(1);
+
+            // Assert
+            Assert.Equal(nominations, actual);
         }
 
         [Fact]
@@ -194,18 +254,6 @@
         }
 
         [Fact]
-        public async Task Edit_ValidData_ReturnExpectedCommandResult()
-        {
-            var service = GetService();
-
-            baseService.ExecuteNonQueryAsync(Arg.Any<EditEmployeeNominationCriteria>()).Returns(new CommandResult { Code = 0 });
-
-            var result = await service.EditAsync(new EditEmployeeNominationModel());
-
-            Assert.True(result.IsSuccessful);
-        }
-
-        [Fact]
         public async Task EditStatus_ValidData_ReturnExpectedCommandResult()
         {
             var service = GetService();
@@ -213,18 +261,6 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<EditNominationStatusCriteria>()).Returns(new CommandResult { Code = 0 });
 
             var result = await service.EditStatusAsync(1, 2, 367);
-
-            Assert.True(result.IsSuccessful);
-        }
-
-        [Fact]
-        public async Task Delete_ValidData_ReturnExpectedCommandResult()
-        {
-            var service = GetService();
-
-            baseService.ExecuteNonQueryAsync(Arg.Any<DeleteNominationCriteria>()).Returns(new CommandResult { Code = 0 });
-
-            var result = await service.DeleteAsync(1, 1);
 
             Assert.True(result.IsSuccessful);
         }

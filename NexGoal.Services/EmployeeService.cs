@@ -1,15 +1,12 @@
 ﻿namespace NexGoal.Services
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Employee;
     using NexGoal.Models.Common;
     using NexGoal.Models.Employee;
-    using NexGoal.Models.EmployeeNomination;
-    using NexGoal.Models.NominationPeriod;
 
     public class EmployeeService : IEmployeeService
     {
@@ -74,45 +71,6 @@
             };
 
             return await baseService.GetDataEntityAsync<int>(criteria).ConfigureAwait(false);
-        }
-
-        public async Task<IEnumerable<EmployeeNominationModel>> GetNominationResultAsync(int employeeId)
-        {
-            var criteria = new GetNominationResultCriteria
-            {
-                EmployeeId = employeeId
-            };
-
-            var tuple = await baseService.FetchMultipleAsync<EmployeeNominationModel, NominationPeriodModel>(criteria).ConfigureAwait(false);
-
-            foreach (EmployeeNominationModel nomination in tuple.Item1)
-            {
-                nomination.Period = tuple.Item2.FirstOrDefault(x => x.NominationPeriodId == nomination.NominationPeriodId);
-            }
-
-            return tuple.Item1;
-        }
-
-        public async Task<IEnumerable<EmployeeNominationModel>> GetMemberNominationResultAsync(
-            int actorId,
-            int? employeeId = null,
-            int? year = null)
-        {
-            var criteria = new GetMemberNominationResultCriteria
-            {
-                ActorId = actorId,
-                Year = year,
-                EmployeeId = employeeId
-            };
-
-            var tuple = await baseService.FetchMultipleAsync<EmployeeNominationModel, NominationPeriodModel>(criteria).ConfigureAwait(false);
-
-            foreach (EmployeeNominationModel nomination in tuple.Item1)
-            {
-                nomination.Period = tuple.Item2.FirstOrDefault(x => x.NominationPeriodId == nomination.NominationPeriodId);
-            }
-
-            return tuple.Item1;
         }
 
         public async Task<IEnumerable<EmployeeBaseModel>> GetMemberAsync(int actorId, string keyword = null)

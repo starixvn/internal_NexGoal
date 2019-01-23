@@ -23,8 +23,6 @@
     <Setting Key="Employee_GetById" SpName="Employee_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_Search" SpName="Employee_Search" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_GetWorkload" SpName="Employee_GetWorkload" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="Employee_GetNominationResult" SpName="Employee_GetNominationResult" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="Employee_GetMemberNominationResult" SpName="Employee_GetMemberNominationResult" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_GetGroup" SpName="Employee_GetGroup" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_GetMember" SpName="Employee_GetMember" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_GetHRMSummary" SpName="Employee_GetHRMSummary" DbName="bodb_NexGoal" Plain="0"></Setting>
@@ -136,6 +134,8 @@
     <Setting Key="Nomination_Delete" SpName="Nomination_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_GetMemberNominationById" SpName="Nomination_GetMemberNominationById" DbName="bodb_NexGoal" Plain="0" />
     <Setting Key="Nomination_GetByEmployeeInPeriod" SpName="Nomination_GetByEmployeeInPeriod" DbName="bodb_NexGoal" Plain="0" />
+    <Setting Key="Nomination_GetNominationResult" SpName="Nomination_GetNominationResult" DbName="bodb_NexGoal" Plain="0" />
+    <Setting Key="Nomination_GetMemberNominationResult" SpName="Nomination_GetMemberNominationResult" DbName="bodb_NexGoal" Plain="0" />
   </Function>
   <Function Name="Notification">
     <Setting Key="Notification_GetSettingByEmployee" SpName="Notification_GetSettingByEmployee" DbName="bodb_NexGoal" Plain="0" />

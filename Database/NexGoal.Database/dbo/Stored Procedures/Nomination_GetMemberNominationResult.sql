@@ -1,5 +1,5 @@
 ﻿
-CREATE PROCEDURE [dbo].[Employee_GetMemberNominationResult] @ActorId INT
+CREATE PROCEDURE [dbo].[Nomination_GetMemberNominationResult] @ActorId INT
 	,@Year INT = NULL
 	,@EmployeeId INT = NULL
 AS
@@ -32,8 +32,12 @@ BEGIN
 		,emp.Code
 		,emp.NickName
 		,emp.FullName
-		,eoqy.EOQYId AS NominationPeriodId
 		,nomination.StatusId
+		,eoqy.EOQYId AS NominationPeriodId
+		,eoqy.[Quarter]
+		,eoqy.[Year]
+		,eoqy.StartDateForNominator
+		,eoqy.EndDateForNominator
 		,eoqy.EndDateForCommittee
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON emp.EmployeeId = nomination.NomineeId
@@ -46,21 +50,6 @@ BEGIN
 	ORDER BY eoqy.EndDateForCommittee DESC
 		,nomination.StatusId DESC
 		,emp.NickName
-
-	SELECT eoqy.EOQYId AS NominationPeriodId
-		,eoqy.[Quarter]
-		,eoqy.[Year]
-		,eoqy.StartDateForNominator
-		,eoqy.EndDateForNominator
-		,eoqy.EndDateForCommittee
-	FROM dbo.EOQY AS eoqy WITH (NOLOCK)
-		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON eoqy.EOQYId = nomination.EOQYId
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON nomination.NomineeId = emp.EmployeeId
-		AND emp.[Enabled] = 1
-		AND emp.IsDeleted = 0
-		INNER JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
-	WHERE eoqy.EndDateForCommittee < @Today
-		AND ISNULL(@Year, eoqy.[Year]) = eoqy.[Year]
 
 	DROP TABLE #tblMember
 END

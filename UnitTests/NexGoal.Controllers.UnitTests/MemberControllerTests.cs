@@ -22,6 +22,7 @@
         private IEmployeeService employeeService;
         private IPARecordService paRecordService;
         private INominationPeriodService nominationPeriodService;
+        private IEmployeeNominationService nominationService;
         private IRedmineService redmineService;
 
         [Fact]
@@ -130,7 +131,7 @@
             };
 
             // Act
-            employeeService.GetMemberNominationResultAsync(sessionService.EmployeeId, 363)
+            nominationService.GetMemberNominationResultAsync(sessionService.EmployeeId, 363)
                 .Returns(expected);
             var result = await controller.GetMemberNominationResult(363);
 
@@ -186,8 +187,16 @@
             commonService = Substitute.For<ICommonService>();
             paRecordService = Substitute.For<IPARecordService>();
             nominationPeriodService = Substitute.For<INominationPeriodService>();
+            nominationService = Substitute.For<IEmployeeNominationService>();
             redmineService = Substitute.For<IRedmineService>();
-            var controller = new MemberController(sessionService, commonService, employeeService, paRecordService, nominationPeriodService, redmineService);
+            var controller = new MemberController(
+                sessionService,
+                commonService,
+                employeeService,
+                paRecordService,
+                nominationPeriodService,
+                nominationService,
+                redmineService);
 
             return controller;
         }

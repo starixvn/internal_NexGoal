@@ -16,7 +16,7 @@
     public class HomeControllerTests
     {
         private ISessionService sessionService;
-        private IEmployeeService employeeService;
+        private IEmployeeNominationService nominationService;
         private IPARecordService paRecordService;
         private IRedmineService redmineService;
 
@@ -87,7 +87,7 @@
                 }
             };
             var homeController = GetHomeController();
-            employeeService.GetNominationResultAsync(sessionService.EmployeeId).Returns(expected);
+            nominationService.GetNominationResultAsync(sessionService.EmployeeId).Returns(expected);
 
             // Act
             var result = await homeController.GetNominationResult();
@@ -103,10 +103,10 @@
         private HomeController GetHomeController()
         {
             sessionService = Helpers.FakeSessionService();
-            employeeService = Substitute.For<IEmployeeService>();
+            nominationService = Substitute.For<IEmployeeNominationService>();
             paRecordService = Substitute.For<IPARecordService>();
             redmineService = Substitute.For<IRedmineService>();
-            var controller = new HomeController(sessionService, employeeService, paRecordService, redmineService);
+            var controller = new HomeController(sessionService, nominationService, paRecordService, redmineService);
 
             return controller;
         }
