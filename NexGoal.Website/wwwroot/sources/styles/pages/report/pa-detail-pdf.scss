@@ -90,3 +90,106 @@
    
         
 }
+
+$default-pci: #3B83DA;
+$current-pci: #D75E25;
+$last-pci: #46607F;
+.evaluation-process {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    -ms-flex-flow: row wrap;
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+    padding: 8px;
+
+    &:before, &:after {
+        content: '';
+        width: 100%;
+        order: 1;
+    }
+
+    li {
+        width: 103px;
+        height: 50px;
+        padding: 0 16px;
+        position: relative;
+        margin-right: 10px;
+        vertical-align: top;
+        font-weight: 600;
+        font-size: 11px;
+        text-align: center;   
+        display: flex;
+        flex-direction: column;
+        justify-content: center;    
+
+        &:after {
+            content: "";
+            border-top: 25px solid transparent;
+            border-bottom: 25px solid transparent;
+            position: absolute;
+            right: -8px;
+            top: 0;
+        }
+
+        &:before {
+            content: "";
+            position: absolute;
+            top: 0px;
+            border-width: 25px 0px 25px 8px;
+            border-style: solid;
+            left: -8px;
+        }
+
+        &:last-child {
+            margin-right: 0;
+        }
+
+        &:first-child {
+            &:before {
+                display: none;
+            }
+        }
+
+        &.default-pci {
+            background: $default-pci;
+            color: #fff;
+
+            &:after {
+                border-left: 8px solid $default-pci;
+            }
+
+            &:before {
+                border-color: $default-pci $default-pci $default-pci transparent;
+            }
+        }
+
+        &.current-pci {
+            background: $current-pci;
+            color: #fff;
+
+            &:after {
+                border-left: 8px solid $current-pci;
+            }
+
+            &:before {
+                border-color: $current-pci $current-pci $current-pci transparent;
+            }
+        }
+
+        &.last-pci {
+            background: $last-pci;
+            color: #fff;
+
+            &:after {
+                border-left: 8px solid $last-pci;
+            }
+
+            &:before {
+                border-color: $last-pci $last-pci $last-pci transparent;
+            }
+        }
+    }
+}
