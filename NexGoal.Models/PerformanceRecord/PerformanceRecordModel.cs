@@ -34,7 +34,7 @@
 
         [JsonIgnore]
         public int CreatorId { get; set; }
-        public EmployeeBaseModel Creator { get; set; }
+        public EmployeeBaseModel Creator { get; set; } = new EmployeeBaseModel();
 
         public int RoleId { get; set; }
 

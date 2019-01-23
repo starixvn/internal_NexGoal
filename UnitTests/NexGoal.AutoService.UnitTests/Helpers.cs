@@ -11,6 +11,8 @@
 
         public static IBaseMailService FakeBaseMailService() => Substitute.For<IBaseMailService>();
 
+        public static ICryptoService FakeCryptoService() => Substitute.For<ICryptoService>();
+
         public static IOptionsSnapshot<AppSettings> FakeOptionsSnapshot()
         {
             var appSettings = new AppSettings

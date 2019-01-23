@@ -156,7 +156,7 @@
                 }
             };
             var controller = GetController();
-            nominationService.GetMemberNominationsAsync(sessionService.EmployeeId).Returns(expected);
+            nominationService.GetMemberNominationAsync(sessionService.EmployeeId).Returns(expected);
 
             // Act
             var result = await controller.GetMemberNominations();

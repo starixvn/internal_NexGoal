@@ -6,9 +6,7 @@
     {
         public int ActorId { get; set; }
 
-        public int? MemberId { get; set; }
-
-        public override string GetSettingKey() => "Nomination_GetMemberNominations";
+        public override string GetSettingKey() => "Nomination_GetMemberNomination";
 
         public override bool IsValid() => ActorId > 0;
     }

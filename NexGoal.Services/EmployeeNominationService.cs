@@ -96,22 +96,26 @@
             return performanceRecord;
         }
 
-        public async Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationsAsync(int nominatorId)
+        public async Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationAsync(int nominatorId)
         {
             var criteria = new GetMemberNominationCriteria
             {
                 ActorId = nominatorId
             };
+            IEnumerable<PerformanceRecordModel> records = await nominationRepository.GetMemberNominationAsync(criteria).ConfigureAwait(false);
+            IEnumerable<PerformanceRecordModel> performanceRecords = GroupDataMemberPerformance(records);
 
-            var result = await baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(criteria).ConfigureAwait(false);
-
-            var performanceRecords = GroupDataMemberPerformance(result.Item1);
-            var nominationPeriods = result.Item2;
-
-            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
-            employees = employees.Where(x => performanceRecords.Any(r => r.CreatorId == x.EmployeeId || r.EmployeeIds.Split(',').Select(int.Parse).Any(e => e == x.EmployeeId)));
-
-            MappingData(performanceRecords, employees, nominationPeriods);
+            foreach (PerformanceRecordModel record in performanceRecords)
+            {
+                if (record.Creator.EmployeeId == Constants.NexGoalSystemId)
+                {
+                    record.Creator = NexGoalSystemInfo.NexGoal;
+                }
+                else
+                {
+                    record.Creator.Avatar = avatarService.GetFilePath(record.Creator.Code);
+                }
+            }
 
             return performanceRecords;
         }
@@ -213,22 +217,6 @@
             }
         }
 
-        private static void MappingData(
-            IEnumerable<PerformanceRecordModel> performanceRecords,
-            IEnumerable<EmployeeBaseModel> employees,
-            IEnumerable<NominationPeriodModel> nominationPeriods)
-        {
-            foreach (var record in performanceRecords)
-            {
-                var employeeIds = record.EmployeeIds.Split(',').Select(int.Parse);
-                record.Employees = employees.Where(x => employeeIds.Any(e => e == x.EmployeeId));
-                record.Creator = record.CreatorId == Constants.NexGoalSystemId ?
-                    NexGoalSystemInfo.NexGoal : employees.FirstOrDefault(x => x.EmployeeId == record.CreatorId);
-
-                record.NominationPeriod = nominationPeriods.FirstOrDefault(x => x.NominationPeriodId == record.NominationPeriodId);
-            }
-        }
-
         private static IEnumerable<PerformanceRecordModel> GroupDataMemberPerformance(IEnumerable<PerformanceRecordModel> performanceRecords)
         {
             var records = performanceRecords.Where(x => x.TypeId == (int)PerformanceRecordType.Nomination).ToList();
@@ -236,7 +224,7 @@
 
             foreach (PerformanceRecordModel nomination in systemNominations)
             {
-                if (!records.Any(x => x.NominationPeriodId == nomination.NominationPeriodId
+                if (!records.Any(x => x.NominationPeriod.NominationPeriodId == nomination.NominationPeriod.NominationPeriodId
                     && x.NominationStatusId == nomination.NominationStatusId
                     && x.TypeId == (int)PerformanceRecordType.SystemNomination))
                 {
@@ -244,10 +232,10 @@
                 }
                 else
                 {
-                    int index = records.FindIndex(x => x.NominationPeriodId == nomination.NominationPeriodId
+                    int index = records.FindIndex(x => x.NominationPeriod.NominationPeriodId == nomination.NominationPeriod.NominationPeriodId
                         && x.NominationStatusId == nomination.NominationStatusId
                         && x.TypeId == (int)PerformanceRecordType.SystemNomination);
-                    records[index].EmployeeIds = $"{records[index].EmployeeIds},{nomination.EmployeeIds}";
+                    records[index].Employees = records[index].Employees.Concat(nomination.Employees);
                 }
             }
 

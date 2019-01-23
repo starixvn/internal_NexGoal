@@ -95,60 +95,60 @@
         }
 
         [Fact]
-        public async Task GetMemberNominationsAsync_ValidData_ReturnExpectedResult()
+        public async Task GetMemberNominationAsync_ValidData_ReturnExpectedResult()
         {
-            var service = GetService();
-
-            var performanceRecord = new PerformanceRecordModel
+            // Arrange
+            var employees = new List<EmployeeBaseModel>
             {
-                PerformanceRecordId = 1,
-                EmployeeIds = "2",
-                CreatorId = 1,
-                NominationPeriodId = 1,
-                TypeId = (int)PerformanceRecordType.Nomination,
+                new EmployeeBaseModel { EmployeeId = 2, NickName = "elton" },
+                new EmployeeBaseModel { EmployeeId = 3, NickName = "oliver" }
             };
-
-            var systemNominations = new List<PerformanceRecordModel> {
+            var performanceRecords = new List<PerformanceRecordModel> {
                 new PerformanceRecordModel
                 {
-                    PerformanceRecordId = 2,
-                    EmployeeIds = "2",
-                    CreatorId = -1,
-                    NominationPeriodId = 1,
-                    NominationStatusId = 2,
-                    TypeId = (int)PerformanceRecordType.SystemNomination,
+                    PerformanceRecordId = 1,
+                    NominationPeriod = new NominationPeriodModel { NominationPeriodId = 1, Quarter = 4, Year = 2018 },
+                    TypeId = (int)PerformanceRecordType.Nomination
                 },
                 new PerformanceRecordModel
                 {
                     PerformanceRecordId = 2,
-                    EmployeeIds = "3",
-                    CreatorId = -1,
-                    NominationPeriodId = 1,
+                    Employees = new List<EmployeeBaseModel>{ new EmployeeBaseModel { EmployeeId = 2, NickName = "elton" } },
+                    NominationPeriod = new NominationPeriodModel { NominationPeriodId = 2, Year = 2018 },
                     NominationStatusId = 2,
-                    TypeId = (int)PerformanceRecordType.SystemNomination,
+                    TypeId = (int)PerformanceRecordType.SystemNomination
+                },
+                new PerformanceRecordModel
+                {
+                    PerformanceRecordId = 3,
+                    Employees = new List<EmployeeBaseModel>{ new EmployeeBaseModel { EmployeeId = 3, NickName = "oliver" } },
+                    NominationPeriod = new NominationPeriodModel { NominationPeriodId = 2, Year = 2018 },
+                    NominationStatusId = 2,
+                    TypeId = (int)PerformanceRecordType.SystemNomination
                 }
             };
+            var service = GetService();
+            nominationRepository.GetMemberNominationAsync(Arg.Any<GetMemberNominationCriteria>()).Returns(performanceRecords);
 
-            baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(Arg.Any<GetMemberNominationCriteria>())
-                .Returns(new Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<NominationPeriodModel>>(
-                    new List<PerformanceRecordModel>(systemNominations) { performanceRecord },
-                    new List<NominationPeriodModel> { new NominationPeriodModel { NominationPeriodId = 1 } }
-                    ));
+            // Act
+            var result = await service.GetMemberNominationAsync(1);
 
-            commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<EmployeeBaseModel>
-            {
-                new EmployeeBaseModel { EmployeeId = 1 },
-                new EmployeeBaseModel { EmployeeId = 2 }
-            });
-
-            var result = await service.GetMemberNominationsAsync(1);
-
-            Assert.NotEmpty(result);
-            Assert.All(result, record =>
-            {
-                Assert.Equal(record.CreatorId, record.Creator.EmployeeId);
-                Assert.Equal(record.NominationPeriodId, record.NominationPeriod.NominationPeriodId);
-            });
+            // Assert
+            Assert.Equal(2, result.Count());
+            Assert.Equal(performanceRecords[0], result.First());
+            Assert.Equal(performanceRecords[1], result.ElementAt(1));
+            Assert.Collection(result.ElementAt(1).Employees.ToList(),
+                elem1 =>
+                {
+                    Assert.Equal(employees[0].EmployeeId, elem1.EmployeeId);
+                    Assert.Equal(employees[0].NickName, elem1.NickName);
+                },
+                elem2 =>
+                {
+                    Assert.Equal(employees[1].EmployeeId, elem2.EmployeeId);
+                    Assert.Equal(employees[1].NickName, elem2.NickName);
+                }
+            );
         }
 
         [Fact]

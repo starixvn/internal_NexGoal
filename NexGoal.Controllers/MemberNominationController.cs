@@ -90,7 +90,7 @@
         [HttpGet]
         public async Task<IActionResult> GetMemberNominations()
         {
-            IEnumerable<PerformanceRecordModel> result = await employeeNominationService.GetMemberNominationsAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<PerformanceRecordModel> result = await employeeNominationService.GetMemberNominationAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(result);
         }
