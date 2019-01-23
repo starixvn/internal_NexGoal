@@ -100,6 +100,7 @@
             var paRecord = await paRecordService.GetPARecordByIdAsync(model.PARecordId, model.ActorId).ConfigureAwait(false);
             var disciplines = await disciplineService.GetEmployeeDisciplineByPeriodAsync(model.EmployeeId, model.PARecordId).ConfigureAwait(false);
             var employeeInfo = await commonService.GetEmployeeByIdAsync(model.EmployeeId).ConfigureAwait(false);
+            var hrm = await GetHRM(model.EmployeeId, model.PeriodId).ConfigureAwait(false);
             var grades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
             var previousGrade = await paRecordService.GetPreviousPAGrade(model.PeriodId, model.ActorId, model.EmployeeId).ConfigureAwait(false);
             previousGrade = cryptoService.Decrypt(previousGrade);
@@ -110,6 +111,7 @@
             {
                 Employee = employeeInfo,
                 PARecord = paRecord,
+                HRM = hrm,
                 Disciplines = disciplines,
                 AllGrades = grades,
                 Achievements = achievements,
@@ -136,6 +138,17 @@
             }
 
             return tuple.Item1;
+        }
+
+        private async Task<IEnumerable<HRMInfo>> GetHRM(int employeeId, int periodId)
+        {
+            var criteria = new GetHRMByEmployeeInPeriod
+            {
+                EmployeeId = employeeId,
+                PeriodId = periodId
+            };
+
+            return await baseService.GetDataAsync<HRMInfo>(criteria).ConfigureAwait(false);
         }
     }
 }
