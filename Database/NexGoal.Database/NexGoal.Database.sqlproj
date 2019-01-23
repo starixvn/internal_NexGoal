@@ -190,7 +190,6 @@
     <Build Include="dbo\Stored Procedures\Period_GetCurrentPerformancePeriod.sql" />
     <Build Include="dbo\Stored Procedures\Employee_UpdateRoles.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetGroup.sql" />
-    <Build Include="dbo\Stored Procedures\Nomination_GetMemberNominations.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_GetByRecordId.sql" />
     <Build Include="dbo\Stored Procedures\Auto_PA_UpdateWhenEvaluationFinished.sql" />
     <Build Include="dbo\Stored Procedures\Auto_Nomination_UpdateWhenFinished.sql" />
@@ -248,6 +247,8 @@
     <Build Include="dbo\Stored Procedures\Discipline_GetByEmployeeAndPeriod.sql" />
     <Build Include="dbo\Stored Procedures\PARecord_GetPreviousGrade.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_GetByEmployeeInPeriod.sql" />
+    <Build Include="dbo\Stored Procedures\PARecord_GetPermission.sql" />
+    <Build Include="dbo\Stored Procedures\Nomination_GetMemberNomination.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">

@@ -1,9 +1,8 @@
 ﻿
-CREATE PROCEDURE [dbo].[Nomination_GetMemberNominations] @ActorId INT
-	,@MemberId INT = NULL
+CREATE PROCEDURE [dbo].[Nomination_GetMemberNomination] @ActorId INT
 AS
 /*
-Created: 201801105@Elton.Ton
+Created: 20181105@Elton.Ton
 Task: Get member nomination details.
 DB: bodb_NexGoal
 Original:
@@ -23,12 +22,16 @@ BEGIN
 		-- record status
 		,@Submited TINYINT = 3
 		,@Closed TINYINT = 4
+		-- nomination status
+		,@Nominated TINYINT = 1
+		,@Shortlisted TINYINT = 2
+		,@Winner TINYINT = 3
 
 	CREATE TABLE #tblMember (MemberId INT)
 
 	CREATE TABLE #tblPerformanceRecord (
 		PerformanceRecordId INT
-		,EmployeeIds VARCHAR(MAX)
+		,EmployeeId INT
 		,CreatorId INT
 		,Comment NVARCHAR(MAX)
 		,CreatedDate DATETIME
@@ -44,14 +47,10 @@ BEGIN
 	SELECT DISTINCT EmployeeId
 	FROM dbo.func_GetMember(@ActorId)
 	WHERE ProcessId IN (@PMProcessId, @EvaluatorProcessId, @ReviewerProcessId)
-		AND (
-			@MemberId IS NULL
-			OR EmployeeId = @MemberId
-			)
 
 	INSERT INTO #tblPerformanceRecord (
 		PerformanceRecordId
-		,EmployeeIds
+		,EmployeeId
 		,CreatorId
 		,Comment
 		,CreatedDate
@@ -105,36 +104,39 @@ BEGIN
 		INNER JOIN #tblMember AS member WITH (NOLOCK) ON n.NomineeId = member.MemberId
 	WHERE pr.TypeId = 5
 
-	SELECT PerformanceRecordId
-		,Comment
-		,CreatedDate
-		,ModifiedDate
-		,CreatorId
-		,EmployeeIds
-		,StatusId
-		,TypeId
-		,RoleId
-		,NominationPeriodId
-		,NominationStatusId
-	FROM #tblPerformanceRecord WITH (NOLOCK)
-	ORDER BY CASE 
-			WHEN StatusId = 2 THEN 1
-			ELSE 2
-			END
-		,CreatedDate DESC
-
-	SELECT e.EOQYId AS NominationPeriodId
-		,e.[Quarter]
-		,e.[Year]
-		,e.StartDateForNominator
-		,e.EndDateForNominator
-		,e.EndDateForCommittee
-	FROM dbo.EOQY AS e WITH (NOLOCK)
-	WHERE EXISTS (
-			SELECT 1
-			FROM #tblPerformanceRecord AS tbl WITH (NOLOCK)
-			WHERE tbl.NominationPeriodId = e.EOQYId
-			)
+	SELECT record.PerformanceRecordId
+		,record.Comment
+		,record.CreatedDate
+		,record.ModifiedDate
+		,record.StatusId
+		,record.TypeId
+		,record.RoleId
+		,record.NominationStatusId
+		,emp.EmployeeId
+		,emp.NickName
+		,emp.FullName
+		,emp.Code
+		,record.CreatorId AS EmployeeId
+		,creator.NickName
+		,creator.FullName
+		,creator.Code
+		,record.NominationPeriodId
+		,period.[Quarter]
+		,period.[Year]
+		,period.StartDateForNominator
+		,period.EndDateForNominator
+		,period.EndDateForCommittee
+	FROM #tblPerformanceRecord AS record WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeId = emp.EmployeeId
+		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
+		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON record.NominationPeriodId = period.EOQYId
+	ORDER BY record.CreatedDate DESC
+		--,CASE record.NominationStatusId
+		--	WHEN @Winner THEN 1
+		--	WHEN @Shortlisted THEN 2
+		--	WHEN @Nominated THEN 3
+		--	ELSE 4
+		--	END
 
 	DROP TABLE #tblPerformanceRecord
 

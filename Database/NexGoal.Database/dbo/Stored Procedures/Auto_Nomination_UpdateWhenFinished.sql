@@ -17,6 +17,7 @@ BEGIN
 	SET XACT_ABORT ON;
 
 	DECLARE @Today DATE = GETDATE()
+		,@CreatedDate DATETIME = GETDATE()
 		,@NominationId INT
 		,@PerformanceRecordId INT
 	-- Performance Record Status
@@ -59,7 +60,15 @@ BEGIN
 		AND emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
 	WHERE ISNULL(@NominationPeriodId, period.EOQYId) = period.EOQYId
-		AND nomination.PerformanceRecordId IS NULL
+
+	UPDATE record
+	SET CreatedDate = @CreatedDate
+	FROM dbo.PerformanceRecord AS record WITH (ROWLOCK, UPDLOCK)
+		INNER JOIN #tblNomination AS nomination ON record.PerformanceRecordId = nomination.PerformanceRecordId
+
+	DELETE
+	FROM #tblNomination
+	WHERE PerformanceRecordId IS NOT NULL
 
 	WHILE EXISTS (
 			SELECT 1
@@ -80,7 +89,7 @@ BEGIN
 		SELECT EmployeeId
 			,- 1
 			,@PR_Closed
-			,GETDATE()
+			,@CreatedDate
 			,5 -- system Nomination
 			,255
 		FROM #tblNomination WITH (NOLOCK)
