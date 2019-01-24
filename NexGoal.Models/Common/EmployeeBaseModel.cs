@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Models.Common
 {
+    using System;
+
     public class EmployeeBaseModel
     {
         public virtual int EmployeeId { get; set; }
@@ -12,6 +14,7 @@
         public virtual string JobTitle { get; set; }
         public virtual string Roles { get; set; }
         public virtual string Avatar { get; set; }
+        public virtual DateTime JoinedDate { get; set; }
         public virtual bool IsProbation { get; set; }
     }
 }
