@@ -61,7 +61,7 @@ export default class App extends Component {
                     filter: {
                         periods: [this.periodOptions[0]],
                         groups: this.groupOptions,
-                        employees: employeeOptions
+                        employees: this.employeeOptions
                     }
                 }, () => this.getPARecords());
             }).catch(axiosError);

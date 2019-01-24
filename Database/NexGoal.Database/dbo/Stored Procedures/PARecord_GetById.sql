@@ -26,6 +26,7 @@ BEGIN
 	SELECT pa.PARecordId
 		,pa.ModifiedDate
 		,pa.OriginalGradeId
+        ,pa.Toeic
 		,(CASE 
 			WHEN @Today BETWEEN reviewer.StartDate
 					AND reviewer.EndDate THEN @PAInProgress

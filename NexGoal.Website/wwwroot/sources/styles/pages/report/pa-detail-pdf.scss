@@ -1,7 +1,5 @@
 ﻿@import "../../abstracts/variables";
 @import "../../abstracts/mixins";
-//@import "../../base/font-nexgoal";
-//@import "~bootstrap/dist/css/bootstrap.css";
 @import "../../components/tables";
 @import "../../layouts/nomination";
 @import "../../layouts/role";
@@ -146,14 +144,14 @@ $last-pci: #46607F;
     }
 
     li {
-        width: 80px;
+        width: 72px;
         height: 50px;
         padding: 0;
         position: relative;
         margin-right: 10px;
         vertical-align: top;
         font-weight: 600;
-        font-size: 7px;
+        font-size: 8px;
         text-align: center;
         display: flex;
         flex-direction: column;
@@ -227,12 +225,15 @@ $last-pci: #46607F;
         }
     }
 }
+
 .col-80 {
     width: 80px;
 }
+
 .col-120 {
     width: 120px;
 }
+
 .col-200 {
     width: 200px;
 }
