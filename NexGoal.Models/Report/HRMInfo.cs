@@ -17,5 +17,7 @@
         public float UnplanedAnnualLeave { get; set; }
 
         public float AverageWorkingHours { get; set; }
+
+        public float Overtime { get; set; }
     }
 }

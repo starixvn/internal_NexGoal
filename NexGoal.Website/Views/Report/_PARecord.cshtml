@@ -1,0 +1,70 @@
+﻿@using NexGoal.Core.Enumerations
+@using NexGoal.Models.PARecord
+@model PAProcessModel
+
+@if (Model.PerformanceRecord != null)
+{
+    <div class="record">
+        <div class="avatar-user">
+            <img src=@Model.Evaluator.Avatar class="avatar" />
+            <div class="person-info">
+                @{
+                    string roleClass = "";
+                    switch (Model.ProcessId)
+                    {
+                        case (int)PerformanceProcess.Self:
+                            roleClass = "role-member";
+                            break;
+
+                        case (int)PerformanceProcess.Evaluator:
+                            roleClass = "role-evaluator";
+                            break;
+
+                        case (int)PerformanceProcess.ProjectManager:
+                            roleClass = "role-pm";
+                            break;
+
+                        case (int)PerformanceProcess.Reviewer:
+                            roleClass = "role-reviewer";
+                            break;
+
+                        default:
+                            roleClass = "role-member";
+                            break;
+                    }
+                }
+                <span class="@roleClass">@Model.Evaluator.NickName</span>
+                @{
+                    var submitDate = string.Empty;
+
+                    if (Model.PerformanceRecord.CreatedDate.Year != 1)
+                    {
+                        submitDate = Model.PerformanceRecord.CreatedDate.ToString("dd MMM yyyy");
+                    }
+
+                    if (Model.PerformanceRecord.ModifiedDate.HasValue)
+                    {
+                        submitDate = Model.PerformanceRecord.ModifiedDate.Value.ToString("dd MMM yyyy");
+                    }
+
+                }
+                <div class="submit-date">@submitDate</div>
+            </div>
+        </div>
+        @{
+            var grade = Model.PerformanceRecord.Grade != null ?
+           $"({Model.PerformanceRecord.Grade.Name }) {Model.PerformanceRecord.Grade.Description}" : "N/A";
+        }
+
+        <div class="comment">
+            <p>@Model.PerformanceRecord.Comment</p>
+        </div>
+        <div class="grade">Grade: <div class="grade-detail">@grade</div></div>
+    </div>
+}
+else
+{
+    <div class="record-list">
+        <p class="text-center">No Record</p>
+    </div>
+}

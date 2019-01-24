@@ -13,14 +13,11 @@ export default class PADetail extends Component {
     }
 
     render() {
-        let employees = [];
-        employees.push(this.props.employee);
         const pa = this.props.paRecord;
         const paRecord = {
             typeId: 1,
             roleId: PerformanceProcess.Reviewer,
             creator: pa.reviewer,
-            employees: employees,
             createdDate: pa.modifiedDate ? pa.modifiedDate : null,
             comment: pa.comment,
             grade: pa.grade
@@ -38,7 +35,7 @@ export default class PADetail extends Component {
                 <Modal.Body>
                     <CustomScrollbars>
                         <PerformanceRecord data={paRecord} isHideProjectTag />
-                        <PAProcessTab processes={this.props.paProcesses} employees={employees} />
+                        <PAProcessTab processes={this.props.paProcesses} />
                     </CustomScrollbars>
                 </Modal.Body>
                 <Modal.Footer>

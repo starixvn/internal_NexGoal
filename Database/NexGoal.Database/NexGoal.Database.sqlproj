@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="NexGoal.Database.publish.xml" />
+    <None Include="dbo\Views\EmployeeOvertime.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\GroupFlowSetting.sql" />

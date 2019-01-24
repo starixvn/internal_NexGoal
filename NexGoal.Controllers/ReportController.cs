@@ -59,10 +59,10 @@
 
             HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf).Configure((r) => r.Template.Chrome = new Chrome
             {
-                MarginTop = ".5cm",
                 MarginLeft = ".5cm",
-                MarginBottom = ".5cm",
                 MarginRight = ".5cm",
+                MarginTop = ".5cm",
+                MarginBottom = ".5cm",
                 PrintBackground = true
             });
             return View(reportDetail);

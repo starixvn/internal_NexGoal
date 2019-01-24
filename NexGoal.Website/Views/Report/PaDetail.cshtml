@@ -46,6 +46,7 @@
                                     <th>Unpaid Leave</th>
                                     <th>Unplanned Annual Leave</th>
                                     <th>Average Working Hours</th>
+                                    <th>Overtime</th>
                                     <th>Toiec</th>
                                 </tr>
                             </thead>
@@ -62,6 +63,7 @@
                                             <td class="text-center">@month.UnpaidLeave</td>
                                             <td class="text-center">@month.UnplanedAnnualLeave</td>
                                             <td class="text-center">@Helper.RenderHour(month.AverageWorkingHours)</td>
+                                            <td class="text-center">@month.Overtime</td>
                                             @if (i == 0)
                                             {
                                                 i++;
@@ -80,7 +82,7 @@
                                     <td class="text-center">@Model.HRM.Sum(x => x.UnpaidLeave)</td>
                                     <td class="text-center">@Model.HRM.Sum(x => x.UnplanedAnnualLeave)</td>
                                     <td class="text-center">@Helper.RenderHour(Model.HRM.Average(x => x.AverageWorkingHours))</td>
-                                    <td class="text-center"></td>
+                                    <td class="text-center">@Model.HRM.Average(x => x.Overtime)</td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -172,7 +174,7 @@
                                 var selfPA = Model.PARecord.Processes
                                     .FirstOrDefault(x => x.ProcessId == (int)PerformanceProcess.Self);
                             }
-                            @await Component.InvokeAsync("PARecord", selfPA)
+                            @await Html.PartialAsync("_PARecord", selfPA)
                         </div>
                         <div class="title">2. Project Manager</div>
                         <div class="sub-content">
@@ -184,13 +186,13 @@
                                     {
                                         foreach (var pm in pmProcesses)
                                         {
-                                            @await Component.InvokeAsync("PARecord", pm)
+                                            @await Html.PartialAsync("_PARecord", pm)
                                         }
                                     }
                                     else
                                     {
                                         <div class="record-list">
-                                            <p class="text-center">No Record Found</p>
+                                            <p class="text-center">No Record</p>
                                         </div>
                                     }
                                 }
@@ -203,7 +205,7 @@
                                     var evaluatorProcess = Model.PARecord.Processes
                                         .FirstOrDefault(x => x.ProcessId == (int)PerformanceProcess.Evaluator);
                                 }
-                                @await Component.InvokeAsync("PARecord", evaluatorProcess)
+                                @await Html.PartialAsync("_PARecord", evaluatorProcess)
                             </div>
                         </div>
                         <div class="title">4. Reviewer</div>
@@ -212,7 +214,7 @@
                                 var reviewerProcess = Model.PARecord.Processes
                                     .FirstOrDefault(x => x.ProcessId == (int)PerformanceProcess.Reviewer);
                             }
-                            @await Component.InvokeAsync("PARecord", reviewerProcess)
+                            @await Html.PartialAsync("_PARecord", reviewerProcess)
                         </div>
                     </div>
                 </div>
@@ -227,11 +229,14 @@
                         Evaluator = reviewerProcess.Evaluator,
                         PerformanceRecord = new PerformanceRecordModel
                         {
+                            ModifiedDate = Model.PARecord.ModifiedDate,
                             Grade = Model.PARecord.Grade,
                             Comment = Model.PARecord.Comment
                         },
 
                     };
+
+                    @await Html.PartialAsync("_PARecord", finalResult)
                 }
             </div>
         </div>
