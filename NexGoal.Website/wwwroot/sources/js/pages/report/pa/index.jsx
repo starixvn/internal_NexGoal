@@ -60,7 +60,7 @@ export default class App extends Component {
                 this.setState({
                     filter: {
                         periods: [this.periodOptions[0]],
-                        groups: this.groupOptions
+                        groups: this.groupOptions,
                         employees: employeeOptions
                     }
                 }, () => this.getPARecords());
