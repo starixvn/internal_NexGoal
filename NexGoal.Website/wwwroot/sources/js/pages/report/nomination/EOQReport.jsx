@@ -1,6 +1,5 @@
 ﻿import React, { Component, Fragment } from 'react';
 import axios from 'axios';
-import moment from 'moment';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { NominationStatuses } from '../../../constants';
@@ -20,9 +19,7 @@ export default class EOQReport extends Component {
                 employees: [],
                 status: defaultStatus
             },
-            tableData: [],
-            showModal: false,
-            activeTabKey: 1
+            tableData: []
         };
 
         this.statusOptions = [defaultStatus, ...NominationStatuses.map(ns => ({ value: ns.value, label: ns.text }))];
@@ -122,12 +119,8 @@ export default class EOQReport extends Component {
         this.props.onShowNominatorComment(
             nomination,
             performanceRecordId,
-            this.periodOptions.find(x => x.value === nomination.nominationPeriodId).label
+            this.periodOptions.find(x => x.value === nomination.nominationPeriodId)
         );
-    }
-
-    closeModal = () => {
-        this.setState({ showModal: false });
     }
 
     render() {

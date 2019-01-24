@@ -15,13 +15,6 @@ export default class Table extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            nominationStatuses: NominationStatuses.map(x => ({
-                value: x.value,
-                label: x.text
-            }))
-        };
-
         this.selectComponents = { SingleValue };
     }
 
@@ -46,9 +39,13 @@ export default class Table extends Component {
     }
 
     renderNomination = (nomination, index) => {
-        let renderStatus = this.props.canUpdateNominationStatus ?
+        let nominationStatusOptions = NominationStatuses.map(x => ({
+            value: x.value,
+            label: x.text
+        }));
+        let renderStatus = this.props.isHost ?
             <Select name="nominationPeriod" className="react-select-container" classNamePrefix="react-select"
-                value={this.state.nominationStatuses.find(x => x.value === nomination.statusId)} options={this.state.nominationStatuses}
+                value={nominationStatusOptions.find(x => x.value === nomination.statusId)} options={nominationStatusOptions}
                 isClearable={false} isSearchable={false} components={this.selectComponents}
                 onChange={this.handleChangeStatus.bind(this, nomination.nominationId)}
             />
@@ -62,7 +59,11 @@ export default class Table extends Component {
                 <td className="text-center">{index + 1}</td>
                 <td>{`${nomination.nominee.nickName} (${nomination.nominee.fullName})`}</td>
                 <td>{nomination.nominee.groupName}</td>
-                <td className="text-center"><a onClick={this.handleShowNominatorComment.bind(this, nomination, nomination.nominators[0].performanceRecordId)}>{nomination.nominators.length}</a></td>
+                <td className="text-center">
+                    <a onClick={this.handleShowNominatorComment.bind(this, nomination, nomination.nominators[0].performanceRecordId)}>
+                        {nomination.nominators.length}
+                    </a>
+                </td>
                 <td>
                     {nomination.nominators.map((n, i, arr) =>
                         <Fragment key={n.performanceRecordId}>

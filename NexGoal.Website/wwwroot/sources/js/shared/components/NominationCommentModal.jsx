@@ -1,10 +1,10 @@
 ﻿import React, { PureComponent, Fragment } from 'react';
 import { Button, Modal, Tab, Nav, NavItem } from 'react-bootstrap';
 
-import getResource from '../../../resourceHelper';
-import CustomScrollbars from '../../../shared/components/CustomScrollbars';
+import getResource from '../../resourceHelper';
+import CustomScrollbars from './CustomScrollbars';
 
-export default class NominatorComment extends PureComponent {
+export default class NominationCommentModal extends PureComponent {
     handleScrollLeft = () => {
         this.scrolllInterval = setInterval((element) => {
             element.scrollTo(element.scrollLeft - 10, 0);
@@ -25,7 +25,8 @@ export default class NominatorComment extends PureComponent {
         let nomination = this.props.nomination;
 
         if (nomination) {
-            const nominators = nomination.nominators;
+            let nominators = nomination.nominators;
+            let nominee = nomination.nominee;
 
             return (
                 <Modal show={this.props.showModal} onHide={this.props.onCloseModal}
@@ -33,7 +34,7 @@ export default class NominatorComment extends PureComponent {
                 >
                     <Modal.Header>
                         <Modal.Title>
-                            Votes for {`${nomination.nominee.nickName} (${nomination.nominee.fullName})`} - {this.props.period}
+                            Votes for {`${nominee.nickName} (${nominee.fullName})`} - {this.props.period}
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>

@@ -92,7 +92,6 @@ export default class Table extends Component {
     renderPARecordInfo = (paRecords) => {
         return (
             paRecords.map((record, index) => {
-                console.log(record);
                 return (
                     <tr>
                         <td className="text-center">{index + 1}</td>

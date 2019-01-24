@@ -37,35 +37,30 @@ export default class App extends Component {
 
         Promise.all(promises)
             .then(([periodResponse, myGroupResponse, employeeResponse]) => {
-                let periodOptions = periodResponse.data.map((period) => {
+                this.periodOptions = periodResponse.data.map((period) => {
                     return {
                         label: period.name,
                         value: period.periodId
                     };
                 });
-
-                let groupOptions = myGroupResponse.data.map((group) => {
+                this.groupOptions = myGroupResponse.data.map((group) => {
                     return {
                         label: group.name,
                         value: group.groupId
                     };
                 });
-
-                let employeeOptions = employeeResponse.data.map((employee) => {
+                this.employeeOptions = employeeResponse.data.map((employee) => {
                     return {
                         label: `${employee.nickName} (${employee.fullName})`,
                         value: employee.employeeId,
                         groupName: employee.groupName
                     };
                 });
-                this.periodOptions = periodOptions;
-                this.groupOptions = groupOptions;
-                this.employeeOptions = employeeOptions;
 
                 this.setState({
                     filter: {
-                        periods: [periodOptions[0]],
-                        groups: groupOptions
+                        periods: [this.periodOptions[0]],
+                        groups: this.groupOptions
                     }
                 }, () => this.getPARecords());
             }).catch(axiosError);

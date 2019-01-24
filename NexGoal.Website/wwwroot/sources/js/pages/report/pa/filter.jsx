@@ -8,11 +8,6 @@ import getResource from '../../../resourceHelper';
 export default class Filter extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            employeeOptions: props.employeeOptions,
-            errors: {}
-        };
     }
 
     handlePeriodChange = (selectedOption) => {
@@ -33,7 +28,8 @@ export default class Filter extends Component {
     }
 
     render() {
-        const filter = this.props.filter;
+        let filter = this.props.filter;
+
         return (
             <Form inline className="form-filter" onSubmit={this.handleSubmit}>
                 <FormGroup>

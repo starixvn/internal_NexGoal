@@ -22,9 +22,7 @@ export default class EOQAssessment extends Component {
                 status: defaultStatus
             },
             tableData: [],
-            nominationPeriod: null,
-            showModal: false,
-            activeTabKey: 1
+            nominationPeriod: null
         };
 
         this.currentDate = moment();
@@ -59,7 +57,7 @@ export default class EOQAssessment extends Component {
                 let period = prevState.nominationPeriod;
                 return {
                     tableData: response.data,
-                    canUpdateNominationStatus: this.currentDate.isAfter(moment(period.endDateForNominator), 'day') && this.currentDate.isSameOrBefore(moment(period.endDateForCommittee), 'day')
+                    isHost: this.currentDate.isAfter(moment(period.endDateForNominator), 'day') && this.currentDate.isSameOrBefore(moment(period.endDateForCommittee), 'day')
                 };
             });
         }).catch(axiosError);
@@ -108,10 +106,6 @@ export default class EOQAssessment extends Component {
         this.props.onShowNominatorComment(nomination, performanceRecordId, this.state.nominationPeriod);
     }
 
-    closeModal = () => {
-        this.setState({ showModal: false });
-    }
-
     render() {
         if (this.state.nominationPeriod) {
             return (
@@ -127,7 +121,7 @@ export default class EOQAssessment extends Component {
                     <Table tableData={this.state.tableData}
                         onUpdateStatus={this.handleUpdateNominationStatus}
                         onShowNominatorComment={this.handleShowNominatorComment}
-                        canUpdateNominationStatus={this.state.canUpdateNominationStatus}
+                        isHost={this.state.isHost}
                     />
                 </Fragment>
             );

@@ -9,17 +9,11 @@ export default class Table extends Component {
         super(props);
 
         this.state = {
-            nominationStatuses: NominationStatuses.map(x => ({
-                value: x.value,
-                label: x.text
-            })),
             showStickyHeader: false
         };
     }
 
     componentDidMount() {
-        let header = this.refs.stickyHeader;
-
         window.addEventListener('scroll', e => {
             if (window.scrollY > 236) {
                 if (!this.state.showStickyHeader) {
@@ -47,7 +41,11 @@ export default class Table extends Component {
                 <tr className="group-row">
                     <td className="title" colSpan={6}>{data.title}</td>
                 </tr>
-                {data.nominations.length > 0 ? data.nominations.map(this.renderNomination) : <tr><td className="text-center" colSpan={6}>{noDataIndication()}</td></tr>}
+                {
+                    data.nominations.length > 0
+                        ? data.nominations.map(this.renderNomination)
+                        : <tr><td className="text-center" colSpan={6}>{noDataIndication()}</td></tr>
+                }
             </Fragment>
         );
     }
@@ -58,7 +56,11 @@ export default class Table extends Component {
                 <td className="text-center">{index + 1}</td>
                 <td>{`${nomination.nominee.nickName} (${nomination.nominee.fullName})`}</td>
                 <td>{nomination.nominee.groupName}</td>
-                <td className="text-center"><a onClick={this.handleShowNominatorComment.bind(this, nomination, nomination.nominators[0].performanceRecordId)}>{nomination.nominators.length}</a></td>
+                <td className="text-center">
+                    <a onClick={this.handleShowNominatorComment.bind(this, nomination, nomination.nominators[0].performanceRecordId)}>
+                        {nomination.nominators.length}
+                    </a>
+                </td>
                 <td>
                     {nomination.nominators.map((n, i, arr) =>
                         <Fragment key={n.performanceRecordId}>
