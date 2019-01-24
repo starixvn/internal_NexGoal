@@ -146,9 +146,9 @@ $last-pci: #46607F;
     }
 
     li {
-        width: 40px;
+        width: 80px;
         height: 50px;
-        padding: 0 16px;
+        padding: 0;
         position: relative;
         margin-right: 10px;
         vertical-align: top;
@@ -226,4 +226,13 @@ $last-pci: #46607F;
             }
         }
     }
+}
+.col-80 {
+    width: 80px;
+}
+.col-120 {
+    width: 120px;
+}
+.col-200 {
+    width: 200px;
 }
