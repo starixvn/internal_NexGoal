@@ -19,10 +19,13 @@
         [Fact]
         public void Index_WhenCalled_ReturnsExpectedViewResult()
         {
+            // Arrange
             var controller = GetContronller();
 
+            // Act
             var actual = controller.Index();
 
+            // Assert
             var viewResult = Assert.IsType<ViewResult>(actual);
             Assert.Null(viewResult.ViewName);
         }
@@ -30,72 +33,75 @@
         [Fact]
         public async Task GetSetting_WhenCalled_ReturnsExpectedJsonResult()
         {
-            var controller = GetContronller();
-            pmSettingService.GetSettingAsync(null, 1).Returns(new List<MemberModel>
+            // Arrange
+            var members = new List<MemberModel>
             {
-                new MemberModel
-                {
-                    EmployeeId = 1,
-                    ProjectManagerId = 2
-                }
-            });
-            var actual = await controller.GetSetting(null, 1);
+                new MemberModel { EmployeeId = 1, NickName = "elton", ProjectManagerId = 2 }
+            };
+            var controller = GetContronller();
+            pmSettingService.GetSettingAsync(null, 1).Returns(members);
 
-            var jsonResult = Assert.IsType<JsonResult>(actual);
-            var value = Assert.IsAssignableFrom<IEnumerable<MemberModel>>(jsonResult.Value);
+            // Act
+            var result = await controller.GetSetting(null, 1);
 
-            Assert.NotEmpty(value);
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var actual = Assert.IsAssignableFrom<IEnumerable<MemberModel>>(jsonResult.Value);
+            Assert.Equal(members, actual);
         }
 
         [Fact]
         public async Task AddMembers_ValidData_ReturnsExpectedCommandResult()
         {
+            // Arrange
+            var commandResult = new CommandResult();
             var controller = GetContronller();
-            pmSettingService.AddMembers(2, "3", sessionService.EmployeeId).Returns(new CommandResult
-            {
-                Code = 0
-            });
-            var actual = await controller.AddMembers(2, "3");
+            pmSettingService.AddMembers(2, "3", sessionService.EmployeeId).Returns(commandResult);
 
-            var jsonResult = Assert.IsType<JsonResult>(actual);
-            var value = Assert.IsAssignableFrom<CommandResult>(jsonResult.Value);
+            // Act
+            var result = await controller.AddMembers(2, "3");
 
-            Assert.True(value.IsSuccessful);
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var actual = Assert.IsAssignableFrom<CommandResult>(jsonResult.Value);
+            Assert.Equal(commandResult, actual);
         }
 
         [Fact]
         public async Task RemoveMember_ValidData_ReturnsExpectedCommandResult()
         {
+            // Arrange
+            var commandResult = new CommandResult();
             var controller = GetContronller();
-            pmSettingService.RemoveMember(2, 3, sessionService.EmployeeId).Returns(new CommandResult
-            {
-                Code = 0
-            });
-            var actual = await controller.RemoveMember(2, 3);
+            pmSettingService.RemoveMember(2, 3, sessionService.EmployeeId).Returns(commandResult);
 
-            var jsonResult = Assert.IsType<JsonResult>(actual);
-            var value = Assert.IsAssignableFrom<CommandResult>(jsonResult.Value);
+            // Act
+            var result = await controller.RemoveMember(2, 3);
 
-            Assert.True(value.IsSuccessful);
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var actual = Assert.IsAssignableFrom<CommandResult>(jsonResult.Value);
+            Assert.Equal(commandResult, actual);
         }
 
         [Fact]
         public async Task GetProjectManagers_WhenCalled_ReturnsExpectedJsonResult()
         {
-            var controller = GetContronller();
-            pmSettingService.GetProjectManagersAsync().Returns(new List<EmployeeBaseModel>
+            // Arrange
+            var projectManagers = new List<EmployeeBaseModel>
             {
-                new EmployeeBaseModel
-                {
-                    EmployeeId = 2,
-                }
-            });
-            var actual = await controller.GetProjectManagers();
+                new EmployeeBaseModel { EmployeeId = 2, NickName = "richard" }
+            };
+            var controller = GetContronller();
+            pmSettingService.GetProjectManagerAsync().Returns(projectManagers);
 
-            var jsonResult = Assert.IsType<JsonResult>(actual);
-            var value = Assert.IsAssignableFrom<IEnumerable<EmployeeBaseModel>>(jsonResult.Value);
+            // Act
+            var result = await controller.GetProjectManagers();
 
-            Assert.NotEmpty(value);
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var actual = Assert.IsAssignableFrom<IEnumerable<EmployeeBaseModel>>(jsonResult.Value);
+            Assert.Equal(projectManagers, actual);
         }
 
         private PMSettingController GetContronller()

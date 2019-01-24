@@ -84,10 +84,10 @@ export default class PMSetting extends Component {
         });
     }
 
-    getPMSetting = (pmIds, employeeId, callback) => {
+    getPMSetting = (projectManagerIds, employeeId, callback) => {
         axios.get(resolveClientUrl('PMSetting/GetSetting'), {
             params: {
-                pmIds: pmIds,
+                projectManagerIds: projectManagerIds,
                 employeeId: employeeId
             }
         }).then(callback).catch(axiosError);

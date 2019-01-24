@@ -4,12 +4,12 @@
 
     public class GetPMSettingCriteria : CriteriaBase
     {
-        public string PMIds { get; set; }
+        public string ProjectManagerIds { get; set; }
 
         public int? EmployeeId { get; set; }
 
         public override string GetSettingKey() => "PMSetting_Get";
 
-        public override bool IsValid() => !string.IsNullOrWhiteSpace(PMIds);
+        public override bool IsValid() => !string.IsNullOrWhiteSpace(ProjectManagerIds);
     }
 }

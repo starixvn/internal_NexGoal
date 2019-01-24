@@ -1,7 +1,7 @@
-﻿CREATE PROCEDURE [dbo].[PMSetting_Insert]
-	@ProjectManagerId INT
+﻿
+CREATE PROCEDURE [dbo].[PMSetting_Insert] @ProjectManagerId INT
 	,@MemberIds VARCHAR(MAX)
-	,@CreatedBy INT
+	,@ActorId INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(200) = '' OUTPUT
 AS
@@ -21,14 +21,13 @@ BEGIN
 		,@xml XML
 
 	SET @xml = (
-			SELECT pms.ProjectManagerId AS '@pmi'
-				,pms.MemberId AS '@mi'
-			FROM dbo.PMSetting pms WITH (NOLOCK)
-			WHERE pms.ProjectManagerId = @ProjectManagerId
+			SELECT ProjectManagerId AS '@pmi'
+				,MemberId AS '@mi'
+			FROM dbo.PMSetting WITH (NOLOCK)
+			WHERE ProjectManagerId = @ProjectManagerId
 			FOR XML PATH('r')
 				,TYPE
 			)
-
 	SET @oldLogData = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
 
 	INSERT INTO dbo.PMSetting (
@@ -40,25 +39,23 @@ BEGIN
 	FROM dbo.func_SplitString(@MemberIds, ',')
 
 	SET @xml = (
-			SELECT pms.ProjectManagerId AS '@pmi'
-				,pms.MemberId AS '@mi'
-			FROM dbo.PMSetting pms WITH (NOLOCK)
-			WHERE pms.ProjectManagerId = @ProjectManagerId
+			SELECT ProjectManagerId AS '@pmi'
+				,MemberId AS '@mi'
+			FROM dbo.PMSetting WITH (NOLOCK)
+			WHERE ProjectManagerId = @ProjectManagerId
 			FOR XML PATH('r')
 				,TYPE
 			)
-
 	SET @logData = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
 	SET @endRun = GETDATE()
 	SET @duration = DATEDIFF(millisecond, @startRun, @endRun)
 
-	EXEC dbo.LogDetail_Insert @ActorId = @CreatedBy
+	EXEC dbo.LogDetail_Insert @ActorId = @ActorId
 		,@SPName = 'PMSetting_Insert'
 		,@ObjectId = @ProjectManagerId
 		,@Data = @logData
 		,@OldData = @oldLogData
 		,@Duration = @Duration
-
 END
 
 GO

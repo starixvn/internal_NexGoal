@@ -17,38 +17,46 @@
             this.baseService = baseService;
         }
 
-        public async Task<IEnumerable<MemberModel>> GetSettingAsync(string pmIds, int? employeeId)
+        public async Task<IEnumerable<MemberModel>> GetSettingAsync(string projectManagerIds, int? employeeId)
         {
-            return await baseService.GetDataAsync<MemberModel>(new GetPMSettingCriteria
+            var criteria = new GetPMSettingCriteria
             {
-                PMIds = pmIds,
+                ProjectManagerIds = projectManagerIds,
                 EmployeeId = employeeId
-            }).ConfigureAwait(false);
+            };
+
+            return await baseService.GetDataAsync<MemberModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> AddMembers(int projectManagerId, string memberIds, int createdBy)
+        public async Task<CommandResult> AddMembers(int projectManagerId, string memberIds, int actorId)
         {
-            return await baseService.ExecuteNonQueryAsync(new AddMemberCriteria
+            var criteria = new AddMemberCriteria
             {
                 ProjectManagerId = projectManagerId,
                 MemberIds = memberIds,
-                CreatedBy = createdBy
-            }).ConfigureAwait(false);
+                ActorId = actorId
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> RemoveMember(int projectManagerId, int memberId, int removedBy)
+        public async Task<CommandResult> RemoveMember(int projectManagerId, int memberId, int actorId)
         {
-            return await baseService.ExecuteNonQueryAsync(new RemoveMemberCriteria
+            var criteria = new RemoveMemberCriteria
             {
                 ProjectManagerId = projectManagerId,
                 MemberId = memberId,
-                DeletedBy = removedBy
-            }).ConfigureAwait(false);
+                ActorId = actorId
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<EmployeeBaseModel>> GetProjectManagersAsync()
+        public async Task<IEnumerable<EmployeeBaseModel>> GetProjectManagerAsync()
         {
-            return await baseService.GetDataAsync<EmployeeBaseModel>(new GetProjectManagersCriteria()).ConfigureAwait(false);
+            var criteria = new GetProjectManagersCriteria();
+
+            return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
         }
     }
 }

@@ -8,12 +8,12 @@
 
     public interface IPMSettingService
     {
-        Task<IEnumerable<MemberModel>> GetSettingAsync(string pmIds, int? employeeId);
+        Task<IEnumerable<MemberModel>> GetSettingAsync(string projectManagerIds, int? employeeId);
 
-        Task<CommandResult> AddMembers(int projectManagerId, string memberIds, int createdBy);
+        Task<CommandResult> AddMembers(int projectManagerId, string memberIds, int actorId);
 
-        Task<CommandResult> RemoveMember(int projectManagerId, int memberId, int removedBy);
+        Task<CommandResult> RemoveMember(int projectManagerId, int memberId, int actorId);
 
-        Task<IEnumerable<EmployeeBaseModel>> GetProjectManagersAsync();
+        Task<IEnumerable<EmployeeBaseModel>> GetProjectManagerAsync();
     }
 }
