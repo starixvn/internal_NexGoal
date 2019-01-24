@@ -58,15 +58,16 @@ export default class Filter extends Component {
                     </FormGroup>
                 }
                 {
-                    this.props.employeeOptions.length > 0 &&
+                    this.props.groupOptions.length > 0 &&
                     <FormGroup>
                         <ControlLabel>{getResource('Employee')}</ControlLabel>
                         <div className="control-content">
-                            <Select className="react-select-container" classNamePrefix="react-select"
+                            <MultiSelect className="react-select-container" classNamePrefix="react-select"
                                 name="employee"
-                                value={filter.employee}
+                                value={filter.employees}
                                 options={this.props.employeeOptions}
                                 onChange={this.handleEmployeeChange}
+                                isClearable
                             />
                         </div>
                     </FormGroup>

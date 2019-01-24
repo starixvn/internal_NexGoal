@@ -16,7 +16,7 @@ export default class App extends Component {
             filter: {
                 periods: [],
                 groups: [],
-                employee: null
+                employees: null
             },
             paPeriodRecords: [],
             isShowPADetail: false,
@@ -61,6 +61,7 @@ export default class App extends Component {
                     filter: {
                         periods: [this.periodOptions[0]],
                         groups: this.groupOptions
+                        employees: employeeOptions
                     }
                 }, () => this.getPARecords());
             }).catch(axiosError);
@@ -169,7 +170,7 @@ export default class App extends Component {
             params: {
                 periodIds: filter.periods.map((period) => { return period.value; }).join(','),
                 groupIds: filter.groups.map(group => { return group.value; }).join(','),
-                employeeId: filter.employee ? filter.employee.value : null
+                employeeIds: filter.employees.map(employee => { return employee.value; }).join(',')
             }
         }).then(response => {
             this.setState({

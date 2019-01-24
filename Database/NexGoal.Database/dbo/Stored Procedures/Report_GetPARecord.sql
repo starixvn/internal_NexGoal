@@ -1,8 +1,7 @@
-﻿
-CREATE PROCEDURE [dbo].[Report_GetPARecord] @ActorId INT
+﻿CREATE PROCEDURE [dbo].[Report_GetPARecord] @ActorId INT
 	,@PeriodIds VARCHAR(MAX) = ''
 	,@GroupIds VARCHAR(MAX) = ''
-	,@EmployeeId INT = NULL
+	,@EmployeeIds VARCHAR(MAX) = ''
 AS
 /*
 Created: 20181220@Oliver.Dang
@@ -27,6 +26,8 @@ BEGIN
 
 	CREATE TABLE #tblPeriodId (PeriodId INT)
 
+	CREATE TABLE #tblEmployee (EmpId INT)
+
 	INSERT INTO #tblPeriodId (PeriodId)
 	SELECT val
 	FROM dbo.func_SplitString(@PeriodIds, ',')
@@ -35,6 +36,11 @@ BEGIN
 	INSERT INTO #tblGroupId (GroupId)
 	SELECT val
 	FROM dbo.func_SplitString(@GroupIds, ',')
+	WHERE ISNUMERIC(val) = 1
+
+	INSERT INTO #tblEmployee (EmpId)
+	SELECT val
+	FROM dbo.func_SplitString(@EmployeeIds, ',')
 	WHERE ISNUMERIC(val) = 1
 
 	INSERT INTO #tblPARecordId (PARecordId)
@@ -46,12 +52,9 @@ BEGIN
 		AND process.EvaluatorId = @ActorId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
 		INNER JOIN #tblGroupId AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-	WHERE pa.StatusId IN (@PAInProgress, @PAClosed)
+		INNER JOIN #tblEmployee AS e WITH (NOLOCK) ON e.EmpId = emp.EmployeeId
+	WHERE pa.StatusId = @PAClosed
 		AND process.ProcessId IN (@ReviewerProcessId, @EvaluatorProcessId)
-		AND (
-			@EmployeeId IS NULL
-			OR @EmployeeId = emp.EmployeeId
-			)
 	GROUP BY pa.PARecordId
 	
 	UNION
@@ -59,8 +62,7 @@ BEGIN
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
 		INNER JOIN #tblPeriodId AS p WITH (NOLOCK) ON period.PeriodId = p.PeriodId
-	WHERE pa.EmployeeId = @ActorId
-		AND @EmployeeId IS NULL
+	WHERE pa.EmployeeId = @ActorId AND pa.StatusId = @PAClosed
 	GROUP BY pa.PARecordId
 
 	SELECT pa.PARecordId

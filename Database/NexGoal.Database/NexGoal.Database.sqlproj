@@ -250,6 +250,7 @@
     <Build Include="dbo\Stored Procedures\Nomination_GetMemberNomination.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_GetNominationResult.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_GetMemberNominationResult.sql" />
+    <Build Include="dbo\Stored Procedures\Report_GetHRM.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">

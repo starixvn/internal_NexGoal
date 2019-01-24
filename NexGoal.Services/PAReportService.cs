@@ -45,7 +45,7 @@
                 ActorId = param.ActorId,
                 PeriodIds = param.PeriodIds,
                 GroupIds = param.GroupIds,
-                EmployeeId = param.EmployeeId
+                EmployeeIds = param.EmployeeIds
             };
 
             IEnumerable<PARecordModel> performanceAppraisals = await reportRepository.GetPAReportAsync(criteria).ConfigureAwait(false);
