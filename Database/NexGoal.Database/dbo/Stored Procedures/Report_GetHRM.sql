@@ -171,10 +171,17 @@ BEGIN
 		,(
 			CAST(ROUND(SUM(et.TotalWorkHours) / SUM(CASE 
 							WHEN et.TotalWorkHours IS NOT NULL
-								THEN 1
+								THEN (
+										CASE 
+											WHEN et.LeaveDay < 1
+												THEN et.LeaveDay
+											ELSE 1
+											END
+										)
 							ELSE 0
 							END), 2) AS NUMERIC(36, 2))
 			) AverageWorkingHours
+		,SUM(ot.[Hour]) AS Overtime
 	FROM [dbo].[EmployeeAttendance] AS et WITH (NOLOCK)
 	LEFT JOIN [dbo].[EmployeeCalendar] AS ec WITH (NOLOCK) ON et.EmpId = ec.EmpId
 		AND ec.WorkDate = et.AttendanceDate
@@ -185,6 +192,8 @@ BEGIN
 			)
 		AND CONVERT(DATE, req.FromDate) = et.AttendanceDate
 	LEFT JOIN #EmployeeAttendance AS tpl WITH (NOLOCK) ON tpl.AttendanceDate = et.AttendanceDate
+	LEFT JOIN dbo.EmployeeOvertime AS ot WITH (NOLOCK) ON et.EmpId = ot.EmployeeId
+		AND ot.[Date] BETWEEN @FromDate AND @ToDate
 	WHERE et.EmpId = @EmployeeId
 		AND et.AttendanceDate BETWEEN @FromDate
 			AND @ToDate
