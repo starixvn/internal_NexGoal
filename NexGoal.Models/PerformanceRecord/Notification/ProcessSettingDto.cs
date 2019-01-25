@@ -1,8 +1,8 @@
-﻿namespace NexGoal.Models.PerformanceRecord
+﻿namespace NexGoal.Models.PerformanceRecord.Notification
 {
     using NexGoal.Core.Enumerations;
 
-    public class ProcessSettingModel
+    public class ProcessSettingDto
     {
         public int PerformanceRecordId { get; set; }
         public PerformanceRecordMailMode NotificationMode { get; set; }
