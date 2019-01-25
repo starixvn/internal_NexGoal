@@ -18,14 +18,12 @@
         private readonly IPAReportRepository reportRepository;
         private readonly IPARecordService paRecordService;
         private readonly IBaseService baseService;
-        private readonly IDisciplineService disciplineService;
         private readonly ICryptoService cryptoService;
         private readonly ICommonService commonService;
 
         public PAReportService(
             IPAReportRepository reportRepository,
             IPARecordService paRecordService,
-            IDisciplineService disciplineService,
             IBaseService baseService,
             ICryptoService cryptoService,
             ICommonService commonService)
@@ -33,7 +31,6 @@
             this.paRecordService = paRecordService;
             this.reportRepository = reportRepository;
             this.baseService = baseService;
-            this.disciplineService = disciplineService;
             this.cryptoService = cryptoService;
             this.commonService = commonService;
         }
