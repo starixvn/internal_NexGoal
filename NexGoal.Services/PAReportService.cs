@@ -84,6 +84,7 @@
                 {
                     if (process.PerformanceRecord != null)
                     {
+                        process.PerformanceRecord.Creator = process.Evaluator;
                         process.PerformanceRecord.GradeId = cryptoService.Decrypt(process.PerformanceRecord.GradeId);
                         int.TryParse(process.PerformanceRecord.GradeId, out gradeId);
                         process.PerformanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);

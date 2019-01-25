@@ -72,6 +72,7 @@ BEGIN
 		,pa.ModifiedDate
 		,pa.StatusId
 		,pa.GradeId
+        ,pa.Comment
 		,emp.EmployeeId
 		,emp.NickName
 		,emp.FullName
@@ -98,6 +99,7 @@ BEGIN
 		,record.GradeId
 		,record.CreatedDate
 		,record.ModifiedDate
+        ,record.Comment
 		,process.ProcessId AS RoleId
 		,record.TypeId
 		,record.CreatorId

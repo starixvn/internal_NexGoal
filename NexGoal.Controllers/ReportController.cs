@@ -70,8 +70,8 @@
             {
                 MarginLeft = ".5cm",
                 MarginRight = ".5cm",
-                MarginTop = ".5cm",
-                MarginBottom = ".5cm",
+                MarginTop = "1cm",
+                MarginBottom = "1cm",
                 PrintBackground = true
             });
             return View(reportDetail);
