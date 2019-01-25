@@ -64,7 +64,6 @@
             services.ResolveCoreDI();
             services.AddTransient<ILogger, Logger>();
             services.AddTransient<IPeriodService, PeriodService>();
-            services.AddTransient<IPerformanceRecordService, PerformanceRecordService>();
             services.AddTransient<IPAService, PAService>();
             services.AddTransient<IPAFocusService, PAFocusService>();
             services.AddTransient<INominationService, NominationService>();

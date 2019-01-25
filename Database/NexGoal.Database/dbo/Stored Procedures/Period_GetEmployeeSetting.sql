@@ -28,15 +28,11 @@ BEGIN
 		,pap.EvaluatorId
 		,pap.StartDate
 		,pap.EndDate
-		,pr.StatusId
-		,rr1.Value AS [Status]
 	FROM dbo.PAProcess AS pap WITH (NOLOCK)
 		INNER JOIN dbo.RefResource AS rr WITH (NOLOCK) ON pap.ProcessId = rr.ResourceId
 		AND rr.RefName = 'PerformanceProcess'
 		LEFT JOIN dbo.Employee AS e WITH (NOLOCK) ON pap.EvaluatorId = e.EmployeeId
 		LEFT JOIN dbo.PerformanceRecord AS pr WITH (NOLOCK) ON pr.PerformanceRecordId = pap.PerformanceRecordId
-		LEFT JOIN dbo.RefResource AS rr1 WITH (NOLOCK) ON pr.StatusId = rr1.ResourceId
-		AND rr1.RefName = 'PerformanceRecordStatus'
 	WHERE pap.PARecordId = @PARecordId AND pap.ProcessId <> 2 AND pap.ProcessId <> 3
 	ORDER BY pap.PARecordId
 		,pap.ProcessId

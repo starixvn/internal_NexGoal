@@ -3,9 +3,6 @@
   <Function Name="Reference Resource">
     <Setting Key="GetRefResourceByNames" SpName="RefResource_GetByNames" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
-  <Function Name="Performance Record">
-    <Setting Key="EditPerformanceRecordStatus" SpName="Auto_PerformanceRecord_UpdateStatus" DbName="bodb_NexGoal" Plain="0"></Setting>
-  </Function>
   <Function Name="Period">
     <Setting Key="InsertPeriod" SpName="Auto_Period_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Period_GetPeriodStarted" SpName="Auto_Period_GetPeriodStarted" DbName="bodb_NexGoal" Plain="0"></Setting>

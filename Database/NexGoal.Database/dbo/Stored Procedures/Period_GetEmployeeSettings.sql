@@ -36,10 +36,6 @@ BEGIN
 				FROM dbo.PAProcess AS pap WITH (NOLOCK)
 					INNER JOIN dbo.PerformanceRecord AS pr WITH (NOLOCK) ON pap.PerformanceRecordId = pr.PerformanceRecordId
 					AND pap.PARecordId = par.PARecordId
-					AND (
-						pr.StatusId = 3
-						OR pr.StatusId = 4
-						)
 				)
 			)
 

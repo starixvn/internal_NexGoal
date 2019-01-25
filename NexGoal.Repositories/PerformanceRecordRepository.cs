@@ -34,9 +34,8 @@
                          "EmployeeId, EmployeeId, NominationPeriodId, PeriodId"
                         );
 
-                    
                     var performanceProjects = multi.Read<ProjectModel>();
-                   
+
                     return new Tuple<IEnumerable<PerformanceRecord>, IEnumerable<ProjectModel>>(performanceRecords, performanceProjects);
                 }
             }
@@ -167,7 +166,7 @@
                         {
                             performanceRecord.Creator = creator;
                             return performanceRecord;
-                        },"EmployeeId");
+                        }, "EmployeeId");
 
                     var performanceMembers = multi.Read<Employee>();
                     var performanceProjects = multi.Read<ProjectModel>();

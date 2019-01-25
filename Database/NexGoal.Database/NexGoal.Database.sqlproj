@@ -113,7 +113,6 @@
     <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_Get.sql" />
     <Build Include="dbo\Stored Procedures\Discipline_Get.sql" />
     <Build Include="dbo\Stored Procedures\Discipline_UpdateStatus.sql" />
-    <Build Include="dbo\Stored Procedures\Auto_PerformanceRecord_UpdateStatus.sql" />
     <Build Include="dbo\Stored Procedures\Auto_Period_GetPeriodStarted.sql" />
     <Build Include="dbo\Stored Procedures\Auto_Period_InsertEmployeeSettings.sql" />
     <Build Include="dbo\Stored Procedures\Auto_Period_GeneratePA.sql" />

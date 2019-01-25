@@ -32,10 +32,7 @@ BEGIN
 	DECLARE @PAOpened TINYINT = 2
 		,@PAInProgress TINYINT = 3
 		,@PAClosed TINYINT = 4
-	-- Performance Record Status
-	DECLARE @PRSubmitted TINYINT = 3
-		,@PRClosed TINYINT = 4
-	--
+
 	DECLARE @selectedPARecordTbl TABLE (PARecordId INT PRIMARY KEY)
 	DECLARE @paRecordTbl TABLE (
 		PARecordId INT PRIMARY KEY
@@ -44,7 +41,7 @@ BEGIN
 
 	CREATE TABLE #performanceRecordTbl (
 		PerFormanceRecordId INT PRIMARY KEY
-		,EmployeeIds VARCHAR(MAX)
+		,EmployeeId INT
 		,EvaluatorId INT
 		)
 
@@ -89,7 +86,7 @@ BEGIN
 				,pap.ProcessId AS '@pi'
 				,pap.EvaluatorId AS '@ei'
 				,pr.PerformanceRecordId AS '@pri'
-				,pr.EmployeeIds AS '@pei'
+				,pr.EmployeeId AS '@pei'
 				,pr.GradeId AS '@pgi'
 				,pr.Comment AS '@pc'
 				,pr.CreatedDate AS '@pcd'
@@ -110,34 +107,31 @@ BEGIN
 	BEGIN
 		-- Capture For PM
 		INSERT INTO dbo.PerformanceRecord (
-			EmployeeIds
+			EmployeeId
 			,CreatorId
 			,GradeId
 			,Comment
-			,StatusId
 			,CreatedDate
 			,TypeId
 			)
 		OUTPUT INSERTED.PerformanceRecordId
-			,INSERTED.EmployeeIds
+			,INSERTED.EmployeeId
 			,INSERTED.CreatorId
-		INTO #performanceRecordTbl(PerFormanceRecordId, EmployeeIds, EvaluatorId)
+		INTO #performanceRecordTbl(PerFormanceRecordId, EmployeeId, EvaluatorId)
 		SELECT par.EmployeeId
 			,lg.CreatorId
 			,lg.GradeId
 			,STUFF((
 					SELECT CHAR(10) + prcmt.Comment
 					FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
-					WHERE prcmt.EmployeeIds = par.EmployeeId
+					WHERE prcmt.EmployeeId = par.EmployeeId
 						AND prcmt.CreatorId = lg.CreatorId
 						AND prcmt.TypeId = 1
 						AND prcmt.CreatedDate BETWEEN @disciplineStartDate
 							AND @disciplineEndDate
-						AND prcmt.StatusId IN (@PRSubmitted, @PRClosed)
 					ORDER BY prcmt.CreatedDate DESC
 					FOR XML PATH('')
 					), 1, 1, '')
-			,@PRSubmitted
 			,GETDATE()
 			,2
 		FROM @paRecordTbl AS par
@@ -146,20 +140,18 @@ BEGIN
 				,pr.GradeId
 			FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
 				LEFT JOIN dbo.PerformanceRecord AS pr1 WITH (NOLOCK) ON pr.CreatorId = pr1.CreatorId
-				AND pr.EmployeeIds = pr1.EmployeeIds
+				AND pr.EmployeeId = pr1.EmployeeId
 				AND pr.CreatedDate < pr1.CreatedDate
 				AND pr.TypeId = pr1.TypeId
 				AND pr1.CreatedDate BETWEEN @disciplineStartDate
 					AND @disciplineEndDate
 				AND pr1.TypeId = 1
-				AND pr1.StatusId IN (@PRSubmitted, @PRClosed)
 			WHERE pr1.CreatedDate IS NULL
 				AND pr.TypeId = 1
 				AND pr.CreatedDate BETWEEN @disciplineStartDate
 					AND @disciplineEndDate
-				AND pr.EmployeeIds = par.EmployeeId
-				AND pr.CreatorId <> pr.EmployeeIds
-				AND pr.StatusId IN (@PRSubmitted, @PRClosed)
+				AND pr.EmployeeId = par.EmployeeId
+				AND pr.CreatorId <> pr.EmployeeId
 				AND NOT EXISTS (
 					SELECT 1
 					FROM dbo.PAProcess AS pap WITH (NOLOCK)
@@ -181,34 +173,31 @@ BEGIN
 
 		-- Capture for Self, Reviewer, Evaluator
 		INSERT INTO dbo.PerformanceRecord (
-			EmployeeIds
+			EmployeeId
 			,CreatorId
 			,GradeId
 			,Comment
-			,StatusId
 			,CreatedDate
 			,TypeId
 			)
 		OUTPUT INSERTED.PerformanceRecordId
-			,INSERTED.EmployeeIds
+			,INSERTED.EmployeeId
 			,INSERTED.CreatorId
-		INTO #performanceRecordTbl(PerFormanceRecordId, EmployeeIds, EvaluatorId)
+		INTO #performanceRecordTbl(PerFormanceRecordId, EmployeeId, EvaluatorId)
 		SELECT par.EmployeeId
 			,pap.EvaluatorId
 			,lg.GradeId
 			,STUFF((
 					SELECT CHAR(10) + prcmt.Comment
 					FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
-					WHERE prcmt.EmployeeIds = par.EmployeeId
+					WHERE prcmt.EmployeeId = par.EmployeeId
 						AND prcmt.CreatorId = lg.CreatorId
 						AND prcmt.TypeId = 1
 						AND prcmt.CreatedDate BETWEEN @disciplineStartDate
 							AND @disciplineEndDate
-						AND prcmt.StatusId IN (@PRSubmitted, @PRClosed)
 					ORDER BY prcmt.CreatedDate DESC
 					FOR XML PATH('')
 					), 1, 1, '')
-			,@PRSubmitted
 			,GETDATE()
 			,2
 		FROM @paRecordTbl AS par
@@ -218,11 +207,10 @@ BEGIN
 			SELECT TOP 1 pr.CreatorId
 				,pr.GradeId
 			FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
-			WHERE pr.EmployeeIds = par.EmployeeId
+			WHERE pr.EmployeeId = par.EmployeeId
 				AND pr.CreatorId = pap.EvaluatorId
 				AND pr.TypeId = 1
 				AND pr.CreatedDate <= @disciplineEndDate
-				AND pr.StatusId IN (@PRSubmitted, @PRClosed)
 			ORDER BY pr.CreatedDate DESC
 			) lg
 
@@ -230,7 +218,7 @@ BEGIN
 		SET pap.PerformanceRecordId = prt.PerFormanceRecordId
 		FROM dbo.PAProcess AS pap WITH (ROWLOCK, UPDLOCK)
 			INNER JOIN @paRecordTbl AS par ON pap.PARecordId = par.PARecordId
-			INNER JOIN #performanceRecordTbl AS prt ON par.EmployeeId = prt.EmployeeIds
+			INNER JOIN #performanceRecordTbl AS prt ON par.EmployeeId = prt.EmployeeId
 			AND pap.EvaluatorId = prt.EvaluatorId
 		WHERE pap.ProcessId >= @SelfProcessId
 
@@ -248,7 +236,7 @@ BEGIN
 			,prt.PerFormanceRecordId
 			,0
 		FROM #performanceRecordTbl AS prt
-			INNER JOIN @paRecordTbl AS par ON prt.EmployeeIds = par.EmployeeId
+			INNER JOIN @paRecordTbl AS par ON prt.EmployeeId = par.EmployeeId
 		WHERE NOT EXISTS (
 				SELECT 1
 				FROM dbo.PAProcess AS pap WITH (NOLOCK)
@@ -304,7 +292,7 @@ BEGIN
 			,pr.Comment = STUFF((
 					SELECT CHAR(10) + prcmt.Comment
 					FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
-					WHERE prcmt.EmployeeIds = pr.EmployeeIds
+					WHERE prcmt.EmployeeId = pr.EmployeeId
 						AND prcmt.CreatorId = pap.EvaluatorId
 						AND prcmt.TypeId = 1
 						AND (
@@ -312,7 +300,6 @@ BEGIN
 							OR prcmt.CreatedDate >= @disciplineStartDate
 							)
 						AND prcmt.CreatedDate <= @disciplineEndDate
-						AND prcmt.StatusId IN (@PRSubmitted, @PRClosed)
 					ORDER BY pr.CreatedDate DESC
 					FOR XML PATH('')
 					), 1, 1, '')
@@ -323,10 +310,9 @@ BEGIN
 			CROSS APPLY (
 			SELECT TOP 1 pr1.GradeId
 			FROM dbo.PerformanceRecord AS pr1 WITH (NOLOCK)
-			WHERE pr1.EmployeeIds = pr.EmployeeIds
+			WHERE pr1.EmployeeId = pr.EmployeeId
 				AND pr1.CreatorId = pap.EvaluatorId
 				AND pr1.TypeId = 1
-				AND pr1.StatusId IN (@PRSubmitted, @PRClosed)
 				AND (
 					pap.ProcessId <> @PMProcessId
 					OR pr.CreatedDate >= @disciplineStartDate
@@ -345,34 +331,31 @@ BEGIN
 		FROM #performanceRecordTbl
 
 		INSERT INTO dbo.PerformanceRecord (
-			EmployeeIds
+			EmployeeId
 			,CreatorId
 			,GradeId
 			,Comment
-			,StatusId
 			,CreatedDate
 			,TypeId
 			)
 		OUTPUT INSERTED.PerformanceRecordId
-			,INSERTED.EmployeeIds
+			,INSERTED.EmployeeId
 			,INSERTED.CreatorId
-		INTO #performanceRecordTbl(PerFormanceRecordId, EmployeeIds, EvaluatorId)
+		INTO #performanceRecordTbl(PerFormanceRecordId, EmployeeId, EvaluatorId)
 		SELECT gpar.EmployeeId
 			,lg.CreatorId
 			,lg.GradeId
 			,STUFF((
 					SELECT CHAR(10) + prcmt.Comment
 					FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
-					WHERE prcmt.EmployeeIds = gpar.EmployeeId
+					WHERE prcmt.EmployeeId = gpar.EmployeeId
 						AND prcmt.CreatorId = lg.CreatorId
 						AND prcmt.TypeId = 1
 						AND prcmt.CreatedDate BETWEEN @disciplineStartDate
 							AND @disciplineEndDate
-						AND prcmt.StatusId IN (@PRSubmitted, @PRClosed)
 					ORDER BY prcmt.CreatedDate DESC
 					FOR XML PATH('')
 					), 1, 1, '')
-			,@PRSubmitted
 			,GETDATE()
 			,2
 		FROM @generatedPARecordTbl AS gpar
@@ -381,20 +364,18 @@ BEGIN
 				,pr.GradeId
 			FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
 				LEFT JOIN dbo.PerformanceRecord AS pr1 WITH (NOLOCK) ON pr.CreatorId = pr1.CreatorId
-				AND pr.EmployeeIds = pr1.EmployeeIds
+				AND pr.EmployeeId = pr1.EmployeeId
 				AND pr.CreatedDate < pr1.CreatedDate
 				AND pr.TypeId = pr1.TypeId
 				AND pr1.CreatedDate BETWEEN @disciplineStartDate
 					AND @disciplineEndDate
 				AND pr1.TypeId = 1
-				AND pr1.StatusId IN (@PRSubmitted, @PRClosed)
 			WHERE pr1.CreatedDate IS NULL
 				AND pr.TypeId = 1
 				AND pr.CreatedDate BETWEEN @disciplineStartDate
 					AND @disciplineEndDate
-				AND pr.EmployeeIds = gpar.EmployeeId
-				AND pr.CreatorId <> pr.EmployeeIds
-				AND pr.StatusId IN (@PRSubmitted, @PRClosed)
+				AND pr.EmployeeId = gpar.EmployeeId
+				AND pr.CreatorId <> pr.EmployeeId
 				AND NOT EXISTS (
 					SELECT 1
 					FROM dbo.PAProcess AS pap WITH (NOLOCK)
@@ -428,41 +409,38 @@ BEGIN
 			,prt.PerFormanceRecordId
 			,0
 		FROM #performanceRecordTbl AS prt
-			INNER JOIN @generatedPARecordTbl AS gpar ON prt.EmployeeIds = gpar.EmployeeId
+			INNER JOIN @generatedPARecordTbl AS gpar ON prt.EmployeeId = gpar.EmployeeId
 
 		DELETE
 		FROM #performanceRecordTbl
 
 		-- Capture for Self, Reviewer, Evaluator
 		INSERT INTO dbo.PerformanceRecord (
-			EmployeeIds
+			EmployeeId
 			,CreatorId
 			,GradeId
 			,Comment
-			,StatusId
 			,CreatedDate
 			,TypeId
 			)
 		OUTPUT INSERTED.PerformanceRecordId
-			,INSERTED.EmployeeIds
+			,INSERTED.EmployeeId
 			,INSERTED.CreatorId
-		INTO #performanceRecordTbl(PerFormanceRecordId, EmployeeIds, EvaluatorId)
+		INTO #performanceRecordTbl(PerFormanceRecordId, EmployeeId, EvaluatorId)
 		SELECT gpar.EmployeeId
 			,pap.EvaluatorId
 			,lg.GradeId
 			,STUFF((
 					SELECT CHAR(10) + prcmt.Comment
 					FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
-					WHERE prcmt.EmployeeIds = gpar.EmployeeId
+					WHERE prcmt.EmployeeId = gpar.EmployeeId
 						AND prcmt.CreatorId = lg.CreatorId
 						AND prcmt.TypeId = 1
 						AND prcmt.CreatedDate BETWEEN @disciplineStartDate
 							AND @disciplineEndDate
-						AND prcmt.StatusId IN (@PRSubmitted, @PRClosed)
 					ORDER BY prcmt.CreatedDate DESC
 					FOR XML PATH('')
 					), 1, 1, '')
-			,@PRSubmitted
 			,GETDATE()
 			,2
 		FROM @generatedPARecordTbl AS gpar
@@ -473,11 +451,10 @@ BEGIN
 			SELECT TOP 1 pr.CreatorId
 				,pr.GradeId
 			FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
-			WHERE pr.EmployeeIds = gpar.EmployeeId
+			WHERE pr.EmployeeId = gpar.EmployeeId
 				AND pr.CreatorId = pap.EvaluatorId
 				AND pr.TypeId = 1
 				AND pr.CreatedDate <= @disciplineEndDate
-				AND pr.StatusId IN (@PRSubmitted, @PRClosed)
 			ORDER BY pr.CreatedDate DESC
 			) lg
 
@@ -486,7 +463,7 @@ BEGIN
 		FROM dbo.PAProcess pap WITH (ROWLOCK, UPDLOCK)
 			INNER JOIN @generatedPARecordTbl gpar ON pap.PARecordId = gpar.PARecordId
 			INNER JOIN #performanceRecordTbl pr ON pap.EvaluatorId = pr.EvaluatorId
-			AND gpar.EmployeeId = pr.EmployeeIds
+			AND gpar.EmployeeId = pr.EmployeeId
 		WHERE pap.PerformanceRecordId IS NULL
 			AND pap.ProcessId IN (@SelfProcessId, @EvaluatorProcessId, @ReviewerProcessId)
 	END
@@ -498,7 +475,7 @@ BEGIN
 				,pap.ProcessId AS '@pi'
 				,pap.EvaluatorId AS '@ei'
 				,pr.PerformanceRecordId AS '@pri'
-				,pr.EmployeeIds AS '@pei'
+				,pr.EmployeeId AS '@pei'
 				,pr.GradeId AS '@pgi'
 				,pr.Comment AS '@pc'
 				,pr.CreatedDate AS '@pcd'

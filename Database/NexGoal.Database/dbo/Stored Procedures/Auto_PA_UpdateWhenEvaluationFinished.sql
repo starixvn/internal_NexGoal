@@ -23,8 +23,6 @@ BEGIN
 		,@ReviewerProcessId TINYINT = 5
 		,@PARecordId INT
 		,@PerformanceRecordId INT
-	-- Performance Record Status
-	DECLARE @Closed TINYINT = 4
 
 	CREATE TABLE #tblPARecord (
 		PARecordId INT
@@ -81,7 +79,6 @@ BEGIN
 
 	UPDATE record
 	SET record.GradeId = pa.GradeId
-		,record.StatusId = @Closed
 		,record.CreatedDate = GETDATE()
 	FROM dbo.PerformanceRecord AS record WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN #tblPARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
@@ -99,10 +96,9 @@ BEGIN
 		FROM #tblPARecord WITH (NOLOCK)
 
 		INSERT INTO dbo.PerformanceRecord (
-			EmployeeIds
+			EmployeeId
 			,CreatorId
 			,GradeId
-			,StatusId
 			,CreatedDate
 			,TypeId
 			,RoleId
@@ -110,7 +106,6 @@ BEGIN
 		SELECT EmployeeId
 			,- 1
 			,GradeId
-			,@Closed
 			,GETDATE()
 			,4 -- system PA
 			,255

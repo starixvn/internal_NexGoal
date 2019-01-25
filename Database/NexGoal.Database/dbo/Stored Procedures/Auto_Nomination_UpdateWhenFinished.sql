@@ -20,10 +20,6 @@ BEGIN
 		,@CreatedDate DATETIME = GETDATE()
 		,@NominationId INT
 		,@PerformanceRecordId INT
-	-- Performance Record Status
-	DECLARE @PR_Draft TINYINT = 2
-		,@PR_Submitted TINYINT = 3
-		,@PR_Closed TINYINT = 4
 
 	CREATE TABLE #tblNomination (
 		NominationId INT
@@ -32,27 +28,15 @@ BEGIN
 		,StatusId TINYINT
 		)
 
-	-- update performance record status
-	UPDATE record
-	SET record.StatusId = @PR_Closed
-	FROM dbo.PerformanceRecord AS record WITH (ROWLOCK, UPDLOCK)
-		INNER JOIN dbo.NominationDetail AS detail WITH (NOLOCK) ON record.PerformanceRecordId = detail.PerformanceRecordId
-		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON detail.NominationId = nomination.NominationId
-		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
-		AND period.EndDateForNominator < @Today
-	WHERE record.StatusId = @PR_Submitted
-
 	-- insert performance record
 	INSERT INTO #tblNomination (
 		NominationId
 		,EmployeeId
 		,PerformanceRecordId
-		,StatusId
 		)
 	SELECT nomination.NominationId
 		,nomination.NomineeId
 		,nomination.PerformanceRecordId
-		,nomination.StatusId
 	FROM dbo.Nomination AS nomination WITH (NOLOCK)
 		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
 		AND period.EndDateForCommittee < @Today
@@ -79,16 +63,14 @@ BEGIN
 		FROM #tblNomination WITH (NOLOCK)
 
 		INSERT INTO dbo.PerformanceRecord (
-			EmployeeIds
+			EmployeeId
 			,CreatorId
-			,StatusId
 			,CreatedDate
 			,TypeId
 			,RoleId
 			)
 		SELECT EmployeeId
 			,- 1
-			,@PR_Closed
 			,@CreatedDate
 			,5 -- system Nomination
 			,255

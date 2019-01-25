@@ -56,7 +56,7 @@
                 new ProcessSettingDto { PerformanceRecordId = 1, EvaluatorId = 1, Nickname = "quinn", Email = "quinn.vo@nexcel.vn",
                     Priority = 1, NotificationMode = PerformanceRecordMailMode.MemberToSupervisor }
             };
-            var actor = new EmployeeBaseModel { EmployeeId = 1, NickName = "tim" };
+            var actor = new Employee { EmployeeId = 1, NickName = "tim" };
             var mailModel = new MailModel();
             var tuple = new Tuple<IEnumerable<EmployeeDto>, IEnumerable<ProcessSettingDto>>(employees, settings);
             var service = GetService();
