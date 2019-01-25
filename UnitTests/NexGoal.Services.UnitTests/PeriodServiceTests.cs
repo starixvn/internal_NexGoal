@@ -307,7 +307,7 @@
                 {
                     PARecordId = 1,
                     GradeId = "1",
-                    ToeicBonus = 1
+                    ToeicPolicy = 1
                 }
             };
             var service = GetPeriodService();

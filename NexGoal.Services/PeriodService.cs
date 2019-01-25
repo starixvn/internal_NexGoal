@@ -260,7 +260,7 @@
             {
                 record.GradeId = cryptoService.Decrypt(record.GradeId);
                 int.TryParse(record.GradeId, out int gradeId);
-                gradeId += record.ToeicBonus;
+                gradeId += record.ToeicPolicy;
 
                 if (!grades.Any(x => x.GradeId == gradeId))
                 {
@@ -283,7 +283,7 @@
 
             foreach (var record in records)
             {
-                xml.AppendFormat(xmlTemplate, record.PARecordId, record.GradeId, record.ToeicBonus);
+                xml.AppendFormat(xmlTemplate, record.PARecordId, record.GradeId, record.ToeicPolicy);
             }
 
             xml.Append("</Root>");
