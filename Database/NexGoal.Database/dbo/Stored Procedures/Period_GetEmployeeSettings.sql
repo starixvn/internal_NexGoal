@@ -12,9 +12,9 @@ DB: bodb_NexGoal
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @temp TABLE (Id INT PRIMARY KEY);
+	DECLARE @PARecordTbl TABLE (Id INT PRIMARY KEY);
 
-	INSERT INTO @Temp
+	INSERT INTO @PARecordTbl
 	SELECT par.PARecordId
 	FROM dbo.PARecord AS par WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS e WITH (NOLOCK) ON par.EmployeeId = e.EmployeeId
@@ -50,7 +50,7 @@ BEGIN
 		INNER JOIN dbo.JobTitle AS jt WITH (NOLOCK) ON e.JobTitleId = jt.JobTitleId
 		INNER JOIN dbo.RefResource AS rr WITH (NOLOCK) ON par.StatusId = rr.ResourceId
 		AND rr.RefName = 'PerformanceStatus'
-		INNER JOIN @temp AS TEMP ON par.PARecordId = TEMP.Id
+		INNER JOIN @PARecordTbl AS tbl ON par.PARecordId = tbl.Id
 	ORDER BY par.PARecordId
 
 	SELECT pap.PARecordId
@@ -59,17 +59,12 @@ BEGIN
 		,pap.EvaluatorId
 		,pap.StartDate
 		,pap.EndDate
-		,pr.StatusId
-		,rr1.Value AS [Status]
 	FROM dbo.PAProcess AS pap WITH (NOLOCK)
-		INNER JOIN @temp AS TEMP ON pap.PARecordId = TEMP.Id
+		INNER JOIN @PARecordTbl AS tbl ON pap.PARecordId = tbl.Id
 		INNER JOIN dbo.RefResource AS rr WITH (NOLOCK) ON pap.ProcessId = rr.ResourceId
 		AND rr.RefName = 'PerformanceProcess'
-		LEFT JOIN dbo.Employee AS e WITH (NOLOCK) ON pap.EvaluatorId = e.EmployeeId
-		LEFT JOIN dbo.PerformanceRecord AS pr WITH (NOLOCK) ON pr.PerformanceRecordId = pap.PerformanceRecordId
-		LEFT JOIN dbo.RefResource AS rr1 WITH (NOLOCK) ON pr.StatusId = rr1.ResourceId
-		AND rr1.RefName = 'PerformanceRecordStatus'
-	WHERE pap.ProcessId <> 2 AND pap.ProcessId <> 3
+	WHERE pap.ProcessId <> 2
+		AND pap.ProcessId <> 3
 	ORDER BY pap.PARecordId
 		,pap.ProcessId
 END

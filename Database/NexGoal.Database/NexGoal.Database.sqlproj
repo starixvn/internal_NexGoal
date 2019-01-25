@@ -250,6 +250,11 @@
     <Build Include="dbo\Views\EmployeeOvertime.sql" />
     <Build Include="dbo\Stored Procedures\PARecord_GetDisciplineById.sql" />
     <Build Include="dbo\Stored Procedures\Discipline_GetByEmployeeId.sql" />
+    <Build Include="dbo\Tables\DraftPerformanceRecord.sql" />
+    <Build Include="dbo\Stored Procedures\PerformanceRecord_UpdateDraft.sql" />
+    <Build Include="dbo\Stored Procedures\PerformanceRecord_InsertDraft.sql" />
+    <Build Include="dbo\Stored Procedures\PerformanceRecord_GetMemberPerformanceByMemberId.sql" />
+    <Build Include="dbo\Stored Procedures\DraftPerformanceRecord_GetById.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">

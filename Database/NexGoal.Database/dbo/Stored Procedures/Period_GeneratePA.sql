@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Period_GeneratePA] @PeriodId INT
+﻿
+CREATE PROCEDURE [dbo].[Period_GeneratePA] @PeriodId INT
 	,@PARecordIds VARCHAR(MAX) = NULL
 	,@CreatedBy INT
 	,@Override BIT = 0
@@ -32,7 +33,7 @@ BEGIN
 	DECLARE @PAOpened TINYINT = 2
 		,@PAInProgress TINYINT = 3
 		,@PAClosed TINYINT = 4
-
+	--
 	DECLARE @selectedPARecordTbl TABLE (PARecordId INT PRIMARY KEY)
 	DECLARE @paRecordTbl TABLE (
 		PARecordId INT PRIMARY KEY
@@ -162,13 +163,15 @@ BEGIN
 				AND EXISTS (
 					SELECT 1
 					FROM dbo.EmployeeRole er WITH (NOLOCK)
-					WHERE er.RoleId = @PMRoleId AND pr.CreatorId = er.EmployeeId
-				)
+					WHERE er.RoleId = @PMRoleId
+						AND pr.CreatorId = er.EmployeeId
+					)
 				AND EXISTS (
 					SELECT 1
 					FROM dbo.PMSetting pms WITH (NOLOCK)
-					WHERE pms.ProjectManagerId = pr.CreatorId AND pms.MemberId = par.EmployeeId
-				)
+					WHERE pms.ProjectManagerId = pr.CreatorId
+						AND pms.MemberId = par.EmployeeId
+					)
 			) lg
 
 		-- Capture for Self, Reviewer, Evaluator
@@ -386,13 +389,15 @@ BEGIN
 				AND EXISTS (
 					SELECT 1
 					FROM dbo.EmployeeRole er WITH (NOLOCK)
-					WHERE er.RoleId = @PMRoleId AND pr.CreatorId = er.EmployeeId
-				)
+					WHERE er.RoleId = @PMRoleId
+						AND pr.CreatorId = er.EmployeeId
+					)
 				AND EXISTS (
 					SELECT 1
 					FROM dbo.PMSetting pms WITH (NOLOCK)
-					WHERE pms.ProjectManagerId = pr.CreatorId AND pms.MemberId = gpar.EmployeeId
-				)
+					WHERE pms.ProjectManagerId = pr.CreatorId
+						AND pms.MemberId = gpar.EmployeeId
+					)
 			) lg
 
 		-- Insert PM Process

@@ -25,7 +25,6 @@ BEGIN
 		NominationId INT
 		,EmployeeId INT
 		,PerformanceRecordId INT
-		,StatusId TINYINT
 		)
 
 	-- insert performance record

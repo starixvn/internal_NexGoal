@@ -1,4 +1,6 @@
 ﻿
+
+
 CREATE PROCEDURE [dbo].[PerformanceRecord_GetById] @PerformanceRecordId INT
 	,@CreatorId INT
 AS
@@ -15,23 +17,36 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	-- Performance Record Status
-	DECLARE @Submitted TINYINT = 3
-		,@Closed TINYINT = 4
+	SELECT
+		PerformanceRecordId
+		,GradeId
+		,Comment
+		,0 AS IsDraft
+		,CreatedDate
+		,ModifiedDate
+		,RoleId
+		,TypeId
+		,e.EmployeeId
+		,e.Code
+		,e.NickName
+		,e.FullName
+		,cre.EmployeeId
+		,cre.Code
+		,cre.NickName
+		,cre.FullName
+	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
+		LEFT JOIN dbo.Employee AS e WITH (NOLOCK) ON record.EmployeeId = e.EmployeeId
+		LEFT JOIN dbo.Employee AS cre WITH (NOLOCK) ON record.CreatorId = cre.EmployeeId
+	WHERE record.PerformanceRecordId = @PerformanceRecordId
+		AND record.CreatorId = @CreatorId
+		AND record.TypeId = 1
 
 	SELECT record.PerformanceRecordId
-		,record.GradeId
-		,record.Comment
-		,record.StatusId
-		,record.ProjectIds
-		,record.CreatedDate
-		,record.ModifiedDate
-		,record.EmployeeIds
-		,record.CreatorId
-		,record.TypeId
-		,record.RoleId
+		,prj.ProjectId
+		,prj.[Name] 
 	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
-		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
+		OUTER APPLY [dbo].[func_SplitString](record.ProjectIds, ',') a
+		INNER JOIN dbo.Project AS prj WITH (NOLOCK) ON a.val = prj.ProjectId
 	WHERE record.PerformanceRecordId = @PerformanceRecordId
 		AND record.CreatorId = @CreatorId
 		AND record.TypeId = 1

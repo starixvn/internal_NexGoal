@@ -18,7 +18,6 @@ BEGIN
 
 	DECLARE @Today DATE = GETDATE()
 		,@NotificationType TINYINT = 1
-		,@Submitted TINYINT = 3
 		,@PeriodId INT
 		,@PARejected TINYINT = 5
 		-- mail mode
@@ -64,12 +63,11 @@ BEGIN
 		,RoleId
 		)
 	SELECT val
-		,CAST(record.EmployeeIds AS INT)
+		,record.EmployeeId
 		,record.RoleId
 	FROM dbo.func_SplitString(@PerformanceRecordIds, ',') AS tbl
 		INNER JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON ISNUMERIC(tbl.val) = 1
 		AND tbl.val = record.PerformanceRecordId
-		AND record.StatusId = @Submitted
 
 	-- member
 	INSERT INTO #tblResult (
@@ -248,9 +246,12 @@ BEGIN
 				AND record.EmployeeId = pmsetting.MemberId
 			)
 
-	SELECT PerformanceRecordId
-		,EmployeeId AS EmployeeIds
-	FROM #tblPerformanceRecordIds WITH (NOLOCK)
+	SELECT tbl.PerformanceRecordId
+		,emp.EmployeeId
+		,emp.NickName
+		,emp.Email
+	FROM #tblPerformanceRecordIds AS tbl WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON tbl.EmployeeId = emp.EmployeeId
 
 	SELECT DISTINCT tbl.PerformanceRecordId
 		,tbl.NotificationMode

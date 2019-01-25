@@ -1,4 +1,6 @@
 ﻿
+
+
 CREATE PROCEDURE [dbo].[PerformanceRecord_Delete] @PerformanceRecordId INT
 	,@ActorId INT
 	,@ErrCode INT = 0 OUTPUT
@@ -28,18 +30,17 @@ BEGIN
 
 	-- Write log before delete
 	SET @xml = (
-			SELECT PerformanceRecordId AS '@id'
+			SELECT DraftPerformanceRecordId AS '@id'
 				,EmployeeIds AS '@eids'
 				,CreatorId AS '@cid'
 				,GradeId AS '@gid'
 				,Comment AS '@comment'
-				,StatusId AS '@sid'
 				,ProjectIds AS '@pids'
 				,CreatedDate AS '@cdate'
 				,TypeId AS '@type'
 				,RoleId AS '@role'
-			FROM dbo.PerformanceRecord WITH (NOLOCK)
-			WHERE PerformanceRecordId = @PerformanceRecordId
+			FROM dbo.DraftPerformanceRecord WITH (NOLOCK)
+			WHERE DraftPerformanceRecordId = @PerformanceRecordId
 			FOR XML PATH('r')
 				,TYPE
 			)
@@ -47,8 +48,8 @@ BEGIN
 
 	IF NOT EXISTS (
 			SELECT 1
-			FROM dbo.PerformanceRecord WITH (NOLOCK)
-			WHERE PerformanceRecordId = @PerformanceRecordId
+			FROM dbo.DraftPerformanceRecord WITH (NOLOCK)
+			WHERE DraftPerformanceRecordId = @PerformanceRecordId
 			)
 	BEGIN
 		SELECT @ErrCode = 1
@@ -59,10 +60,9 @@ BEGIN
 	
 	IF NOT EXISTS (
 			SELECT 1
-			FROM dbo.PerformanceRecord WITH (NOLOCK)
-			WHERE PerformanceRecordId = @PerformanceRecordId
+			FROM dbo.DraftPerformanceRecord WITH (NOLOCK)
+			WHERE DraftPerformanceRecordId = @PerformanceRecordId
 				AND CreatorId = @ActorId
-				AND StatusId = @Draft
 			)
 	BEGIN
 		SELECT @ErrCode = 1
@@ -72,10 +72,9 @@ BEGIN
 	END
 
 	DELETE
-	FROM dbo.PerformanceRecord
-	WHERE PerformanceRecordId = @PerformanceRecordId
+	FROM dbo.DraftPerformanceRecord
+	WHERE DraftPerformanceRecordId = @PerformanceRecordId
 		AND CreatorId = @ActorId
-		AND StatusId = @Draft
 
 	-- write log after delete
 	SET @endRun = GETDATE()

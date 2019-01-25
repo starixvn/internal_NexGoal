@@ -1,4 +1,6 @@
 ﻿
+
+
 CREATE PROCEDURE [dbo].[PerformanceRecord_GetMemberTimeline] @ActorId INT
 	,@PeriodId INT = NULL
 	,@GroupIds VARCHAR(MAX) = NULL
@@ -31,9 +33,6 @@ BEGIN
 	DECLARE @Checkin TINYINT = 1
 		,@SystemPA TINYINT = 4
 		,@SystemNomination TINYINT = 5
-	-- Performance Record Status
-	DECLARE @Submitted TINYINT = 3
-		,@Closed TINYINT = 4
 
 	CREATE TABLE #tblGroup (GroupId INT)
 
@@ -46,7 +45,7 @@ BEGIN
 	CREATE TABLE #tblPerformanceRecord (
 		RowNum INT
 		,PerformanceRecordId INT
-		,EmployeeIds VARCHAR(MAX)
+		,EmployeeId INT
 		,CreatorId INT
 		,GradeId VARCHAR(MAX)
 		,StatusId TINYINT
@@ -55,6 +54,8 @@ BEGIN
 		,NominationStatusId TINYINT
 		,NominationPeriodId INT
 		,TypeId TINYINT
+		,[Quarter] TINYINT
+		,[Year] INT
 		)
 
 	CREATE TABLE #tblPARecord (
@@ -70,7 +71,7 @@ BEGIN
 		FROM dbo.Period WITH (NOLOCK)
 		WHERE PeriodId = @PeriodId
 	END
-
+	select @ToDate = '2019-02-01'
 	INSERT INTO #tblGroup (GroupId)
 	SELECT val
 	FROM dbo.func_SplitString(@GroupIds, ',')
@@ -104,41 +105,40 @@ BEGIN
 	INSERT INTO #tblPerformanceRecord (
 		RowNum
 		,PerformanceRecordId
-		,EmployeeIds
+		,EmployeeId
 		,CreatorId
 		,GradeId
-		,StatusId
 		,RoleId
-		,CreatedDate
-		,NominationPeriodId
-		,NominationStatusId
 		,TypeId
+		,CreatedDate
+		,NominationStatusId
+		,NominationPeriodId
+		,[Quarter]
+		,[Year]
 		)
 	SELECT ROW_NUMBER() OVER (
-			PARTITION BY record.EmployeeIds ORDER BY record.EmployeeIds
+			PARTITION BY record.EmployeeId ORDER BY record.EmployeeId
 				,record.CreatedDate DESC
 			) AS RowNum
 		,record.PerformanceRecordId
-		,record.EmployeeIds
+		,record.EmployeeId
 		,record.CreatorId
 		,record.GradeId
-		,(CASE 
-			WHEN record.CreatorId <> @ActorId THEN @Closed
-			ELSE record.StatusId END
-			) AS StatusId
 		,record.RoleId
-		,record.CreatedDate
-		,nomination.EOQYId AS NominationPeriodId
-		,nomination.StatusId AS NominationStatusId
 		,record.TypeId
+		,record.CreatedDate
+		,nomination.StatusId AS NominationStatusId
+		,nomination.EOQYId AS NominationPeriodId
+		,period.[Quarter]
+		,period.[Year]
 	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeIds = emp.EmployeeId
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeId = emp.EmployeeId
 		INNER JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
 		LEFT JOIN #tblGroup AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 		LEFT JOIN dbo.PARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
-		AND pa.StatusId = @PAClosed
-		AND emp.EmployeeId = pa.EmployeeId
+			AND pa.StatusId = @PAClosed
+			AND emp.EmployeeId = pa.EmployeeId
 		LEFT JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
 		AND nomination.NomineeId = @EmployeeId
 		LEFT JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
@@ -173,7 +173,6 @@ BEGIN
 					)
 				)
 			)
-		AND record.StatusId IN (@Submitted, @Closed)
 		AND (
 			record.CreatorId = - 1
 			OR creator.EmployeeId IS NOT NULL
@@ -223,55 +222,65 @@ BEGIN
 		LEFT JOIN #tblPARecord AS pa WITH (NOLOCK) ON emp.EmployeeId = pa.EmployeeId
 		AND pa.RowNum = 1
 		LEFT JOIN (
-		SELECT EmployeeIds
+		SELECT EmployeeId
 			,COUNT(1) AS TotalItems
 		FROM #tblPerformanceRecord WITH (NOLOCK)
-		GROUP BY EmployeeIds
-		) AS record ON emp.EmployeeId = record.EmployeeIds
+		GROUP BY EmployeeId
+		) AS record ON emp.EmployeeId = record.EmployeeId
 	ORDER BY member.[Priority]
 		,gr.[Name]
 		,emp.NickName
-
+	
 	IF @EmployeeId IS NULL
 	BEGIN
 		SELECT PerformanceRecordId
-			,EmployeeIds
-			,CreatorId
 			,GradeId
-			,StatusId
 			,RoleId
-			,CreatedDate
-			,NominationPeriodId
-			,NominationStatusId
 			,TypeId
-		FROM #tblPerformanceRecord WITH (NOLOCK)
+			,CreatedDate
+			,NominationStatusId
+			,e.EmployeeId
+			,e.Code
+			,e.NickName
+			,e.FullName
+			,record.CreatorId AS EmployeeId
+			,cre.Code
+			,cre.NickName
+			,cre.FullName
+			,NominationPeriodId
+			,[Quarter]
+			,[Year]
+		FROM #tblPerformanceRecord AS record WITH (NOLOCK)
+			INNER JOIN dbo.Employee AS e WITH (NOLOCK) ON record.EmployeeId = e.EmployeeId
+			LEFT JOIN dbo.Employee AS cre WITH (NOLOCK) ON record.CreatorId = cre.EmployeeId
 		WHERE RowNum <= @PageSize
 	END
 	ELSE
 	BEGIN
 		SELECT PerformanceRecordId
-			,EmployeeIds
-			,CreatorId
 			,GradeId
-			,StatusId
 			,RoleId
-			,CreatedDate
-			,NominationPeriodId
-			,NominationStatusId
 			,TypeId
-		FROM #tblPerformanceRecord WITH (NOLOCK)
+			,CreatedDate
+			,NominationStatusId
+			,e.EmployeeId
+			,e.Code
+			,e.NickName
+			,e.FullName
+			,record.CreatorId AS EmployeeId
+			,cre.Code
+			,cre.NickName
+			,cre.FullName
+			,NominationPeriodId
+			,[Quarter]
+			,[Year]
+		FROM #tblPerformanceRecord AS record WITH (NOLOCK)
+			INNER JOIN dbo.Employee AS e WITH (NOLOCK) ON record.EmployeeId = e.EmployeeId
+			LEFT JOIN dbo.Employee AS cre WITH (NOLOCK) ON record.CreatorId = cre.EmployeeId
 		ORDER BY CreatedDate DESC OFFSET(@PageIndex * @PageSize) ROWS
 
 		FETCH NEXT @PageSize ROWS ONLY
 	END
-
-	SELECT period.EOQYId AS NominationPeriodId
-		,period.[Quarter]
-		,period.[Year]
-	FROM #tblPerformanceRecord AS record WITH (NOLOCK)
-		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
-		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
-		AND period.EndDateForCommittee < @Today
 
 	DROP TABLE #tblGroup
 

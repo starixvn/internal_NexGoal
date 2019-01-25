@@ -1,4 +1,6 @@
 ﻿
+
+
 CREATE PROCEDURE [dbo].[PerformanceRecord_Update] @PerformanceRecordIds VARCHAR(MAX) = '' OUTPUT
 	,@PerformanceRecordId INT
 	,@EmployeeIds VARCHAR(MAX) = ''
@@ -6,7 +8,7 @@ CREATE PROCEDURE [dbo].[PerformanceRecord_Update] @PerformanceRecordIds VARCHAR(
 	,@GradeId VARCHAR(MAX) = ''
 	,@Comment NVARCHAR(MAX)
 	,@ProjectIds VARCHAR(MAX) = NULL
-	,@StatusId VARCHAR(MAX)
+	,@IsFromDraft BIT = 0
 	,@TypeId TINYINT = 1
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(200) = '' OUTPUT
@@ -25,23 +27,7 @@ BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
 
-	IF NOT EXISTS (
-			SELECT 1
-			FROM dbo.PerformanceRecord WITH (NOLOCK)
-			WHERE PerformanceRecordId = @PerformanceRecordId
-				AND CreatorId = @CreatorId
-			)
-	BEGIN
-		SELECT @ErrCode = 1
-			,@ErrMsg = 'You can''t update this performance record.'
-
-		RETURN
-	END
-
 	DECLARE @RoleId TINYINT
-		,@CurrentStatusId TINYINT
-		,@CurrentCreatedDate DATETIME
-		,@Draft TINYINT = 2
 		-- process
 		,@SelfProcessId TINYINT = 2
 		,@PMProcessId TINYINT = 3
@@ -67,26 +53,46 @@ BEGIN
 		,PerformanceRecordId INT
 		)
 
-	-- Write log before update	
-	SET @xml = (
-			SELECT PerformanceRecordId AS '@id'
-				,EmployeeIds AS '@eids'
-				,CreatorId AS '@cid'
-				,GradeId AS '@gid'
-				,Comment AS '@comment'
-				,StatusId AS '@sid'
-				,ProjectIds AS '@pids'
-				,CreatedDate AS '@cdate'
-				,ModifiedDate AS '@mdate'
-				,TypeId AS '@type'
-				,RoleId AS '@role'
-			FROM dbo.PerformanceRecord WITH (NOLOCK)
-			WHERE PerformanceRecordId = @PerformanceRecordId
-			FOR XML PATH('r')
-				,TYPE
-			)
+	-- Write log before update
+	IF(@IsFromDraft = 1)
+	BEGIN
+			SET @xml = (
+				SELECT DraftPerformanceRecordId AS '@ids'
+					,EmployeeIds AS '@eids'
+					,CreatorId AS '@cid'
+					,GradeId AS '@gid'
+					,Comment AS '@comment'
+					,ProjectIds AS '@pids'
+					,ModifiedDate AS '@mdate'
+					,TypeId AS '@type'
+					,RoleId AS '@role'
+				FROM dbo.DraftPerformanceRecord WITH (NOLOCK)
+				WHERE DraftPerformanceRecordId = @PerformanceRecordId
+				FOR XML PATH('r')
+					,TYPE
+				)
+	END
+	ELSE
+	BEGIN
+		SET @xml = (
+				SELECT PerformanceRecordId AS '@ids'
+					,EmployeeId AS '@eid'
+					,CreatorId AS '@cid'
+					,GradeId AS '@gid'
+					,Comment AS '@comment'
+					,ProjectIds AS '@pids'
+					,ModifiedDate AS '@mdate'
+					,TypeId AS '@type'
+					,RoleId AS '@role'
+				FROM dbo.PerformanceRecord WITH (NOLOCK)
+				WHERE PerformanceRecordId = @PerformanceRecordId
+				FOR XML PATH('r')
+					,TYPE
+				)
+	END
+	
 	SET @logDataOld = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
-
+	
 	INSERT INTO #tblMember (
 		EmployeeId
 		,RoleId
@@ -122,61 +128,36 @@ BEGIN
 		GROUP BY data.EmployeeId
 		) AS r ON tbl.EmployeeId = r.EmployeeId
 
-	IF @StatusId = @Draft
+	IF @IsFromDraft = 0
 	BEGIN
 		SELECT TOP 1 @RoleId = RoleId
 		FROM #tblMember WITH (NOLOCK)
 		ORDER BY [Priority] DESC
 
 		UPDATE dbo.PerformanceRecord WITH (ROWLOCK, UPDLOCK)
-		SET EmployeeIds = @EmployeeIds
+		SET EmployeeId = @EmployeeIds
 			,CreatorId = @CreatorId
 			,GradeId = @GradeId
 			,Comment = @Comment
-			,StatusId = @StatusId
 			,ProjectIds = @ProjectIds
 			,TypeId = @TypeId
 			,RoleId = @RoleId
+			,ModifiedDate = GETDATE()
 		WHERE PerformanceRecordId = @PerformanceRecordId
+
+		SELECT @PerformanceRecordIds = CAST(@PerformanceRecordId AS VARCHAR(20))
 	END
 	ELSE
 	BEGIN
-		SELECT @CurrentStatusId = StatusId
-			,@CurrentCreatedDate = CreatedDate
-		FROM dbo.PerformanceRecord WITH (NOLOCK)
-		WHERE PerformanceRecordId = @PerformanceRecordId
-
-		UPDATE record
-		SET record.EmployeeIds = member.EmployeeId
-			,record.CreatorId = @CreatorId
-			,record.GradeId = @GradeId
-			,record.Comment = @Comment
-			,record.StatusId = @StatusId
-			,record.ProjectIds = @ProjectIds
-			,record.CreatedDate = CASE 
-				WHEN @CurrentStatusId = @Draft THEN GETDATE()
-				ELSE @CurrentCreatedDate
-				END
-			,record.ModifiedDate = CASE 
-				WHEN @CurrentStatusId = @Draft THEN NULL
-				ELSE GETDATE()
-				END
-			,record.TypeId = @TypeId
-			,record.RoleId = member.RoleId
-		FROM dbo.PerformanceRecord AS record WITH (ROWLOCK, UPDLOCK)
-			,#tblMember AS member WITH (NOLOCK)
-		WHERE record.PerformanceRecordId = @PerformanceRecordId
-			AND member.RowNum = 1
+		DELETE FROM dbo.DraftPerformanceRecord WHERE DraftPerformanceRecordId = @PerformanceRecordId
 
 		INSERT INTO dbo.PerformanceRecord (
-			EmployeeIds
+			EmployeeId
 			,CreatorId
 			,GradeId
 			,Comment
-			,StatusId
 			,ProjectIds
 			,CreatedDate
-			,ModifiedDate
 			,TypeId
 			,RoleId
 			)
@@ -186,73 +167,40 @@ BEGIN
 			,@CreatorId
 			,@GradeId
 			,@Comment
-			,@StatusId
 			,@ProjectIds
-			,CASE 
-				WHEN @CurrentStatusId = @Draft THEN GETDATE()
-				ELSE @CurrentCreatedDate
-				END
-			,CASE 
-				WHEN @CurrentStatusId = @Draft THEN NULL
-				ELSE GETDATE()
-				END
+			,GETDATE()
 			,@TypeId
 			,RoleId
 		FROM #tblMember WITH (NOLOCK)
-		WHERE RowNum > 1
+
+		SELECT @PerformanceRecordIds = COALESCE(@PerformanceRecordIds + ',', '') + CAST(PerformanceRecordId AS VARCHAR(20))
+		FROM #tblPerformanceRecordOutput WITH (NOLOCK)
 	END
 
-	INSERT INTO #tblPerformanceRecordOutput (PerformanceRecordId)
-	VALUES (@PerformanceRecordId)
-
-	SELECT @PerformanceRecordIds = COALESCE(@PerformanceRecordIds + ',', '') + CAST(PerformanceRecordId AS VARCHAR(20))
-	FROM #tblPerformanceRecordOutput WITH (NOLOCK)
-
-	-- write log after insert
+	-- write log after update
 	SET @endRun = GETDATE()
 	SET @duration = DATEDIFF(millisecond, @startRun, @endRun)
 
-	DECLARE @totalRecords INT
-		,@rowNum INT = 1
-		,@recordId INT
+	SET @xml = (
+			SELECT @PerformanceRecordIds AS '@ids'
+				,@EmployeeIds AS '@eids'
+				,@CreatorId AS '@cid'
+				,@GradeId AS '@gid'
+				,@Comment AS '@comment'
+				,@ProjectIds AS '@pids'
+				,GETDATE() AS '@mdate'
+				,@TypeId AS '@type'
+				,@RoleId AS '@role'
+			FOR XML PATH('r')
+				,TYPE
+			)
+	SET @logData = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
 
-	SELECT @totalRecords = COUNT(1)
-	FROM #tblPerformanceRecordOutput WITH (NOLOCK)
-
-	WHILE @rowNum <= @totalRecords
-	BEGIN
-		SELECT @recordId = PerformanceRecordId
-		FROM #tblPerformanceRecordOutput WITH (NOLOCK)
-		WHERE RowNum = @rowNum
-
-		SET @xml = (
-				SELECT PerformanceRecordId AS '@id'
-					,EmployeeIds AS '@eids'
-					,CreatorId AS '@cid'
-					,GradeId AS '@gid'
-					,Comment AS '@comment'
-					,StatusId AS '@sid'
-					,ProjectIds AS '@pids'
-					,CreatedDate AS '@cdate'
-					,ModifiedDate AS '@mdate'
-					,TypeId AS '@type'
-					,RoleId AS '@role'
-				FROM dbo.PerformanceRecord WITH (NOLOCK)
-				WHERE PerformanceRecordId = @recordId
-				FOR XML PATH('r')
-					,TYPE
-				)
-		SET @logData = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
-
-		EXEC dbo.LogDetail_Insert @ActorId = @CreatorId
-			,@SPName = 'PerformanceRecord_Update'
-			,@ObjectId = @recordId
-			,@OldData = @logDataOld
-			,@Data = @logData
-			,@Duration = @duration
-
-		SET @rowNum = @rowNum + 1
-	END
+	EXEC dbo.LogDetail_Insert @ActorId = @CreatorId
+		,@SPName = 'PerformanceRecord_Update'
+		,@OldData = @logDataOld
+		,@Data = @logData
+		,@Duration = @duration
 
 	DROP TABLE #tblMember
 

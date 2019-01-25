@@ -1,4 +1,5 @@
 ﻿
+
 CREATE VIEW [dbo].[Project]
 AS
 SELECT Id AS ProjectId
@@ -6,3 +7,4 @@ SELECT Id AS ProjectId
 	,[Description]
 	,ParentId
 FROM [$(Redmine)].dbo.Projects WITH (NOLOCK)
+WHERE [Status] = 1
