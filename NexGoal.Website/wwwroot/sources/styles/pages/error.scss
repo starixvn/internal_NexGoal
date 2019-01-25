@@ -34,24 +34,22 @@
     margin-bottom: 10px;
     color: #007fea;
     font-size: 15px;
-    .icon
 
-{
-    transition: all 0.3s ease;
-    transform: translateX(0);
-    padding-right: 10px;
-    vertical-align: middle;
-}
+    .icon {
+        transition: all 0.3s ease;
+        transform: translateX(0);
+        padding-right: 10px;
+        vertical-align: middle;
+    }
 
-&:hover {
-    text-decoration: none;
-    color: darken(#007fea, 10%);
-    .icon
+    &:hover {
+        text-decoration: none;
+        color: darken(#007fea, 10%);
 
-{
-    transform: translateX(-5px);
-}
-}
+        .icon {
+            transform: translateX(-5px);
+        }
+    }
 }
 
 header {
@@ -65,66 +63,64 @@ header {
 }
 
 .page-error-404 {
-    header
+    header {
+        padding-bottom: 100px;
+    }
 
-{
-    padding-bottom: 100px;
-}
+    .balloon {
+        position: absolute;
+        top: 0;
+        left: 272px;
+        -webkit-animation: shake 4s linear infinite;
+        -moz-animation: shake 4s linear infinite;
+        animation: shake 4s linear infinite;
+    }
 
-.balloon {
-    position: absolute;
-    top: 0;
-    left: 272px;
-    -webkit-animation: shake 4s linear infinite;
-    -moz-animation: shake 4s linear infinite;
-    animation: shake 4s linear infinite;
-}
+    .small-cloud {
+        position: absolute;
+        top: 100px;
+        right: 250px;
+        width: 100px;
+        -webkit-animation: fly 8s linear infinite;
+        -moz-animation: fly 8s linear infinite;
+        animation: fly 8s linear infinite;
+        z-index: 3;
+    }
 
-.small-cloud {
-    position: absolute;
-    top: 100px;
-    right: 250px;
-    width: 100px;
-    -webkit-animation: fly 8s linear infinite;
-    -moz-animation: fly 8s linear infinite;
-    animation: fly 8s linear infinite;
-    z-index: 3;
-}
+    .img-main, .balloon {
+        z-index: 2;
+    }
 
-.img-main, .balloon {
-    z-index: 2;
-}
+    .big-cloud {
+        position: absolute;
+        top: 10px;
+        right: 150px;
+        width: 150px;
+        -webkit-animation: fly 10s linear infinite;
+        -moz-animation: fly 10s linear infinite;
+        animation: fly 10s linear infinite;
+        z-index: 0;
+    }
 
-.big-cloud {
-    position: absolute;
-    top: 10px;
-    right: 150px;
-    width: 150px;
-    -webkit-animation: fly 10s linear infinite;
-    -moz-animation: fly 10s linear infinite;
-    animation: fly 10s linear infinite;
-    z-index: 0;
-}
+    .wind-bottom {
+        position: absolute;
+        bottom: 20px;
+        right: 200px;
+        -webkit-animation: fly-wind 9s linear infinite;
+        -moz-animation: fly-wind 9s linear infinite;
+        animation: fly-wind 9s linear infinite;
+        z-index: 4;
+    }
 
-.wind-bottom {
-    position: absolute;
-    bottom: 20px;
-    right: 200px;
-    -webkit-animation: fly-wind 9s linear infinite;
-    -moz-animation: fly-wind 9s linear infinite;
-    animation: fly-wind 9s linear infinite;
-    z-index: 4;
-}
-
-.wind-top {
-    position: absolute;
-    top: 20px;
-    right: 100px;
-    -webkit-animation: fly-wind 7s linear infinite;
-    -moz-animation: fly-wind 7s linear infinite;
-    animation: fly-wind 7s linear infinite;
-    z-index: 4;
-}
+    .wind-top {
+        position: absolute;
+        top: 20px;
+        right: 100px;
+        -webkit-animation: fly-wind 7s linear infinite;
+        -moz-animation: fly-wind 7s linear infinite;
+        animation: fly-wind 7s linear infinite;
+        z-index: 4;
+    }
 }
 
 @keyframes shake {
@@ -221,49 +217,47 @@ header {
 // ------------------------ 405 PAGE -----------------------------//
 
 .page-error-405 {
-    .seal-block
+    .seal-block {
+        width: 187px;
+        overflow: hidden;
+        position: absolute;
+        top: 205px;
+        left: 246px;
+    }
 
-{
-    width: 187px;
-    overflow: hidden;
-    position: absolute;
-    top: 205px;
-    left: 246px;
-}
+    .signage {
+        margin: 0 auto;
+        position: absolute;
+        max-width: 60px;
+        top: 172px;
+        right: 46%;
+    }
 
-.signage {
-    margin: 0 auto;
-    position: absolute;
-    max-width: 60px;
-    top: 172px;
-    right: 46%;
-}
+    .seal-slideshow {
+        height: 8px;
+        max-width: 185px;
+        margin: 0 auto;
+        position: relative;
+        overflow: hidden;
+        transform: translate3d(0, 0, 0);
+        top: -100px;
+        right: 1px;
+    }
 
-.seal-slideshow {
-    height: 8px;
-    max-width: 185px;
-    margin: 0 auto;
-    position: relative;
-    overflow: hidden;
-    transform: translate3d(0, 0, 0);
-    top: -96px;
-    right: 1px;
-}
+    .seal-slideshow > div {
+        height: 200px;
+        width: 2526px;
+        background: url('../images/405/short-seal.svg') repeat;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translate3d(0, 0, 0);
+    }
 
-.seal-slideshow > div {
-    height: 200px;
-    width: 2526px;
-    background: url('../images/405/short-seal.svg') repeat;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    transform: translate3d(0, 0, 0);
-}
-
-.seal-slideshow .mover-1 {
-    animation: moveSlideshow 60s linear infinite;
-}
+    .seal-slideshow .mover-1 {
+        animation: moveSlideshow 60s linear infinite;
+    }
 }
 
 @keyframes moveSlideshow {
@@ -292,14 +286,13 @@ header {
     position: absolute;
     top: 9px;
     left: 228px;
-    .error
 
-{
-    position: absolute;
-    top: 55px;
-    left: 53px;
-    animation: opacity 3s linear infinite;
-}
+    .error {
+        position: absolute;
+        top: 55px;
+        left: 53px;
+        animation: opacity 3s linear infinite;
+    }
 }
 
 .leave {
