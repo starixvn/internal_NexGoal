@@ -119,9 +119,9 @@
         {
             var service = GetService();
 
-            baseService.FetchMultipleAsync<PerformanceRecord, NominationPeriodModel>(Arg.Any<GetNominationByRecordIdCriteria>())
-                .Returns(new Tuple<IEnumerable<PerformanceRecord>, IEnumerable<NominationPeriodModel>>(
-                    Enumerable.Empty<PerformanceRecord>(), Enumerable.Empty<NominationPeriodModel>()));
+            baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(Arg.Any<GetNominationByRecordIdCriteria>())
+                .Returns(new Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<NominationPeriodModel>>(
+                    Enumerable.Empty<PerformanceRecordModel>(), Enumerable.Empty<NominationPeriodModel>()));
 
             var result = await service.GetNominationByRecordIdAsync(0);
 
