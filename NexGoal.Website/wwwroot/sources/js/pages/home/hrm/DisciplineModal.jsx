@@ -2,6 +2,7 @@
 import { Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import moment from 'moment';
+
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import { DateFormat } from '../../../constants';
@@ -15,7 +16,7 @@ export default class Discipline extends Component {
     }
 
     componentDidMount() {
-        axios.get(resolveClientUrl('Common/GetDiscipline'), {
+        axios.get(resolveClientUrl('Common/GetDisciplineByEmployeeId'), {
             params: {
                 memberId: this.props.memberId ? this.props.memberId : null
             }

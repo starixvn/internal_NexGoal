@@ -6,14 +6,19 @@
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Discipline;
     using NexGoal.Models.Discipline;
+    using NexGoal.Repositories;
 
     public class DisciplineService : IDisciplineService
     {
         private readonly IBaseService baseService;
+        private readonly IDisciplineRepository disciplineRepository;
 
-        public DisciplineService(IBaseService baseService)
+        public DisciplineService(
+            IBaseService baseService,
+            IDisciplineRepository disciplineRepository)
         {
             this.baseService = baseService;
+            this.disciplineRepository = disciplineRepository;
         }
 
         public async Task<IEnumerable<DisciplineModel>> GetDisciplineAsync(GetDisciplineParam param)
@@ -27,7 +32,7 @@
                 EmployeeId = param.EmployeeId
             };
 
-            return await baseService.GetDataAsync<DisciplineModel>(criteria).ConfigureAwait(false);
+            return await disciplineRepository.GetDisciplineAsync(criteria).ConfigureAwait(false);
         }
 
         public async Task<CommandResult> EditStatusAsync(int disciplineId, bool isActive, int modifiedBy)
@@ -68,19 +73,9 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<DisciplineModel>> GetCurrentPeriodDisciplineAsync(int employeeId)
+        public async Task<IEnumerable<DisciplineModel>> GetDisciplineByEmployeeIdAsync(int employeeId, int? periodId = null)
         {
-            var criteria = new GetCurrentPeriodDisciplineCriteria
-            {
-                EmployeeId = employeeId
-            };
-
-            return await baseService.GetDataAsync<DisciplineModel>(criteria).ConfigureAwait(false);
-        }
-
-        public async Task<IEnumerable<DisciplineModel>> GetEmployeeDisciplineByPeriodAsync(int employeeId, int periodId)
-        {
-            var criteria = new GetEmployeeDisciplineByPeriodCriteria
+            var criteria = new GetDisciplineByEmployeeIdCriteria
             {
                 EmployeeId = employeeId,
                 PeriodId = periodId

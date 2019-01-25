@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Models.Discipline
 {
     using System;
+    using NexGoal.Models.Common;
 
     public class DisciplineModel
     {
@@ -12,18 +13,8 @@
 
         public DateTime EffectiveDate { get; set; }
 
-        public string GroupName { get; set; }
+        public EmployeeBaseModel Employee { get; set; }
 
-        public int EmployeeId { get; set; }
-
-        public string NickName { get; set; }
-
-        public string FullName { get; set; }
-
-        public int CreatedBy { get; set; }
-
-        public string CreatorNickName { get; set; }
-
-        public string CreatorFullName { get; set; }
+        public EmployeeBaseModel Creator { get; set; }
     }
 }

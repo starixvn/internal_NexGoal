@@ -10,6 +10,7 @@
     using NexGoal.Criteria.PARecord;
     using NexGoal.Models;
     using NexGoal.Models.Common;
+    using NexGoal.Models.Discipline;
     using NexGoal.Models.PARecord;
     using NexGoal.Repositories;
 
@@ -170,6 +171,16 @@
             };
 
             return await baseService.GetDataEntityAsync<Policy>(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<DisciplineModel>> GetDisciplineByRecordIdAsync(int paRecordId)
+        {
+            var criteria = new GetDisciplineByRecordIdCriteria
+            {
+                PARecordId = paRecordId
+            };
+
+            return await baseService.GetDataAsync<DisciplineModel>(criteria).ConfigureAwait(false);
         }
 
         private void MappingData(

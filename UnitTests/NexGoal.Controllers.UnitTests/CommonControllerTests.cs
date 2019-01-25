@@ -100,14 +100,14 @@
         }
 
         [Fact]
-        public async Task GetDiscipline_WhenCalled_ReturnExpected()
+        public async Task GetDisciplineByEmployeeId_WhenCalled_ReturnExpected()
         {
             var controller = GetCommonController();
             var expectResult = new List<DisciplineModel> { new DisciplineModel { DisciplineId = 1 } };
 
-            disciplineService.GetCurrentPeriodDisciplineAsync(sessionService.EmployeeId).Returns(expectResult);
+            disciplineService.GetDisciplineByEmployeeIdAsync(sessionService.EmployeeId).Returns(expectResult);
 
-            var jsonResult = await controller.GetDiscipline();
+            var jsonResult = await controller.GetDisciplineByEmployeeId();
 
             Assert.IsType<JsonResult>(jsonResult);
             var result = Assert.IsAssignableFrom<IEnumerable<DisciplineModel>>(jsonResult.Value);

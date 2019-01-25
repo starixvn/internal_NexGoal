@@ -7,6 +7,7 @@
     using NexGoal.Core.Constants;
     using NexGoal.Models;
     using NexGoal.Models.Common;
+    using NexGoal.Models.Discipline;
     using NexGoal.Models.Period;
     using NexGoal.Services;
     using NexGoal.Web.Core.Services;
@@ -139,10 +140,10 @@
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetDiscipline(int? memberId = null)
+        public async Task<JsonResult> GetDisciplineByEmployeeId(int? memberId = null)
         {
             var employeeId = memberId ?? sessionService.EmployeeId;
-            var disciplines = await disciplineService.GetCurrentPeriodDisciplineAsync(employeeId).ConfigureAwait(false);
+            IEnumerable<DisciplineModel> disciplines = await disciplineService.GetDisciplineByEmployeeIdAsync(employeeId).ConfigureAwait(false);
 
             return Json(disciplines);
         }

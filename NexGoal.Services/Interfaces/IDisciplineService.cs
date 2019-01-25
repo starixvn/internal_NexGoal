@@ -9,9 +9,7 @@
     {
         Task<IEnumerable<DisciplineModel>> GetDisciplineAsync(GetDisciplineParam param);
 
-        Task<IEnumerable<DisciplineModel>> GetCurrentPeriodDisciplineAsync(int employeeId);
-
-        Task<IEnumerable<DisciplineModel>> GetEmployeeDisciplineByPeriodAsync(int employeeId, int periodId);
+        Task<IEnumerable<DisciplineModel>> GetDisciplineByEmployeeIdAsync(int employeeId, int? periodId = null);
 
         Task<CommandResult> EditStatusAsync(int disciplineId, bool isActive, int modifiedBy);
 

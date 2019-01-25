@@ -21,9 +21,9 @@ BEGIN
 		,e.NickName
 		,e.FullName
 		,g.[Name] AS [GroupName]
-		,c.EmployeeId AS CreatedBy
-		,c.NickName AS CreatorNickName
-		,c.FullName AS CreatorFullName
+		,c.EmployeeId
+		,c.NickName
+		,c.FullName
 	FROM dbo.Discipline AS d WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS e WITH (NOLOCK) ON e.EmployeeId = d.EmployeeId
 		INNER JOIN dbo.[Group] AS g WITH (NOLOCK) ON g.GroupId = e.GroupId

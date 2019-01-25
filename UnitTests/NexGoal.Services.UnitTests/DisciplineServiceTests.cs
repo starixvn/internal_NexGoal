@@ -6,12 +6,14 @@
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Discipline;
     using NexGoal.Models.Discipline;
+    using NexGoal.Repositories;
     using NSubstitute;
     using Xunit;
 
     public class DisciplineServiceTests
     {
         private IBaseService baseService;
+        private IDisciplineRepository disciplineRepository;
 
         [Fact]
         public async Task GetDisciplineAsync_WhenCalled_ReturnAsExpectedDisciplines()
@@ -20,40 +22,43 @@
             var param = new GetDisciplineParam();
             var expected = new List<DisciplineModel>
             {
-                new DisciplineModel
-                {
-                    DisciplineId = 1
-                }
+                new DisciplineModel { DisciplineId = 1, Description = "test" }
             };
+            var criteria = new GetDisciplineCriteria();
             var service = GetDisciplineService();
-            baseService.GetDataAsync<DisciplineModel>(Arg.Any<GetDisciplineCriteria>()).Returns(expected);
+            disciplineRepository.GetDisciplineAsync(Arg.Do<GetDisciplineCriteria>(x => criteria = x)).Returns(expected);
 
             // Act
             var actual = await service.GetDisciplineAsync(param);
 
             // Assert
             Assert.Equal(expected, actual);
+            Assert.Equal(param.FromDate, criteria.FromDate);
+            Assert.Equal(param.ToDate, criteria.ToDate);
+            Assert.Equal(param.GroupId, criteria.GroupId);
+            Assert.Equal(param.EmployeeId, criteria.EmployeeId);
+            Assert.Equal(param.IsActive, criteria.IsActive);
         }
 
         [Fact]
-        public async Task GetDisciplineCurrentPeriodAsync_WhenCalled_ReturnAsExpectedDisciplines()
+        public async Task GetDisciplineByEmployeeIdAsync_WhenCalled_ReturnAsExpectedDisciplines()
         {
             // Arrange
             var expected = new List<DisciplineModel>
             {
-                new DisciplineModel
-                {
-                    DisciplineId = 1
-                }
+                new DisciplineModel { DisciplineId = 1 }
             };
+            var criteria = new GetDisciplineByEmployeeIdCriteria();
             var service = GetDisciplineService();
-            baseService.GetDataAsync<DisciplineModel>(Arg.Any<GetCurrentPeriodDisciplineCriteria>()).Returns(expected);
+            baseService.GetDataAsync<DisciplineModel>(Arg.Do<GetDisciplineByEmployeeIdCriteria>(x => criteria = x)).Returns(expected);
 
             // Act
-            var actual = await service.GetCurrentPeriodDisciplineAsync(363);
+            var actual = await service.GetDisciplineByEmployeeIdAsync(363);
 
             // Assert
             Assert.Equal(expected, actual);
+            Assert.Equal(363, criteria.EmployeeId);
+            Assert.Null(criteria.PeriodId);
         }
 
         [Fact]
@@ -104,7 +109,8 @@
         private DisciplineService GetDisciplineService()
         {
             baseService = Substitute.For<IBaseService>();
-            var service = new DisciplineService(baseService);
+            disciplineRepository = Substitute.For<IDisciplineRepository>();
+            var service = new DisciplineService(baseService, disciplineRepository);
 
             return service;
         }

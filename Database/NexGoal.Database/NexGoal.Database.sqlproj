@@ -226,7 +226,6 @@
     <Build Include="dbo\Stored Procedures\Notification_GetByEmployee.sql" />
     <Build Include="dbo\Stored Procedures\Notification_UpdateStatus.sql" />
     <Build Include="dbo\Stored Procedures\Notification_MarkAsRead.sql" />
-    <Build Include="dbo\Stored Procedures\Discipline_GetCurrentPeriodByEmployee.sql" />
     <Build Include="dbo\Tables\PMSetting.sql" />
     <Build Include="dbo\Stored Procedures\PerformanceRecord_InsertNotification.sql" />
     <Build Include="dbo\Stored Procedures\PerformanceRecord_GetSettingToSendNotification.sql" />
@@ -242,7 +241,6 @@
     <Build Include="dbo\Stored Procedures\PARecord_GetPerformanceAppraisalResult.sql" />
     <Build Include="dbo\Stored Procedures\PARecord_GetMemberPerformanceAppraisalResult.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_GetMemberNominationById.sql" />
-    <Build Include="dbo\Stored Procedures\Discipline_GetByEmployeeAndPeriod.sql" />
     <Build Include="dbo\Stored Procedures\PARecord_GetPreviousGrade.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_GetByEmployeeInPeriod.sql" />
     <Build Include="dbo\Stored Procedures\PARecord_GetPermission.sql" />
@@ -251,6 +249,8 @@
     <Build Include="dbo\Stored Procedures\Nomination_GetMemberNominationResult.sql" />
     <Build Include="dbo\Stored Procedures\Report_GetHRM.sql" />
     <Build Include="dbo\Views\EmployeeOvertime.sql" />
+    <Build Include="dbo\Stored Procedures\PARecord_GetDisciplineById.sql" />
+    <Build Include="dbo\Stored Procedures\Discipline_GetByEmployeeId.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">

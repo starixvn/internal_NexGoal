@@ -98,7 +98,7 @@
         public async Task<PAReportDetail> GetPAReportDetailAsync(GetPADetailParam model)
         {
             var paRecord = await paRecordService.GetPARecordByIdAsync(model.PARecordId, model.ActorId).ConfigureAwait(false);
-            var disciplines = await disciplineService.GetEmployeeDisciplineByPeriodAsync(model.EmployeeId, model.PARecordId).ConfigureAwait(false);
+            var disciplines = await paRecordService.GetDisciplineByRecordIdAsync(model.PARecordId).ConfigureAwait(false);
             var employeeInfo = await commonService.GetEmployeeByIdAsync(model.EmployeeId).ConfigureAwait(false);
             var hrm = await GetHRM(model.EmployeeId, model.PeriodId).ConfigureAwait(false);
             var grades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);

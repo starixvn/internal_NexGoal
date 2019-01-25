@@ -68,16 +68,16 @@ export default class Table extends Component {
                 }
             },
             {
-                dataField: 'nickName',
+                dataField: 'employee.nickName',
                 text: `${getResource('NickName')}`,
                 headerStyle: { width: '120px' }
             },
             {
-                dataField: 'fullName',
+                dataField: 'employee.fullName',
                 text: `${getResource('FullName')}`
             },
             {
-                dataField: 'groupName',
+                dataField: 'employee.groupName',
                 text: `${getResource('Team')}`
             },
             {
@@ -94,10 +94,10 @@ export default class Table extends Component {
                 }
             },
             {
-                dataField: 'creatorFullName',
+                dataField: 'creator.nickName',
                 text: `${getResource('Creator')}`,
                 formatter: (cell, row) => {
-                    return `${row.creatorNickName} (${row.creatorFullName})`;
+                    return `${row.creator.nickName} (${row.creator.fullName})`;
                 }
             },
             {
