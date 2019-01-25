@@ -13,7 +13,7 @@
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                var disciplines = await db.QueryAsync<DisciplineModel, EmployeeBaseModel, EmployeeBaseModel, DisciplineModel>(
+                var disciplines = await db.QueryAsync<DisciplineModel, Employee, Employee, DisciplineModel>(
                     (discipline, employee, creator) =>
                     {
                         discipline.Employee = employee;

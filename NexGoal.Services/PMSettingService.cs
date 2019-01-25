@@ -55,8 +55,6 @@
         public async Task<IEnumerable<Employee>> GetProjectManagerAsync()
         {
             return await baseService.GetDataAsync<Employee>(new GetProjectManagersCriteria()).ConfigureAwait(false);
-
-            return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
         }
     }
 }

@@ -13,8 +13,8 @@
 
         public DateTime EffectiveDate { get; set; }
 
-        public EmployeeBaseModel Employee { get; set; }
+        public Employee Employee { get; set; }
 
-        public EmployeeBaseModel Creator { get; set; }
+        public Employee Creator { get; set; }
     }
 }

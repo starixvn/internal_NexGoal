@@ -57,7 +57,7 @@
         [HttpGet]
         public async Task<IActionResult> GetProjectManagers()
         {
-            IEnumerable<EmployeeBaseModel> projectManagers = await pmSettingService.GetProjectManagerAsync().ConfigureAwait(false);
+            IEnumerable<Employee> projectManagers = await pmSettingService.GetProjectManagerAsync().ConfigureAwait(false);
 
             return Json(projectManagers);
         }

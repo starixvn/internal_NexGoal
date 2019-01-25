@@ -33,13 +33,13 @@
                 {
                     DisciplineId = 1,
                     Description = "test",
-                    Employee = new EmployeeBaseModel { EmployeeId = 1, NickName = "tim" },
-                    Creator =  new EmployeeBaseModel { EmployeeId = 2, NickName = "quinn" }
+                    Employee = new Employee { EmployeeId = 1, NickName = "tim" },
+                    Creator =  new Employee { EmployeeId = 2, NickName = "quinn" }
                 }
             };
             var criteria = Helpers.FakeCriteria();
             var repository = new DisciplineRepository();
-            objectDb.QueryAsync(Arg.Any<Func<DisciplineModel, EmployeeBaseModel, EmployeeBaseModel, DisciplineModel>>(),
+            objectDb.QueryAsync(Arg.Any<Func<DisciplineModel, Employee, Employee, DisciplineModel>>(),
                 "EmployeeId, EmployeeId",
                 criteria).Returns(disciplines);
 
