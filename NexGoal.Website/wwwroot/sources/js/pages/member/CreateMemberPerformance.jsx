@@ -199,7 +199,7 @@ export default class CreateMemberPerformance extends Component {
         if (this.validateForm()) {
             let record = this.state.performanceRecord;
             let employeeIds = this.props.isMultiple ? record.employees.map((employee) => { return employee.value; }).join(',') :
-                this.props.selectedMemberId;
+                this.props.selectedMemberInfo.id;
             let performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 employeeIds: employeeIds,

@@ -85,7 +85,6 @@ export default class App extends Component {
             axios(resolveClientUrl('member/GetMemberNominationResult'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/GetMemberPerformanceAppraisalResult'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/Performance/MemmberDetail'), { params: { memberId: memberId } }),
-            axios(resolveClientUrl('common/GetHRMSummary'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('Member/Performance/Timeline'), {
                 params: {
                     employeeId: memberId,
@@ -182,6 +181,7 @@ export default class App extends Component {
                 data={performanceRecord}
                 pageType={3}
                 onEdit={this.handleClickEditPerformanceRecord}
+                onEditDraft={this.handleClickEditDraftPerformanceRecord}
                 onDelete={this.handleClickDeletePerformanceRecord}
                 isHighlighted={this.state.selectedPCIId === performanceRecord.performanceRecordId}
             />
@@ -209,28 +209,40 @@ export default class App extends Component {
         }
     }
 
-    handleCreatePerformanceRecordSuccess = (performanceRecordIds, statusId) => {
+    handleCreatePerformanceRecordSuccess = (performanceRecordIds) => {
         axios(resolveClientUrl(`Performance/GetByIds/${performanceRecordIds}`))
             .then((response) => {
+
                 let performanceRecords = this.state.performanceRecords.slice();
-
-                if (statusId === PerformanceRecordStatus.Draft) {
-                    performanceRecords.unshift(...response.data);
-                } else {
-                    if (this.state.personalTimeline.pageIndex === 0) {
-                        this.handleTimelinePageChange(0);
-                    }
-
-                    if (performanceRecords.length === 0) {
-                        performanceRecords.unshift(...response.data);
-                    } else {
-                        let lastIndex = performanceRecords.map(record => { return record.statusId; }).lastIndexOf(PerformanceRecordStatus.Draft);
-                        lastIndex = lastIndex >= 0 ? lastIndex + 1 : 0;
-
-                        performanceRecords.splice(lastIndex, 0, ...response.data);
-                    }
+                if (this.state.personalTimeline.pageIndex === 0) {
+                    this.handleTimelinePageChange(0);
                 }
 
+                if (performanceRecords.length === 0) {
+                    performanceRecords.unshift(...response.data);
+                } else {
+                    let lastIndex = performanceRecords.map(record => { return record.isDraft; }).lastIndexOf(true);
+                    lastIndex = lastIndex >= 0 ? lastIndex + 1 : 0;
+
+                    performanceRecords.splice(lastIndex, 0, ...response.data);
+                }
+
+                let pageIndex = this.refs.infiniteScrollRef ? this.refs.infiniteScrollRef.pageLoaded : 1;
+                let displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
+
+                this.setState({
+                    performanceRecords: performanceRecords,
+                    displayedPerformanceRecords: displayedPerformanceRecords,
+                    hasMore: displayedPerformanceRecords.length < performanceRecords.length
+                });
+            }).catch(axiosError);
+    }
+
+    handleCreateDraftPerformanceRecordSuccess = (performanceRecordId) => {
+        axios(resolveClientUrl(`Performance/GetDraftById/${performanceRecordId}`))
+            .then((response) => {
+                let performanceRecords = this.state.performanceRecords.slice();
+                performanceRecords.unshift(response.data);
                 let pageIndex = this.refs.infiniteScrollRef ? this.refs.infiniteScrollRef.pageLoaded : 1;
                 let displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
 
@@ -246,7 +258,18 @@ export default class App extends Component {
         this.setState({
             editPerformanceRecord: {
                 isShowModal: true,
-                performanceRecordId: performanceRecordId
+                performanceRecordId: performanceRecordId,
+                isDraft: false
+            }
+        });
+    }
+
+    handleClickEditDraftPerformanceRecord = (performanceRecordId) => {
+        this.setState({
+            editPerformanceRecord: {
+                isShowModal: true,
+                performanceRecordId: performanceRecordId,
+                isDraft: true
             }
         });
     }
@@ -260,30 +283,46 @@ export default class App extends Component {
         });
     }
 
-    handleEditPerformanceRecordSuccess = (performanceRecordIds, statusId) => {
+    handleEditPerformanceRecordSuccess = (performanceRecordIds) => {
         axios(resolveClientUrl(`Performance/GetByIds/${performanceRecordIds}`))
             .then((response) => {
                 let performanceRecords = this.state.performanceRecords.slice();
                 let currentRecordIndex = performanceRecords.findIndex(record => record.performanceRecordId === this.state.editPerformanceRecord.performanceRecordId);
                 let currentRecord = performanceRecords[currentRecordIndex];
 
-                if (currentRecord.statusId === PerformanceRecordStatus.Draft) {
-                    if (statusId === PerformanceRecordStatus.Draft) {
-                        performanceRecords.splice(currentRecordIndex, 1, ...response.data);
-                    } else {
-                        performanceRecords.splice(currentRecordIndex, 1);
+                if (currentRecord.isDraft) {
+                    performanceRecords.splice(currentRecordIndex, 1);
 
-                        let lastIndex = performanceRecords.map(record => { return record.statusId; }).lastIndexOf(PerformanceRecordStatus.Draft);
-                        lastIndex = lastIndex >= 0 ? lastIndex + 1 : 0;
+                    let lastIndex = performanceRecords.map(record => { return record.isDraft; }).lastIndexOf(true);
+                    lastIndex = lastIndex >= 0 ? lastIndex + 1 : 0;
 
-                        let records = response.data.filter(record => record.employees[0].employeeId === this.memberInfo.id);
-                        performanceRecords.splice(lastIndex, 0, ...records);
+                    performanceRecords.splice(lastIndex, 0, ...response.data);
 
-                        this.handleTimelinePageChange(this.state.personalTimeline.pageIndex);
-                    }
+                    this.handleTimelinePageChange(this.state.personalTimeline.pageIndex);
                 } else {
                     performanceRecords.splice(currentRecordIndex, 1, ...response.data);
                 }
+
+                let pageIndex = this.refs.infiniteScrollRef.pageLoaded;
+                let displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
+
+                this.setState({
+                    performanceRecords: performanceRecords,
+                    displayedPerformanceRecords: displayedPerformanceRecords,
+                    hasMore: displayedPerformanceRecords.length < performanceRecords.length
+                });
+
+                this.handleCancelEditPerformanceRecord();
+            }).catch(axiosError);
+    }
+
+    handleEditDraftPerformanceRecordSuccess = (performanceRecordId) => {
+        axios(resolveClientUrl(`Performance/GetDraftById/${performanceRecordId}`))
+            .then((response) => {
+                let performanceRecords = this.state.performanceRecords.slice();
+                let currentRecordIndex = performanceRecords.findIndex(record => record.performanceRecordId === this.state.editPerformanceRecord.performanceRecordId);
+
+                performanceRecords.splice(currentRecordIndex, 1, response.data);
 
                 let pageIndex = this.refs.infiniteScrollRef.pageLoaded;
                 let displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
@@ -397,8 +436,9 @@ export default class App extends Component {
                                                 currentUser={this.currentUserInfo}
                                                 performanceGradeOptions={this.state.performanceGradeOptions}
                                                 projectOptions={this.state.projectOptions}
-                                                selectedMember={this.memberInfo}
+                                                selectedMemberInfo={this.memberInfo}
                                                 onSubmitSuccess={this.handleCreatePerformanceRecordSuccess}
+                                                onSubmitDraftSuccess={this.handleCreateDraftPerformanceRecordSuccess}
                                                 isMultiple={false}
                                             />
                                             {
@@ -453,11 +493,13 @@ export default class App extends Component {
                     <EditMemberPerformance
                         currentUser={this.currentUserInfo}
                         performanceRecordId={this.state.editPerformanceRecord.performanceRecordId}
+                        isDraft={this.state.editPerformanceRecord.isDraft}
                         performanceGradeOptions={this.state.performanceGradeOptions}
                         projectOptions={this.state.projectOptions}
                         isShowModal={this.state.editPerformanceRecord.isShowModal}
                         onCloseModal={this.handleCancelEditPerformanceRecord}
                         onSubmitSuccess={this.handleEditPerformanceRecordSuccess}
+                        onSubmitDraftSuccess={this.handleEditDraftPerformanceRecordSuccess}
                         isDisabledAddMember
                     />
                 }

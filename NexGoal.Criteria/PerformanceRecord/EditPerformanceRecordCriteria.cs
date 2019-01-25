@@ -14,6 +14,6 @@
 
         public override string GetSettingKey() => "PerformanceRecord_Update";
 
-        public override bool IsValid() => PerformanceRecordId > 0 && !string.IsNullOrWhiteSpace(EmployeeIds) && CreatorId > 0 && !string.IsNullOrWhiteSpace(Comment);
+        public override bool IsValid() => !string.IsNullOrWhiteSpace(EmployeeIds) && CreatorId > 0 && !string.IsNullOrWhiteSpace(Comment);
     }
 }

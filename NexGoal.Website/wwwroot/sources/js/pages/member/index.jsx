@@ -196,7 +196,7 @@ export default class App extends Component {
                 if (performanceRecords.length === 0) {
                     performanceRecords.unshift(...response.data);
                 } else {
-                    let lastIndex = performanceRecords.map(record => { return record.statusId; }).lastIndexOf(PerformanceRecordStatus.Draft);
+                    let lastIndex = performanceRecords.map(record => { return record.isDraft; }).lastIndexOf(true);
                     lastIndex = lastIndex >= 0 ? lastIndex + 1 : 0;
 
                     performanceRecords.splice(lastIndex, 0, ...response.data);
@@ -260,7 +260,7 @@ export default class App extends Component {
         });
     }
 
-    handleEditPerformanceRecordSuccess = (performanceRecordIds, statusId) => {
+    handleEditPerformanceRecordSuccess = (performanceRecordIds) => {
         axios(resolveClientUrl(`Performance/GetByIds/${performanceRecordIds}`))
             .then((response) => {
                 let performanceRecords = this.state.performanceRecords.slice();
