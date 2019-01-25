@@ -198,19 +198,6 @@
 
                     return new Tuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>>(members, performanceRecords);
                 }
-
-                //var performanceRecords = await objectDb.QueryAsync<PerformanceRecord, Employee, NominationPeriodModel, PerformanceRecord>(
-                //        (performanceRecord, creator, nomination) =>
-                //        {
-                //            performanceRecord.Creator = creator;
-                //            performanceRecord.NominationPeriod = nomination;
-
-                //            return performanceRecord;
-                //        },
-                //         "EmployeeId, NominationPeriodId",
-                //         criteria).ConfigureAwait(false);
-
-                //return performanceRecords;
             }
         }
     }
