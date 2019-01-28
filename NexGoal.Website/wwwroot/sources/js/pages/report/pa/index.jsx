@@ -143,7 +143,7 @@ export default class App extends Component {
             params: {
                 periodIds: filter.periods.map((period) => { return period.value; }).join(','),
                 groupIds: filter.groups.map(group => { return group.value; }).join(','),
-                employeeId: filter.employee ? filter.employee.value : null
+                employeeIds: filter.employees.map(employee => { return employee.value; }).join(',')
             },
             method: 'get',
             responseType: 'blob'

@@ -5,6 +5,7 @@
     using System.Linq;
     using Microsoft.AspNetCore.Hosting;
     using NexGoal.Core.Enumerations;
+    using NexGoal.Models;
     using NexGoal.Models.PARecord;
     using NexGoal.Models.PerformanceRecord;
     using NexGoal.Models.Report;
@@ -37,7 +38,7 @@
 
                     // write header
                     templateWorksheet.Cells[1, 1, 1, TotalColumns].Copy(worksheet.Cells[1, 1, 1, TotalColumns]);
-                    worksheet.Cells[1, 1].Value = string.Format("PA Report of {0} period(s)", paRecords.Count());
+                    worksheet.Cells[1, 1].Value = string.Format("PA Report of {0} period(s)", paRecords.Count()).ToUpperInvariant();
                     worksheet.Cells[1, 1, 1, TotalColumns].Merge = true;
                     templateWorksheet.Cells[2, 1, 3, TotalColumns].Copy(worksheet.Cells[2, 1, 3, TotalColumns]);
 
@@ -45,7 +46,7 @@
 
                     worksheet.Column(1).Width = 5;
                     worksheet.Column(2).Width = 15;
-                    worksheet.Column(3).Width = 25;
+                    worksheet.Column(3).Width = 20;
                     worksheet.Column(4).Width = 10;
                     worksheet.Column(5).Width = 50;
                     worksheet.Column(6).Width = 50;
@@ -104,15 +105,10 @@
                 WritePerformanceRecordByProcess(pa.Processes, PerformanceProcess.ProjectManager, worksheet, currentRow, 6);
                 WritePerformanceRecordByProcess(pa.Processes, PerformanceProcess.Evaluator, worksheet, currentRow, 7);
                 WritePerformanceRecordByProcess(pa.Processes, PerformanceProcess.Reviewer, worksheet, currentRow, 8);
-
-                var paPerformanceRecord = new PerformanceRecordModel
-                {
-                    Comment = pa.Comment,
-                    Grade = pa.Grade,
-                    Creator = pa.Processes.FirstOrDefault(p => p.ProcessId == (int)PerformanceProcess.Reviewer).Evaluator
-                };
                 worksheet.Row(currentRow).Style.WrapText = true;
-                worksheet.Cells[currentRow, 9].Value = WritePerformanceRecordContent(paPerformanceRecord);
+                worksheet.Cells[currentRow, 9].Value = WritePAFinalGrade(pa);
+                worksheet.Row(currentRow).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                worksheet.Row(currentRow).Style.VerticalAlignment = ExcelVerticalAlignment.Top;
                 currentRow++;
                 index++;
             }
@@ -158,13 +154,41 @@
             worksheet.Cells[currentRow, column].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
         }
 
+        private static string GradeAjustmentIcon(PerformanceGradeModel originalGrade, PerformanceGradeModel currentGrade)
+        {
+            int originalGradeValue = originalGrade != null ? originalGrade.GradeId : 0;
+            int currentGradeValue = currentGrade != null ? currentGrade.GradeId : 0;
+            string icon = "";
+            if (originalGradeValue < currentGradeValue)
+            {
+                icon = "▲";
+            }
+
+            if (originalGradeValue > currentGradeValue)
+            {
+                icon = "▼";
+            }
+            return icon;
+        }
+
+        private static string WritePAFinalGrade(PARecordModel paRecord)
+        {
+            var value = string.Empty;
+            var grade = paRecord.Grade != null ? paRecord.Grade.Name : "N/A";
+            var nickName = paRecord.Processes.FirstOrDefault(p => p.ProcessId == (int)PerformanceProcess.Reviewer).Evaluator.NickName;
+            var comment = paRecord.Comment;
+            var adjustment = GradeAjustmentIcon(paRecord.OriginalGrade, paRecord.Grade);
+            value = string.Format("{0}\nGrade: {1} {2}\n {3}", nickName, grade, adjustment, comment);
+            return value;
+        }
+
         private static string WritePerformanceRecordContent(PerformanceRecordModel record)
         {
             var value = string.Empty;
             var grade = record.Grade != null ? record.Grade.Name : "N/A";
             var nickName = record.Creator.NickName;
             var comment = record.Comment;
-            value = string.Format("- {0}\nGrade: {1}\n {2}", nickName, grade, comment);
+            value = string.Format("{0}\nGrade: {1}\n{2}", nickName, grade, comment);
             return value;
         }
     }

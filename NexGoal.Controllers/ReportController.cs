@@ -66,14 +66,15 @@
             var reportDetail = await reportService.GetPAReportDetailAsync(model).ConfigureAwait(false);
             ViewData["NoLayout"] = true;
 
-            HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf).Configure((r) => r.Template.Chrome = new Chrome
-            {
-                MarginLeft = ".5cm",
-                MarginRight = ".5cm",
-                MarginTop = "1cm",
-                MarginBottom = "1cm",
-                PrintBackground = true
-            });
+            HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf)
+                .Configure((r) => r.Template.Chrome = new Chrome
+                {
+                    MarginLeft = ".5cm",
+                    MarginRight = ".5cm",
+                    MarginTop = "1cm",
+                    MarginBottom = "1cm",
+                    PrintBackground = true
+                });
             return View(reportDetail);
         }
     }
