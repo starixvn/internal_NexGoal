@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -11,7 +10,6 @@
     using NexGoal.Criteria.MasterReport;
     using NexGoal.Models.MasterReport;
     using OfficeOpenXml;
-    using OfficeOpenXml.Style;
 
     public class MasterReportService : IMasterReportService
     {

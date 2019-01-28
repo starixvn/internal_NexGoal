@@ -297,7 +297,7 @@
         }
 
         [Fact]
-        public async Task GeneratePAAsync_ValidData_ReturnExpectedCommanResult()
+        public async Task GeneratePAAsync_ValidData_ReturnExpectedCommandResult()
         {
             // Arrange
             var expected = new CommandResult { Code = 0 };
