@@ -19,8 +19,6 @@ BEGIN
 
 	DECLARE @RoleId TINYINT = 0
 		,@Nominated TINYINT = 1
-		-- performance record status
-		,@PR_Submitted TINYINT = 3
 		-- process
 		,@SelfProcessId TINYINT = 2
 		,@PMProcessId TINYINT = 3
@@ -89,10 +87,9 @@ BEGIN
 	END
 
 	INSERT INTO dbo.PerformanceRecord (
-		EmployeeIds
+		EmployeeId
 		,CreatorId
 		,Comment
-		,StatusId
 		,CreatedDate
 		,TypeId
 		,RoleId
@@ -101,7 +98,6 @@ BEGIN
 		@NomineeId
 		,@NominatorId
 		,@Comment
-		,@PR_Submitted
 		,GETDATE()
 		,3
 		,@RoleId
@@ -129,7 +125,6 @@ BEGIN
 				,nd.PerformanceRecordId AS '@pri'
 				,pr.Comment AS '@prc'
 				,pr.CreatedDate AS '@prcd'
-				,pr.StatusId AS '@prsi'
 				,pr.TypeId AS '@prti'
 			FROM dbo.Nomination AS n WITH (NOLOCK)
 				INNER JOIN dbo.NominationDetail AS nd WITH (NOLOCK) ON n.NominationId = nd.NominationId

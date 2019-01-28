@@ -31,7 +31,6 @@ BEGIN
 				,nd.PerformanceRecordId AS '@pri'
 				,pr.Comment AS '@prc'
 				,pr.ModifiedDate AS '@prmd'
-				,pr.StatusId AS '@prsi'
 				,pr.TypeId AS '@prti'
 			FROM dbo.Nomination AS n WITH (NOLOCK)
 				INNER JOIN dbo.NominationDetail AS nd WITH (NOLOCK) ON n.NominationId = nd.NominationId

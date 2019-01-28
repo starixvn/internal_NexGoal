@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[Nomination_GetMemberNominationById] @ActorId INT
 	,@MemberId INT
 AS
@@ -21,7 +22,7 @@ BEGIN
 		,@Closed TINYINT = 4
 		
 	SELECT pr.PerformanceRecordId
-		,pr.EmployeeIds
+		,pr.EmployeeId AS EmployeeIds
 		,pr.Comment
 		,pr.CreatedDate
 		,pr.ModifiedDate
@@ -51,7 +52,7 @@ BEGIN
 		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON pr.CreatorId = creator.EmployeeId
 		AND creator.EmployeeId = @ActorId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON emp.EmployeeId = @MemberId
-		AND pr.EmployeeIds = emp.EmployeeId
+		AND pr.EmployeeId = emp.EmployeeId
 		INNER JOIN dbo.NominationDetail AS nd WITH (NOLOCK) ON pr.PerformanceRecordId = nd.PerformanceRecordId
 		AND nd.NominatorId = @ActorId
 		INNER JOIN dbo.Nomination AS n WITH (NOLOCK) ON nd.NominationId = n.NominationId

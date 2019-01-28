@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Nomination_GetPeriodsForCommittee] 
+﻿
+CREATE PROCEDURE [dbo].[Nomination_GetPeriodsForCommittee] 
 	@CommitteeId INT,
 	@IsQuarter BIT = 1
 AS
@@ -10,8 +11,8 @@ DB: bodb_NexGoal
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @today DATETIME = GETDATE()
-
+	DECLARE @today DATE = GETDATE()
+	
 	SELECT eoqy.EOQYId AS 'NominationPeriodId'
 		,eoqy.Quarter
 		,eoqy.Year

@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[Nomination_GetMemberNomination] @ActorId INT
 AS
 /*
@@ -62,7 +63,7 @@ BEGIN
 		,NominationStatusId
 		)
 	SELECT pr.PerformanceRecordId
-		,pr.EmployeeIds
+		,pr.EmployeeId
 		,pr.CreatorId
 		,pr.Comment
 		,pr.CreatedDate
@@ -87,7 +88,7 @@ BEGIN
 	
 	UNION
 	SELECT pr.PerformanceRecordId
-		,pr.EmployeeIds
+		,pr.EmployeeId
 		,pr.CreatorId
 		,pr.Comment
 		,pr.CreatedDate

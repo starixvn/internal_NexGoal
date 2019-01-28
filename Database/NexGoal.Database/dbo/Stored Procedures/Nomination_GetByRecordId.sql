@@ -19,8 +19,8 @@ BEGIN
 		,pr.CreatedDate
 		,pr.ModifiedDate
 		,pr.CreatorId
-		,pr.EmployeeIds
-		,pr.StatusId
+		,pr.EmployeeId AS EmployeeIds
+		,n.StatusId
 		,pr.TypeId
 		,n.StatusId AS NominationStatusId
 		,n.EOQYId AS NominationPeriodId

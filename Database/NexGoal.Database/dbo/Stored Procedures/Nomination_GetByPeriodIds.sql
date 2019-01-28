@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Nomination_GetByPeriodIds] 
+﻿
+CREATE PROCEDURE [dbo].[Nomination_GetByPeriodIds] 
 	@NominationPeriodIds VARCHAR(MAX),
 	@StatusId TINYINT = NULL
 AS
@@ -31,8 +32,8 @@ BEGIN
 		,pr.CreatedDate
 		,pr.ModifiedDate
 		,pr.CreatorId
-		,pr.EmployeeIds
-		,pr.StatusId
+		,pr.EmployeeId AS EmployeeIds
+		,n.StatusId
 		,n.EOQYId AS 'NominationPeriodId'
 	FROM dbo.PerformanceRecord pr WITH (NOLOCK)
 		INNER JOIN dbo.NominationDetail nd WITH (NOLOCK) ON pr.PerformanceRecordId = nd.PerformanceRecordId
