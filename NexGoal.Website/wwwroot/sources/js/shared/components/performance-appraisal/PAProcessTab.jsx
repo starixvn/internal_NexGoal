@@ -19,6 +19,7 @@ export default class PAProcessTab extends Component {
             return paProcesses.map((process, index) => {
                 if (process.performanceRecord) {
                     process.performanceRecord.employees = processId === PerformanceProcess.Self ? null : this.props.employees;
+                    process.performanceRecord.isHost = false;
                     return (
                         <PerformanceRecord key={index} data={process.performanceRecord} isHideProjectTag />
                     );

@@ -42,11 +42,6 @@
                     templateWorksheet.Cells[2, 1, 3, TotalColumns].Copy(worksheet.Cells[2, 1, 3, TotalColumns]);
 
                     var currentRow = 4;
-                    // write data
-                    foreach (PARecordGroupByPeriod period in paRecords)
-                    {
-                        WriteCellForPeriod(templateWorksheet, worksheet, period, ref currentRow);
-                    }
 
                     worksheet.Column(1).Width = 5;
                     worksheet.Column(2).Width = 15;
@@ -58,6 +53,12 @@
                     worksheet.Column(8).Width = 50;
                     worksheet.Column(9).Width = 50;
                     worksheet.View.FreezePanes(4, 1);
+
+                    // write data
+                    foreach (PARecordGroupByPeriod period in paRecords)
+                    {
+                        WriteCellForPeriod(templateWorksheet, worksheet, period, ref currentRow);
+                    }
 
                     return package.GetAsByteArray();
                 }

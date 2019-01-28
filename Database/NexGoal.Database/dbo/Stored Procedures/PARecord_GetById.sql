@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[PARecord_GetById] @ActorId INT
+﻿CREATE PROCEDURE [dbo].[PARecord_GetById] @ActorId INT
 	,@PARecordId INT
 AS
 /*
@@ -9,7 +8,7 @@ DB: bodb_NexGoal
 Original:
 
 Revisions:
-    20190117@Tim.Trinh: refactor
+    20190129@Oliver.Dang: fix bugs
 Param's Explanation:
 
 */
@@ -22,15 +21,36 @@ BEGIN
 		,@PAInProgress TINYINT = 3
 		,@PAClosed TINYINT = 4
 		,@ReviewerId INT
+		,@AllowGet BIT = 0
+
+	-- Check permission for actor
+	SET @AllowGet = CASE 
+			WHEN EXISTS (
+					SELECT 1
+					FROM dbo.PARecord AS pa WITH (NOLOCK)
+					INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
+						AND process.EvaluatorId = @ActorId
+					WHERE pa.PARecordId = @PARecordId
+						AND process.ProcessId NOT IN (
+							@HRProcessId
+							,@PMProcessId
+							)
+					)
+				THEN 1
+				ELSE 0
+			END
 
 	SELECT pa.PARecordId
 		,pa.ModifiedDate
 		,pa.OriginalGradeId
-        ,pa.Toeic
-		,(CASE 
-			WHEN @Today BETWEEN reviewer.StartDate
-					AND reviewer.EndDate THEN @PAInProgress
-			ELSE @PAClosed END
+		,pa.Toeic
+		,(
+			CASE 
+				WHEN @Today BETWEEN reviewer.StartDate
+						AND reviewer.EndDate
+					THEN @PAInProgress
+				ELSE @PAClosed
+				END
 			) AS StatusId
 		,pa.GradeId
 		,pa.Comment
@@ -41,11 +61,12 @@ BEGIN
 		,pa.PeriodId
 		,period.[Name]
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
-		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
-		INNER JOIN dbo.PAProcess AS reviewer WITH (NOLOCK) ON pa.PARecordId = reviewer.PARecordId
+	INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
+	INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+	INNER JOIN dbo.PAProcess AS reviewer WITH (NOLOCK) ON pa.PARecordId = reviewer.PARecordId
 		AND reviewer.ProcessId = @ReviewerProcessId
 	WHERE pa.PARecordId = @PARecordId
+		AND @AllowGet <> 0
 
 	SELECT process.PARecordId
 		,process.ProcessId
@@ -66,9 +87,10 @@ BEGIN
 		,creator.FullName
 		,creator.Code
 	FROM dbo.PAProcess AS process WITH (NOLOCK)
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON process.EvaluatorId = emp.EmployeeId
-		LEFT JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON process.PerformanceRecordId = record.PerformanceRecordId
-		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
+	INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON process.EvaluatorId = emp.EmployeeId
+	LEFT JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON process.PerformanceRecordId = record.PerformanceRecordId
+	LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 	WHERE process.PARecordId = @PARecordId
-		AND process.ProcessId NOT IN (@HRProcessId, @PMProcessId)
+		AND process.ProcessId NOT IN (@HRProcessId)
+		AND @AllowGet <> 0
 END
