@@ -62,6 +62,10 @@ $fa-font-path: "~font-awesome/fonts";
     background-color: #2C3C69;
 }
 
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover {
+    background-color: inherit;
+}
+
 .icon-chevron-down {
     position: relative;
     top: 2px;
