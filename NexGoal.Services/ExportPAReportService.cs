@@ -178,7 +178,7 @@
             var nickName = paRecord.Processes.FirstOrDefault(p => p.ProcessId == (int)PerformanceProcess.Reviewer).Evaluator.NickName;
             var comment = paRecord.Comment;
             var adjustment = GradeAjustmentIcon(paRecord.OriginalGrade, paRecord.Grade);
-            value = string.Format("{0}\nGrade: {1} {2}\n {3}", nickName, grade, adjustment, comment);
+            value = string.Format("{0}\nGrade: {1} {2}\n{3}", nickName, grade, adjustment, comment);
             return value;
         }
 

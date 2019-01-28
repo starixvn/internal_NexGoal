@@ -59,7 +59,7 @@
                         .Select(group => new PAReportModel
                         {
                             Group = new GroupBaseModel { Code = group.Key.GroupCode, Name = group.Key.GroupName },
-                            PARecords = group
+                            PARecords = group.OrderBy(r => r.Employee.EmployeeId == criteria.ActorId)
                         })
                 });
 
