@@ -48,18 +48,23 @@ $fa-font-path: "~font-awesome/fonts";
         > li > a {
             padding: 5px 20px;
             color: #324476;
-            font-weight: 600;
         }
 
         > li > a:hover, > li > a:focus {
+            background-color: #DFE2EB;
+            color: #3A4D80;
+        }
+
+        > li.active a {
             background-color: #2C3C69;
             color: #fff;
+            font-weight: 600;
         }
     }
 }
 
 .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
-    background-color: #2C3C69;
+    background-color: #324476;
 }
 
 .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover {
