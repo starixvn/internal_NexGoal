@@ -255,6 +255,7 @@
     <Build Include="dbo\Stored Procedures\PerformanceRecord_InsertDraft.sql" />
     <Build Include="dbo\Stored Procedures\PerformanceRecord_GetMemberPerformanceByMemberId.sql" />
     <Build Include="dbo\Stored Procedures\DraftPerformanceRecord_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\Report_GetPeriods.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">
