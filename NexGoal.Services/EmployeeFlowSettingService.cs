@@ -10,21 +10,19 @@
     using NexGoal.Criteria.FlowSetting;
     using NexGoal.Models.Common;
     using NexGoal.Models.FlowSetting;
+    using NexGoal.Repositories.Interfaces;
 
     public class EmployeeFlowSettingService : IEmployeeFlowSettingService
     {
         private readonly IBaseService baseService;
         private readonly ICommonService commonService;
-        private readonly IAvatarService avatarService;
 
         public EmployeeFlowSettingService(
             IBaseService baseService,
-            ICommonService commonService,
-            IAvatarService avatarService)
+            ICommonService commonService)
         {
             this.baseService = baseService;
             this.commonService = commonService;
-            this.avatarService = avatarService;
         }
 
         public async Task<IEnumerable<Employee>> GetEmployeeHaveSettingAsync(int? groupId = null)
@@ -97,7 +95,6 @@
 
             foreach (FlowSettingModel flowSetting in flowSettings)
             {
-                flowSetting.Avatar = avatarService.GetFilePath(flowSetting.Code);
                 switch (flowSetting.ProcessId)
                 {
                     case (int)PerformanceProcess.Evaluator:

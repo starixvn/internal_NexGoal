@@ -11,7 +11,6 @@
             services.ResolveRepositoryDI();
             services.AddTransient<IAuthService, AuthService>();
             services.AddScoped<ICommonService, CommonService>();
-            services.AddScoped<IAvatarService, AvatarService>();
             services.AddScoped<IFunctionService, FunctionService>();
             services.AddScoped<INominationPeriodService, NominationPeriodService>();
             services.AddScoped<IEOQService, EOQService>();

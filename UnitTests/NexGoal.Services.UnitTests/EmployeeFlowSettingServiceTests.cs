@@ -16,7 +16,6 @@
     {
         private IBaseService baseService;
         private ICommonService commonService;
-        private IAvatarService avatarService;
 
         [Fact]
         public async Task GetEmployeeHaveSettingAsync_WhenCalled_ReturnAsExpectedEmployees()
@@ -153,8 +152,7 @@
         {
             baseService = Substitute.For<IBaseService>();
             commonService = Substitute.For<ICommonService>();
-            avatarService = Substitute.For<IAvatarService>();
-            var service = new EmployeeFlowSettingService(baseService, commonService, avatarService);
+            var service = new EmployeeFlowSettingService(baseService, commonService);
 
             return service;
         }

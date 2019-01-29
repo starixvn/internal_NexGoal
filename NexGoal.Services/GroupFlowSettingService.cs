@@ -14,14 +14,10 @@
     public class GroupFlowSettingService : IGroupFlowSettingService
     {
         private readonly IBaseService baseService;
-        private readonly IAvatarService avatarService;
 
-        public GroupFlowSettingService(
-            IBaseService baseService,
-            IAvatarService avatarService)
+        public GroupFlowSettingService(IBaseService baseService)
         {
             this.baseService = baseService;
-            this.avatarService = avatarService;
         }
 
         public async Task<IEnumerable<GroupBaseModel>> GetGroupHaveSettingAsync()
@@ -77,7 +73,6 @@
 
             foreach (FlowSettingModel flowSetting in flowSettings)
             {
-                flowSetting.Avatar = avatarService.GetFilePath(flowSetting.Code);
                 switch (flowSetting.ProcessId)
                 {
                     case (int)PerformanceProcess.Evaluator:

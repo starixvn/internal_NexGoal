@@ -2,6 +2,7 @@
 {
     using System;
     using System.Xml.Serialization;
+    using NexGoal.Core.Constants;
     using NexGoal.Core.Extensions;
 
     [Serializable]
@@ -28,6 +29,14 @@
         public string FullName { get; set; }
 
         [XmlIgnore]
-        public string Avatar { get; set; }
+        public virtual string Avatar
+        {
+            get
+            {
+                return EvaluatorId == Constants.NexGoalSystemId 
+                    ? "/dist/avatars/nexgoal.jpg" 
+                    : new Uri($"{Constants.ImageURL}/{Code}.jpg").ToString();
+            }
+        }
     }
 }

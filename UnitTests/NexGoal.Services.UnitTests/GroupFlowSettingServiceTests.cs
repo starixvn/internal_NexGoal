@@ -15,7 +15,6 @@
     public class GroupFlowSettingServiceTests
     {
         private IBaseService baseService;
-        private IAvatarService avatarService;
 
         [Fact]
         public async Task GetGroupHaveSettingAsync_WhenCalled_ReturnAsExpectedGroups()
@@ -130,8 +129,7 @@
         private GroupFlowSettingService GetGroupFlowSettingService()
         {
             baseService = Substitute.For<IBaseService>();
-            avatarService = Substitute.For<IAvatarService>();
-            var service = new GroupFlowSettingService(baseService, avatarService);
+            var service = new GroupFlowSettingService(baseService);
 
             return service;
         }
