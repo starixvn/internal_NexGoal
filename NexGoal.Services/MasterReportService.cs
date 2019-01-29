@@ -1,15 +1,19 @@
 ﻿namespace NexGoal.Services
 {
+    using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
     using NexGoal.Core.Constants;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.MasterReport;
     using NexGoal.Models.MasterReport;
     using OfficeOpenXml;
+    using OfficeOpenXml.Style;
 
     public class MasterReportService : IMasterReportService
     {
@@ -30,7 +34,7 @@
 
         public async Task<IEnumerable<MasterReportModel>> GetRecords(int periodId, string groupIds, string employeeIds)
         {
-            var result = await baseService.FetchMultipleAsync<MasterReportModel, AwardModel>(new GetRecordsCriteria
+            var result = await baseService.FetchMultipleAsync<MasterReportModel, AwardModel, AssessmentModel>(new GetRecordsCriteria
             {
                 PeriodId = periodId,
                 GroupIds = groupIds,
@@ -43,6 +47,13 @@
 
             var records = result.Item1;
             var awards = result.Item2;
+            var assessments = result.Item3;
+
+            foreach (var assessment in assessments)
+            {
+                assessment.GradeId = cryptoService.Decrypt(assessment.GradeId);
+                assessment.Grade = performanceGrades.FirstOrDefault(x => x.GradeId.ToString() == assessment.GradeId)?.Name;
+            }
 
             foreach (var record in records)
             {
@@ -64,6 +75,7 @@
                 record.OriginalGrade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId)?.Name;
 
                 record.Awards = awards.Where(x => x.NomineeId == record.EmployeeId);
+                record.Assessments = assessments.Where(x => x.EmployeeId == record.EmployeeId);
             }
 
             return records;
@@ -72,7 +84,8 @@
         public async Task<byte[]> ExportAsync(int periodId, string groupIds, string employeeIds)
         {
             var records = await GetRecords(periodId, groupIds, employeeIds).ConfigureAwait(false);
-            records = records.OrderBy(x => x.GroupName).ThenBy(x => x.NickName);
+            var groupedRecord = records.OrderBy(x => x.GroupName).ThenBy(x => x.NickName)
+                .GroupBy(x => new { x.GroupId, x.GroupName }, (key, elements) => new { Key = key, Records = elements });
 
             var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.WebRootPath, ExcelTemplatePath));
             using (var package = new ExcelPackage(fileInfo, true))
@@ -80,72 +93,178 @@
                 ExcelWorksheet worksheet = package.Workbook.Worksheets.First();
 
                 // write data
-                var rowIndex = 1;
-                var currentRow = 6;
-                foreach (var record in records)
+                var currentRow = 4;
+                foreach (var group in groupedRecord)
                 {
-                    var numberOfAwards = record.Awards.Count();
-                    var toRow = numberOfAwards > 0 ? currentRow + numberOfAwards - 1 : currentRow;
-                    var merge = currentRow != toRow;
+                    var groupCell = worksheet.Cells[currentRow, 1, currentRow, 19];
+                    groupCell.Merge = true;
+                    groupCell.Style.HorizontalAlignment = ExcelHorizontalAlignment.General;
+                    groupCell.Style.Font.Bold = true;
+                    groupCell.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    groupCell.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(197, 197, 197));
+                    groupCell.Value = group.Key.GroupName;
+                    currentRow++;
 
-                    var indexCell = worksheet.Cells[currentRow, 1, toRow, 1];
-                    indexCell.Merge = merge;
-                    indexCell.Value = rowIndex;
+                    var rowIndex = 1;
 
-                    var nickNameCell = worksheet.Cells[currentRow, 2, toRow, 2];
-                    nickNameCell.Merge = merge;
-                    nickNameCell.Value = record.NickName;
-
-                    var fullNameCell = worksheet.Cells[currentRow, 3, toRow, 3];
-                    fullNameCell.Merge = merge;
-                    fullNameCell.Value = record.FullName;
-
-                    var jobTitleCell = worksheet.Cells[currentRow, 4, toRow, 4];
-                    jobTitleCell.Merge = merge;
-                    jobTitleCell.Value = record.JobTitle;
-
-                    var groupNameCell = worksheet.Cells[currentRow, 5, toRow, 5];
-                    groupNameCell.Merge = merge;
-                    groupNameCell.Value = record.GroupName;
-
-                    var gradeCell = worksheet.Cells[currentRow, 7, toRow, 7];
-                    gradeCell.Merge = merge;
-                    gradeCell.Value = record.Grade;
-
-                    var contributionCell = worksheet.Cells[currentRow, 9, toRow, 9];
-                    contributionCell.Merge = merge;
-                    contributionCell.Value = record.Contribution;
-
-                    var bonusGivenCell = worksheet.Cells[currentRow, 10, toRow, 10];
-                    bonusGivenCell.Merge = merge;
-                    bonusGivenCell.Value = record.Contribution;
-
-                    var readyPromotionCell = worksheet.Cells[currentRow, 11, toRow, 11];
-                    readyPromotionCell.Merge = merge;
-                    readyPromotionCell.Value = record.IsReadyPromotion == "true" ? "Yes" : "No";
-
-                    var currentObjectiveCell = worksheet.Cells[currentRow, 13, toRow, 13];
-                    currentObjectiveCell.Merge = merge;
-                    currentObjectiveCell.Value = record.CurrentObjective;
-
-                    var nextObjectiveCell = worksheet.Cells[currentRow, 14, toRow, 14];
-                    nextObjectiveCell.Merge = merge;
-                    nextObjectiveCell.Value = record.NextObjective;
-
-                    var rowPosition = currentRow;
-                    foreach (var award in record.Awards)
+                    foreach (var record in group.Records)
                     {
-                        worksheet.Cells[rowPosition, 15].Value = award.Title;
-                        worksheet.Cells[rowPosition, 16].Value = award.Status;
-                        rowPosition++;
-                    }
+                        var numberOfAwards = record.Awards.Count();
+                        var toRow = numberOfAwards > 0 ? currentRow + numberOfAwards - 1 : currentRow;
+                        var merge = currentRow != toRow;
 
-                    rowIndex++;
-                    currentRow = toRow + 1;
+                        var indexCell = worksheet.Cells[currentRow, 1, toRow, 1];
+                        indexCell.Merge = merge;
+                        indexCell.Value = rowIndex;
+
+                        var nickNameCell = worksheet.Cells[currentRow, 2, toRow, 2];
+                        nickNameCell.Merge = merge;
+                        nickNameCell.Value = record.NickName;
+
+                        var jobTitleCell = worksheet.Cells[currentRow, 3, toRow, 3];
+                        jobTitleCell.Merge = merge;
+                        jobTitleCell.Value = record.JobTitle;
+
+                        var paCell = worksheet.Cells[currentRow, 4, toRow, 4];
+                        paCell.Merge = merge;
+                        WritePA(paCell, record);
+
+                        var selfCell = worksheet.Cells[currentRow, 5, toRow, 5];
+                        selfCell.Merge = merge;
+                        WriteAssessment(selfCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.Self));
+
+                        var pmCell = worksheet.Cells[currentRow, 6, toRow, 6];
+                        pmCell.Merge = merge;
+                        WriteAssessment(pmCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.ProjectManager));
+
+                        var evaluatorCell = worksheet.Cells[currentRow, 7, toRow, 7];
+                        evaluatorCell.Merge = merge;
+                        WriteAssessment(evaluatorCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.Evaluator));
+
+                        var reviewerCell = worksheet.Cells[currentRow, 8, toRow, 8];
+                        reviewerCell.Merge = merge;
+                        WriteAssessment(reviewerCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.Reviewer));
+
+                        var avgPMGradeWithoutNACell = worksheet.Cells[currentRow, 11, toRow, 11];
+                        avgPMGradeWithoutNACell.Merge = merge;
+                        avgPMGradeWithoutNACell.Value = CalculateAverageGrade(record.Assessments.Where(x => x.ProcessId == PerformanceProcess.ProjectManager && !string.IsNullOrWhiteSpace(x.GradeId)));
+
+                        var avgPMGradeWithNACell = worksheet.Cells[currentRow, 12, toRow, 12];
+                        avgPMGradeWithNACell.Merge = merge;
+                        avgPMGradeWithoutNACell.Value = CalculateAverageGrade(record.Assessments.Where(x => x.ProcessId == PerformanceProcess.ProjectManager));
+
+                        var contributionCell = worksheet.Cells[currentRow, 13, toRow, 13];
+                        contributionCell.Merge = merge;
+                        contributionCell.Value = record.Contribution;
+
+                        var bonusGivenCell = worksheet.Cells[currentRow, 14, toRow, 14];
+                        bonusGivenCell.Merge = merge;
+                        bonusGivenCell.Value = record.BonusGiven;
+
+                        var readyPromotionCell = worksheet.Cells[currentRow, 15, toRow, 15];
+                        readyPromotionCell.Merge = merge;
+                        readyPromotionCell.Value = record.IsReadyPromotion == "true" ? "Yes" : "No";
+
+                        var currentObjectiveCell = worksheet.Cells[currentRow, 16, toRow, 16];
+                        currentObjectiveCell.Merge = merge;
+                        currentObjectiveCell.Value = record.CurrentObjective;
+
+                        var nextObjectiveCell = worksheet.Cells[currentRow, 17, toRow, 17];
+                        nextObjectiveCell.Merge = merge;
+                        nextObjectiveCell.Value = record.NextObjective;
+
+                        var rowPosition = currentRow;
+                        foreach (var award in record.Awards)
+                        {
+                            worksheet.Cells[rowPosition, 18].Value = award.Title;
+                            worksheet.Cells[rowPosition, 19].Value = award.Status;
+                            rowPosition++;
+                        }
+
+                        rowIndex++;
+                        currentRow = toRow + 1;
+                    }
                 }
 
                 return package.GetAsByteArray();
             }
+        }
+
+        private static double CalculateAverageGrade(IEnumerable<AssessmentModel> assessments)
+        {
+            var ids = assessments.Select(x =>
+            {
+                int.TryParse(x.GradeId, out int gradeId);
+                return gradeId;
+            });
+            return ids.Any() ? ids.Average() : 0;
+        }
+
+        private static void WriteAssessment(ExcelRange selfCell, IEnumerable<AssessmentModel> assessments)
+        {
+            var richTextCollection = selfCell.RichText;
+
+            foreach (var assessment in assessments)
+            {
+                var assessorText = richTextCollection.Add(assessment.NickName);
+                assessorText.Bold = true;
+
+                richTextCollection.Add(Environment.NewLine);
+
+                var gradeText = richTextCollection.Add($"Grade: {(string.IsNullOrWhiteSpace(assessment.Grade) ? "N/A" : assessment.Grade)} ");
+                gradeText.Bold = false;
+
+                richTextCollection.Add(Environment.NewLine);
+
+                richTextCollection.Add(assessment.Comment);
+
+                richTextCollection.Add(Environment.NewLine);
+                richTextCollection.Add(Environment.NewLine);
+            }
+        }
+
+        private static void WritePA(ExcelRange paCell, MasterReportModel record)
+        {
+            var richTextCollection = paCell.RichText;
+            var assessorText = richTextCollection.Add(record.Assessments.FirstOrDefault(x => x.ProcessId == PerformanceProcess.Reviewer)?.NickName);
+            assessorText.Bold = true;
+
+            richTextCollection.Add(Environment.NewLine);
+
+            var gradeText = richTextCollection.Add($"Grade: {(string.IsNullOrWhiteSpace(record.Grade) ? "N/A" : record.Grade)} ");
+            gradeText.Bold = false;
+
+            if (record.GradeId != record.OriginalGradeId)
+            {
+                int.TryParse(record.GradeId, out int gradeId);
+                int.TryParse(record.OriginalGradeId, out int originalGradeId);
+
+                var icon = "";
+                var color = Color.Black;
+                if (gradeId > originalGradeId)
+                {
+                    icon = "↗";
+                    color = Color.Green;
+                }
+                else
+                {
+                    if (gradeId < originalGradeId)
+                    {
+                        icon = "↘";
+                        color = Color.Red;
+                    }
+                }
+
+                var iconText = richTextCollection.Add(icon);
+                iconText.Bold = true;
+                iconText.Color = color;
+            }
+
+            richTextCollection.Add(Environment.NewLine);
+
+            var commentText = richTextCollection.Add(record.Comment);
+            commentText.Bold = false;
+            commentText.Color = Color.Black;
         }
     }
 }

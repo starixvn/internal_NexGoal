@@ -26,6 +26,8 @@
 
         public string Grade { get; set; }
 
+        public string Comment { get; set; }
+
         public int? ContributionId { get; set; }
 
         public string Contribution { get; set; }
@@ -41,5 +43,7 @@
         public string NextObjective { get; set; }
 
         public IEnumerable<AwardModel> Awards { get; set; }
+
+        public IEnumerable<AssessmentModel> Assessments { get; set; }
     }
 }
