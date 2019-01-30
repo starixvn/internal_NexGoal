@@ -24,7 +24,6 @@ export default class SearchForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.props.onFilterSubmit();
     }
 
     render() {
@@ -64,9 +63,6 @@ export default class SearchForm extends Component {
                             onChange={this.handleEmployeeChange} isClearable
                         />
                     </div>
-                </FormGroup>
-                <FormGroup>
-                    <Button type="submit" bsStyle="primary">{getResource('Search')}</Button>
                 </FormGroup>
                 <FormGroup>
                     <a className="btn btn-success" href={this.props.exportUrl} >{getResource('Excel')}</a>
