@@ -1,6 +1,8 @@
 ﻿namespace NexGoal.Services
 {
+    using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.IO;
     using System.Linq;
     using Microsoft.AspNetCore.Hosting;
@@ -17,6 +19,7 @@
     {
         private const string ExcelTemplatePath = @"ExcelTemplates\\PAReport.xlsx";
         private const int TotalColumns = 9;
+        private const int TitleHeight = 25;
 
         private readonly IHostingEnvironment hostingEnvironment;
 
@@ -38,28 +41,33 @@
 
                     // write header
                     templateWorksheet.Cells[1, 1, 1, TotalColumns].Copy(worksheet.Cells[1, 1, 1, TotalColumns]);
-                    worksheet.Cells[1, 1].Value = string.Format("PA Report of {0} period(s)", paRecords.Count()).ToUpperInvariant();
+                    worksheet.Cells[1, 1].Value = "PERFORMANCE APPRAISAL REPORT";
+                    worksheet.Row(1).Height = TitleHeight;
                     worksheet.Cells[1, 1, 1, TotalColumns].Merge = true;
-                    templateWorksheet.Cells[2, 1, 3, TotalColumns].Copy(worksheet.Cells[2, 1, 3, TotalColumns]);
 
-                    var currentRow = 4;
+                    templateWorksheet.Cells[2, 1, 3, TotalColumns].Copy(worksheet.Cells[2, 1, 3, TotalColumns]);
+                    worksheet.Row(2).Height = TitleHeight;
+                    worksheet.Row(3).Height = TitleHeight;
 
                     worksheet.Column(1).Width = 5;
                     worksheet.Column(2).Width = 15;
-                    worksheet.Column(3).Width = 20;
+                    worksheet.Column(3).Width = 30;
                     worksheet.Column(4).Width = 10;
                     worksheet.Column(5).Width = 50;
                     worksheet.Column(6).Width = 50;
                     worksheet.Column(7).Width = 50;
                     worksheet.Column(8).Width = 50;
                     worksheet.Column(9).Width = 50;
-                    worksheet.View.FreezePanes(4, 1);
+
+                    var currentRow = 4;
 
                     // write data
                     foreach (PARecordGroupByPeriod period in paRecords)
                     {
                         WriteCellForPeriod(templateWorksheet, worksheet, period, ref currentRow);
                     }
+
+                    worksheet.View.FreezePanes(4, 1);
 
                     return package.GetAsByteArray();
                 }
@@ -73,8 +81,10 @@
         {
             templateWorksheet.Cells[5, 1, 5, TotalColumns].Copy(worksheet.Cells[currentRow, 1, currentRow, TotalColumns]);
             worksheet.Cells[currentRow, 1].Value = period.Period.Name;
+            worksheet.Row(currentRow).Height = TitleHeight;
             worksheet.Cells[currentRow, 1, currentRow, TotalColumns].Merge = true;
             currentRow++;
+
             foreach (var group in period.Groups)
             {
                 WriteCellForGroup(templateWorksheet, worksheet, group, ref currentRow);
@@ -88,6 +98,7 @@
         {
             templateWorksheet.Cells[6, 1, 6, TotalColumns].Copy(worksheet.Cells[currentRow, 1, currentRow, TotalColumns]);
             worksheet.Cells[currentRow, 1].Value = groupPA.Group.Name;
+            worksheet.Row(currentRow).Height = TitleHeight;
             worksheet.Cells[currentRow, 1, currentRow, TotalColumns].Merge = true;
             currentRow++;
 
@@ -99,59 +110,45 @@
                 worksheet.Cells[currentRow, 1].Value = index;
                 worksheet.Cells[currentRow, 2].Value = pa.Employee.NickName;
                 worksheet.Cells[currentRow, 3].Value = pa.Employee.JobTitle;
-                SetToeicColor(currentRow, templateWorksheet, worksheet, pa.ToeicPolicy);
-                worksheet.Cells[currentRow, 4].Value = pa.Toeic;
-                WritePerformanceRecordByProcess(pa.Processes, PerformanceProcess.Self, worksheet, currentRow, 5);
-                WritePerformanceRecordByProcess(pa.Processes, PerformanceProcess.ProjectManager, worksheet, currentRow, 6);
-                WritePerformanceRecordByProcess(pa.Processes, PerformanceProcess.Evaluator, worksheet, currentRow, 7);
-                WritePerformanceRecordByProcess(pa.Processes, PerformanceProcess.Reviewer, worksheet, currentRow, 8);
-                worksheet.Row(currentRow).Style.WrapText = true;
-                worksheet.Cells[currentRow, 9].Value = WritePAFinalGrade(pa);
+                WriteToeic(templateWorksheet, worksheet.Cells[currentRow, 4], pa.ToeicPolicy, pa.Toeic);
+                WritePerformanceRecordByProcess(worksheet.Cells[currentRow, 5], pa.Processes, PerformanceProcess.Self);
+                WritePerformanceRecordByProcess(worksheet.Cells[currentRow, 6], pa.Processes, PerformanceProcess.ProjectManager);
+                WritePerformanceRecordByProcess(worksheet.Cells[currentRow, 7], pa.Processes, PerformanceProcess.Evaluator);
+                WritePerformanceRecordByProcess(worksheet.Cells[currentRow, 8], pa.Processes, PerformanceProcess.Reviewer);
+                WritePAFinalGrade(worksheet.Cells[currentRow, 9], pa);
+
                 worksheet.Row(currentRow).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                 worksheet.Row(currentRow).Style.VerticalAlignment = ExcelVerticalAlignment.Top;
+                worksheet.Row(currentRow).Style.WrapText = true;
                 currentRow++;
                 index++;
             }
         }
 
-        private static void SetToeicColor(int currentRow, ExcelWorksheet templateWorksheet, ExcelWorksheet worksheet, int toeicPolicy)
+        private static void WriteToeic(ExcelWorksheet templateWorksheet, ExcelRange toeicCell, int toeicPolicy, int? toeic)
         {
             if (toeicPolicy != 0)
             {
                 var coppyCell = toeicPolicy > 0 ? 8 : 9;
-                templateWorksheet.Cells[coppyCell, 1].Copy(worksheet.Cells[currentRow, 4]);
+                templateWorksheet.Cells[coppyCell, 1].Copy(toeicCell);
             }
+
+            toeicCell.Value = toeic != null ? toeic.ToString() : "N/A";
         }
 
-        private static void WritePerformanceRecordByProcess(IEnumerable<PAProcessModel> processes,
-            PerformanceProcess processId,
-            ExcelWorksheet worksheet,
-            int currentRow,
-            int column)
+        private static void WritePerformanceRecordByProcess(ExcelRange cell,
+            IEnumerable<PAProcessModel> paProcesses,
+            PerformanceProcess processId)
         {
-            string value = string.Empty;
+            var processes = paProcesses.Where(p => p.ProcessId == (int)processId);
 
-            if (processId != PerformanceProcess.ProjectManager)
+            if (processes.Any())
             {
-                var process = processes.FirstOrDefault(p => p.ProcessId == (int)processId);
-                if (process.PerformanceRecord != null)
+                foreach (var process in processes)
                 {
-                    value = WritePerformanceRecordContent(process.PerformanceRecord);
+                    WritePerformanceRecordContent(cell, process.PerformanceRecord);
                 }
             }
-            else
-            {
-                var pmProcesses = processes.Where(p => p.ProcessId == (int)PerformanceProcess.ProjectManager);
-                foreach (var process in pmProcesses)
-                {
-                    var pm = WritePerformanceRecordContent(process.PerformanceRecord);
-                    value = string.Format("{0}\n\n", pm);
-                }
-            }
-            worksheet.Cells[currentRow, column].Value = value;
-            worksheet.Cells[currentRow, column].Style.WrapText = true;
-            worksheet.Cells[currentRow, column].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-            worksheet.Cells[currentRow, column].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
         }
 
         private static string GradeAjustmentIcon(PerformanceGradeModel originalGrade, PerformanceGradeModel currentGrade)
@@ -171,25 +168,60 @@
             return icon;
         }
 
-        private static string WritePAFinalGrade(PARecordModel paRecord)
+        private static void WritePAFinalGrade(ExcelRange paCell, PARecordModel paRecord)
         {
-            var value = string.Empty;
+            var richTextCollection = paCell.RichText;
+            var revỉewerName = richTextCollection.Add(paRecord.Processes.FirstOrDefault(p => p.ProcessId == (int)PerformanceProcess.Reviewer).Evaluator.NickName);
+            revỉewerName.Bold = true;
+
+            richTextCollection.Add(Environment.NewLine);
+
             var grade = paRecord.Grade != null ? paRecord.Grade.Name : "N/A";
-            var nickName = paRecord.Processes.FirstOrDefault(p => p.ProcessId == (int)PerformanceProcess.Reviewer).Evaluator.NickName;
-            var comment = paRecord.Comment;
-            var adjustment = GradeAjustmentIcon(paRecord.OriginalGrade, paRecord.Grade);
-            value = string.Format("{0}\nGrade: {1} {2}\n{3}", nickName, grade, adjustment, comment);
-            return value;
+            var gradeText = richTextCollection.Add($"Grade: {grade} ");
+            gradeText.Bold = false;
+            var gradeIconRichText = richTextCollection.Add(GradeAjustmentIcon(paRecord.OriginalGrade, paRecord.Grade));
+            SetStylePAGrade(gradeIconRichText, paRecord.OriginalGrade, paRecord.Grade);
+            richTextCollection.Add(Environment.NewLine);
+            var commentText = richTextCollection.Add(paRecord.Comment);
+            commentText.Color = Color.Black;
         }
 
-        private static string WritePerformanceRecordContent(PerformanceRecordModel record)
+        private static void SetStylePAGrade(ExcelRichText gradeIconRichText,
+            PerformanceGradeModel originalGrade,
+            PerformanceGradeModel currentGrade)
         {
-            var value = string.Empty;
-            var grade = record.Grade != null ? record.Grade.Name : "N/A";
-            var nickName = record.Creator.NickName;
-            var comment = record.Comment;
-            value = string.Format("{0}\nGrade: {1}\n{2}", nickName, grade, comment);
-            return value;
+            int originalGradeValue = originalGrade != null ? originalGrade.GradeId : 0;
+            int currentGradeValue = currentGrade != null ? currentGrade.GradeId : 0;
+            if (originalGradeValue < currentGradeValue)
+            {
+                gradeIconRichText.Color = Color.Green;
+            }
+
+            if (originalGradeValue > currentGradeValue)
+            {
+                gradeIconRichText.Color = Color.Red;
+            }
+        }
+
+        private static void WritePerformanceRecordContent(ExcelRange cell, PerformanceRecordModel record)
+        {
+            if (record != null)
+            {
+                var richTextCollection = cell.RichText;
+                var assessorText = richTextCollection.Add(record.Creator.NickName);
+                assessorText.Bold = true;
+
+                richTextCollection.Add(Environment.NewLine);
+
+                var grade = record.Grade != null ? record.Grade.Name : "N/A";
+                var gradeText = richTextCollection.Add($"Grade: {grade} ");
+                gradeText.Bold = false;
+
+                richTextCollection.Add(Environment.NewLine);
+                richTextCollection.Add(record.Comment);
+                richTextCollection.Add(Environment.NewLine);
+                richTextCollection.Add(Environment.NewLine);
+            }
         }
     }
 }
