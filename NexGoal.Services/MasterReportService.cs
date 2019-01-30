@@ -11,6 +11,7 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.MasterReport;
+    using NexGoal.Models.Common;
     using NexGoal.Models.MasterReport;
     using OfficeOpenXml;
     using OfficeOpenXml.Style;
@@ -71,8 +72,8 @@
                 record.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId)?.Name;
 
                 record.OriginalGradeId = cryptoService.Decrypt(record.OriginalGradeId);
-                int.TryParse(record.OriginalGradeId, out gradeId);
-                record.OriginalGrade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId)?.Name;
+                int.TryParse(record.OriginalGradeId, out int originalGradeId);
+                record.OriginalGrade = performanceGrades.FirstOrDefault(x => x.GradeId == originalGradeId)?.Name;
 
                 record.Awards = awards.Where(x => x.NomineeId == record.EmployeeId);
                 record.Assessments = assessments.Where(x => x.EmployeeId == record.EmployeeId);
@@ -86,6 +87,8 @@
             var records = await GetRecords(periodId, groupIds, employeeIds).ConfigureAwait(false);
             var groupedRecord = records.OrderBy(x => x.GroupName).ThenBy(x => x.NickName)
                 .GroupBy(x => new { x.GroupId, x.GroupName }, (key, elements) => new { Key = key, Records = elements });
+
+            var gradeConversions = await commonService.GetPerformanceGradeConversionAsync().ConfigureAwait(false);
 
             var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.WebRootPath, ExcelTemplatePath));
             using (var package = new ExcelPackage(fileInfo, true))
@@ -145,13 +148,22 @@
                         reviewerCell.Merge = merge;
                         WriteAssessment(reviewerCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.Reviewer));
 
+                        var actualWDCell = worksheet.Cells[currentRow, 9, toRow, 9];
+                        actualWDCell.Merge = merge;
+                        actualWDCell.Value = Math.Round(record.TotalSpentTime * 100 / (record.ActualWorkingDay * 8));
+
+                        var workingDayCell = worksheet.Cells[currentRow, 10, toRow, 10];
+                        workingDayCell.Merge = merge;
+                        workingDayCell.Value = Math.Round(record.TotalSpentTime * 100 / (record.WorkingDay * 8));
+
                         var avgPMGradeWithoutNACell = worksheet.Cells[currentRow, 11, toRow, 11];
                         avgPMGradeWithoutNACell.Merge = merge;
-                        avgPMGradeWithoutNACell.Value = CalculateAverageGrade(record.Assessments.Where(x => x.ProcessId == PerformanceProcess.ProjectManager && !string.IsNullOrWhiteSpace(x.GradeId)));
+                        avgPMGradeWithoutNACell.Value =
+                            CalculateAverageGrade(record.Assessments.Where(x => x.ProcessId == PerformanceProcess.ProjectManager && !string.IsNullOrWhiteSpace(x.GradeId)), gradeConversions);
 
                         var avgPMGradeWithNACell = worksheet.Cells[currentRow, 12, toRow, 12];
                         avgPMGradeWithNACell.Merge = merge;
-                        avgPMGradeWithoutNACell.Value = CalculateAverageGrade(record.Assessments.Where(x => x.ProcessId == PerformanceProcess.ProjectManager));
+                        avgPMGradeWithNACell.Value = CalculateAverageGrade(record.Assessments.Where(x => x.ProcessId == PerformanceProcess.ProjectManager), gradeConversions);
 
                         var contributionCell = worksheet.Cells[currentRow, 13, toRow, 13];
                         contributionCell.Merge = merge;
@@ -190,14 +202,16 @@
             }
         }
 
-        private static double CalculateAverageGrade(IEnumerable<AssessmentModel> assessments)
+        private static float CalculateAverageGrade(IEnumerable<AssessmentModel> assessments, IEnumerable<PerformanceGradeConversionModel> gradeConversions)
         {
-            var ids = assessments.Select(x =>
+            var points = assessments.Select(x =>
             {
                 int.TryParse(x.GradeId, out int gradeId);
-                return gradeId;
+                var conversion = gradeConversions.FirstOrDefault(g => g.GradeId == gradeId);
+
+                return conversion != null ? conversion.Point : 0f;
             });
-            return ids.Any() ? ids.Average() : 0;
+            return points.Any() ? points.Average() : 0f;
         }
 
         private static void WriteAssessment(ExcelRange selfCell, IEnumerable<AssessmentModel> assessments)

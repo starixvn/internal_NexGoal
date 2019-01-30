@@ -34,5 +34,7 @@
         Task<IEnumerable<string>> GetAnnouncements(int employeeId);
 
         Task<IEnumerable<PeriodBaseModel>> GetPeriodsForReportAsync();
+
+        Task<IEnumerable<PerformanceGradeConversionModel>> GetPerformanceGradeConversionAsync();
     }
 }

@@ -42,6 +42,12 @@
 
         public string NextObjective { get; set; }
 
+        public int WorkingDay { get; set; }
+
+        public float ActualWorkingDay { get; set; }
+
+        public float TotalSpentTime { get; set; }
+
         public IEnumerable<AwardModel> Awards { get; set; }
 
         public IEnumerable<AssessmentModel> Assessments { get; set; }

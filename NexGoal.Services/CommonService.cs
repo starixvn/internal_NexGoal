@@ -158,5 +158,12 @@
         {
             return await baseService.GetDataAsync<PeriodBaseModel>(new GetPeriodsForReportCriteria()).ConfigureAwait(false);
         }
+
+        public async Task<IEnumerable<PerformanceGradeConversionModel>> GetPerformanceGradeConversionAsync()
+        {
+            var criteria = new GetPerformanceGradeConversionCriteria();
+
+            return await baseService.GetDataAsync<PerformanceGradeConversionModel>(criteria).ConfigureAwait(false);
+        }
     }
 }

@@ -176,4 +176,7 @@
     <Setting Key="PMSetting_Delete" SpName="PMSetting_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PMSetting_GetProjectManagers" SpName="PMSetting_GetProjectManagers" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
+  <Function name="Performance Grade Conversion">
+    <Setting Key="PerformanceGradeConversion_Get" SpName="PerformanceGradeConversion_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
 </Functions>
