@@ -16,7 +16,7 @@ export default class App extends Component {
             filter: {
                 periods: [],
                 groups: [],
-                employees: null
+                employees: []
             },
             paPeriodRecords: [],
             isShowPADetail: false,
@@ -56,10 +56,9 @@ export default class App extends Component {
                         groupName: employee.groupName
                     };
                 });
-
                 this.setState({
                     filter: {
-                        periods: [this.periodOptions[0]],
+                        periods: this.periodOptions[0] ? [this.periodOptions[0]] : [],
                         groups: this.groupOptions,
                         employees: this.employeeOptions
                     }
