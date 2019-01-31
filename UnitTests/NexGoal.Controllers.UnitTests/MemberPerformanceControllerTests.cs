@@ -77,6 +77,34 @@
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public async Task MemmberDetail_WhenCalled_ReturnAsExpectedPerformanceRecords()
+        {
+            // Arrange
+            var expected = new List<PerformanceRecord>
+            {
+                new PerformanceRecord
+                {
+                    PerformanceRecordId = 1,
+                    Employees = new List<Employee>
+                    {
+                        new Employee { EmployeeId = 363, NickName = "Oliver" }
+                    },
+                    Comment = "test"
+                }
+            };
+            var controller = GetMemberPerformanceController();
+            performanceService.GetMemberPerformanceDetailAsync(sessionService.EmployeeId, 363).Returns(expected);
+
+            // Act
+            var result = await controller.MemmberDetail(363);
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var actual = Assert.IsAssignableFrom<IEnumerable<PerformanceRecord>>(jsonResult.Value);
+            Assert.Equal(expected, actual);
+        }
+
         #region Create
 
         [Fact]
@@ -104,6 +132,41 @@
 
             // Act
             var result = await controller.Create(new CreatePerformanceRecordModel());
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var actual = Assert.IsAssignableFrom<CommandResult>(jsonResult.Value);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateDraft_ModelStateIsInvalid_ReturnAsExpectedResult()
+        {
+            // Arrange
+            var controller = GetMemberPerformanceController();
+            controller.ModelState.AddModelError("comment", "required");
+
+            // Act
+            var result = await controller.CreateDraft(new CreatePerformanceRecordModel());
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            Assert.False((bool)jsonResult.Value.GetType().GetProperty("isSuccessful").GetValue(jsonResult.Value));
+        }
+
+        [Fact]
+        public async Task CreateDraft_ModelStateIsValid_ReturnAsExpectedCommandResult()
+        {
+            // Arrange
+            var expected = new CommandResult
+            {
+                Code = 0
+            };
+            var controller = GetMemberPerformanceController();
+            performanceService.CreateDraftPerformanceRecordAsync(Arg.Any<CreatePerformanceRecordModel>()).Returns(expected);
+
+            // Act
+            var result = await controller.CreateDraft(new CreatePerformanceRecordModel());
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
@@ -140,6 +203,38 @@
 
             // Act
             var result = await controller.Edit(new EditPerformanceRecordModel());
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var actual = Assert.IsAssignableFrom<CommandResult>(jsonResult.Value);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task EditDraft_ModelStateIsInvalid_ReturnAsExpectedResult()
+        {
+            // Arrange
+            var controller = GetMemberPerformanceController();
+            controller.ModelState.AddModelError("comment", "required");
+
+            // Act
+            var result = await controller.EditDraft(new EditPerformanceRecordModel());
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            Assert.False((bool)jsonResult.Value.GetType().GetProperty("isSuccessful").GetValue(jsonResult.Value));
+        }
+
+        [Fact]
+        public async Task EditDraft_ModelStateIsValid_ReturnAsExpectedCommandResult()
+        {
+            // Arrange
+            var expected = new CommandResult();
+            var controller = GetMemberPerformanceController();
+            performanceService.EditDraftPerformanceRecordAsync(Arg.Any<EditPerformanceRecordModel>()).Returns(expected);
+
+            // Act
+            var result = await controller.EditDraft(new EditPerformanceRecordModel());
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);

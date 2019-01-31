@@ -35,15 +35,9 @@
         public async Task<JsonResult> GetPARecords(GetPARecordMultiPeriodParam model)
         {
             model.ActorId = sessionService.EmployeeId;
-            if (string.IsNullOrEmpty(model.EmployeeIds))
-            {
-                model.EmployeeIds = sessionService.EmployeeId.ToString();
-            }
-            else
-            {
-                string employeeIds = string.Join($",{sessionService.EmployeeId}", model.EmployeeIds);
-                model.EmployeeIds = employeeIds;
-            }
+            model.EmployeeIds = string.IsNullOrEmpty(model.EmployeeIds) ? sessionService.EmployeeId.ToString() :
+              string.Join($",{sessionService.EmployeeId}", model.EmployeeIds);
+
             var paRecords = await reportService.GetPAReportAsync(model).ConfigureAwait(false);
 
             return Json(paRecords);

@@ -62,7 +62,8 @@
             var param = new GetPARecordMultiPeriodParam
             {
                 PeriodIds = "1,2,3,4",
-                GroupIds = "1,2"
+                GroupIds = "1,2",
+                EmployeeIds = "1,2,3,4"
             };
             var records = FakeDataListPA();
 
