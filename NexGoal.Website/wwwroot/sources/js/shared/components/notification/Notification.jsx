@@ -68,7 +68,7 @@ export default class Notification extends Component {
                         <a className="setting" onClick={this.handleClickSetting}>Settings</a>
                     </span>
                 </div>
-                <div className="noti-body" style={{ height: this.state.notiBodyHeight}}>
+                <div className="noti-body" style={{ height: this.state.notiBodyHeight }}>
                     <CustomScrollbars>
                         {
                             notifications &&
@@ -85,7 +85,7 @@ export default class Notification extends Component {
                                             <div className={`noti-item ${notiStatus} noti-${item.notificationId}`}
                                                 onClick={() => this.props.onChangeStatus(item.notificationId, item.statusId, false)}
                                             >
-                                                <img className="avatar" src={item.creator.avatar} />
+                                                <img className="avatar" src={item.creatorAvatar} />
                                                 <div className="description">
                                                     <a onClick={() => this.props.onChangeStatus(item.notificationId, item.statusId, true)}>
                                                         {item.content}
