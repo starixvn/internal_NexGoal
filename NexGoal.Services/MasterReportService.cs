@@ -165,17 +165,7 @@
                         avgPMGradeWithNACell.Merge = merge;
                         avgPMGradeWithNACell.Value = CalculateAverageGrade(record.Assessments.Where(x => x.ProcessId == PerformanceProcess.ProjectManager), gradeConversions);
 
-                        var contributionCell = worksheet.Cells[currentRow, 13, toRow, 13];
-                        contributionCell.Merge = merge;
-                        contributionCell.Value = record.Contribution;
-
-                        var bonusGivenCell = worksheet.Cells[currentRow, 14, toRow, 14];
-                        bonusGivenCell.Merge = merge;
-                        bonusGivenCell.Value = record.BonusGiven;
-
-                        var readyPromotionCell = worksheet.Cells[currentRow, 15, toRow, 15];
-                        readyPromotionCell.Merge = merge;
-                        readyPromotionCell.Value = record.IsReadyPromotion == "true" ? "Yes" : "No";
+                        WritePAFocus(worksheet, currentRow, toRow, record, merge);
 
                         var currentObjectiveCell = worksheet.Cells[currentRow, 16, toRow, 16];
                         currentObjectiveCell.Merge = merge;
@@ -189,7 +179,9 @@
                         foreach (var award in record.Awards)
                         {
                             worksheet.Cells[rowPosition, 18].Value = award.Title;
-                            worksheet.Cells[rowPosition, 19].Value = award.Status;
+                            var statusCell = worksheet.Cells[rowPosition, 19];
+                            statusCell.Value = award.Status;
+                            statusCell.Style.Font.Color.SetColor(GetNominationStatusFontColor(award.StatusId));
                             rowPosition++;
                         }
 
@@ -199,6 +191,60 @@
                 }
 
                 return package.GetAsByteArray();
+            }
+        }
+
+        private static Color GetNominationStatusFontColor(NominationStatus statusId)
+        {
+            switch (statusId)
+            {
+                case NominationStatus.Shortlisted:
+                    return Color.FromArgb(229, 97, 0);
+
+                case NominationStatus.Winner:
+                    return Color.FromArgb(20, 130, 213);
+
+                default: return Color.FromArgb(79, 158, 0);
+            }
+        }
+
+        private static void WritePAFocus(ExcelWorksheet worksheet, int currentRow, int toRow, MasterReportModel record, bool merge)
+        {
+            var backgroundColor = Color.Empty;
+
+            if ((record.ContributionId + record.BonusGivenId) > 8)
+            {
+                backgroundColor = record.IsReadyPromotion == "true" ? Color.FromArgb(89, 176, 59) : Color.FromArgb(104, 169, 189);
+            }
+            else
+            {
+                if ((record.ContributionId + record.BonusGivenId) < 4)
+                {
+                    backgroundColor = Color.FromArgb(255, 95, 95);
+                }
+            }
+
+            var contributionCell = worksheet.Cells[currentRow, 13, toRow, 13];
+            contributionCell.Merge = merge;
+            contributionCell.Value = record.Contribution;
+            contributionCell.Value = record.Contribution;
+
+            var bonusGivenCell = worksheet.Cells[currentRow, 14, toRow, 14];
+            bonusGivenCell.Merge = merge;
+            bonusGivenCell.Value = record.BonusGiven;
+
+            var readyPromotionCell = worksheet.Cells[currentRow, 15, toRow, 15];
+            readyPromotionCell.Merge = merge;
+            readyPromotionCell.Value = record.IsReadyPromotion == "true" ? "Yes" : "No";
+
+            if (backgroundColor != Color.Empty)
+            {
+                bonusGivenCell.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                bonusGivenCell.Style.Fill.BackgroundColor.SetColor(backgroundColor);
+                contributionCell.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                contributionCell.Style.Fill.BackgroundColor.SetColor(backgroundColor);
+                readyPromotionCell.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                readyPromotionCell.Style.Fill.BackgroundColor.SetColor(backgroundColor);
             }
         }
 

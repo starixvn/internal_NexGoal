@@ -1,10 +1,12 @@
 ﻿namespace NexGoal.Models.MasterReport
 {
+    using NexGoal.Core.Enumerations;
+
     public class AwardModel
     {
         public int NomineeId { get; set; }
 
-        public int StatusId { get; set; }
+        public NominationStatus StatusId { get; set; }
 
         public string Status { get; set; }
 

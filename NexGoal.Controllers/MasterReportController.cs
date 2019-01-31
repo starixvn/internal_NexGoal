@@ -24,14 +24,6 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetRecords(int periodId, string groupIds, string employeeIds)
-        {
-            var result = await masterReportService.GetRecords(periodId, groupIds, employeeIds).ConfigureAwait(false);
-
-            return Json(result);
-        }
-
-        [HttpGet]
         public async Task<IActionResult> Export(int periodId, string groupIds, string employeeIds)
         {
             var fileContent = await masterReportService.ExportAsync(periodId, groupIds, employeeIds).ConfigureAwait(false);
