@@ -57,6 +57,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Repositories.UnitTe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.AutoService.UnitTests", "UnitTests\NexGoal.AutoService.UnitTests\NexGoal.AutoService.UnitTests.csproj", "{BFCB8422-9412-4220-AA2F-FCC4B8778E0F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexgoal.Criteria.UnitTests", "Nexgoal.Criteria.UnitTests\Nexgoal.Criteria.UnitTests.csproj", "{E8DECE7F-8D72-4B50-ADDF-67BE6883C1FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +155,10 @@ Global
 		{BFCB8422-9412-4220-AA2F-FCC4B8778E0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFCB8422-9412-4220-AA2F-FCC4B8778E0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFCB8422-9412-4220-AA2F-FCC4B8778E0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8DECE7F-8D72-4B50-ADDF-67BE6883C1FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8DECE7F-8D72-4B50-ADDF-67BE6883C1FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8DECE7F-8D72-4B50-ADDF-67BE6883C1FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8DECE7F-8D72-4B50-ADDF-67BE6883C1FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -176,6 +182,7 @@ Global
 		{1025E343-28C1-4F5B-A76A-52689BC4288D} = {5EBBDE7A-F995-4B00-9D4D-F42A812FB2D4}
 		{B9731BDB-0A30-4B2F-9203-A43A40852AE9} = {64E62A2E-4E7A-4BAC-ADC9-2A7AB8848D62}
 		{BFCB8422-9412-4220-AA2F-FCC4B8778E0F} = {64E62A2E-4E7A-4BAC-ADC9-2A7AB8848D62}
+		{E8DECE7F-8D72-4B50-ADDF-67BE6883C1FB} = {64E62A2E-4E7A-4BAC-ADC9-2A7AB8848D62}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7747DB7-1991-4026-8BFF-407698672992}
