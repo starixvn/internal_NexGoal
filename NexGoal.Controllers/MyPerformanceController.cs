@@ -133,7 +133,7 @@
         [Route("Performance/GetDraftById/{id}")]
         public async Task<JsonResult> GetDraftById(int id)
         {
-            PerformanceRecord record = await performanceService.GetDraftPerformanceRecordByIdAsync(id).ConfigureAwait(false);
+            PerformanceRecord record = await performanceService.GetDraftPerformanceRecordByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(record);
         }

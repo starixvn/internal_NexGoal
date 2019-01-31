@@ -37,6 +37,6 @@
 
         public int TypeId { get; set; }
 
-        public bool IsHost => IsDraft || (!IsDraft && (DateTime.Now - CreatedDate).Days < 7);
+        public bool IsHost { get; set; }
     }
 }

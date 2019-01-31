@@ -12,7 +12,7 @@
 
         Task<PerformanceRecord> GetPerformanceRecordByIdAsync(int performanceRecordId, int creatorId);
 
-        Task<PerformanceRecord> GetDraftPerformanceRecordByIdAsync(int performanceRecordId);
+        Task<PerformanceRecord> GetDraftPerformanceRecordByIdAsync(int performanceRecordId, int creatorId);
 
         Task<IEnumerable<PerformanceRecord>> GetPerformanceRecordByIdsAsync(string performanceRecordIds, int creatorId);
 

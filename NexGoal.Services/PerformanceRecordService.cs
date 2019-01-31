@@ -47,7 +47,7 @@
             foreach (var performanceRecord in tuple.Item1)
             {
                 performanceRecord.Projects = tuple.Item2.Where(t => t.PerformanceRecordId == performanceRecord.PerformanceRecordId);
-                MappingDataForPerformanceReocrd(performanceRecord, performanceGrades);
+                MappingDataForPerformanceRecord(performanceRecord, performanceGrades, employeeId);
             }
 
             return tuple.Item1;
@@ -66,7 +66,7 @@
 
             foreach (var performanceRecord in performanceRecords)
             {
-                MappingDataForPerformanceReocrd(performanceRecord, performanceGrades);
+                MappingDataForPerformanceRecord(performanceRecord, performanceGrades, param.EmployeeId);
             }
 
             return new Tuple<IEnumerable<PerformanceRecord>, int>(performanceRecords, criteria.TotalItems);
@@ -85,7 +85,7 @@
             {
                 performanceRecord.Employees = tuple.Item2.Where(t => t.LinkObjectId == performanceRecord.PerformanceRecordId);
                 performanceRecord.Projects = tuple.Item3.Where(t => t.PerformanceRecordId == performanceRecord.PerformanceRecordId);
-                MappingDataForPerformanceReocrd(performanceRecord, performanceGrades);
+                MappingDataForPerformanceRecord(performanceRecord, performanceGrades, actorId);
             }
 
             return tuple.Item1;
@@ -106,7 +106,7 @@
             {
                 performanceRecord.Employees = tuple.Item2.Where(t => t.LinkObjectId == performanceRecord.PerformanceRecordId);
                 performanceRecord.Projects = tuple.Item3.Where(t => t.PerformanceRecordId == performanceRecord.PerformanceRecordId);
-                MappingDataForPerformanceReocrd(performanceRecord, performanceGrades);
+                MappingDataForPerformanceRecord(performanceRecord, performanceGrades, actorId);
             }
 
             return tuple.Item1;
@@ -128,7 +128,7 @@
 
             foreach (var performanceRecord in tuple.Item2)
             {
-                MappingDataForPerformanceReocrd(performanceRecord, performanceGrades);
+                MappingDataForPerformanceRecord(performanceRecord, performanceGrades, param.ActorId);
             }
 
             foreach (var member in tuple.Item1)
@@ -149,12 +149,12 @@
 
             var performanceRecord = await performanceRecordRepository.GetPerformanceRecordByIdAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
-            MappingDataForPerformanceReocrd(performanceRecord, performanceGrades);
+            MappingDataForPerformanceRecord(performanceRecord, performanceGrades, creatorId);
 
             return performanceRecord;
         }
 
-        public async Task<PerformanceRecord> GetDraftPerformanceRecordByIdAsync(int performanceRecordId)
+        public async Task<PerformanceRecord> GetDraftPerformanceRecordByIdAsync(int performanceRecordId, int creatorId)
         {
             var criteria = new GetDraftPerformanceRecordByIdCriteria
             {
@@ -163,7 +163,7 @@
 
             var performanceRecord = await performanceRecordRepository.GetDraftPerformanceRecordByIdAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
-            MappingDataForPerformanceReocrd(performanceRecord, performanceGrades);
+            MappingDataForPerformanceRecord(performanceRecord, performanceGrades, creatorId);
 
             return performanceRecord;
         }
@@ -182,7 +182,7 @@
             foreach (var performanceRecord in tuple.Item1)
             {
                 performanceRecord.Projects = tuple.Item2.Where(t => t.PerformanceRecordId == performanceRecord.PerformanceRecordId);
-                MappingDataForPerformanceReocrd(performanceRecord, performanceGrades);
+                MappingDataForPerformanceRecord(performanceRecord, performanceGrades, creatorId);
             }
 
             return tuple.Item1;
@@ -292,11 +292,14 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        private void MappingDataForPerformanceReocrd(PerformanceRecord performanceRecord, IEnumerable<PerformanceGradeModel> performanceGrades)
+        private void MappingDataForPerformanceRecord(PerformanceRecord performanceRecord, IEnumerable<PerformanceGradeModel> performanceGrades, int actorId)
         {
             performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
             int.TryParse(performanceRecord.GradeId, out int gradeId);
             performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+
+            performanceRecord.IsHost = performanceRecord.Creator.EmployeeId == actorId
+                    && (performanceRecord.IsDraft || (!performanceRecord.IsDraft && (DateTime.Now - performanceRecord.CreatedDate).Days < 7));
 
             if (performanceRecord.Creator.EmployeeId == Constants.NexGoalSystemId)
             {
