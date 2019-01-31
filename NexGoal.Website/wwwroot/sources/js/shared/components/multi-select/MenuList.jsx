@@ -8,7 +8,7 @@ const MenuList = (props) => {
         <components.MenuList {...props}>
             {
                 props.options.length > 0 &&
-                <div style={{ padding: '8px 12px' }}>
+                <div className="react-select__option">
                     <input type="checkbox" checked={selected.length === props.options.length}
                         onChange={(event) => {
                             if (event.target.checked) {

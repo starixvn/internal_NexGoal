@@ -47,7 +47,7 @@ export default class Filter extends Component {
                             name="groups"
                             value={filter.groups}
                             options={this.props.groupOptions}
-                            onChange={this.handleGroupChange}
+                            onChange={this.handleGroupChange}           
                         />
                     </div>
                 </FormGroup>

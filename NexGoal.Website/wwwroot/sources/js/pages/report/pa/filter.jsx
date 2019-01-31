@@ -61,7 +61,7 @@ export default class Filter extends Component {
                     this.props.groupOptions.length > 0 &&
                     <FormGroup>
                         <ControlLabel>{getResource('Employee')}</ControlLabel>
-                        <div className="control-content">
+                        <div className="control-content employee-width">
                             <MultiSelect className="react-select-container" classNamePrefix="react-select"
                                 name="employee"
                                 value={filter.employees}

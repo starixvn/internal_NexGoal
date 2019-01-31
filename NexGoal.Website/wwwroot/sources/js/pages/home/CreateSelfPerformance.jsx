@@ -249,7 +249,7 @@ export default class CreateSelfPerformance extends Component {
                                         options={performanceGradeOptions}
                                         isSearchable={false}
                                         isClearable
-                                        onChange={this.handleGradeChange}
+                                        onChange={this.handleGradeChange}  
                                     />
                                 </div>
                                 <div className="project">

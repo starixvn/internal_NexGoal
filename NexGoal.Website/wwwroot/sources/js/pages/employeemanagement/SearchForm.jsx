@@ -52,7 +52,7 @@ export default class SearchForm extends Component {
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>{getResource('Team')}</ControlLabel>
-                    <div className="control-content">
+                    <div className="control-content team-width">
                         <Select name="groupId" className="react-select-container" classNamePrefix="react-select"
                             value={filter.group} options={this.props.groupOptions}
                             isClearable={false}

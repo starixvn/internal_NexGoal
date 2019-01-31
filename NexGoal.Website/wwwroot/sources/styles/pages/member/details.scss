@@ -6,6 +6,7 @@
 @import "../../components/toast";
 @import "../../components/tabs";
 @import "../../components/tables";
+@import "../../components/dropdown";
 @import "../../layouts/record";
 @import "../../layouts/nomination";
 @import "../../layouts/role";
@@ -72,7 +73,7 @@
     padding: 52px 0px 0;
 
     .record {
-        margin: 12px;
+        margin: 12px 16px;
     }
 
     .nav-tabs {

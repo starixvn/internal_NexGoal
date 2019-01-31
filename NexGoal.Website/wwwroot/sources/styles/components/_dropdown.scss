@@ -1,0 +1,18 @@
+.react-select-container {
+    .react-select__menu {
+        margin: 0;
+        .react-select__option {
+            color: #545454;
+            background: inherit;
+            padding: 8px 12px;
+            &:hover, &:active {
+                color: #fff;
+                background-color: #324476;
+            }
+            input[type="checkbox"] {
+                position: relative;
+                top: 2px;
+            }
+        }
+    }
+}

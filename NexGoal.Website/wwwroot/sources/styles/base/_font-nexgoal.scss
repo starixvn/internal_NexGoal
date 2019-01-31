@@ -20,6 +20,10 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-close-circle:before {
+    content: "\e934";
+}
+
 .icon-pdf:before {
     content: "\e933";
     color: #d10000;

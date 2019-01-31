@@ -3,9 +3,38 @@
 .Toastify__toast-container {
     .Toastify__toast {
         min-height: 50px;
+        border-radius: 5px;
+        padding: 8px 12px 14px;
     }
 
     &.Toastify__toast-container--top-center {
         top: 5rem;
+    }
+    .Toastify__toast-body:before {
+        font-family: 'NexGoalIcon' !important;
+        font-size: 20px;
+        padding-right: 8px;
+        position: relative;
+        top: 3px;
+
+    }
+    .Toastify__toast--success {
+        background-color: #E0F3FF;
+        color: #2270CE;
+        .Toastify__toast-body:before {
+            content: '\e908';
+        }
+    }
+    .Toastify__toast--error {
+        background-color: #FFE1E1;
+        color: #FF0000;
+        .Toastify__toast-body:before {
+            content: "\e934";
+        }
+    }
+    .Toastify__close-button {
+        color: #969696;
+        align-self: center;
+        padding-top: 6px;
     }
 }

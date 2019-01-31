@@ -80,7 +80,7 @@ class SearchForm extends Component {
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>{getResource('Team')}</ControlLabel>
-                    <div className="control-content">
+                    <div className="control-content team-width">
                         <Select name="group"
                             className="react-select-container" classNamePrefix="react-select"
                             value={filter.group}
@@ -91,7 +91,7 @@ class SearchForm extends Component {
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>{getResource('Employee')}</ControlLabel>
-                    <div className="control-content">
+                    <div className="control-content employee-width">
                         <Select name="employee"
                             className="react-select-container" classNamePrefix="react-select"
                             value={filter.employee}
