@@ -134,6 +134,7 @@
 
                         var selfCell = worksheet.Cells[currentRow, 5, toRow, 5];
                         selfCell.Merge = merge;
+                        selfCell.Style.WrapText = true;
                         WriteAssessment(selfCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.Self));
 
                         var pmCell = worksheet.Cells[currentRow, 6, toRow, 6];
@@ -276,7 +277,10 @@
 
                 richTextCollection.Add(Environment.NewLine);
 
-                richTextCollection.Add(assessment.Comment);
+                if (!string.IsNullOrWhiteSpace(assessment.Comment))
+                {
+                    richTextCollection.Add(assessment.Comment);
+                }
 
                 richTextCollection.Add(Environment.NewLine);
                 richTextCollection.Add(Environment.NewLine);
@@ -303,14 +307,14 @@
                 var color = Color.Black;
                 if (gradeId > originalGradeId)
                 {
-                    icon = "↗";
+                    icon = "▲";
                     color = Color.Green;
                 }
                 else
                 {
                     if (gradeId < originalGradeId)
                     {
-                        icon = "↘";
+                        icon = "▼";
                         color = Color.Red;
                     }
                 }
@@ -320,11 +324,14 @@
                 iconText.Color = color;
             }
 
-            richTextCollection.Add(Environment.NewLine);
+            if (!string.IsNullOrWhiteSpace(record.Comment))
+            {
+                richTextCollection.Add(Environment.NewLine);
 
-            var commentText = richTextCollection.Add(record.Comment);
-            commentText.Bold = false;
-            commentText.Color = Color.Black;
+                var commentText = richTextCollection.Add(record.Comment);
+                commentText.Bold = false;
+                commentText.Color = Color.Black;
+            }
         }
     }
 }
