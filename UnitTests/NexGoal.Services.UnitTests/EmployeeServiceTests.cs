@@ -124,12 +124,12 @@ namespace NexGoal.Services.UnitTests
         public async Task GetGroupAsync_WhenCalled_ReturnAsExpectedGroups()
         {
             // Arrange
-            var groups = new List<GroupBaseModel>
+            var groups = new List<Group>
             {
-                new GroupBaseModel { GroupId = 1, Name = "Nexus" }
+                new Group { GroupId = 1, Name = "Nexus" }
             };
             var service = GetEmployeeService();
-            baseService.GetDataAsync<GroupBaseModel>(Arg.Any<GetGroupByActorIdCriteria>()).Returns(groups);
+            baseService.GetDataAsync<Group>(Arg.Any<GetGroupByActorIdCriteria>()).Returns(groups);
 
             // Act
             var actual = await service.GetGroupAsync(1);

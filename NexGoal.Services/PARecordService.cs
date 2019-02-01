@@ -43,7 +43,7 @@
             return await baseService.GetDataAsync<PeriodBaseModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<GroupBaseModel>> GetGroupByActorAsync(int actorId, int periodId)
+        public async Task<IEnumerable<Group>> GetGroupByActorAsync(int actorId, int periodId)
         {
             var criteria = new GetGroupByActorCriteria
             {
@@ -51,7 +51,7 @@
                 PeriodId = periodId
             };
 
-            return await baseService.GetDataAsync<GroupBaseModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<Group>(criteria).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<PerformanceAppraisalResult>> GetPerformanceAppraisalResultAsync(int employeeId)

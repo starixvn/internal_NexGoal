@@ -8,7 +8,7 @@
 
     public interface IGroupFlowSettingService
     {
-        Task<IEnumerable<GroupBaseModel>> GetGroupHaveSettingAsync();
+        Task<IEnumerable<Group>> GetGroupHaveSettingAsync();
 
         Task<IEnumerable<GroupFlowSettingModel>> GetGroupFlowSettingAsync();
 

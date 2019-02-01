@@ -10,7 +10,7 @@
     {
         Task<IEnumerable<PeriodBaseModel>> GetPeriodAsync();
 
-        Task<IEnumerable<GroupBaseModel>> GetGroupAsync(int actorId);
+        Task<IEnumerable<Group>> GetGroupAsync(int actorId);
 
         Task<IEnumerable<Employee>> GetMemberAsync(int actorId, string groupIds = null);
 

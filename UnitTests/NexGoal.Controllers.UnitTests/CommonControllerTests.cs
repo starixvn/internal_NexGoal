@@ -45,9 +45,9 @@
         public async Task GetGroups_WhenCalled_ReturnAsExpectedGroups()
         {
             // Arrange
-            var groups = new List<GroupBaseModel>
+            var groups = new List<Group>
             {
-                new GroupBaseModel { GroupId = 1, Code = "NEX", Name = "Nexus" }
+                new Group { GroupId = 1, Code = "NEX", Name = "Nexus" }
             };
             var controller = GetCommonController();
             commonService.GetGroupsAsync().Returns(groups);
@@ -57,7 +57,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
-            var result = Assert.IsAssignableFrom<IEnumerable<GroupBaseModel>>(jsonResult.Value);
+            var result = Assert.IsAssignableFrom<IEnumerable<Group>>(jsonResult.Value);
             Assert.Equal(groups, result);
         }
 
@@ -255,9 +255,9 @@
         public async Task GetMyGroup_WhenCalled_ReturnAsExpectedGroups()
         {
             // Arrange
-            var groups = new List<GroupBaseModel>
+            var groups = new List<Group>
             {
-                new GroupBaseModel { GroupId = 1, Code = "NEX", Name = "Nexus" }
+                new Group { GroupId = 1, Code = "NEX", Name = "Nexus" }
             };
             var controller = GetCommonController();
             employeeService.GetGroupAsync(sessionService.EmployeeId).Returns(groups);
@@ -267,7 +267,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
-            var result = Assert.IsAssignableFrom<IEnumerable<GroupBaseModel>>(jsonResult.Value);
+            var result = Assert.IsAssignableFrom<IEnumerable<Group>>(jsonResult.Value);
             Assert.Equal(groups, result);
         }
 

@@ -78,11 +78,11 @@
             return employee;
         }
 
-        public async Task<IEnumerable<GroupBaseModel>> GetGroupsAsync()
+        public async Task<IEnumerable<Group>> GetGroupsAsync()
         {
             var criteria = new GetGroupsCriteria();
 
-            return await baseService.GetDataAsync<GroupBaseModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<Group>(criteria).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<ProjectModel>> GetProjectsAsync()

@@ -40,9 +40,9 @@
         public async Task GetGroups_WhenCalled_ReturnAsExpectedGroups()
         {
             // Arrange
-            var groups = new List<GroupBaseModel>
+            var groups = new List<Group>
             {
-                new GroupBaseModel { GroupId = 1, Name = "Nexus" }
+                new Group { GroupId = 1, Name = "Nexus" }
             };
             var controller = GetReviewController();
             paRecordService.GetGroupByActorAsync(sessionService.EmployeeId, 1).Returns(groups);
@@ -52,7 +52,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
-            var result = Assert.IsAssignableFrom<IEnumerable<GroupBaseModel>>(jsonResult.Value);
+            var result = Assert.IsAssignableFrom<IEnumerable<Group>>(jsonResult.Value);
             Assert.Equal(groups, result);
         }
 

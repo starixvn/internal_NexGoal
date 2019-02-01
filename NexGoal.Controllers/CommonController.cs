@@ -45,7 +45,7 @@
         [HttpGet]
         public async Task<JsonResult> GetGroups()
         {
-            IEnumerable<GroupBaseModel> groups = await commonService.GetGroupsAsync().ConfigureAwait(false);
+            IEnumerable<Group> groups = await commonService.GetGroupsAsync().ConfigureAwait(false);
 
             return Json(groups);
         }
@@ -125,7 +125,7 @@
         [HttpGet]
         public async Task<JsonResult> GetMyGroup()
         {
-            IEnumerable<GroupBaseModel> groups = await employeeService.GetGroupAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<Group> groups = await employeeService.GetGroupAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(groups);
         }

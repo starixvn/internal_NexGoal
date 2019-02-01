@@ -20,11 +20,11 @@
             this.baseService = baseService;
         }
 
-        public async Task<IEnumerable<GroupBaseModel>> GetGroupHaveSettingAsync()
+        public async Task<IEnumerable<Group>> GetGroupHaveSettingAsync()
         {
             var criteria = new GetGroupHaveSettingCriteria();
 
-            return await baseService.GetDataAsync<GroupBaseModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<Group>(criteria).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<GroupFlowSettingModel>> GetGroupFlowSettingAsync()

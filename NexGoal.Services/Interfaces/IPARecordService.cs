@@ -12,7 +12,7 @@
     {
         Task<IEnumerable<PeriodBaseModel>> GetPeriodByActorAsync(int actorId);
 
-        Task<IEnumerable<GroupBaseModel>> GetGroupByActorAsync(int actorId, int periodId);
+        Task<IEnumerable<Group>> GetGroupByActorAsync(int actorId, int periodId);
 
         Task<IEnumerable<PerformanceAppraisalResult>> GetPerformanceAppraisalResultAsync(int employeeId);
 
