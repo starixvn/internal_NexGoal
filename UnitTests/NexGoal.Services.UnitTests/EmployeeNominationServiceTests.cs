@@ -264,6 +264,46 @@
             Assert.True(result.IsSuccessful);
         }
 
+        [Fact]
+        public async Task GetMemberNominationByIdAsync_ValidData_ReturnExpectedResult()
+        {
+            var service = GetService();
+
+            var performanceRecord = new PerformanceRecordModel
+            {
+                PerformanceRecordId = 1,
+                EmployeeIds = "2",
+                CreatorId = 1
+            };
+
+            nominationRepository.GetMemberNominationAsync(Arg.Any<GetMemberNominationByIdCriteria>())
+                .Returns(new List<PerformanceRecordModel> { performanceRecord });
+
+            var result = await service.GetMemberNominationByIdAsync(1, 2);
+            Assert.NotEmpty(result);
+            Assert.Single(result);
+        }
+
+        [Fact]
+        public async Task GetCurrentNominationPeriodForComittee_ValidData_ReturnExpectedResult()
+        {
+            var service = GetService();
+
+            var model = new NominationPeriodModel
+            {
+                NominationPeriodId = 1,
+                Quarter = 2
+            };
+
+            baseService.GetDataEntityAsync<NominationPeriodModel>(Arg.Any<GetNominationPeriodsForComitteeCriteria>())
+                .Returns(model);
+
+            var result = await service.GetCurrentNominationPeriodForComittee(1, true);
+            Assert.NotNull(result);
+            Assert.True(model.Quarter.HasValue);
+            Assert.Equal(model.NominationPeriodId, result.NominationPeriodId);
+        }
+
         private EmployeeNominationService GetService()
         {
             baseService = Substitute.For<IBaseService>();
