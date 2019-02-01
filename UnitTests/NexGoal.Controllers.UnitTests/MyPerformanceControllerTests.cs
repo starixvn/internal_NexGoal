@@ -90,7 +90,7 @@
                 Comment = "test"
             };
             var controller = GetMyPerformanceController();
-            performanceService.GetDraftPerformanceRecordByIdAsync(1).Returns(expected);
+            performanceService.GetDraftPerformanceRecordByIdAsync(1, 1).Returns(expected);
 
             // Act
             var result = await controller.GetDraftById(1);

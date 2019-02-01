@@ -258,6 +258,7 @@
     <Build Include="dbo\Stored Procedures\Report_GetPeriods.sql" />
     <Build Include="dbo\Stored Procedures\PerformanceGradeConversion_Get.sql" />
     <Build Include="dbo\Tables\PerformanceGradeConversion.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_GetInfo.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">
