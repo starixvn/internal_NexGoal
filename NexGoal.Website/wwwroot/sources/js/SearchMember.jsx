@@ -10,7 +10,7 @@ export default class SearchMember extends Component {
         super(props);
 
         this.state = {
-            hasMember: document.getElementById("employeeInfo-isHasMember").checked,
+            hasMember: false,
             showSearchbox: false,
             memberOptions: []
         };

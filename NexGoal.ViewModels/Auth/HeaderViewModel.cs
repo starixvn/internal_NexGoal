@@ -11,7 +11,5 @@
         public Employee CurrentUserInfo { get; set; }
 
         public int UnreadNotification { get; set; }
-
-        public bool IsHasMember { get; set; }
     }
 }

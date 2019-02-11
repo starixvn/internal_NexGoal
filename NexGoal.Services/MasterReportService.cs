@@ -25,7 +25,11 @@
         private readonly ICommonService commonService;
         private readonly IHostingEnvironment hostingEnvironment;
 
-        public MasterReportService(IBaseService baseService, ICryptoService cryptoService, ICommonService commonService, IHostingEnvironment hostingEnvironment)
+        public MasterReportService(
+            IBaseService baseService,
+            ICryptoService cryptoService,
+            ICommonService commonService,
+            IHostingEnvironment hostingEnvironment)
         {
             this.baseService = baseService;
             this.cryptoService = cryptoService;
@@ -264,6 +268,7 @@
 
                 return conversion != null ? conversion.Point : 0f;
             });
+
             return points.Any() ? points.Average() : 0f;
         }
 

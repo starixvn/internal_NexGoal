@@ -26,8 +26,7 @@
             {
                 MenuItems = sessionService.MenuItems,
                 CurrentUserInfo = employeeInfo.Item1,
-                IsHasMember = employeeInfo.Item2,
-                UnreadNotification = employeeInfo.Item3
+                UnreadNotification = employeeInfo.Item2
             };
 
             return View("Menu", viewModel);
