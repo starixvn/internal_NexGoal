@@ -34,9 +34,9 @@
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
                 var nominations = await db.QueryAsync<PerformanceRecord, Employee, Employee, NominationPeriodModel, PerformanceRecord>(
-                    (nomination, employee, creator, period) =>
+                    (nomination, nominee, creator, period) =>
                     {
-                        nomination.Employees = new List<Employee> { employee };
+                        nomination.Employees = new List<Employee> { nominee };
                         nomination.Creator = creator;
                         nomination.NominationPeriod = period;
 
@@ -46,6 +46,24 @@
                     criteria).ConfigureAwait(false);
 
                 return nominations;
+            }
+        }
+
+        public async Task<PerformanceRecord> GetNominationByRecordIdAsync(ICriteria criteria)
+        {
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
+            {
+                return await db.QueryEntityAsync<PerformanceRecord, Employee, Employee, NominationPeriodModel, PerformanceRecord>(
+                    (nomination, nominee, creator, period) =>
+                    {
+                        nomination.Employees = new List<Employee> { nominee };
+                        nomination.Creator = creator;
+                        nomination.NominationPeriod = period;
+
+                        return nomination;
+                    },
+                    "EmployeeId, EmployeeId, NominationPeriodId",
+                    criteria).ConfigureAwait(false);
             }
         }
     }

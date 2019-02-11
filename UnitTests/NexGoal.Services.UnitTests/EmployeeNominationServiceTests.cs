@@ -131,26 +131,22 @@
         [Fact]
         public async Task GetNominationByRecordIdAsync_ValidData_ReturnExpectedResult()
         {
+            // Arrange
             var service = GetService();
-
-            var performanceRecord = new PerformanceRecordModel
+            var performanceRecord = new PerformanceRecord
             {
                 PerformanceRecordId = 1,
-                EmployeeIds = "2",
-                CreatorId = 1
+                Employees = new List<Employee> { new Employee { EmployeeId = 1, NickName = "tim" } },
+                Creator = new Employee { EmployeeId = 2, NickName = "quinn" },
+                NominationPeriod = new NominationPeriodModel { NominationPeriodId = 1, Year = 2018 }
             };
+            nominationRepository.GetNominationByRecordIdAsync(Arg.Any<GetNominationByRecordIdCriteria>()).Returns(performanceRecord);
 
-            baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(Arg.Any<GetNominationByRecordIdCriteria>())
-                .Returns(new Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<NominationPeriodModel>>(
-                    new List<PerformanceRecordModel> { performanceRecord }, Enumerable.Empty<NominationPeriodModel>()));
-            commonService.GetEmployeeByIdAsync(performanceRecord.CreatorId).Returns(new Employee { EmployeeId = 1 });
-            commonService.GetEmployeeByIdAsync(2).Returns(new Employee { EmployeeId = 2 });
+            // Act
+            var actual = await service.GetNominationByRecordIdAsync(1);
 
-            var result = await service.GetNominationByRecordIdAsync(1);
-
-            Assert.NotNull(result);
-            Assert.Equal(result.CreatorId, result.Creator.EmployeeId);
-            Assert.Equal(result.EmployeeIds, result.Employees.FirstOrDefault().EmployeeId.ToString());
+            // Assert
+            Assert.Equal(performanceRecord, actual);
         }
 
         [Fact]

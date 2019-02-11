@@ -8,6 +8,8 @@
 
         public int UnreadNotification { get; set; }
 
+        public bool IsHasMember { get; set; }
+
         public override string GetSettingKey() => "Employee_GetInfo";
 
         public override bool IsValid() => EmployeeId > 0;

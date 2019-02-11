@@ -8,8 +8,10 @@
     {
         public IEnumerable<MenuItemSession> MenuItems { get; set; }
 
-        public Employee CurrentUserInfo { get; set; }
+        public Employee UserInfo { get; set; }
 
         public int UnreadNotification { get; set; }
+
+        public bool IsHasMember { get; set; }
     }
 }

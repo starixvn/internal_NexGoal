@@ -95,29 +95,14 @@
             return await baseService.GetDataEntityAsync<NominationPeriodModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<PerformanceRecordModel> GetNominationByRecordIdAsync(int performanceRecordId)
+        public async Task<PerformanceRecord> GetNominationByRecordIdAsync(int performanceRecordId)
         {
             var criteria = new GetNominationByRecordIdCriteria
             {
                 RecordId = performanceRecordId
             };
 
-            var result = await baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(criteria).ConfigureAwait(false);
-
-            var performanceRecord = result.Item1.FirstOrDefault();
-
-            if (performanceRecord != null)
-            {
-                var nominationPeriod = result.Item2.FirstOrDefault();
-
-                performanceRecord.Creator = await commonService.GetEmployeeByIdAsync(performanceRecord.CreatorId).ConfigureAwait(false);
-                performanceRecord.NominationPeriod = nominationPeriod;
-
-                var nominee = await commonService.GetEmployeeByIdAsync(int.Parse(performanceRecord.EmployeeIds)).ConfigureAwait(false);
-                performanceRecord.Employees = new List<Employee> { nominee };
-            }
-
-            return performanceRecord;
+            return await nominationRepository.GetNominationByRecordIdAsync(criteria).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<EmployeeNominationModel>> GetNominationResultAsync(int employeeId)

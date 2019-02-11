@@ -98,17 +98,17 @@
         [HttpGet]
         public async Task<IActionResult> GetMemberNominationById(int memberId)
         {
-            IEnumerable<PerformanceRecord> result = await employeeNominationService.GetMemberNominationByIdAsync(sessionService.EmployeeId, memberId).ConfigureAwait(false);
+            IEnumerable<PerformanceRecord> performanceRecords = await employeeNominationService.GetMemberNominationByIdAsync(sessionService.EmployeeId, memberId).ConfigureAwait(false);
 
-            return Json(result);
+            return Json(performanceRecords);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetByRecordId(int performanceRecordId)
         {
-            PerformanceRecordModel result = await employeeNominationService.GetNominationByRecordIdAsync(performanceRecordId).ConfigureAwait(false);
+            PerformanceRecord performanceRecord = await employeeNominationService.GetNominationByRecordIdAsync(performanceRecordId).ConfigureAwait(false);
 
-            return Json(result);
+            return Json(performanceRecord);
         }
     }
 }

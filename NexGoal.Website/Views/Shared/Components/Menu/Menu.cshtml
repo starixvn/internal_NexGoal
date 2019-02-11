@@ -3,7 +3,7 @@
 @model HeaderViewModel
 
 @{
-    var employee = Model.CurrentUserInfo;
+    var employee = Model.UserInfo;
     var currentController = ViewContext.RouteData.Values["Controller"].ToString().ToLowerInvariant();
     var currentAction = ViewContext.RouteData.Values["Action"].ToString().ToLowerInvariant();
     var currentUrl = string.Format("/{0}/{1}", currentController, currentAction);
@@ -67,4 +67,5 @@
     <span id="employeeInfo-unreadNoti">@Model.UnreadNotification</span>
     <img id="employeeInfo-avatar" src="@employee.Avatar" />
     <input type="checkbox" id="employeeInfo-isProbation" @(employee.IsProbation ? "checked" : string.Empty) />
+    <input type="checkbox" id="employeeInfo-isHasMember" @(Model.IsHasMember ? "checked" : string.Empty) />
 </div>

@@ -171,7 +171,7 @@
         public async Task GetByRecordId_WhenCalled_ReturnAsExpectedPerformanceRecord()
         {
             // Arrange
-            var expected = new PerformanceRecordModel
+            var expected = new PerformanceRecord
             {
                 PerformanceRecordId = 1,
                 Employees = new List<Employee>
@@ -188,7 +188,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
-            var actual = Assert.IsAssignableFrom<PerformanceRecordModel>(jsonResult.Value);
+            var actual = Assert.IsAssignableFrom<PerformanceRecord>(jsonResult.Value);
             Assert.Equal(expected, actual);
         }
 

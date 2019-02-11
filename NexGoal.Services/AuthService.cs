@@ -55,7 +55,7 @@
             return menuGroups;
         }
 
-        public async Task<Tuple<Employee, int>> GetEmployeeInfo(int employeeId)
+        public async Task<Tuple<Employee, bool, int>> GetEmployeeInfoAsync(int employeeId)
         {
             var criteria = new GetEmployeeInfoCriteria
             {
@@ -64,8 +64,9 @@
 
             var info = await baseService.GetDataEntityAsync<Employee>(criteria).ConfigureAwait(false);
 
-            Tuple<Employee, int> tuple = new Tuple<Employee, int>(
+            var tuple = new Tuple<Employee, bool, int>(
                 info,
+                criteria.IsHasMember,
                 criteria.UnreadNotification);
 
             return tuple;

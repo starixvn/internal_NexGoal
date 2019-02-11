@@ -25,7 +25,7 @@
 
         Task<IEnumerable<PerformanceRecord>> GetMemberNominationByIdAsync(int nominatorId, int memberId);
 
-        Task<PerformanceRecordModel> GetNominationByRecordIdAsync(int performanceRecordId);
+        Task<PerformanceRecord> GetNominationByRecordIdAsync(int performanceRecordId);
 
         Task<NominationPeriodModel> GetCurrentNominationPeriodForComittee(int committeeId, bool isQuarter);
 

@@ -21,12 +21,13 @@
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var employeeInfo = await authService.GetEmployeeInfo(sessionService.EmployeeId);
+            var employeeInfo = await authService.GetEmployeeInfoAsync(sessionService.EmployeeId);
             var viewModel = new HeaderViewModel
             {
                 MenuItems = sessionService.MenuItems,
-                CurrentUserInfo = employeeInfo.Item1,
-                UnreadNotification = employeeInfo.Item2
+                UserInfo = employeeInfo.Item1,
+                IsHasMember = employeeInfo.Item2,
+                UnreadNotification = employeeInfo.Item3
             };
 
             return View("Menu", viewModel);

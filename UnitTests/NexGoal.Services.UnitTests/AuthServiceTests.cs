@@ -48,7 +48,7 @@
         }
 
         [Fact]
-        public async Task GetEmployeeInfo_WhenCalled_ReturnAsExpectedEmployee()
+        public async Task GetEmployeeInfoAsync_WhenCalled_ReturnAsExpectedEmployee()
         {
             // Arrange
             var employee = new Employee { EmployeeId = 1, NickName = "Oliver" };
@@ -58,7 +58,7 @@
             baseService.GetDataEntityAsync<Employee>(Arg.Any<GetEmployeeInfoCriteria>()).Returns(employee);
 
             // Act
-            var actual = await service.GetEmployeeInfo(1);
+            var actual = await service.GetEmployeeInfoAsync(1);
 
             // Assert
             Assert.Equal(expected.Item1, actual.Item1);

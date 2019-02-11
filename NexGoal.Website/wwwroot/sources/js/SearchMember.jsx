@@ -10,7 +10,7 @@ export default class SearchMember extends Component {
         super(props);
 
         this.state = {
-            hasMember: false,
+            hasMember: document.getElementById('employeeInfo-isHasMember').checked,
             showSearchbox: false,
             memberOptions: []
         };
@@ -20,7 +20,6 @@ export default class SearchMember extends Component {
 
     componentDidMount() {
         document.addEventListener('mousedown', this.handleClickOutside);
-        this.getMemberOptions();
     }
 
     componentWillUnmount() {
