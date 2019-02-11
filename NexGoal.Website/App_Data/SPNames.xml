@@ -118,8 +118,7 @@
     <Setting Key="PARecord_GetPerformanceAppraisalResult" SpName="PARecord_GetPerformanceAppraisalResult" DbName="bodb_NexGoal" Plain="0" />
     <Setting Key="PARecord_GetMemberPerformanceAppraisalResult" SpName="PARecord_GetMemberPerformanceAppraisalResult" DbName="bodb_NexGoal" Plain="0" />
     <Setting Key="PARecord_GetPermission" SpName="PARecord_GetPermission" DbName="bodb_NexGoal" Plain="0" />
-    <Setting Key="PARecord_GetPreviousPAGrade" SpName="PARecord_GetPreviousPAGrade" DbName="bodb_NexGoal" Plain="0" />
-    <Setting Key="PARecord_GetDisciplineById" SpName="PARecord_GetDisciplineById" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PARecord_GetDisciplineHRMInfoAndPreviousPAGrade" SpName="PARecord_GetDisciplineHRMInfoAndPreviousPAGrade" DbName="bodb_NexGoal" Plain="0" />
   </Function>
   <Function Name="Nomination Period">
     <Setting Key="NominationPeriod_Get" SpName="NominationPeriod_Get" DbName="bodb_NexGoal" Plain="0"></Setting>

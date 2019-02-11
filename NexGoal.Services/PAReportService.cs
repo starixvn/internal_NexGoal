@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -7,6 +8,7 @@
     using NexGoal.Criteria.Report;
     using NexGoal.Models;
     using NexGoal.Models.Common;
+    using NexGoal.Models.Discipline;
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.NominationPeriod;
     using NexGoal.Models.PARecord;
@@ -96,28 +98,50 @@
         public async Task<PAReportDetail> GetPAReportDetailAsync(GetPADetailParam model)
         {
             var paRecord = await paRecordService.GetPARecordByIdAsync(model.PARecordId, model.ActorId).ConfigureAwait(false);
-            var disciplines = await paRecordService.GetDisciplineByRecordIdAsync(model.PARecordId).ConfigureAwait(false);
             var employeeInfo = await commonService.GetEmployeeByIdAsync(model.EmployeeId).ConfigureAwait(false);
-            var hrm = await GetHRM(model.EmployeeId, model.PeriodId).ConfigureAwait(false);
             var grades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
-            var previousGrade = await paRecordService.GetPreviousPAGrade(model.PeriodId, model.ActorId, model.EmployeeId).ConfigureAwait(false);
+
+            Tuple<IEnumerable<DisciplineModel>, IEnumerable<HRMInfo>, string> hrmAndPrevGrade = await GetPARecordDetail(model.ActorId, model.PARecordId).ConfigureAwait(false);
+
+            var previousGrade = hrmAndPrevGrade.Item3;
             previousGrade = cryptoService.Decrypt(previousGrade);
             int.TryParse(previousGrade, out int gradeId);
             var achievements = await GetAchievements(model.EmployeeId, model.PeriodId).ConfigureAwait(false);
 
-            var paDetail = new PAReportDetail
+            var paDetails = new PAReportDetail
             {
                 Employee = employeeInfo,
                 PARecord = paRecord,
-                HRM = hrm,
-                Disciplines = disciplines,
+                HRM = hrmAndPrevGrade.Item2,
+                Disciplines = hrmAndPrevGrade.Item1,
                 AllGrades = grades,
                 Achievements = achievements,
                 PreviousGradeId = previousGrade,
                 PreviousGrade = grades.FirstOrDefault(g => g.GradeId == gradeId)
             };
 
-            return paDetail;
+            return paDetails;
+        }
+
+        private async Task<Tuple<
+            IEnumerable<DisciplineModel>,
+            IEnumerable<HRMInfo>,
+            string>> GetPARecordDetail(int actorId, int paRecordId)
+        {
+            var criteria = new GetDisciplineHRMInfoAndPreviousPAGradeCriteria
+            {
+                ActorId = actorId,
+                PARecordId = paRecordId
+            };
+
+            var details = await baseService.FetchMultipleAsync<DisciplineModel, HRMInfo, string>(criteria).ConfigureAwait(false);
+
+            return new Tuple<IEnumerable<DisciplineModel>,
+                IEnumerable<HRMInfo>,
+                string>(details.Item1,
+                details.Item2,
+                details.Item3.FirstOrDefault()
+                );
         }
 
         private async Task<IEnumerable<EmployeeNominationModel>> GetAchievements(int employeeId, int periodId)
@@ -136,17 +160,6 @@
             }
 
             return tuple.Item1;
-        }
-
-        private async Task<IEnumerable<HRMInfo>> GetHRM(int employeeId, int periodId)
-        {
-            var criteria = new GetHRMByEmployeeInPeriod
-            {
-                EmployeeId = employeeId,
-                PeriodId = periodId
-            };
-
-            return await baseService.GetDataAsync<HRMInfo>(criteria).ConfigureAwait(false);
         }
     }
 }
