@@ -21,9 +21,9 @@
 
         Task<IEnumerable<EmployeeNominationModel>> GetMemberNominationResultAsync(int actorId, int? employeeId = null, int? year = null);
 
-        Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationAsync(int nominatorId);
+        Task<IEnumerable<PerformanceRecord>> GetMemberNominationAsync(int nominatorId);
 
-        Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationByIdAsync(int nominatorId, int memberId);
+        Task<IEnumerable<PerformanceRecord>> GetMemberNominationByIdAsync(int nominatorId, int memberId);
 
         Task<PerformanceRecordModel> GetNominationByRecordIdAsync(int performanceRecordId);
 

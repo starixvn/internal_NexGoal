@@ -143,9 +143,9 @@
         public async Task GetMemberNominations_WhenCalled_ReturnAsExpectedPerformanceRecords()
         {
             // Arrange
-            var expected = new List<PerformanceRecordModel>
+            var expected = new List<PerformanceRecord>
             {
-                new PerformanceRecordModel
+                new PerformanceRecord
                 {
                     PerformanceRecordId = 1,
                     Employees = new List<Employee>
@@ -163,7 +163,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
-            var actual = Assert.IsAssignableFrom<IEnumerable<PerformanceRecordModel>>(jsonResult.Value);
+            var actual = Assert.IsAssignableFrom<IEnumerable<PerformanceRecord>>(jsonResult.Value);
             Assert.Equal(expected, actual);
         }
 

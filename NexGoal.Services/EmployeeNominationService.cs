@@ -3,12 +3,10 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.EmployeeNomination;
-    using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.NominationPeriod;
@@ -147,25 +145,26 @@
             return await nominationRepository.GetNominationResultAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationAsync(int nominatorId)
+        public async Task<IEnumerable<PerformanceRecord>> GetMemberNominationAsync(int nominatorId)
         {
             var criteria = new GetMemberNominationCriteria
             {
                 ActorId = nominatorId
             };
-            IEnumerable<PerformanceRecordModel> records = await nominationRepository.GetMemberNominationAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceRecordModel> performanceRecords = GroupDataMemberPerformance(records);
+            IEnumerable<PerformanceRecord> records = await nominationRepository.GetMemberNominationAsync(criteria).ConfigureAwait(false);
+            IEnumerable<PerformanceRecord> performanceRecords = GroupDataMemberPerformance(records);
+
             return performanceRecords;
         }
 
-        public async Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationByIdAsync(int nominatorId, int memberId)
+        public async Task<IEnumerable<PerformanceRecord>> GetMemberNominationByIdAsync(int nominatorId, int memberId)
         {
             var criteria = new GetMemberNominationByIdCriteria
             {
                 ActorId = nominatorId,
                 MemberId = memberId
             };
-            IEnumerable<PerformanceRecordModel> performanceRecords = await nominationRepository.GetMemberNominationAsync(criteria).ConfigureAwait(false);
+            IEnumerable<PerformanceRecord> performanceRecords = await nominationRepository.GetMemberNominationAsync(criteria).ConfigureAwait(false);
 
             return performanceRecords;
         }
@@ -221,12 +220,12 @@
             }
         }
 
-        private static IEnumerable<PerformanceRecordModel> GroupDataMemberPerformance(IEnumerable<PerformanceRecordModel> performanceRecords)
+        private static IEnumerable<PerformanceRecord> GroupDataMemberPerformance(IEnumerable<PerformanceRecord> performanceRecords)
         {
             var records = performanceRecords.Where(x => x.TypeId == (int)PerformanceRecordType.Nomination).ToList();
             var systemNominations = performanceRecords.Where(x => x.TypeId == (int)PerformanceRecordType.SystemNomination);
 
-            foreach (PerformanceRecordModel nomination in systemNominations)
+            foreach (PerformanceRecord nomination in systemNominations)
             {
                 if (!records.Any(x => x.NominationPeriod.NominationPeriodId == nomination.NominationPeriod.NominationPeriodId
                     && x.NominationStatusId == nomination.NominationStatusId

@@ -162,14 +162,14 @@
                 new Employee { EmployeeId = 2, NickName = "elton" },
                 new Employee { EmployeeId = 3, NickName = "oliver" }
             };
-            var performanceRecords = new List<PerformanceRecordModel> {
-                new PerformanceRecordModel
+            var performanceRecords = new List<PerformanceRecord> {
+                new PerformanceRecord
                 {
                     PerformanceRecordId = 1,
                     NominationPeriod = new NominationPeriodModel { NominationPeriodId = 1, Quarter = 4, Year = 2018 },
                     TypeId = (int)PerformanceRecordType.Nomination
                 },
-                new PerformanceRecordModel
+                new PerformanceRecord
                 {
                     PerformanceRecordId = 2,
                     Employees = new List<Employee>{ new Employee { EmployeeId = 2, NickName = "elton" } },
@@ -177,7 +177,7 @@
                     NominationStatusId = 2,
                     TypeId = (int)PerformanceRecordType.SystemNomination
                 },
-                new PerformanceRecordModel
+                new PerformanceRecord
                 {
                     PerformanceRecordId = 3,
                     Employees = new List<Employee>{ new Employee { EmployeeId = 3, NickName = "oliver" } },
@@ -269,15 +269,16 @@
         {
             var service = GetService();
 
-            var performanceRecord = new PerformanceRecordModel
+            var performanceRecord = new PerformanceRecord
             {
                 PerformanceRecordId = 1,
-                EmployeeIds = "2",
-                CreatorId = 1
+                Employees = new List<Employee> { new Employee { EmployeeId = 1, NickName = "tim" } },
+                Creator = new Employee { EmployeeId = 2, NickName = "quinn" },
+                NominationPeriod = new NominationPeriodModel { NominationPeriodId = 1, Year = 2018 }
             };
 
             nominationRepository.GetMemberNominationAsync(Arg.Any<GetMemberNominationByIdCriteria>())
-                .Returns(new List<PerformanceRecordModel> { performanceRecord });
+                .Returns(new List<PerformanceRecord> { performanceRecord });
 
             var result = await service.GetMemberNominationByIdAsync(1, 2);
             Assert.NotEmpty(result);

@@ -29,11 +29,11 @@
             }
         }
 
-        public async Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationAsync(ICriteria criteria)
+        public async Task<IEnumerable<PerformanceRecord>> GetMemberNominationAsync(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                var nominations = await db.QueryAsync<PerformanceRecordModel, Employee, Employee, NominationPeriodModel, PerformanceRecordModel>(
+                var nominations = await db.QueryAsync<PerformanceRecord, Employee, Employee, NominationPeriodModel, PerformanceRecord>(
                     (nomination, employee, creator, period) =>
                     {
                         nomination.Employees = new List<Employee> { employee };

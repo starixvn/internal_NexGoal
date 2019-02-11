@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { getNominationClassName, getRoleClassName, resolveClientUrl } from '../../common-functions';
-import { DateFormat, NominationStatuses, PerformanceRecordStatus, PerformanceRecordType } from '../../constants';
+import { DateFormat, NominationStatuses, PerformanceRecordType } from '../../constants';
 import getResource from '../../resourceHelper';
 
 const PageType = {
@@ -35,8 +35,7 @@ export default class PerformanceRecord extends Component {
 
         this.state = {
             showCollapseExpandButton: false,
-            isExpanded: false,
-            currentDate: moment()
+            isExpanded: false
         };
     }
 
@@ -216,6 +215,7 @@ export default class PerformanceRecord extends Component {
         let modifiedDate = record.modifiedDate ? moment(record.modifiedDate).format(DateFormat) : '';
         let status = NominationStatuses.find(x => x.value === record.nominationStatusId);
         let endDateForNominator = moment(record.nominationPeriod.endDateForNominator);
+        let currentDate = moment();
 
         return (
             <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${record.performanceRecordId}`}>
@@ -232,10 +232,6 @@ export default class PerformanceRecord extends Component {
                         }
                         <div>
                             <span className="submit-date">{createdDate}</span>
-                            {
-                                record.statusId === PerformanceRecordStatus.Draft &&
-                                <span className="draft">draft</span>
-                            }
                         </div>
 
                     </div>
@@ -244,7 +240,7 @@ export default class PerformanceRecord extends Component {
                             <div className="nomination-info">
                                 <div className="nomination-period">{record.nominationPeriod && record.nominationPeriod.title}</div>
                                 {
-                                    record.statusId !== PerformanceRecordStatus.Draft && modifiedDate && endDateForNominator >= this.state.currentDate &&
+                                    modifiedDate && endDateForNominator >= currentDate &&
                                     <Fragment> Edited on {modifiedDate}</Fragment>
                                 }
                             </div>
@@ -255,9 +251,10 @@ export default class PerformanceRecord extends Component {
                                     <a className="icon-delete" title={getResource('Delete')} onClick={this.handleDelete} />
                                 </Fragment>
                             }
-
-                            {endDateForNominator < this.state.currentDate && <div className={getNominationClassName(record.nominationStatusId)}>{status.text}</div>}
-
+                            {
+                                endDateForNominator < currentDate &&
+                                <div className={getNominationClassName(record.nominationStatusId)}>{status.text}</div>
+                            }
                         </div>
                     </div>
                 </div>

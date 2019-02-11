@@ -50,9 +50,9 @@
         public async Task GetMemberNominationAsync_WhenCalled_ReturnAsExpectedRecords()
         {
             // Arrange
-            var records = new List<PerformanceRecordModel>
+            var records = new List<PerformanceRecord>
             {
-                new PerformanceRecordModel
+                new PerformanceRecord
                 {
                     PerformanceRecordId = 1,
                     Employees = new List<Employee>{ new  Employee { EmployeeId = 1, NickName = "tim" } },
@@ -62,7 +62,7 @@
             };
             var criteria = Helpers.FakeCriteria();
             var repository = new EmployeeNominationRepository();
-            objectDb.QueryAsync(Arg.Any<Func<PerformanceRecordModel, Employee, Employee, NominationPeriodModel, PerformanceRecordModel>>(),
+            objectDb.QueryAsync(Arg.Any<Func<PerformanceRecord, Employee, Employee, NominationPeriodModel, PerformanceRecord>>(),
                 "EmployeeId, EmployeeId, NominationPeriodId",
                 criteria).Returns(records);
 

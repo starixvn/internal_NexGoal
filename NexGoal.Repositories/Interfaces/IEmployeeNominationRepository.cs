@@ -10,6 +10,6 @@
     {
         Task<IEnumerable<EmployeeNominationModel>> GetNominationResultAsync(ICriteria criteria);
 
-        Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationAsync(ICriteria criteria);
+        Task<IEnumerable<PerformanceRecord>> GetMemberNominationAsync(ICriteria criteria);
     }
 }
