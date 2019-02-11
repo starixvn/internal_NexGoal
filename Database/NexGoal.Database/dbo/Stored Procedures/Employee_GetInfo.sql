@@ -1,5 +1,7 @@
-﻿CREATE PROCEDURE [dbo].[Employee_GetInfo] @EmployeeId INT = NULL
+﻿
+CREATE PROCEDURE [dbo].[Employee_GetInfo] @EmployeeId INT
 	,@UnreadNotification INT OUT
+	,@IsHasMember BIT OUT
 AS
 /*
 Created: 20190201@Oliver.Dang
@@ -16,6 +18,7 @@ BEGIN
 
 	DECLARE @Today DATE = GETDATE()
 		,@ProbationDuration SMALLINT
+		,@TotalMembers INT
 	-- process
 	DECLARE @PMProcessId TINYINT = 3
 		,@EvaluatorProcessId TINYINT = 4
@@ -24,6 +27,9 @@ BEGIN
 	SELECT TOP 1 @ProbationDuration = CAST(Value AS SMALLINT)
 	FROM dbo.RefResource WITH (NOLOCK)
 	WHERE RefName = 'ProbationDuration'
+
+	SELECT @TotalMembers = COUNT(1)
+	FROM dbo.func_GetMember(@EmployeeId)
 
 	SELECT emp.EmployeeId
 		,emp.Code
@@ -34,21 +40,22 @@ BEGIN
 		,gr.Code AS GroupCode
 		,gr.[Name] AS GroupName
 		,job.[Name] AS JobTitle
-		,(
-			CASE 
-				WHEN @Today BETWEEN emp.JoinedDate
-						AND DATEADD(DAY, @ProbationDuration, emp.JoinedDate)
-					THEN 1
-				ELSE 0
-				END
+		,(CASE 
+			WHEN @Today BETWEEN emp.JoinedDate
+					AND DATEADD(DAY, @ProbationDuration, emp.JoinedDate) THEN 1
+			ELSE 0 END
 			) AS IsProbation
 	FROM dbo.Employee AS emp WITH (NOLOCK)
-	INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		AND gr.IsDeleted = 0
-	INNER JOIN dbo.JobTitle AS job WITH (NOLOCK) ON emp.JobTitleId = job.JobTitleId
+		INNER JOIN dbo.JobTitle AS job WITH (NOLOCK) ON emp.JobTitleId = job.JobTitleId
 	WHERE emp.EmployeeId = @EmployeeId
 
 	SELECT @UnreadNotification = COUNT(1)
+		,@IsHasMember = CASE 
+			WHEN @TotalMembers > 0 THEN 1
+			ELSE 0
+			END
 	FROM dbo.[Notification] AS noti WITH (NOLOCK)
 	WHERE noti.EmployeeId = @EmployeeId
 		AND noti.StatusId = 0

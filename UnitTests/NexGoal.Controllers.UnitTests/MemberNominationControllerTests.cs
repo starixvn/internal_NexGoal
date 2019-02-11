@@ -168,6 +168,34 @@
         }
 
         [Fact]
+        public async Task GetMemberNominationById_WhenCalled_ReturnAsExpectedPerformanceRecords()
+        {
+            // Arrange
+            var expected = new List<PerformanceRecord>
+            {
+                new PerformanceRecord
+                {
+                    PerformanceRecordId = 1,
+                    Employees = new List<Employee>
+                    {
+                        new Employee { EmployeeId = 1, NickName = "Tim" }
+                    },
+                    Comment = "test"
+                }
+            };
+            var controller = GetController();
+            nominationService.GetMemberNominationByIdAsync(sessionService.EmployeeId, 1).Returns(expected);
+
+            // Act
+            var result = await controller.GetMemberNominationById(1);
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var actual = Assert.IsAssignableFrom<IEnumerable<PerformanceRecord>>(jsonResult.Value);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
         public async Task GetByRecordId_WhenCalled_ReturnAsExpectedPerformanceRecord()
         {
             // Arrange

@@ -20,9 +20,6 @@ BEGIN
 		,@PMProcessId TINYINT = 3
 		,@EvaluatorProcessId TINYINT = 4
 		,@ReviewerProcessId TINYINT = 5
-		-- record status
-		,@Submited TINYINT = 3
-		,@Closed TINYINT = 4
 		-- nomination status
 		,@Nominated TINYINT = 1
 		,@Shortlisted TINYINT = 2
@@ -37,7 +34,7 @@ BEGIN
 		,Comment NVARCHAR(MAX)
 		,CreatedDate DATETIME
 		,ModifiedDate DATETIME
-		,StatusId TINYINT
+		,IsHost BIT
 		,TypeId TINYINT
 		,RoleId TINYINT
 		,NominationPeriodId TINYINT
@@ -56,7 +53,7 @@ BEGIN
 		,Comment
 		,CreatedDate
 		,ModifiedDate
-		,StatusId
+		,IsHost
 		,TypeId
 		,RoleId
 		,NominationPeriodId
@@ -70,9 +67,9 @@ BEGIN
 		,pr.ModifiedDate
 		,(CASE 
 			WHEN @Today BETWEEN period.StartDateForNominator
-					AND period.EndDateForNominator THEN @Submited
-			ELSE @Closed END
-			) AS StatusId
+					AND period.EndDateForNominator THEN 1
+			ELSE 0 END
+			) AS IsHost
 		,pr.TypeId
 		,pr.RoleId
 		,period.EOQYId AS NominationPeriodId
@@ -93,7 +90,7 @@ BEGIN
 		,pr.Comment
 		,pr.CreatedDate
 		,pr.ModifiedDate
-		,@Closed AS StatusId
+		,0 AS IsHost
 		,pr.TypeId
 		,pr.RoleId
 		,period.EOQYId AS NominationPeriodId
@@ -109,7 +106,7 @@ BEGIN
 		,record.Comment
 		,record.CreatedDate
 		,record.ModifiedDate
-		,record.StatusId
+		,record.IsHost
 		,record.TypeId
 		,record.RoleId
 		,record.NominationStatusId

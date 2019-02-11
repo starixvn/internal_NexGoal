@@ -72,5 +72,29 @@
             // Assert
             Assert.Equal(records, actual);
         }
+
+        [Fact]
+        public async Task GetNominationByRecordIdAsync_WhenCalled_ReturnAsExpectedRecord()
+        {
+            // Arrange
+            var record = new PerformanceRecord
+            {
+                PerformanceRecordId = 1,
+                Employees = new List<Employee> { new Employee { EmployeeId = 1, NickName = "tim" } },
+                Creator = new Employee { EmployeeId = 2, NickName = "quinn" },
+                NominationPeriod = new NominationPeriodModel { NominationPeriodId = 1, Year = 2018 }
+            };
+            var criteria = Helpers.FakeCriteria();
+            var repository = new EmployeeNominationRepository();
+            objectDb.QueryEntityAsync(Arg.Any<Func<PerformanceRecord, Employee, Employee, NominationPeriodModel, PerformanceRecord>>(),
+                "EmployeeId, EmployeeId, NominationPeriodId",
+                criteria).Returns(record);
+
+            // Act
+            var actual = await repository.GetNominationByRecordIdAsync(criteria);
+
+            // Assert
+            Assert.Equal(record, actual);
+        }
     }
 }

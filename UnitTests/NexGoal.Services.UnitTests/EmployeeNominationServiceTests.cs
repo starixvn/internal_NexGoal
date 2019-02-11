@@ -115,20 +115,6 @@
         }
 
         [Fact]
-        public async Task GetNominationByRecordIdAsync_InvalidData_ReturnNull()
-        {
-            var service = GetService();
-
-            baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(Arg.Any<GetNominationByRecordIdCriteria>())
-                .Returns(new Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<NominationPeriodModel>>(
-                    Enumerable.Empty<PerformanceRecordModel>(), Enumerable.Empty<NominationPeriodModel>()));
-
-            var result = await service.GetNominationByRecordIdAsync(0);
-
-            Assert.Null(result);
-        }
-
-        [Fact]
         public async Task GetNominationByRecordIdAsync_ValidData_ReturnExpectedResult()
         {
             // Arrange
