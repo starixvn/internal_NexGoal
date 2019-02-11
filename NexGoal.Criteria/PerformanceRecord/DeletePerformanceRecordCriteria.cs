@@ -7,6 +7,6 @@
 
         public override string GetSettingKey() => "PerformanceRecord_Delete";
 
-        public override bool IsValid() => PerformanceRecordId > 0 && ActorId > 0;
+        public override bool IsValid() => ActorId > 0;
     }
 }
