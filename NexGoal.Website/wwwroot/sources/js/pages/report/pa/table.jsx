@@ -110,9 +110,7 @@ export default class Table extends Component {
                             />
                             <span className="icon-pdf"
                                 onClick={() =>
-                                    this.props.exportPDF(record.paRecordId,
-                                        record.period.periodId,
-                                        record.employee.employeeId)}
+                                    this.props.exportPDF(record.paRecordId)}
                             />
                         </td>
                     </tr>

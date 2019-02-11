@@ -98,7 +98,7 @@
         public async Task<PAReportDetail> GetPAReportDetailAsync(GetPADetailParam model)
         {
             var paRecord = await paRecordService.GetPARecordByIdAsync(model.PARecordId, model.ActorId).ConfigureAwait(false);
-            var employeeInfo = await commonService.GetEmployeeByIdAsync(model.EmployeeId).ConfigureAwait(false);
+            var employeeInfo = await commonService.GetEmployeeByIdAsync(paRecord.Employee.EmployeeId).ConfigureAwait(false);
             var grades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
             Tuple<IEnumerable<DisciplineModel>, IEnumerable<HRMInfo>, string> hrmAndPrevGrade = await GetPARecordDetail(model.ActorId, model.PARecordId).ConfigureAwait(false);
@@ -106,7 +106,7 @@
             var previousGrade = hrmAndPrevGrade.Item3;
             previousGrade = cryptoService.Decrypt(previousGrade);
             int.TryParse(previousGrade, out int gradeId);
-            var achievements = await GetAchievements(model.EmployeeId, model.PeriodId).ConfigureAwait(false);
+            var achievements = await GetAchievements(model.PARecordId).ConfigureAwait(false);
 
             var paDetails = new PAReportDetail
             {
@@ -144,12 +144,11 @@
                 );
         }
 
-        private async Task<IEnumerable<EmployeeNominationModel>> GetAchievements(int employeeId, int periodId)
+        private async Task<IEnumerable<EmployeeNominationModel>> GetAchievements(int paRecordId)
         {
             var criteria = new GetAchievementByEmployeeCriteria
             {
-                EmployeeId = employeeId,
-                PeriodId = periodId
+                PARecordId = paRecordId
             };
 
             var tuple = await baseService.FetchMultipleAsync<EmployeeNominationModel, NominationPeriodModel>(criteria).ConfigureAwait(false);
