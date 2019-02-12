@@ -332,6 +332,58 @@
             Assert.Equal(referenceResources, result);
         }
 
+        [Fact]
+        public async Task GetAnnouncements_WhenCalled_ReturnAsExpectedAnnouncements()
+        {
+            // Arrange
+            var announcements = new List<string>
+            {
+                "Announcement 1",
+                "Announcement 2",
+            };
+
+            var controller = GetCommonController();
+            commonService.GetAnnouncements(sessionService.EmployeeId).Returns(announcements);
+
+            // Act
+            var actual = await controller.GetAnnouncements();
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(actual);
+            var result = Assert.IsAssignableFrom<IEnumerable<string>>(jsonResult.Value);
+
+            Assert.NotEmpty(result);
+            Assert.Equal(announcements.Count, result.Count());
+        }
+
+        [Fact]
+        public async Task GetPeriodsForReport_WhenCalled_ReturnAsExpectedAnnouncements()
+        {
+            // Arrange
+            var announcements = new List<string>
+            {
+                "Announcement 1",
+                "Announcement 2",
+            };
+
+            var controller = GetCommonController();
+            commonService.GetPeriodsForReportAsync().Returns(new List<PeriodBaseModel>
+            {
+                new PeriodBaseModel
+                {
+                    PeriodId = 1
+                }
+            });
+
+            // Act
+            var actual = await controller.GetPeriodsForReport();
+
+            var jsonResult = Assert.IsType<JsonResult>(actual);
+            var result = Assert.IsAssignableFrom<IEnumerable<PeriodBaseModel>>(jsonResult.Value);
+
+            Assert.NotEmpty(result);
+        }
+
         #region Helpers
 
         private CommonController GetCommonController()

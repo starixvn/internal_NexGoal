@@ -222,9 +222,11 @@
         {
             var backgroundColor = Color.Empty;
 
-            if ((record.ContributionId + record.BonusGivenId) > 8)
+            var hasReadyPromotionSelect = bool.TryParse(record.IsReadyPromotion, out bool isReadyPromotion);
+
+            if ((record.ContributionId + record.BonusGivenId) > 8 && hasReadyPromotionSelect)
             {
-                backgroundColor = record.IsReadyPromotion == "true" ? Color.FromArgb(89, 176, 59) : Color.FromArgb(104, 169, 189);
+                backgroundColor = isReadyPromotion ? Color.FromArgb(89, 176, 59) : Color.FromArgb(104, 169, 189);
             }
             else
             {
@@ -245,7 +247,10 @@
 
             var readyPromotionCell = worksheet.Cells[currentRow, 15, toRow, 15];
             readyPromotionCell.Merge = merge;
-            readyPromotionCell.Value = record.IsReadyPromotion == "true" ? "Yes" : "No";
+            if (hasReadyPromotionSelect)
+            {
+                readyPromotionCell.Value = isReadyPromotion ? "Yes" : "No";
+            }
 
             if (backgroundColor != Color.Empty)
             {
