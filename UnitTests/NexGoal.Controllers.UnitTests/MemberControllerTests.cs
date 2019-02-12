@@ -41,13 +41,14 @@
             Assert.False((bool)viewResult.ViewData["IsReviewer"]);
         }
 
+        #region Details
+
         [Fact]
         public async Task Details_WhenNotHavePermissionOnMember_ReturnActionAccessDenied()
         {
             // Arrange
             var controller = GetMemberController();
-            var employees = new List<Employee>();
-            employeeService.GetMemberAsync(sessionService.EmployeeId).Returns(employees);
+            employeeService.GetRoleAccordingToMemberAsync(sessionService.EmployeeId, 363).Returns(0);
 
             // Act
             var actual = await controller.Details(363);
@@ -62,20 +63,22 @@
         public async Task Details_WhenHavePermissionOnMember_ReturnExpectViewModel()
         {
             // Arrange
+            var employeeId = 363;
+            var employee = new Employee { EmployeeId = employeeId };
             var controller = GetMemberController();
-            var employees = new List<Employee>();
-            var employee = new Employee { EmployeeId = 363 };
-            employees.Add(employee);
+            employeeService.GetRoleAccordingToMemberAsync(sessionService.EmployeeId, employeeId).Returns(1);
+            commonService.GetEmployeeByIdAsync(employeeId).Returns(employee);
 
             // Act
-            employeeService.GetMemberAsync(sessionService.EmployeeId).Returns(employees);
-            commonService.GetEmployeeByIdAsync(363).Returns(employee);
-            var actual = await controller.Details(363);
+            var actual = await controller.Details(employeeId);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(actual);
-            Assert.IsType<Employee>(viewResult.Model);
+            var viewModel = Assert.IsType<Employee>(viewResult.Model);
+            Assert.Equal(employee, viewModel);
         }
+
+        #endregion Details
 
         [Fact]
         public async Task GetMemberPA_WhenCalled_ReturnExpectedResult()
