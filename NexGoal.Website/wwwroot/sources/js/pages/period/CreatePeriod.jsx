@@ -124,7 +124,7 @@ export default class CreatePeriod extends Component {
         };
 
         return (
-            <Form horizontal onSubmit={handleSubmit}>
+            <Form inline onSubmit={handleSubmit}>
                 <Modal.Body>
                     {!isEmpty(errors) && !isEmpty(touched) &&
                         <ul className="list-message-error">
@@ -138,13 +138,13 @@ export default class CreatePeriod extends Component {
                         </ul>
                     }
                     <FormGroup>
-                        <Col componentClass={ControlLabel} className="required-label" sm={3}>{getResource('Name')}</Col>
-                        <Col sm={9}>
+                        <label className="required-label">{getResource('Name')}</label>
+                        <div class="control-content">
                             <input type="text" name="name" value={values.name} autoComplete="off"
                                 className={`form-control  ${touched.name && errors.name && 'input-validation-error'}`}
                                 onChange={handleChange}
                             />
-                        </Col>
+                        </div>
                     </FormGroup>
                     <FormGroup>
                         <Col componentClass={ControlLabel} className={values.targetTypeId === TargetType.SemiAnnual && 'required-label'} sm={3}>

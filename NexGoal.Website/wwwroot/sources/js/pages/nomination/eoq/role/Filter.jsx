@@ -54,7 +54,7 @@ class Filter extends Component {
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>{getResource('Team')}</ControlLabel>
-                    <div className="control-content">
+                    <div className="control-content team-width">
                         <MultiSelect className="react-select-container" classNamePrefix="react-select"
                             value={filter.groups}
                             options={this.props.groupOptions}

@@ -26,7 +26,7 @@
     .form-control {
         font-size: $font-size;
         height: 30px;
-        padding: 3px 4px;
+        padding: 3px 8px;
         @include border-radius(2px);
         border-color: #dfdfdf;
         box-shadow: none;
@@ -39,7 +39,7 @@
         }
     }
 
-    .control-content {
+    .form-group .control-content {
         width: 200px;
         &.employee-width {
             width: 280px;

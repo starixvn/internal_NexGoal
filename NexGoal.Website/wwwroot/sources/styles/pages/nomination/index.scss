@@ -13,3 +13,21 @@
 @import "../../components/tables";
 @import "../../components/toast";
 @import "../../components/dropdown";
+
+#create-eoq-form {
+    .form-group {
+        &.description-group {
+            display: block;
+            margin-right: 0;
+            .control-content {
+                width: 100%;
+            }
+        }
+        .form-control {
+            width: inherit;
+        }
+    }
+    .line-group {
+        margin-bottom: 12px;
+    }
+}

@@ -12,7 +12,20 @@
 @import "../../components/tabs";
 @import "../../components/tables";
 @import "../../components/toast";
+@import "../../components/dropdown";
 
 .settings-form {
     margin-top: 12px;
+    .line-group {
+        margin-bottom: 14px; 
+        .title-group {
+            margin-bottom: 8px;
+        }
+    }
+    &.form-inline .control-content.description-content {
+        width: 960px;
+        textarea {
+            height: 90px;
+        }
+    }
 }

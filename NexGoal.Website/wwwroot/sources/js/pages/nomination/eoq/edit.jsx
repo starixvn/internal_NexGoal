@@ -38,11 +38,11 @@ export default class App extends Component {
                     <Breadcrumb>
                         <li className="current">{getResource('NominationPeriods')}</li>
                     </Breadcrumb>
-                    <div className="col-sm-12">
+                    {/* <div className="col-sm-12">
                         <a className="btn btn-cancel" onClick={this.handleBackClick}>
                             <i className="fa fa-angle-left" />{getResource('BackToList')}
                         </a>
-                    </div>
+                    </div> */}
                     <div className="col-sm-12">
                         <Tabs id="tabs-nomination"
                             activeKey={this.state.activeKey}
