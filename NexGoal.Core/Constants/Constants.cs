@@ -7,5 +7,6 @@
         public const string DateTimeFormat = "dd MMM yyyy HH:mm";
         public const string DateFormat = "dd MMM yyyy";
         public const string ImageURL = "https://hrm.nexcel.vn/Avatars";
+        public const int PerformanceCheckinDuration = 7;
     }
 }

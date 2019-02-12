@@ -41,16 +41,15 @@
             {
                 EmployeeId = employeeId
             };
-            var tuple = await performanceRecordRepository.GetPerformanceRecordByEmployeeAsync(criteria).ConfigureAwait(false);
+            IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetPerformanceRecordByEmployeeAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
-            foreach (var performanceRecord in tuple.Item1)
+            foreach (PerformanceRecord performanceRecord in performanceRecords)
             {
-                performanceRecord.Projects = tuple.Item2.Where(t => t.PerformanceRecordId == performanceRecord.PerformanceRecordId);
                 MappingDataForPerformanceRecord(performanceRecord, performanceGrades, employeeId);
             }
 
-            return tuple.Item1;
+            return performanceRecords;
         }
 
         public async Task<Tuple<IEnumerable<PerformanceRecord>, int>> GetPerformanceTimelineAsync(GetPerformanceTimelineParam param)
@@ -61,10 +60,10 @@
                 PageIndex = param.PageIndex,
                 PageSize = param.PageSize
             };
-            var performanceRecords = await performanceRecordRepository.GetPerformanceTimelineAsync(criteria).ConfigureAwait(false);
+            IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetPerformanceTimelineAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
-            foreach (var performanceRecord in performanceRecords)
+            foreach (PerformanceRecord performanceRecord in performanceRecords)
             {
                 MappingDataForPerformanceRecord(performanceRecord, performanceGrades, param.EmployeeId);
             }
@@ -78,17 +77,15 @@
             {
                 ActorId = actorId
             };
-            var tuple = await performanceRecordRepository.GetMemberPerformanceAsync(criteria).ConfigureAwait(false);
+            IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetMemberPerformanceAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
-            foreach (var performanceRecord in tuple.Item1)
+            foreach (PerformanceRecord performanceRecord in performanceRecords)
             {
-                performanceRecord.Employees = tuple.Item2.Where(t => t.LinkObjectId == performanceRecord.PerformanceRecordId);
-                performanceRecord.Projects = tuple.Item3.Where(t => t.PerformanceRecordId == performanceRecord.PerformanceRecordId);
                 MappingDataForPerformanceRecord(performanceRecord, performanceGrades, actorId);
             }
 
-            return tuple.Item1;
+            return performanceRecords;
         }
 
         public async Task<IEnumerable<PerformanceRecord>> GetMemberPerformanceDetailAsync(int actorId, int employeeId)
@@ -98,18 +95,15 @@
                 ActorId = actorId,
                 EmployeeId = employeeId
             };
-
-            var tuple = await performanceRecordRepository.GetMemberPerformanceDetailAsync(criteria).ConfigureAwait(false);
+            IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetMemberPerformanceDetailAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
-            foreach (var performanceRecord in tuple.Item1)
+            foreach (PerformanceRecord performanceRecord in performanceRecords)
             {
-                performanceRecord.Employees = tuple.Item2.Where(t => t.LinkObjectId == performanceRecord.PerformanceRecordId);
-                performanceRecord.Projects = tuple.Item3.Where(t => t.PerformanceRecordId == performanceRecord.PerformanceRecordId);
                 MappingDataForPerformanceRecord(performanceRecord, performanceGrades, actorId);
             }
 
-            return tuple.Item1;
+            return performanceRecords;
         }
 
         public async Task<IEnumerable<MemberPerformanceTimelineModel>> GetMemberPerformanceTimelineAsync(GetMemberPerformanceTimelineParam param)
@@ -123,15 +117,16 @@
                 PageSize = param.PageSize
             };
 
-            var tuple = await performanceRecordRepository.GetMemberPerformanceTimelineAsync(criteria).ConfigureAwait(false);
+            Tuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>> tuple =
+                await performanceRecordRepository.GetMemberPerformanceTimelineAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
-            foreach (var performanceRecord in tuple.Item2)
+            foreach (PerformanceRecord performanceRecord in tuple.Item2)
             {
                 MappingDataForPerformanceRecord(performanceRecord, performanceGrades, param.ActorId);
             }
 
-            foreach (var member in tuple.Item1)
+            foreach (MemberPerformanceTimelineModel member in tuple.Item1)
             {
                 member.PerformanceRecords = tuple.Item2.Where(t => t.Employees.FirstOrDefault().EmployeeId == member.EmployeeId);
             }
@@ -147,7 +142,7 @@
                 CreatorId = creatorId
             };
 
-            var performanceRecord = await performanceRecordRepository.GetPerformanceRecordByIdAsync(criteria).ConfigureAwait(false);
+            PerformanceRecord performanceRecord = await performanceRecordRepository.GetPerformanceRecordByIdAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
             MappingDataForPerformanceRecord(performanceRecord, performanceGrades, creatorId);
 
@@ -161,7 +156,7 @@
                 PerformanceRecordId = performanceRecordId
             };
 
-            var performanceRecord = await performanceRecordRepository.GetDraftPerformanceRecordByIdAsync(criteria).ConfigureAwait(false);
+            PerformanceRecord performanceRecord = await performanceRecordRepository.GetDraftPerformanceRecordByIdAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
             MappingDataForPerformanceRecord(performanceRecord, performanceGrades, creatorId);
 
@@ -176,16 +171,15 @@
                 CreatorId = creatorId
             };
 
-            var tuple = await performanceRecordRepository.GetPerformanceRecordByIdsAsync(criteria).ConfigureAwait(false);
+            IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetPerformanceRecordByIdsAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
-            foreach (var performanceRecord in tuple.Item1)
+            foreach (PerformanceRecord performanceRecord in performanceRecords)
             {
-                performanceRecord.Projects = tuple.Item2.Where(t => t.PerformanceRecordId == performanceRecord.PerformanceRecordId);
                 MappingDataForPerformanceRecord(performanceRecord, performanceGrades, creatorId);
             }
 
-            return tuple.Item1;
+            return performanceRecords;
         }
 
         public async Task<CommandResult> CreatePerformanceRecordAsync(CreatePerformanceRecordDto performanceRecord)
@@ -299,7 +293,8 @@
             performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
 
             performanceRecord.IsHost = performanceRecord.Creator.EmployeeId == actorId
-                    && (performanceRecord.IsDraft || (!performanceRecord.IsDraft && (DateTime.Now - performanceRecord.CreatedDate).Days < 7));
+                && (performanceRecord.IsDraft
+                    || (!performanceRecord.IsDraft && (DateTime.Now - performanceRecord.CreatedDate).Days < Constants.PerformanceCheckinDuration));
 
             if (performanceRecord.Creator.EmployeeId == Constants.NexGoalSystemId)
             {

@@ -14,7 +14,7 @@
 
     public class PerformanceRecordRepository : IPerformanceRecordRepository
     {
-        public async Task<Tuple<IEnumerable<PerformanceRecord>, IEnumerable<ProjectModel>>> GetPerformanceRecordByEmployeeAsync(ICriteria criteria)
+        public async Task<IEnumerable<PerformanceRecord>> GetPerformanceRecordByEmployeeAsync(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
@@ -34,9 +34,14 @@
                          "EmployeeId, EmployeeId, NominationPeriodId, PeriodId"
                         );
 
-                    var performanceProjects = multi.Read<ProjectModel>();
+                    var projects = multi.Read<ProjectModel>();
 
-                    return new Tuple<IEnumerable<PerformanceRecord>, IEnumerable<ProjectModel>>(performanceRecords, performanceProjects);
+                    foreach (PerformanceRecord performanceRecord in performanceRecords)
+                    {
+                        performanceRecord.Projects = projects.Where(t => t.PerformanceRecordId == performanceRecord.PerformanceRecordId);
+                    }
+
+                    return performanceRecords;
                 }
             }
         }
@@ -78,6 +83,7 @@
                         ).FirstOrDefault();
 
                     performanceRecord.Projects = multi.Read<ProjectModel>();
+
                     return performanceRecord;
                 }
             }
@@ -107,7 +113,7 @@
             }
         }
 
-        public async Task<Tuple<IEnumerable<PerformanceRecord>, IEnumerable<ProjectModel>>> GetPerformanceRecordByIdsAsync(ICriteria criteria)
+        public async Task<IEnumerable<PerformanceRecord>> GetPerformanceRecordByIdsAsync(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
@@ -124,14 +130,19 @@
                          "EmployeeId, EmployeeId"
                         );
 
-                    var performanceProjects = multi.Read<ProjectModel>();
+                    var projects = multi.Read<ProjectModel>();
 
-                    return new Tuple<IEnumerable<PerformanceRecord>, IEnumerable<ProjectModel>>(performanceRecords, performanceProjects);
+                    foreach (PerformanceRecord performanceRecord in performanceRecords)
+                    {
+                        performanceRecord.Projects = projects.Where(t => t.PerformanceRecordId == performanceRecord.PerformanceRecordId);
+                    }
+
+                    return performanceRecords;
                 }
             }
         }
 
-        public async Task<Tuple<IEnumerable<PerformanceRecord>, IEnumerable<Employee>, IEnumerable<ProjectModel>>> GetMemberPerformanceDetailAsync(ICriteria criteria)
+        public async Task<IEnumerable<PerformanceRecord>> GetMemberPerformanceDetailAsync(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
@@ -147,15 +158,21 @@
                             return performanceRecord;
                         }, "EmployeeId, NominationPeriodId, PeriodId");
 
-                    var performanceMembers = multi.Read<Employee>();
-                    var performanceProjects = multi.Read<ProjectModel>();
+                    var members = multi.Read<Employee>();
+                    var projects = multi.Read<ProjectModel>();
 
-                    return new Tuple<IEnumerable<PerformanceRecord>, IEnumerable<Employee>, IEnumerable<ProjectModel>>(performanceRecords, performanceMembers, performanceProjects);
+                    foreach (PerformanceRecord performanceRecord in performanceRecords)
+                    {
+                        performanceRecord.Employees = members.Where(t => t.LinkObjectId == performanceRecord.PerformanceRecordId);
+                        performanceRecord.Projects = projects.Where(t => t.PerformanceRecordId == performanceRecord.PerformanceRecordId);
+                    }
+
+                    return performanceRecords;
                 }
             }
         }
 
-        public async Task<Tuple<IEnumerable<PerformanceRecord>, IEnumerable<Employee>, IEnumerable<ProjectModel>>> GetMemberPerformanceAsync(ICriteria criteria)
+        public async Task<IEnumerable<PerformanceRecord>> GetMemberPerformanceAsync(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
@@ -168,10 +185,16 @@
                             return performanceRecord;
                         }, "EmployeeId");
 
-                    var performanceMembers = multi.Read<Employee>();
-                    var performanceProjects = multi.Read<ProjectModel>();
+                    var members = multi.Read<Employee>();
+                    var projects = multi.Read<ProjectModel>();
 
-                    return new Tuple<IEnumerable<PerformanceRecord>, IEnumerable<Employee>, IEnumerable<ProjectModel>>(performanceRecords, performanceMembers, performanceProjects);
+                    foreach (PerformanceRecord performanceRecord in performanceRecords)
+                    {
+                        performanceRecord.Employees = members.Where(t => t.LinkObjectId == performanceRecord.PerformanceRecordId);
+                        performanceRecord.Projects = projects.Where(t => t.PerformanceRecordId == performanceRecord.PerformanceRecordId);
+                    }
+
+                    return performanceRecords;
                 }
             }
         }

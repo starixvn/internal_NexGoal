@@ -58,10 +58,8 @@
             var projects = new List<ProjectModel>
             {
                 new ProjectModel { ProjectId = 1, Name = "Name1", PerformanceRecordId = 1 },
-                new ProjectModel { ProjectId = 2, Name = "Name2", PerformanceRecordId = 1 },
-                new ProjectModel { ProjectId = 3, Name = "Name3", PerformanceRecordId = 1 },
+                new ProjectModel { ProjectId = 2, Name = "Name2", PerformanceRecordId = 2 }
             };
-            var expected = new Tuple<IEnumerable<PerformanceRecord>, IEnumerable<ProjectModel>>(performanceRecords, projects);
 
             var multiResultReader = Helpers.FakeMultipleResultReader();
             var criteria = Helpers.FakeCriteria();
@@ -76,7 +74,9 @@
             var actual = await repository.GetPerformanceRecordByEmployeeAsync(criteria);
 
             // Assert
-            Assert.Equal(expected, actual);
+            Assert.Equal(performanceRecords, actual);
+            Assert.Single(performanceRecords.First().Projects);
+            Assert.Equal(performanceRecords.First().Projects.First(), projects.First());
         }
 
         [Fact]
@@ -261,7 +261,8 @@
                         Code = "Code1"
                     },
                     GradeId = "GradeId1",
-                    Employees = new List<Employee>{
+                    Employees = new List<Employee>
+                    {
                         new Employee
                         {
                             EmployeeId = 2,
@@ -277,10 +278,8 @@
             var projects = new List<ProjectModel>
             {
                 new ProjectModel { ProjectId = 1, Name = "Name1", PerformanceRecordId = 1 },
-                new ProjectModel { ProjectId = 2, Name = "Name2", PerformanceRecordId = 1 },
-                new ProjectModel { ProjectId = 3, Name = "Name3", PerformanceRecordId = 1 },
+                new ProjectModel { ProjectId = 2, Name = "Name2", PerformanceRecordId = 2 }
             };
-            var expected = new Tuple<IEnumerable<PerformanceRecord>, IEnumerable<ProjectModel>>(performanceRecords, projects);
 
             var multiResultReader = Helpers.FakeMultipleResultReader();
             var criteria = Helpers.FakeCriteria();
@@ -294,7 +293,9 @@
             var actual = await repository.GetPerformanceRecordByIdsAsync(criteria);
 
             // Assert
-            Assert.Equal(expected, actual);
+            Assert.Equal(performanceRecords, actual);
+            Assert.Single(performanceRecords.First().Projects);
+            Assert.Equal(performanceRecords.First().Projects.First(), projects.First());
         }
 
         [Fact]
@@ -306,22 +307,14 @@
                 new PerformanceRecord
                 {
                     PerformanceRecordId = 1,
-                    Creator = new Employee{
+                    Creator = new Employee
+                    {
                         EmployeeId = 1,
                         NickName = "NickName1",
                         FullName = "FullName1",
                         Code = "Code1"
                     },
                     GradeId = "GradeId1",
-                    Employees = new List<Employee>{
-                        new Employee
-                        {
-                            EmployeeId = 2,
-                            NickName = "NickName2",
-                            FullName = "FullName2",
-                            Code = "Code2"
-                        }
-                    },
                     Comment = "Comment ABC",
                     IsDraft = true
                 }
@@ -329,34 +322,34 @@
             var employees = new List<Employee>
             {
                 new Employee
-                        {
-                            EmployeeId = 2,
-                            NickName = "NickName2",
-                            FullName = "FullName2",
-                            Code = "Code2"
-                        },
+                {
+                    EmployeeId = 2,
+                    NickName = "NickName2",
+                    FullName = "FullName2",
+                    Code = "Code2",
+                    LinkObjectId = 1
+                },
                 new Employee
-                        {
-                            EmployeeId = 3,
-                            NickName = "NickName3",
-                            FullName = "FullName3",
-                            Code = "Code3"
-                        }
+                {
+                    EmployeeId = 3,
+                    NickName = "NickName3",
+                    FullName = "FullName3",
+                    Code = "Code3",
+                    LinkObjectId = 3
+                }
             };
             var projects = new List<ProjectModel>
             {
                 new ProjectModel { ProjectId = 1, Name = "Name1", PerformanceRecordId = 1 },
-                new ProjectModel { ProjectId = 2, Name = "Name2", PerformanceRecordId = 1 },
-                new ProjectModel { ProjectId = 3, Name = "Name3", PerformanceRecordId = 1 },
+                new ProjectModel { ProjectId = 2, Name = "Name2", PerformanceRecordId = 2 }
             };
-            var expected = new Tuple<IEnumerable<PerformanceRecord>, IEnumerable<Employee>, IEnumerable<ProjectModel>>(performanceRecords, employees, projects);
 
             var multiResultReader = Helpers.FakeMultipleResultReader();
             var criteria = Helpers.FakeCriteria();
             var repository = new PerformanceRecordRepository();
             multiResultReader.Read(
-                Arg.Any<Func<PerformanceRecord, Employee, NominationPeriodModel, PeriodBaseModel, PerformanceRecord>>(), 
-                    "EmployeeId, NominationPeriodId, PeriodId").Returns(performanceRecords);
+                Arg.Any<Func<PerformanceRecord, Employee, NominationPeriodModel, PeriodBaseModel, PerformanceRecord>>(),
+                "EmployeeId, NominationPeriodId, PeriodId").Returns(performanceRecords);
             multiResultReader.Read<Employee>().Returns(employees);
             multiResultReader.Read<ProjectModel>().Returns(projects);
             objectDb.QueryMultipleAsync(criteria).Returns(multiResultReader);
@@ -365,7 +358,11 @@
             var actual = await repository.GetMemberPerformanceDetailAsync(criteria);
 
             // Assert
-            Assert.Equal(expected, actual);
+            Assert.Equal(performanceRecords, actual);
+            Assert.Single(performanceRecords.First().Projects);
+            Assert.Equal(performanceRecords.First().Projects.First(), projects.First());
+            Assert.Single(performanceRecords.First().Employees);
+            Assert.Equal(performanceRecords.First().Employees.First(), employees.First());
         }
 
         [Fact]
@@ -377,22 +374,14 @@
                 new PerformanceRecord
                 {
                     PerformanceRecordId = 1,
-                    Creator = new Employee{
+                    Creator = new Employee
+                    {
                         EmployeeId = 1,
                         NickName = "NickName1",
                         FullName = "FullName1",
                         Code = "Code1"
                     },
                     GradeId = "GradeId1",
-                    Employees = new List<Employee>{
-                        new Employee
-                        {
-                            EmployeeId = 2,
-                            NickName = "NickName2",
-                            FullName = "FullName2",
-                            Code = "Code2"
-                        }
-                    },
                     Comment = "Comment ABC",
                     IsDraft = true
                 }
@@ -400,27 +389,27 @@
             var employees = new List<Employee>
             {
                 new Employee
-                        {
-                            EmployeeId = 2,
-                            NickName = "NickName2",
-                            FullName = "FullName2",
-                            Code = "Code2"
-                        },
+                {
+                    EmployeeId = 2,
+                    NickName = "NickName2",
+                    FullName = "FullName2",
+                    Code = "Code2",
+                    LinkObjectId = 1
+                },
                 new Employee
-                        {
-                            EmployeeId = 3,
-                            NickName = "NickName3",
-                            FullName = "FullName3",
-                            Code = "Code3"
-                        }
+                {
+                    EmployeeId = 3,
+                    NickName = "NickName3",
+                    FullName = "FullName3",
+                    Code = "Code3",
+                    LinkObjectId = 2
+                }
             };
             var projects = new List<ProjectModel>
             {
                 new ProjectModel { ProjectId = 1, Name = "Name1", PerformanceRecordId = 1 },
-                new ProjectModel { ProjectId = 2, Name = "Name2", PerformanceRecordId = 1 },
-                new ProjectModel { ProjectId = 3, Name = "Name3", PerformanceRecordId = 1 },
+                new ProjectModel { ProjectId = 2, Name = "Name2", PerformanceRecordId = 2 }
             };
-            var expected = new Tuple<IEnumerable<PerformanceRecord>, IEnumerable<Employee>, IEnumerable<ProjectModel>>(performanceRecords, employees, projects);
 
             var multiResultReader = Helpers.FakeMultipleResultReader();
             var criteria = Helpers.FakeCriteria();
@@ -436,7 +425,11 @@
             var actual = await repository.GetMemberPerformanceAsync(criteria);
 
             // Assert
-            Assert.Equal(expected, actual);
+            Assert.Equal(performanceRecords, actual);
+            Assert.Single(performanceRecords.First().Projects);
+            Assert.Equal(performanceRecords.First().Projects.First(), projects.First());
+            Assert.Single(performanceRecords.First().Employees);
+            Assert.Equal(performanceRecords.First().Employees.First(), employees.First());
         }
 
         [Fact]
@@ -495,7 +488,7 @@
             multiResultReader.Read(
                 Arg.Any<Func<PerformanceRecord, Employee, Employee, NominationPeriodModel, PerformanceRecord>>(),
                     "EmployeeId, EmployeeId, NominationPeriodId").Returns(performanceRecords);
-            
+
             objectDb.QueryMultipleAsync(criteria).Returns(multiResultReader);
 
             // Act
