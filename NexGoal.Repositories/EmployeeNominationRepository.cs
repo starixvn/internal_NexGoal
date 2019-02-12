@@ -94,7 +94,7 @@
 
                             return record;
                         },
-                        "EmployeeId, NominationPeriodId"
+                        "EmployeeId, EmployeeId, NominationPeriodId"
                         );
 
                     foreach (NominationModel nomination in nominations)
