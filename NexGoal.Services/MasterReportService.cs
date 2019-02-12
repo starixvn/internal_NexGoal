@@ -37,7 +37,7 @@
             this.hostingEnvironment = hostingEnvironment;
         }
 
-        public async Task<IEnumerable<MasterReportModel>> GetRecords(int periodId, string groupIds, string employeeIds)
+        private async Task<IEnumerable<MasterReportModel>> GetRecords(int periodId, string groupIds, string employeeIds)
         {
             var result = await baseService.FetchMultipleAsync<MasterReportModel, AwardModel, AssessmentModel>(new GetRecordsCriteria
             {
@@ -116,7 +116,6 @@
 
                     foreach (var record in group.Records)
                     {
-                        WriteRecord(worksheet, record, gradeConversions, ref currentRow, ref rowIndex);
                         WriteRecord(worksheet, record, gradeConversions, ref currentRow, ref rowIndex);
                     }
                 }
