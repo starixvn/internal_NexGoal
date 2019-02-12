@@ -157,7 +157,7 @@
   </Function>
   <Function Name="Nomination Report">
     <Setting Key="NominationReport_GetPeriods" SpName="NominationReport_GetPeriods" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="NominationReport_GetNominations" SpName="NominationReport_GetNominations" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="NominationReport_Get" SpName="NominationReport_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Master Report">
     <Setting Key="MasterReport_Get" SpName="MasterReport_Get" DbName="bodb_NexGoal" Plain="0"></Setting>

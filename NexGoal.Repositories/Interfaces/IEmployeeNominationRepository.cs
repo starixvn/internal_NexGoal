@@ -13,5 +13,7 @@
         Task<IEnumerable<PerformanceRecord>> GetMemberNominationAsync(ICriteria criteria);
 
         Task<PerformanceRecord> GetNominationByRecordIdAsync(ICriteria criteria);
+
+        Task<IEnumerable<NominationModel>> GetNominationByPeriodIdsAsync(ICriteria criteria);
     }
 }

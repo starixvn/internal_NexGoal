@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Core.Services;
@@ -8,84 +7,66 @@
     using NexGoal.Models.Common;
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.NominationPeriod;
-    using NexGoal.Models.PerformanceRecord;
+    using NexGoal.Repositories;
     using NSubstitute;
     using Xunit;
 
     public class NominationReportServiceTests
     {
         private IBaseService baseService;
-        private ICommonService commonService;
+        private INominationReportRepository reportRepository;
 
         [Fact]
-        public async Task GetNominationPeriodsAsync_WhenCalled_ReturnExpectedResult()
+        public async Task GetNominationPeriodAsync_WhenCalled_ReturnExpectedResult()
         {
-            var service = GetService();
-            baseService.GetDataAsync<NominationPeriodModel>(Arg.Any<GetNominationPeriodsCriteria>())
-                .Returns(new List<NominationPeriodModel>
+            // Arrange
+            var nominationPeriods = new List<NominationPeriodModel>
+            {
+                new NominationPeriodModel
                 {
-                    new NominationPeriodModel
-                    {
-                        NominationPeriodId = 1,
-                        Year = 2028
-                    }
-                });
+                    NominationPeriodId = 1,
+                    Year = 2019
+                }
+            };
+            var service = GetService();
+            baseService.GetDataAsync<NominationPeriodModel>(Arg.Any<GetNominationPeriodsCriteria>()).Returns(nominationPeriods);
 
-            var result = await service.GetNominationPeriodsAsync();
+            // Act
+            var actual = await service.GetNominationPeriodAsync();
 
-            Assert.NotEmpty(result);
-            Assert.Single(result);
+            // Assert
+            Assert.Equal(nominationPeriods, actual);
         }
 
         [Fact]
-        public async Task GetNominationsAsync_WhenCalled_ReturnExpectedResult()
+        public async Task GetNominationAsync_WhenCalled_ReturnExpectedResult()
         {
-            var service = GetService();
-            baseService.FetchMultipleAsync<NominationModel, PerformanceRecordModel>(Arg.Any<GetNominationsCriteria>())
-                .Returns(new Tuple<IEnumerable<NominationModel>, IEnumerable<PerformanceRecordModel>>
-                (
-                   new List<NominationModel>
-                   {
-                       new NominationModel
-                       {
-                           NominationId = 1,
-                           NominationPeriodId = 1,
-                           NomineeId = 2
-                       }
-                   },
-                   new List<PerformanceRecordModel>
-                   {
-                       new PerformanceRecordModel
-                       {
-                           EmployeeIds = "2",
-                           CreatorId = 1
-                       }
-                   }
-                ));
-            commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<Employee>
+            // Arrange
+            var nominations = new List<NominationModel>
             {
-                new Employee
+                new NominationModel
                 {
-                    EmployeeId = 1
-                },
-                new Employee
-                {
-                    EmployeeId = 2
+                    NominationId = 1,
+                    Period = new NominationPeriodModel { NominationPeriodId = 1, Year = 2019 },
+                    Nominee = new Employee { EmployeeId = 1, NickName = "tim" }
                 }
-            });
+            };
+            var service = GetService();
+            reportRepository.GetNominationAsync(Arg.Any<GetNominationsCriteria>()).Returns(nominations);
 
-            var result = await service.GetNominationsAsync("1", null, null, null, 1);
+            // Act
+            var actual = await service.GetNominationAsync(1, "1", null, null, null);
 
-            Assert.NotEmpty(result);
-            Assert.Single(result);
+            // Assert
+            Assert.Equal(nominations, actual);
         }
 
         private NominationReportService GetService()
         {
             baseService = Substitute.For<IBaseService>();
-            commonService = Substitute.For<ICommonService>();
+            reportRepository = Substitute.For<INominationReportRepository>();
 
-            var service = new NominationReportService(baseService, commonService);
+            var service = new NominationReportService(baseService, reportRepository);
 
             return service;
         }

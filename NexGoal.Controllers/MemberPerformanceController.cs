@@ -46,7 +46,7 @@
 
         [Route("Member/Performance/Create")]
         [HttpPost]
-        public async Task<JsonResult> Create(CreatePerformanceRecordModel performanceRecord)
+        public async Task<JsonResult> Create(CreatePerformanceRecordDto performanceRecord)
         {
             if (ModelState.IsValid)
             {
@@ -63,7 +63,7 @@
 
         [Route("Member/Performance/CreateDraft")]
         [HttpPost]
-        public async Task<JsonResult> CreateDraft(CreatePerformanceRecordModel performanceRecord)
+        public async Task<JsonResult> CreateDraft(CreatePerformanceRecordDto performanceRecord)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +80,7 @@
 
         [Route("Member/Performance/Edit")]
         [HttpPost]
-        public async Task<JsonResult> Edit(EditPerformanceRecordModel performanceRecord)
+        public async Task<JsonResult> Edit(EditPerformanceRecordDto performanceRecord)
         {
             if (ModelState.IsValid)
             {
@@ -97,7 +97,7 @@
 
         [Route("Member/Performance/EditDraft")]
         [HttpPost]
-        public async Task<JsonResult> EditDraft(EditPerformanceRecordModel performanceRecord)
+        public async Task<JsonResult> EditDraft(EditPerformanceRecordDto performanceRecord)
         {
             if (ModelState.IsValid)
             {

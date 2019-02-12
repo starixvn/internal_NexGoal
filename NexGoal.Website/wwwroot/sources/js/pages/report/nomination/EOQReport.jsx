@@ -78,10 +78,10 @@ export default class EOQReport extends Component {
             }
         }).then(response => {
             this.setState({
-                tableData: this.periods.filter(p => filter.periods.some(e => e.value === p.nominationPeriodId)).map(p => ({
-                    nominationPeriodId: p.nominationPeriodId,
-                    title: p.title,
-                    nominations: response.data.filter(n => n.nominationPeriodId === p.nominationPeriodId)
+                tableData: filter.periods.map(p => ({
+                    nominationPeriodId: p.value,
+                    title: p.label,
+                    nominations: response.data.filter(n => n.period.nominationPeriodId === p.value)
                 }))
             });
         }).catch(axiosError);
@@ -119,7 +119,7 @@ export default class EOQReport extends Component {
         this.props.onShowNominatorComment(
             nomination,
             performanceRecordId,
-            this.periodOptions.find(x => x.value === nomination.nominationPeriodId)
+            this.periodOptions.find(x => x.value === nomination.period.nominationPeriodId)
         );
     }
 

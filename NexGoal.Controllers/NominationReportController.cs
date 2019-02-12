@@ -1,9 +1,12 @@
 ﻿namespace NexGoal.Controllers
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
+    using NexGoal.Models.EmployeeNomination;
+    using NexGoal.Models.NominationPeriod;
     using NexGoal.Services;
     using NexGoal.Web.Core.Filters;
     using NexGoal.Web.Core.Services;
@@ -11,13 +14,15 @@
     [NexGoalPermission(FunctionKey = FunctionKey.NominationReport, Policy = Policy.Read)]
     public class NominationReportController : Controller
     {
-        private readonly INominationReportService nominationReportService;
+        private readonly INominationReportService reportService;
         private readonly ISessionService sessionService;
 
-        public NominationReportController(INominationReportService nominationReportService, ISessionService sessionService)
+        public NominationReportController(
+            ISessionService sessionService,
+            INominationReportService reportService)
         {
-            this.nominationReportService = nominationReportService;
             this.sessionService = sessionService;
+            this.reportService = reportService;
         }
 
         public IActionResult Index()
@@ -28,13 +33,18 @@
         [HttpGet]
         public async Task<IActionResult> GetNominationPeriods()
         {
-            return Json(await nominationReportService.GetNominationPeriodsAsync().ConfigureAwait(false));
+            IEnumerable<NominationPeriodModel> periods = await reportService.GetNominationPeriodAsync().ConfigureAwait(false);
+
+            return Json(periods);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetNominations(string nominationPeriodIds, string groupIds, string employeeIds, int? statusId)
         {
-            return Json(await nominationReportService.GetNominationsAsync(nominationPeriodIds, groupIds, employeeIds, statusId, sessionService.EmployeeId).ConfigureAwait(false));
+            IEnumerable<NominationModel> nominations =
+                await reportService.GetNominationAsync(sessionService.EmployeeId, nominationPeriodIds, groupIds, employeeIds, statusId).ConfigureAwait(false);
+
+            return Json(nominations);
         }
     }
 }

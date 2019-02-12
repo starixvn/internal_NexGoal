@@ -12,13 +12,11 @@
         public int StatusId { get; set; }
 
         public int NomineeId { get; set; }
-
         public Employee Nominee { get; set; }
 
         public int NominationPeriodId { get; set; }
-
         public NominationPeriodModel Period { get; set; }
 
-        public IEnumerable<PerformanceRecordModel> Nominators { get; set; }
+        public IEnumerable<PerformanceRecord> Nominators { get; set; }
     }
 }

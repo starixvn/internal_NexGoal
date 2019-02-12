@@ -4,6 +4,8 @@
 
     public class GetNominationsCriteria : CriteriaBase
     {
+        public int ActorId { get; set; }
+
         public string NominationPeriodIds { get; set; }
 
         public string GroupIds { get; set; }
@@ -12,10 +14,8 @@
 
         public int? StatusId { get; set; }
 
-        public int LoggedEmployeeId { get; set; }
+        public override string GetSettingKey() => "NominationReport_Get";
 
-        public override string GetSettingKey() => "NominationReport_GetNominations";
-
-        public override bool IsValid() => LoggedEmployeeId > 0;
+        public override bool IsValid() => ActorId > 0;
     }
 }

@@ -3,7 +3,7 @@
     using System.ComponentModel.DataAnnotations;
     using NexGoal.Resources;
 
-    public class CreatePerformanceRecordModel
+    public class CreatePerformanceRecordDto
     {
         public string EmployeeIds { get; set; }
         public int CreatorId { get; set; }

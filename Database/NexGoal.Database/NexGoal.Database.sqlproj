@@ -213,7 +213,7 @@
     <Build Include="dbo\Stored Procedures\Nomination_Delete.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetRoleAccordingToMember.sql" />
     <Build Include="dbo\Stored Procedures\NominationReport_GetPeriods.sql" />
-    <Build Include="dbo\Stored Procedures\NominationReport_GetNominations.sql" />
+    <Build Include="dbo\Stored Procedures\NominationReport_Get.sql" />
     <Build Include="dbo\Stored Procedures\Report_GetPARecord.sql" />
     <Build Include="dbo\Stored Procedures\Announcement_Get.sql" />
     <Build Include="dbo\Stored Procedures\Auto_PAFocus_GetPeriodStarted.sql" />

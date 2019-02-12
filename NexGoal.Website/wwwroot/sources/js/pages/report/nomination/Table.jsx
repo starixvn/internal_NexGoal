@@ -71,7 +71,7 @@ export default class Table extends Component {
                         </Fragment>)
                     }
                 </td>
-                <td class="text-center">
+                <td className="text-center">
                     {<span className={getNominationClassName(nomination.statusId)}>
                         {NominationStatuses.find(x => x.value === nomination.statusId).text}
                     </span>}

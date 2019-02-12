@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -19,7 +18,6 @@
     public class EmployeeNominationServiceTests
     {
         private IBaseService baseService;
-        private ICommonService commonService;
         private IEmployeeNominationRepository nominationRepository;
 
         [Fact]
@@ -195,43 +193,24 @@
         [Fact]
         public async Task GetNominationsByPeriodIdsAsync_ValidData_ReturnExpectedResult()
         {
+            // Arrange
+            var nominations = new List<NominationModel>
+            {
+                new NominationModel
+                {
+                    NominationId = 1,
+                    Period = new NominationPeriodModel { NominationPeriodId = 1, Year = 2019 },
+                    Nominee = new Employee { EmployeeId = 1, NickName = "tim" }
+                }
+            };
             var service = GetService();
+            nominationRepository.GetNominationByPeriodIdsAsync(Arg.Any<GetNominationsByPeriodIdsCriteria>()).Returns(nominations);
 
-            var performanceRecord = new PerformanceRecordModel
-            {
-                PerformanceRecordId = 1,
-                EmployeeIds = "2",
-                CreatorId = 1,
-                NominationPeriodId = 1
-            };
+            // Act
+            var actual = await service.GetNominationsByPeriodIdsAsync("1", null);
 
-            var nomination = new NominationModel
-            {
-                NominationId = 1,
-                NomineeId = 2,
-                NominationPeriodId = 1
-            };
-
-            baseService.FetchMultipleAsync<NominationModel, PerformanceRecordModel>(Arg.Any<GetNominationsByPeriodIdsCriteria>())
-                .Returns(new Tuple<IEnumerable<NominationModel>, IEnumerable<PerformanceRecordModel>>(
-                        new List<NominationModel> { nomination },
-                        new List<PerformanceRecordModel> { performanceRecord }
-                    ));
-
-            commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<Employee>
-            {
-                new Employee { EmployeeId = 1 },
-                new Employee { EmployeeId = 2 }
-            });
-
-            var result = await service.GetNominationsByPeriodIdsAsync("1", null);
-
-            Assert.NotEmpty(result);
-            Assert.Collection(result, item =>
-            {
-                Assert.Equal(item.NomineeId, item.Nominee.EmployeeId);
-                Assert.NotEmpty(item.Nominators);
-            });
+            // Assert
+            Assert.Equal(nominations, actual);
         }
 
         [Fact]
@@ -290,10 +269,9 @@
         private EmployeeNominationService GetService()
         {
             baseService = Substitute.For<IBaseService>();
-            commonService = Substitute.For<ICommonService>();
             nominationRepository = Substitute.For<IEmployeeNominationRepository>();
 
-            var service = new EmployeeNominationService(baseService, commonService, nominationRepository);
+            var service = new EmployeeNominationService(baseService, nominationRepository);
 
             return service;
         }

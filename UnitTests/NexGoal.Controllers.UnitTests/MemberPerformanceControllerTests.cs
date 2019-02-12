@@ -115,7 +115,7 @@
             controller.ModelState.AddModelError("name", "required");
 
             // Act
-            var result = await controller.Create(new CreatePerformanceRecordModel());
+            var result = await controller.Create(new CreatePerformanceRecordDto());
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
@@ -128,10 +128,10 @@
             // Arrange
             var expected = new CommandResult();
             var controller = GetMemberPerformanceController();
-            performanceService.CreatePerformanceRecordAsync(Arg.Any<CreatePerformanceRecordModel>()).Returns(expected);
+            performanceService.CreatePerformanceRecordAsync(Arg.Any<CreatePerformanceRecordDto>()).Returns(expected);
 
             // Act
-            var result = await controller.Create(new CreatePerformanceRecordModel());
+            var result = await controller.Create(new CreatePerformanceRecordDto());
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
@@ -147,7 +147,7 @@
             controller.ModelState.AddModelError("comment", "required");
 
             // Act
-            var result = await controller.CreateDraft(new CreatePerformanceRecordModel());
+            var result = await controller.CreateDraft(new CreatePerformanceRecordDto());
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
@@ -163,10 +163,10 @@
                 Code = 0
             };
             var controller = GetMemberPerformanceController();
-            performanceService.CreateDraftPerformanceRecordAsync(Arg.Any<CreatePerformanceRecordModel>()).Returns(expected);
+            performanceService.CreateDraftPerformanceRecordAsync(Arg.Any<CreatePerformanceRecordDto>()).Returns(expected);
 
             // Act
-            var result = await controller.CreateDraft(new CreatePerformanceRecordModel());
+            var result = await controller.CreateDraft(new CreatePerformanceRecordDto());
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
@@ -186,7 +186,7 @@
             controller.ModelState.AddModelError("name", "required");
 
             // Act
-            var result = await controller.Edit(new EditPerformanceRecordModel());
+            var result = await controller.Edit(new EditPerformanceRecordDto());
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
@@ -199,10 +199,10 @@
             // Arrange
             var expected = new CommandResult();
             var controller = GetMemberPerformanceController();
-            performanceService.EditPerformanceRecordAsync(Arg.Any<EditPerformanceRecordModel>()).Returns(expected);
+            performanceService.EditPerformanceRecordAsync(Arg.Any<EditPerformanceRecordDto>()).Returns(expected);
 
             // Act
-            var result = await controller.Edit(new EditPerformanceRecordModel());
+            var result = await controller.Edit(new EditPerformanceRecordDto());
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
@@ -218,7 +218,7 @@
             controller.ModelState.AddModelError("comment", "required");
 
             // Act
-            var result = await controller.EditDraft(new EditPerformanceRecordModel());
+            var result = await controller.EditDraft(new EditPerformanceRecordDto());
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
@@ -231,10 +231,10 @@
             // Arrange
             var expected = new CommandResult();
             var controller = GetMemberPerformanceController();
-            performanceService.EditDraftPerformanceRecordAsync(Arg.Any<EditPerformanceRecordModel>()).Returns(expected);
+            performanceService.EditDraftPerformanceRecordAsync(Arg.Any<EditPerformanceRecordDto>()).Returns(expected);
 
             // Act
-            var result = await controller.EditDraft(new EditPerformanceRecordModel());
+            var result = await controller.EditDraft(new EditPerformanceRecordDto());
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);

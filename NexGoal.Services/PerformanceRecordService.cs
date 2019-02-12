@@ -188,7 +188,7 @@
             return tuple.Item1;
         }
 
-        public async Task<CommandResult> CreatePerformanceRecordAsync(CreatePerformanceRecordModel performanceRecord)
+        public async Task<CommandResult> CreatePerformanceRecordAsync(CreatePerformanceRecordDto performanceRecord)
         {
             var criteria = new CreatePerformanceRecordCriteria
             {
@@ -212,7 +212,7 @@
             return commandResult;
         }
 
-        public async Task<CommandResult> CreateDraftPerformanceRecordAsync(CreatePerformanceRecordModel performanceRecord)
+        public async Task<CommandResult> CreateDraftPerformanceRecordAsync(CreatePerformanceRecordDto performanceRecord)
         {
             var criteria = new CreateDraftPerformanceRecordCriteria
             {
@@ -230,7 +230,7 @@
             return commandResult;
         }
 
-        public async Task<CommandResult> EditPerformanceRecordAsync(EditPerformanceRecordModel performanceRecord)
+        public async Task<CommandResult> EditPerformanceRecordAsync(EditPerformanceRecordDto performanceRecord)
         {
             var criteria = new EditPerformanceRecordCriteria
             {
@@ -264,7 +264,7 @@
             return commandResult;
         }
 
-        public async Task<CommandResult> EditDraftPerformanceRecordAsync(EditPerformanceRecordModel performanceRecord)
+        public async Task<CommandResult> EditDraftPerformanceRecordAsync(EditPerformanceRecordDto performanceRecord)
         {
             var criteria = new EditDraftPerformanceRecordCriteria
             {

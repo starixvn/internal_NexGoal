@@ -29,7 +29,7 @@
 
         Task<NominationPeriodModel> GetCurrentNominationPeriodForComittee(int committeeId, bool isQuarter);
 
-        Task<IEnumerable<NominationModel>> GetNominationsByPeriodIdsAsync(string nominationPeriodIds, int? statusId);
+        Task<IEnumerable<NominationModel>> GetNominationsByPeriodIdsAsync(string nominationPeriodIds, int? statusId = null);
 
         Task<CommandResult> EditStatusAsync(int nominationId, int statusId, int updatedById);
     }
