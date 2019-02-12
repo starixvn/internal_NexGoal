@@ -403,7 +403,7 @@
             {
                 Code = resultCode
             };
-            var performanceRecord = new CreatePerformanceRecordModel
+            var performanceRecord = new CreatePerformanceRecordDto
             {
                 EmployeeIds = "1",
                 CreatorId = 2,
@@ -427,7 +427,7 @@
             {
                 Code = 0
             };
-            var performanceRecord = new CreatePerformanceRecordModel
+            var performanceRecord = new CreatePerformanceRecordDto
             {
                 EmployeeIds = "1",
                 CreatorId = 2,
@@ -459,7 +459,7 @@
             {
                 Code = resultCode
             };
-            var performanceRecord = new EditPerformanceRecordModel
+            var performanceRecord = new EditPerformanceRecordDto
             {
                 PerformanceRecordId = 1,
                 EmployeeIds = "1",
@@ -487,7 +487,7 @@
             {
                 PerformanceRecordId = 1
             };
-            var performanceRecord = new EditPerformanceRecordModel
+            var performanceRecord = new EditPerformanceRecordDto
             {
                 PerformanceRecordId = 1,
                 EmployeeIds = "1",
@@ -521,7 +521,7 @@
             {
                 PerformanceRecordId = 1
             };
-            var performanceRecord = new EditPerformanceRecordModel
+            var performanceRecord = new EditPerformanceRecordDto
             {
                 PerformanceRecordId = 1,
                 EmployeeIds = "1",

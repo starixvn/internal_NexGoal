@@ -1,6 +1,6 @@
 ﻿namespace NexGoal.Models.PerformanceRecord
 {
-    public class EditPerformanceRecordModel : CreatePerformanceRecordModel
+    public class EditPerformanceRecordDto : CreatePerformanceRecordDto
     {
         public int PerformanceRecordId { get; set; }
 

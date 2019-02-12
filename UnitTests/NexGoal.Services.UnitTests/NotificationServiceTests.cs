@@ -7,7 +7,6 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Notification;
-    using NexGoal.Models.Common;
     using NexGoal.Models.Notification;
     using NSubstitute;
     using Xunit;
@@ -15,7 +14,6 @@
     public class NotificationServiceTests
     {
         private IBaseService baseService;
-        private ICommonService commonService;
 
         [Fact]
         public async Task GetSettingAsync_WhenCalled_ReturnAsExpectedSetting()
@@ -50,19 +48,14 @@
                 {
                     NotificationId = 1,
                     CreatorId = 125,
+                    CreatorCode = "1234",
                     EmployeeId = 263
                 }
-            };
-            var employees = new List<Employee>
-            {
-                new Employee { EmployeeId = 125, NickName="Quinn" },
-                new Employee { EmployeeId = 263, NickName="Tim" },
             };
 
             var service = GetNotificationService();
 
             baseService.GetDataAsync<NotificationEntity>(Arg.Any<GetNotificationByEmployeeCriteria>()).Returns(notifications);
-            commonService.GetEmployeesAsync().Returns(employees);
 
             // Act
             var actual = await service.GetNotificationAsync(263, 0, 10);
@@ -140,8 +133,7 @@
         private NotificationService GetNotificationService()
         {
             baseService = Substitute.For<IBaseService>();
-            commonService = Substitute.For<ICommonService>();
-            var service = new NotificationService(baseService, commonService);
+            var service = new NotificationService(baseService);
 
             return service;
         }

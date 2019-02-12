@@ -17,11 +17,11 @@ export default class MasterReport extends Component {
             filter: {
                 period: null,
                 groups: [],
-                employees: [],
+                employees: []
             },
             groupOptions: [],
             employeeOptions: [],
-            periodOptions: [],
+            periodOptions: []
         };
     }
 
@@ -103,10 +103,10 @@ export default class MasterReport extends Component {
                         periodOptions={this.state.periodOptions}
                         employeeOptions={this.state.employeeOptions}
                         onFilterChange={this.handleFilterChange}
-                        exportUrl={`MasterReport/Export?${stringify({
+                        exportUrl={`/MasterReport/Export?${stringify({
                             periodId: filter.period ? filter.period.value : null,
                             groupIds: filter.groups.map(x => x.value).toString(),
-                            employeeIds: filter.employees.map(x => x.value).toString(),
+                            employeeIds: filter.employees.map(x => x.value).toString()
                         })}`}
                     />
                 </div>

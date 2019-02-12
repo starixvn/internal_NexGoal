@@ -28,7 +28,7 @@ export const axiosError = (error) => {
                 break;
         }
 
-        window.location = _rootUrl + url;
+        //window.location = _rootUrl + url;
     }
 };
 

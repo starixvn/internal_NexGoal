@@ -4,12 +4,10 @@
 
     public class GetAchievementByEmployeeCriteria : CriteriaBase
     {
-        public int EmployeeId { get; set; }
+        public int PARecordId { get; set; }
 
-        public int PeriodId { get; set; }
+        public override string GetSettingKey() => "Nomination_GetByPARecordId";
 
-        public override string GetSettingKey() => "Nomination_GetByEmployeeInPeriod";
-
-        public override bool IsValid() => EmployeeId > 0 && PeriodId > 0;
+        public override bool IsValid() => PARecordId > 0;
     }
 }

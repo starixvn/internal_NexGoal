@@ -2,7 +2,7 @@
 {
     using NexGoal.Models.Common;
 
-    public class GroupFlowSettingModel : GroupBaseModel
+    public class GroupFlowSettingModel : Group
     {
         public FlowSettingModel Evaluator { get; set; }
         public FlowSettingModel Reviewer { get; set; }

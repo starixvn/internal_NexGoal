@@ -99,7 +99,7 @@
             {
                 new PAReportModel
                 {
-                    Group = new GroupBaseModel{ Name = "Nexus" },
+                    Group = new Group{ Name = "Nexus" },
                     PARecords = listPARecords
                 }
             };

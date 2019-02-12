@@ -1,11 +1,13 @@
 ﻿namespace NexGoal.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Auth;
     using NexGoal.Models.Auth;
+    using NexGoal.Models.Common;
 
     public class AuthService : IAuthService
     {
@@ -51,6 +53,23 @@
             }
 
             return menuGroups;
+        }
+
+        public async Task<Tuple<Employee, bool, int>> GetEmployeeInfoAsync(int employeeId)
+        {
+            var criteria = new GetEmployeeInfoCriteria
+            {
+                EmployeeId = employeeId
+            };
+
+            var info = await baseService.GetDataEntityAsync<Employee>(criteria).ConfigureAwait(false);
+
+            var tuple = new Tuple<Employee, bool, int>(
+                info,
+                criteria.IsHasMember,
+                criteria.UnreadNotification);
+
+            return tuple;
         }
     }
 }

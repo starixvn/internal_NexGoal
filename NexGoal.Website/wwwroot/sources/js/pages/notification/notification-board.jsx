@@ -64,7 +64,7 @@ export default class NotificationBoard extends Component {
                                             <div className={`noti-center-item ${notiStatus} noti-${item.notificationId}`}
                                                 onClick={() => this.props.onChangeStatus(item.notificationId, item.statusId, false)}
                                             >
-                                                <img className="avatar" src={item.creator.avatar} />
+                                                <img className="avatar" src={item.creatorAvatar} />
                                                 <div className="description">
                                                     <a onClick={() => this.props.onChangeStatus(item.notificationId, item.statusId, true)}>{item.content}</a>
                                                 </div>

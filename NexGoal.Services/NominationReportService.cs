@@ -1,69 +1,53 @@
 ﻿namespace NexGoal.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.NominationReport;
-    using NexGoal.Models.Common;
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.NominationPeriod;
-    using NexGoal.Models.PerformanceRecord;
+    using NexGoal.Repositories;
 
     public class NominationReportService : INominationReportService
     {
         private readonly IBaseService baseService;
-        private readonly ICommonService commonService;
+        private readonly INominationReportRepository reportRepository;
 
-        public NominationReportService(IBaseService baseService, ICommonService commonService)
+        public NominationReportService(
+            IBaseService baseService,
+            INominationReportRepository reportRepository)
         {
             this.baseService = baseService;
-            this.commonService = commonService;
+            this.reportRepository = reportRepository;
         }
 
-        public async Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsAsync()
+        public async Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodAsync()
         {
             var criteria = new GetNominationPeriodsCriteria();
 
             return await baseService.GetDataAsync<NominationPeriodModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<NominationModel>> GetNominationsAsync(string nominationPeriodIds, string groupIds, string employeeIds, int? statusId, int loggedEmployeeId)
+        public async Task<IEnumerable<NominationModel>> GetNominationAsync(
+            int actorId,
+            string nominationPeriodIds,
+            string groupIds,
+            string employeeIds,
+            int? statusId)
         {
             var criteria = new GetNominationsCriteria
             {
+                ActorId = actorId,
                 NominationPeriodIds = nominationPeriodIds,
                 GroupIds = groupIds,
                 EmployeeIds = employeeIds,
-                StatusId = statusId,
-                LoggedEmployeeId = loggedEmployeeId
+                StatusId = statusId
             };
 
-            var result = await baseService.FetchMultipleAsync<NominationModel, PerformanceRecordModel>(criteria).ConfigureAwait(false);
-
-            var nominations = result.Item1;
-            var performanceRecords = result.Item2;
-
-            IEnumerable<Employee> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
-
-            MappingData(performanceRecords, employees, nominations);
+            IEnumerable<NominationModel> nominations = await reportRepository.GetNominationAsync(criteria).ConfigureAwait(false);
 
             return nominations.OrderByDescending(x => x.StatusId).ThenBy(x => x.Nominee.NickName);
-        }
-
-        private static void MappingData(IEnumerable<PerformanceRecordModel> performanceRecords, IEnumerable<Employee> employees, IEnumerable<NominationModel> nominations)
-        {
-            foreach (var record in performanceRecords)
-            {
-                record.Creator = employees.FirstOrDefault(x => x.EmployeeId == record.CreatorId);
-            }
-
-            foreach (var nomination in nominations)
-            {
-                nomination.Nominee = employees.FirstOrDefault(x => x.EmployeeId == nomination.NomineeId);
-                nomination.Nominators = performanceRecords.Where(x => x.EmployeeIds == nomination.NomineeId.ToString() && x.NominationPeriodId == nomination.NominationPeriodId);
-            }
         }
     }
 }

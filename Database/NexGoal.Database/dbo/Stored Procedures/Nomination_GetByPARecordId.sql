@@ -1,5 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[Nomination_GetByEmployeeInPeriod] @EmployeeId INT
-	,@PeriodId INT
+﻿CREATE PROCEDURE [dbo].[Nomination_GetByPARecordId] @PARecordId INT
 AS
 /*
 Created: 20190122@Oliver.Dang
@@ -14,12 +13,15 @@ Param's Explanation:
 BEGIN
 	DECLARE @FromDate DATE
 			,@ToDate DATE
+			,@EmployeeId INT
 			,@Draft TINYINT = 4
 
-	SELECT @FromDate = p.StartDate
+	SELECT @EmployeeId = pa.EmployeeId
+		  ,@FromDate = p.StartDate
 		  ,@ToDate = p.EndDate
-	FROM dbo.Period AS p WITH (NOLOCK)
-	WHERE PeriodId = @PeriodId
+	FROM dbo.PARecord AS pa WITH (NOLOCK) 
+	INNER JOIN dbo.Period AS p WITH (NOLOCK) ON p.PeriodId = pa.PeriodId
+	WHERE pa.PARecordId = @PARecordId
 
 	SELECT eoqy.EOQYId AS NominationPeriodId
 		,nomination.StatusId

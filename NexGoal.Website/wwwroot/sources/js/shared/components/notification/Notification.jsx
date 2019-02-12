@@ -13,7 +13,7 @@ export default class Notification extends Component {
 
         this.state = {
             isShowSettingModal: false,
-            notiBodyHeight: 450
+            notiBodyHeight: 340
         };
     }
 
@@ -24,7 +24,8 @@ export default class Notification extends Component {
     shouldComponentUpdate(nextProps, nextState) {
         if (nextState.isShowSettingModal !== this.state.isShowSettingModal
             || nextState.notiBodyHeight !== this.state.notiBodyHeight
-            || JSON.stringify(nextProps.notifications) !== this.props.notifications) {
+            || JSON.stringify(nextProps.notifications) !== this.props.notifications
+            || nextProps.hasMore !== this.props.hasMore) {
             return true;
         }
 
@@ -39,7 +40,7 @@ export default class Notification extends Component {
                 totalHeight += items[i].offsetHeight + 4;
             }
         }
-        if (totalHeight < 450) {
+        if (totalHeight < 340) {
             this.setState({ notiBodyHeight: totalHeight });
         }
     }
@@ -68,7 +69,7 @@ export default class Notification extends Component {
                         <a className="setting" onClick={this.handleClickSetting}>Settings</a>
                     </span>
                 </div>
-                <div className="noti-body" style={{ height: this.state.notiBodyHeight}}>
+                <div className="noti-body" style={{ height: this.state.notiBodyHeight }}>
                     <CustomScrollbars>
                         {
                             notifications &&
@@ -85,7 +86,7 @@ export default class Notification extends Component {
                                             <div className={`noti-item ${notiStatus} noti-${item.notificationId}`}
                                                 onClick={() => this.props.onChangeStatus(item.notificationId, item.statusId, false)}
                                             >
-                                                <img className="avatar" src={item.creator.avatar} />
+                                                <img className="avatar" src={item.creatorAvatar} />
                                                 <div className="description">
                                                     <a onClick={() => this.props.onChangeStatus(item.notificationId, item.statusId, true)}>
                                                         {item.content}

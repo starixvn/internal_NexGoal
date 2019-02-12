@@ -81,9 +81,9 @@
         public async Task GetGroup_WhenCalled_ReturnAsExpectedGroups()
         {
             // Arrange
-            var groups = new List<GroupBaseModel>
+            var groups = new List<Group>
             {
-                new GroupBaseModel { GroupId = 1, Code = "NEX", Name = "Nexus" }
+                new Group { GroupId = 1, Code = "NEX", Name = "Nexus" }
             };
             var controller = GetPAFocusController();
             focusService.GetGroupAsync(sessionService.EmployeeId).Returns(groups);
@@ -93,7 +93,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
-            var result = Assert.IsAssignableFrom<IEnumerable<GroupBaseModel>>(jsonResult.Value);
+            var result = Assert.IsAssignableFrom<IEnumerable<Group>>(jsonResult.Value);
             Assert.Equal(groups, result);
         }
 

@@ -12,7 +12,7 @@
 
         Task<PerformanceRecord> GetPerformanceRecordByIdAsync(int performanceRecordId, int creatorId);
 
-        Task<PerformanceRecord> GetDraftPerformanceRecordByIdAsync(int performanceRecordId);
+        Task<PerformanceRecord> GetDraftPerformanceRecordByIdAsync(int performanceRecordId, int creatorId);
 
         Task<IEnumerable<PerformanceRecord>> GetPerformanceRecordByIdsAsync(string performanceRecordIds, int creatorId);
 
@@ -24,13 +24,13 @@
 
         Task<IEnumerable<MemberPerformanceTimelineModel>> GetMemberPerformanceTimelineAsync(GetMemberPerformanceTimelineParam param);
 
-        Task<CommandResult> CreatePerformanceRecordAsync(CreatePerformanceRecordModel performanceRecord);
+        Task<CommandResult> CreatePerformanceRecordAsync(CreatePerformanceRecordDto performanceRecord);
 
-        Task<CommandResult> CreateDraftPerformanceRecordAsync(CreatePerformanceRecordModel performanceRecord);
+        Task<CommandResult> CreateDraftPerformanceRecordAsync(CreatePerformanceRecordDto performanceRecord);
 
-        Task<CommandResult> EditPerformanceRecordAsync(EditPerformanceRecordModel performanceRecord);
+        Task<CommandResult> EditPerformanceRecordAsync(EditPerformanceRecordDto performanceRecord);
 
-        Task<CommandResult> EditDraftPerformanceRecordAsync(EditPerformanceRecordModel performanceRecord);
+        Task<CommandResult> EditDraftPerformanceRecordAsync(EditPerformanceRecordDto performanceRecord);
 
         Task<CommandResult> DeletePerformanceRecordAsync(int performanceRecordId, int actorId);
     }

@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -19,7 +18,6 @@
     public class EmployeeNominationServiceTests
     {
         private IBaseService baseService;
-        private ICommonService commonService;
         private IEmployeeNominationRepository nominationRepository;
 
         [Fact]
@@ -115,42 +113,24 @@
         }
 
         [Fact]
-        public async Task GetNominationByRecordIdAsync_InvalidData_ReturnNull()
-        {
-            var service = GetService();
-
-            baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(Arg.Any<GetNominationByRecordIdCriteria>())
-                .Returns(new Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<NominationPeriodModel>>(
-                    Enumerable.Empty<PerformanceRecordModel>(), Enumerable.Empty<NominationPeriodModel>()));
-
-            var result = await service.GetNominationByRecordIdAsync(0);
-
-            Assert.Null(result);
-        }
-
-        [Fact]
         public async Task GetNominationByRecordIdAsync_ValidData_ReturnExpectedResult()
         {
+            // Arrange
             var service = GetService();
-
-            var performanceRecord = new PerformanceRecordModel
+            var performanceRecord = new PerformanceRecord
             {
                 PerformanceRecordId = 1,
-                EmployeeIds = "2",
-                CreatorId = 1
+                Employees = new List<Employee> { new Employee { EmployeeId = 1, NickName = "tim" } },
+                Creator = new Employee { EmployeeId = 2, NickName = "quinn" },
+                NominationPeriod = new NominationPeriodModel { NominationPeriodId = 1, Year = 2018 }
             };
+            nominationRepository.GetNominationByRecordIdAsync(Arg.Any<GetNominationByRecordIdCriteria>()).Returns(performanceRecord);
 
-            baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(Arg.Any<GetNominationByRecordIdCriteria>())
-                .Returns(new Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<NominationPeriodModel>>(
-                    new List<PerformanceRecordModel> { performanceRecord }, Enumerable.Empty<NominationPeriodModel>()));
-            commonService.GetEmployeeByIdAsync(performanceRecord.CreatorId).Returns(new Employee { EmployeeId = 1 });
-            commonService.GetEmployeeByIdAsync(2).Returns(new Employee { EmployeeId = 2 });
+            // Act
+            var actual = await service.GetNominationByRecordIdAsync(1);
 
-            var result = await service.GetNominationByRecordIdAsync(1);
-
-            Assert.NotNull(result);
-            Assert.Equal(result.CreatorId, result.Creator.EmployeeId);
-            Assert.Equal(result.EmployeeIds, result.Employees.FirstOrDefault().EmployeeId.ToString());
+            // Assert
+            Assert.Equal(performanceRecord, actual);
         }
 
         [Fact]
@@ -162,14 +142,14 @@
                 new Employee { EmployeeId = 2, NickName = "elton" },
                 new Employee { EmployeeId = 3, NickName = "oliver" }
             };
-            var performanceRecords = new List<PerformanceRecordModel> {
-                new PerformanceRecordModel
+            var performanceRecords = new List<PerformanceRecord> {
+                new PerformanceRecord
                 {
                     PerformanceRecordId = 1,
                     NominationPeriod = new NominationPeriodModel { NominationPeriodId = 1, Quarter = 4, Year = 2018 },
                     TypeId = (int)PerformanceRecordType.Nomination
                 },
-                new PerformanceRecordModel
+                new PerformanceRecord
                 {
                     PerformanceRecordId = 2,
                     Employees = new List<Employee>{ new Employee { EmployeeId = 2, NickName = "elton" } },
@@ -177,7 +157,7 @@
                     NominationStatusId = 2,
                     TypeId = (int)PerformanceRecordType.SystemNomination
                 },
-                new PerformanceRecordModel
+                new PerformanceRecord
                 {
                     PerformanceRecordId = 3,
                     Employees = new List<Employee>{ new Employee { EmployeeId = 3, NickName = "oliver" } },
@@ -213,43 +193,24 @@
         [Fact]
         public async Task GetNominationsByPeriodIdsAsync_ValidData_ReturnExpectedResult()
         {
+            // Arrange
+            var nominations = new List<NominationModel>
+            {
+                new NominationModel
+                {
+                    NominationId = 1,
+                    Period = new NominationPeriodModel { NominationPeriodId = 1, Year = 2019 },
+                    Nominee = new Employee { EmployeeId = 1, NickName = "tim" }
+                }
+            };
             var service = GetService();
+            nominationRepository.GetNominationByPeriodIdsAsync(Arg.Any<GetNominationsByPeriodIdsCriteria>()).Returns(nominations);
 
-            var performanceRecord = new PerformanceRecordModel
-            {
-                PerformanceRecordId = 1,
-                EmployeeIds = "2",
-                CreatorId = 1,
-                NominationPeriodId = 1
-            };
+            // Act
+            var actual = await service.GetNominationsByPeriodIdsAsync("1", null);
 
-            var nomination = new NominationModel
-            {
-                NominationId = 1,
-                NomineeId = 2,
-                NominationPeriodId = 1
-            };
-
-            baseService.FetchMultipleAsync<NominationModel, PerformanceRecordModel>(Arg.Any<GetNominationsByPeriodIdsCriteria>())
-                .Returns(new Tuple<IEnumerable<NominationModel>, IEnumerable<PerformanceRecordModel>>(
-                        new List<NominationModel> { nomination },
-                        new List<PerformanceRecordModel> { performanceRecord }
-                    ));
-
-            commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<Employee>
-            {
-                new Employee { EmployeeId = 1 },
-                new Employee { EmployeeId = 2 }
-            });
-
-            var result = await service.GetNominationsByPeriodIdsAsync("1", null);
-
-            Assert.NotEmpty(result);
-            Assert.Collection(result, item =>
-            {
-                Assert.Equal(item.NomineeId, item.Nominee.EmployeeId);
-                Assert.NotEmpty(item.Nominators);
-            });
+            // Assert
+            Assert.Equal(nominations, actual);
         }
 
         [Fact]
@@ -264,13 +225,53 @@
             Assert.True(result.IsSuccessful);
         }
 
+        [Fact]
+        public async Task GetMemberNominationByIdAsync_ValidData_ReturnExpectedResult()
+        {
+            var service = GetService();
+
+            var performanceRecord = new PerformanceRecord
+            {
+                PerformanceRecordId = 1,
+                Employees = new List<Employee> { new Employee { EmployeeId = 1, NickName = "tim" } },
+                Creator = new Employee { EmployeeId = 2, NickName = "quinn" },
+                NominationPeriod = new NominationPeriodModel { NominationPeriodId = 1, Year = 2018 }
+            };
+
+            nominationRepository.GetMemberNominationAsync(Arg.Any<GetMemberNominationByIdCriteria>())
+                .Returns(new List<PerformanceRecord> { performanceRecord });
+
+            var result = await service.GetMemberNominationByIdAsync(1, 2);
+            Assert.NotEmpty(result);
+            Assert.Single(result);
+        }
+
+        [Fact]
+        public async Task GetCurrentNominationPeriodForComittee_ValidData_ReturnExpectedResult()
+        {
+            var service = GetService();
+
+            var model = new NominationPeriodModel
+            {
+                NominationPeriodId = 1,
+                Quarter = 2
+            };
+
+            baseService.GetDataEntityAsync<NominationPeriodModel>(Arg.Any<GetNominationPeriodsForComitteeCriteria>())
+                .Returns(model);
+
+            var result = await service.GetCurrentNominationPeriodForComittee(1, true);
+            Assert.NotNull(result);
+            Assert.True(model.Quarter.HasValue);
+            Assert.Equal(model.NominationPeriodId, result.NominationPeriodId);
+        }
+
         private EmployeeNominationService GetService()
         {
             baseService = Substitute.For<IBaseService>();
-            commonService = Substitute.For<ICommonService>();
             nominationRepository = Substitute.For<IEmployeeNominationRepository>();
 
-            var service = new EmployeeNominationService(baseService, commonService, nominationRepository);
+            var service = new EmployeeNominationService(baseService, nominationRepository);
 
             return service;
         }

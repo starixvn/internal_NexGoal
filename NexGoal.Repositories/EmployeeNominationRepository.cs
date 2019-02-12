@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Repositories
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Fanex.Data;
     using Fanex.Data.Repository;
@@ -29,14 +30,14 @@
             }
         }
 
-        public async Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationAsync(ICriteria criteria)
+        public async Task<IEnumerable<PerformanceRecord>> GetMemberNominationAsync(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                var nominations = await db.QueryAsync<PerformanceRecordModel, Employee, Employee, NominationPeriodModel, PerformanceRecordModel>(
-                    (nomination, employee, creator, period) =>
+                var nominations = await db.QueryAsync<PerformanceRecord, Employee, Employee, NominationPeriodModel, PerformanceRecord>(
+                    (nomination, nominee, creator, period) =>
                     {
-                        nomination.Employees = new List<Employee> { employee };
+                        nomination.Employees = new List<Employee> { nominee };
                         nomination.Creator = creator;
                         nomination.NominationPeriod = period;
 
@@ -46,6 +47,64 @@
                     criteria).ConfigureAwait(false);
 
                 return nominations;
+            }
+        }
+
+        public async Task<PerformanceRecord> GetNominationByRecordIdAsync(ICriteria criteria)
+        {
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
+            {
+                return await db.QueryEntityAsync<PerformanceRecord, Employee, Employee, NominationPeriodModel, PerformanceRecord>(
+                    (nomination, nominee, creator, period) =>
+                    {
+                        nomination.Employees = new List<Employee> { nominee };
+                        nomination.Creator = creator;
+                        nomination.NominationPeriod = period;
+
+                        return nomination;
+                    },
+                    "EmployeeId, EmployeeId, NominationPeriodId",
+                    criteria).ConfigureAwait(false);
+            }
+        }
+
+        public async Task<IEnumerable<NominationModel>> GetNominationByPeriodIdsAsync(ICriteria criteria)
+        {
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
+            {
+                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria).ConfigureAwait(false))
+                {
+                    var nominations = multi.Read<NominationModel, Employee, NominationPeriodModel, NominationModel>(
+                        (nomination, nominee, period) =>
+                        {
+                            nomination.Nominee = nominee;
+                            nomination.Period = period;
+
+                            return nomination;
+                        },
+                         "EmployeeId, NominationPeriodId"
+                        );
+
+                    var performanceRecords = multi.Read<PerformanceRecord, Employee, Employee, NominationPeriodModel, PerformanceRecord>(
+                        (record, employee, creator, nominationPeriod) =>
+                        {
+                            record.Employees = new List<Employee> { employee };
+                            record.Creator = creator;
+                            record.NominationPeriod = nominationPeriod;
+
+                            return record;
+                        },
+                        "EmployeeId, NominationPeriodId"
+                        );
+
+                    foreach (NominationModel nomination in nominations)
+                    {
+                        nomination.Nominators = performanceRecords
+                            .Where(x => x.Employees.First().EmployeeId == nomination.Nominee.EmployeeId && x.NominationPeriod.NominationPeriodId == nomination.Period.NominationPeriodId);
+                    }
+
+                    return nominations;
+                }
             }
         }
     }

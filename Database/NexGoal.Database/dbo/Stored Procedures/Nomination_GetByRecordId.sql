@@ -1,5 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Nomination_GetByRecordId] 
-	@RecordId INT
+﻿
+CREATE PROCEDURE [dbo].[Nomination_GetByRecordId] @RecordId INT
 AS
 /*
 Created: 201801105@Elton.Ton
@@ -18,29 +18,26 @@ BEGIN
 		,pr.Comment
 		,pr.CreatedDate
 		,pr.ModifiedDate
-		,pr.CreatorId
-		,pr.EmployeeId AS EmployeeIds
-		,n.StatusId
+		,nomination.StatusId
 		,pr.TypeId
-		,n.StatusId AS NominationStatusId
-		,n.EOQYId AS NominationPeriodId
-	FROM dbo.PerformanceRecord pr WITH (NOLOCK)
-	INNER JOIN dbo.NominationDetail nd WITH (NOLOCK) on pr.PerformanceRecordId = nd.PerformanceRecordId
-	INNER JOIN dbo.Nomination n WITH (NOLOCK) ON nd.NominationId = n.NominationId
-	WHERE pr.PerformanceRecordId = @RecordId AND pr.TypeId = 3
-
-	SELECT e.EOQYId AS 'NominationPeriodId'
-		,e.[Quarter]
-		,e.[Year]
-	FROM dbo.EOQY e WITH (NOLOCK)
-	WHERE EXISTS (
-			SELECT 1 
-			FROM dbo.Nomination n WITH (NOLOCK)
-			WHERE n.EOQYId = e.EOQYId
-				AND EXISTS (
-						SELECT 1 
-						FROM dbo.NominationDetail nd WITH (NOLOCK)
-						WHERE nd.PerformanceRecordId = @RecordId AND nd.NominationId = n.NominationId
-					)
-		)
+		,nominee.EmployeeId
+		,nominee.NickName
+		,nominee.FullName
+		,nominee.Code
+		,creator.EmployeeId
+		,creator.NickName
+		,creator.FullName
+		,creator.Code
+		,nomination.StatusId AS NominationStatusId
+		,period.EOQYId AS NominationPeriodId
+		,period.[Quarter]
+		,period.[Year]
+	FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
+		INNER JOIN dbo.NominationDetail AS nd WITH (NOLOCK) ON pr.PerformanceRecordId = nd.PerformanceRecordId
+		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON nd.NominationId = nomination.NominationId
+		INNER JOIN dbo.Employee AS nominee WITH (NOLOCK) ON pr.EmployeeId = nominee.EmployeeId
+		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON pr.CreatorId = creator.EmployeeId
+		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
+	WHERE pr.PerformanceRecordId = @RecordId
+		AND pr.TypeId = 3
 END

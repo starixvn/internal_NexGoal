@@ -36,7 +36,7 @@
 
         public async Task<JsonResult> GetGroups(int periodId)
         {
-            IEnumerable<GroupBaseModel> groups = await paRecordService.GetGroupByActorAsync(sessionService.EmployeeId, periodId).ConfigureAwait(false);
+            IEnumerable<Group> groups = await paRecordService.GetGroupByActorAsync(sessionService.EmployeeId, periodId).ConfigureAwait(false);
 
             return Json(groups);
         }

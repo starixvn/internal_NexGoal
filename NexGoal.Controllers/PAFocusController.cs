@@ -60,7 +60,7 @@
 
         public async Task<JsonResult> GetGroup()
         {
-            IEnumerable<GroupBaseModel> groups = await focusService.GetGroupAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<Group> groups = await focusService.GetGroupAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(groups);
         }

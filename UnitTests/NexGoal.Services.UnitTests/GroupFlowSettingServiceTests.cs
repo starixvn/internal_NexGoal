@@ -20,12 +20,12 @@
         public async Task GetGroupHaveSettingAsync_WhenCalled_ReturnAsExpectedGroups()
         {
             // Arrange
-            var expected = new List<GroupBaseModel>
+            var expected = new List<Group>
             {
-                new GroupBaseModel { GroupId = 1, Code = "NEX" }
+                new Group { GroupId = 1, Code = "NEX" }
             };
             var service = GetGroupFlowSettingService();
-            baseService.GetDataAsync<GroupBaseModel>(Arg.Any<GetGroupHaveSettingCriteria>()).Returns(expected);
+            baseService.GetDataAsync<Group>(Arg.Any<GetGroupHaveSettingCriteria>()).Returns(expected);
 
             // Act
             var actual = await service.GetGroupHaveSettingAsync();

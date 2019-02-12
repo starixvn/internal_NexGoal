@@ -14,8 +14,8 @@ export default class NominationProcess extends PureComponent {
             startDateForComittee = moment(period.endDateForNominator).add(1, 'day');
 
         return (
-            <div class="process-title">
-                <div class="period">{period.title}</div>
+            <div className="process-title">
+                <div className="period">{period.title}</div>
                 <ul className="evaluation-process">
                     <li className={`process-item ${today.isSameOrAfter(startDateForNominator, 'day') && today.isSameOrBefore(endDateForNominator, 'day') ? 'in-process' : today.isAfter(endDateForNominator, 'day') ? 'end-process' : 'open'}`}>
                         {`${getResource('Nominator')}: ${startDateForNominator.format(DateFormat)} - ${endDateForNominator.format(DateFormat)}`}

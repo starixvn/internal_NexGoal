@@ -1,6 +1,6 @@
 ﻿namespace NexGoal.Models.Common
 {
-    public class GroupBaseModel
+    public class Group
     {
         public virtual int GroupId { get; set; }
         public virtual string Code { get; set; }

@@ -10,7 +10,6 @@
     using NexGoal.Criteria.PARecord;
     using NexGoal.Models;
     using NexGoal.Models.Common;
-    using NexGoal.Models.Discipline;
     using NexGoal.Models.PARecord;
     using NexGoal.Repositories;
 
@@ -43,7 +42,7 @@
             return await baseService.GetDataAsync<PeriodBaseModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<GroupBaseModel>> GetGroupByActorAsync(int actorId, int periodId)
+        public async Task<IEnumerable<Group>> GetGroupByActorAsync(int actorId, int periodId)
         {
             var criteria = new GetGroupByActorCriteria
             {
@@ -51,7 +50,7 @@
                 PeriodId = periodId
             };
 
-            return await baseService.GetDataAsync<GroupBaseModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<Group>(criteria).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<PerformanceAppraisalResult>> GetPerformanceAppraisalResultAsync(int employeeId)
@@ -170,16 +169,6 @@
             return await baseService.GetDataEntityAsync<Policy>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<DisciplineModel>> GetDisciplineByRecordIdAsync(int paRecordId)
-        {
-            var criteria = new GetDisciplineByRecordIdCriteria
-            {
-                PARecordId = paRecordId
-            };
-
-            return await baseService.GetDataAsync<DisciplineModel>(criteria).ConfigureAwait(false);
-        }
-
         private void MappingData(
             IEnumerable<PARecordModel> performanceAppraisals,
             IEnumerable<PerformanceGradeModel> performanceGrades)
@@ -232,18 +221,6 @@
             performanceAppraisal.OriginalGradeId = cryptoService.Decrypt(performanceAppraisal.OriginalGradeId);
             int.TryParse(performanceAppraisal.OriginalGradeId, out gradeId);
             performanceAppraisal.OriginalGrade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
-        }
-
-        public async Task<string> GetPreviousPAGrade(int currentPeriodId, int actorId, int employeeId)
-        {
-            var criteria = new GetLastPAGradeCriteria
-            {
-                CurrentPeriodId = currentPeriodId,
-                ActorId = actorId,
-                EmployeeId = employeeId
-            };
-
-            return await baseService.GetDataEntityAsync<string>(criteria).ConfigureAwait(false);
         }
     }
 }

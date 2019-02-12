@@ -1,11 +1,13 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Auth;
     using NexGoal.Models.Auth;
+    using NexGoal.Models.Common;
     using NSubstitute;
     using Xunit;
 
@@ -43,6 +45,23 @@
 
             // Assert
             Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task GetEmployeeInfoAsync_WhenCalled_ReturnAsExpectedEmployee()
+        {
+            // Arrange
+            var employee = new Employee { EmployeeId = 1, NickName = "Oliver" };
+            Tuple<Employee, bool, int> expected = new Tuple<Employee, bool, int>(employee, true, 10);
+
+            var service = GetAuthService();
+            baseService.GetDataEntityAsync<Employee>(Arg.Any<GetEmployeeInfoCriteria>()).Returns(employee);
+
+            // Act
+            var actual = await service.GetEmployeeInfoAsync(1);
+
+            // Assert
+            Assert.Equal(expected.Item1, actual.Item1);
         }
 
         #region GetMenuByEmployeeIdAsync

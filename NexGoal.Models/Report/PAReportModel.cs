@@ -6,7 +6,7 @@
 
     public class PAReportModel
     {
-        public GroupBaseModel Group { get; set; }
+        public Group Group { get; set; }
 
         public IEnumerable<PARecordModel> PARecords { get; set; }
     }

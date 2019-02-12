@@ -42,12 +42,12 @@
         public async Task GetGroupAsync_WhenCalled_ReturnAsExpectedGroups()
         {
             // Arrange
-            var expected = new List<GroupBaseModel>
+            var expected = new List<Group>
             {
-                new GroupBaseModel { GroupId = 1, Code = "NEX", Name = "Nexus" }
+                new Group { GroupId = 1, Code = "NEX", Name = "Nexus" }
             };
             var service = GetPAFocusService();
-            baseService.GetDataAsync<GroupBaseModel>(Arg.Any<GetGroupCriteria>()).Returns(expected);
+            baseService.GetDataAsync<Group>(Arg.Any<GetGroupCriteria>()).Returns(expected);
 
             // Act
             var actual = await service.GetGroupAsync(1);

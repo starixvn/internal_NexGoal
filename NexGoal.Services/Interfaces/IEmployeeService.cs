@@ -21,6 +21,6 @@
 
         Task<IEnumerable<Employee>> GetMemberAsync(int actorId, string keyword = null);
 
-        Task<IEnumerable<GroupBaseModel>> GetGroupAsync(int actorId);
+        Task<IEnumerable<Group>> GetGroupAsync(int actorId);
     }
 }

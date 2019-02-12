@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using NexGoal.Models.Common;
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.NominationPeriod;
     using NexGoal.Services;
@@ -18,10 +19,13 @@
         [Fact]
         public void Index_WhenCalled_ReturnsExpectedViewResult()
         {
+            // Arrange
             var controller = GetContronller();
 
+            // Act
             var actual = controller.Index();
 
+            // Assert
             var viewResult = Assert.IsType<ViewResult>(actual);
             Assert.Null(viewResult.ViewName);
         }
@@ -29,50 +33,58 @@
         [Fact]
         public async Task GetSetting_WhenCalled_ReturnsExpectedJsonResult()
         {
-            var controller = GetContronller();
-            nominationReportService.GetNominationPeriodsAsync().Returns(new List<NominationPeriodModel>
+            // Arrange
+            var nominationPeriods = new List<NominationPeriodModel>
             {
                 new NominationPeriodModel
                 {
-                    NominationPeriodId =1,
-                    Year = 2018,
+                    NominationPeriodId = 1,
+                    Year = 2019
                 }
-            });
-            var actual = await controller.GetNominationPeriods();
+            };
+            var controller = GetContronller();
+            nominationReportService.GetNominationPeriodAsync().Returns(nominationPeriods);
 
-            var jsonResult = Assert.IsType<JsonResult>(actual);
-            var value = Assert.IsAssignableFrom<IEnumerable<NominationPeriodModel>>(jsonResult.Value);
+            // Act
+            var result = await controller.GetNominationPeriods();
 
-            Assert.NotEmpty(value);
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var actual = Assert.IsAssignableFrom<IEnumerable<NominationPeriodModel>>(jsonResult.Value);
+            Assert.Equal(nominationPeriods, actual);
         }
 
         [Fact]
         public async Task GetNominations_WhenCalled_ReturnsExpectedJsonResult()
         {
-            var controller = GetContronller();
-            nominationReportService.GetNominationsAsync("1", null, null, null, sessionService.EmployeeId).Returns(new List<NominationModel>
+            // Arrange
+            var nominations = new List<NominationModel>
             {
                 new NominationModel
                 {
                     NominationId = 1,
-                    NominationPeriodId = 1,
-                    NomineeId = 2
+                    Period = new NominationPeriodModel { NominationPeriodId = 1, Year = 2019 },
+                    Nominee = new Employee { EmployeeId = 1, NickName = "tim" }
                 }
-            });
-            var actual = await controller.GetNominations("1", null, null, null);
+            };
+            var controller = GetContronller();
+            nominationReportService.GetNominationAsync(sessionService.EmployeeId, "1", null, null, null).Returns(nominations);
 
-            var jsonResult = Assert.IsType<JsonResult>(actual);
-            var value = Assert.IsAssignableFrom<IEnumerable<NominationModel>>(jsonResult.Value);
+            // Act
+            var result = await controller.GetNominations("1", null, null, null);
 
-            Assert.NotEmpty(value);
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var actual = Assert.IsAssignableFrom<IEnumerable<NominationModel>>(jsonResult.Value);
+            Assert.Equal(nominations, actual);
         }
 
         private NominationReportController GetContronller()
         {
-            nominationReportService = Substitute.For<INominationReportService>();
             sessionService = Helpers.FakeSessionService();
+            nominationReportService = Substitute.For<INominationReportService>();
 
-            var controller = new NominationReportController(nominationReportService, sessionService);
+            var controller = new NominationReportController(sessionService, nominationReportService);
 
             return controller;
         }

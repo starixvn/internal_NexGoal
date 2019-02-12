@@ -43,12 +43,12 @@
         public async Task GetGroupByActorAsync_WhenCalled_ReturnAsExpectedGroups()
         {
             // Arrange
-            var expected = new List<GroupBaseModel>
+            var expected = new List<Group>
             {
-                new GroupBaseModel { GroupId = 1, Name = "Nexus" }
+                new Group { GroupId = 1, Name = "Nexus" }
             };
             var service = GetPARecordService();
-            baseService.GetDataAsync<GroupBaseModel>(Arg.Any<GetGroupByActorCriteria>()).Returns(expected);
+            baseService.GetDataAsync<Group>(Arg.Any<GetGroupByActorCriteria>()).Returns(expected);
 
             // Act
             var actual = await service.GetGroupByActorAsync(1, 1);

@@ -1,31 +1,36 @@
 ﻿namespace NexGoal.Website.Views.Shared.Components.Menu
 {
-    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    using NexGoal.Models.Auth;
     using NexGoal.Services;
+    using NexGoal.ViewModels.Auth;
     using NexGoal.Web.Core.Services;
 
     public class MenuViewComponent : ViewComponent
     {
         private readonly ISessionService sessionService;
-        private readonly ICommonService commonService;
+        private readonly IAuthService authService;
 
         public MenuViewComponent(
             ISessionService sessionService,
-            ICommonService commonService)
+            IAuthService authService)
         {
             this.sessionService = sessionService;
-            this.commonService = commonService;
+            this.authService = authService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            IEnumerable<MenuItemSession> menuItems = sessionService.MenuItems;
-            ViewData["employee"] = await commonService.GetEmployeeByIdAsync(sessionService.EmployeeId);
+            var employeeInfo = await authService.GetEmployeeInfoAsync(sessionService.EmployeeId);
+            var viewModel = new HeaderViewModel
+            {
+                MenuItems = sessionService.MenuItems,
+                UserInfo = employeeInfo.Item1,
+                IsHasMember = employeeInfo.Item2,
+                UnreadNotification = employeeInfo.Item3
+            };
 
-            return View("Menu", menuItems);
+            return View("Menu", viewModel);
         }
     }
 }

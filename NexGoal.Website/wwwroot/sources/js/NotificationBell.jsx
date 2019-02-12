@@ -13,7 +13,7 @@ export default class NotificationBell extends Component {
         this.state = {
             isShowNoti: false,
             notifications: [],
-            unreadNoti: 0,
+            unreadNoti: parseInt(document.getElementById("employeeInfo-unreadNoti").innerText),
             totalItems: 0,
             pageIndex: 0,
             hasMore: true
@@ -25,7 +25,6 @@ export default class NotificationBell extends Component {
     componentDidMount() {
         document.addEventListener('mousedown', this.handleClickOutside);
         this.addEventListener();
-        this.getNotifications();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -46,7 +45,7 @@ export default class NotificationBell extends Component {
         this.removeEventListener();
     }
 
-    getNotifications = () => {
+    getNotifications = (callback) => {
         axios.get(resolveClientUrl('Notification/GetNotification'), {
             params: {
                 pageIndex: this.state.pageIndex,
@@ -60,6 +59,10 @@ export default class NotificationBell extends Component {
                 notifications: notifications,
                 unreadNoti: data.unreadNoti,
                 hasMore: notifications.length < data.total
+            }, () => {
+                if (callback) {
+                    callback();
+                }
             });
         }).catch(axiosError);
     }
@@ -138,8 +141,10 @@ export default class NotificationBell extends Component {
 
     markAsReadSuccess = () => {
         let notifications = this.state.notifications.slice();
-        for (let i = 0; i < notifications.length; i++) {
-            notifications[i].statusId = NotificationStatus.Read;
+        if (notifications.length > 0) {
+            for (let i = 0; i < notifications.length; i++) {
+                notifications[i].statusId = NotificationStatus.Read;
+            }
         }
 
         this.setState({
@@ -159,14 +164,22 @@ export default class NotificationBell extends Component {
     }
 
     handleClickOnBell = () => {
-        this.setState({
-            isShowNoti: !this.state.isShowNoti
-        });
+        if (this.state.isShowNoti) {
+            this.onHideNoti();
+        }
+        else {
+            this.getNotifications(() => {
+                this.setState({ isShowNoti: !this.state.isShowNoti });
+            });
+        }
     }
 
     onHideNoti = () => {
         this.setState({
-            isShowNoti: false
+            isShowNoti: false,
+            notifications: [],
+            pageIndex: 0,
+            hasMore: true
         });
     }
 
@@ -174,11 +187,7 @@ export default class NotificationBell extends Component {
         if (this.state.hasMore) {
             this.setState({
                 pageIndex: this.state.pageIndex + 1
-            }, () => {
-                if (this.state.hasMore) {
-                    this.getNotifications();
-                }
-            });
+            }, () => this.getNotifications());
         }
     }
 

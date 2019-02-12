@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[Notification_GetByEmployee] @EmployeeId INT
+﻿CREATE PROCEDURE [dbo].[Notification_GetByEmployee] @EmployeeId INT
 	,@PageSize INT
 	,@PageIndex INT
 	,@TotalItems INT OUT
@@ -15,6 +14,7 @@ BEGIN
 
 	SELECT noti.NotificationId
 		,noti.CreatorId
+		,creator.Code As CreatorCode
 		,noti.EmployeeId
 		,noti.Content
 		,noti.StatusId
@@ -22,7 +22,8 @@ BEGIN
 		,noti.RecordId
 		,noti.CreatedDate
 	FROM dbo.[Notification] AS noti WITH (NOLOCK)
-	WHERE EmployeeId = @EmployeeId
+	LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON noti.CreatorId = creator.EmployeeId
+	WHERE noti.EmployeeId = @EmployeeId
 	ORDER BY CreatedDate DESC OFFSET(@PageIndex * @PageSize) ROWS
 
 	FETCH NEXT @PageSize ROWS ONLY

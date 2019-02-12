@@ -43,7 +43,7 @@
 
         [Route("Self/Performance/Create")]
         [HttpPost]
-        public async Task<JsonResult> Create(CreatePerformanceRecordModel performanceRecord)
+        public async Task<JsonResult> Create(CreatePerformanceRecordDto performanceRecord)
         {
             if (ModelState.IsValid)
             {
@@ -61,7 +61,7 @@
 
         [Route("Self/Performance/CreateDraft")]
         [HttpPost]
-        public async Task<JsonResult> CreateDraft(CreatePerformanceRecordModel performanceRecord)
+        public async Task<JsonResult> CreateDraft(CreatePerformanceRecordDto performanceRecord)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +79,7 @@
 
         [Route("Self/Performance/Edit")]
         [HttpPost]
-        public async Task<JsonResult> Edit(EditPerformanceRecordModel performanceRecord)
+        public async Task<JsonResult> Edit(EditPerformanceRecordDto performanceRecord)
         {
             if (ModelState.IsValid)
             {
@@ -97,7 +97,7 @@
 
         [Route("Self/Performance/EditDraft")]
         [HttpPost]
-        public async Task<JsonResult> EditDraft(EditPerformanceRecordModel performanceRecord)
+        public async Task<JsonResult> EditDraft(EditPerformanceRecordDto performanceRecord)
         {
             if (ModelState.IsValid)
             {
@@ -133,7 +133,7 @@
         [Route("Performance/GetDraftById/{id}")]
         public async Task<JsonResult> GetDraftById(int id)
         {
-            PerformanceRecord record = await performanceService.GetDraftPerformanceRecordByIdAsync(id).ConfigureAwait(false);
+            PerformanceRecord record = await performanceService.GetDraftPerformanceRecordByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(record);
         }

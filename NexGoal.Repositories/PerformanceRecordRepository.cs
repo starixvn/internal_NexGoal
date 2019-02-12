@@ -96,7 +96,7 @@
 
                             return record;
                         },
-                         "EmployeeId, EmployeeId"
+                         "EmployeeId"
                         ).FirstOrDefault();
 
                     performanceRecord.Projects = multi.Read<ProjectModel>();
@@ -193,7 +193,7 @@
 
                             return performanceRecord;
                         },
-                        "EmployeeId, NominationPeriodId");
+                        "EmployeeId, EmployeeId, NominationPeriodId");
 
                     return new Tuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>>(members, performanceRecords);
                 }

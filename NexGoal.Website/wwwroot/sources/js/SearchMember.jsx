@@ -10,7 +10,7 @@ export default class SearchMember extends Component {
         super(props);
 
         this.state = {
-            hasMember: false,
+            hasMember: document.getElementById('employeeInfo-isHasMember').checked,
             showSearchbox: false,
             memberOptions: []
         };
@@ -20,7 +20,13 @@ export default class SearchMember extends Component {
 
     componentDidMount() {
         document.addEventListener('mousedown', this.handleClickOutside);
+    }
 
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClickOutside);
+    }
+
+    getMemberOptions = () => {
         axios.get(resolveClientUrl('common/GetMyMember'))
             .then(response => {
                 this.members = response.data;
@@ -29,10 +35,6 @@ export default class SearchMember extends Component {
                     hasMember: this.members.length > 0
                 });
             }).catch(axiosError);
-    }
-
-    componentWillUnmount() {
-        document.removeEventListener('mousedown', this.handleClickOutside);
     }
 
     handleClickOutside = (event) => {
@@ -67,7 +69,13 @@ export default class SearchMember extends Component {
         this.inputRef.focus();
 
         if (!this.state.showSearchbox) {
-            this.setState({ showSearchbox: true });
+            this.setState({
+                showSearchbox: true
+            }, () => this.getMemberOptions());
+        } else {
+            this.setState({
+                showSearchbox: false
+            });
         }
     }
 

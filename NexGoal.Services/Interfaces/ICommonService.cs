@@ -19,7 +19,7 @@
 
         Task<Employee> GetEmployeeByIdAsync(int employeeId);
 
-        Task<IEnumerable<GroupBaseModel>> GetGroupsAsync();
+        Task<IEnumerable<Group>> GetGroupsAsync();
 
         Task<IEnumerable<ProjectModel>> GetProjectsAsync();
 
