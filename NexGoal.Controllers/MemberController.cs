@@ -56,16 +56,16 @@
 
         public async Task<IActionResult> Details(int id)
         {
-            IEnumerable<Employee> members = await employeeService.GetMemberAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            var roleId = await employeeService.GetRoleAccordingToMemberAsync(sessionService.EmployeeId, id).ConfigureAwait(false);
 
-            if (!members.Any(x => x.EmployeeId == id))
+            if (roleId > 0)
             {
-                return RedirectToAction("AccessDenied", "Error");
+                Employee member = await commonService.GetEmployeeByIdAsync(id).ConfigureAwait(false);
+
+                return View(member);
             }
 
-            Employee member = await commonService.GetEmployeeByIdAsync(id).ConfigureAwait(false);
-
-            return View(member);
+            return RedirectToAction("AccessDenied", "Error");
         }
 
         public async Task<JsonResult> GetMemberPerformanceAppraisalResult(int? periodId = null, int? memberId = null)
