@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -109,9 +108,8 @@
 
             if (performanceAppraisal != null)
             {
-                IEnumerable<ProjectModel> projects = await commonService.GetProjectsAsync().ConfigureAwait(false);
                 IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
-                MappingData(performanceAppraisal, performanceGrades, projects);
+                MappingData(performanceAppraisal, performanceGrades);
             }
 
             return performanceAppraisal;
@@ -140,7 +138,10 @@
             IEnumerable<PARecordModel> performanceAppraisals = await paRepository.GetPARecordByReviewerAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
-            MappingData(performanceAppraisals, performanceGrades);
+            foreach (PARecordModel performanceAppraisal in performanceAppraisals)
+            {
+                MappingData(performanceAppraisal, performanceGrades);
+            }
 
             return performanceAppraisals;
         }
@@ -170,44 +171,14 @@
         }
 
         private void MappingData(
-            IEnumerable<PARecordModel> performanceAppraisals,
-            IEnumerable<PerformanceGradeModel> performanceGrades)
-        {
-            foreach (PARecordModel performanceAppraisal in performanceAppraisals)
-            {
-                performanceAppraisal.GradeId = cryptoService.Decrypt(performanceAppraisal.GradeId);
-                int.TryParse(performanceAppraisal.GradeId, out int gradeId);
-                performanceAppraisal.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
-
-                performanceAppraisal.OriginalGradeId = cryptoService.Decrypt(performanceAppraisal.OriginalGradeId);
-                int.TryParse(performanceAppraisal.OriginalGradeId, out gradeId);
-                performanceAppraisal.OriginalGrade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
-
-                foreach (PAProcessModel process in performanceAppraisal.Processes)
-                {
-                    if (process.PerformanceRecord != null)
-                    {
-                        process.PerformanceRecord.GradeId = cryptoService.Decrypt(process.PerformanceRecord.GradeId);
-                        int.TryParse(process.PerformanceRecord.GradeId, out gradeId);
-                        process.PerformanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
-                    }
-                }
-            }
-        }
-
-        private void MappingData(
             PARecordModel performanceAppraisal,
-            IEnumerable<PerformanceGradeModel> performanceGrades,
-            IEnumerable<ProjectModel> projects)
+            IEnumerable<PerformanceGradeModel> performanceGrades)
         {
             int gradeId;
             foreach (PAProcessModel process in performanceAppraisal.Processes)
             {
                 if (process.PerformanceRecord != null)
                 {
-                    string[] projectIds = !string.IsNullOrWhiteSpace(process.PerformanceRecord.ProjectIds) ? process.PerformanceRecord.ProjectIds.Split(",") : new string[] { };
-                    process.PerformanceRecord.Projects = projects.Where(x => projectIds.Contains(x.ProjectId.ToString()));
-
                     process.PerformanceRecord.GradeId = cryptoService.Decrypt(process.PerformanceRecord.GradeId);
                     int.TryParse(process.PerformanceRecord.GradeId, out gradeId);
                     process.PerformanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);

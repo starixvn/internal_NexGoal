@@ -21,6 +21,6 @@
         public string Status { get; set; }
 
         public int PerformanceRecordId { get; set; }
-        public PerformanceRecordModel PerformanceRecord { get; set; }
+        public PerformanceRecord PerformanceRecord { get; set; }
     }
 }

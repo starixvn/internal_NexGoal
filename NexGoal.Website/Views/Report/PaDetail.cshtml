@@ -67,7 +67,7 @@
                                             @if (i == 0)
                                             {
                                                 i++;
-                                                <td class="text-center" rowspan=@Model.HRM.Count()>@Model.PARecord.Toeic</td>
+                                                <td class="text-center" rowspan="@Model.HRM.Count()">@Model.PARecord.Toeic</td>
                                             }
                                         </tr>
                                     }
@@ -228,7 +228,7 @@
                     var finalResult = new PAProcessModel
                     {
                         Evaluator = reviewerProcess.Evaluator,
-                        PerformanceRecord = new PerformanceRecordModel
+                        PerformanceRecord = new PerformanceRecord
                         {
                             ModifiedDate = Model.PARecord.ModifiedDate,
                             Grade = Model.PARecord.Grade,

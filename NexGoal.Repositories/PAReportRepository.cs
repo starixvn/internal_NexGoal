@@ -26,7 +26,7 @@
                         },
                         "EmployeeId, PeriodId");
 
-                    var processes = multi.Read<PAProcessModel, Employee, PerformanceRecordModel, PAProcessModel>(
+                    var processes = multi.Read<PAProcessModel, Employee, PerformanceRecord, PAProcessModel>(
                             (process, evaluator, performance) =>
                             {
                                 process.Evaluator = evaluator;

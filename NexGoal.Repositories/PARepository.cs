@@ -65,7 +65,7 @@
 
                     if (performanceAppraisal != null)
                     {
-                        performanceAppraisal.Processes = multi.Read<PAProcessModel, Employee, PerformanceRecordModel, Employee, PAProcessModel>(
+                        performanceAppraisal.Processes = multi.Read<PAProcessModel, Employee, PerformanceRecord, Employee, PAProcessModel>(
                             (process, evaluator, performance, creator) =>
                             {
                                 if (performance != null)
@@ -98,7 +98,7 @@
                         },
                         "EmployeeId");
 
-                    var processes = multi.Read<PAProcessModel, Employee, PerformanceRecordModel, PAProcessModel>(
+                    var processes = multi.Read<PAProcessModel, Employee, PerformanceRecord, PAProcessModel>(
                             (process, evaluator, performance) =>
                             {
                                 process.Evaluator = evaluator;

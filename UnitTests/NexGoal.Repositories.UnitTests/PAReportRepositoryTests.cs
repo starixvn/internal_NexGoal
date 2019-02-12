@@ -61,7 +61,7 @@ namespace NexGoal.Repositories.UnitTests
                 Arg.Any<Func<PARecordModel, Employee, PeriodBaseModel, PARecordModel>>(),
                 "EmployeeId, PeriodId").Returns(performanceAppraisals);
             multiResultReader.Read(
-                Arg.Any<Func<PAProcessModel, Employee, PerformanceRecordModel, PAProcessModel>>(),
+                Arg.Any<Func<PAProcessModel, Employee, PerformanceRecord, PAProcessModel>>(),
                 "EvaluatorId, PerformanceRecordId").Returns(processes);
             objectDb.QueryMultipleAsync(criteria).Returns(multiResultReader);
 

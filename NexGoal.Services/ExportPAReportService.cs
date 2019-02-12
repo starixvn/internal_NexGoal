@@ -203,7 +203,7 @@
             }
         }
 
-        private static void WritePerformanceRecordContent(ExcelRange cell, PerformanceRecordModel record)
+        private static void WritePerformanceRecordContent(ExcelRange cell, PerformanceRecord record)
         {
             if (record != null)
             {
