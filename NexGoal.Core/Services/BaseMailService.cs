@@ -5,7 +5,9 @@ namespace NexGoal.Core.Services
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
+    using Fanex.Logging;
     using MailKit.Net.Smtp;
+    using MailKit.Security;
     using Microsoft.Extensions.Options;
     using MimeKit;
     using NexGoal.Core.Constants;
@@ -14,10 +16,14 @@ namespace NexGoal.Core.Services
     public class BaseMailService : IBaseMailService
     {
         private readonly IOptionsSnapshot<MailConfigs> configuration;
+        private readonly ILogger logger;
 
-        public BaseMailService(IOptionsSnapshot<MailConfigs> configuration)
+        public BaseMailService(
+            IOptionsSnapshot<MailConfigs> configuration,
+            ILogger logger)
         {
             this.configuration = configuration;
+            this.logger = logger;
         }
 
         public async Task SendMailAsync(MailModel email)
@@ -33,9 +39,9 @@ namespace NexGoal.Core.Services
             message.Subject = email.Subject;
             message.Priority = configuration.Value.MailPriority;
 
-            if (email.Cc.Any())
+            if (email.Cc.Any(x => IsValidEmail(x)))
             {
-                message.Cc.AddRange(email.Cc.Select(x => new MailboxAddress(x)));
+                message.Cc.AddRange(email.Cc.Where(x => IsValidEmail(x)).Select(x => new MailboxAddress(x)));
             }
 
             var builder = new BodyBuilder
@@ -58,7 +64,26 @@ namespace NexGoal.Core.Services
                     await mailclient.AuthenticateAsync(configuration.Value.Username, configuration.Value.Password).ConfigureAwait(false);
                 }
 
-                await mailclient.SendAsync(message).ConfigureAwait(false);
+                try
+                {
+                    await mailclient.SendAsync(message).ConfigureAwait(false);
+                }
+                catch (AuthenticationException ex)
+                {
+                    logger.Error(ex.Message, ex);
+                }
+                catch (SmtpCommandException ex)
+                {
+                    logger.Error(ex.Message, ex);
+                }
+                catch (SmtpProtocolException ex)
+                {
+                    logger.Error(ex.Message, ex);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex.Message, ex);
+                }
 
                 await mailclient.DisconnectAsync(true).ConfigureAwait(false);
             }

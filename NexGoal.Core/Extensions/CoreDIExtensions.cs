@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Core.Extensions
 {
     using Fanex.Data.Repository;
+    using Fanex.Logging;
     using Microsoft.Extensions.DependencyInjection;
     using NexGoal.Core.Repositories;
     using NexGoal.Core.Services;
@@ -14,6 +15,7 @@
             services.AddTransient<IBaseService, BaseService>();
             services.AddTransient<IBaseMailService, BaseMailService>();
             services.AddScoped<ICryptoService, CryptoService>();
+            services.AddTransient<ILogger, Logger>();
         }
     }
 }

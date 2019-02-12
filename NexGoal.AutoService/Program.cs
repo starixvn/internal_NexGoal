@@ -62,7 +62,6 @@
             services.Configure<MailConfigs>(options => Configuration.GetSection("MailConfigs").Bind(options));
 
             services.ResolveCoreDI();
-            services.AddTransient<ILogger, Logger>();
             services.AddTransient<IPeriodService, PeriodService>();
             services.AddTransient<IPAService, PAService>();
             services.AddTransient<IPAFocusService, PAFocusService>();
