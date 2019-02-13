@@ -35,25 +35,27 @@ export default class Row extends Component {
                 <td className="text-center">
                     {
                         (functionObj.onlyPolicy === null || functionObj.onlyPolicy === Policy.Read) &&
-                        <label>
-                            <input type="checkbox" name="funcRead"
+                        <div className="checkbox">
+                            <input type="checkbox" name="funcRead" className="checkbox-custom"
                                 disabled={!this.props.isHost}
                                 checked={functionObj.policy > Policy.None}
-                                onChange={this.handleOnChange}
+                                onChange={this.handleOnChange} id={"chb-read-" + functionObj.functionId}
                             />
-                        </label>
+                            <label for={"chb-read-" + functionObj.functionId}></label>
+                        </div>
                     }
                 </td>
                 <td className="text-center">
                     {
                         (functionObj.onlyPolicy === null || functionObj.onlyPolicy === Policy.Host) &&
-                        <label>
-                            <input type="checkbox" name="funcHost"
+                        <div className="checkbox">
+                            <input type="checkbox" name="funcHost" className="checkbox-custom"
                                 disabled={!this.props.isHost}
                                 checked={functionObj.policy === Policy.Host}
-                                onChange={this.handleOnChange}
+                                onChange={this.handleOnChange} id={"chb-host-" + functionObj.functionId}
                             />
-                        </label>
+                            <label for={"chb-host-" + functionObj.functionId}></label>
+                        </div>
                     }
                 </td>
             </tr>

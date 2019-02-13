@@ -124,7 +124,7 @@ export default class CreatePeriod extends Component {
         };
 
         return (
-            <Form inline onSubmit={handleSubmit}>
+            <Form inline onSubmit={handleSubmit} className="evaluation-period-form">
                 <Modal.Body>
                     {!isEmpty(errors) && !isEmpty(touched) &&
                         <ul className="list-message-error">
@@ -137,101 +137,118 @@ export default class CreatePeriod extends Component {
                             {values.targetTypeId === TargetType.SemiAnnual && touched.focusEndDate && errors.focusEndDate && <li>{errors.focusEndDate}</li>}
                         </ul>
                     }
-                    <FormGroup>
-                        <label className="required-label">{getResource('Name')}</label>
-                        <div class="control-content">
-                            <input type="text" name="name" value={values.name} autoComplete="off"
-                                className={`form-control  ${touched.name && errors.name && 'input-validation-error'}`}
-                                onChange={handleChange}
-                            />
-                        </div>
-                    </FormGroup>
-                    <FormGroup>
-                        <Col componentClass={ControlLabel} className={values.targetTypeId === TargetType.SemiAnnual && 'required-label'} sm={3}>
-                            {getResource('EvaluationStartDate')}
-                        </Col>
-                        <Col sm={3}>
-                            <DatePicker name="startDate" autoComplete="off"
-                                className={`form-control  ${touched.startDate && errors.startDate && 'input-validation-error'}`}
-                                maxDate={values.endDate}
-                                dateFormat={DateFormat} selected={values.startDate}
-                                onChange={value => setFieldValue('startDate', value)} onChangeRaw={onChangeRaw}
-                            />
-                        </Col>
-                        <Col componentClass={ControlLabel} className={values.targetTypeId === TargetType.SemiAnnual && 'required-label'} sm={3}>
-                            {getResource('EvaluationEndDate')}
-                        </Col>
-                        <Col sm={3}>
-                            <DatePicker name="endDate" autoComplete="off"
-                                className={`form-control  ${touched.endDate && errors.endDate && 'input-validation-error'}`}
-                                minDate={values.startDate}
-                                dateFormat={DateFormat} selected={values.endDate}
-                                onChange={value => setFieldValue('endDate', value)} onChangeRaw={onChangeRaw}
-                            />
-                        </Col>
-                    </FormGroup>
-                    <FormGroup>
-                        <Col componentClass={ControlLabel} className={values.targetTypeId === TargetType.SemiAnnual && 'required-label'} sm={3}>
-                            Working From Date
-                        </Col>
-                        <Col sm={3}>
-                            <DatePicker name="disciplineStartDate" autoComplete="off"
-                                className={`form-control  ${touched.disciplineStartDate && errors.disciplineStartDate && 'input-validation-error'}`}
-                                maxDate={values.disciplineEndDate}
-                                dateFormat={DateFormat} selected={values.disciplineStartDate}
-                                onChange={value => setFieldValue('disciplineStartDate', value)} onChangeRaw={onChangeRaw}
-                            />
-                        </Col>
-                        <Col componentClass={ControlLabel} className={values.targetTypeId === TargetType.SemiAnnual && 'required-label'} sm={3}>
-                            Working To Date
-                        </Col>
-                        <Col sm={3}>
-                            <DatePicker name="disciplineEndDate" autoComplete="off"
-                                className={`form-control  ${touched.disciplineEndDate && errors.disciplineEndDate && 'input-validation-error'}`}
-                                minDate={values.disciplineStartDate}
-                                dateFormat={DateFormat} selected={values.disciplineEndDate}
-                                onChange={value => setFieldValue('disciplineEndDate', value)} onChangeRaw={onChangeRaw}
-                            />
-                        </Col>
-                    </FormGroup>
-                    {values.targetTypeId === TargetType.SemiAnnual &&
+                    <div className="line-group">
                         <FormGroup>
-                            <Col componentClass={ControlLabel} className="required-label" sm={3}>Focus Start Date</Col>
-                            <Col sm={3}>
-                                <DatePicker name="focusStartDate" autoComplete="off"
-                                    className={`form-control  ${touched.focusStartDate && errors.focusStartDate && 'input-validation-error'}`}
-                                    maxDate={values.focusEndDate}
-                                    dateFormat={DateFormat} selected={values.focusStartDate}
-                                    onChange={value => setFieldValue('focusStartDate', value)} onChangeRaw={onChangeRaw}
+                            <label className="control-label">{getResource('Name')}</label>
+                            <div class="control-content name-content">
+                                <input type="text" name="name" value={values.name} autoComplete="off"
+                                    className={`form-control  ${touched.name && errors.name && 'input-validation-error'}`}
+                                    onChange={handleChange}
                                 />
+                            </div>
+                        </FormGroup>
+                    </div>
+                    <div className="line-group">
+                        <FormGroup>
+                            <Col componentClass={ControlLabel}>
+                                {getResource('EvaluationStartDate')}
                             </Col>
-                            <Col componentClass={ControlLabel} className="required-label" sm={3}>Focus End Date</Col>
-                            <Col sm={3}>
-                                <DatePicker name="disciplineEndDate" autoComplete="off"
-                                    className={`form-control  ${touched.focusEndDate && errors.focusEndDate && 'input-validation-error'}`}
-                                    minDate={values.focusStartDate}
-                                    dateFormat={DateFormat} selected={values.focusEndDate}
-                                    onChange={value => setFieldValue('focusEndDate', value)} onChangeRaw={onChangeRaw}
+                            <Col className="control-content">
+                                <DatePicker name="startDate" autoComplete="off"
+                                    className={`form-control  ${touched.startDate && errors.startDate && 'input-validation-error'}`}
+                                    maxDate={values.endDate}
+                                    dateFormat={DateFormat} selected={values.startDate}
+                                    onChange={value => setFieldValue('startDate', value)} onChangeRaw={onChangeRaw}
                                 />
                             </Col>
                         </FormGroup>
+                        <FormGroup>
+                            <Col componentClass={ControlLabel} >
+                                {getResource('EvaluationEndDate')}
+                            </Col>
+                            <Col className="control-content">
+                                <DatePicker name="endDate" autoComplete="off"
+                                    className={`form-control  ${touched.endDate && errors.endDate && 'input-validation-error'}`}
+                                    minDate={values.startDate}
+                                    dateFormat={DateFormat} selected={values.endDate}
+                                    onChange={value => setFieldValue('endDate', value)} onChangeRaw={onChangeRaw}
+                                />
+                            </Col>
+                        </FormGroup>
+                    </div>
+                    <div className="line-group">
+                        <FormGroup>
+                            <Col componentClass={ControlLabel} >
+                                Working From Date
+                            </Col>
+                            <Col className="control-content">
+                                <DatePicker name="disciplineStartDate" autoComplete="off"
+                                    className={`form-control  ${touched.disciplineStartDate && errors.disciplineStartDate && 'input-validation-error'}`}
+                                    maxDate={values.disciplineEndDate}
+                                    dateFormat={DateFormat} selected={values.disciplineStartDate}
+                                    onChange={value => setFieldValue('disciplineStartDate', value)} onChangeRaw={onChangeRaw}
+                                />
+                            </Col>
+                        </FormGroup>
+                        <FormGroup>
+                            <Col componentClass={ControlLabel} >
+                                Working To Date
+                            </Col>
+                            <Col className="control-content">
+                                <DatePicker name="disciplineEndDate" autoComplete="off"
+                                    className={`form-control  ${touched.disciplineEndDate && errors.disciplineEndDate && 'input-validation-error'}`}
+                                    minDate={values.disciplineStartDate}
+                                    dateFormat={DateFormat} selected={values.disciplineEndDate}
+                                    onChange={value => setFieldValue('disciplineEndDate', value)} onChangeRaw={onChangeRaw}
+                                />
+                            </Col>
+                        </FormGroup>
+                    </div>
+                    {values.targetTypeId === TargetType.SemiAnnual &&
+                        <div className="line-group">
+                            <FormGroup>
+                                <Col componentClass={ControlLabel} className="">Focus Start Date</Col>
+                                <Col className="control-content">
+                                    <DatePicker name="focusStartDate" autoComplete="off"
+                                        className={`form-control  ${touched.focusStartDate && errors.focusStartDate && 'input-validation-error'}`}
+                                        maxDate={values.focusEndDate}
+                                        dateFormat={DateFormat} selected={values.focusStartDate}
+                                        onChange={value => setFieldValue('focusStartDate', value)} onChangeRaw={onChangeRaw}
+                                    />
+                                </Col>
+                            </FormGroup>
+                            <FormGroup>
+                                <Col componentClass={ControlLabel} className="">Focus End Date</Col>
+                                <Col className="control-content">
+                                    <DatePicker name="disciplineEndDate" autoComplete="off"
+                                        className={`form-control  ${touched.focusEndDate && errors.focusEndDate && 'input-validation-error'}`}
+                                        minDate={values.focusStartDate}
+                                        dateFormat={DateFormat} selected={values.focusEndDate}
+                                        onChange={value => setFieldValue('focusEndDate', value)} onChangeRaw={onChangeRaw}
+                                    />
+                                </Col>
+                            </FormGroup>
+                        </div>
                     }
-
-                    <FormGroup>
-                        <Col componentClass={ControlLabel} sm={3}>{getResource('Active')}</Col>
-                        <Col sm={3}>
-                            <Checkbox name="isActive" onChange={handleChange} checked={values.isActive} />
-                        </Col>
-                    </FormGroup>
-                    <FormGroup>
-                        <Col componentClass={ControlLabel} sm={3}>{getResource('Description')}</Col>
-                        <Col sm={9}>
-                            <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
-                                name="description" rows="4"
-                                onChange={handleChange} value={values.description}
-                            />
-                        </Col>
-                    </FormGroup>
+                    <div className="line-group">
+                        <FormGroup>                
+                            <div className="checkbox">
+                                <input type="checkbox" className="checkbox-custom" name="isActive" onChange={handleChange} checked={values.isActive} id="chb-isActive"/>
+                                <label for="chb-isActive">Active</label>
+                            </div>
+                        </FormGroup>
+                    </div>
+                    <div className="line-group">
+                        <FormGroup className="description-group">
+                            <Col componentClass={ControlLabel}>{getResource('Description')} (optional)</Col>
+                            <Col className="">
+                                <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
+                                    name="description" rows="4"
+                                    onChange={handleChange} value={values.description}
+                                />
+                            </Col>
+                        </FormGroup>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="btn btn-cancel" onClick={this.props.closeModal}>{getResource('Cancel')}</Button>

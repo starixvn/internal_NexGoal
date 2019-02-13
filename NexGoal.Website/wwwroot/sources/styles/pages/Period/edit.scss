@@ -12,10 +12,31 @@
 @import "../../components/react-datepicker-custom";
 @import "../../components/toast";
 @import "../../components/react-bootstrap-table";
+@import "../../components/react-bootstrap-table-pagination";
 @import "../../components/react-select";
+@import "../../components/dropdown";
 
 .settings-form {
     margin-top: 12px;
+}
+
+.evaluation-period-form {
+    .line-group {
+        margin-bottom: 12px;
+    }
+    .checkbox .checkbox-custom + label:before{
+        margin-right: 6px;
+    }
+    .checkbox {
+        left : -12px;
+    }
+    
+    .description-content {
+        width: 650px;
+    }
+    .control-content.name-content {
+        width: 420px;
+    }
 }
 
 table select {

@@ -54,9 +54,15 @@
 
     .checkbox {
         margin: 0;
-
+        .checkbox-custom + label {
+            padding-left: 0;
+            &:before {
+                margin-right: 6px;
+            }
+        }
         label {
             padding-left: 25px;
+            
         }
     }
 }

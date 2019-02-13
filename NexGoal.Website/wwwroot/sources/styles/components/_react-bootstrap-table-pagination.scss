@@ -1,0 +1,21 @@
+.react-bootstrap-table-pagination {
+    margin: 0;
+    background-color: #F2F2F2;
+    border: 1px solid #C4C4C4;
+    border-top: none;
+    height: 40px;
+    padding: 4px;
+    .pagination {
+        > li > a {
+            background-color: inherit;
+            border: none;
+            color: #474747;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        > .active > a {
+            color: #fff;
+            border-radius: 18px;
+        }
+    }
+}

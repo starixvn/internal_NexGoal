@@ -41,7 +41,7 @@ class Filter extends Component {
         const filter = this.props.filter;
 
         return (
-            <Form inline className="form-filter" onSubmit={this.handleSubmit}>
+            <Form inline className="form-filter filter-role-management" onSubmit={this.handleSubmit}>
                 <FormGroup>
                     <ControlLabel>{getResource('Employee')}</ControlLabel>
                     <div className="control-content">
@@ -74,12 +74,11 @@ class Filter extends Component {
                     </div>
                 </FormGroup>
                 <FormGroup>
-                    <div className="checkbox">
-                        <label>
-                            <input type="checkbox" checked={filter.isShowAll}
-                                onChange={this.handleCheckboxChange}
-                            /> {getResource('ShowAllEmployee')}
-                        </label>
+                    <div className="checkbox">                        
+                        <input type="checkbox" checked={filter.isShowAll} className="checkbox-custom"
+                            onChange={this.handleCheckboxChange} id="chbShowAllEmp"
+                        />
+                        <label for="chbShowAllEmp">{getResource('ShowAllEmployee')}</label>
                     </div>
                 </FormGroup>
                 <FormGroup>

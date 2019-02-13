@@ -13,6 +13,7 @@
 @import "../../components/tables";
 @import "../../components/toast";
 @import "../../components/dropdown";
+@import "../../components/react-bootstrap-table-pagination";
 
 .settings-form {
     margin-top: 12px;
@@ -27,5 +28,11 @@
         textarea {
             height: 90px;
         }
+    }
+}
+.form-filter.filter-role-management .checkbox label {
+    padding-left: 0;
+    &:before {
+        margin-right: 6px;
     }
 }
