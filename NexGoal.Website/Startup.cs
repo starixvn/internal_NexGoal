@@ -77,7 +77,6 @@
 
             services.AddJsReport(new LocalReporting()
                  .UseBinary(JsReportBinary.GetBinary())
-                 .Configure(cfg => cfg.AllowedLocalFilesAccess().BaseUrlAsWorkingDirectory())
                  .AsUtility()
                  .Create());
 

@@ -69,8 +69,11 @@ class Rows extends Component {
 
     renderSelfGrade = (paProcesses) => {
         const processes = paProcesses.filter(process => process.processId === PerformanceProcess.Self);
-        const grade = processes[0].performanceRecord && processes[0].performanceRecord.grade ?
-            processes[0].performanceRecord.grade.name : getResource('N/A');
+        let grade = '';
+        if (processes[0].performanceRecord) {
+            grade = processes[0].performanceRecord.grade ? processes[0].performanceRecord.grade.name : getResource('N/A');
+        }
+
         return <span>{grade}</span>;
     }
 

@@ -58,12 +58,9 @@
         {
             model.ActorId = sessionService.EmployeeId;
             var reportDetail = await reportService.GetPAReportDetailAsync(model).ConfigureAwait(false);
-            ViewData["NoLayout"] = true;
             var contentDisposition = $"attachment; filename=\"{reportDetail.Employee.NickName}_PAReport.pdf\"";
 
-            HttpContext.JsReportFeature()
-                .DebugLogsToResponse()
-                .Recipe(Recipe.ChromePdf)
+            HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf)
                 .Configure((r) => r.Template.Chrome = new Chrome
                 {
                     MarginLeft = ".5cm",
@@ -71,10 +68,9 @@
                     MarginTop = "1cm",
                     MarginBottom = "1cm",
                     PrintBackground = true
-                })
-                .Configure((r) => r.Options.Timeout = 50000)
-                .OnAfterRender((r) => HttpContext.Response.Headers["Content-Disposition"] = contentDisposition);
-            return View(reportDetail);
+                }).OnAfterRender((r) => HttpContext.Response.Headers["Content-Disposition"] = contentDisposition);
+
+            return PartialView("PaDetail", reportDetail);
         }
     }
 }
