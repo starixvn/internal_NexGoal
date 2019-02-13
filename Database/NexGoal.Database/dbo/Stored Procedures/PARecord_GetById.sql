@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[PARecord_GetById] @ActorId INT
+﻿
+CREATE PROCEDURE [dbo].[PARecord_GetById] @ActorId INT
 	,@PARecordId INT
 AS
 /*
@@ -79,7 +80,6 @@ BEGIN
 		,record.Comment
 		,record.ProjectIds
 		,record.CreatedDate
-		,record.ModifiedDate
 		,process.ProcessId AS RoleId
 		,record.TypeId
 		,record.CreatorId

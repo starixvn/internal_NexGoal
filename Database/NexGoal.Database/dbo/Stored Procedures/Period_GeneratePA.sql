@@ -21,8 +21,8 @@ BEGIN
 
 	DECLARE @periodStartDate DATE
 		,@periodEndDate DATE
-		,@disciplineStartDate DATE
-		,@disciplineEndDate DATE
+		,@disciplineStartDate DATETIME
+		,@disciplineEndDate DATETIME
 		,@PMRoleId TINYINT = 6
 	-- process
 	DECLARE @SelfProcessId TINYINT = 2
@@ -75,12 +75,12 @@ BEGIN
 				AND pap.PARecordId = par.PARecordId
 			)
 
-	SELECT @periodStartDate = p.StartDate
-		,@periodEndDate = p.EndDate
-		,@disciplineStartDate = p.DisciplineStartDate
-		,@disciplineEndDate = p.DisciplineEndDate
-	FROM dbo.Period AS p WITH (NOLOCK)
-	WHERE p.PeriodId = @PeriodId
+	SELECT @periodStartDate = StartDate
+		,@periodEndDate = EndDate
+		,@disciplineStartDate = DisciplineStartDate
+		,@disciplineEndDate = DATEADD(DAY, DATEDIFF(DAY, 0, DisciplineEndDate), '23:59:59')
+	FROM dbo.Period WITH (NOLOCK)
+	WHERE PeriodId = @PeriodId
 
 	SET @xml = (
 			SELECT pap.PARecordId AS '@pari'

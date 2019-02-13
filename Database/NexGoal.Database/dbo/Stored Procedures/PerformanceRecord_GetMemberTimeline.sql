@@ -1,6 +1,4 @@
 ﻿
-
-
 CREATE PROCEDURE [dbo].[PerformanceRecord_GetMemberTimeline] @ActorId INT
 	,@PeriodId INT = NULL
 	,@GroupIds VARCHAR(MAX) = NULL
@@ -22,8 +20,8 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @Today DATE = GETDATE()
-		,@FromDate DATE
-		,@ToDate DATE
+		,@FromDate DATETIME
+		,@ToDate DATETIME
 		,@PAClosed TINYINT = 4
 	-- process
 	DECLARE @PMProcessId TINYINT = 3
@@ -67,11 +65,11 @@ BEGIN
 	IF @PeriodId IS NOT NULL
 	BEGIN
 		SELECT @FromDate = DisciplineStartDate
-			,@ToDate = DisciplineEndDate
+			,@ToDate = DATEADD(DAY, DATEDIFF(DAY, 0, DisciplineEndDate), '23:59:59')
 		FROM dbo.Period WITH (NOLOCK)
 		WHERE PeriodId = @PeriodId
 	END
-	select @ToDate = '2019-02-01'
+
 	INSERT INTO #tblGroup (GroupId)
 	SELECT val
 	FROM dbo.func_SplitString(@GroupIds, ',')
@@ -137,8 +135,8 @@ BEGIN
 		LEFT JOIN #tblGroup AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 		LEFT JOIN dbo.PARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
-			AND pa.StatusId = @PAClosed
-			AND emp.EmployeeId = pa.EmployeeId
+		AND pa.StatusId = @PAClosed
+		AND emp.EmployeeId = pa.EmployeeId
 		LEFT JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
 		AND nomination.NomineeId = @EmployeeId
 		LEFT JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
@@ -230,7 +228,7 @@ BEGIN
 	ORDER BY member.[Priority]
 		,gr.[Name]
 		,emp.NickName
-	
+
 	IF @EmployeeId IS NULL
 	BEGIN
 		SELECT PerformanceRecordId

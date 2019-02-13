@@ -252,7 +252,7 @@ export default class PerformanceRecord extends Component {
                                 </Fragment>
                             }
                             {
-                                endDateForNominator < currentDate &&
+                                endDateForNominator < currentDate && status &&
                                 <div className={getNominationClassName(record.nominationStatusId)}>{status.text}</div>
                             }
                         </div>

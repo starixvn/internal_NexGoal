@@ -1,4 +1,5 @@
-﻿TRUNCATE TABLE dbo.[Function]
+﻿/*
+TRUNCATE TABLE dbo.[Function]
 GO
 SET IDENTITY_INSERT dbo.[Function] ON
 INSERT dbo.[Function] (FunctionId, FunctionKey, [Name], ParentId, OnlyPolicy, DisplayOrder, IsActive)
@@ -46,3 +47,4 @@ VALUES (1, N'My Page', NULL, N'/home/index', NULL, NULL, 10, 1)
 	,(18, N'Discipline', NULL, N'/discipline/index', 14, 17, 64, 1)
 SET IDENTITY_INSERT dbo.Menu OFF
 GO
+*/

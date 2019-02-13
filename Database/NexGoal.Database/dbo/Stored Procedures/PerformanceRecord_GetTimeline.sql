@@ -1,6 +1,4 @@
 ﻿
-
-
 CREATE PROCEDURE [dbo].[PerformanceRecord_GetTimeline] @EmployeeId INT
 	,@PageIndex INT = 0
 	,@PageSize INT = 8
@@ -21,6 +19,10 @@ BEGIN
 
 	DECLARE @Today DATE = GETDATE()
 		,@PAClosed TINYINT = 4
+	-- Performance Record Type
+	DECLARE @Checkin TINYINT = 1
+		,@SystemPA TINYINT = 4
+		,@SystemNomination TINYINT = 5
 
 	CREATE TABLE #tblPerformanceRecord (
 		PerformanceRecordId INT
@@ -58,7 +60,6 @@ BEGIN
 		,nomination.StatusId AS NominationStatusId
 		,record.TypeId
 	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
-		--INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeIds = emp.EmployeeId
 		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 		LEFT JOIN dbo.PARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
 		AND pa.StatusId = @PAClosed
@@ -68,6 +69,7 @@ BEGIN
 		LEFT JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
 		AND period.EndDateForCommittee < @Today
 	WHERE record.EmployeeId = @EmployeeId
+		AND record.TypeId IN (@Checkin, @SystemPA, @SystemNomination)
 
 	SELECT PerformanceRecordId
 		,GradeId
@@ -83,18 +85,10 @@ BEGIN
 		,[Quarter]
 		,[Year]
 	FROM #tblPerformanceRecord AS record WITH (NOLOCK)
-	LEFT JOIN dbo.Employee AS cre WITH (NOLOCK) ON record.CreatorId = cre.EmployeeId
+		LEFT JOIN dbo.Employee AS cre WITH (NOLOCK) ON record.CreatorId = cre.EmployeeId
 	ORDER BY CreatedDate DESC OFFSET(@PageIndex * @PageSize) ROWS
 
 	FETCH NEXT @PageSize ROWS ONLY
-
-	--SELECT period.EOQYId AS NominationPeriodId
-	--	,period.[Quarter]
-	--	,period.[Year]
-	--FROM #tblPerformanceRecord AS record WITH (NOLOCK)
-	--	INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
-	--	INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
-	--	AND period.EndDateForCommittee < @Today
 
 	SELECT @TotalItems = COUNT(1)
 	FROM #tblPerformanceRecord

@@ -13,12 +13,19 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	
+	DECLARE @Today DATE = GETDATE()
 
 	SELECT pr.PerformanceRecordId
 		,pr.Comment
 		,pr.CreatedDate
 		,pr.ModifiedDate
-		,nomination.StatusId
+		,(CASE 
+			WHEN @Today BETWEEN period.StartDateForNominator
+					AND period.EndDateForNominator THEN 1
+			ELSE 0 END
+			) AS IsHost
+		,nomination.StatusId AS NominationStatusId
 		,pr.TypeId
 		,nominee.EmployeeId
 		,nominee.NickName
@@ -28,10 +35,12 @@ BEGIN
 		,creator.NickName
 		,creator.FullName
 		,creator.Code
-		,nomination.StatusId AS NominationStatusId
 		,period.EOQYId AS NominationPeriodId
 		,period.[Quarter]
 		,period.[Year]
+		,period.StartDateForNominator
+		,period.EndDateForNominator
+		,period.EndDateForCommittee
 	FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
 		INNER JOIN dbo.NominationDetail AS nd WITH (NOLOCK) ON pr.PerformanceRecordId = nd.PerformanceRecordId
 		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON nd.NominationId = nomination.NominationId
