@@ -36,3 +36,12 @@
         margin-right: 6px;
     }
 }
+
+#nomination-wrapper .sub-header .breadcrumb li  {
+    a {
+        color: #e8743e;
+    }
+    &.current {
+        color: #545454; 
+    }
+}

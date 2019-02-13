@@ -78,3 +78,11 @@ table select {
         margin-left: 10px;
     }
 }
+#edit-period-wrapper .sub-header .breadcrumb li  {
+    a {
+        color: #e8743e;
+    }
+    &.current {
+        color: #545454; 
+    }
+}
