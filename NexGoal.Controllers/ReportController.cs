@@ -59,6 +59,7 @@
             model.ActorId = sessionService.EmployeeId;
             var reportDetail = await reportService.GetPAReportDetailAsync(model).ConfigureAwait(false);
             ViewData["NoLayout"] = true;
+            var contentDisposition = $"attachment; filename=\"{reportDetail.Employee.NickName}_PAReport.pdf\"";
 
             HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf)
                 .Configure((r) => r.Template.Chrome = new Chrome
@@ -68,7 +69,7 @@
                     MarginTop = "1cm",
                     MarginBottom = "1cm",
                     PrintBackground = true
-                });
+                }).OnAfterRender((r) => HttpContext.Response.Headers["Content-Disposition"] = contentDisposition);
             return View(reportDetail);
         }
     }
