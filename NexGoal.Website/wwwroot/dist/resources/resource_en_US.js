@@ -45,7 +45,7 @@ var resource_en_US = {
     'EditPerformanceAppraisal': 'Edit Performance Appraisal',
     'EditPerformanceCheckin': 'Edit Performance Check-in',
     'EditEvaluationPeriod': 'Edit Evaluation Period',
-    'EditNominationPeriod': 'Edit EditNomination Period',
+    'EditNominationPeriod': 'Edit Nomination Period',
     'EndDate': 'End Date',
     'EndDateForCommittee': 'End Date For Committee',
     'EndDateForNominator': 'End Date For Nominator',

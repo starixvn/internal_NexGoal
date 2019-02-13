@@ -36,14 +36,9 @@ export default class App extends Component {
             <ToastLayout>
                 <div className="row">
                     <Breadcrumb>
-                        <li><a href={resolveClientUrl('period')}>{getResource('NominationPeriod')}</a></li>
+                        <li><a onClick={this.handleBackClick}>{getResource('NominationPeriod')}</a></li>
                         <li className="current">{getResource('EditNominationPeriod')}</li>
                     </Breadcrumb>
-                    {/* <div className="col-sm-12">
-                        <a className="btn btn-cancel" onClick={this.handleBackClick}>
-                            <i className="fa fa-angle-left" />{getResource('BackToList')}
-                        </a>
-                    </div> */}
                     <div className="col-sm-12">
                         <Tabs id="tabs-nomination"
                             activeKey={this.state.activeKey}
