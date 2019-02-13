@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -10,7 +9,6 @@
     using NexGoal.Criteria.PerformanceRecord;
     using NexGoal.Models;
     using NexGoal.Models.Common;
-    using NexGoal.Models.NominationPeriod;
     using NexGoal.Models.PerformanceRecord;
     using NexGoal.Repositories.Interfaces;
     using NSubstitute;
@@ -24,68 +22,53 @@
         private INotificationPerformanceRecordService notificationService;
         private IPerformanceRecordRepository performanceRecordRepository;
 
-        #region GetPerformanceRecordByEmployeeAsync
+        [Fact]
+        public async Task GetPerformanceRecordByEmployeeAsync_WhenCalled_ReturnAsExpectedPerformanceRecords()
+        {
+            // Arrange
+            var gradeId = "1";
+            var performanceRecords = new List<PerformanceRecord>
+            {
+                new PerformanceRecord
+                {
+                    PerformanceRecordId = 1,
+                    Creator = new Employee
+                    {
+                        EmployeeId = 1,
+                        NickName = "NickName1",
+                        FullName = "FullName1",
+                        Code = "Code1"
+                    },
+                    Employees = new List<Employee>
+                    {
+                        new Employee
+                        {
+                            EmployeeId = 2,
+                            NickName = "NickName2",
+                            FullName = "FullName2",
+                            Code = "Code2"
+                        }
+                    },
+                    Comment = "Comment",
+                    GradeId = "cipher text"
+                }
+            };
+            IEnumerable<PerformanceGrade> performanceGrades = Helpers.GetPerformanceGrades();
+            var criteria = new GetPerformanceRecordByEmployeeCriteria();
+            var service = GetPerformanceRecordService();
+            performanceRecordRepository.GetPerformanceRecordByEmployeeAsync(Arg.Do<GetPerformanceRecordByEmployeeCriteria>(x => criteria = x)).Returns(performanceRecords);
+            commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
+            cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
 
-        ////[Fact]
-        ////public async Task GetPerformanceRecordByEmployeeAsync_PerformanceRecordsAreNotExist_ReturnEmpty()
-        ////{
-        ////    // Arrange
-        ////    var performanceRecords = new List<PerformanceRecord>();
-        ////    var nominationPeriods = new List<NominationPeriodModel>();
-        ////    var tuple = new Tuple<IEnumerable<PerformanceRecord>, IEnumerable<NominationPeriodModel>>(performanceRecords, nominationPeriods);
-        ////    var service = GetPerformanceRecordService();
-        ////    baseService.FetchMultipleAsync<PerformanceRecord, NominationPeriodModel>(Arg.Any<GetPerformanceRecordByEmployeeCriteria>()).Returns(tuple);
+            // Act
+            var actual = await service.GetPerformanceRecordByEmployeeAsync(1);
 
-        ////    // Act
-        ////    var actual = await service.GetPerformanceRecordByEmployeeAsync(1);
+            // Assert
+            Assert.Equal(performanceRecords, actual);
+            Assert.True(actual.First().Grade == performanceGrades.First());
 
-        ////    // Assert
-        ////    Assert.Empty(actual);
-        ////}
-
-        ////[Fact]
-        ////public async Task GetPerformanceRecordByEmployeeAsync_MappingData_ReturnAsExpectedPerformanceRecords()
-        ////{
-        ////    // Arrange
-        ////    var gradeId = "1";
-        ////    var performanceRecords = new List<PerformanceRecord>
-        ////    {
-        ////        new PerformanceRecord
-        ////        {
-        ////            PerformanceRecordId = 1,
-        ////            GradeId = "cipher text"
-        ////        }
-        ////    };
-        ////    IEnumerable<NominationPeriodModel> nominationPeriods = GetNominationPeriodForTest();
-        ////    IEnumerable<Employee> employees = GetEmployeeForTest();
-        ////    IEnumerable<PeriodBaseModel> periods = GetPeriodForTest();
-        ////    IEnumerable<ProjectModel> projects = GetProjectForTest();
-        ////    IEnumerable<PerformanceGradeModel> performanceGrades = GetPerformanceGradeForTest();
-        ////    var expectedEmployees = employees.Where(x => x.EmployeeId == 1);
-        ////    var expectedProjects = projects.Where(x => x.ProjectId == 1);
-        ////    var tuple = new Tuple<IEnumerable<PerformanceRecord>, IEnumerable<NominationPeriodModel>>(performanceRecords, nominationPeriods);
-        ////    var service = GetPerformanceRecordService();
-        ////    baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(Arg.Any<GetPerformanceRecordByEmployeeCriteria>()).Returns(tuple);
-        ////    commonService.GetEmployeesAsync(isEnabled: null).Returns(employees);
-        ////    commonService.GetProjectsAsync().Returns(projects);
-        ////    commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
-        ////    commonService.GetAllPeriods().Returns(periods);
-        ////    cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
-
-        ////    // Act
-        ////    var actual = await service.GetPerformanceRecordByEmployeeAsync(1);
-
-        ////    // Assert
-        ////    Assert.Single(actual);
-        ////    Assert.Equal(performanceRecords, actual);
-        ////    Assert.True(expectedEmployees.All(x => actual.First().Employees.Any(y => y == x)));
-        ////    Assert.True(expectedProjects.All(x => actual.First().Projects.Any(y => y == x)));
-        ////    Assert.True(actual.First().Grade == performanceGrades.First());
-        ////    Assert.True(actual.First().Period == periods.First());
-        ////    Assert.True(actual.First().NominationPeriod == nominationPeriods.First());
-        ////}
-
-        ////#endregion GetPerformanceRecordByEmployeeAsync
+            Assert.Equal(1, criteria.EmployeeId);
+        }
 
         ////#region GetPerformanceTimelineAsync
 
@@ -126,7 +109,7 @@
         ////    };
         ////    IEnumerable<NominationPeriodModel> nominationPeriods = GetNominationPeriodForTest();
         ////    IEnumerable<Employee> employees = GetEmployeeForTest();
-        ////    IEnumerable<PerformanceGradeModel> performanceGrades = GetPerformanceGradeForTest();
+        ////    IEnumerable<PerformanceGrade> performanceGrades = Helpers.GetPerformanceGrades();
         ////    var tuple = new Tuple<IEnumerable<PerformanceRecord>, IEnumerable<NominationPeriodModel>>(performanceRecords, nominationPeriods);
         ////    var service = GetPerformanceRecordService();
         ////    baseService.FetchMultipleAsync<PerformanceRecord, NominationPeriodModel>(Arg.Any<GetPerformanceTimelineCriteria>()).Returns(tuple);
@@ -148,73 +131,102 @@
 
         ////#endregion GetPerformanceTimelineAsync
 
-        ////#region GetMemberPerformanceAsync
+        [Fact]
+        public async Task GetMemberPerformanceAsync_WhenCalled_ReturnAsExpectedPerformanceRecords()
+        {
+            // Arrange
+            var gradeId = "1";
+            var performanceRecords = new List<PerformanceRecord>
+            {
+                new PerformanceRecord
+                {
+                    PerformanceRecordId = 1,
+                    Creator = new Employee
+                    {
+                        EmployeeId = 1,
+                        NickName = "NickName1",
+                        FullName = "FullName1",
+                        Code = "Code1"
+                    },
+                    Employees = new List<Employee>
+                    {
+                        new Employee
+                        {
+                            EmployeeId = 2,
+                            NickName = "NickName2",
+                            FullName = "FullName2",
+                            Code = "Code2"
+                        }
+                    },
+                    Comment = "Comment",
+                    GradeId = "cipher text"
+                }
+            };
+            var criteria = new GetMemberPerformanceCriteria();
+            IEnumerable<PerformanceGrade> performanceGrades = Helpers.GetPerformanceGrades();
+            var service = GetPerformanceRecordService();
+            performanceRecordRepository.GetMemberPerformanceAsync(Arg.Do<GetMemberPerformanceCriteria>(x => criteria = x)).Returns(performanceRecords);
+            commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
+            cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
 
-        ////[Fact]
-        ////public async Task GetMemberPerformanceAsync_PerformanceRecordsAreNotExist_ReturnEmpty()
-        ////{
-        ////    // Arrange
-        ////    var performanceRecords = new List<PerformanceRecord>();
-        ////    var nominationPeriods = new List<NominationPeriodModel>();
-        ////    var tuple = new Tuple<IEnumerable<PerformanceRecord>, IEnumerable<NominationPeriodModel>>(performanceRecords, nominationPeriods);
-        ////    var service = GetPerformanceRecordService();
-        ////    baseService.FetchMultipleAsync<PerformanceRecord, NominationPeriodModel>(Arg.Any<GetMemberPerformanceCriteria>()).Returns(tuple);
+            // Act
+            var actual = await service.GetMemberPerformanceAsync(1);
 
-        ////    // Act
-        ////    var actual = await service.GetMemberPerformanceAsync(1);
+            // Assert
+            Assert.Equal(performanceRecords, actual);
+            Assert.True(actual.First().Grade == performanceGrades.First());
 
-        ////    // Assert
-        ////    Assert.Empty(actual);
-        ////}
+            Assert.Equal(1, criteria.ActorId);
+        }
 
-        ////[Fact]
-        ////public async Task GetMemberPerformanceAsync_MappingData_ReturnAsExpectedPerformanceRecords()
-        ////{
-        ////    // Arrange
-        ////    var gradeId = "1";
-        ////    var performanceRecords = new List<PerformanceRecord>
-        ////    {
-        ////        new PerformanceRecord
-        ////        {
-        ////            PerformanceRecordId = 1,
-        ////            EmployeeIds = "1",
-        ////            ProjectIds = "1",
-        ////            GradeId = "cipher text",
-        ////            PeriodId = 1,
-        ////            NominationPeriodId = 1,
-        ////            TypeId = (int)PerformanceRecordType.PerformanceCheckin
-        ////        }
-        ////    };
-        ////    IEnumerable<NominationPeriodModel> nominationPeriods = GetNominationPeriodForTest();
-        ////    IEnumerable<Employee> employees = GetEmployeeForTest();
-        ////    IEnumerable<PeriodBaseModel> periods = GetPeriodForTest();
-        ////    IEnumerable<ProjectModel> projects = GetProjectForTest();
-        ////    IEnumerable<PerformanceGradeModel> performanceGrades = GetPerformanceGradeForTest();
-        ////    var expectedEmployees = employees.Where(x => x.EmployeeId == 1);
-        ////    var expectedProjects = projects.Where(x => x.ProjectId == 1);
-        ////    var tuple = new Tuple<IEnumerable<PerformanceRecord>, IEnumerable<NominationPeriodModel>>(performanceRecords, nominationPeriods);
-        ////    var service = GetPerformanceRecordService();
-        ////    baseService.FetchMultipleAsync<PerformanceRecord, NominationPeriodModel>(Arg.Any<GetMemberPerformanceCriteria>()).Returns(tuple);
-        ////    commonService.GetEmployeesAsync(isEnabled: null).Returns(employees);
-        ////    commonService.GetProjectsAsync().Returns(projects);
-        ////    commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
-        ////    commonService.GetAllPeriods().Returns(periods);
-        ////    cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
+        [Fact]
+        public async Task GetMemberPerformanceDetailAsync_WhenCalled_ReturnAsExpectedPerformanceRecords()
+        {
+            // Arrange
+            var gradeId = "1";
+            var performanceRecords = new List<PerformanceRecord>
+            {
+                new PerformanceRecord
+                {
+                    PerformanceRecordId = 1,
+                    Creator = new Employee
+                    {
+                        EmployeeId = 1,
+                        NickName = "NickName1",
+                        FullName = "FullName1",
+                        Code = "Code1"
+                    },
+                    Employees = new List<Employee>
+                    {
+                        new Employee
+                        {
+                            EmployeeId = 2,
+                            NickName = "NickName2",
+                            FullName = "FullName2",
+                            Code = "Code2"
+                        }
+                    },
+                    Comment = "Comment",
+                    GradeId = "cipher text"
+                }
+            };
+            var criteria = new GetMemberPerformanceDetailCriteria();
+            IEnumerable<PerformanceGrade> performanceGrades = Helpers.GetPerformanceGrades();
+            var service = GetPerformanceRecordService();
+            performanceRecordRepository.GetMemberPerformanceDetailAsync(Arg.Do<GetMemberPerformanceDetailCriteria>(x => criteria = x)).Returns(performanceRecords);
+            commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
+            cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
 
-        ////    // Act
-        ////    var actual = await service.GetMemberPerformanceAsync(1);
+            // Act
+            var actual = await service.GetMemberPerformanceDetailAsync(1, 1);
 
-        ////    // Assert
-        ////    Assert.Single(actual);
-        ////    Assert.Equal(performanceRecords, actual);
-        ////    Assert.True(expectedEmployees.All(x => actual.First().Employees.Any(y => y == x)));
-        ////    Assert.True(expectedProjects.All(x => actual.First().Projects.Any(y => y == x)));
-        ////    Assert.True(actual.First().Grade == performanceGrades.First());
-        ////    Assert.True(actual.First().Period == periods.First());
-        ////    Assert.True(actual.First().NominationPeriod == nominationPeriods.First());
-        ////}
+            // Assert
+            Assert.Equal(performanceRecords, actual);
+            Assert.True(actual.First().Grade == performanceGrades.First());
 
-        ////#endregion GetMemberPerformanceAsync
+            Assert.Equal(1, criteria.ActorId);
+            Assert.Equal(1, criteria.EmployeeId);
+        }
 
         ////#region GetMemberPerformanceTimelineAsync
 
@@ -260,7 +272,7 @@
         ////    IEnumerable<NominationPeriodModel> nominationPeriods = GetNominationPeriodForTest();
         ////    IEnumerable<Employee> employees = GetEmployeeForTest();
         ////    IEnumerable<ProjectModel> projects = GetProjectForTest();
-        ////    IEnumerable<PerformanceGradeModel> performanceGrades = GetPerformanceGradeForTest();
+        ////    IEnumerable<PerformanceGrade> performanceGrades = Helpers.GetPerformanceGrades();
         ////    var tuple = new Tuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>, IEnumerable<NominationPeriodModel>>
         ////        (memberTimelines, performanceRecords, nominationPeriods);
         ////    var service = GetPerformanceRecordService();
@@ -282,145 +294,179 @@
 
         ////#endregion GetMemberPerformanceTimelineAsync
 
-        ////#region GetPerformanceRecordByIdAsync
+        [Fact]
+        public async Task GetPerformanceRecordByIdAsync_WhenCalled_ReturnAsExpectedPerformanceRecord()
+        {
+            // Arrange
+            var gradeId = "1";
+            var performanceRecord = new PerformanceRecord
+            {
+                PerformanceRecordId = 1,
+                Creator = new Employee
+                {
+                    EmployeeId = 1,
+                    NickName = "NickName1",
+                    FullName = "FullName1",
+                    Code = "Code1"
+                },
+                Employees = new List<Employee>
+                {
+                    new Employee
+                    {
+                        EmployeeId = 2,
+                        NickName = "NickName2",
+                        FullName = "FullName2",
+                        Code = "Code2"
+                    }
+                },
+                Comment = "Comment",
+                GradeId = "cipher text"
+            };
+            IEnumerable<PerformanceGrade> performanceGrades = Helpers.GetPerformanceGrades();
+            var criteria = new GetPerformanceRecordByIdCriteria();
+            var service = GetPerformanceRecordService();
+            performanceRecordRepository.GetPerformanceRecordByIdAsync(Arg.Do<GetPerformanceRecordByIdCriteria>(x => criteria = x)).Returns(performanceRecord);
+            commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
+            cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
 
-        ////[Fact]
-        ////public async Task GetPerformanceRecordByIdAsync_PerformanceRecordIsNotExist_ReturnNull()
-        ////{
-        ////    // Arrange
-        ////    PerformanceRecord performanceRecord = null;
-        ////    var service = GetPerformanceRecordService();
-        ////    baseService.GetDataEntityAsync<PerformanceRecord>(Arg.Any<GetPerformanceRecordByIdCriteria>()).Returns(performanceRecord);
+            // Act
+            var actual = await service.GetPerformanceRecordByIdAsync(1, 1);
 
-        ////    // Act
-        ////    var actual = await service.GetPerformanceRecordByIdAsync(1, 1);
+            // Assert
+            Assert.Equal(performanceRecord, actual);
+            Assert.True(actual.Grade == performanceGrades.First());
 
-        ////    // Assert
-        ////    Assert.Null(actual);
-        ////}
+            Assert.Equal(1, criteria.PerformanceRecordId);
+            Assert.Equal(1, criteria.CreatorId);
+        }
 
-        ////[Fact]
-        ////public async Task GetPerformanceRecordByIdAsync_MappingData_ReturnAsExpectedPerformanceRecord()
-        ////{
-        ////    // Arrange
-        ////    var gradeId = "1";
-        ////    var performanceRecord = new PerformanceRecord
-        ////    {
-        ////        PerformanceRecordId = 1,
-        ////        EmployeeIds = "1",
-        ////        ProjectIds = "1",
-        ////        GradeId = "cipher text"
-        ////    };
-        ////    IEnumerable<Employee> employees = GetEmployeeForTest();
-        ////    IEnumerable<ProjectModel> projects = GetProjectForTest();
-        ////    IEnumerable<PerformanceGradeModel> performanceGrades = GetPerformanceGradeForTest();
-        ////    var expectedEmployees = employees.Where(x => x.EmployeeId == 1);
-        ////    var expectedProjects = projects.Where(x => x.ProjectId == 1);
-        ////    var service = GetPerformanceRecordService();
-        ////    baseService.GetDataEntityAsync<PerformanceRecord>(Arg.Any<GetPerformanceRecordByIdCriteria>()).Returns(performanceRecord);
-        ////    commonService.GetEmployeesAsync(isEnabled: null).Returns(employees);
-        ////    commonService.GetProjectsAsync().Returns(projects);
-        ////    commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
-        ////    cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
+        [Fact]
+        public async Task GetDraftPerformanceRecordByIdAsync_WhenCalled_ReturnAsExpectedPerformanceRecord()
+        {
+            // Arrange
+            var gradeId = "1";
+            var performanceRecord = new PerformanceRecord
+            {
+                PerformanceRecordId = 1,
+                Creator = new Employee
+                {
+                    EmployeeId = 1,
+                    NickName = "NickName1",
+                    FullName = "FullName1",
+                    Code = "Code1"
+                },
+                Employees = new List<Employee>
+                {
+                    new Employee
+                    {
+                        EmployeeId = 2,
+                        NickName = "NickName2",
+                        FullName = "FullName2",
+                        Code = "Code2"
+                    }
+                },
+                Comment = "Comment",
+                GradeId = "cipher text"
+            };
+            IEnumerable<PerformanceGrade> performanceGrades = Helpers.GetPerformanceGrades();
+            var criteria = new GetDraftPerformanceRecordByIdCriteria();
+            var service = GetPerformanceRecordService();
+            performanceRecordRepository.GetDraftPerformanceRecordByIdAsync(Arg.Do<GetDraftPerformanceRecordByIdCriteria>(x => criteria = x)).Returns(performanceRecord);
+            commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
+            cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
 
-        ////    // Act
-        ////    var actual = await service.GetPerformanceRecordByIdAsync(1, 1);
+            // Act
+            var actual = await service.GetDraftPerformanceRecordByIdAsync(1, 1);
 
-        ////    // Assert
-        ////    Assert.Equal(performanceRecord, actual);
-        ////    Assert.True(expectedEmployees.All(x => actual.Employees.Any(y => y == x)));
-        ////    Assert.True(expectedProjects.All(x => actual.Projects.Any(y => y == x)));
-        ////    Assert.True(actual.Grade == performanceGrades.First());
-        ////}
+            // Assert
+            Assert.Equal(performanceRecord, actual);
+            Assert.True(actual.Grade == performanceGrades.First());
 
-        ////#endregion GetPerformanceRecordByIdAsync
+            Assert.Equal(1, criteria.PerformanceRecordId);
+        }
 
-        ////#region GetPerformanceRecordByIdsAsync
+        [Fact]
+        public async Task GetPerformanceRecordByIdsAsync_WhenCalled_ReturnAsExpectedPerformanceRecords()
+        {
+            // Arrange
+            var gradeId = "1";
+            var performanceRecords = new List<PerformanceRecord>
+            {
+                new PerformanceRecord
+                {
+                    PerformanceRecordId = 1,
+                    Creator = new Employee
+                    {
+                        EmployeeId = 1,
+                        NickName = "NickName1",
+                        FullName = "FullName1",
+                        Code = "Code1"
+                    },
+                    Employees = new List<Employee>
+                    {
+                        new Employee
+                        {
+                            EmployeeId = 2,
+                            NickName = "NickName2",
+                            FullName = "FullName2",
+                            Code = "Code2"
+                        }
+                    },
+                    Comment = "Comment",
+                    GradeId = "cipher text"
+                }
+            };
+            IEnumerable<PerformanceGrade> performanceGrades = Helpers.GetPerformanceGrades();
+            var criteria = new GetPerformanceRecordByIdsCriteria();
+            var service = GetPerformanceRecordService();
+            performanceRecordRepository.GetPerformanceRecordByIdsAsync(Arg.Do<GetPerformanceRecordByIdsCriteria>(x => criteria = x)).Returns(performanceRecords);
+            commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
+            cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
 
-        ////[Fact]
-        ////public async Task GetPerformanceRecordByIdsAsync_PerformanceRecordsAreNotExist_ReturnEmpty()
-        ////{
-        ////    // Arrange
-        ////    var performanceRecords = new List<PerformanceRecord>();
-        ////    var service = GetPerformanceRecordService();
-        ////    baseService.GetDataAsync<PerformanceRecord>(Arg.Any<GetPerformanceRecordByIdsCriteria>()).Returns(performanceRecords);
+            // Act
+            var actual = await service.GetPerformanceRecordByIdsAsync("1", 1);
 
-        ////    // Act
-        ////    var actual = await service.GetPerformanceRecordByIdsAsync("1", 1);
+            // Assert
+            Assert.Equal(performanceRecords, actual);
+            Assert.True(actual.First().Grade == performanceGrades.First());
 
-        ////    // Assert
-        ////    Assert.Empty(actual);
-        ////}
-
-        ////[Fact]
-        ////public async Task GetPerformanceRecordByIdsAsync_MappingData_ReturnAsExpectedPerformanceRecords()
-        ////{
-        ////    // Arrange
-        ////    var gradeId = "1";
-        ////    var performanceRecords = new List<PerformanceRecord>
-        ////    {
-        ////        new PerformanceRecord
-        ////        {
-        ////            PerformanceRecordId = 1,
-        ////            EmployeeIds = "1",
-        ////            ProjectIds = "1",
-        ////            GradeId = "cipher text"
-        ////        }
-        ////    };
-        ////    IEnumerable<Employee> employees = GetEmployeeForTest();
-        ////    IEnumerable<ProjectModel> projects = GetProjectForTest();
-        ////    IEnumerable<PerformanceGradeModel> performanceGrades = GetPerformanceGradeForTest();
-        ////    var expectedEmployees = employees.Where(x => x.EmployeeId == 1);
-        ////    var expectedProjects = projects.Where(x => x.ProjectId == 1);
-        ////    var service = GetPerformanceRecordService();
-        ////    baseService.GetDataAsync<PerformanceRecord>(Arg.Any<GetPerformanceRecordByIdsCriteria>()).Returns(performanceRecords);
-        ////    commonService.GetEmployeesAsync(isEnabled: null).Returns(employees);
-        ////    commonService.GetProjectsAsync().Returns(projects);
-        ////    commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
-        ////    cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
-
-        ////    // Act
-        ////    var actual = await service.GetPerformanceRecordByIdsAsync("1", 1);
-
-        ////    // Assert
-        ////    Assert.Equal(performanceRecords, actual);
-        ////    Assert.True(expectedEmployees.All(x => actual.First().Employees.Any(y => y == x)));
-        ////    Assert.True(expectedProjects.All(x => actual.First().Projects.Any(y => y == x)));
-        ////    Assert.True(actual.First().Grade == performanceGrades.First());
-        ////}
-
-        #endregion GetPerformanceRecordByIdsAsync
+            Assert.Equal("1", criteria.PerformanceRecordIds);
+            Assert.Equal(1, criteria.CreatorId);
+        }
 
         #region CreatePerformanceRecordAsync
 
-        [Theory]
-        [InlineData(0)]
-        [InlineData(1)]
-        public async Task CreatePerformanceRecordAsync_StatusIsDraft_ReturnAsExpectedCommandResult(int resultCode)
+        [Fact]
+        public async Task CreatePerformanceRecordAsync_IsUnsuccessful_ReturnAsExpected()
         {
             // Arrange
-            var expected = new CommandResult
-            {
-                Code = resultCode
-            };
+            var expected = new CommandResult();
             var performanceRecord = new CreatePerformanceRecordDto
             {
                 EmployeeIds = "1",
-                CreatorId = 2,
-                StatusId = (int)PerformanceRecordStatus.Draft
+                CreatorId = 2
             };
+            var criteria = new CreatePerformanceRecordCriteria();
             var service = GetPerformanceRecordService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<CreatePerformanceRecordCriteria>()).Returns(expected);
+            baseService.ExecuteNonQueryAsync(Arg.Do<CreatePerformanceRecordCriteria>(x => criteria = x)).Returns(expected);
+            cryptoService.Encrypt(Arg.Any<string>()).Returns("cipher text");
 
             // Act
             var actual = await service.CreatePerformanceRecordAsync(performanceRecord);
 
             // Assert
             Assert.Equal(expected, actual);
+
+            Assert.Equal(performanceRecord.EmployeeIds, criteria.EmployeeIds);
+            Assert.Equal(performanceRecord.CreatorId, criteria.CreatorId);
+            Assert.Equal(performanceRecord.Comment, criteria.Comment);
+            Assert.Equal(performanceRecord.ProjectIds, criteria.ProjectIds);
+            Assert.Equal(performanceRecord.TypeId, criteria.TypeId);
+            Assert.Equal("cipher text", criteria.GradeId);
         }
 
         [Fact]
-        public async Task CreatePerformanceRecordAsync_IsSuccessfulAndStatusIsSubmited_ExpectedSendMailAndNotification()
+        public async Task CreatePerformanceRecordAsync_IsSuccessful_ReturnAsExpected()
         {
             // Arrange
             var expected = new CommandResult
@@ -430,8 +476,7 @@
             var performanceRecord = new CreatePerformanceRecordDto
             {
                 EmployeeIds = "1",
-                CreatorId = 2,
-                StatusId = (int)PerformanceRecordStatus.Submitted
+                CreatorId = 2
             };
             var service = GetPerformanceRecordService();
             baseService.ExecuteNonQueryAsync(Arg.Any<CreatePerformanceRecordCriteria>()).Returns(expected);
@@ -447,36 +492,72 @@
 
         #endregion CreatePerformanceRecordAsync
 
-        #region EditPerformanceRecordAsync
-
-        [Theory]
-        [InlineData(0)]
-        [InlineData(1)]
-        public async Task EditPerformanceRecordAsync_StatusIsDraft_ReturnAsExpectedCommandResult(int resultCode)
+        [Fact]
+        public async Task CreateDraftPerformanceRecordAsync_IsSuccessful_ReturnAsExpectedCommandResult()
         {
             // Arrange
             var expected = new CommandResult
             {
-                Code = resultCode
+                Code = 0
             };
+            var performanceRecord = new CreatePerformanceRecordDto
+            {
+                EmployeeIds = "1",
+                CreatorId = 2
+            };
+            var criteria = new CreateDraftPerformanceRecordCriteria();
+            var service = GetPerformanceRecordService();
+            baseService.ExecuteNonQueryAsync(Arg.Do<CreateDraftPerformanceRecordCriteria>(x => criteria = x)).Returns(expected);
+            cryptoService.Encrypt(Arg.Any<string>()).Returns("cipher text");
+
+            // Act
+            var actual = await service.CreateDraftPerformanceRecordAsync(performanceRecord);
+
+            // Assert
+            Assert.Equal(expected, actual);
+            Assert.Equal(performanceRecord.EmployeeIds, criteria.EmployeeIds);
+            Assert.Equal(performanceRecord.CreatorId, criteria.CreatorId);
+            Assert.Equal(performanceRecord.Comment, criteria.Comment);
+            Assert.Equal(performanceRecord.ProjectIds, criteria.ProjectIds);
+            Assert.Equal(performanceRecord.TypeId, criteria.TypeId);
+            Assert.Equal("cipher text", criteria.GradeId);
+        }
+
+        #region EditPerformanceRecordAsync
+
+        [Fact]
+        public async Task EditPerformanceRecordAsync_IsUnsuccessful_ReturnAsExpectedCommandResult()
+        {
+            // Arrange
+            var expected = new CommandResult();
             var performanceRecord = new EditPerformanceRecordDto
             {
                 PerformanceRecordId = 1,
                 EmployeeIds = "1",
                 CreatorId = 2
             };
+            var criteria = new EditPerformanceRecordCriteria();
             var service = GetPerformanceRecordService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<EditPerformanceRecordCriteria>()).Returns(expected);
+            baseService.ExecuteNonQueryAsync(Arg.Do<EditPerformanceRecordCriteria>(x => criteria = x)).Returns(expected);
+            cryptoService.Encrypt(Arg.Any<string>()).Returns("cipher text");
 
             // Act
             var actual = await service.EditPerformanceRecordAsync(performanceRecord);
 
             // Assert
             Assert.Equal(expected, actual);
+
+            Assert.Equal(performanceRecord.PerformanceRecordId, criteria.PerformanceRecordId);
+            Assert.Equal(performanceRecord.EmployeeIds, criteria.EmployeeIds);
+            Assert.Equal(performanceRecord.CreatorId, criteria.CreatorId);
+            Assert.Equal(performanceRecord.Comment, criteria.Comment);
+            Assert.Equal(performanceRecord.ProjectIds, criteria.ProjectIds);
+            Assert.Equal(performanceRecord.TypeId, criteria.TypeId);
+            Assert.Equal("cipher text", criteria.GradeId);
         }
 
         [Fact]
-        public async Task EditPerformanceRecordAsync_IsSuccessfulAndOriginalStatusIsDraftAndStatusIsSubmited_ExpectedSendMailAndNotification()
+        public async Task EditPerformanceRecordAsync_IsSuccessfulAndIsFromDraft_ExpectedSendMailAndNotification()
         {
             // Arrange
             var expected = new CommandResult
@@ -493,7 +574,6 @@
                 EmployeeIds = "1",
                 CreatorId = 2,
                 Comment = "aa",
-                StatusId = (int)PerformanceRecordStatus.Submitted,
                 IsFromDraft = true
             };
             var service = GetPerformanceRecordService();
@@ -510,7 +590,7 @@
         }
 
         [Fact]
-        public async Task EditPerformanceRecordAsync_IsSuccessfulAndOriginalStatusIsSubmitedAndStatusIsSubmited_ExpectedSendMailAndNotification()
+        public async Task EditPerformanceRecordAsync_IsSuccessfulAndIsSubmited_ExpectedSendMailAndNotification()
         {
             // Arrange
             var expected = new CommandResult
@@ -526,8 +606,7 @@
                 PerformanceRecordId = 1,
                 EmployeeIds = "1",
                 CreatorId = 2,
-                Comment = "aa",
-                StatusId = (int)PerformanceRecordStatus.Submitted
+                Comment = "aa"
             };
             var service = GetPerformanceRecordService();
             baseService.GetDataEntityAsync<PerformanceRecord>(Arg.Any<GetPerformanceRecordByIdCriteria>()).Returns(originalPerformanceRecord);
@@ -545,6 +624,37 @@
         #endregion EditPerformanceRecordAsync
 
         [Fact]
+        public async Task EditDraftPerformanceRecordAsync_WhenCalled_ReturnAsExpectedCommandResult()
+        {
+            // Arrange
+            var expected = new CommandResult();
+            var performanceRecord = new EditPerformanceRecordDto
+            {
+                PerformanceRecordId = 1,
+                EmployeeIds = "1",
+                CreatorId = 2
+            };
+            var criteria = new EditDraftPerformanceRecordCriteria();
+            var service = GetPerformanceRecordService();
+            baseService.ExecuteNonQueryAsync(Arg.Do<EditDraftPerformanceRecordCriteria>(x => criteria = x)).Returns(expected);
+            cryptoService.Encrypt(Arg.Any<string>()).Returns("cipher text");
+
+            // Act
+            var actual = await service.EditDraftPerformanceRecordAsync(performanceRecord);
+
+            // Assert
+            Assert.Equal(expected, actual);
+
+            Assert.Equal(performanceRecord.PerformanceRecordId, criteria.PerformanceRecordId);
+            Assert.Equal(performanceRecord.EmployeeIds, criteria.EmployeeIds);
+            Assert.Equal(performanceRecord.CreatorId, criteria.CreatorId);
+            Assert.Equal(performanceRecord.Comment, criteria.Comment);
+            Assert.Equal(performanceRecord.ProjectIds, criteria.ProjectIds);
+            Assert.Equal(performanceRecord.TypeId, criteria.TypeId);
+            Assert.Equal("cipher text", criteria.GradeId);
+        }
+
+        [Fact]
         public async Task DeletePerformanceRecordAsync_WhenCalled_ReturnAsExpectedCommandResult()
         {
             // Arrange
@@ -552,78 +662,27 @@
             {
                 Code = 0
             };
+            var criteria = new DeletePerformanceRecordCriteria();
             var service = GetPerformanceRecordService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<DeletePerformanceRecordCriteria>()).Returns(expected);
+            baseService.ExecuteNonQueryAsync(Arg.Do<DeletePerformanceRecordCriteria>(x => criteria = x)).Returns(expected);
 
             // Act
             var actual = await service.DeletePerformanceRecordAsync(1, 1);
 
             // Assert
             Assert.Equal(expected, actual);
+
+            Assert.Equal(1, criteria.PerformanceRecordId);
+            Assert.Equal(1, criteria.ActorId);
         }
 
         #region Helpers
 
-        private IEnumerable<Employee> GetEmployeeForTest()
-        {
-            var employees = new List<Employee>
-            {
-                new Employee { EmployeeId = 1, NickName = "Tim" },
-                new Employee { EmployeeId = 2, NickName = "Quinn" }
-            };
-
-            return employees;
-        }
-
-        private IEnumerable<ProjectModel> GetProjectForTest()
-        {
-            var projects = new List<ProjectModel>
-            {
-                new ProjectModel { ProjectId = 1, Name = "NexGoal" },
-                new ProjectModel { ProjectId = 2, Name = "HRM" }
-            };
-
-            return projects;
-        }
-
-        private IEnumerable<PerformanceGradeModel> GetPerformanceGradeForTest()
-        {
-            var performanceGrades = new List<PerformanceGradeModel>
-            {
-                new PerformanceGradeModel { GradeId = 1, Name = "EE" },
-                new PerformanceGradeModel { GradeId = 2, Name = "EE+" }
-            };
-
-            return performanceGrades;
-        }
-
-        private IEnumerable<PeriodBaseModel> GetPeriodForTest()
-        {
-            var periods = new List<PeriodBaseModel>
-            {
-                new PeriodBaseModel { PeriodId = 1, Name = "1h 2018" },
-                new PeriodBaseModel { PeriodId = 2, Name = "2h 2018" }
-            };
-
-            return periods;
-        }
-
-        private IEnumerable<NominationPeriodModel> GetNominationPeriodForTest()
-        {
-            var nominationPeriods = new List<NominationPeriodModel>
-            {
-                new NominationPeriodModel { NominationPeriodId = 1, Quarter = 1, Year = 2018 },
-                new NominationPeriodModel { NominationPeriodId = 2, Quarter = 2, Year = 2018 }
-            };
-
-            return nominationPeriods;
-        }
-
         private PerformanceRecordService GetPerformanceRecordService()
         {
-            baseService = Substitute.For<IBaseService>();
-            cryptoService = Substitute.For<ICryptoService>();
-            commonService = Substitute.For<ICommonService>();
+            baseService = Helpers.FakeBaseService();
+            cryptoService = Helpers.FakeCryptoService();
+            commonService = Helpers.FakeCommonService();
             notificationService = Substitute.For<INotificationPerformanceRecordService>();
             performanceRecordRepository = Substitute.For<IPerformanceRecordRepository>();
 

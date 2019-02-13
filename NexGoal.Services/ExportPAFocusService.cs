@@ -149,7 +149,7 @@
             return isReadyPromotion == "true" ? "Yes" : "No";
         }
 
-        private static string GetGrade(PerformanceGradeModel performanceGrade)
+        private static string GetGrade(PerformanceGrade performanceGrade)
         {
             return performanceGrade != null ? performanceGrade.Name : string.Empty;
         }

@@ -70,7 +70,7 @@
             };
 
             IEnumerable<PAFocusModel> pafocuses = await focusRepository.GetPAFocusAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
             foreach (PAFocusModel pafocus in pafocuses)
             {

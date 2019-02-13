@@ -314,10 +314,10 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<GeneratePACriteria>()).Returns(expected);
             cryptoService.Decrypt("1").Returns("1");
             cryptoService.Encrypt("1").Returns("1");
-            commonService.GetPerformanceGradeAsync().Returns(new List<PerformanceGradeModel>
+            commonService.GetPerformanceGradeAsync().Returns(new List<PerformanceGrade>
             {
-                new PerformanceGradeModel { GradeId = 1 },
-                new PerformanceGradeModel { GradeId = 2 }
+                new PerformanceGrade { GradeId = 1 },
+                new PerformanceGrade { GradeId = 2 }
             });
             baseService.GetDataAsync<PARecordModel>(Arg.Any<GetPARecordsToUpdateGradeCriteria>()).Returns(paRecords);
             baseService.ExecuteNonQueryAsync(Arg.Any<EditPARecordGradeCriteria>()).Returns(expected);

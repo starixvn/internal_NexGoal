@@ -1,13 +1,26 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
+    using System.Collections.Generic;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Options;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Models;
     using NSubstitute;
 
     public static class Helpers
     {
+        public static IEnumerable<PerformanceGrade> GetPerformanceGrades()
+        {
+            var performanceGrades = new List<PerformanceGrade>
+            {
+                new PerformanceGrade { GradeId = 1, Name = "EE" },
+                new PerformanceGrade { GradeId = 2, Name = "EE+" }
+            };
+
+            return performanceGrades;
+        }
+
         public static IBaseService FakeBaseService() => Substitute.For<IBaseService>();
 
         public static IBaseMailService FakeBaseMailService() => Substitute.For<IBaseMailService>();

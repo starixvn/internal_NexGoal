@@ -18,10 +18,10 @@
 
         public PARecordModel PARecord { get; set; }
 
-        public IEnumerable<PerformanceGradeModel> AllGrades { get; set; }
+        public IEnumerable<PerformanceGrade> AllGrades { get; set; }
 
         public string PreviousGradeId { get; set; }
 
-        public PerformanceGradeModel PreviousGrade { get; set; }
+        public PerformanceGrade PreviousGrade { get; set; }
     }
 }

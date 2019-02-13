@@ -59,7 +59,7 @@
             {
                 PARecordId = 1,
                 Employee = new Employee { EmployeeId = 1, NickName = "tim" },
-                Grade = new PerformanceGradeModel { GradeId = 1, Name = "E" }
+                Grade = new PerformanceGrade { GradeId = 1, Name = "E" }
             };
             var controller = GetPAController();
             paRecordService.GetPermissionOnPerformanceAppraisalAsync(1, sessionService.EmployeeId).Returns(Policy.Read);

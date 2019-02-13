@@ -254,7 +254,8 @@
                 new PerformanceRecord
                 {
                     PerformanceRecordId = 1,
-                    Creator = new Employee{
+                    Creator = new Employee
+                    {
                         EmployeeId = 1,
                         NickName = "NickName1",
                         FullName = "FullName1",

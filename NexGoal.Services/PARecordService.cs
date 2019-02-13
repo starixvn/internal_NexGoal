@@ -60,7 +60,7 @@
             };
 
             IEnumerable<PerformanceAppraisalResult> performanceAppraisals = await paRepository.GetPerformanceAppraisalResultAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
             foreach (PerformanceAppraisalResult performanceAppraisal in performanceAppraisals)
             {
@@ -85,7 +85,7 @@
             };
 
             IEnumerable<PerformanceAppraisalResult> performanceAppraisals = await paRepository.GetMemberPerformanceAppraisalResultAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
             foreach (PerformanceAppraisalResult performanceAppraisal in performanceAppraisals)
             {
@@ -108,7 +108,7 @@
 
             if (performanceAppraisal != null)
             {
-                IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+                IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
                 MappingData(performanceAppraisal, performanceGrades);
             }
 
@@ -136,7 +136,7 @@
                 GroupIds = param.GroupIds
             };
             IEnumerable<PARecordModel> performanceAppraisals = await paRepository.GetPARecordByReviewerAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
             foreach (PARecordModel performanceAppraisal in performanceAppraisals)
             {
@@ -172,7 +172,7 @@
 
         private void MappingData(
             PARecordModel performanceAppraisal,
-            IEnumerable<PerformanceGradeModel> performanceGrades)
+            IEnumerable<PerformanceGrade> performanceGrades)
         {
             int gradeId;
             foreach (PAProcessModel process in performanceAppraisal.Processes)

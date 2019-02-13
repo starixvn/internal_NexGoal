@@ -1,6 +1,6 @@
 ﻿namespace NexGoal.Models
 {
-    public class PerformanceGradeModel
+    public class PerformanceGrade
     {
         public int GradeId { get; set; }
         public string Name { get; set; }

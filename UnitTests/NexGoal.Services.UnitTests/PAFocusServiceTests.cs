@@ -6,7 +6,6 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PAFocus;
-    using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.PAFocus;
     using NexGoal.Repositories;
@@ -83,10 +82,7 @@
             {
                 new PAFocusModel { PAFocusId = 1, Employee = new Employee { EmployeeId = 1 } }
             };
-            var performanceGrades = new List<PerformanceGradeModel>
-            {
-                new PerformanceGradeModel { GradeId = 1, Name = "E+" }
-            };
+            var performanceGrades = Helpers.GetPerformanceGrades();
             var service = GetPAFocusService();
             focusRepository.GetPAFocusAsync(Arg.Any<GetPAFocusCriteria>()).Returns(focuses);
             commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
@@ -97,7 +93,7 @@
 
             // Assert
             Assert.Single(actual);
-            Assert.Equal(performanceGrades[0], actual.First().Grade);
+            Assert.Equal(performanceGrades.First(), actual.First().Grade);
             Assert.Equal(plainText, actual.First().IsReadyPromotion);
             Assert.Equal(plainText, actual.First().Contribution);
             Assert.Equal(plainText, actual.First().BonusGiven);
@@ -130,9 +126,9 @@
 
         private PAFocusService GetPAFocusService()
         {
-            baseService = Substitute.For<IBaseService>();
-            cryptoService = Substitute.For<ICryptoService>();
-            commonService = Substitute.For<ICommonService>();
+            baseService = Helpers.FakeBaseService();
+            cryptoService = Helpers.FakeCryptoService();
+            commonService = Helpers.FakeCommonService();
             focusRepository = Substitute.For<IPAFocusRepository>();
             var service = new PAFocusService(baseService, cryptoService, commonService, focusRepository);
 

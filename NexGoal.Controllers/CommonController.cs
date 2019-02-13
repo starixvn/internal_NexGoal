@@ -93,7 +93,7 @@
         [HttpGet]
         public async Task<JsonResult> GetPerformanceGrades()
         {
-            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
             return Json(performanceGrades);
         }

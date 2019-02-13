@@ -42,7 +42,7 @@
                 EmployeeId = employeeId
             };
             IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetPerformanceRecordByEmployeeAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
             foreach (PerformanceRecord performanceRecord in performanceRecords)
             {
@@ -61,7 +61,7 @@
                 PageSize = param.PageSize
             };
             IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetPerformanceTimelineAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
             foreach (PerformanceRecord performanceRecord in performanceRecords)
             {
@@ -78,7 +78,7 @@
                 ActorId = actorId
             };
             IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetMemberPerformanceAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
             foreach (PerformanceRecord performanceRecord in performanceRecords)
             {
@@ -96,7 +96,7 @@
                 EmployeeId = employeeId
             };
             IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetMemberPerformanceDetailAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
             foreach (PerformanceRecord performanceRecord in performanceRecords)
             {
@@ -119,7 +119,7 @@
 
             Tuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>> tuple =
                 await performanceRecordRepository.GetMemberPerformanceTimelineAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
             foreach (PerformanceRecord performanceRecord in tuple.Item2)
             {
@@ -143,7 +143,7 @@
             };
 
             PerformanceRecord performanceRecord = await performanceRecordRepository.GetPerformanceRecordByIdAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
             MappingDataForPerformanceRecord(performanceRecord, performanceGrades, creatorId);
 
             return performanceRecord;
@@ -157,7 +157,7 @@
             };
 
             PerformanceRecord performanceRecord = await performanceRecordRepository.GetDraftPerformanceRecordByIdAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
             MappingDataForPerformanceRecord(performanceRecord, performanceGrades, creatorId);
 
             return performanceRecord;
@@ -172,7 +172,7 @@
             };
 
             IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetPerformanceRecordByIdsAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
             foreach (PerformanceRecord performanceRecord in performanceRecords)
             {
@@ -272,6 +272,7 @@
             };
 
             CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+
             return commandResult;
         }
 
@@ -286,7 +287,7 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        private void MappingDataForPerformanceRecord(PerformanceRecord performanceRecord, IEnumerable<PerformanceGradeModel> performanceGrades, int actorId)
+        private void MappingDataForPerformanceRecord(PerformanceRecord performanceRecord, IEnumerable<PerformanceGrade> performanceGrades, int actorId)
         {
             performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
             int.TryParse(performanceRecord.GradeId, out int gradeId);

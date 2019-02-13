@@ -151,7 +151,7 @@
             }
         }
 
-        private static string GradeAjustmentIcon(PerformanceGradeModel originalGrade, PerformanceGradeModel currentGrade)
+        private static string GradeAjustmentIcon(PerformanceGrade originalGrade, PerformanceGrade currentGrade)
         {
             int originalGradeValue = originalGrade != null ? originalGrade.GradeId : 0;
             int currentGradeValue = currentGrade != null ? currentGrade.GradeId : 0;
@@ -187,8 +187,8 @@
         }
 
         private static void SetStylePAGrade(ExcelRichText gradeIconRichText,
-            PerformanceGradeModel originalGrade,
-            PerformanceGradeModel currentGrade)
+            PerformanceGrade originalGrade,
+            PerformanceGrade currentGrade)
         {
             int originalGradeValue = originalGrade != null ? originalGrade.GradeId : 0;
             int currentGradeValue = currentGrade != null ? currentGrade.GradeId : 0;

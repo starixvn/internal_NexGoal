@@ -82,7 +82,7 @@
             {
                 new PerformanceAppraisalResult { PARecordId = 1, GradeId = "cipher text", Period = new PeriodBaseModel { PeriodId = 1, Name = "2h 2018" } }
             };
-            IEnumerable<PerformanceGradeModel> performanceGrades = GetPerformanceGradeForTest();
+            IEnumerable<PerformanceGrade> performanceGrades = Helpers.GetPerformanceGrades();
             var service = GetPARecordService();
             paRepository.GetPerformanceAppraisalResultAsync(Arg.Any<GetPerformanceAppraisalResult>()).Returns(performanceAppraisals);
             commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
@@ -123,7 +123,7 @@
             {
                 new PerformanceAppraisalResult { PARecordId = 1, GradeId = "cipher text", Period = new PeriodBaseModel { PeriodId = 1, Name = "2h 2018" } }
             };
-            IEnumerable<PerformanceGradeModel> performanceGrades = GetPerformanceGradeForTest();
+            IEnumerable<PerformanceGrade> performanceGrades = Helpers.GetPerformanceGrades();
             var service = GetPARecordService();
             paRepository.GetMemberPerformanceAppraisalResultAsync(Arg.Any<GetMemberPerformanceAppraisalResult>()).Returns(performanceAppraisals);
             commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
@@ -198,23 +198,12 @@
 
         #region Helpers
 
-        private IEnumerable<PerformanceGradeModel> GetPerformanceGradeForTest()
-        {
-            var performanceGrades = new List<PerformanceGradeModel>
-            {
-                new PerformanceGradeModel { GradeId = 1, Name = "EE" },
-                new PerformanceGradeModel { GradeId = 2, Name = "EE+" }
-            };
-
-            return performanceGrades;
-        }
-
         private PARecordService GetPARecordService()
         {
             paRepository = Substitute.For<IPARepository>();
-            baseService = Substitute.For<IBaseService>();
-            cryptoService = Substitute.For<ICryptoService>();
-            commonService = Substitute.For<ICommonService>();
+            baseService = Helpers.FakeBaseService();
+            cryptoService = Helpers.FakeCryptoService();
+            commonService = Helpers.FakeCommonService();
 
             var service = new PARecordService(paRepository, baseService, cryptoService, commonService);
 

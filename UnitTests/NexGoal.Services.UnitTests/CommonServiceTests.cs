@@ -169,7 +169,7 @@ namespace NexGoal.Services.UnitTests
             var actual = await service.GetPerformanceGradeAsync();
 
             // Assert
-            Assert.IsAssignableFrom<IEnumerable<PerformanceGradeModel>>(actual);
+            Assert.IsAssignableFrom<IEnumerable<PerformanceGrade>>(actual);
             Assert.Equal(referenceResources.Count, actual.Count());
         }
 
@@ -224,7 +224,7 @@ namespace NexGoal.Services.UnitTests
 
         private CommonService GetCommonService()
         {
-            baseService = Substitute.For<IBaseService>();
+            baseService = Helpers.FakeBaseService();
             memoryCache = Substitute.For<IMemoryCache>();
             var service = new CommonService(baseService, memoryCache);
 

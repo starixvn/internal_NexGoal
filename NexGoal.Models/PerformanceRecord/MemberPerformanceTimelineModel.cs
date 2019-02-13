@@ -12,6 +12,6 @@
 
         [JsonIgnore]
         public string GradeId { get; set; }
-        public PerformanceGradeModel Grade { get; set; }
+        public PerformanceGrade Grade { get; set; }
     }
 }

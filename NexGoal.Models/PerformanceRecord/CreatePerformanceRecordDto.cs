@@ -13,7 +13,6 @@
         public string Comment { get; set; }
 
         public string ProjectIds { get; set; }
-        public int StatusId { get; set; }
         public int TypeId { get; set; }
     }
 }

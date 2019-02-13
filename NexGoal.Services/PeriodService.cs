@@ -254,7 +254,7 @@
                 PARecordIds = paRecordIds
             };
             var records = await baseService.GetDataAsync<PARecordModel>(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGradeModel> grades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceGrade> grades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
             foreach (PARecordModel record in records)
             {

@@ -37,16 +37,19 @@ export default class Table extends Component {
 
     render() {
         let period = this.props.period,
-            focusStartDate = period && period.focusStartDate ? moment(period.focusStartDate).format(DateFormat) : null,
-            focusEndDate = period && period.focusEndDate ? moment(period.focusEndDate).format(DateFormat) : null;
+            focusStartDate = period && period.focusStartDate ? moment(period.focusStartDate).format(DateFormat) : '',
+            focusEndDate = period && period.focusEndDate ? moment(period.focusEndDate).format(DateFormat) : '';
         let pafocuses = this.props.data;
 
         return (
             <table className="table table-bordered table-striped pa-focus-table">
                 <thead>
-                    <tr className="title">
-                        <td colSpan="12">Duration: {`${focusStartDate} - ${focusEndDate}`}</td>
-                    </tr>
+                    {
+                        focusStartDate && focusEndDate &&
+                        <tr className="title">
+                            <td colSpan="12">Duration: {`${focusStartDate} - ${focusEndDate}`}</td>
+                        </tr>
+                    }
                     <tr>
                         <th className="width-40">{getResource('SymbolCount')}</th>
                         <th className="width-90">{getResource('NickName')}</th>

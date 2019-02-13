@@ -18,14 +18,14 @@
         public string Status { get; set; }
 
         public string GradeId { get; set; }
-        public PerformanceGradeModel Grade { get; set; }
+        public PerformanceGrade Grade { get; set; }
 
         public string Comment { get; set; }
 
         public int ToeicPolicy { get; set; }
 
         public string OriginalGradeId { get; set; }
-        public PerformanceGradeModel OriginalGrade { get; set; }
+        public PerformanceGrade OriginalGrade { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
 

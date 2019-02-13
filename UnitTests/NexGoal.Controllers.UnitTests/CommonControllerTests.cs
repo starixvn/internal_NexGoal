@@ -178,9 +178,9 @@
         public async Task GetPerformanceGrades_WhenCalled_ReturnAsExpectedPerformanceGrades()
         {
             // Arrange
-            var performanceGrades = new List<PerformanceGradeModel>
+            var performanceGrades = new List<PerformanceGrade>
             {
-                new PerformanceGradeModel { GradeId = 1, Name = "Unsatisfactory" }
+                new PerformanceGrade { GradeId = 1, Name = "Unsatisfactory" }
             };
             var controller = GetCommonController();
             commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
@@ -190,7 +190,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
-            var result = Assert.IsAssignableFrom<IEnumerable<PerformanceGradeModel>>(jsonResult.Value);
+            var result = Assert.IsAssignableFrom<IEnumerable<PerformanceGrade>>(jsonResult.Value);
             Assert.Equal(performanceGrades, result);
         }
 

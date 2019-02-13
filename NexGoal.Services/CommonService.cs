@@ -93,14 +93,14 @@
             return projects.OrderBy(x => x.Name);
         }
 
-        public async Task<IEnumerable<PerformanceGradeModel>> GetPerformanceGradeAsync()
+        public async Task<IEnumerable<PerformanceGrade>> GetPerformanceGradeAsync()
         {
-            memoryCache.TryGetValue(CacheKeys.PerformanceGrades, out IList<PerformanceGradeModel> performanceGrades);
+            memoryCache.TryGetValue(CacheKeys.PerformanceGrades, out IList<PerformanceGrade> performanceGrades);
             if (performanceGrades == null)
             {
                 string[] refNames = { ReferenceResource.PerformanceGrade };
                 IEnumerable<ReferenceResourceModel> referenceResources = await GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
-                performanceGrades = referenceResources.Select(x => new PerformanceGradeModel
+                performanceGrades = referenceResources.Select(x => new PerformanceGrade
                 {
                     GradeId = x.ResourceId,
                     Name = x.Value,
