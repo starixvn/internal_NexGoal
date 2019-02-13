@@ -2,6 +2,7 @@
 import ReactDOM from 'react-dom';
 import { Tabs, Tab } from 'react-bootstrap';
 
+import getResource from '../../resourceHelper';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import { resolveClientUrl } from '../../common-functions';
@@ -37,10 +38,11 @@ export default class EditPeriod extends Component {
         return (
             <div className="row">
                 <Breadcrumb>
-                    <li className="current">Edit Evaluation Period</li>
+                    <li><a href={resolveClientUrl('period')}>{getResource('EvaluationPeriod')}</a></li>
+                    <li className="current">{getResource('EditEvaluationPeriod')}</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    <a href={resolveClientUrl('period')} className="btn btn-cancel"><i className="fa fa-angle-left" />Back to list</a>
+
                     <Tabs id="tabs" activeKey={this.state.activeKey} onSelect={this.handleSelect}>
                         <Tab eventKey={1} title="Basic Information">
                             <EditBasicInformation periodId={this.state.periodId} />

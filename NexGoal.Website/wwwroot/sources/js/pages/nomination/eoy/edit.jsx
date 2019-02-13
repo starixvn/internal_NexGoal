@@ -36,7 +36,8 @@ export default class App extends Component {
             <ToastLayout>
                 <div className="row">
                     <Breadcrumb>
-                        <li className="current">{getResource('NominationPeriod')}</li>
+                        <li><a href={resolveClientUrl('period')}>{getResource('NominationPeriod')}</a></li>
+                        <li className="current">{getResource('EditNominationPeriod')}</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
                         <a className="btn btn-cancel" onClick={this.handleBackClick}>
