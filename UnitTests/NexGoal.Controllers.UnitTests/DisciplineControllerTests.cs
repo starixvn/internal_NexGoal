@@ -23,7 +23,7 @@
         {
             // Arrange
             var controller = GetDisciplineController();
-            sessionService.HasPermissionOnFunction(FunctionKey.DisciplineManagement, Policy.Host).Returns(true);
+            sessionService.HasPermissionOnFunction(FunctionKey.Discipline, Policy.Host).Returns(true);
 
             // Act
             var result = controller.Index();

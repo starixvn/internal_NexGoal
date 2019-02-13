@@ -13,6 +13,7 @@
     using NexGoal.Web.Core.Filters;
     using NexGoal.Web.Core.Services;
 
+    [NexGoalPermission(FunctionKey = FunctionKey.NominationPeriod, Policy = Policy.Read)]
     public class EOQController : Controller
     {
         private readonly ISessionService sessionService;
@@ -26,7 +27,6 @@
             this.eoqService = eoqService;
         }
 
-        [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]
         public async Task<JsonResult> GetAll(int? year = null, int? statusId = null)
         {
             IEnumerable<EOQYModel> eoqs = await eoqService.GetAllAsync(year, statusId).ConfigureAwait(false);
@@ -34,7 +34,6 @@
             return Json(eoqs);
         }
 
-        [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]
         public async Task<JsonResult> GetYears()
         {
             IEnumerable<int> years = await eoqService.GetYearsAsync().ConfigureAwait(false);
@@ -43,7 +42,7 @@
         }
 
         [HttpPost]
-        [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
+        [NexGoalPermission(FunctionKey = FunctionKey.NominationPeriod, Policy = Policy.Host)]
         public async Task<JsonResult> Create(CreateEOQModel eoq)
         {
             if (ModelState.IsValid)
@@ -57,7 +56,7 @@
             return Json(new { isSuccessful = false, errors });
         }
 
-        [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
+        [NexGoalPermission(FunctionKey = FunctionKey.NominationPeriod, Policy = Policy.Host)]
         public async Task<IActionResult> Edit(int id)
         {
             EOQYModel eoq = await eoqService.GetByIdAsync(id).ConfigureAwait(false);
@@ -67,14 +66,14 @@
                 return RedirectToAction("PageNotFound", "Error");
             }
 
-            bool isHost = sessionService.HasPermissionOnFunction(FunctionKey.NominationManagement, Policy.Host);
+            bool isHost = sessionService.HasPermissionOnFunction(FunctionKey.NominationPeriod, Policy.Host);
             ViewData["IsHost"] = isHost && eoq.Year >= DateTime.Now.Year;
 
             return View(id);
         }
 
         [HttpPost]
-        [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
+        [NexGoalPermission(FunctionKey = FunctionKey.NominationPeriod, Policy = Policy.Host)]
         public async Task<JsonResult> Edit(EditEOQModel eoq)
         {
             if (ModelState.IsValid)
@@ -88,7 +87,6 @@
             return Json(new { isSuccessful = false, errors });
         }
 
-        [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]
         public async Task<IActionResult> Details(int id)
         {
             EOQYModel eoq = await eoqService.GetByIdAsync(id).ConfigureAwait(false);
@@ -101,7 +99,6 @@
             return View(id);
         }
 
-        [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]
         public async Task<JsonResult> GetById(int id)
         {
             EOQYModel eoq = await eoqService.GetByIdAsync(id).ConfigureAwait(false);

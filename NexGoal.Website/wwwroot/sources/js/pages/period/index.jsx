@@ -66,7 +66,7 @@ export default class EvaluationPeriod extends Component {
         return (
             <div className="row">
                 <Breadcrumb>
-                    <li className="current">{getResource('EvaluationPeriodManagement')}</li>
+                    <li className="current">{getResource('EvaluationPeriod')}</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
                     <SearchForm isActive={this.state.isActive}

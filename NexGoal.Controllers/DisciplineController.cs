@@ -13,7 +13,7 @@
     using NexGoal.Web.Core.Filters;
     using NexGoal.Web.Core.Services;
 
-    [NexGoalPermission(FunctionKey = FunctionKey.DisciplineManagement, Policy = Policy.Read)]
+    [NexGoalPermission(FunctionKey = FunctionKey.Discipline, Policy = Policy.Read)]
     public class DisciplineController : Controller
     {
         private readonly IDisciplineService disciplineService;
@@ -30,7 +30,7 @@
         [HttpGet]
         public IActionResult Index()
         {
-            return View(sessionService.HasPermissionOnFunction(FunctionKey.DisciplineManagement, Policy.Host));
+            return View(sessionService.HasPermissionOnFunction(FunctionKey.Discipline, Policy.Host));
         }
 
         [HttpGet]
@@ -42,7 +42,7 @@
         }
 
         [HttpPost]
-        [NexGoalPermission(FunctionKey = FunctionKey.DisciplineManagement, Policy = Policy.Host)]
+        [NexGoalPermission(FunctionKey = FunctionKey.Discipline, Policy = Policy.Host)]
         public async Task<JsonResult> EditStatus(int disciplineId, bool isActive)
         {
             CommandResult commandResult = await disciplineService.EditStatusAsync(disciplineId, isActive, sessionService.EmployeeId).ConfigureAwait(false);
@@ -51,7 +51,7 @@
         }
 
         [HttpPost]
-        [NexGoalPermission(FunctionKey = FunctionKey.DisciplineManagement, Policy = Policy.Host)]
+        [NexGoalPermission(FunctionKey = FunctionKey.Discipline, Policy = Policy.Host)]
         public async Task<JsonResult> Create(AddDisciplineViewModel model)
         {
             if (ModelState.IsValid)
@@ -72,7 +72,7 @@
         }
 
         [HttpPost]
-        [NexGoalPermission(FunctionKey = FunctionKey.DisciplineManagement, Policy = Policy.Host)]
+        [NexGoalPermission(FunctionKey = FunctionKey.Discipline, Policy = Policy.Host)]
         public async Task<JsonResult> Edit(EditDisciplineViewModel model)
         {
             if (ModelState.IsValid)

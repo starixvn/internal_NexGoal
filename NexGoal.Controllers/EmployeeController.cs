@@ -12,7 +12,7 @@
     using NexGoal.Web.Core.Filters;
     using NexGoal.Web.Core.Services;
 
-    [NexGoalPermission(FunctionKey = FunctionKey.EmployeeManagement, Policy = Policy.Read)]
+    [NexGoalPermission(FunctionKey = FunctionKey.RoleAssignment, Policy = Policy.Read)]
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService employeeService;
@@ -28,7 +28,7 @@
 
         public IActionResult Index()
         {
-            bool isHost = sessionService.HasPermissionOnFunction(FunctionKey.EmployeeManagement, Policy.Host);
+            bool isHost = sessionService.HasPermissionOnFunction(FunctionKey.RoleAssignment, Policy.Host);
 
             return View(isHost);
         }
@@ -55,7 +55,7 @@
         }
 
         [HttpPost]
-        [NexGoalPermission(FunctionKey = FunctionKey.EmployeeManagement, Policy = Policy.Host)]
+        [NexGoalPermission(FunctionKey = FunctionKey.RoleAssignment, Policy = Policy.Host)]
         public async Task<JsonResult> EditEmployeeRoles(EditEmployeeRolesModel model)
         {
             model.ModifiedBy = sessionService.EmployeeId;

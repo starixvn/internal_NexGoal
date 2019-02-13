@@ -14,6 +14,7 @@
     using NexGoal.Web.Core.Filters;
     using NexGoal.Web.Core.Services;
 
+    [NexGoalPermission(FunctionKey = FunctionKey.NominationPeriod, Policy = Policy.Read)]
     public class NominationPeriodController : Controller
     {
         private readonly ISessionService sessionService;
@@ -33,10 +34,9 @@
             this.nominationPeriodService = nominationPeriodService;
         }
 
-        [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]
         public IActionResult Index(NavTabs tab = NavTabs.EOQ)
         {
-            bool isHost = sessionService.HasPermissionOnFunction(FunctionKey.NominationManagement, Policy.Host);
+            bool isHost = sessionService.HasPermissionOnFunction(FunctionKey.NominationPeriod, Policy.Host);
             var viewModel = new NominationManagementViewModel
             {
                 IsHost = isHost,
@@ -47,7 +47,7 @@
         }
 
         [HttpDelete]
-        [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
+        [NexGoalPermission(FunctionKey = FunctionKey.NominationPeriod, Policy = Policy.Host)]
         public async Task<JsonResult> Delete(int id)
         {
             CommandResult commandResult = await nominationPeriodService.DeleteAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
@@ -55,7 +55,6 @@
             return Json(commandResult);
         }
 
-        [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]
         public async Task<JsonResult> GetRoleSetting(GetRoleSettingParam param)
         {
             IEnumerable<RoleSettingModel> nominators = await nominationPeriodService.GetRoleSettingAsync(param).ConfigureAwait(false);
@@ -73,7 +72,7 @@
         }
 
         [HttpPost]
-        [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
+        [NexGoalPermission(FunctionKey = FunctionKey.NominationPeriod, Policy = Policy.Host)]
         public async Task<JsonResult> EditRoleSetting(EditRoleSettingModel setting)
         {
             CommandResult commandResult = await nominationPeriodService.EditRoleSettingAsync(setting, sessionService.EmployeeId).ConfigureAwait(false);

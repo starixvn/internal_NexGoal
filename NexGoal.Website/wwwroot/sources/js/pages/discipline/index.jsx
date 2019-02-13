@@ -14,7 +14,7 @@ import Table from './Table';
 import Create from './Create';
 import Edit from './Edit';
 
-export default class DisciplineManagement extends Component {
+export default class Discipline extends Component {
     constructor(props) {
         super(props);
 
@@ -182,7 +182,7 @@ export default class DisciplineManagement extends Component {
             <div className="row">
                 <ToastLayout />
                 <Breadcrumb>
-                    <li className="current">{getResource('DisciplineManagement')}</li>
+                    <li className="current">{getResource('Discipline')}</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
                     <SearchForm
@@ -224,4 +224,4 @@ export default class DisciplineManagement extends Component {
     }
 }
 
-ReactDOM.render(<DisciplineManagement />, document.getElementById("discipline-wrapper"));
+ReactDOM.render(<Discipline />, document.getElementById("discipline-wrapper"));

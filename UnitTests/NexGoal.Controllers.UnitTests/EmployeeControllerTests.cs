@@ -22,7 +22,7 @@
         public void Index_WhenCalled_ReturnExpectedViewResult()
         {
             var controller = GetEmployeeController();
-            sessionService.HasPermissionOnFunction(FunctionKey.EmployeeManagement, Policy.Host).Returns(true);
+            sessionService.HasPermissionOnFunction(FunctionKey.RoleAssignment, Policy.Host).Returns(true);
 
             var result = controller.Index();
 

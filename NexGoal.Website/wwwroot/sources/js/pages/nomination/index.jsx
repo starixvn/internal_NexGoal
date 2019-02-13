@@ -31,7 +31,7 @@ export default class App extends Component {
             <ToastLayout>
                 <div className="row">
                     <Breadcrumb>
-                        <li className="current">{getResource('NominationPeriods')}</li>
+                        <li className="current">{getResource('NominationPeriod')}</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
                         <Tabs id="tabs-nomination"

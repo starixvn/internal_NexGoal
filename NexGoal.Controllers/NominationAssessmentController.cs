@@ -11,7 +11,7 @@
     using NexGoal.Web.Core.Filters;
     using NexGoal.Web.Core.Services;
 
-    [NexGoalPermission(FunctionKey = FunctionKey.EmployeeNomination, Policy = Policy.Read)]
+    [NexGoalPermission(FunctionKey = FunctionKey.NominationSelection, Policy = Policy.Read)]
     public class NominationAssessmentController : Controller
     {
         private readonly ISessionService sessionService;

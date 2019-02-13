@@ -70,11 +70,11 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discipline Management.
+        ///   Looks up a localized string similar to Discipline.
         /// </summary>
-        public static string DisciplineManagement {
+        public static string Discipline {
             get {
-                return ResourceManager.GetString("DisciplineManagement", resourceCulture);
+                return ResourceManager.GetString("Discipline", resourceCulture);
             }
         }
         
@@ -178,11 +178,11 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nomination Periods.
+        ///   Looks up a localized string similar to Nomination Period.
         /// </summary>
-        public static string NominationPeriods {
+        public static string NominationPeriod {
             get {
-                return ResourceManager.GetString("NominationPeriods", resourceCulture);
+                return ResourceManager.GetString("NominationPeriod", resourceCulture);
             }
         }
         

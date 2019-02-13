@@ -14,6 +14,7 @@
     using NexGoal.Web.Core.Filters;
     using NexGoal.Web.Core.Services;
 
+    [NexGoalPermission(FunctionKey = FunctionKey.RolePermission, Policy = Policy.Read)]
     public class RoleController : Controller
     {
         private readonly ISessionService sessionService;
@@ -30,13 +31,11 @@
             this.functionService = functionService;
         }
 
-        [NexGoalPermission(FunctionKey = FunctionKey.RoleManagement, Policy = Policy.Read)]
         public IActionResult Index()
         {
             return View();
         }
 
-        [NexGoalPermission(FunctionKey = FunctionKey.RoleManagement, Policy = Policy.Read)]
         public async Task<JsonResult> AssignPermission(int? roleId = null)
         {
             string[] refNames = { ReferenceResource.SystemRole };
@@ -51,13 +50,13 @@
 
             IEnumerable<FunctionModel> roleFunctions = await functionService.GetFunctionByRoleIdAsync(viewModel.RoleId).ConfigureAwait(false);
             MappingPermissionToFunctions(viewModel.Functions, roleFunctions);
-            viewModel.IsHost = sessionService.HasPermissionOnFunction(FunctionKey.RoleManagement, Policy.Host) && viewModel.RoleId != (int)SystemRole.SystemAdmin;
+            viewModel.IsHost = sessionService.HasPermissionOnFunction(FunctionKey.RolePermission, Policy.Host) && viewModel.RoleId != (int)SystemRole.SystemAdmin;
 
             return Json(viewModel);
         }
 
         [HttpPost]
-        [NexGoalPermission(FunctionKey = FunctionKey.RoleManagement, Policy = Policy.Host)]
+        [NexGoalPermission(FunctionKey = FunctionKey.RolePermission, Policy = Policy.Host)]
         public async Task<JsonResult> AssignPermission(int roleId, IEnumerable<RolePermissionModel> permissions)
         {
             CommandResult commandResult = await functionService.AssignFunctionToRoleAsync(sessionService.EmployeeId, roleId, permissions).ConfigureAwait(false);

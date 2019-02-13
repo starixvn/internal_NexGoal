@@ -120,8 +120,8 @@
   <data name="MyPage" xml:space="preserve">
     <value>My Page</value>
   </data>
-  <data name="DisciplineManagement" xml:space="preserve">
-    <value>Discipline Management</value>
+  <data name="Discipline" xml:space="preserve">
+    <value>Discipline</value>
   </data>
   <data name="EvaluationPeriod" xml:space="preserve">
     <value>Evaluation Period</value>
@@ -132,8 +132,8 @@
   <data name="EndDateForNominator" xml:space="preserve">
     <value>End Date For Nominator</value>
   </data>
-  <data name="NominationPeriods" xml:space="preserve">
-    <value>Nomination Periods</value>
+  <data name="NominationPeriod" xml:space="preserve">
+    <value>Nomination Period</value>
   </data>
   <data name="RemindDateForNominator" xml:space="preserve">
     <value>Remind Date For Nominator</value>

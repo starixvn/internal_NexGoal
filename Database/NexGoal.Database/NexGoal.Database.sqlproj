@@ -66,9 +66,11 @@
     <Folder Include="Storage\" />
     <Folder Include="dbo\Functions\" />
     <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="scripts" />
   </ItemGroup>
   <ItemGroup>
     <None Include="NexGoal.Database.publish.xml" />
+    <None Include="scripts\initdata.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\GroupFlowSetting.sql" />
