@@ -273,7 +273,7 @@
                 return conversion != null ? conversion.Point : 0f;
             });
 
-            return points.Any() ? points.Average() : 0f;
+            return points.Any() ? (float)Math.Round(points.Average(), 1) : 0f;
         }
 
         private static void WriteAssessment(ExcelRange selfCell, IEnumerable<AssessmentModel> assessments)
