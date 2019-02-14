@@ -1,89 +1,8 @@
 ﻿@import "../../abstracts/variables";
 @import "../../abstracts/mixins";
-@import "../../layouts/nomination";
 @import "../../components/buttons";
 @import "../../components/form";
 @import "../../components/form-filter";
 @import "../../components/form-inline";
-@import "../../components/modal";
 @import "../../components/react-select";
-@import "../../components/tables";
-@import "../../components/toast";
-@import "../../components/tooltip";
-@import "../../layouts/record";
-@import "../../layouts/role";
-@import "../member/performance-appraisal";
 @import "../../components/dropdown";
-
-#master-report-wrapper {
-    margin-bottom: 24px;
-}
-
-.tbl-master-report {
-    .nomination-period {
-        width: 110px;
-    }
-
-    .nomination-status {
-        width: 100px;
-    }
-
-    .sticky {
-        position: fixed;
-        top: 50px;
-        left: 15px;
-        right: 15px;
-        z-index: 1;
-
-        th {
-            display: inline-block;
-        }
-    }
-
-    .title {
-        height: 40px;
-        background-color: #525E86;
-        font-size: 15px;
-        color: #fff;
-    }
-
-    .noticeable-performance {
-        &.outstanding {
-            background: #59b03b;
-        }
-
-        &.very-good {
-            background: #68a9bd;
-        }
-
-        &.poor {
-            background: #ff5f5f;
-        }
-
-        &:hover {
-            &.outstanding {
-                td {
-                    background: #59b03b !important;
-                }
-            }
-
-            &.very-good {
-                td {
-                    background: #68a9bd !important;
-                }
-            }
-
-            &.poor {
-                td {
-                    background: #ff5f5f !important;
-                }
-            }
-        }
-    }
-}
-
-.objective-message-modal {
-    .comment {
-        white-space: pre-wrap;
-    }
-}
