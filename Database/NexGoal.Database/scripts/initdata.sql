@@ -48,3 +48,4 @@ VALUES (1, N'My Page', NULL, N'/home/index', NULL, NULL, 10, 1)
 SET IDENTITY_INSERT dbo.Menu OFF
 GO
 */
+GO
