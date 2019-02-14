@@ -5,15 +5,17 @@ import { axiosError, resolveClientUrl } from '../../../common-functions';
 import SearchForm from './SearchForm';
 import Table from './Table';
 
+const defaultOption = { value: '', label: '-- All --' };
+
 export default class EditEmployeeSetting extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             filter: {
-                groupId: '',
-                isEvaluated: '',
-                paStatusId: ''
+                group: defaultOption,
+                isEvaluated: defaultOption,
+                paStatus: defaultOption
             },
             settings: []
         };
@@ -21,18 +23,27 @@ export default class EditEmployeeSetting extends Component {
         this.groupOptions = [];
         this.employeeOptions = [];
         this.performanceStatusOptions = [];
+        this.evaluateStatuses = [
+            defaultOption,
+            { value: true, label: 'Evaluated' },
+            { value: false, label: 'Not Evaluated' }
+        ];
     }
 
     componentDidMount = () => {
         Promise.all([this.getPerformanceStatusesAxios(), this.getGroupsAxios(), this.getEmployeesAxios(), this.getEmployeeSettingsAxios()])
             .then(axios.spread((perfRes, groupRes, employeeRes, settingRes) => {
-                this.groupOptions = groupRes.data.map((group) => {
+                this.groupOptions = [defaultOption, ...groupRes.data.map((group) => {
                     return { value: group.groupId, label: group.name };
-                });
-                this.employeeOptions = employeeRes.data.map(employee => {
+                })];
+
+                this.employeeOptions = [defaultOption, ...employeeRes.data.map(employee => {
                     return { value: employee.employeeId, label: `${employee.nickName} (${employee.fullName})` };
-                });
-                this.performanceStatusOptions = perfRes.data;
+                })];
+
+                this.performanceStatusOptions = [defaultOption, ...perfRes.data.map(
+                    perf => ({ value: perf.id, label: perf.name })
+                )];
 
                 this.setState({
                     settings: settingRes.data
@@ -55,9 +66,9 @@ export default class EditEmployeeSetting extends Component {
         axios(resolveClientUrl('Period/GetEmployeeSettings'), {
             params: {
                 periodId: this.props.periodId,
-                groupId: this.state.filter.groupId,
-                isEvaluated: this.state.filter.isEvaluated,
-                statusId: this.state.filter.paStatusId
+                groupId: this.state.filter.group.value,
+                isEvaluated: this.state.filter.isEvaluated.value,
+                statusId: this.state.filter.paStatus.value
             }
         });
 
@@ -93,7 +104,7 @@ export default class EditEmployeeSetting extends Component {
             <Fragment>
                 <SearchForm filter={this.state.filter}
                     groups={this.groupOptions}
-                    evaluateStatuses={this.state.evaluateStatuses}
+                    evaluateStatuses={this.evaluateStatuses}
                     performanceStatuses={this.performanceStatusOptions}
                     onFilterChange={this.updateFilterValue}
                     onSubmit={this.getEmployeeSettings}

@@ -1,10 +1,11 @@
 ﻿import React, { Component } from 'react';
+import Select from 'react-select';
 import { Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 
 import getResource from '../../resourceHelper';
 
 export default class SearchForm extends Component {
-    handleStatusChange = event => this.props.onStatusChange(event.target.value)
+    handleStatusChange = selectedOption => this.props.onStatusChange(selectedOption)
 
     render() {
         return (
@@ -12,11 +13,10 @@ export default class SearchForm extends Component {
                 <FormGroup>
                     <ControlLabel>{getResource('Status')}</ControlLabel>
                     <div className="control-content">
-                        <select value={this.props.isActive} name="isActive" className="form-control" onChange={this.handleStatusChange}>
-                            <option value="">-- All --</option>
-                            <option value="true">Active</option>
-                            <option value="false">Inactive</option>
-                        </select>
+                        <Select value={this.props.filter.isActive} name="isActive" onChange={this.handleStatusChange}
+                            className="react-select-container" classNamePrefix="react-select"
+                            options={this.props.statusOptions}
+                        />
                     </div>
                 </FormGroup>
                 <FormGroup>

@@ -8,6 +8,7 @@ import Breadcrumb from '../../shared/components/Breadcrumb';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import SearchForm from './SearchForm';
 import Table from './Table';
+import { StatusOptions } from '../../constants';
 
 export default class EvaluationPeriod extends Component {
     constructor(props) {
@@ -15,7 +16,7 @@ export default class EvaluationPeriod extends Component {
 
         this.state = {
             filter: {
-                isActive: ''
+                isActive: StatusOptions[0]
             },
             periods: []
         };
@@ -55,7 +56,7 @@ export default class EvaluationPeriod extends Component {
     getPeriods = () => {
         axios.get(resolveClientUrl('Period/GetPeriods'), {
             params: {
-                isActive: this.state.filter.isActive
+                isActive: this.state.filter.isActive.value
             }
         }).then(response => {
             this.setState({ periods: response.data });
@@ -69,9 +70,10 @@ export default class EvaluationPeriod extends Component {
                     <li className="current">{getResource('EvaluationPeriod')}</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    <SearchForm isActive={this.state.isActive}
+                    <SearchForm filter={this.state.filter}
                         onStatusChange={this.handleStatusChange}
                         onSubmit={this.handleSubmit}
+                        statusOptions={StatusOptions}
                     />
                     <Table periods={this.state.periods}
                         isHost={this.isHost}

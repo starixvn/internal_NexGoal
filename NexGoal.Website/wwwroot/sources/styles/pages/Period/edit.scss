@@ -24,16 +24,19 @@
     .line-group {
         margin-bottom: 12px;
     }
-    .checkbox .checkbox-custom + label:before{
+
+    .checkbox .checkbox-custom + label:before {
         margin-right: 6px;
     }
+
     .checkbox {
-        left : -12px;
+        left: -12px;
     }
-    
+
     .description-content {
         width: 650px;
     }
+
     .control-content.name-content {
         width: 420px;
     }
@@ -78,11 +81,13 @@ table select {
         margin-left: 10px;
     }
 }
-#edit-period-wrapper .sub-header .breadcrumb li  {
+
+#edit-period-wrapper .sub-header .breadcrumb li {
     a {
         color: #e8743e;
     }
+
     &.current {
-        color: #545454; 
+        color: #545454;
     }
 }

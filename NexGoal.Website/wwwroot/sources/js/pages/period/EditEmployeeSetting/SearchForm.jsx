@@ -1,14 +1,15 @@
 ﻿import React, { Component } from 'react';
+import Select from 'react-select';
 import { Button, ControlLabel, Form, FormGroup } from 'react-bootstrap';
 
 import getResource from '../../../resourceHelper';
 
 export default class SearchForm extends Component {
-    handleGroupIdChange = e => this.props.onFilterChange(e.target.name, e.target.value)
+    handleGroupChange = selectedOption => this.props.onFilterChange('group', selectedOption)
 
-    handleEvaluatedStatusIdChange = e => this.props.onFilterChange(e.target.name, e.target.value)
+    handleEvaluatedStatusChange = selectedOption => this.props.onFilterChange('isEvaluated', selectedOption)
 
-    handlePAStatusIdChange = e => this.props.onFilterChange(e.target.name, e.target.value)
+    handlePAStatusChange = selectedOption => this.props.onFilterChange('paStatus', selectedOption)
 
     handleSubmit = e => {
         e.preventDefault();
@@ -25,29 +26,31 @@ export default class SearchForm extends Component {
                 <FormGroup>
                     <ControlLabel>{getResource('Team')}</ControlLabel>
                     <div className="control-content">
-                        <select value={this.props.filter.groupId} name="groupId" className="form-control" onChange={this.handleGroupIdChange}>
-                            <option value="">-- All --</option>
-                            {this.props.groups.map(this.renderGroupOption)}
-                        </select>
+                        <Select name="group" className="react-select-container" classNamePrefix="react-select"
+                            value={this.props.filter.group}
+                            options={this.props.groups}
+                            onChange={this.handleGroupChange}
+                        />
                     </div>
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Evaluated Status</ControlLabel>
                     <div className="control-content">
-                        <select value={this.props.filter.evaluatedStatusId} name="evaluatedStatusId" className="form-control" onChange={this.handleEvaluatedStatusIdChange}>
-                            <option value="">-- All --</option>
-                            <option value="true">Evaluated</option>
-                            <option value="false">Not Evaluated</option>
-                        </select>
+                        <Select name="isEvaluated" className="react-select-container" classNamePrefix="react-select"
+                            value={this.props.filter.isEvaluated}
+                            options={this.props.evaluateStatuses}
+                            onChange={this.handleEvaluatedStatusChange}
+                        />
                     </div>
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>PA Status</ControlLabel>
                     <div className="control-content">
-                        <select value={this.props.filter.paStatusId} name="paStatusId" className="form-control" onChange={this.handlePAStatusIdChange}>
-                            <option value="">-- All --</option>performanceStatuses
-                                {this.props.performanceStatuses.map(this.renderPerformanceStatusOption)}
-                        </select>
+                        <Select name="paStatus" className="react-select-container" classNamePrefix="react-select"
+                            value={this.props.filter.paStatus}
+                            options={this.props.performanceStatuses}
+                            onChange={this.handlePAStatusChange}
+                        />
                     </div>
                 </FormGroup>
                 <FormGroup>
