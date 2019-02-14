@@ -69,7 +69,7 @@
                     PrintBackground = true
                 }).OnAfterRender((r) => HttpContext.Response.Headers["Content-Disposition"] = contentDisposition);
 
-            return PartialView("PaDetail", new PAReportDetail());
+            return View();
         }
     }
 }
