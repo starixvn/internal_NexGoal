@@ -54,11 +54,10 @@
         }
 
         [MiddlewareFilter(typeof(JsReportPipeline))]
-        public async Task<IActionResult> PaDetail(GetPADetailParam model)
+        public IActionResult PaDetail(GetPADetailParam model)
         {
             model.ActorId = sessionService.EmployeeId;
-            var reportDetail = await reportService.GetPAReportDetailAsync(model).ConfigureAwait(false);
-            var contentDisposition = $"attachment; filename=\"{reportDetail.Employee.NickName}_PAReport.pdf\"";
+            var contentDisposition = $"attachment; filename=\"Oliver_PAReport.pdf\"";
 
             HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf)
                 .Configure((r) => r.Template.Chrome = new Chrome
@@ -70,7 +69,7 @@
                     PrintBackground = true
                 }).OnAfterRender((r) => HttpContext.Response.Headers["Content-Disposition"] = contentDisposition);
 
-            return PartialView("PaDetail", reportDetail);
+            return PartialView("PaDetail", new PAReportDetail());
         }
     }
 }
