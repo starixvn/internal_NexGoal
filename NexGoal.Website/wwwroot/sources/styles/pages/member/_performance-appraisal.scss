@@ -34,8 +34,7 @@
     }
 }
 
-.modal-dialog.performance-appraisal {    
-
+.modal-dialog.performance-appraisal {
     .modal-body .tab-content .record {
         box-shadow: 0 0 6px #dedede;
         padding: 16px;
@@ -45,27 +44,29 @@
     .tab-content {
         padding-top: 12px;
     }
-        .modal-body {
-            overflow: auto;
-            height: 400px;
-            position: relative;
-            padding: 0;
 
-            @media screen and (min-width: 1600px) {
-                height: 680px;
-            }
+    .modal-body {
+        overflow: auto;
+        height: 400px;
+        position: relative;
+        padding: 0;
 
-            @media screen and (min-width: 1280px) and (max-width: 1600px) {
-                height: 520px;
-            }
-            .record-your-mind {
-                grid-template-rows: 1fr;
-                padding: 16px 20px;
-            }
-            #tabs {
-                padding: 0 20px;
-            }
+        @media screen and (min-width: 1600px) {
+            height: 680px;
+        }
 
+        @media screen and (min-width: 1280px) and (max-width: 1600px) {
+            height: 520px;
+        }
+
+        .record-your-mind {
+            grid-template-rows: 1fr;
+            padding: 16px 20px;
+        }
+
+        #tabs {
+            padding: 0 20px;
+        }
         // .form-filter {
         //     margin-top: 16px;
         // }
@@ -85,13 +86,15 @@
             font-size: 9px;
         }
     }
+
     .pa-grade {
         &[class*="reviewer"] {
             display: inline-block;
             width: 100%;
             position: relative;
+
             &:before {
-                width: 18px;           
+                width: 18px;
                 font-family: 'NexGoalIcon' !important;
                 color: #6d829b;
                 display: inline-block;
@@ -101,10 +104,11 @@
                 font-weight: normal;
             }
         }
-        
+
         &.reviewer-notyetseen:before {
             content: '';
         }
+
         &.reviewer-seen:before {
             content: '\E92C';
         }

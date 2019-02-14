@@ -64,6 +64,7 @@ export default class Table extends Component {
         if (this.parseIntGradeId(gradeId) < this.parseIntGradeId(originalGradeId)) {
             gradeChangeClass = 'icon-descrease-arrow';
         }
+
         return <span className={gradeChangeClass} />;
     }
 

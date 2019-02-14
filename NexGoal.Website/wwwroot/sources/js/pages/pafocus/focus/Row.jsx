@@ -184,6 +184,22 @@ export default class Row extends Component {
         );
     }
 
+    renderGrade = (originalGrade, grade) => {
+        let gradeId = grade ? grade.gradeId : 0;
+        let originalGradeId = originalGrade ? originalGrade.gradeId : 0;
+
+        let gradeClass = '';
+        if (gradeId > originalGradeId) {
+            gradeClass = 'icon-increase-arrow';
+        }
+
+        if (gradeId < originalGradeId) {
+            gradeClass = 'icon-descrease-arrow';
+        }
+
+        return <span>{grade ? grade.name : 'N/A'}<span className={gradeClass} /></span>;
+    }
+
     handleOnChange = (event) => {
         let pafocus = this.props.data;
 
@@ -235,7 +251,7 @@ export default class Row extends Component {
                         {this.renderReadyPromotion()}
                     </td>
                     <td className="text-center">
-                        {pafocus.grade ? pafocus.grade.name : 'N/A'}
+                        {this.renderGrade(pafocus.originalGrade, pafocus.grade)}
                     </td>
                     <td>
                         {this.renderContentObjective(pafocus.currentObjective)}

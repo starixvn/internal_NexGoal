@@ -13,11 +13,19 @@
 @import "../../components/toast";
 @import "../../components/tooltip";
 @import "../../components/dropdown";
-//@import "./evaluation-process";
 
 .button-block {
     .btn + .btn {
         margin-left: 16px;
+    }
+}
+
+.icon-increase-arrow, .icon-descrease-arrow {
+    display: inline-block;
+    margin-left: 6px;
+
+    &:before {
+        font-size: 9px;
     }
 }
 
@@ -34,15 +42,19 @@
         .width-120 {
             width: 120px;
         }
+
         .width-200 {
             width: 200px;
         }
+
         .width-300 {
             width: 300px;
         }
+
         .width-90 {
             width: 90px;
         }
+
         .objective {
             min-width: 200px;
         }
@@ -59,15 +71,16 @@
                 }
             }
         }
+
         &.title {
             background-color: #E9E9E9;
             color: #324373;
             font-size: 14px;
             font-weight: bold;
-            td{
+
+            td {
                 border-color: #c4c4c4 !important;
             }
-            
         }
 
         select.form-control {
@@ -76,7 +89,7 @@
             padding: 0;
         }
 
-        [class*="icon-"]{
+        [class*="icon-"] {
             font-size: 18px;
         }
 
@@ -138,10 +151,12 @@
     font-size: 16px;
     margin-left: 5px;
 }
-.tooltip.focus-note  {
+
+.tooltip.focus-note {
     .tooltip-inner {
         max-width: 500px;
     }
+
     &.in {
         opacity: 1;
     }
@@ -163,24 +178,29 @@
         @include border-radius(2px);
     }
 }
+
 .action-section {
     height: 46px;
     background-color: #1a2e63;
     line-height: 46px;
+
     .btn-cancel {
         background-color: #1a2e63;
         border: 1px solid #fff;
         color: #fff;
+
         &:hover {
             background-color: #fff;
             color: #1a2e63;
             border: 1px solid #1a2e63;
         }
     }
+
     .btn-primary {
         background-color: #fff;
         color: #1a2e63;
         border: 1px solid #1a2e63;
+
         &:hover {
             background-color: #1a2e63;
             border: 1px solid #fff;

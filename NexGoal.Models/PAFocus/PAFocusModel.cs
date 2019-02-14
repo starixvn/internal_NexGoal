@@ -19,6 +19,10 @@
         public string GradeId { get; set; }
         public PerformanceGrade Grade { get; set; }
 
+        [JsonIgnore]
+        public string OriginalGradeId { get; set; }
+        public PerformanceGrade OriginalGrade { get; set; }
+
         public bool IsHost { get; set; }
     }
 }
