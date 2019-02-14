@@ -124,7 +124,7 @@
     <value>Discipline</value>
   </data>
   <data name="EvaluationPeriod" xml:space="preserve">
-    <value>Evaluation Period</value>
+    <value>PA Period</value>
   </data>
   <data name="EndDateForCommittee" xml:space="preserve">
     <value>End Date For Committee</value>
@@ -148,7 +148,7 @@
     <value>Role Assignment</value>
   </data>
   <data name="EvaluationFlow" xml:space="preserve">
-    <value>Evaluation Flow</value>
+    <value>PA Flow</value>
   </data>
   <data name="TargetType" xml:space="preserve">
     <value>Target Type</value>
@@ -162,8 +162,8 @@
   <data name="Review" xml:space="preserve">
     <value>Review</value>
   </data>
-  <data name="EmployeeNomination" xml:space="preserve">
-    <value>Employee Nomination</value>
+  <data name="NominationSelection" xml:space="preserve">
+    <value>Nomination Selection</value>
   </data>
   <data name="Grade" xml:space="preserve">
     <value>Grade</value>

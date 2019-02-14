@@ -43,7 +43,7 @@ export default class NominationAssessment extends Component {
         return (
             <div className="row">
                 <Breadcrumb>
-                    <li className="current">{getResource('EmployeeNomination')}</li>
+                    <li className="current">{getResource('NominationSelection')}</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
                     <Tabs id="tabs" activeKey={this.state.activeTabKey} onSelect={this.handleSelectTab} animation={false}>
