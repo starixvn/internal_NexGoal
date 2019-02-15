@@ -5,7 +5,7 @@
 AS
 /*
 Created: 20190115@Elton.ton
-Task: get report data
+Task: get periods
 DB: bodb_NexGoal
 Original:
 
@@ -24,6 +24,13 @@ BEGIN
 	FROM dbo.Period p WITH (NOLOCK)
 	WHERE p.PeriodId = @PeriodId
 
+	SELECT val
+	INTO #group
+	FROM dbo.func_SplitString(@GroupIds, ',')
+
+	SELECT val
+	INTO #employee
+	FROM dbo.func_SplitString(@EmployeeIds, ',')
 
 	SELECT e.EmployeeId
 		,e.NickName
@@ -80,12 +87,12 @@ BEGIN
 		) tst
 	WHERE EXISTS (
 		SELECT 1
-		FROM dbo.func_SplitString(@GroupIds, ',') g
+		FROM #group g
 		WHERE e.GroupId = g.val
 	)
 	AND EXISTS (
 			SELECT 1
-			FROM dbo.func_SplitString(@EmployeeIds, ',') eid
+			FROM #employee eid
 			WHERE e.EmployeeId = eid.val
 	)
 	AND par.PeriodId = @PeriodId
@@ -107,12 +114,12 @@ BEGIN
 	)	
 	AND EXISTS (
 		SELECT 1
-		FROM dbo.func_SplitString(@GroupIds, ',') g
+		FROM #group g
 		WHERE e.GroupId = g.val
 	)
 	AND EXISTS (
 			SELECT 1
-			FROM dbo.func_SplitString(@EmployeeIds, ',') eid
+			FROM #employee eid
 			WHERE e.EmployeeId = eid.val
 		)
 	AND eoq.EndDateForCommittee < @Today
@@ -129,4 +136,7 @@ BEGIN
 		INNER JOIN dbo.Employee e WITH (NOLOCK) ON pap.EvaluatorId = e.EmployeeId
 		LEFT JOIN dbo.PerformanceRecord pr WITH (NOLOCK) ON pap.PerformanceRecordId = pr.PerformanceRecordId
 	WHERE par.PeriodId = @PeriodId AND pap.ProcessId <> 1
+
+	DROP TABLE #group
+	DROP TABLE #employee
 END

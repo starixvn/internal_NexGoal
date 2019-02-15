@@ -13,8 +13,6 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @Today DATE = GETDATE()
-
 	SELECT EOQYId AS NominationPeriodId
 		,[Quarter]
 		,[Year]
@@ -24,6 +22,5 @@ BEGIN
 		,EndDateForCommittee
 		,[Description]
 	FROM dbo.EOQY WITH (NOLOCK)
-	WHERE EndDateForCommittee < @Today
 	ORDER BY EndDateForCommittee DESC
 END

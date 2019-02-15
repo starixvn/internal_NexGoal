@@ -13,12 +13,8 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @Today DATE = GETDATE()
-
 	SELECT PeriodId
 		,[Name]
 	FROM dbo.Period WITH (NOLOCK)
-	WHERE EndDate < @Today
 	ORDER BY EndDate DESC
 END
-GO
