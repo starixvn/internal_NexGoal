@@ -72,7 +72,7 @@ BEGIN
 		,pa.ModifiedDate
 		,pa.StatusId
 		,pa.GradeId
-        ,pa.Comment
+		,pa.Comment
 		,emp.EmployeeId
 		,emp.NickName
 		,emp.FullName
@@ -99,7 +99,7 @@ BEGIN
 		,record.GradeId
 		,record.CreatedDate
 		,record.ModifiedDate
-        ,record.Comment
+		,record.Comment
 		,process.ProcessId AS RoleId
 		,record.TypeId
 		,record.CreatorId
@@ -111,6 +111,11 @@ BEGIN
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON process.EvaluatorId = emp.EmployeeId
 		LEFT JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON process.PerformanceRecordId = record.PerformanceRecordId
 		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
+
+	SELECT p.PeriodId
+		  ,p.Name 
+	FROM dbo.Period AS p WITH (NOLOCK)
+	INNER JOIN #tblPeriodId AS tpl WITH (NOLOCK) ON p.PeriodId = tpl.PeriodId
 
 	DROP TABLE #tblGroupId
 

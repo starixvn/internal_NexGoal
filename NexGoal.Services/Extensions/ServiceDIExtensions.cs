@@ -34,6 +34,7 @@
             services.AddScoped<IPMSettingService, PMSettingService>();
             services.AddScoped<IMasterReportService, MasterReportService>();
             services.AddScoped<IChatbotService, ChatbotService>();
+            services.AddScoped<IViewRenderService, ViewRenderService>();
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿namespace NexGoal.Controllers
 {
     using System.Threading.Tasks;
-    using jsreport.AspNetCore;
-    using jsreport.Types;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Models.PARecord;
@@ -20,7 +18,8 @@
         public ReportController(
             ISessionService sessionService,
             IPAReportService reportService,
-            IExportPAReportService exportService)
+            IExportPAReportService exportService
+            )
         {
             this.sessionService = sessionService;
             this.reportService = reportService;
@@ -53,23 +52,11 @@
             return File(fileContent, MimeType.XLSX, fileName);
         }
 
-        [MiddlewareFilter(typeof(JsReportPipeline))]
-        public IActionResult PaDetail(GetPADetailParam model)
+        public async Task<IActionResult> PaDetail(GetPADetailParam model)
         {
             model.ActorId = sessionService.EmployeeId;
-            var contentDisposition = $"attachment; filename=\"Oliver_PAReport.pdf\"";
-
-            HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf)
-                .Configure((r) => r.Template.Chrome = new Chrome
-                {
-                    MarginLeft = ".5cm",
-                    MarginRight = ".5cm",
-                    MarginTop = "1cm",
-                    MarginBottom = "1cm",
-                    PrintBackground = true
-                }).OnAfterRender((r) => HttpContext.Response.Headers["Content-Disposition"] = contentDisposition);
-
-            return View();
+            var tuple = await exportService.ExportPADetailPDF(sessionService.EmployeeId, model.PARecordId).ConfigureAwait(false);
+            return File(tuple.Item2, "application/pdf", tuple.Item1);
         }
     }
 }

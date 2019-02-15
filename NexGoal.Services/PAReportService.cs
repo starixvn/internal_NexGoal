@@ -47,12 +47,13 @@
                 EmployeeIds = param.EmployeeIds
             };
 
-            IEnumerable<PARecordModel> performanceAppraisals = await reportRepository.GetPAReportAsync(criteria).ConfigureAwait(false);
+            var tuple = await reportRepository.GetPAReportAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            var periods = tuple.Item2;
 
-            MappingData(performanceAppraisals, performanceGrades);
+            MappingData(tuple.Item1, performanceGrades);
 
-            var groupRecords = performanceAppraisals.GroupBy(r => r.Period.PeriodId)
+            var groupRecords = tuple.Item1.GroupBy(r => r.Period.PeriodId)
                 .Select(item => new PARecordGroupByPeriod
                 {
                     PeriodId = item.Key,
@@ -63,7 +64,19 @@
                             Group = new Group { Code = group.Key.GroupCode, Name = group.Key.GroupName },
                             PARecords = group.OrderBy(r => r.Employee.EmployeeId == criteria.ActorId)
                         })
+                }).ToList();
+
+            var emptyPeriods = periods.Where(p => !groupRecords.Any(g => g.PeriodId == p.PeriodId))
+                .Select(x => new PARecordGroupByPeriod
+                {
+                    PeriodId = x.PeriodId,
+                    Period = x
                 });
+
+            if (emptyPeriods.Any())
+            {
+                groupRecords.AddRange(emptyPeriods);
+            }
 
             return groupRecords.OrderByDescending(g => g.PeriodId);
         }
@@ -95,18 +108,18 @@
             }
         }
 
-        public async Task<PAReportDetail> GetPAReportDetailAsync(GetPADetailParam model)
+        public async Task<PAReportDetail> GetPAReportDetailAsync(int actorId, int paRecordId)
         {
-            var paRecord = await paRecordService.GetPARecordByIdAsync(model.PARecordId, model.ActorId).ConfigureAwait(false);
+            var paRecord = await paRecordService.GetPARecordByIdAsync(paRecordId, actorId).ConfigureAwait(false);
             var employeeInfo = await commonService.GetEmployeeByIdAsync(paRecord.Employee.EmployeeId).ConfigureAwait(false);
             var grades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
-            Tuple<IEnumerable<DisciplineModel>, IEnumerable<HRMInfo>, string> hrmAndPrevGrade = await GetPARecordDetail(model.ActorId, model.PARecordId).ConfigureAwait(false);
+            Tuple<IEnumerable<DisciplineModel>, IEnumerable<HRMInfo>, string> hrmAndPrevGrade = await GetPARecordDetail(actorId, paRecordId).ConfigureAwait(false);
 
             var previousGrade = hrmAndPrevGrade.Item3;
             previousGrade = cryptoService.Decrypt(previousGrade);
             int.TryParse(previousGrade, out int gradeId);
-            var achievements = await GetAchievements(model.PARecordId).ConfigureAwait(false);
+            var achievements = await GetAchievements(paRecordId).ConfigureAwait(false);
 
             var paDetails = new PAReportDetail
             {

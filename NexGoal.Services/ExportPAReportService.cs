@@ -5,6 +5,9 @@
     using System.Drawing;
     using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
+    using DinkToPdf;
+    using DinkToPdf.Contracts;
     using Microsoft.AspNetCore.Hosting;
     using NexGoal.Core.Enumerations;
     using NexGoal.Models;
@@ -18,14 +21,25 @@
     public class ExportPAReportService : IExportPAReportService
     {
         private const string ExcelTemplatePath = @"ExcelTemplates\\PAReport.xlsx";
+        private const string PADetailView = "Report/PADetail";
+        private const string PDFStylePath = @"dist\\styles\\paDetail-pdf.css";
         private const int TotalColumns = 9;
         private const int TitleHeight = 25;
 
         private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IPAReportService reportService;
+        private readonly IViewRenderService viewRenderService;
+        private readonly IConverter converter;
 
-        public ExportPAReportService(IHostingEnvironment hostingEnvironment)
+        public ExportPAReportService(IHostingEnvironment hostingEnvironment,
+            IPAReportService reportService,
+            IViewRenderService viewRenderService,
+            IConverter converter)
         {
             this.hostingEnvironment = hostingEnvironment;
+            this.reportService = reportService;
+            this.viewRenderService = viewRenderService;
+            this.converter = converter;
         }
 
         public byte[] ExportExcel(IEnumerable<PARecordGroupByPeriod> paRecords)
@@ -222,6 +236,52 @@
                 richTextCollection.Add(Environment.NewLine);
                 richTextCollection.Add(Environment.NewLine);
             }
+        }
+
+        public async Task<Tuple<string, byte[]>> ExportPADetailPDF(int actorId, int paRecordId)
+        {
+            var reportDetail = await reportService.GetPAReportDetailAsync(actorId, paRecordId).ConfigureAwait(false);
+
+            var pdf = await GetPdfSetting(reportDetail).ConfigureAwait(false);
+            var fileName = $"{reportDetail.Employee.NickName}_PAReport_{reportDetail.PARecord.Period.Name}.pdf";
+            var file = converter.Convert(pdf);
+
+            return new Tuple<string, byte[]>(fileName, file);
+        }
+
+        private async Task<HtmlToPdfDocument> GetPdfSetting(PAReportDetail reportDetail)
+        {
+            string htmlString = await viewRenderService.RenderToStringAsync(PADetailView, reportDetail).ConfigureAwait(false);
+
+            var globalSettings = new GlobalSettings
+            {
+                ColorMode = ColorMode.Color,
+                Orientation = Orientation.Portrait,
+                PaperSize = PaperKind.A4,
+                Margins = new MarginSettings { Unit = Unit.Millimeters, Top = 10, Bottom = 10, Left = 5, Right = 5 },
+                DocumentTitle = $"{reportDetail.Employee.NickName}_Report"
+            };
+
+            var objectSettings = new ObjectSettings
+            {
+                PagesCount = true,
+                HtmlContent = htmlString,
+                WebSettings = {
+                    DefaultEncoding = "utf-8",
+                    Background = true,
+                    LoadImages = true,
+                    UserStyleSheet = Path.Combine(hostingEnvironment.WebRootPath, PDFStylePath)
+                },
+                FooterSettings = { FontName = "Arial", FontSize = 7, Center = "[page]" }
+            };
+
+            var pdf = new HtmlToPdfDocument
+            {
+                GlobalSettings = globalSettings,
+                Objects = { objectSettings }
+            };
+
+            return pdf;
         }
     }
 }

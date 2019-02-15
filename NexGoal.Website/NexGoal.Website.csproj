@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
   </PropertyGroup>
 
@@ -15,19 +16,21 @@
 
   <ItemGroup>
     <None Remove="App_Data\SPNames.xml" />
+    <None Remove="libwkhtmltox.dll" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="App_Data\SPNames.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="libwkhtmltox.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DinkToPdf" Version="1.0.8" />
     <PackageReference Include="Fanex.Data" Version="3.0.2" />
-    <PackageReference Include="jsreport.AspNetCore" Version="2.0.0" />
-    <PackageReference Include="jsreport.Binary" Version="2.3.1" />
-    <PackageReference Include="jsreport.Local" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.1.1" />

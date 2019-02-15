@@ -6,6 +6,7 @@
 @model PAReportDetail
 @{
     Layout = null;
+    var paRecordPartialView = "Report/_PARecord";
 }
 <html>
 <head>
@@ -13,7 +14,272 @@
 </head>
 <body>
     <div class="pa-pdf">
-        <span>Oliver</span>
+        <div class="title">Performance appraisal of @Model.Employee.NickName (@Model.PARecord.Period.Name)</div>
+        <div class="box">
+            <div class="title">Information Profile</div>
+            <div class="content info">
+                <div class="section">
+                    <div class="item"><span class="key">Staff code:</span><span class="value">@Model.Employee.Code</span></div>
+                    <div class="item"><span class="key">Nickname:</span><span class="value">@Model.Employee.NickName</span></div>
+                    <div class="item"><span class="key">Job title:</span><span class="value">@Model.Employee.JobTitle</span></div>
+                </div>
+                <div class="section">
+                    <div class="item"><span class="key">Full name:</span><span class="value">@Model.Employee.FullName</span></div>
+                    <div class="item"><span class="key">Team:</span><span class="value">@Model.Employee.GroupName</span></div>
+                    <div class="item">
+                        <span class="key">Joined date:</span>
+                        <span class="value">@Model.Employee.JoinedDate.ToString("dd MMM yyyy")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box">
+            <div class="title">Approach To Work</div>
+            <div class="content">
+                <div class="sub-box">
+                    <div class="title">A. HRM System</div>
+                    <div class="sub-content">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="col-80">Month</th>
+                                    <th class="col-120">Missing Check In/Out</th>
+                                    <th>Late In</th>
+                                    <th>Early Out</th>
+                                    <th>Unpaid Leave</th>
+                                    <th class="col-120">Unplanned Annual Leave</th>
+                                    <th class="col-120">Average Working Hours</th>
+                                    <th>Overtime</th>
+                                    <th class="col-200">Toeic</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var i = 0;
+                                    foreach (var month in Model.HRM)
+                                    {
+                                        <tr>
+                                            <td class="text-center">@string.Format("{0}/{1}", month.Month, month.Year)</td>
+                                            <td class="text-center">@month.MissingCheckInCheckOut</td>
+                                            <td class="text-center">@month.LateIn</td>
+                                            <td class="text-center">@month.EarlyOut</td>
+                                            <td class="text-center">@month.UnpaidLeave</td>
+                                            <td class="text-center">@month.UnplanedAnnualLeave</td>
+                                            <td class="text-center">@Helper.RenderHour(month.AverageWorkingHours)</td>
+                                            <td class="text-center">@month.Overtime</td>
+                                            @if (i == 0)
+                                            {
+                                                i++;
+                                                <td class="text-center" rowspan="@Model.HRM.Count()">@Model.PARecord.Toeic</td>
+                                            }
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td class="text-center">Total</td>
+                                    <td class="text-center">@Model.HRM.Sum(x => x.MissingCheckInCheckOut)</td>
+                                    <td class="text-center">@Model.HRM.Sum(x => x.LateIn)</td>
+                                    <td class="text-center">@Model.HRM.Sum(x => x.EarlyOut)</td>
+                                    <td class="text-center">@Model.HRM.Sum(x => x.UnpaidLeave)</td>
+                                    <td class="text-center">@Model.HRM.Sum(x => x.UnplanedAnnualLeave)</td>
+                                    <td class="text-center">@Helper.RenderHour(Model.HRM.Average(x => x.AverageWorkingHours))</td>
+                                    <td class="text-center">@Model.HRM.Average(x => x.Overtime)</td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="sub-box">
+                    <div class="title">B. Disciplines</div>
+                    <div class="sub-content">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Remark</th>
+                                    <th>Issue Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Disciplines.Any())
+                                {
+                                    var index = 0;
+                                    foreach (var discipline in Model.Disciplines)
+                                    {
+                                        index++;
+                                        <tr>
+                                            <td class="text-center">@index</td>
+                                            <td class="text-center">@discipline.Description</td>
+                                            <td class="text-center">@discipline.EffectiveDate.ToString("dd MMM yyyy")</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="3" class="text-center">No Record Found</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box">
+            <div class="title">Performance Records</div>
+            <div class="content">
+                <div class="sub-box">
+                    <div class="title">A. Achievements</div>
+                    <div class="sub-content">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Title</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Achievements.Any())
+                                {
+                                    var index = 0;
+                                    foreach (var achievement in Model.Achievements)
+                                    {
+                                        index++;
+                                        string statusClass = string.Format("status-{0}",
+                                            achievement.StatusId.ToString().ToLowerInvariant());
+                                        <tr>
+                                            <td>@index</td>
+                                            <td>@achievement.Period.Title</td>
+                                            <td class="@statusClass">@achievement.StatusId.ToString()</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="3" class="text-center">No Record Found</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="sub-box">
+                    <div class="title">B. Performance Summary</div>
+                    <div class="sub-box performance-sum">
+                        <div class="title">1. Self</div>
+                        <div class="sub-content">
+                            @{
+                                var selfPA = Model.PARecord.Processes
+                                    .FirstOrDefault(x => x.ProcessId == (int)PerformanceProcess.Self);
+                            }
+                            @await Html.PartialAsync(@paRecordPartialView, selfPA)
+                        </div>
+                        <div class="title">2. Project Manager</div>
+                        <div class="sub-content">
+                            <div class="list-pci">
+                                @{
+                                    var pmProcesses = Model.PARecord.Processes.Where(p => p.ProcessId == (int)PerformanceProcess.ProjectManager);
+
+                                    if (pmProcesses.Any())
+                                    {
+                                        foreach (var pm in pmProcesses)
+                                        {
+                                            @await Html.PartialAsync(@paRecordPartialView, pm)
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="record-list">
+                                            <p class="text-center">No Record</p>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="title">3. Evaluator</div>
+                        <div class="sub-content">
+                            <div class="list-pci">
+                                @{
+                                    var evaluatorProcess = Model.PARecord.Processes
+                                        .FirstOrDefault(x => x.ProcessId == (int)PerformanceProcess.Evaluator);
+                                }
+                                @await Html.PartialAsync(@paRecordPartialView, evaluatorProcess)
+                            </div>
+                        </div>
+                        <div class="title">4. Reviewer</div>
+                        <div class="sub-content">
+                            @{
+                                var reviewerProcess = Model.PARecord.Processes
+                                    .FirstOrDefault(x => x.ProcessId == (int)PerformanceProcess.Reviewer);
+                            }
+                            @await Html.PartialAsync(@paRecordPartialView, reviewerProcess)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box">
+            <div class="title final">Final Result</div>
+            <div class="sub-content">
+                @{
+                    var finalResult = new PAProcessModel
+                    {
+                        Evaluator = reviewerProcess.Evaluator,
+                        PerformanceRecord = new PerformanceRecord
+                        {
+                            ModifiedDate = Model.PARecord.ModifiedDate,
+                            Grade = Model.PARecord.Grade,
+                            Comment = Model.PARecord.Comment
+                        },
+
+                    };
+
+                    @await Html.PartialAsync(@paRecordPartialView, finalResult)
+                }
+            </div>
+        </div>
+        <div class="box">
+            <div class="sub-box">
+                <div class="title">The Rating Scale</div>
+                <div class="sub-box performance-sum">
+                    <div class="title">A. Current Period</div>
+                    <div class="sub-content">
+                        <ul class="evaluation-process">
+                            @{
+                                var listGrade = Model.AllGrades;
+                                foreach (var grade in listGrade)
+                                {
+                                    var currentGradeClass = grade.GradeId == Model.PARecord.Grade.GradeId
+                                        ? "current-pci" : "default-pci";
+                                    <li class="process-item @currentGradeClass">@grade.Description<div>@grade.Name</div></li>
+
+                                }
+                            }
+                        </ul>
+                    </div>
+                    @if (Model.PreviousGrade != null)
+                    {
+                        <div class="title">B. Last Period</div>
+                        <div class="sub-content">
+                            <ul class="evaluation-process">
+                                @foreach (var grade in listGrade)
+                                {
+                                    var previousGradeClass = grade.GradeId == Model.PreviousGrade.GradeId
+                                    ? "last-pci" : "default-pci";
+                                    <li class="process-item @previousGradeClass">@grade.Description<div>@grade.Name</div></li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

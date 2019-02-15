@@ -28,6 +28,20 @@ export default class Table extends Component {
         return <span className={`bold ${toeicClass}`}>{toeic ? toeic : getResource('N/A')}</span>;
     }
 
+    renderNoRecord = (groups) => {
+        if (groups) {
+            return groups.map(group => {
+                return this.renderGroupPA(group);
+            });
+        } else {
+            return (
+                <tr>
+                    <td className="empty-result" colSpan={this.totalColums}>{getResource('NoRecordFound')}</td>
+                </tr>
+            );
+        }
+    }
+
     renderRows = (periodRecords) => {
         if (!periodRecords.length) {
             return (
@@ -44,9 +58,7 @@ export default class Table extends Component {
                                 <td colSpan={this.totalColums}>{periodRecord.period.name}</td>
                             </tr>
                             {
-                                periodRecord.groups.map(group => {
-                                    return this.renderGroupPA(group);
-                                })
+                                this.renderNoRecord(periodRecord.groups)
                             }
                         </Fragment>
                     );

@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Repositories
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -11,7 +12,7 @@
 
     public class PAReportRepository : IPAReportRepository
     {
-        public async Task<IEnumerable<PARecordModel>> GetPAReportAsync(ICriteria criteria)
+        public async Task<Tuple<IEnumerable<PARecordModel>, IEnumerable<PeriodBaseModel>>> GetPAReportAsync(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
@@ -35,9 +36,10 @@
                             },
                             "EvaluatorId, PerformanceRecordId");
 
+                    var selectedPeriods = multi.Read<PeriodBaseModel>();
                     MappingData(performanceAppraisals, processes);
 
-                    return performanceAppraisals;
+                    return new Tuple<IEnumerable<PARecordModel>, IEnumerable<PeriodBaseModel>>(performanceAppraisals, selectedPeriods);
                 }
             }
         }

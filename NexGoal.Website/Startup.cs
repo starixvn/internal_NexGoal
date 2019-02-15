@@ -3,12 +3,11 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using DinkToPdf;
+    using DinkToPdf.Contracts;
     using Fanex.Data;
     using Fanex.Logging;
     using Fanex.Logging.Sentry;
-    using jsreport.AspNetCore;
-    using jsreport.Binary;
-    using jsreport.Local;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -75,10 +74,7 @@
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
 
-            services.AddJsReport(new LocalReporting()
-                 .UseBinary(JsReportBinary.GetBinary())
-                 .AsUtility()
-                 .Create());
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
             services.AddSession();
 

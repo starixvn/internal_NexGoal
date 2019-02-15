@@ -9,6 +9,6 @@
     {
         Task<IEnumerable<PARecordGroupByPeriod>> GetPAReportAsync(GetPARecordMultiPeriodParam param);
 
-        Task<PAReportDetail> GetPAReportDetailAsync(GetPADetailParam model);
+        Task<PAReportDetail> GetPAReportDetailAsync(int actorId, int paRecordId);
     }
 }
