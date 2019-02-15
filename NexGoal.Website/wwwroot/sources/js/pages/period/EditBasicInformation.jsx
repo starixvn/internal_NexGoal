@@ -239,7 +239,7 @@ export default class EditBasicInformation extends Component {
                     <FormGroup>
                         <div className="checkbox">
                             <input type="checkbox" className="checkbox-custom" name="isActive" onChange={handleChange} checked={values.isActive} id="chb-isActive"/>
-                            <label for="chb-isActive">Active</label>
+                            <label htmlFor="chb-isActive">Active</label>
                         </div>
                     </FormGroup>
                 </div>

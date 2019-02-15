@@ -91,11 +91,11 @@ class Table extends Component {
                                 defaultChecked={row.isNominator}
                                 onChange={(e) => this.handleCheckboxChange(e, row)} id={'chb-nominator' + rowIndex}
                             />
-                            <label for={'chb-nominator' + rowIndex}></label></div>
+                            <label htmlFor={'chb-nominator' + rowIndex}></label></div>
                         );
                     }
 
-                    return <div className="checkbox"><input type='checkbox' id={'chb-nominator' + rowIndex} name="Nominator" defaultChecked={row.isNominator} readOnly className="checkbox-custom" /><label for={'chb-nominator' + rowIndex}></label></div>;
+                    return <div className="checkbox"><input type='checkbox' id={'chb-nominator' + rowIndex} name="Nominator" defaultChecked={row.isNominator} readOnly className="checkbox-custom" /><label htmlFor={'chb-nominator' + rowIndex}></label></div>;
                 }
             }
         ];

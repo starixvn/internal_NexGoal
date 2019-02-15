@@ -12,3 +12,7 @@
 @import "../components/table-search";
 @import "../components/toast";
 @import "../components/dropdown";
+
+.checkbox-custom + label:before {
+    margin-right: 8px;
+}

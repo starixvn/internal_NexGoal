@@ -107,10 +107,10 @@ export default class Table extends Component {
                 headerStyle: { width: '80px' },
                 formatter: (cell, row, rowIndex) => {
                     if (isHost) {
-                        return <div className="checkbox"><input type='checkbox' id={'chb-active-' + rowIndex} defaultChecked={row.isActive} onChange={event => this.handleEditStatus(event, row)} className="checkbox-custom" /><label for={'chb-active-' + rowIndex}></label></div>;
+                        return <div className="checkbox"><input type='checkbox' id={'chb-active-' + rowIndex} defaultChecked={row.isActive} onChange={event => this.handleEditStatus(event, row)} className="checkbox-custom" /><label htmlFor={'chb-active-' + rowIndex}></label></div>;
                     }
 
-                    return <div className="checkbox"><input type='checkbox' id={'chb-active-' + rowIndex} checked={row.isActive} readOnly className="checkbox-custom"/><label for={'chb-active-' + rowIndex}></label></div>;
+                    return <div className="checkbox"><input type='checkbox' id={'chb-active-' + rowIndex} checked={row.isActive} readOnly className="checkbox-custom"/><label htmlFor={'chb-active-' + rowIndex}></label></div>;
                 }
             },
             {

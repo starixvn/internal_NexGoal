@@ -102,9 +102,12 @@ export default class EditProcessSetting extends Component {
                             <tr key={e.processId} >
                                 <td>{e.processName}</td>
                                 <td className="text-center">
-                                    <input type="checkbox" data-processid={e.processId} checked={e.noticeAtBegin}
-                                        onChange={this.handleNoticeAtBeginChange}
-                                    />
+                                    <div className="checkbox">
+                                        <input type="checkbox" data-processid={e.processId} checked={e.noticeAtBegin}
+                                            onChange={this.handleNoticeAtBeginChange} className="checkbox-custom"
+                                        />
+                                        <label htmlForm></label>
+                                    </div>
                                 </td>
                                 <td key={e.processId} className="text-center">
                                     <select data-processid={e.processId} value={e.remindDay} onChange={this.handleRemindDayChange}>
