@@ -31,7 +31,12 @@
 
         public string Description { get; set; }
 
+#pragma warning disable S1541 // Methods and properties should not be too complex
+#pragma warning disable S3776 // Cognitive Complexity of methods should not be too high
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+#pragma warning restore S3776 // Cognitive Complexity of methods should not be too high
+#pragma warning restore S1541 // Methods and properties should not be too complex
         {
             if (TargetTypeId == TargetType.SemiAnual)
             {
@@ -45,6 +50,11 @@
                     yield return new ValidationResult(Message.EndDateRequired, new[] { nameof(EndDate) });
                 }
 
+                if (StartDate.HasValue && EndDate.HasValue && StartDate > EndDate)
+                {
+                    yield return new ValidationResult(Message.StartDateBeforeEndDate, new[] { nameof(StartDate) });
+                }
+
                 if (!DisciplineStartDate.HasValue)
                 {
                     yield return new ValidationResult(Message.DisciplineStartDateRequired, new[] { nameof(DisciplineStartDate) });
@@ -55,6 +65,11 @@
                     yield return new ValidationResult(Message.DisciplineEndDateRequired, new[] { nameof(DisciplineEndDate) });
                 }
 
+                if (DisciplineStartDate.HasValue && DisciplineEndDate.HasValue && DisciplineStartDate > DisciplineEndDate)
+                {
+                    yield return new ValidationResult(Message.DisciplineStartDateBeforeDisciplineEndDate, new[] { nameof(DisciplineStartDate) });
+                }
+
                 if (!FocusStartDate.HasValue)
                 {
                     yield return new ValidationResult(Message.FocusStartDateRequired, new[] { nameof(FocusStartDate) });
@@ -63,6 +78,11 @@
                 if (!FocusEndDate.HasValue)
                 {
                     yield return new ValidationResult(Message.FocusEndDateRequired, new[] { nameof(FocusEndDate) });
+                }
+
+                if (FocusStartDate.HasValue && FocusEndDate.HasValue && FocusStartDate > FocusEndDate)
+                {
+                    yield return new ValidationResult(Message.FocusStartDateBeforeFocusEndDate, new[] { nameof(FocusStartDate) });
                 }
             }
         }

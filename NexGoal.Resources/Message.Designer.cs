@@ -70,6 +70,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discipline Start Date must be before Discipline End Date.
+        /// </summary>
+        public static string DisciplineStartDateBeforeDisciplineEndDate {
+            get {
+                return ResourceManager.GetString("DisciplineStartDateBeforeDisciplineEndDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discipline Start Date is required..
         /// </summary>
         public static string DisciplineStartDateRequired {
@@ -246,6 +255,15 @@ namespace NexGoal.Resources {
         public static string FocusStartDateAfterEndDate {
             get {
                 return ResourceManager.GetString("FocusStartDateAfterEndDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Focus Start Date must be before Focus End Date.
+        /// </summary>
+        public static string FocusStartDateBeforeFocusEndDate {
+            get {
+                return ResourceManager.GetString("FocusStartDateBeforeFocusEndDate", resourceCulture);
             }
         }
         
@@ -453,6 +471,15 @@ namespace NexGoal.Resources {
         public static string RequiredErrorMessage {
             get {
                 return ResourceManager.GetString("RequiredErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Date must be before End Date.
+        /// </summary>
+        public static string StartDateBeforeEndDate {
+            get {
+                return ResourceManager.GetString("StartDateBeforeEndDate", resourceCulture);
             }
         }
         

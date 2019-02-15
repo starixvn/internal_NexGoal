@@ -46,6 +46,10 @@ export default class CreatePeriod extends Component {
                 errors.endDate = 'End Date is required';
             }
 
+            if (values.startDate && values.endDate && values.startDate.isAfter(values.endDate)) {
+                errors.startDate = 'Start Date must be before End Date';
+            }
+
             if (!values.disciplineStartDate) {
                 errors.disciplineStartDate = 'Discipline Start Date is required';
             }
@@ -54,12 +58,20 @@ export default class CreatePeriod extends Component {
                 errors.disciplineEndDate = 'Discipline End Date is required';
             }
 
+            if (values.disciplineStartDate && values.disciplineEndDate && values.disciplineStartDate.isAfter(values.disciplineEndDate)) {
+                errors.disciplineStartDate = 'Discipline Start Date must be before Discipline End Date';
+            }
+
             if (!values.focusStartDate) {
                 errors.focusStartDate = 'Focus Start Date is required';
             }
 
             if (!values.focusEndDate) {
                 errors.focusEndDate = 'Focus End Date is required';
+            }
+
+            if (values.focusStartDate && values.focusEndDate && values.focusStartDate.isAfter(values.focusEndDate)) {
+                errors.focusStartDate = 'Focus Start Date must be before Focus End Date';
             }
         }
 
@@ -156,7 +168,6 @@ export default class CreatePeriod extends Component {
                             <Col className="control-content">
                                 <DatePicker name="startDate" autoComplete="off"
                                     className={`form-control  ${touched.startDate && errors.startDate && 'input-validation-error'}`}
-                                    maxDate={values.endDate}
                                     dateFormat={DateFormat} selected={values.startDate}
                                     onChange={value => setFieldValue('startDate', value)} onChangeRaw={onChangeRaw}
                                 />
@@ -169,7 +180,6 @@ export default class CreatePeriod extends Component {
                             <Col className="control-content">
                                 <DatePicker name="endDate" autoComplete="off"
                                     className={`form-control  ${touched.endDate && errors.endDate && 'input-validation-error'}`}
-                                    minDate={values.startDate}
                                     dateFormat={DateFormat} selected={values.endDate}
                                     onChange={value => setFieldValue('endDate', value)} onChangeRaw={onChangeRaw}
                                 />
@@ -184,7 +194,6 @@ export default class CreatePeriod extends Component {
                             <Col className="control-content">
                                 <DatePicker name="disciplineStartDate" autoComplete="off"
                                     className={`form-control  ${touched.disciplineStartDate && errors.disciplineStartDate && 'input-validation-error'}`}
-                                    maxDate={values.disciplineEndDate}
                                     dateFormat={DateFormat} selected={values.disciplineStartDate}
                                     onChange={value => setFieldValue('disciplineStartDate', value)} onChangeRaw={onChangeRaw}
                                 />
@@ -197,7 +206,6 @@ export default class CreatePeriod extends Component {
                             <Col className="control-content">
                                 <DatePicker name="disciplineEndDate" autoComplete="off"
                                     className={`form-control  ${touched.disciplineEndDate && errors.disciplineEndDate && 'input-validation-error'}`}
-                                    minDate={values.disciplineStartDate}
                                     dateFormat={DateFormat} selected={values.disciplineEndDate}
                                     onChange={value => setFieldValue('disciplineEndDate', value)} onChangeRaw={onChangeRaw}
                                 />
@@ -211,7 +219,6 @@ export default class CreatePeriod extends Component {
                                 <Col className="control-content">
                                     <DatePicker name="focusStartDate" autoComplete="off"
                                         className={`form-control  ${touched.focusStartDate && errors.focusStartDate && 'input-validation-error'}`}
-                                        maxDate={values.focusEndDate}
                                         dateFormat={DateFormat} selected={values.focusStartDate}
                                         onChange={value => setFieldValue('focusStartDate', value)} onChangeRaw={onChangeRaw}
                                     />
@@ -222,7 +229,6 @@ export default class CreatePeriod extends Component {
                                 <Col className="control-content">
                                     <DatePicker name="disciplineEndDate" autoComplete="off"
                                         className={`form-control  ${touched.focusEndDate && errors.focusEndDate && 'input-validation-error'}`}
-                                        minDate={values.focusStartDate}
                                         dateFormat={DateFormat} selected={values.focusEndDate}
                                         onChange={value => setFieldValue('focusEndDate', value)} onChangeRaw={onChangeRaw}
                                     />
@@ -231,9 +237,9 @@ export default class CreatePeriod extends Component {
                         </div>
                     }
                     <div className="line-group">
-                        <FormGroup>                
+                        <FormGroup>
                             <div className="checkbox">
-                                <input type="checkbox" className="checkbox-custom" name="isActive" onChange={handleChange} checked={values.isActive} id="chb-isActive"/>
+                                <input type="checkbox" className="checkbox-custom" name="isActive" onChange={handleChange} checked={values.isActive} id="chb-isActive" />
                                 <label htmlFor="chb-isActive">Active</label>
                             </div>
                         </FormGroup>
