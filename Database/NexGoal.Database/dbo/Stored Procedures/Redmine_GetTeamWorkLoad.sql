@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[Redmine_GetTeamWorkLoad] @EmployeeId INT
+﻿CREATE PROCEDURE [dbo].[Redmine_GetTeamWorkLoad] @EmployeeId INT
 	,@PeriodId INT
 AS
 /*
@@ -48,13 +47,12 @@ BEGIN
 		,SUM(pst.[Hours]) AS TotalHour
 	FROM [dbo].Employee AS e WITH (NOLOCK)
 		INNER JOIN [dbo].[Group] AS g WITH (NOLOCK) ON e.GroupId = g.GroupId
-		INNER JOIN dbo.ProjectSpentTime AS pst WITH (NOLOCK) ON e.EmployeeId = pst.EmployeeId
-		INNER JOIN dbo.Project AS p WITH (NOLOCK) ON pst.ProjectId = p.ProjectId
 		INNER JOIN #member AS m ON m.EmployeeId = e.EmployeeId
+		LEFT JOIN dbo.ProjectSpentTime AS pst WITH (NOLOCK) ON e.EmployeeId = pst.EmployeeId
+		LEFT JOIN dbo.Project AS p WITH (NOLOCK) ON pst.ProjectId = p.ProjectId
 	WHERE e.IsDeleted = 0
 		AND e.[Enabled] = 1
-		AND pst.SpentOn BETWEEN @fromDate
-			AND @toDate
+		AND (pst.SpentOn IS NULL OR pst.SpentOn BETWEEN @fromDate AND @toDate)
 	GROUP BY g.GroupId
 		,g.[Name]
 		,e.EmployeeId

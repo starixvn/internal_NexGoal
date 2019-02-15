@@ -305,7 +305,26 @@ export default class Table extends Component {
                                     </div>
                                     <BootstrapTable {...props.baseProps} noDataIndication={noDataIndication}
                                         pagination={paginationFactory(PaginationOptions)} striped
-                                        selectRow={{ mode: 'checkbox', onSelect: this.onSelectRow, onSelectAll: this.onSelectAllRows }}
+                                        selectRow={{
+                                            mode: 'checkbox', onSelect: this.onSelectRow, onSelectAll: this.onSelectAllRows, selectionRenderer: ({ mode, ...rest }) => (
+                                                <div className="checkbox">
+                                                    <input type={mode} {...rest} className="checkbox-custom" />
+                                                    <label></label>
+                                                </div>
+
+                                            ),
+                                            selectionHeaderRenderer: ({ indeterminate, mode, checked }) => (
+                                                <div className="checkbox">
+                                                    <input type={mode} className="checkbox-custom"
+                                                        ref={(input) => {
+                                                            if (input) input.indeterminate = indeterminate;
+                                                        }}
+                                                        checked={checked}
+                                                    />
+                                                    <label></label>
+                                                </div>
+                                            )
+                                        }}
                                     />
                                 </Fragment>
                             );

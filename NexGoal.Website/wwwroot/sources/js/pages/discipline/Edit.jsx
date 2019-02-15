@@ -118,7 +118,7 @@ export default class Edit extends Component {
                 dialogClassName="custom-modal"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>{`Edit ${this.props.discipline.nickName}'s Discipline`}</Modal.Title>
+                    <Modal.Title>{`Edit ${this.props.discipline.employee.nickName}'s Discipline`}</Modal.Title>
                 </Modal.Header>
                 <Formik initialValues={{ ...this.props.discipline }}
                     validate={this.validateForm}
