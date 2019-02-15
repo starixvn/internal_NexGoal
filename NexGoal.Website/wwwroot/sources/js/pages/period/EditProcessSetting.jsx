@@ -103,10 +103,10 @@ export default class EditProcessSetting extends Component {
                                 <td>{e.processName}</td>
                                 <td className="text-center">
                                     <div className="checkbox">
-                                        <input type="checkbox" data-processid={e.processId} checked={e.noticeAtBegin}
+                                        <input type="checkbox" id={`notice-${e.processId}`} data-processid={e.processId} checked={e.noticeAtBegin}
                                             onChange={this.handleNoticeAtBeginChange} className="checkbox-custom"
                                         />
-                                        <label htmlForm></label>
+                                        <label htmlFor={`notice-${e.processId}`}></label>
                                     </div>
                                 </td>
                                 <td key={e.processId} className="text-center">

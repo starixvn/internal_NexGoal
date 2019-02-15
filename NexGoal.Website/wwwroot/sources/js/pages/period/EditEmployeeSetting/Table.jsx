@@ -263,6 +263,8 @@ export default class Table extends Component {
                 <ToolkitProvider keyField="paRecordId" columns={this.columns} data={this.props.data} search={{ searchFormatted: true }} >
                     {
                         props => {
+                        debugger;
+
                             return (
                                 <Fragment>
                                     <div className="search-wrapper clearfix" >
@@ -303,8 +305,9 @@ export default class Table extends Component {
                                             </button>
                                         </div>
                                     </div>
-                                    <BootstrapTable {...props.baseProps} noDataIndication={noDataIndication}
+                                    <BootstrapTable  {...props.baseProps} noDataIndication={noDataIndication}
                                         pagination={paginationFactory(PaginationOptions)} striped
+                                        id="tbl-setting"
                                         selectRow={{
                                             mode: 'checkbox', onSelect: this.onSelectRow, onSelectAll: this.onSelectAllRows, selectionRenderer: ({ mode, ...rest }) => (
                                                 <div className="checkbox">

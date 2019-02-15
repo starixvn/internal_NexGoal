@@ -91,3 +91,12 @@ table select {
         color: #545454;
     }
 }
+
+.react-bootstrap-table th[data-row-selection] {
+    width: 50px;
+    text-align: center
+}
+
+#tbl-setting > tbody > tr > td:first-child {
+    text-align: center;
+}
