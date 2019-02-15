@@ -137,6 +137,7 @@ BEGIN
 					AND period.FocusEndDate THEN 1
 			ELSE 0 END
 			) AS IsHost
+		,parecord.OriginalGradeId
 		,parecord.GradeId
 		,emp.EmployeeId
 		,emp.NickName

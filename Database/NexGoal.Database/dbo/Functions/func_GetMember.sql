@@ -63,7 +63,6 @@ BEGIN
 	--		AND [Enabled] = 1
 	--		AND IsDeleted = 0
 	--END
-	
 	IF EXISTS (
 			SELECT 1
 			FROM dbo.Period WITH (NOLOCK)
@@ -116,7 +115,7 @@ BEGIN
 		END
 		ELSE
 		BEGIN
-			SELECT @StartDate = '2018-06-01'
+			SELECT @StartDate = '2019-01-01'
 				,@EndDate = GETDATE()
 		END
 	END
@@ -137,16 +136,8 @@ BEGIN
 		AND efs.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
 		AND NOT EXISTS (
 			SELECT 1
-			FROM dbo.PARecord AS pa WITH (NOLOCK)
-			WHERE efs.EmployeeId = pa.EmployeeId
-				AND pa.PeriodId = @PeriodId
-				AND pa.StatusId <> @PARejected
-			)
-		AND NOT EXISTS (
-			SELECT 1
 			FROM @result AS result
 			WHERE emp.EmployeeId = result.EmployeeId
-				AND result.ProcessId = efs.ProcessId
 			)
 
 	INSERT INTO @result
@@ -167,16 +158,13 @@ BEGIN
 		AND gfs.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
 		AND NOT EXISTS (
 			SELECT 1
-			FROM dbo.PARecord AS pa WITH (NOLOCK)
-			WHERE emp.EmployeeId = pa.EmployeeId
-				AND pa.PeriodId = @PeriodId
-				AND pa.StatusId <> @PARejected
+			FROM dbo.EmployeeFlowSetting AS efs WITH (NOLOCK)
+			WHERE emp.EmployeeId = efs.EmployeeId
 			)
 		AND NOT EXISTS (
 			SELECT 1
 			FROM @result AS result
 			WHERE emp.EmployeeId = result.EmployeeId
-				AND result.ProcessId = gfs.ProcessId
 			)
 
 	IF EXISTS (
