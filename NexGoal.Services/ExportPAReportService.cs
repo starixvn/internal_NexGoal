@@ -243,7 +243,7 @@
             var reportDetail = await reportService.GetPAReportDetailAsync(actorId, paRecordId).ConfigureAwait(false);
 
             var pdf = await GetPdfSetting(reportDetail).ConfigureAwait(false);
-            var fileName = $"{reportDetail.Employee.NickName}_PAReport_{reportDetail.PARecord.Period.Name}.pdf";
+            var fileName = $"{reportDetail.Employee.NickName}_PA_{reportDetail.PARecord.Period.Name}.pdf";
             var file = converter.Convert(pdf);
 
             return new Tuple<string, byte[]>(fileName, file);

@@ -156,12 +156,6 @@ export default class App extends Component {
         }).catch(axiosError);
     }
 
-    handleExportPDF = (paRecordId) => {
-        const url = resolveClientUrl('Report/PaDetail?paRecordId=' + paRecordId);
-        const win = window.open(url, '_blank');
-        win.focus();
-    }
-
     getPARecords = () => {
         const filter = this.state.filter;
         axios.get(resolveClientUrl('Report/GetPARecords'), {
@@ -193,7 +187,6 @@ export default class App extends Component {
                         exportExcel={this.handleExportExcel}
                     />
                     <Table periodRecords={this.state.paPeriodRecords}
-                        exportPDF={this.handleExportPDF}
                         showPaDetail={this.handleClickViewPADetail}
                     />
                     {

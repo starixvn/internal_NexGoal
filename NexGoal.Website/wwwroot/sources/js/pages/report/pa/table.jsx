@@ -28,7 +28,7 @@ export default class Table extends Component {
         return <span className={`bold ${toeicClass}`}>{toeic ? toeic : getResource('N/A')}</span>;
     }
 
-    renderNoRecord = (groups) => {
+    renderGroupRecords = (groups) => {
         if (groups) {
             return groups.map(group => {
                 return this.renderGroupPA(group);
@@ -58,7 +58,7 @@ export default class Table extends Component {
                                 <td colSpan={this.totalColums}>{periodRecord.period.name}</td>
                             </tr>
                             {
-                                this.renderNoRecord(periodRecord.groups)
+                                this.renderGroupRecords(periodRecord.groups)
                             }
                         </Fragment>
                     );
@@ -121,12 +121,11 @@ export default class Table extends Component {
                             <span className="icon-search"
                                 onClick={() => this.showPADetails(record.paRecordId)}
                             />
-                            <span className="icon-pdf"
-                                onClick={() =>
-                                    this.props.exportPDF(record.paRecordId)}
-                            />
+                            <a href={`PaDetail?paRecordId=${record.paRecordId}`} >
+                                <span className="icon-pdf" />
+                            </a>
                         </td>
-                    </tr>
+                    </tr >
                 );
             })
         );
