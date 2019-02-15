@@ -168,7 +168,7 @@ export default class Nomination extends Component {
                             currentUser={this.props.currentUser}
                             employeeOptions={employeeOptions}
                             nominationPeriods={nominationPeriods}
-                            isEmployeeSelectable={!this.props.isMemberDetail}
+                            isEmployeeSelectable={!this.props.isMemberDetails}
                             nomineeId={this.props.nomineeId}
                             onCreateSuccess={this.handleCreateNominationSuccess}
                         />
@@ -185,7 +185,7 @@ export default class Nomination extends Component {
                         employeeOptions={employeeOptions}
                         onCloseModal={this.closeEditModal}
                         onEditSuccess={this.handleEditNominationSuccess}
-                        isEmployeeSelectable={!this.props.isMemberDetail}
+                        isEmployeeSelectable={!this.props.isMemberDetails}
                     />
                 }
                 {
