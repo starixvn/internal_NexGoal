@@ -1,46 +1,7 @@
-// .checkbox label {
-//     padding-left: 0;
-// }
 
-// input[type='checkbox'] {
-//     height: 16px;
-//     width: 16px;
-//     position: relative !important;
-//     cursor: pointer;
-//     top: 3px;
-//     margin-right: 4px;
-// }
-
-// input[type='checkbox']:after {
-//     content: '\f00c';
-//     font-family: 'FontAwesome';
-//     color: #fff;
-//     display: block;
-//     background: white;
-//     pointer-events: none;
-//     font-size: 10px;
-//     position: absolute;
-//     top: -1px;
-//     left: 0;
-//     height: 16px;
-//     width: 16px;
-//     transition: .25s all ease-in-out;
-//     @include border-radius(2px);
-//     line-height: 15px;
-//     border: 1px solid #808080;
-//     padding-left: 3px;
-//     box-sizing: border-box;
-// }
-
-// input[type='checkbox']:checked:after {
-//     background-color: #025feb;
-//     border: none;
-// }
-
-// .checkbox input[type="checkbox"] {
-//     margin: 0 4px 0 0;
-// }
-
+.checkbox {
+  margin: 0;
+}
 .checkbox-custom {
     position: absolute; // take it out of document flow
     opacity: 0; // hide it

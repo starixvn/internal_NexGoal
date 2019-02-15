@@ -99,9 +99,9 @@ export default class Table extends Component {
             text: `${getResource('Include')}`,
             classes: 'text-center',
             headerStyle: { width: '80px' },
-            formatter: (cell, row) => {
+            formatter: (cell, row, rowIndex) => {
                 return (
-                    <input type="checkbox" checked={row.statusId !== PAStatus.Rejected} onChange={() => this.editSettingStatusConfirmation(row)} />
+                    <div className="checkbox"><input type="checkbox" className="checkbox-custom" id={'chb-include' + rowIndex} checked={row.statusId !== PAStatus.Rejected} onChange={() => this.editSettingStatusConfirmation(row)} /><label for={'chb-include' + rowIndex}></label></div>
                 );
             }
         },

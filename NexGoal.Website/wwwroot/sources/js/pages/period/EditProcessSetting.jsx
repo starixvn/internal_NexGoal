@@ -89,7 +89,7 @@ export default class EditProcessSetting extends Component {
     render() {
         return (
             <Fragment>
-                <table className="table table-bordered">
+                <table className="table table-bordered" style={{marginTop: '12px'}}>
                     <thead>
                         <tr>
                             <th />

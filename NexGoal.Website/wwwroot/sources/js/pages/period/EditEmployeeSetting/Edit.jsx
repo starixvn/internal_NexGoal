@@ -82,7 +82,10 @@ export default class Edit extends Component {
         };
         const employees = this.props.settings.map(e => e.employee.nickName).join(', ');
         let numberOfPARecord = this.props.paRecordIds.length;
-
+        let lbstyle = {
+            display: 'inline-block', 
+            paddingLeft: '12px'
+        };
         return (
             <Form id="edit-employee-settings" horizontal onSubmit={handleSubmit}>
                 <Modal.Body>
@@ -91,11 +94,10 @@ export default class Edit extends Component {
                             {errors.noSelect && <li>{errors.noSelect}</li>}
                         </ul>
                     }
-                    <FormGroup>
-                        <Col componentClass={ControlLabel} sm={3}>{getResource('Employee')}</Col>
-                        <Col sm={9} style={{ paddingTop: '7px' }}  >{employees}</Col>
-                    </FormGroup>
-
+                    <div>
+                        <label>{getResource('Employee')}</label>
+                        <div style={lbstyle}  >{employees}</div>
+                    </div>
                     <table className="table table-bordered">
                         <thead>
                             <tr>

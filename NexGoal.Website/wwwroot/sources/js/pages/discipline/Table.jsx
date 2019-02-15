@@ -105,12 +105,12 @@ export default class Table extends Component {
                 text: `${getResource('Active')}`,
                 classes: 'text-center',
                 headerStyle: { width: '80px' },
-                formatter: (cell, row) => {
+                formatter: (cell, row, rowIndex) => {
                     if (isHost) {
-                        return <input type='checkbox' defaultChecked={row.isActive} onChange={event => this.handleEditStatus(event, row)} />;
+                        return <div className="checkbox"><input type='checkbox' id={'chb-active-' + rowIndex} defaultChecked={row.isActive} onChange={event => this.handleEditStatus(event, row)} className="checkbox-custom" /><label for={'chb-active-' + rowIndex}></label></div>;
                     }
 
-                    return <input type='checkbox' checked={row.isActive} readOnly />;
+                    return <div className="checkbox"><input type='checkbox' id={'chb-active-' + rowIndex} checked={row.isActive} readOnly className="checkbox-custom"/><label for={'chb-active-' + rowIndex}></label></div>;
                 }
             },
             {
