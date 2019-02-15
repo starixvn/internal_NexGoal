@@ -155,7 +155,7 @@ var resource_en_US = {
     'UpdatePermissionSuccessfully': 'Permission has been successfully updated!',
     'UpdatedSuccessfully': 'Updated successfully!',
     'UnpaidLeave': 'Unpaid Leave',
-    'UnplanedLeave': 'Unplaned Annual Leave',
+    'UnplannedLeave': 'Unplanned Annual Leave',
     'Vote': 'Vote',
     'Year': 'Year',
     'Workload': 'Workload'

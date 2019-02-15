@@ -86,7 +86,7 @@ export default class HRM extends Component {
                     <li>{getResource('MissingCheckInOut')}<span className="bold">: {hrm.missingCheckInCheckOut}</span></li>
                     <li>{getResource('LateInEarlyOut')}<span className="bold">: {hrm.totalLateInEarlyOut}</span></li>
                     <li>{getResource('UnpaidLeave')}<span className="bold">: {hrm.unpaidLeave}</span></li>
-                    <li>{getResource('UnplanedLeave')}<span className="bold">: {hrm.unplanedAnnualLeave}</span></li>
+                    <li>{getResource('UnplannedLeave')}<span className="bold">: {hrm.unplanedAnnualLeave}</span></li>
                     <li>{getResource('SickLeave')}<span className="bold">: {hrm.sickLeave}</span></li>
                     <li>{getResource('Discipline')}<span className="bold">: {this.renderDiscipline(hrm.incident)}</span></li>
                 </ul>
