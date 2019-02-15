@@ -457,6 +457,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Probation process is going to be CLOSED on {0}, please follow up on the progress and make a reminder for related people (if needed)..
+        /// </summary>
+        public static string NotificationTemplate_Probation_RemindToHR {
+            get {
+                return ResourceManager.GetString("NotificationTemplate_Probation_RemindToHR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Probation process is going to be CLOSED on {0}, please create a Performance Record (with a detailed comment, selected grade, and a &quot;Probation&quot; tag) for yourself..
         /// </summary>
         public static string NotificationTemplate_Probation_RemindToMember {

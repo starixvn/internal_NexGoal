@@ -26,6 +26,7 @@
     <None Remove="EmailTemplates\PA\RemindToReviewer.cshtml" />
     <None Remove="EmailTemplates\PA\StartToReviewer.cshtml" />
     <None Remove="EmailTemplates\Probation\RemindToEvaluator.cshtml" />
+    <None Remove="EmailTemplates\Probation\RemindToHR.cshtml" />
     <None Remove="EmailTemplates\Probation\RemindToMember.cshtml" />
   </ItemGroup>
 
@@ -71,6 +72,10 @@
     <Content Include="EmailTemplates\PA\StartToReviewer.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\Probation\RemindToHR.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="EmailTemplates\Probation\RemindToEvaluator.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

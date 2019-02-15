@@ -249,6 +249,9 @@
   <data name="NotificationTemplate_Probation_RemindToEvaluator" xml:space="preserve">
     <value>The Probation process is going to be CLOSED on {0}, please create a Performance Record (with a detailed comment, selected grade, and a "Probation" tag) for your member(s).</value>
   </data>
+  <data name="NotificationTemplate_Probation_RemindToHR" xml:space="preserve">
+    <value>The Probation process is going to be CLOSED on {0}, please follow up on the progress and make a reminder for related people (if needed).</value>
+  </data>
   <data name="NotificationTemplate_Probation_RemindToMember" xml:space="preserve">
     <value>The Probation process is going to be CLOSED on {0}, please create a Performance Record (with a detailed comment, selected grade, and a "Probation" tag) for yourself.</value>
   </data>
