@@ -221,24 +221,26 @@
         private static void WritePAFocus(ExcelWorksheet worksheet, int currentRow, int toRow, MasterReportModel record, bool merge)
         {
             var backgroundColor = Color.Empty;
+            var textColor = Color.Empty;
 
             var hasReadyPromotionSelect = bool.TryParse(record.IsReadyPromotion, out bool isReadyPromotion);
 
             if ((record.ContributionId + record.BonusGivenId) > 8 && hasReadyPromotionSelect)
             {
                 backgroundColor = isReadyPromotion ? Color.FromArgb(89, 176, 59) : Color.FromArgb(104, 169, 189);
+                textColor = Color.White;
             }
             else
             {
                 if ((record.ContributionId + record.BonusGivenId) < 4)
                 {
                     backgroundColor = Color.FromArgb(255, 95, 95);
+                    textColor = Color.White;
                 }
             }
 
             var contributionCell = worksheet.Cells[currentRow, 13, toRow, 13];
             contributionCell.Merge = merge;
-            contributionCell.Value = record.Contribution;
             contributionCell.Value = record.Contribution;
 
             var bonusGivenCell = worksheet.Cells[currentRow, 14, toRow, 14];
@@ -260,6 +262,13 @@
                 contributionCell.Style.Fill.BackgroundColor.SetColor(backgroundColor);
                 readyPromotionCell.Style.Fill.PatternType = ExcelFillStyle.Solid;
                 readyPromotionCell.Style.Fill.BackgroundColor.SetColor(backgroundColor);
+            }
+
+            if (textColor != Color.Empty)
+            {
+                bonusGivenCell.Style.Font.Color.SetColor(textColor);
+                contributionCell.Style.Font.Color.SetColor(textColor);
+                readyPromotionCell.Style.Font.Color.SetColor(textColor);
             }
         }
 
