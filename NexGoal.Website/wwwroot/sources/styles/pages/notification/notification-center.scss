@@ -22,7 +22,7 @@
     border: 1px solid #c5c5c5;
     padding-top: 55px;
     margin: 0 16px;
-    height: calc(100% - 156px);
+    height: calc(100% - 80px);
     box-sizing: content-box;
     overflow: auto;
 
@@ -65,7 +65,7 @@
     }
 
     .noti-body {
-        height: calc(100% - 180px);
+        height: calc(100% - 60px);
 
         .noti-center-item {
             @include border-radius(5px);
