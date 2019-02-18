@@ -397,7 +397,7 @@ export default class App extends Component {
                                     groupOptions={this.myGroupOptions}
                                     onNodeClick={this.handleClickTimelineNode}
                                 />
-                            </CustomScrollbars >
+                            </CustomScrollbars>
                         </div>
                         <div className="main-content">
                             <div className="fixed-section">
