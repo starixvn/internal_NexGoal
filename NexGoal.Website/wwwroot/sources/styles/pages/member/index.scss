@@ -145,11 +145,11 @@
     }
 
     .previous {
-        left: -15px;
+        left: -11px;
     }
 
     .next {
-        right: -15px;
+        right: -13px;
     }
 }
 
@@ -198,9 +198,12 @@
 
     .name {
         width: 58px;
+        height: 17px;
+        line-height: 13px;
 
         @media screen and (min-width: 1601px) {
             width: 60px;
+
         }
 
         &.role-default {
