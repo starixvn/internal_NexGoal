@@ -4,7 +4,6 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Models.PARecord;
-    using NexGoal.Models.Report;
     using NexGoal.Services;
     using NexGoal.Services.Interfaces;
     using NexGoal.Web.Core.Services;
@@ -52,11 +51,16 @@
             return File(fileContent, MimeType.XLSX, fileName);
         }
 
-        public async Task<IActionResult> PaDetail(GetPADetailParam model)
+        public async Task<IActionResult> PADetailPDF(int paRecordId)
         {
-            model.ActorId = sessionService.EmployeeId;
-            var tuple = await exportService.ExportPADetailPDF(sessionService.EmployeeId, model.PARecordId).ConfigureAwait(false);
+            var tuple = await exportService.ExportPADetailPDF(sessionService.EmployeeId, paRecordId).ConfigureAwait(false);
             return File(tuple.Item2, "application/pdf", tuple.Item1);
+        }
+
+        public async Task<IActionResult> PaDetail(int paRecordId)
+        {
+            var paDetail = await reportService.GetPAReportDetailAsync(sessionService.EmployeeId, paRecordId).ConfigureAwait(false);
+            return View(paDetail);
         }
     }
 }
