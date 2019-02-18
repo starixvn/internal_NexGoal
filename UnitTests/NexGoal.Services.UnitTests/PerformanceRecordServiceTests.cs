@@ -27,32 +27,7 @@
         {
             // Arrange
             var gradeId = "1";
-            var performanceRecords = new List<PerformanceRecord>
-            {
-                new PerformanceRecord
-                {
-                    PerformanceRecordId = 1,
-                    Creator = new Employee
-                    {
-                        EmployeeId = 1,
-                        NickName = "NickName1",
-                        FullName = "FullName1",
-                        Code = "Code1"
-                    },
-                    Employees = new List<Employee>
-                    {
-                        new Employee
-                        {
-                            EmployeeId = 2,
-                            NickName = "NickName2",
-                            FullName = "FullName2",
-                            Code = "Code2"
-                        }
-                    },
-                    Comment = "Comment",
-                    GradeId = "cipher text"
-                }
-            };
+            IEnumerable<PerformanceRecord> performanceRecords = GetPerformanceRecords();
             IEnumerable<PerformanceGrade> performanceGrades = Helpers.GetPerformanceGrades();
             var criteria = new GetPerformanceRecordByEmployeeCriteria();
             var service = GetPerformanceRecordService();
@@ -70,98 +45,40 @@
             Assert.Equal(1, criteria.EmployeeId);
         }
 
-        ////#region GetPerformanceTimelineAsync
+        [Fact]
+        public async Task GetPerformanceTimelineAsync_WhenCalled_ReturnAsExpectedPerformanceRecords()
+        {
+            // Arrange
+            var gradeId = "1";
+            var param = new GetPerformanceTimelineParam();
+            IEnumerable<PerformanceRecord> performanceRecords = GetPerformanceRecords();
+            IEnumerable<PerformanceGrade> performanceGrades = Helpers.GetPerformanceGrades();
+            var criteria = new GetPerformanceTimelineCriteria();
+            var service = GetPerformanceRecordService();
+            performanceRecordRepository.GetPerformanceTimelineAsync(Arg.Do<GetPerformanceTimelineCriteria>(x => criteria = x)).Returns(performanceRecords);
+            commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
+            cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
 
-        ////[Fact]
-        ////public async Task GetPerformanceTimelineAsync_PerformanceRecordsAreNotExist_ReturnEmpty()
-        ////{
-        ////    // Arrange
-        ////    var performanceRecords = new List<PerformanceRecord>();
-        ////    var nominationPeriods = new List<NominationPeriodModel>();
-        ////    var tuple = new Tuple<IEnumerable<PerformanceRecord>, IEnumerable<NominationPeriodModel>>(performanceRecords, nominationPeriods);
-        ////    var service = GetPerformanceRecordService();
-        ////    baseService.FetchMultipleAsync<PerformanceRecord, NominationPeriodModel>(Arg.Any<GetPerformanceTimelineCriteria>()).Returns(tuple);
+            // Act
+            var actual = await service.GetPerformanceTimelineAsync(param);
 
-        ////    // Act
-        ////    var actual = await service.GetPerformanceTimelineAsync(new GetPerformanceTimelineParam());
+            // Assert
+            Assert.Equal(performanceRecords, actual.Item1);
+            Assert.True(actual.Item1.First().Grade == performanceGrades.First());
 
-        ////    // Assert
-        ////    Assert.Empty(actual.Item1);
-        ////    Assert.Equal(0, actual.Item2);
-        ////}
+            Assert.Equal(0, actual.Item2);
 
-        ////[Fact]
-        ////public async Task GetPerformanceTimelineAsync_MappingData_ReturnAsExpectedPerformanceRecords()
-        ////{
-        ////    // Arrange
-        ////    var gradeId = "1";
-        ////    var performanceRecords = new List<PerformanceRecord>
-        ////    {
-        ////        new PerformanceRecord
-        ////        {
-        ////            PerformanceRecordId = 1,
-        ////            EmployeeIds = "1",
-        ////            ProjectIds = "1",
-        ////            GradeId = "cipher text",
-        ////            PeriodId = 1,
-        ////            NominationPeriodId = 1
-        ////        }
-        ////    };
-        ////    IEnumerable<NominationPeriodModel> nominationPeriods = GetNominationPeriodForTest();
-        ////    IEnumerable<Employee> employees = GetEmployeeForTest();
-        ////    IEnumerable<PerformanceGrade> performanceGrades = Helpers.GetPerformanceGrades();
-        ////    var tuple = new Tuple<IEnumerable<PerformanceRecord>, IEnumerable<NominationPeriodModel>>(performanceRecords, nominationPeriods);
-        ////    var service = GetPerformanceRecordService();
-        ////    baseService.FetchMultipleAsync<PerformanceRecord, NominationPeriodModel>(Arg.Any<GetPerformanceTimelineCriteria>()).Returns(tuple);
-        ////    commonService.GetEmployeesAsync(isEnabled: null).Returns(employees);
-        ////    commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
-        ////    cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
-
-        ////    // Act
-        ////    var actual = await service.GetPerformanceTimelineAsync(new GetPerformanceTimelineParam());
-
-        ////    // Assert
-        ////    Assert.Single(actual.Item1);
-        ////    Assert.Equal(performanceRecords, actual.Item1);
-        ////    Assert.True(actual.Item1.First().Grade == performanceGrades.First());
-        ////    Assert.True(actual.Item1.First().NominationPeriod == nominationPeriods.First());
-
-        ////    Assert.Equal(0, actual.Item2);
-        ////}
-
-        ////#endregion GetPerformanceTimelineAsync
+            Assert.Equal(param.EmployeeId, criteria.EmployeeId);
+            Assert.Equal(param.PageIndex, criteria.PageIndex);
+            Assert.Equal(param.PageSize, criteria.PageSize);
+        }
 
         [Fact]
         public async Task GetMemberPerformanceAsync_WhenCalled_ReturnAsExpectedPerformanceRecords()
         {
             // Arrange
             var gradeId = "1";
-            var performanceRecords = new List<PerformanceRecord>
-            {
-                new PerformanceRecord
-                {
-                    PerformanceRecordId = 1,
-                    Creator = new Employee
-                    {
-                        EmployeeId = 1,
-                        NickName = "NickName1",
-                        FullName = "FullName1",
-                        Code = "Code1"
-                    },
-                    Employees = new List<Employee>
-                    {
-                        new Employee
-                        {
-                            EmployeeId = 2,
-                            NickName = "NickName2",
-                            FullName = "FullName2",
-                            Code = "Code2"
-                        }
-                    },
-                    Comment = "Comment",
-                    GradeId = "cipher text"
-                }
-            };
+            IEnumerable<PerformanceRecord> performanceRecords = GetPerformanceRecords();
             var criteria = new GetMemberPerformanceCriteria();
             IEnumerable<PerformanceGrade> performanceGrades = Helpers.GetPerformanceGrades();
             var service = GetPerformanceRecordService();
@@ -184,32 +101,7 @@
         {
             // Arrange
             var gradeId = "1";
-            var performanceRecords = new List<PerformanceRecord>
-            {
-                new PerformanceRecord
-                {
-                    PerformanceRecordId = 1,
-                    Creator = new Employee
-                    {
-                        EmployeeId = 1,
-                        NickName = "NickName1",
-                        FullName = "FullName1",
-                        Code = "Code1"
-                    },
-                    Employees = new List<Employee>
-                    {
-                        new Employee
-                        {
-                            EmployeeId = 2,
-                            NickName = "NickName2",
-                            FullName = "FullName2",
-                            Code = "Code2"
-                        }
-                    },
-                    Comment = "Comment",
-                    GradeId = "cipher text"
-                }
-            };
+            IEnumerable<PerformanceRecord> performanceRecords = GetPerformanceRecords();
             var criteria = new GetMemberPerformanceDetailCriteria();
             IEnumerable<PerformanceGrade> performanceGrades = Helpers.GetPerformanceGrades();
             var service = GetPerformanceRecordService();
@@ -299,29 +191,7 @@
         {
             // Arrange
             var gradeId = "1";
-            var performanceRecord = new PerformanceRecord
-            {
-                PerformanceRecordId = 1,
-                Creator = new Employee
-                {
-                    EmployeeId = 1,
-                    NickName = "NickName1",
-                    FullName = "FullName1",
-                    Code = "Code1"
-                },
-                Employees = new List<Employee>
-                {
-                    new Employee
-                    {
-                        EmployeeId = 2,
-                        NickName = "NickName2",
-                        FullName = "FullName2",
-                        Code = "Code2"
-                    }
-                },
-                Comment = "Comment",
-                GradeId = "cipher text"
-            };
+            PerformanceRecord performanceRecord = GetPerformanceRecords().First();
             IEnumerable<PerformanceGrade> performanceGrades = Helpers.GetPerformanceGrades();
             var criteria = new GetPerformanceRecordByIdCriteria();
             var service = GetPerformanceRecordService();
@@ -345,29 +215,7 @@
         {
             // Arrange
             var gradeId = "1";
-            var performanceRecord = new PerformanceRecord
-            {
-                PerformanceRecordId = 1,
-                Creator = new Employee
-                {
-                    EmployeeId = 1,
-                    NickName = "NickName1",
-                    FullName = "FullName1",
-                    Code = "Code1"
-                },
-                Employees = new List<Employee>
-                {
-                    new Employee
-                    {
-                        EmployeeId = 2,
-                        NickName = "NickName2",
-                        FullName = "FullName2",
-                        Code = "Code2"
-                    }
-                },
-                Comment = "Comment",
-                GradeId = "cipher text"
-            };
+            PerformanceRecord performanceRecord = GetPerformanceRecords().First();
             IEnumerable<PerformanceGrade> performanceGrades = Helpers.GetPerformanceGrades();
             var criteria = new GetDraftPerformanceRecordByIdCriteria();
             var service = GetPerformanceRecordService();
@@ -390,32 +238,7 @@
         {
             // Arrange
             var gradeId = "1";
-            var performanceRecords = new List<PerformanceRecord>
-            {
-                new PerformanceRecord
-                {
-                    PerformanceRecordId = 1,
-                    Creator = new Employee
-                    {
-                        EmployeeId = 1,
-                        NickName = "NickName1",
-                        FullName = "FullName1",
-                        Code = "Code1"
-                    },
-                    Employees = new List<Employee>
-                    {
-                        new Employee
-                        {
-                            EmployeeId = 2,
-                            NickName = "NickName2",
-                            FullName = "FullName2",
-                            Code = "Code2"
-                        }
-                    },
-                    Comment = "Comment",
-                    GradeId = "cipher text"
-                }
-            };
+            IEnumerable<PerformanceRecord> performanceRecords = GetPerformanceRecords();
             IEnumerable<PerformanceGrade> performanceGrades = Helpers.GetPerformanceGrades();
             var criteria = new GetPerformanceRecordByIdsCriteria();
             var service = GetPerformanceRecordService();
@@ -677,6 +500,34 @@
         }
 
         #region Helpers
+
+        private IEnumerable<PerformanceRecord> GetPerformanceRecords()
+        {
+            var performanceRecords = new List<PerformanceRecord>
+            {
+                new PerformanceRecord
+                {
+                    PerformanceRecordId = 1,
+                    GradeId = "cipher text",
+                    Comment = "comment",
+                    Creator = new Employee
+                    {
+                        EmployeeId = 1,
+                        NickName = "quinn"
+                    },
+                    Employees = new List<Employee>
+                    {
+                        new Employee
+                        {
+                            EmployeeId = 2,
+                            NickName = "tim"
+                        }
+                    }
+                }
+            };
+
+            return performanceRecords;
+        }
 
         private PerformanceRecordService GetPerformanceRecordService()
         {
