@@ -153,9 +153,11 @@
                                         string statusClass = string.Format("status-{0}",
                                             achievement.StatusId.ToString().ToLowerInvariant());
                                         <tr>
-                                            <td>@index</td>
+                                            <td class="text-center">@index</td>
                                             <td>@achievement.Period.Title</td>
-                                            <td class="@statusClass">@achievement.StatusId.ToString()</td>
+                                            <td class="text-center">
+                                                <span class="@statusClass">@achievement.StatusId.ToString()</span>
+                                            </td>
                                         </tr>
                                     }
                                 }

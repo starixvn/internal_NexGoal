@@ -122,17 +122,27 @@
             {
                 templateWorksheet.Cells[11, 1, 11, TotalColumns].Copy(worksheet.Cells[currentRow, 1, currentRow, TotalColumns]);
                 worksheet.Cells[currentRow, 1].Value = index;
+                worksheet.Cells[currentRow, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Cells[currentRow, 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
                 worksheet.Cells[currentRow, 2].Value = pa.Employee.NickName;
+                worksheet.Cells[currentRow, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                worksheet.Cells[currentRow, 2].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
                 worksheet.Cells[currentRow, 3].Value = pa.Employee.JobTitle;
+                worksheet.Cells[currentRow, 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                worksheet.Cells[currentRow, 3].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
                 WriteToeic(templateWorksheet, worksheet.Cells[currentRow, 4], pa.ToeicPolicy, pa.Toeic);
+                worksheet.Cells[currentRow, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Cells[currentRow, 4].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
                 WritePerformanceRecordByProcess(worksheet.Cells[currentRow, 5], pa.Processes, PerformanceProcess.Self);
                 WritePerformanceRecordByProcess(worksheet.Cells[currentRow, 6], pa.Processes, PerformanceProcess.ProjectManager);
                 WritePerformanceRecordByProcess(worksheet.Cells[currentRow, 7], pa.Processes, PerformanceProcess.Evaluator);
                 WritePerformanceRecordByProcess(worksheet.Cells[currentRow, 8], pa.Processes, PerformanceProcess.Reviewer);
                 WritePAFinalGrade(worksheet.Cells[currentRow, 9], pa);
 
-                worksheet.Row(currentRow).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-                worksheet.Row(currentRow).Style.VerticalAlignment = ExcelVerticalAlignment.Top;
                 worksheet.Row(currentRow).Style.WrapText = true;
                 currentRow++;
                 index++;
@@ -221,6 +231,8 @@
         {
             if (record != null)
             {
+                cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                cell.Style.VerticalAlignment = ExcelVerticalAlignment.Top;
                 var richTextCollection = cell.RichText;
                 var assessorText = richTextCollection.Add(record.Creator.NickName);
                 assessorText.Bold = true;
@@ -259,7 +271,7 @@
                 Orientation = Orientation.Portrait,
                 PaperSize = PaperKind.A4,
                 Margins = new MarginSettings { Unit = Unit.Millimeters, Top = 10, Bottom = 10, Left = 5, Right = 5 },
-                DocumentTitle = $"{reportDetail.Employee.NickName}_Report"
+                DocumentTitle = $"{reportDetail.Employee.NickName}'s_PA"
             };
 
             var objectSettings = new ObjectSettings

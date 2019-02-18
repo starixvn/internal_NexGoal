@@ -17,8 +17,8 @@ BEGIN
 			,@Draft TINYINT = 4
 
 	SELECT @EmployeeId = pa.EmployeeId
-		  ,@FromDate = p.StartDate
-		  ,@ToDate = p.EndDate
+		  ,@FromDate = p.DisciplineStartDate
+		  ,@ToDate = p.DisciplineEndDate
 	FROM dbo.PARecord AS pa WITH (NOLOCK) 
 	INNER JOIN dbo.Period AS p WITH (NOLOCK) ON p.PeriodId = pa.PeriodId
 	WHERE pa.PARecordId = @PARecordId
