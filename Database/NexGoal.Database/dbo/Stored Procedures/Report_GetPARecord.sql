@@ -5,7 +5,7 @@
 AS
 /*
 Created: 20181220@Oliver.Dang
-Task: Get PA by Reviewer.
+Task: Get PA Report.
 DB: bodb_NexGoal
 Original:
 
@@ -53,7 +53,7 @@ BEGIN
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
 		INNER JOIN #tblGroupId AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		INNER JOIN #tblEmployee AS e WITH (NOLOCK) ON e.EmpId = emp.EmployeeId
-	WHERE pa.StatusId = @PAClosed
+	WHERE pa.StatusId IN (@PAInProgress, @PAClosed)
 		AND process.ProcessId IN (@ReviewerProcessId, @EvaluatorProcessId)
 	GROUP BY pa.PARecordId
 	
@@ -62,7 +62,7 @@ BEGIN
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
 		INNER JOIN #tblPeriodId AS p WITH (NOLOCK) ON period.PeriodId = p.PeriodId
-	WHERE pa.EmployeeId = @ActorId AND pa.StatusId = @PAClosed
+	WHERE pa.EmployeeId = @ActorId AND pa.StatusId IN (@PAInProgress, @PAClosed)
 	GROUP BY pa.PARecordId
 
 	SELECT pa.PARecordId
