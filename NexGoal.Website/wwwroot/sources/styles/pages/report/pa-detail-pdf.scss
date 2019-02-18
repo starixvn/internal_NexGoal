@@ -66,6 +66,7 @@
         &.info {
             display: table;
             width: 100%;
+
             .section {
                 display: table-cell;
                 width: 50%;
@@ -143,14 +144,14 @@ $last-pci: #46607F;
     }
 
     li {
-        width: 72px;
-        height: 50px;
-        padding: 0;
+        width: 86px;
+        height: 45px;
+        padding: 5px 0 0 0;
         position: relative;
         margin-right: 10px;
         vertical-align: middle;
         font-weight: 600;
-        font-size: 7px;
+        font-size: 9px;
         text-align: center;
         display: inline-block;
         justify-content: center;
@@ -238,13 +239,16 @@ $last-pci: #46607F;
 
 .record {
     display: block;
+
     .avatar-user {
         display: block;
         height: 45px;
     }
+
     .comment, .grade {
         margin-top: 8px;
     }
+
     .comment {
         padding: 6px 0;
     }

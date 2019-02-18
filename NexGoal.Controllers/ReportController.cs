@@ -51,16 +51,10 @@
             return File(fileContent, MimeType.XLSX, fileName);
         }
 
-        public async Task<IActionResult> PADetailPDF(int paRecordId)
-        {
-            var tuple = await exportService.ExportPADetailPDF(sessionService.EmployeeId, paRecordId).ConfigureAwait(false);
-            return File(tuple.Item2, "application/pdf", tuple.Item1);
-        }
-
         public async Task<IActionResult> PaDetail(int paRecordId)
         {
-            var paDetail = await reportService.GetPAReportDetailAsync(sessionService.EmployeeId, paRecordId).ConfigureAwait(false);
-            return View(paDetail);
+            var tuple = await exportService.ExportPADetailPDF(sessionService.EmployeeId, paRecordId).ConfigureAwait(false);
+            return File(tuple.Item2, MimeType.PDF, tuple.Item1);
         }
     }
 }
