@@ -72,11 +72,11 @@ class Table extends Component {
                             <div className="checkbox"><input type='checkbox' name="Committee"
                                 defaultChecked={row.isCommittee}
                                 onChange={(e) => this.handleCheckboxChange(e, row)} className="checkbox-custom" id={'chb-committee' + rowIndex}
-                            /><label for={'chb-committee' + rowIndex}></label></div>
+                            /><label htmlFor={'chb-committee' + rowIndex}></label></div>
                         );
                     }
 
-                    return <div className="checkbox"><input type='checkbox' className="checkbox-custom" id={'chb-committee' + rowIndex} name="Committee" defaultChecked={row.isCommittee} readOnly /><label for={'chb-committee' + rowIndex}></label></div>;
+                    return <div className="checkbox"><input type='checkbox' className="checkbox-custom" id={'chb-committee' + rowIndex} name="Committee" defaultChecked={row.isCommittee} readOnly /><label htmlFor={'chb-committee' + rowIndex}></label></div>;
                 }
             },
             {

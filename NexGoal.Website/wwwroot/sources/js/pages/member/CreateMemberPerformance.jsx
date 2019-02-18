@@ -276,7 +276,7 @@ export default class CreateMemberPerformance extends Component {
                     {
                         !isOpenForm &&
                         <input className="form-control"
-                            style={{ height: 50, marginBottom: 15 }}
+                            style={{ height: 50 }}
                             placeholder="What's on your mind?"
                             onClick={this.handleOpenForm}
                         />

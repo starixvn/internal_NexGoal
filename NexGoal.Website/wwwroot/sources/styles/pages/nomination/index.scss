@@ -14,7 +14,7 @@
 @import "../../components/toast";
 @import "../../components/dropdown";
 
-#create-eoq-form {
+#create-eoq-form, #create-eoy-form {
     .form-group {
         &.description-group {
             display: block;
@@ -29,5 +29,11 @@
     }
     .line-group {
         margin-bottom: 12px;
+        .title-group {
+            margin-bottom: 8px;
+        }
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
 }

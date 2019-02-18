@@ -74,7 +74,7 @@ class CreateEOY extends Component {
         ];
 
         return (
-            <Form id="create-eoy-form" horizontal onSubmit={handleSubmit}>
+            <Form id="create-eoy-form" inline onSubmit={handleSubmit}>
                 <Modal.Body>
                     {
                         !isEmpty(errors) && !isEmpty(touched) &&
@@ -87,68 +87,81 @@ class CreateEOY extends Component {
                             {touched.description && errors.description && <li>{errors.description}</li>}
                         </ul>
                     }
-
-                    <FormGroup>
-                        <label className="col-sm-3 control-label required-label">{getResource('Year')}</label>
-                        <div className="col-sm-3 field">
-                            <Select name="year" isSearchable={false} isClearable={false}
-                                className="react-select-container" classNamePrefix="react-select"
-                                value={values.year}
-                                options={yearOptions}
-                                onChange={selectedOption => setFieldValue('year', selectedOption)}
-                            />
-                        </div>
-                    </FormGroup>
-                    <FormGroup>
-                        <label className="col-sm-3 control-label required-label">{getResource('StartDateForNominator')}</label>
-                        <div className="col-sm-3 field">
-                            <DatePicker name="startDateForNominator" autoComplete="off"
-                                className={`form-control ${touched.startDateForNominator && errors.startDateForNominator && 'input-validation-error'}`}
-                                dateFormat={DateFormat}
-                                selected={values.startDateForNominator}
-                                onChange={value => setFieldValue('startDateForNominator', value)}
-                            />
-                        </div>
-                        <label className="col-sm-3 control-label required-label">{getResource('EndDateForNominator')}</label>
-                        <div className="col-sm-3 field">
-                            <DatePicker name="endDateForNominator" autoComplete="off"
-                                className={`form-control ${touched.endDateForNominator && errors.endDateForNominator && 'input-validation-error'}`}
-                                dateFormat={DateFormat}
-                                selected={values.endDateForNominator}
-                                onChange={value => setFieldValue('endDateForNominator', value)}
-                            />
-                        </div>
-                    </FormGroup>
-                    <FormGroup>
-                        <label className="col-sm-3 control-label required-label">{getResource('RemindDateForNominator')}</label>
-                        <div className="col-sm-3 field">
-                            <DatePicker name="remindDateForNominator" autoComplete="off"
-                                className={`form-control ${touched.remindDateForNominator && errors.remindDateForNominator && 'input-validation-error'}`}
-                                dateFormat={DateFormat}
-                                selected={values.remindDateForNominator}
-                                onChange={value => setFieldValue('remindDateForNominator', value)}
-                            />
-                        </div>
-                        <label className="col-sm-3 control-label required-label">{getResource('EndDateForCommittee')}</label>
-                        <div className="col-sm-3 field">
-                            <DatePicker name="endDateForCommittee" autoComplete="off"
-                                className={`form-control ${touched.endDateForCommittee && errors.endDateForCommittee && 'input-validation-error'}`}
-                                dateFormat={DateFormat}
-                                selected={values.endDateForCommittee}
-                                onChange={value => setFieldValue('endDateForCommittee', value)}
-                            />
-                        </div>
-                    </FormGroup>
-                    <FormGroup>
-                        <label className="col-sm-3 control-label">{getResource('Description')}</label>
-                        <div className="col-sm-9 field">
-                            <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
-                                rows="5" maxLength="200"
-                                name="description" value={values.description}
-                                onChange={handleChange}
-                            />
-                        </div>
-                    </FormGroup>
+                     <div className="line-group">
+                        <FormGroup>
+                            <label className="control-label">{getResource('Year')}</label>
+                            <div className="field control-content">
+                                <Select name="year" isSearchable={false} isClearable={false}
+                                    className="react-select-container" classNamePrefix="react-select"
+                                    value={values.year}
+                                    options={yearOptions}
+                                    onChange={selectedOption => setFieldValue('year', selectedOption)}
+                                />
+                            </div>
+                        </FormGroup>
+                    </div>
+                    <div className="line-group">
+                        <div className="title-group"><strong>For Nominator</strong></div>
+                        <FormGroup>
+                            <label className="control-label">{getResource('StartDateForNominator')}</label>
+                            <div className="field  control-content">
+                                <DatePicker name="startDateForNominator" autoComplete="off"
+                                    className={`form-control ${touched.startDateForNominator && errors.startDateForNominator && 'input-validation-error'}`}
+                                    dateFormat={DateFormat}
+                                    selected={values.startDateForNominator}
+                                    onChange={value => setFieldValue('startDateForNominator', value)}
+                                />
+                            </div>
+                        </FormGroup>
+                        <FormGroup>
+                            <label className="control-label">{getResource('EndDateForNominator')}</label>
+                            <div className="field  control-content">
+                                <DatePicker name="endDateForNominator" autoComplete="off"
+                                    className={`form-control ${touched.endDateForNominator && errors.endDateForNominator && 'input-validation-error'}`}
+                                    dateFormat={DateFormat}
+                                    selected={values.endDateForNominator}
+                                    onChange={value => setFieldValue('endDateForNominator', value)}
+                                />
+                            </div>
+                        </FormGroup>
+                        <FormGroup>
+                            <label className="control-label">{getResource('RemindDateForNominator')}</label>
+                            <div className="field control-content">
+                                <DatePicker name="remindDateForNominator" autoComplete="off"
+                                    className={`form-control ${touched.remindDateForNominator && errors.remindDateForNominator && 'input-validation-error'}`}
+                                    dateFormat={DateFormat}
+                                    selected={values.remindDateForNominator}
+                                    onChange={value => setFieldValue('remindDateForNominator', value)}
+                                />
+                            </div>
+                        </FormGroup>
+                    </div>
+                    <div className="line-group">
+                        <div className="title-group"><strong>For Committee</strong></div>
+                        <FormGroup>
+                            <label className="control-label">{getResource('EndDateForCommittee')}</label>
+                            <div className="field control-content">
+                                <DatePicker name="endDateForCommittee" autoComplete="off"
+                                    className={`form-control ${touched.endDateForCommittee && errors.endDateForCommittee && 'input-validation-error'}`}
+                                    dateFormat={DateFormat}
+                                    selected={values.endDateForCommittee}
+                                    onChange={value => setFieldValue('endDateForCommittee', value)}
+                                />
+                            </div>
+                        </FormGroup>
+                    </div>
+                    <div className="line-group">
+                        <FormGroup className="description-group">
+                            <label className="control-label">{getResource('Description')} (optional)</label>
+                            <div className="field control-content">
+                                <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
+                                    rows="5" maxLength="200"
+                                    name="description" value={values.description}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                        </FormGroup>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="btn-cancel" onClick={this.props.closeModal}>{getResource('Cancel')}</Button>
