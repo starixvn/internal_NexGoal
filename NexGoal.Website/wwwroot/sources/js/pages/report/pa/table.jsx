@@ -7,7 +7,7 @@ export default class Table extends Component {
     constructor(props) {
         super(props);
 
-        this.totalColums = 9;
+        this.totalColums = 10;
     }
 
     shouldComponentUpdate(nextProps) {
@@ -116,6 +116,7 @@ export default class Table extends Component {
                             {this.renderGradeByProcess(record.processes, PerformanceProcess.ProjectManager)}
                         </td>
                         <td className="text-center">{this.renderGradeByProcess(record.processes, PerformanceProcess.Evaluator)}</td>
+                        <td className="text-center">{this.renderGradeByProcess(record.processes, PerformanceProcess.Reviewer)}</td>
                         <td className="text-center">{this.renderPAGrade(record)}</td>
                         <td className="text-center">
                             <span className="icon-search"
@@ -214,16 +215,21 @@ export default class Table extends Component {
             <table className="table table-bordered">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>{getResource('NickName')}</th>
-                        <th>{getResource('JobTitle')}</th>
-                        <th>{getResource('Toeic')}</th>
-                        <th>{getResource('Self')}</th>
-                        <th>{getResource('ProjectManager')}</th>
-                        <th>{getResource('Evaluator')}</th>
-                        <th>{getResource('PAFinalGrade')}</th>
-                        <th>{getResource('Action')}</th>
+                        <th rowSpan="2">#</th>
+                        <th rowSpan="2">{getResource('NickName')}</th>
+                        <th rowSpan="2">{getResource('JobTitle')}</th>
+                        <th rowSpan="2">{getResource('Toeic')}</th>
+                        <th rowSpan="1" colSpan="4">{getResource('PerformanceRecord')}</th>
+                        <th rowSpan="2">{getResource('PAFinalGrade')}</th>
+                        <th rowSpan="2">{getResource('Action')}</th>
                     </tr>
+                    <tr>
+                        <th rowSpan="1">{getResource('Self')}</th>
+                        <th rowSpan="1">{getResource('ProjectManager')}</th>
+                        <th rowSpan="1">{getResource('Evaluator')}</th>
+                        <th rowSpan="2">{getResource('Reviewer')}</th>
+                    </tr>
+
                 </thead>
                 <tbody>
                     {

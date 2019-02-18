@@ -113,6 +113,7 @@ var resource_en_US = {
     'Performance': 'Performance',
     'PerformanceAppraisal': 'Performance Appraisal',
     'PerformanceAppraisalReport': 'Performance Appraisal Report',
+    'PerformanceRecord': 'Performance Record',
     'Period': 'Period',
     'Personal': 'Personal',
     'PMAssignment': 'PM Assignment',
