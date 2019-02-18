@@ -142,26 +142,26 @@
             jobTitleCell.Merge = merge;
             jobTitleCell.Value = record.JobTitle;
 
-            var paCell = worksheet.Cells[currentRow, 4, toRow, 4];
-            paCell.Merge = merge;
-            WritePA(paCell, record);
-
-            var selfCell = worksheet.Cells[currentRow, 5, toRow, 5];
+            var selfCell = worksheet.Cells[currentRow, 4, toRow, 4];
             selfCell.Merge = merge;
             selfCell.Style.WrapText = true;
             WriteAssessment(selfCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.Self));
 
-            var pmCell = worksheet.Cells[currentRow, 6, toRow, 6];
+            var pmCell = worksheet.Cells[currentRow, 5, toRow, 5];
             pmCell.Merge = merge;
             WriteAssessment(pmCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.ProjectManager));
 
-            var evaluatorCell = worksheet.Cells[currentRow, 7, toRow, 7];
+            var evaluatorCell = worksheet.Cells[currentRow, 6, toRow, 6];
             evaluatorCell.Merge = merge;
             WriteAssessment(evaluatorCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.Evaluator));
 
-            var reviewerCell = worksheet.Cells[currentRow, 8, toRow, 8];
+            var reviewerCell = worksheet.Cells[currentRow, 7, toRow, 7];
             reviewerCell.Merge = merge;
             WriteAssessment(reviewerCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.Reviewer));
+
+            var paCell = worksheet.Cells[currentRow, 8, toRow, 8];
+            paCell.Merge = merge;
+            WritePA(paCell, record);
 
             var actualWDCell = worksheet.Cells[currentRow, 9, toRow, 9];
             actualWDCell.Merge = merge;
