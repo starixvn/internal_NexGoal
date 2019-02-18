@@ -3,6 +3,7 @@
 @import "../../components/tables";
 @import "../../layouts/nomination";
 @import "../../layouts/role";
+
 @import "../../layouts/record";
 
 .pa-pdf {
@@ -63,12 +64,12 @@
         }
 
         &.info {
-            display: block;
-
+            display: table;
+            width: 100%;
             .section {
-                width: calc(50% - 3px);
+                display: table-cell;
+                width: 50%;
                 border-right: 1px solid #C4C4C4;
-                display: inline-block;
                 padding: 8px 16px;
                 box-sizing: border-box;
 
@@ -233,4 +234,18 @@ $last-pci: #46607F;
 
 .col-200 {
     width: 200px;
+}
+
+.record {
+    display: block;
+    .avatar-user {
+        display: block;
+        height: 45px;
+    }
+    .comment, .grade {
+        margin-top: 8px;
+    }
+    .comment {
+        padding: 6px 0;
+    }
 }
