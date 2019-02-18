@@ -69,14 +69,17 @@ class Table extends Component {
                 formatter: (cell, row, rowIndex) => {
                     if (isHost) {
                         return (
-                            <div className="checkbox"><input type='checkbox' name="Committee"
-                                defaultChecked={row.isCommittee}
-                                onChange={(e) => this.handleCheckboxChange(e, row)} className="checkbox-custom" id={'chb-committee' + rowIndex}
-                            /><label htmlFor={'chb-committee' + rowIndex}></label></div>
+                            <div className="checkbox">
+                                <input type='checkbox' name="Committee"
+                                    defaultChecked={row.isCommittee}
+                                    onChange={(e) => this.handleCheckboxChange(e, row)} className="checkbox-custom" id={'chb-committee' + rowIndex}
+                                />
+                                <label htmlFor={'chb-committee' + rowIndex} />
+                            </div>
                         );
                     }
 
-                    return <div className="checkbox"><input type='checkbox' className="checkbox-custom" id={'chb-committee' + rowIndex} name="Committee" defaultChecked={row.isCommittee} readOnly /><label htmlFor={'chb-committee' + rowIndex}></label></div>;
+                    return <div className="checkbox"><input type='checkbox' className="checkbox-custom" id={'chb-committee' + rowIndex} name="Committee" defaultChecked={row.isCommittee} disabled /><label htmlFor={'chb-committee' + rowIndex} /></div>;
                 }
             },
             {
@@ -87,15 +90,17 @@ class Table extends Component {
                 formatter: (cell, row, rowIndex) => {
                     if (isHost) {
                         return (
-                            <div className="checkbox"><input type='checkbox' name="Nominator" className="checkbox-custom"
-                                defaultChecked={row.isNominator}
-                                onChange={(e) => this.handleCheckboxChange(e, row)} id={'chb-nominator' + rowIndex}
-                            />
-                            <label htmlFor={'chb-nominator' + rowIndex}></label></div>
+                            <div className="checkbox">
+                                <input type='checkbox' name="Nominator" className="checkbox-custom"
+                                    defaultChecked={row.isNominator}
+                                    onChange={(e) => this.handleCheckboxChange(e, row)} id={'chb-nominator' + rowIndex}
+                                />
+                                <label htmlFor={'chb-nominator' + rowIndex} />
+                            </div>
                         );
                     }
 
-                    return <div className="checkbox"><input type='checkbox' id={'chb-nominator' + rowIndex} name="Nominator" defaultChecked={row.isNominator} readOnly className="checkbox-custom" /><label htmlFor={'chb-nominator' + rowIndex}></label></div>;
+                    return <div className="checkbox"><input type='checkbox' id={'chb-nominator' + rowIndex} name="Nominator" defaultChecked={row.isNominator} disabled className="checkbox-custom" /><label htmlFor={'chb-nominator' + rowIndex} /></div>;
                 }
             }
         ];

@@ -134,9 +134,9 @@ class Settings extends Component {
                     </FormGroup>
                 </div>
                 <div className="line-group">
-                <div className="title-group"><strong>For Nominator</strong></div>
+                    <div className="title-group"><strong>{getResource('ForNominator')}</strong></div>
                     <FormGroup>
-                        <label className="control-label">{getResource('StartDateForNominator')}</label>
+                        <label className="control-label">{getResource('StartDate')}</label>
                         <div className="control-content field">
                             <DatePicker name="startDateForNominator" autoComplete="off" disabled={!isHost}
                                 className={`form-control ${touched.startDateForNominator && errors.startDateForNominator && 'input-validation-error'}`}
@@ -147,7 +147,7 @@ class Settings extends Component {
                         </div>
                     </FormGroup>
                     <FormGroup>
-                        <label className="control-label">{getResource('EndDateForNominator')}</label>
+                        <label className="control-label">{getResource('EndDate')}</label>
                         <div className="control-content field">
                             <DatePicker name="endDateForNominator" autoComplete="off" disabled={!isHost}
                                 className={`form-control ${touched.endDateForNominator && errors.endDateForNominator && 'input-validation-error'}`}
@@ -158,7 +158,7 @@ class Settings extends Component {
                         </div>
                     </FormGroup>
                     <FormGroup>
-                        <label className="control-label">{getResource('RemindDateForNominator')}</label>
+                        <label className="control-label">{getResource('RemindDate')}</label>
                         <div className="control-content field">
                             <DatePicker name="remindDateForNominator" autoComplete="off" disabled={!isHost}
                                 className={`form-control ${touched.remindDateForNominator && errors.remindDateForNominator && 'input-validation-error'}`}
@@ -170,9 +170,9 @@ class Settings extends Component {
                     </FormGroup>
                 </div>
                 <div className="line-group">
-                    <div className="title-group"><strong>For Committee</strong></div>
+                    <div className="title-group"><strong>{getResource('ForCommittee')}</strong></div>
                     <FormGroup>
-                        <label className="control-label">{getResource('EndDateForCommittee')}</label>
+                        <label className="control-label">{getResource('EndDate')}</label>
                         <div className="field control-content">
                             <DatePicker name="endDateForCommittee" autoComplete="off" disabled={!isHost}
                                 className={`form-control ${touched.endDateForCommittee && errors.endDateForCommittee && 'input-validation-error'}`}
@@ -185,7 +185,7 @@ class Settings extends Component {
                 </div>
                 <div className="line-group">
                     <FormGroup>
-                        <label className="control-label">{getResource('Description')}</label>
+                        <label className="control-label">{getResource('Description')} (optional)</label>
                         <div className="field control-content description-content">
                             <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
                                 rows="3" maxLength="200"

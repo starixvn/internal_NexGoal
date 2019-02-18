@@ -91,7 +91,7 @@ class CreateEOQ extends Component {
                     }
                     <div className="line-group">
                         <FormGroup>
-                            <label className="control-label required-label">{getResource('Quarter')}</label>
+                            <label className="control-label">{getResource('Quarter')}</label>
                             <div className="field control-content">
                                 <Select name="quarter" isSearchable={false} isClearable={false}
                                     className="react-select-container" classNamePrefix="react-select"
@@ -114,9 +114,9 @@ class CreateEOQ extends Component {
                         </FormGroup>
                     </div>
                     <div className="line-group">
-                        <div className="title-group"><strong>For Nominator</strong></div>
+                        <div className="title-group"><strong>{getResource('ForNominator')}</strong></div>
                         <FormGroup>
-                            <label className="control-label">{getResource('StartDateForNominator')}</label>
+                            <label className="control-label">{getResource('StartDate')}</label>
                             <div className="field control-content">
                                 <DatePicker name="startDateForNominator" autoComplete="off"
                                     className={`form-control ${touched.startDateForNominator && errors.startDateForNominator && 'input-validation-error'}`}
@@ -127,7 +127,7 @@ class CreateEOQ extends Component {
                             </div>
                         </FormGroup>
                         <FormGroup>
-                            <label className="control-label">{getResource('EndDateForNominator')}</label>
+                            <label className="control-label">{getResource('EndDate')}</label>
                             <div className="field control-content">
                                 <DatePicker name="endDateForNominator" autoComplete="off"
                                     className={`form-control ${touched.endDateForNominator && errors.endDateForNominator && 'input-validation-error'}`}
@@ -138,7 +138,7 @@ class CreateEOQ extends Component {
                             </div>
                         </FormGroup>
                         <FormGroup>
-                            <label className="control-label">{getResource('RemindDateForNominator')}</label>
+                            <label className="control-label">{getResource('RemindDate')}</label>
                             <div className="field control-content">
                                 <DatePicker name="remindDateForNominator" autoComplete="off"
                                     className={`form-control ${touched.remindDateForNominator && errors.remindDateForNominator && 'input-validation-error'}`}
@@ -150,9 +150,9 @@ class CreateEOQ extends Component {
                         </FormGroup>
                     </div>
                     <div className="line-group">
-                        <div className="title-group"><strong>For Committee</strong></div>
+                        <div className="title-group"><strong>{getResource('ForCommittee')}</strong></div>
                         <FormGroup>
-                            <label className="control-label">{getResource('EndDateForCommittee')}</label>
+                            <label className="control-label">{getResource('EndDate')}</label>
                             <div className="field control-content">
                                 <DatePicker name="endDateForCommittee" autoComplete="off"
                                     className={`form-control ${touched.endDateForCommittee && errors.endDateForCommittee && 'input-validation-error'}`}

@@ -70,15 +70,16 @@ class Table extends Component {
                     if (isHost) {
                         return (
                             <div className="checkbox">
-                            <input type='checkbox' name="Committee" className="checkbox-custom" id={'chb-committee' + rowIndex}
-                                defaultChecked={row.isCommittee}
-                                onChange={(e) => this.handleCheckboxChange(e, row)}
-                            />
-                            <label htmlFor={'chb-committee' + rowIndex}></label></div>
+                                <input type='checkbox' name="Committee" className="checkbox-custom" id={'chb-committee' + rowIndex}
+                                    defaultChecked={row.isCommittee}
+                                    onChange={(e) => this.handleCheckboxChange(e, row)}
+                                />
+                                <label htmlFor={'chb-committee' + rowIndex} />
+                            </div>
                         );
                     }
 
-                    return <div className="checkbox"><input type='checkbox' className="checkbox-custom" id={'chb-committee' + rowIndex} name="Committee" defaultChecked={row.isCommittee} readOnly /><label htmlFor={'chb-committee' + rowIndex}></label></div>;
+                    return <div className="checkbox"><input type='checkbox' className="checkbox-custom" id={'chb-committee' + rowIndex} name="Committee" defaultChecked={row.isCommittee} disabled /><label htmlFor={'chb-committee' + rowIndex} /></div>;
                 }
             },
             {
@@ -94,11 +95,11 @@ class Table extends Component {
                                     defaultChecked={row.isNominator}
                                     onChange={(e) => this.handleCheckboxChange(e, row)} className="checkbox-custom"
                                 />
-                            <label htmlFor={'chb-nominator' + rowIndex}></label></div>
+                                <label htmlFor={'chb-nominator' + rowIndex} /></div>
                         );
                     }
 
-                    return <div className="checkbox"><input type='checkbox' id={'chb-nominator' + rowIndex} name="Nominator" defaultChecked={row.isNominator} className="checkbox-custom" readOnly /><label htmlFor={'chb-nominator' + rowIndex} ></label></div>;
+                    return <div className="checkbox"><input type='checkbox' id={'chb-nominator' + rowIndex} name="Nominator" defaultChecked={row.isNominator} className="checkbox-custom" disabled /><label htmlFor={'chb-nominator' + rowIndex} /></div>;
                 }
             }
         ];
