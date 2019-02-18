@@ -17,9 +17,6 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @Today DATE = GETDATE()
-		-- record status
-		,@Submited TINYINT = 3
-		,@Closed TINYINT = 4
 		
 	SELECT pr.PerformanceRecordId
 		,pr.EmployeeId AS EmployeeIds
@@ -28,9 +25,9 @@ BEGIN
 		,pr.ModifiedDate
 		,(CASE 
 			WHEN @Today BETWEEN period.StartDateForNominator
-					AND period.EndDateForNominator THEN @Submited
-			ELSE @Closed END
-			) AS StatusId
+					AND period.EndDateForNominator THEN 1
+			ELSE 0 END
+			) AS IsHost
 		,pr.TypeId
 		,pr.RoleId
 		,n.StatusId AS NominationStatusId

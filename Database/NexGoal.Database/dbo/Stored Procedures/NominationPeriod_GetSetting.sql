@@ -65,6 +65,7 @@ BEGIN
 				)
 			OR @IsShowAll = 1
 			)
+	ORDER BY emp.NickName
 
 	DROP TABLE #tblGroupIds
 END
