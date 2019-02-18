@@ -263,8 +263,6 @@ export default class Table extends Component {
                 <ToolkitProvider keyField="paRecordId" columns={this.columns} data={this.props.data} search={{ searchFormatted: true }} >
                     {
                         props => {
-                        debugger;
-
                             return (
                                 <Fragment>
                                     <div className="search-wrapper clearfix" >

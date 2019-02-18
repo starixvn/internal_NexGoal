@@ -16,5 +16,6 @@ BEGIN
 	SELECT PeriodId
 		,[Name]
 	FROM dbo.Period WITH (NOLOCK)
+	WHERE IsActive = 1
 	ORDER BY EndDate DESC
 END
