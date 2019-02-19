@@ -10,7 +10,7 @@
     {
         public Employee Employee { get; set; }
 
-        public IEnumerable<HRMInfo> HRM { get; set; }
+        public IEnumerable<HRMInfo> HRM { get; set; } = new List<HRMInfo>();
 
         public IEnumerable<DisciplineModel> Disciplines { get; set; }
 

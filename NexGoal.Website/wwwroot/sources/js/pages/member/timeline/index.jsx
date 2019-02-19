@@ -141,15 +141,27 @@ export default class Timeline extends Component {
     groupMemberPerformances = (records) => {
         let memberPerformances = records ? records.slice() : [];
 
-        memberPerformances = this.state.filter.groups.map(group => {
+        memberPerformances = memberPerformances.reduce(function (groups, item) {
+            const val = item['groupName'];
+            groups[val] = groups[val] || [];
+            groups[val].push(item);
+
+            return groups;
+        }, []);
+
+        memberPerformances = Object.keys(memberPerformances).map(key => {
+            let index = this.state.filter.groups.findIndex(group => group.label === key);
+            let group = this.props.groupOptions.filter(x => x.label === key)[0];
+
             return {
-                groupId: group.value,
-                groupName: group.label,
-                records: memberPerformances.filter(record => record.groupName === group.label)
+                groupId: group ? group.value : '',
+                groupName: key,
+                isDisplay: index >= 0,
+                records: memberPerformances[key]
             };
         });
 
-        return memberPerformances;
+        return memberPerformances.filter(group => group.isDisplay);
     };
 
     renderGroupName = (groupId, groupName) => {
