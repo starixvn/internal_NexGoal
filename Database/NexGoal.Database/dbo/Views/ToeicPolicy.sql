@@ -2,6 +2,8 @@
 
 
 
+
+
 CREATE VIEW [dbo].[ToeicPolicy]
 AS
 WITH PolicyScore (
@@ -20,12 +22,12 @@ AS (
 	--UNION
 	--SELECT 150, 195, 2
 	--UNION
-	SELECT 200, 990, 1
+	SELECT 205, 990, 1
 	)
 --------------------
 SELECT emp.EmployeeId
 	,(CASE 
-		WHEN (toeic.Reading + toeic.Listening) >= 900 THEN 1
+		WHEN (toeic.Reading + toeic.Listening) > 900 THEN 1
 		WHEN MONTH(GETDATE()) BETWEEN 1
 				AND 6
 			AND DATEADD(YEAR, 3, toeic.LRExamDate) >= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-05-01' AS DATETIME) THEN ISNULL(ps.Score, 0)

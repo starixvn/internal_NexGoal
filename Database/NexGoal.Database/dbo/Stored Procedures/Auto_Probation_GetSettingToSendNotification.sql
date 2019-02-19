@@ -171,7 +171,7 @@ BEGIN
 			,Email
 			,EndDate
 			,RowNumber = ROW_NUMBER() OVER (
-				PARTITION BY ProcessId, EndDate ORDER BY Nickname DESC
+				PARTITION BY ProcessId, EvaluatorId, EndDate ORDER BY Nickname DESC
 				)
 		FROM #tblProcessSetting
 		)

@@ -69,7 +69,17 @@ BEGIN
 		LEFT JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
 		AND period.EndDateForCommittee < @Today
 	WHERE record.EmployeeId = @EmployeeId
-		AND record.TypeId IN (@Checkin, @SystemPA, @SystemNomination)
+		AND (
+			record.TypeId = @Checkin
+			OR (
+				record.TypeId = @SystemPA
+				AND pa.PARecordId IS NOT NULL
+				)
+			OR (
+				record.TypeId = @SystemNomination
+				AND period.EOQYId IS NOT NULL
+				)
+			)
 
 	SELECT PerformanceRecordId
 		,GradeId
