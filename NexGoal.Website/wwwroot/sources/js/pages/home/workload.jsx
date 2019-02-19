@@ -28,6 +28,8 @@ export default class WorkLoad extends PureComponent {
     generateChartLegend = () => {
         if (this.refs.chart) {
             document.getElementById('legend-container').innerHTML = this.refs.chart.chartInstance.generateLegend();
+        } else {
+            document.getElementById('legend-container').innerHTML = '';
         }
     }
 
@@ -162,6 +164,7 @@ export default class WorkLoad extends PureComponent {
 
     renderWorkloadChart = () => {
         const chartData = this.state.chartData;
+
         if (chartData !== null && chartData.labels.length > 0) {
             return <Doughnut ref='chart' data={chartData} height={200} options={this.chartOptions} />;
         }

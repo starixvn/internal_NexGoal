@@ -22,8 +22,11 @@ import Nomination from './nomination/Nomination';
 import MemberPerformanceAppraisal from './performance-appraisal/MemberPerformanceAppraisal';
 import Announcement from '../../shared/components/Announcement';
 import Marquee from '../../shared/components/Marquee';
+import SetOverlayConfig from '../../shared/overlay-config';
 
 const queryString = require('query-string');
+
+SetOverlayConfig();
 
 export default class App extends Component {
     constructor(props) {

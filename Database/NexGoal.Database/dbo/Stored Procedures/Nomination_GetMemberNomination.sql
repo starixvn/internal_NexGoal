@@ -37,7 +37,7 @@ BEGIN
 		,IsHost BIT
 		,TypeId TINYINT
 		,RoleId TINYINT
-		,NominationPeriodId TINYINT
+		,NominationPeriodId INT
 		,NominationStatusId TINYINT
 		)
 

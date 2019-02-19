@@ -21,13 +21,13 @@
             </div>
         </div>
     </div>
-
+    <div id="loading-overlay" class="hidden"></div>
     @Html.AntiForgeryToken()
     @Html.Hidden("RootURL", Url.Content("~/"))
 
     <script src="~/dist/resources/resource_en_US.js" asp-append-version="true"></script>
     <script src="~/dist/vendors/react.js" asp-append-version="false"></script>
-    <script src="~/dist/js/main.js"></script>
+    <script src="~/dist/js/main.js" asp-append-version="true"></script>
     <script src="~/dist/js/search-member.js"></script>
     <script src="~/dist/js/notification.js"></script>
 

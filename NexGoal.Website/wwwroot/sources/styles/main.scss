@@ -131,6 +131,15 @@ $fa-font-path: "~font-awesome/fonts";
     }
 }
 
+#loading-overlay {
+    background: rgba(255, 255, 255, 0) url('images/loading.gif') 50% 50% no-repeat;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+}
 .toeic-passed {
     color: $status-nomination-color;
 }

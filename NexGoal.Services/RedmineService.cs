@@ -76,11 +76,11 @@
                 {
                     EmployeeId = x.Key.EmployeeId,
                     NickName = x.Key.NickName,
-                    Workloads = x.Select(y => new ProjectWorkloadModel
+                    Workloads = x.GroupBy(p => new { p.ProjectId, p.ProjectName }).Select(p => new ProjectWorkloadModel
                     {
-                        ProjectId = y.ProjectId,
-                        Name = y.ProjectName,
-                        TotalHours = y.TotalHour
+                        ProjectId = p.Key.ProjectId,
+                        Name = p.Key.ProjectName,
+                        TotalHours = p.Sum(h => h.TotalHour)
                     }).ToList()
                 })
             });
