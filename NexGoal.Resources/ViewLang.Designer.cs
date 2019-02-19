@@ -61,6 +61,33 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Achievements.
+        /// </summary>
+        public static string Achievements {
+            get {
+                return ResourceManager.GetString("Achievements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approach To Work.
+        /// </summary>
+        public static string ApproachToWork {
+            get {
+                return ResourceManager.GetString("ApproachToWork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Average Working Hours.
+        /// </summary>
+        public static string AverageWorkingHours {
+            get {
+                return ResourceManager.GetString("AverageWorkingHours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Performance Check-in.
         /// </summary>
         public static string CreatePerformanceCheckin {
@@ -70,11 +97,38 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current Period.
+        /// </summary>
+        public static string CurrentPeriod {
+            get {
+                return ResourceManager.GetString("CurrentPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discipline.
         /// </summary>
         public static string Discipline {
             get {
                 return ResourceManager.GetString("Discipline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disciplines.
+        /// </summary>
+        public static string Disciplines {
+            get {
+                return ResourceManager.GetString("Disciplines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Early Out.
+        /// </summary>
+        public static string EarlyOut {
+            get {
+                return ResourceManager.GetString("EarlyOut", resourceCulture);
             }
         }
         
@@ -133,11 +187,65 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Evaluator.
+        /// </summary>
+        public static string Evaluator {
+            get {
+                return ResourceManager.GetString("Evaluator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Final Result.
+        /// </summary>
+        public static string FinalResult {
+            get {
+                return ResourceManager.GetString("FinalResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Grade.
         /// </summary>
         public static string Grade {
             get {
                 return ResourceManager.GetString("Grade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Information Profile.
+        /// </summary>
+        public static string InformationProfile {
+            get {
+                return ResourceManager.GetString("InformationProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Issue Date.
+        /// </summary>
+        public static string IssueDate {
+            get {
+                return ResourceManager.GetString("IssueDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Period.
+        /// </summary>
+        public static string LastPeriod {
+            get {
+                return ResourceManager.GetString("LastPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Late In.
+        /// </summary>
+        public static string LateIn {
+            get {
+                return ResourceManager.GetString("LateIn", resourceCulture);
             }
         }
         
@@ -156,6 +264,24 @@ namespace NexGoal.Resources {
         public static string MemberPage {
             get {
                 return ResourceManager.GetString("MemberPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing Check In/Out.
+        /// </summary>
+        public static string MissingCheckInOut {
+            get {
+                return ResourceManager.GetString("MissingCheckInOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Month.
+        /// </summary>
+        public static string Month {
+            get {
+                return ResourceManager.GetString("Month", resourceCulture);
             }
         }
         
@@ -196,6 +322,24 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No record found.
+        /// </summary>
+        public static string NoRecordFound {
+            get {
+                return ResourceManager.GetString("NoRecordFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overtime.
+        /// </summary>
+        public static string Overtime {
+            get {
+                return ResourceManager.GetString("Overtime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PA Focus.
         /// </summary>
         public static string PAFocus {
@@ -214,11 +358,47 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Performance Records.
+        /// </summary>
+        public static string PerformanceRecords {
+            get {
+                return ResourceManager.GetString("PerformanceRecords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Performance Summary.
+        /// </summary>
+        public static string PerformanceSummary {
+            get {
+                return ResourceManager.GetString("PerformanceSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PM Assignment.
         /// </summary>
         public static string PMAssignment {
             get {
                 return ResourceManager.GetString("PMAssignment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project Manager.
+        /// </summary>
+        public static string ProjectManager {
+            get {
+                return ResourceManager.GetString("ProjectManager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remark.
+        /// </summary>
+        public static string Remark {
+            get {
+                return ResourceManager.GetString("Remark", resourceCulture);
             }
         }
         
@@ -241,6 +421,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reviewer.
+        /// </summary>
+        public static string Reviewer {
+            get {
+                return ResourceManager.GetString("Reviewer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Role Assignment.
         /// </summary>
         public static string RoleAssignment {
@@ -255,6 +444,15 @@ namespace NexGoal.Resources {
         public static string RolePermission {
             get {
                 return ResourceManager.GetString("RolePermission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Self.
+        /// </summary>
+        public static string Self {
+            get {
+                return ResourceManager.GetString("Self", resourceCulture);
             }
         }
         
@@ -277,11 +475,83 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string Status {
+            get {
+                return ResourceManager.GetString("Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #.
+        /// </summary>
+        public static string SymbolCount {
+            get {
+                return ResourceManager.GetString("SymbolCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Target Type.
         /// </summary>
         public static string TargetType {
             get {
                 return ResourceManager.GetString("TargetType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Team.
+        /// </summary>
+        public static string Team {
+            get {
+                return ResourceManager.GetString("Team", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Rating Scale.
+        /// </summary>
+        public static string TheRatingScale {
+            get {
+                return ResourceManager.GetString("TheRatingScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        public static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total.
+        /// </summary>
+        public static string Total {
+            get {
+                return ResourceManager.GetString("Total", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unpaid Leave.
+        /// </summary>
+        public static string UnpaidLeave {
+            get {
+                return ResourceManager.GetString("UnpaidLeave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unplanned Annual Leave.
+        /// </summary>
+        public static string UnplannedAnnualLeave {
+            get {
+                return ResourceManager.GetString("UnplannedAnnualLeave", resourceCulture);
             }
         }
     }

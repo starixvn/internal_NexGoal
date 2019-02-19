@@ -1,4 +1,5 @@
-﻿@using NexGoal.Core.Enumerations
+﻿@using NexGoal.Resources
+@using NexGoal.Core.Enumerations
 @using NexGoal.Models.PARecord
 @model PAProcessModel
 
@@ -59,12 +60,12 @@
         <div class="comment">
             <p>@Model.PerformanceRecord.Comment</p>
         </div>
-        <div class="grade">Grade: <div class="grade-detail">@grade</div></div>
+        <div class="grade">@ViewLang.Grade: <div class="grade-detail">@grade</div></div>
     </div>
 }
 else
 {
     <div class="record-list">
-        <p class="text-center">No Record</p>
+        <p class="text-center">@ViewLang.NoRecordFound</p>
     </div>
 }

@@ -192,4 +192,94 @@
   <data name="MasterReport" xml:space="preserve">
     <value>Master Report</value>
   </data>
+  <data name="Achievements" xml:space="preserve">
+    <value>Achievements</value>
+  </data>
+  <data name="ApproachToWork" xml:space="preserve">
+    <value>Approach To Work</value>
+  </data>
+  <data name="AverageWorkingHours" xml:space="preserve">
+    <value>Average Working Hours</value>
+  </data>
+  <data name="CurrentPeriod" xml:space="preserve">
+    <value>Current Period</value>
+  </data>
+  <data name="Disciplines" xml:space="preserve">
+    <value>Disciplines</value>
+  </data>
+  <data name="EarlyOut" xml:space="preserve">
+    <value>Early Out</value>
+  </data>
+  <data name="Evaluator" xml:space="preserve">
+    <value>Evaluator</value>
+  </data>
+  <data name="FinalResult" xml:space="preserve">
+    <value>Final Result</value>
+  </data>
+  <data name="InformationProfile" xml:space="preserve">
+    <value>Information Profile</value>
+  </data>
+  <data name="IssueDate" xml:space="preserve">
+    <value>Issue Date</value>
+  </data>
+  <data name="LastPeriod" xml:space="preserve">
+    <value>Last Period</value>
+  </data>
+  <data name="LateIn" xml:space="preserve">
+    <value>Late In</value>
+  </data>
+  <data name="MissingCheckInOut" xml:space="preserve">
+    <value>Missing Check In/Out</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="NoRecordFound" xml:space="preserve">
+    <value>No record found</value>
+  </data>
+  <data name="Overtime" xml:space="preserve">
+    <value>Overtime</value>
+  </data>
+  <data name="PerformanceRecords" xml:space="preserve">
+    <value>Performance Records</value>
+  </data>
+  <data name="PerformanceSummary" xml:space="preserve">
+    <value>Performance Summary</value>
+  </data>
+  <data name="ProjectManager" xml:space="preserve">
+    <value>Project Manager</value>
+  </data>
+  <data name="Remark" xml:space="preserve">
+    <value>Remark</value>
+  </data>
+  <data name="Reviewer" xml:space="preserve">
+    <value>Reviewer</value>
+  </data>
+  <data name="Self" xml:space="preserve">
+    <value>Self</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="SymbolCount" xml:space="preserve">
+    <value>#</value>
+  </data>
+  <data name="Team" xml:space="preserve">
+    <value>Team</value>
+  </data>
+  <data name="TheRatingScale" xml:space="preserve">
+    <value>The Rating Scale</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="UnpaidLeave" xml:space="preserve">
+    <value>Unpaid Leave</value>
+  </data>
+  <data name="UnplannedAnnualLeave" xml:space="preserve">
+    <value>Unplanned Annual Leave</value>
+  </data>
 </root>

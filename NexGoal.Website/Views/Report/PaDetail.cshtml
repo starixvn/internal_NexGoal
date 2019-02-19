@@ -1,8 +1,10 @@
-﻿@using NexGoal.Web.Core.Extensions
+﻿@using NexGoal.Resources
+@using NexGoal.Web.Core.Extensions
 @using NexGoal.Core.Enumerations
 @using NexGoal.Models.Report
 @using NexGoal.Models.PARecord
 @using NexGoal.Models.PerformanceRecord
+
 @model PAReportDetail
 @{
     Layout = null;
@@ -16,7 +18,7 @@
     <div class="pa-pdf">
         <div class="title">Performance appraisal of @Model.Employee.NickName (@Model.PARecord.Period.Name)</div>
         <div class="box">
-            <div class="title">Information Profile</div>
+            <div class="title">@ViewLang.InformationProfile</div>
             <div class="content info">
                 <div class="section">
                     <div class="item"><span class="key">Staff code:</span><span class="value">@Model.Employee.Code</span></div>
@@ -25,7 +27,7 @@
                 </div>
                 <div class="section">
                     <div class="item"><span class="key">Full name:</span><span class="value">@Model.Employee.FullName</span></div>
-                    <div class="item"><span class="key">Team:</span><span class="value">@Model.Employee.GroupName</span></div>
+                    <div class="item"><span class="key">@ViewLang.Team:</span><span class="value">@Model.Employee.GroupName</span></div>
                     <div class="item">
                         <span class="key">Joined date:</span>
                         <span class="value">@Model.Employee.JoinedDate.ToString("dd MMM yyyy")</span>
@@ -34,7 +36,7 @@
             </div>
         </div>
         <div class="box">
-            <div class="title">Approach To Work</div>
+            <div class="title">@ViewLang.ApproachToWork</div>
             <div class="content">
                 <div class="sub-box">
                     <div class="title">A. HRM System</div>
@@ -42,14 +44,14 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th class="col-80">Month</th>
-                                    <th class="col-120">Missing Check In/Out</th>
-                                    <th>Late In</th>
-                                    <th>Early Out</th>
-                                    <th>Unpaid Leave</th>
-                                    <th class="col-120">Unplanned Annual Leave</th>
-                                    <th class="col-120">Average Working Hours</th>
-                                    <th>Overtime</th>
+                                    <th class="col-80">@ViewLang.Month</th>
+                                    <th class="col-120">@ViewLang.MissingCheckInOut</th>
+                                    <th>@ViewLang.LateIn</th>
+                                    <th>@ViewLang.EarlyOut</th>
+                                    <th>@ViewLang.UnpaidLeave</th>
+                                    <th class="col-120">@ViewLang.UnplannedAnnualLeave</th>
+                                    <th class="col-120">@ViewLang.AverageWorkingHours</th>
+                                    <th>@ViewLang.Overtime</th>
                                     <th class="col-200">Toeic</th>
                                 </tr>
                             </thead>
@@ -78,7 +80,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td class="text-center">Total</td>
+                                    <td class="text-center">@ViewLang.Total</td>
                                     <td class="text-center">@Model.HRM.Sum(x => x.MissingCheckInCheckOut)</td>
                                     <td class="text-center">@Model.HRM.Sum(x => x.LateIn)</td>
                                     <td class="text-center">@Model.HRM.Sum(x => x.EarlyOut)</td>
@@ -93,14 +95,14 @@
                     </div>
                 </div>
                 <div class="sub-box">
-                    <div class="title">B. Disciplines</div>
+                    <div class="title">B. @ViewLang.Disciplines</div>
                     <div class="sub-content">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Remark</th>
-                                    <th>Issue Date</th>
+                                    <th>@ViewLang.SymbolCount</th>
+                                    <th>@ViewLang.Remark</th>
+                                    <th>@ViewLang.IssueDate</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -120,7 +122,7 @@
                                 else
                                 {
                                     <tr>
-                                        <td colspan="3" class="text-center">No Record Found</td>
+                                        <td colspan="3" class="text-center">@ViewLang.NoRecordFound</td>
                                     </tr>
                                 }
                             </tbody>
@@ -130,17 +132,17 @@
             </div>
         </div>
         <div class="box">
-            <div class="title">Performance Records</div>
+            <div class="title">@ViewLang.PerformanceRecords</div>
             <div class="content">
                 <div class="sub-box">
-                    <div class="title">A. Achievements</div>
+                    <div class="title">A. @ViewLang.Achievements</div>
                     <div class="sub-content">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Title</th>
-                                    <th>Status</th>
+                                    <th>@ViewLang.SymbolCount</th>
+                                    <th>@ViewLang.Title</th>
+                                    <th>@ViewLang.Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -164,7 +166,7 @@
                                 else
                                 {
                                     <tr>
-                                        <td colspan="3" class="text-center">No Record Found</td>
+                                        <td colspan="3" class="text-center">@ViewLang.NoRecordFound</td>
                                     </tr>
                                 }
                             </tbody>
@@ -172,9 +174,9 @@
                     </div>
                 </div>
                 <div class="sub-box">
-                    <div class="title">B. Performance Summary</div>
+                    <div class="title">B. @ViewLang.PerformanceSummary</div>
                     <div class="sub-box performance-sum">
-                        <div class="title">1. Self</div>
+                        <div class="title">1. @ViewLang.Self</div>
                         <div class="sub-content">
                             @{
                                 var selfPA = Model.PARecord.Processes
@@ -182,7 +184,7 @@
                             }
                             @await Html.PartialAsync(@paRecordPartialView, selfPA)
                         </div>
-                        <div class="title">2. Project Manager</div>
+                        <div class="title">2. @ViewLang.ProjectManager</div>
                         <div class="sub-content">
                             <div class="list-pci">
                                 @{
@@ -198,13 +200,13 @@
                                     else
                                     {
                                         <div class="record-list">
-                                            <p class="text-center">No Record</p>
+                                            <p class="text-center">@ViewLang.NoRecordFound</p>
                                         </div>
                                     }
                                 }
                             </div>
                         </div>
-                        <div class="title">3. Evaluator</div>
+                        <div class="title">3. @ViewLang.Evaluator</div>
                         <div class="sub-content">
                             <div class="list-pci">
                                 @{
@@ -214,7 +216,7 @@
                                 @await Html.PartialAsync(@paRecordPartialView, evaluatorProcess)
                             </div>
                         </div>
-                        <div class="title">4. Reviewer</div>
+                        <div class="title">4. @ViewLang.Reviewer</div>
                         <div class="sub-content">
                             @{
                                 var reviewerProcess = Model.PARecord.Processes
@@ -227,7 +229,7 @@
             </div>
         </div>
         <div class="box">
-            <div class="title final">Final Result</div>
+            <div class="title final">@ViewLang.FinalResult</div>
             <div class="sub-content">
                 @{
                     var finalResult = new PAProcessModel
@@ -248,9 +250,9 @@
         </div>
         <div class="box">
             <div class="sub-box">
-                <div class="title">The Rating Scale</div>
+                <div class="title">@ViewLang.TheRatingScale</div>
                 <div class="sub-box performance-sum">
-                    <div class="title">A. Current Period</div>
+                    <div class="title">A. @ViewLang.CurrentPeriod</div>
                     <div class="sub-content">
                         <ul class="evaluation-process">
                             @{
@@ -267,7 +269,7 @@
                     </div>
                     @if (Model.PreviousGrade != null)
                     {
-                        <div class="title">B. Last Period</div>
+                        <div class="title">B. @ViewLang.LastPeriod</div>
                         <div class="sub-content">
                             <ul class="evaluation-process">
                                 @foreach (var grade in listGrade)
