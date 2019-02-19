@@ -77,7 +77,7 @@ class Table extends Component {
                             <tr className="header-control">
                                 <th colSpan="9">
                                     <a className="pull-left btn btn-primary" onClick={this.handleShowCreateModal}>
-                                        <i className="fa fa-plus" />{getResource('AddNominationPeriod')}
+                                        {getResource('AddNominationPeriod')}
                                     </a>
                                 </th>
                             </tr>

@@ -139,7 +139,7 @@ export default class Table extends Component {
                                     <div className="pull-left">
                                         {this.props.isHost &&
                                             <button className="btn btn-primary" onClick={this.props.onCreate}>
-                                                <i className="fa fa-plus" /> {getResource('AddDiscipline')}
+                                                {getResource('AddDiscipline')}
                                             </button>
                                         }
                                     </div>

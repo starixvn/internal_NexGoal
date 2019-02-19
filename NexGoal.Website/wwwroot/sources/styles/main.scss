@@ -34,7 +34,7 @@ $fa-font-path: "~font-awesome/fonts";
 
 .nav-hamberger {
     font-size: 14px;
-    margin-left: 16px;
+    //margin-left: 16px;
     transition: width 0.25s;
 
     a {
@@ -67,8 +67,12 @@ $fa-font-path: "~font-awesome/fonts";
     background-color: #324476;
 }
 
-.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover {
+.navbar-inverse .navbar-nav > .active > a {
     background-color: inherit;
+}
+
+.navbar-inverse .navbar-nav > .active > a:hover {
+  background-color: #2C3C69;
 }
 
 .icon-chevron-down {

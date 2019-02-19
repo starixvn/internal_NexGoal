@@ -1,6 +1,8 @@
 ﻿@import '~react-toastify/dist/ReactToastify.css';
 
 .Toastify__toast-container {
+    width: 360px;
+    
     .Toastify__toast {
         min-height: 50px;
         border-radius: 5px;

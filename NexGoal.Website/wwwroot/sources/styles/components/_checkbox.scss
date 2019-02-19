@@ -10,6 +10,7 @@
       position: relative;
       cursor: pointer;
       padding: 0;
+      margin-bottom: 0;
     }
   
     // Box.
@@ -48,25 +49,29 @@
     // Disabled box.
     &:disabled + label:before {
       box-shadow: none;
-      background: #ddd;
+      background: rgb(168, 168, 168) !important;
     }
   
     // Checkmark. Could be replaced with an image
     &:checked + label:after {
       content: '';
       position: absolute;
-      left: 3px;
-      top: 7px;
-      background: #1c1c1c;
-      width: 2px;
-      height: 2px;
-      box-shadow: 
-        2px 0 0 #1c1c1c,
-        4px 0 0 #1c1c1c,
-        4px -2px 0 #1c1c1c,
-        4px -4px 0 #1c1c1c,
-        4px -6px 0 #1c1c1c,
-        4px -8px 0 #1c1c1c;
+      left: 5px;
+      top: 1px;
+      width: 0.5rem;
+      height: 1.1rem;
+      //background: #1c1c1c;
+      //width: 2px;
+      //height: 2px;
+      // box-shadow: 
+      //   2px 0 0 #1c1c1c,
+      //   4px 0 0 #1c1c1c,
+      //   4px -2px 0 #1c1c1c,
+      //   4px -4px 0 #1c1c1c,
+      //   4px -6px 0 #1c1c1c,
+      //   4px -8px 0 #1c1c1c;
+      border-right: 2px solid #1c1c1c;
+      border-bottom: 2px solid #1c1c1c;
       transform: rotate(45deg);
     }
   }
