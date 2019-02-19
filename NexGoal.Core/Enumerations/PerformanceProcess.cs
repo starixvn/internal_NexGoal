@@ -8,15 +8,15 @@
         HumanResource = 1,
 
         [Description("Self")]
-        Self = 2,
+        Self,
 
         [Description("Project Manager")]
-        ProjectManager = 3,
+        ProjectManager,
 
         [Description("Evaluator")]
-        Evaluator = 4,
+        Evaluator,
 
         [Description("Reviewer")]
-        Reviewer = 5
+        Reviewer
     }
 }

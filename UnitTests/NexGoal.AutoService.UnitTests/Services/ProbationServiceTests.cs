@@ -26,15 +26,16 @@
         {
             // Arrange
             var endDate = new DateTime(2018, 12, 20);
+            var receiverEmail = "tim.trinh@nexcel.vn";
             var settings = new List<ProcessSettingModel>
             {
-                new ProcessSettingModel { ProcessId = PerformanceProcess.Self, EvaluatorId = 285, Nickname = "tim", Email = "tim.trinh@nexcel.vn", EndDate = endDate },
-                new ProcessSettingModel { ProcessId = PerformanceProcess.Evaluator, EvaluatorId = 285, Nickname = "tim", Email = "tim.trinh@nexcel.vn", EndDate = endDate }
+                new ProcessSettingModel { ProcessId = PerformanceProcess.HumanResource, EvaluatorId = 204, Nickname = "albert", Email = receiverEmail, EndDate = endDate },
+                new ProcessSettingModel { ProcessId = PerformanceProcess.Self, EvaluatorId = 285, Nickname = "tim", Email = receiverEmail, EndDate = endDate },
+                new ProcessSettingModel { ProcessId = PerformanceProcess.Evaluator, EvaluatorId = 125, Nickname = "quinn", Email = receiverEmail, EndDate = endDate }
             };
             var mailModel = new MailModel();
             var mailSubject = "The Probation process is almost over!";
             var mailMody = "The Probation process is going to be closed.";
-            var receiverEmail = "tim.trinh@nexcel.vn";
             var service = GetProbationService();
             baseService.GetDataAsync<ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(settings);
             mailService.ReadTextFile(Arg.Any<string>()).Returns(mailMody);
@@ -45,7 +46,7 @@
             service.SendMail();
 
             // Assert
-            mailService.Received(2).SendMailAsync(Arg.Any<MailModel>());
+            mailService.Received(3).SendMailAsync(Arg.Any<MailModel>());
             Assert.Equal(mailModel.Subject, mailSubject);
             Assert.Equal(mailModel.Body, mailMody);
             Assert.Equal(mailModel.ReceiverEmail, receiverEmail);
@@ -77,15 +78,17 @@
             var endDate = new DateTime(2018, 12, 20);
             var settings = new List<ProcessSettingModel>
             {
-                new ProcessSettingModel { ProcessId = PerformanceProcess.Self, EvaluatorId = 285, Nickname = "tim", Email = "tim.trinh@nexcel.vn", EndDate = endDate },
-                new ProcessSettingModel { ProcessId = PerformanceProcess.Evaluator, EvaluatorId = 285, Nickname = "tim", Email = "tim.trinh@nexcel.vn", EndDate = endDate }
+                new ProcessSettingModel { ProcessId = PerformanceProcess.HumanResource, EvaluatorId = 204, Nickname = "albert", EndDate = endDate },
+                new ProcessSettingModel { ProcessId = PerformanceProcess.Self, EvaluatorId = 285, Nickname = "tim", EndDate = endDate },
+                new ProcessSettingModel { ProcessId = PerformanceProcess.Evaluator, EvaluatorId = 125, Nickname = "quinn", EndDate = endDate }
             };
             var notificationXml = "<Row EmployeeId=\"285\"" +
                 " Content=\"The Probation process is going to be CLOSED on 20 Dec 2018, please create a Performance Record (with a detailed comment, selected grade, and a &quot;Probation&quot; tag) for yourself.\"" +
                 " StatusId=\"0\" ActionTypeId=\"1\" RecordId=\"\" />";
-            var notification1Xml = "<Row EmployeeId=\"285\"" +
+            var notification1Xml = "<Row EmployeeId=\"125\"" +
                 " Content=\"The Probation process is going to be CLOSED on 20 Dec 2018, please create a Performance Record (with a detailed comment, selected grade, and a &quot;Probation&quot; tag) for your member(s).\"" +
                 " StatusId=\"0\" ActionTypeId=\"3\" RecordId=\"\" />";
+            var notification2Xml = "The Probation process is going to be CLOSED on 20 Dec 2018, please follow up on the progress and make a reminder for related people (if needed).";
 
             var criteria = new CreateNotificationCriteria();
 
@@ -101,6 +104,7 @@
             baseService.Received(1).ExecuteNonQueryAsync(Arg.Any<CreateNotificationCriteria>());
             Assert.Contains(notificationXml, criteria.Notifications);
             Assert.Contains(notification1Xml, criteria.Notifications);
+            Assert.Contains(notification2Xml, criteria.Notifications);
         }
 
         #endregion SendNotification
