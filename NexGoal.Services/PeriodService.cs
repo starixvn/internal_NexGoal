@@ -110,7 +110,14 @@
                 ModifiedBy = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+
+            if (commandResult.IsSuccessful)
+            {
+                commandResult = await EditFinalPAGradeAsync(actorId, criteria.PeriodId).ConfigureAwait(false);
+            }
+
+            return commandResult;
         }
 
         public async Task<CommandResult> EditProcessSettingAsync(int actorId, int periodId, IEnumerable<EditProcessSettingModel> settings)
@@ -186,7 +193,14 @@
                 ModifiedBy = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+
+            if (commandResult.IsSuccessful)
+            {
+                commandResult = await EditFinalPAGradeAsync(actorId, criteria.PeriodId, criteria.PARecordIds).ConfigureAwait(false);
+            }
+
+            return commandResult;
         }
 
         public async Task<CommandResult> EditEmployeeSettingStatusAsync(int actorId, int paRecordId, bool isExcluded)
@@ -237,7 +251,7 @@
                 Override = true
             };
 
-            var result = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            CommandResult result = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
 
             if (result.IsSuccessful)
             {
@@ -291,6 +305,54 @@
             var criteria = new EditPARecordGradeCriteria { Value = xml.ToString() };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
+
+        private async Task<IEnumerable<EditPAGradeDto>> GetDataToEditFinalPAGradeAsync(int periodId, string paRecordIds = null)
+        {
+            var criteria = new GetDataToEditFinalPAGradeCriteria
+            {
+                PeriodId = periodId,
+                PARecordIds = paRecordIds
+            };
+            var records = await baseService.GetDataAsync<EditPAGradeDto>(criteria).ConfigureAwait(false);
+            IEnumerable<PerformanceGrade> grades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            int minGradeId = grades.Min(x => x.GradeId);
+            int maxGradeId = grades.Max(x => x.GradeId);
+
+            foreach (EditPAGradeDto record in records)
+            {
+                record.GradeId = cryptoService.Decrypt(record.GradeId);
+                int.TryParse(record.GradeId, out int gradeId);
+                gradeId += record.ToeicPolicy;
+
+                if (!grades.Any(x => x.GradeId == gradeId))
+                {
+                    gradeId = gradeId > maxGradeId ? maxGradeId : minGradeId;
+                }
+
+                record.GradeId = cryptoService.Encrypt(gradeId.ToString());
+            }
+
+            return records;
+        }
+
+        private async Task<CommandResult> EditFinalPAGradeAsync(int actorId, int periodId, string paRecordIds = null)
+        {
+            var commandResult = new CommandResult { Code = 0 };
+            IEnumerable<EditPAGradeDto> records = await GetDataToEditFinalPAGradeAsync(periodId, paRecordIds).ConfigureAwait(false);
+
+            if (records.Any())
+            {
+                var criteria = new EditFinalPAGradeCriteria
+                {
+                    ActorId = actorId,
+                    Value = records.ToXML().ToString()
+                };
+
+                commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            }
+
+            return commandResult;
         }
     }
 }

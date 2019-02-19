@@ -1,0 +1,105 @@
+﻿
+CREATE PROCEDURE [dbo].[Period_UpdateFinalPAGrade] @ActorId INT
+	,@Value VARCHAR(MAX)
+	,@ErrCode INT = 0 OUTPUT
+	,@ErrMsg NVARCHAR(200) = '' OUTPUT
+AS
+/*
+Created: 20190219@Tim.Trinh
+Task: update final PA grade.
+DB: bodb_NexGoal
+Original:
+
+Revisions:
+Param's Explanation:
+    Value : '<ROOT><Row PARecordId="4" GradeId="cipher text" ToeicPolicy="1"></Row></ROOT>'
+*/
+BEGIN
+	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
+
+	DECLARE @PARecordId INT
+		,@PerformanceRecordId INT
+		,@idoc INT
+
+	CREATE TABLE #tblPARecord (
+		PARecordId INT
+		,GradeId VARCHAR(MAX)
+		,ToeicPolicy SMALLINT
+		)
+
+	EXEC sp_xml_preparedocument @idoc OUTPUT
+		,@Value
+
+	INSERT INTO #tblPARecord (
+		PARecordId
+		,GradeId
+		,ToeicPolicy
+		)
+	SELECT PARecordId
+		,GradeId
+		,ToeicPolicy
+	FROM OPENXML(@idoc, '/Root/Row', 1) WITH (PARecordId INT, GradeId VARCHAR(MAX), ToeicPolicy SMALLINT) AS data
+
+	UPDATE pa
+	SET pa.OriginalGradeId = CASE 
+			WHEN ISNULL(pa.OriginalGradeId, '') = '' THEN tbl.GradeId
+			ELSE pa.OriginalGradeId
+			END
+		,pa.GradeId = tbl.GradeId
+		,pa.Toeic = toeic.Listening + toeic.Reading
+		,pa.ToeicPolicy = tbl.ToeicPolicy
+	FROM dbo.PARecord AS pa WITH (ROWLOCK, UPDLOCK)
+		INNER JOIN #tblPARecord AS tbl WITH (NOLOCK) ON pa.PARecordId = tbl.PARecordId
+		LEFT JOIN dbo.TOEIC AS toeic WITH (NOLOCK) ON pa.EmployeeId = toeic.EmpId
+
+	UPDATE record
+	SET record.GradeId = pa.GradeId
+	FROM dbo.PerformanceRecord AS record WITH (ROWLOCK, UPDLOCK)
+		INNER JOIN dbo.PARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
+		INNER JOIN #tblPARecord AS tbl WITH (NOLOCK) ON pa.PARecordId = tbl.PARecordId
+
+	DELETE tbl
+	FROM #tblPARecord AS tbl
+		INNER JOIN dbo.PARecord AS pa WITH (NOLOCK) ON tbl.PARecordId = pa.PARecordId
+		AND pa.PerformanceRecordId IS NOT NULL
+
+	WHILE EXISTS (
+			SELECT 1
+			FROM #tblPARecord WITH (NOLOCK)
+			)
+	BEGIN
+		SELECT TOP 1 @PARecordId = PARecordId
+		FROM #tblPARecord WITH (NOLOCK)
+
+		INSERT INTO dbo.PerformanceRecord (
+			EmployeeId
+			,CreatorId
+			,GradeId
+			,CreatedDate
+			,TypeId
+			,RoleId
+			)
+		SELECT EmployeeId
+			,- 1
+			,GradeId
+			,GETDATE()
+			,4 -- system PA
+			,255
+		FROM dbo.PARecord WITH (NOLOCK)
+		WHERE PARecordId = @PARecordId
+
+		SET @PerformanceRecordId = SCOPE_IDENTITY()
+
+		UPDATE pa
+		SET pa.PerformanceRecordId = @PerformanceRecordId
+		FROM dbo.PARecord AS pa WITH (ROWLOCK, UPDLOCK)
+		WHERE pa.PARecordId = @PARecordId
+
+		DELETE
+		FROM #tblPARecord
+		WHERE PARecordId = @PARecordId
+	END
+
+	DROP TABLE #tblPARecord
+END

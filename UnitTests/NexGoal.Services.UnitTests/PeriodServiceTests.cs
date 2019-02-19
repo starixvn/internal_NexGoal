@@ -115,8 +115,10 @@
             Assert.Equal(expected, actual);
         }
 
+        #region EditAsync
+
         [Fact]
-        public async Task EditAsync_ValidModel_ReturnExpectedCommandResult()
+        public async Task EditAsync_IsUnsuccessful_ReturnExpectedCommandResult()
         {
             // Arrange
             var model = new EditPeriodModel
@@ -124,16 +126,31 @@
                 PeriodId = 1,
                 Name = ""
             };
-            var expected = new CommandResult { Code = 0 };
+            var expected = new CommandResult();
+            var criteria = new EditPeriodCriteria();
             var service = GetPeriodService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<EditPeriodCriteria>()).Returns(expected);
+            baseService.ExecuteNonQueryAsync(Arg.Do<EditPeriodCriteria>(x => criteria = x)).Returns(expected);
 
             // Act
             var actual = await service.EditAsync(1, model);
 
             // Assert
             Assert.Equal(expected, actual);
+
+            Assert.Equal(model.PeriodId, criteria.PeriodId);
+            Assert.Equal(model.Name, criteria.Name);
+            Assert.Equal(model.StartDate, criteria.StartDate);
+            Assert.Equal(model.EndDate, criteria.EndDate);
+            Assert.Equal(model.DisciplineStartDate, criteria.DisciplineStartDate);
+            Assert.Equal(model.DisciplineEndDate, criteria.DisciplineEndDate);
+            Assert.Equal(model.FocusStartDate, criteria.FocusStartDate);
+            Assert.Equal(model.FocusEndDate, criteria.FocusEndDate);
+            Assert.Equal(model.Description, criteria.Description);
+            Assert.Equal(model.IsActive, criteria.IsActive);
+            Assert.Equal(1, criteria.ModifiedBy);
         }
+
+        #endregion EditAsync
 
         [Fact]
         public async Task DeleteAsync_WhenCalled_ReturnAsExpectedCommandResult()
@@ -228,11 +245,13 @@
             Assert.Equal(expected, actual);
         }
 
+        #region EditEmployeeSettingAsync
+
         [Fact]
-        public async Task EditEmployeeSettingAsync_ValidData_ReturnExpectedCommanResult()
+        public async Task EditEmployeeSettingAsync_IsUnsuccessful_ReturnExpectedCommanResult()
         {
             // Arrange
-            var expected = new CommandResult { Code = 0 };
+            var expected = new CommandResult();
             var service = GetPeriodService();
             baseService.ExecuteNonQueryAsync(Arg.Any<EditEmployeeSettingsCriteria>()).Returns(expected);
 
@@ -242,6 +261,8 @@
             // Assert
             Assert.Equal(expected, actual);
         }
+
+        #endregion EditEmployeeSettingAsync
 
         [Fact]
         public async Task EditEmployeeSettingStatusAsync_ValidData_ReturnExpectedCommanResult()

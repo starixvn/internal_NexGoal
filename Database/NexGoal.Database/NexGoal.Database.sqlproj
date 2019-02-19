@@ -260,6 +260,8 @@
     <Build Include="dbo\Stored Procedures\Nomination_GetByPARecordId.sql" />
     <Build Include="dbo\Stored Procedures\PARecord_GetDisciplineHRMInfoAndPreviousPAGrade.sql" />
     <Build Include="dbo\Stored Procedures\MasterReport_Get.sql" />
+    <Build Include="dbo\Stored Procedures\Period_UpdateFinalPAGrade.sql" />
+    <Build Include="dbo\Stored Procedures\Period_GetDataToUpdateFinalPAGrade.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">

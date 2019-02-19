@@ -87,6 +87,8 @@
     <Setting Key="Period_GetCurrentPerformancePeriod" SpName="Period_GetCurrentPerformancePeriod" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Period_GetPARecordsToUpdateGrade" SpName="Period_GetPARecordsToUpdateGrade" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Period_UpdatePAGrade" SpName="Auto_PA_UpdateGrade" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Period_GetDataToUpdateFinalPAGrade" SpName="Period_GetDataToUpdateFinalPAGrade" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Period_UpdateFinalPAGrade" SpName="Period_UpdateFinalPAGrade" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Project">
     <Setting Key="Project_GetAll" SpName="Project_GetAll" DbName="bodb_NexGoal" Plain="0"></Setting>
