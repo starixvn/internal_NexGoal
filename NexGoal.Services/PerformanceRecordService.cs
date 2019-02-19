@@ -128,7 +128,11 @@
 
             foreach (MemberPerformanceTimelineModel member in tuple.Item1)
             {
-                member.PerformanceRecords = tuple.Item2.Where(t => t.Employees.FirstOrDefault().EmployeeId == member.EmployeeId);
+                member.GradeId = cryptoService.Decrypt(member.GradeId);
+                int.TryParse(member.GradeId, out int gradeId);
+                member.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+
+                member.PerformanceRecords = tuple.Item2.Where(t => t.Employees.First().EmployeeId == member.EmployeeId);
             }
 
             return tuple.Item1;

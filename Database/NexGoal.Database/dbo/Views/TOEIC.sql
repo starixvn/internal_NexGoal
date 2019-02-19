@@ -10,4 +10,4 @@ SELECT EmpId
 	,CAST(LRExamDate AS DATE) AS LRExamDate
 	,Listening
 	,Reading
-FROM NexHRM.dbo.TOEIC WITH (NOLOCK)
+FROM [$(NexHRM)].dbo.TOEIC WITH (NOLOCK)

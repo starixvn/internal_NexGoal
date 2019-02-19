@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -120,71 +121,41 @@
             Assert.Equal(1, criteria.EmployeeId);
         }
 
-        ////#region GetMemberPerformanceTimelineAsync
+        [Fact]
+        public async Task GetMemberPerformanceTimelineAsync_MappingData_ReturnAsExpectedPerformanceRecords()
+        {
+            // Arrange
+            var gradeId = "1";
+            var memberTimelines = new List<MemberPerformanceTimelineModel>
+            {
+                new MemberPerformanceTimelineModel { EmployeeId = 2, NickName = "tim", GradeId = "cipher text" }
+            };
+            IEnumerable<PerformanceRecord> performanceRecords = GetPerformanceRecords();
+            IEnumerable<PerformanceGrade> performanceGrades = Helpers.GetPerformanceGrades();
+            var tuple = new Tuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>>(memberTimelines, performanceRecords);
+            var criteria = new GetMemberPerformanceTimelineCriteria();
+            var param = new GetMemberPerformanceTimelineParam();
+            var service = GetPerformanceRecordService();
+            performanceRecordRepository.GetMemberPerformanceTimelineAsync(Arg.Do<GetMemberPerformanceTimelineCriteria>(x => criteria = x)).Returns(tuple);
+            commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
+            cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
 
-        ////[Fact]
-        ////public async Task GetMemberPerformanceTimelineAsync_PerformanceRecordsAreNotExist_ReturnEmpty()
-        ////{
-        ////    // Arrange
-        ////    var memberTimelines = new List<MemberPerformanceTimelineModel>();
-        ////    var performanceRecords = new List<PerformanceRecord>();
-        ////    var nominationPeriods = new List<NominationPeriodModel>();
-        ////    var tuple = new Tuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>, IEnumerable<NominationPeriodModel>>
-        ////        (memberTimelines, performanceRecords, nominationPeriods);
-        ////    var service = GetPerformanceRecordService();
-        ////    baseService.FetchMultipleAsync<MemberPerformanceTimelineModel, PerformanceRecord, NominationPeriodModel>(Arg.Any<GetMemberPerformanceTimelineCriteria>()).Returns(tuple);
+            // Act
+            var actual = await service.GetMemberPerformanceTimelineAsync(param);
 
-        ////    // Act
-        ////    var actual = await service.GetMemberPerformanceTimelineAsync(new GetMemberPerformanceTimelineParam());
+            // Assert
+            Assert.Equal(memberTimelines, actual);
+            Assert.True(actual.First().Grade == performanceGrades.First());
+            Assert.True(actual.First().PerformanceRecords.First().Grade == performanceGrades.First());
+            Assert.Single(actual.First().PerformanceRecords);
+            Assert.Equal(actual.First().PerformanceRecords.First(), performanceRecords.First());
 
-        ////    // Assert
-        ////    Assert.Empty(actual);
-        ////}
-
-        ////[Fact]
-        ////public async Task GetMemberPerformanceTimelineAsync_MappingData_ReturnAsExpectedPerformanceRecords()
-        ////{
-        ////    // Arrange
-        ////    var gradeId = "1";
-        ////    var memberTimelines = new List<MemberPerformanceTimelineModel>
-        ////    {
-        ////        new MemberPerformanceTimelineModel { EmployeeId = 1, NickName = "Tim", GradeId = "cipher text" }
-        ////    };
-        ////    var performanceRecords = new List<PerformanceRecord>
-        ////    {
-        ////        new PerformanceRecord
-        ////        {
-        ////            PerformanceRecordId = 1,
-        ////            EmployeeIds = "1",
-        ////            ProjectIds = "1",
-        ////            GradeId = "cipher text",
-        ////            NominationPeriodId = 1
-        ////        }
-        ////    };
-        ////    IEnumerable<NominationPeriodModel> nominationPeriods = GetNominationPeriodForTest();
-        ////    IEnumerable<Employee> employees = GetEmployeeForTest();
-        ////    IEnumerable<ProjectModel> projects = GetProjectForTest();
-        ////    IEnumerable<PerformanceGrade> performanceGrades = Helpers.GetPerformanceGrades();
-        ////    var tuple = new Tuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>, IEnumerable<NominationPeriodModel>>
-        ////        (memberTimelines, performanceRecords, nominationPeriods);
-        ////    var service = GetPerformanceRecordService();
-        ////    baseService.FetchMultipleAsync<MemberPerformanceTimelineModel, PerformanceRecord, NominationPeriodModel>(Arg.Any<GetMemberPerformanceTimelineCriteria>()).Returns(tuple);
-        ////    commonService.GetEmployeesAsync(isEnabled: null).Returns(employees);
-        ////    commonService.GetProjectsAsync().Returns(projects);
-        ////    commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
-        ////    cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
-
-        ////    // Act
-        ////    var actual = await service.GetMemberPerformanceTimelineAsync(new GetMemberPerformanceTimelineParam());
-
-        ////    // Assert
-        ////    Assert.Equal(memberTimelines, actual);
-        ////    Assert.True(actual.First().Grade == performanceGrades.First());
-        ////    Assert.True(actual.First().PerformanceRecords.First().Grade == performanceGrades.First());
-        ////    Assert.True(actual.First().PerformanceRecords.First().NominationPeriod == nominationPeriods.First());
-        ////}
-
-        ////#endregion GetMemberPerformanceTimelineAsync
+            Assert.Equal(param.ActorId, criteria.ActorId);
+            Assert.Equal(param.PeriodId, criteria.PeriodId);
+            Assert.Equal(param.EmployeeId, criteria.EmployeeId);
+            Assert.Equal(param.PageIndex, criteria.PageIndex);
+            Assert.Equal(param.PageSize, criteria.PageSize);
+        }
 
         [Fact]
         public async Task GetPerformanceRecordByIdAsync_WhenCalled_ReturnAsExpectedPerformanceRecord()
