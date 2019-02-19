@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[PARecord_GetByReviewer] @ActorId INT
+﻿CREATE PROCEDURE [dbo].[PARecord_GetByReviewer] @ActorId INT
 	,@PeriodId INT
 	,@GroupIds VARCHAR(MAX) = ''
 AS
@@ -15,7 +14,7 @@ Param's Explanation:
 
 */
 BEGIN
-	DECLARE @Today DATETIME = GETDATE()
+	DECLARE @Today DATE = GETDATE()
 		,@SelfProcessId TINYINT = 2
 		,@ReviewerProcessId TINYINT = 5
 		-- PA status
@@ -63,12 +62,15 @@ BEGIN
 		,emp.NickName
 		,emp.FullName
 		,emp.Code
+		,g.Name AS GroupName
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
 		INNER JOIN #tblPARecordId AS tbl WITH (NOLOCK) ON pa.PARecordId = tbl.PARecordId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
+		INNER JOIN dbo.[Group] AS g WITH (NOLOCK) ON emp.GroupId = g.GroupId
 		INNER JOIN dbo.TOEIC AS t WITH (NOLOCK) ON pa.EmployeeId = t.EmpId
 		INNER JOIN dbo.PAProcess AS p WITH (NOLOCK) ON pa.PARecordId = p.PARecordId
 		AND p.ProcessId = @ReviewerProcessId
+	ORDER BY p.ProcessId, emp.EmployeeId
 
 	SELECT process.PARecordId
 		,process.ProcessId
@@ -83,6 +85,7 @@ BEGIN
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON process.EvaluatorId = emp.EmployeeId
 		LEFT JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON process.PerformanceRecordId = record.PerformanceRecordId
 	WHERE process.ProcessId >= @SelfProcessId
+	ORDER BY process.ProcessId
 
 	DROP TABLE #tblGroupId
 
