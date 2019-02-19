@@ -11,7 +11,7 @@ BEGIN
 	DECLARE @FromDate DATETIME
 		,@ToDate DATETIME
 		,@toeic INT
-		,@isPassedToeic BIT
+		,@ToeicPolicy SMAllINT
 		,@examDate DATETIME
 		,@incident INT
 		,@missingCheckInCheckOut INT
@@ -122,18 +122,9 @@ BEGIN
 	/* End Get have not request missing check in check out*/
 	SELECT @toeic = (Listening + Reading)
 		,@examDate = LRExamDate
-		,@isPassedToeic = (
-			CASE 
-				WHEN (
-						(ISNULL(Listening, 0) + ISNULL(Reading, 0)) >= ISNULL(MinimumScore, 0)
-						AND DATEADD(YEAR, 3, LRExamDate) >= convert(DATE, getdate())
-						)
-					OR (ISNULL(Listening, 0) + ISNULL(Reading, 0)) >= 900
-					THEN 1
-				ELSE 0
-				END
-			)
-	FROM [dbo].[TOEIC] WITH (NOLOCK)
+		,@ToeicPolicy = policy.Score
+	FROM [dbo].[TOEIC] AS toeic WITH (NOLOCK)
+	LEFT JOIN [dbo].[ToeicPolicy] AS policy WITH (NOLOCK) ON toeic.EmpId = policy.EmployeeId
 	WHERE EmpId = @EmployeeId
 
 	SET @incident = (
@@ -162,7 +153,7 @@ BEGIN
 
 	SELECT @toeic AS ToeicScore
 		,@examDate AS ToeicExamDate
-		,@isPassedToeic AS IsPassedToeic
+		,@ToeicPolicy AS ToeicPolicy
 		,@incident AS Incident
 		,@missingCheckInCheckOut AS MissingCheckInCheckOut
 		,SUM(CASE 
@@ -261,5 +252,4 @@ BEGIN
 	WHERE AttendanceDate BETWEEN @FromDate
 			AND @ToDate
 		AND et.EmpId = @EmployeeId
-
 END

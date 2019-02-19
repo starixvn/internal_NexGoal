@@ -18,8 +18,8 @@ class Rows extends Component {
 
     renderToeic = (toeicPolicy, toeic) => {
         let toeicClass = '';
-        if (toeicPolicy !== null && toeicPolicy > 0) toeicClass = 'role-member';
-        if (toeicPolicy === null || toeicPolicy < 0) toeicClass = 'red';
+        if (toeicPolicy !== null && toeicPolicy > 0) toeicClass = 'toeic-passed';
+        if (toeicPolicy === null || toeicPolicy < 0) toeicClass = 'toeic-failed';
         return <span className={`bold ${toeicClass}`}>{toeic ? toeic : getResource('N/A')}</span>;
     }
 

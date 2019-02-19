@@ -130,3 +130,11 @@ $fa-font-path: "~font-awesome/fonts";
         background-position: right 8px center;
     }
 }
+
+.toeic-passed {
+    color: $status-nomination-color;
+}
+
+.toeic-failed {
+    color: red;
+}
