@@ -55,16 +55,16 @@ namespace NexGoal.Web.Core.Services
         {
             var result = false;
 
-            if (Functions != null && Functions.Any())
+            if (Functions != null && Functions.Any(x => x.FunctionKey == functionKey))
             {
                 switch (policy)
                 {
                     case Policy.Read:
-                        result = Functions.Any(x => x.Policy == Policy.Read || x.Policy == Policy.Host);
+                        result = Functions.Any(x => x.FunctionKey == functionKey && (x.Policy == Policy.Read || x.Policy == Policy.Host));
                         break;
 
                     case Policy.Host:
-                        result = Functions.Any(x => x.Policy == Policy.Host);
+                        result = Functions.Any(x => x.FunctionKey == functionKey && x.Policy == Policy.Host);
                         break;
 
                     default:
