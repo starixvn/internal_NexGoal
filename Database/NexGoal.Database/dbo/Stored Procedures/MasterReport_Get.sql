@@ -42,6 +42,8 @@ BEGIN
 		,par.OriginalGradeId
 		,par.GradeId
 		,par.Comment
+		,par.Toeic
+		,par.ToeicPolicy
 		,paf.Contribution
 		,paf.BonusGiven
 		,paf.IsReadyPromotion

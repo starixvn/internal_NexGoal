@@ -28,6 +28,10 @@
 
         public string Comment { get; set; }
 
+        public int? Toeic { get; set; }
+
+        public int ToeicPolicy { get; set; }
+
         public int? ContributionId { get; set; }
 
         public string Contribution { get; set; }
