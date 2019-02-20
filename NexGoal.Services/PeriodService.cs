@@ -324,14 +324,14 @@
                 int.TryParse(record.GradeId, out int gradeId);
 
                 record.OriginalGradeId = cryptoService.Decrypt(record.OriginalGradeId);
-                int.TryParse(record.GradeId, out int originalGradeId);
+                int.TryParse(record.OriginalGradeId, out int originalGradeId);
 
                 if (!grades.Any(x => x.GradeId == gradeId))
                 {
                     gradeId = gradeId > maxGradeId ? maxGradeId : minGradeId;
                 }
 
-                if (!grades.Any(x => x.GradeId == gradeId))
+                if (!grades.Any(x => x.GradeId == originalGradeId))
                 {
                     originalGradeId = originalGradeId > maxGradeId ? maxGradeId : minGradeId;
                 }
