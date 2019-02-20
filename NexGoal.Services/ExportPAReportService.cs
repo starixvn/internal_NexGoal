@@ -10,7 +10,6 @@
     using DinkToPdf.Contracts;
     using Microsoft.AspNetCore.Hosting;
     using NexGoal.Core.Enumerations;
-    using NexGoal.Models;
     using NexGoal.Models.PARecord;
     using NexGoal.Models.PerformanceRecord;
     using NexGoal.Models.Report;
@@ -94,8 +93,13 @@
             PARecordGroupByPeriod period
             , ref int currentRow)
         {
+            var periodName = period.Period.Name;
+            if (period.Period.IsInProgress)
+            {
+                periodName += " - In Progress";
+            }
             templateWorksheet.Cells[5, 1, 5, TotalColumns].Copy(worksheet.Cells[currentRow, 1, currentRow, TotalColumns]);
-            worksheet.Cells[currentRow, 1].Value = period.Period.Name;
+            worksheet.Cells[currentRow, 1].Value = periodName;
             worksheet.Row(currentRow).Height = TitleHeight;
             worksheet.Cells[currentRow, 1, currentRow, TotalColumns].Merge = true;
             currentRow++;
@@ -191,55 +195,55 @@
             }
         }
 
-        private static string GradeAjustmentIcon(PerformanceGrade originalGrade, PerformanceGrade currentGrade)
-        {
-            int originalGradeValue = originalGrade != null ? originalGrade.GradeId : 0;
-            int currentGradeValue = currentGrade != null ? currentGrade.GradeId : 0;
-            string icon = "";
-            if (originalGradeValue < currentGradeValue)
-            {
-                icon = "▲";
-            }
-
-            if (originalGradeValue > currentGradeValue)
-            {
-                icon = "▼";
-            }
-            return icon;
-        }
-
         private static void WritePAFinalGrade(ExcelRange paCell, PARecordModel paRecord)
         {
-            var richTextCollection = paCell.RichText;
-            var revỉewerName = richTextCollection.Add(paRecord.Processes.FirstOrDefault(p => p.ProcessId == (int)PerformanceProcess.Reviewer).Evaluator.NickName);
-            revỉewerName.Bold = true;
-
-            richTextCollection.Add(Environment.NewLine);
-
-            var grade = paRecord.Grade != null ? paRecord.Grade.Name : "N/A";
-            var gradeText = richTextCollection.Add($"Grade: {grade} ");
-            gradeText.Bold = false;
-            var gradeIconRichText = richTextCollection.Add(GradeAjustmentIcon(paRecord.OriginalGrade, paRecord.Grade));
-            SetStylePAGrade(gradeIconRichText, paRecord.OriginalGrade, paRecord.Grade);
-            richTextCollection.Add(Environment.NewLine);
-            var commentText = richTextCollection.Add(paRecord.Comment);
-            commentText.Color = Color.Black;
-        }
-
-        private static void SetStylePAGrade(ExcelRichText gradeIconRichText,
-            PerformanceGrade originalGrade,
-            PerformanceGrade currentGrade)
-        {
-            int originalGradeValue = originalGrade != null ? originalGrade.GradeId : 0;
-            int currentGradeValue = currentGrade != null ? currentGrade.GradeId : 0;
-            if (originalGradeValue < currentGradeValue)
+            if (paRecord.StatusId == (int)PARecordStatus.InProgress && !paRecord.IsEdited)
             {
-                gradeIconRichText.Color = Color.Green;
+                paCell.Value = string.Empty;
             }
-
-            if (originalGradeValue > currentGradeValue)
+            else
             {
-                gradeIconRichText.Color = Color.Red;
+                var richTextCollection = paCell.RichText;
+                var assessorText = richTextCollection.Add(paRecord.Processes.FirstOrDefault(x => x.ProcessId == (int)PerformanceProcess.Reviewer)?.Evaluator.NickName);
+                assessorText.Bold = true;
+
+                richTextCollection.Add(Environment.NewLine);
+
+                var gradeText = richTextCollection.Add($"Grade: {(string.IsNullOrWhiteSpace(paRecord.Grade.Name) ? "N/A" : paRecord.Grade.Name)} ");
+                gradeText.Bold = false;
+
+                if (paRecord.GradeId != paRecord.OriginalGradeId)
+                {
+                    int.TryParse(paRecord.GradeId, out int gradeId);
+                    int.TryParse(paRecord.OriginalGradeId, out int originalGradeId);
+
+                    var icon = "";
+                    var color = Color.Black;
+                    if (gradeId > originalGradeId)
+                    {
+                        icon = "▲";
+                        color = Color.Green;
+                    }
+
+                    if (gradeId < originalGradeId)
+                    {
+                        icon = "▼";
+                        color = Color.Red;
+                    }
+
+                    var iconText = richTextCollection.Add(icon);
+                    iconText.Bold = true;
+                    iconText.Color = color;
+                }
+
+                if (!string.IsNullOrWhiteSpace(paRecord.Comment))
+                {
+                    richTextCollection.Add(Environment.NewLine);
+
+                    var commentText = richTextCollection.Add(paRecord.Comment);
+                    commentText.Bold = false;
+                    commentText.Color = Color.Black;
+                }
             }
         }
 
