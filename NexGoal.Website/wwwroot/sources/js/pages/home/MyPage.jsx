@@ -22,10 +22,7 @@ import PersonalTimeline from './timeline/PersonalTimeline';
 import EmployeeInfo from './EmployeeInfo';
 import Announcement from '../../shared/components/Announcement';
 import Marquee from '../../shared/components/Marquee';
-import SetOverlayConfig from '../../shared/overlay-config';
 const queryString = require('query-string');
-
-SetOverlayConfig();
 
 export default class MyPage extends Component {
     constructor(props) {
