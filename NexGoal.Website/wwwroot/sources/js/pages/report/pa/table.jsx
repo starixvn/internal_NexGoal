@@ -1,7 +1,7 @@
 ﻿import React, { Component, Fragment } from 'react';
 import getResource from '../../../resourceHelper';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
-import { PerformanceProcess } from '../../../constants';
+import { PerformanceProcess, PAStatus } from '../../../constants';
 
 export default class Table extends Component {
     constructor(props) {
@@ -52,10 +52,15 @@ export default class Table extends Component {
         } else {
             return (
                 periodRecords.map(periodRecord => {
+                    let title = periodRecord.period.name;
+                    if (periodRecord.period.isInProgress) {
+                        title += ' - In Progress';
+                    }
+
                     return (
                         <Fragment>
                             <tr className="group-row">
-                                <td colSpan={this.totalColums}>{periodRecord.period.name}</td>
+                                <td colSpan={this.totalColums}>{title}</td>
                             </tr>
                             {
                                 this.renderGroupRecords(periodRecord.groups)
@@ -96,12 +101,14 @@ export default class Table extends Component {
     renderPAGrade = (record) => {
         const paGrade = record.grade ? record.grade.name : getResource('N/A');
         const revisedIcon = this.renderPARivisedIcon(record.gradeId, record.originalGradeId);
-        return (
-            <Fragment>
-                <span>{paGrade}{revisedIcon}</span>
-            </Fragment>
-        );
+        let displayGrade = <span>{paGrade}{revisedIcon}</span>;
+        if (record.statusId === PAStatus.InProgress && !record.isEdited) {
+            displayGrade = <span />;
+        }
+
+        return displayGrade;
     }
+
     renderPARecordInfo = (paRecords) => {
         return (
             paRecords.map((record, index) => {

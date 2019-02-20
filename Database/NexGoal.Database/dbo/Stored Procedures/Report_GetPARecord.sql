@@ -19,6 +19,7 @@ BEGIN
 		,@EvaluatorProcessId TINYINT = 4
 		,@PAInProgress TINYINT = 3
 		,@PAClosed TINYINT = 4
+		,@Today DATE = GETDATE()
 
 	CREATE TABLE #tblGroupId (GroupId INT)
 
@@ -132,6 +133,13 @@ BEGIN
 
 	SELECT p.PeriodId
 		,p.Name
+		,(
+			CASE
+				WHEN p.EndDate > @ToDay
+				THEN 1
+				ELSE 0
+				END
+		) AS IsInProgress
 	FROM dbo.Period AS p WITH (NOLOCK)
 	INNER JOIN #tblPeriodId AS tpl WITH (NOLOCK) ON p.PeriodId = tpl.PeriodId
 
