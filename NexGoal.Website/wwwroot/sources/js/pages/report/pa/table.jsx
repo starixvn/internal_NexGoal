@@ -220,7 +220,7 @@ export default class Table extends Component {
                         <th rowSpan="2">{getResource('JobTitle')}</th>
                         <th rowSpan="2">{getResource('Toeic')}</th>
                         <th rowSpan="1" colSpan="4">{getResource('PerformanceRecord')}</th>
-                        <th rowSpan="2">{getResource('PAFinalGrade')}</th>
+                        <th rowSpan="2">{getResource('PAFinal')}</th>
                         <th rowSpan="2">{getResource('Action')}</th>
                     </tr>
                     <tr>

@@ -41,7 +41,7 @@ export default class Row extends Component {
                                 checked={functionObj.policy > Policy.None}
                                 onChange={this.handleOnChange} id={"chb-read-" + functionObj.functionId}
                             />
-                            <label htmlFor={"chb-read-" + functionObj.functionId}></label>
+                            <label htmlFor={"chb-read-" + functionObj.functionId} />
                         </div>
                     }
                 </td>
@@ -54,7 +54,7 @@ export default class Row extends Component {
                                 checked={functionObj.policy === Policy.Host}
                                 onChange={this.handleOnChange} id={"chb-host-" + functionObj.functionId}
                             />
-                            <label htmlFor={"chb-host-" + functionObj.functionId}></label>
+                            <label htmlFor={"chb-host-" + functionObj.functionId} />
                         </div>
                     }
                 </td>

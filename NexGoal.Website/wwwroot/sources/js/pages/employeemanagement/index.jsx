@@ -172,7 +172,7 @@ export default class EmployeeManagement extends Component {
             },
             {
                 dataField: '',
-                text: `${getResource('EditRole')}`,
+                text: `${getResource('Edit')}`,
                 classes: 'text-center',
                 headerStyle: { width: '80px' },
                 isDummyField: true,
