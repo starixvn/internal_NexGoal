@@ -84,7 +84,7 @@ export default class ObjectiveModal extends Component {
                     !isHost &&
                     <Fragment>
                         <Modal.Body>
-                            {this.props.objective.value}
+                            <div className="comment">{this.props.objective.value}</div>
                         </Modal.Body>
                         <Modal.Footer>
                             <Button className="btn-cancel" onClick={this.props.onClose}>{getResource('Close')}</Button>

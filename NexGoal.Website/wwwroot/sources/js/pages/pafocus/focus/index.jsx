@@ -207,9 +207,9 @@ export default class PAFocus extends Component {
 
     render() {
         let period = this.state.filter.period,
-            today = moment(new Date()),
-            focusStartDate = period && period.focusStartDate ? moment(period.focusStartDate) : null,
-            focusEndDate = period && period.focusEndDate ? moment(period.focusEndDate) : null;
+            today = moment(new Date()).startOf('day'),
+            focusStartDate = period && period.focusStartDate ? moment(period.focusStartDate).startOf('day') : null,
+            focusEndDate = period && period.focusEndDate ? moment(period.focusEndDate).startOf('day') : null;
 
         return (
             <Fragment>

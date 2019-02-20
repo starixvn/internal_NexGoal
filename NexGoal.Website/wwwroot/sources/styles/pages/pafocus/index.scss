@@ -20,16 +20,9 @@
     }
 }
 
-.icon-increase-arrow, .icon-descrease-arrow {
-    display: inline-block;
-    margin-left: 6px;
-
-    &:before {
-        font-size: 9px;
-    }
-}
-
 .pa-focus-table {
+    margin-bottom: 60px;
+
     tr {
         .width-40 {
             width: 40px;
@@ -93,9 +86,24 @@
             font-size: 18px;
         }
 
+        .icon-increase-arrow, .icon-descrease-arrow {
+            display: inline-block;
+            margin-left: 6px;
+
+            &:before {
+                font-size: 9px;
+            }
+        }
+
         &.noticeable-performance {
             td, a, .focus-evaluation-status {
                 color: #fff;
+            }
+
+            .icon-increase-arrow, .icon-descrease-arrow {
+                &:before {
+                    color: #fff;
+                }
             }
 
             &.outstanding {
@@ -206,5 +214,18 @@
             border: 1px solid #fff;
             color: #fff;
         }
+
+        &:focus {
+            background-color: #fff;
+            color: #1a2e63;
+            border: 1px solid #1a2e63;
+        }
+    }
+}
+
+.custom-modal {
+    .comment {
+        white-space: pre-line;
+        line-height: 20px;
     }
 }

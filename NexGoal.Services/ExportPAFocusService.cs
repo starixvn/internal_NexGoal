@@ -10,9 +10,19 @@
     using NexGoal.Models.Common;
     using NexGoal.Models.PAFocus;
     using OfficeOpenXml;
+    using OfficeOpenXml.Style;
 
     public class ExportPAFocusService : IExportPAFocusService
     {
+        private enum TemplateRowIndex
+        {
+            Even = 4,
+            Odd,
+            VeryGood,
+            Outstanding,
+            Poor
+        };
+
         private const string ExcelTemplatePath = @"ExcelTemplates\\PAFocus.xlsx";
         private const int TotalCells = 11;
 
@@ -51,7 +61,7 @@
                     {
                         var isReadyPromotion = !string.IsNullOrWhiteSpace(paFocus.IsReadyPromotion) ? paFocus.IsReadyPromotion.ToLowerInvariant() : string.Empty;
 
-                        GetCellsTemplate(templateWorksheet, worksheet, paFocus, rowIndex, currentRow);
+                        TemplateRowIndex templateRowIndex = GetCellsTemplate(templateWorksheet, worksheet, paFocus, rowIndex, currentRow);
 
                         worksheet.Cells[currentRow, 1].Value = rowIndex;
                         worksheet.Cells[currentRow, 2].Value = paFocus.Employee.NickName;
@@ -61,7 +71,9 @@
                         worksheet.Cells[currentRow, 6].Value = GetFocusEvaluationLevel(referenceResources, paFocus.Contribution);
                         worksheet.Cells[currentRow, 7].Value = GetFocusEvaluationLevel(referenceResources, paFocus.BonusGiven);
                         worksheet.Cells[currentRow, 8].Value = GetIsReadyPromotion(isReadyPromotion);
-                        worksheet.Cells[currentRow, 9].Value = GetGrade(paFocus.Grade);
+
+                        WritePAGrade(worksheet.Cells[currentRow, 9], templateRowIndex, paFocus);
+
                         worksheet.Cells[currentRow, 10].Value = paFocus.CurrentObjective;
                         worksheet.Cells[currentRow, 11].Value = paFocus.NextObjective;
 
@@ -87,18 +99,14 @@
             }
         }
 
-        private static void GetCellsTemplate(
+        private static TemplateRowIndex GetCellsTemplate(
             ExcelWorksheet templateWorksheet,
             ExcelWorksheet worksheet,
             PAFocusModel paFocus,
             int rowIndex,
             int currentRow)
         {
-            var evenRow = 4;
-            var oddRow = 5;
-            var veryGoodRow = 6;
-            var outstandingRow = 7;
-            var poorRow = 8;
+            TemplateRowIndex templateRowIndex;
             var minStone = 3;
             var maxStone = 9;
             int.TryParse(paFocus.BonusGiven, out int bonusGiven);
@@ -110,26 +118,36 @@
             {
                 if (isReadyPromotion == "true")
                 {
-                    templateWorksheet.Cells[outstandingRow, 1, outstandingRow, TotalCells].Copy(worksheet.Cells[currentRow, 1, currentRow, TotalCells]);
+                    templateRowIndex = TemplateRowIndex.Outstanding;
+                    templateWorksheet.Cells[(int)TemplateRowIndex.Outstanding, 1, (int)TemplateRowIndex.Outstanding, TotalCells]
+                        .Copy(worksheet.Cells[currentRow, 1, currentRow, TotalCells]);
                 }
                 else
                 {
-                    templateWorksheet.Cells[veryGoodRow, 1, veryGoodRow, TotalCells].Copy(worksheet.Cells[currentRow, 1, currentRow, TotalCells]);
+                    templateRowIndex = TemplateRowIndex.VeryGood;
+                    templateWorksheet.Cells[(int)TemplateRowIndex.VeryGood, 1, (int)TemplateRowIndex.VeryGood, TotalCells]
+                        .Copy(worksheet.Cells[currentRow, 1, currentRow, TotalCells]);
                 }
             }
             else if (bonusGiven > 0 && contribution > 0 && condition <= minStone)
             {
-                templateWorksheet.Cells[poorRow, 1, poorRow, TotalCells].Copy(worksheet.Cells[currentRow, 1, currentRow, TotalCells]);
+                templateRowIndex = TemplateRowIndex.Poor;
+                templateWorksheet.Cells[(int)TemplateRowIndex.Poor, 1, (int)TemplateRowIndex.Poor, TotalCells]
+                    .Copy(worksheet.Cells[currentRow, 1, currentRow, TotalCells]);
             }
             else
             {
                 if (rowIndex % 2 == 0)
                 {
-                    templateWorksheet.Cells[evenRow, 1, evenRow, TotalCells].Copy(worksheet.Cells[currentRow, 1, currentRow, TotalCells]);
+                    templateRowIndex = TemplateRowIndex.Even;
+                    templateWorksheet.Cells[(int)TemplateRowIndex.Even, 1, (int)TemplateRowIndex.Even, TotalCells]
+                        .Copy(worksheet.Cells[currentRow, 1, currentRow, TotalCells]);
                 }
                 else
                 {
-                    templateWorksheet.Cells[oddRow, 1, oddRow, TotalCells].Copy(worksheet.Cells[currentRow, 1, currentRow, TotalCells]);
+                    templateRowIndex = TemplateRowIndex.Odd;
+                    templateWorksheet.Cells[(int)TemplateRowIndex.Odd, 1, (int)TemplateRowIndex.Odd, TotalCells]
+                        .Copy(worksheet.Cells[currentRow, 1, currentRow, TotalCells]);
                 }
 
                 if (isReadyPromotion == "true")
@@ -137,6 +155,8 @@
                     worksheet.Cells[currentRow, 8].Style.Font.Color.SetColor(Color.Green);
                 }
             }
+
+            return templateRowIndex;
         }
 
         private static string GetIsReadyPromotion(string isReadyPromotion)
@@ -149,9 +169,37 @@
             return isReadyPromotion == "true" ? "Yes" : "No";
         }
 
-        private static string GetGrade(PerformanceGrade performanceGrade)
+        private static void WritePAGrade(ExcelRange gradeCell, TemplateRowIndex templateRowIndex, PAFocusModel paFocus)
         {
-            return performanceGrade != null ? performanceGrade.Name : string.Empty;
+            int gradeId = paFocus.Grade != null ? paFocus.Grade.GradeId : 0;
+            int originalGradeId = paFocus.OriginalGrade != null ? paFocus.OriginalGrade.GradeId : 0;
+
+            gradeCell.Value = paFocus.Grade == null ? "N/A" : paFocus.Grade.Name;
+
+            GetGradeIcon(gradeCell.RichText, templateRowIndex, originalGradeId, gradeId);
+        }
+
+        private static void GetGradeIcon(ExcelRichTextCollection richText, TemplateRowIndex templateRowIndex, int originalGradeId, int gradeId)
+        {
+            var icon = "";
+            var color = Color.Black;
+            if (gradeId > originalGradeId)
+            {
+                icon = "▲";
+                color = (templateRowIndex == TemplateRowIndex.Even || templateRowIndex == TemplateRowIndex.Odd) ? Color.Green : Color.White;
+            }
+            else
+            {
+                if (gradeId < originalGradeId)
+                {
+                    icon = "▼";
+                    color = (templateRowIndex == TemplateRowIndex.Even || templateRowIndex == TemplateRowIndex.Odd) ? Color.Red : Color.White;
+                }
+            }
+
+            var iconText = richText.Add(icon);
+            iconText.Bold = true;
+            iconText.Color = color;
         }
 
         private static string GetFocusEvaluationLevel(IEnumerable<ReferenceResourceModel> referenceResources, string resourceId)
