@@ -22,6 +22,13 @@
     background-color: #324373;
 }
 
+.footer {
+    background-color: #E3E6EE;
+    color: #474747;
+    font-weight: 600;
+    padding: 8px;
+}
+
 .box {
     border: 1px solid #C4C4C4;
     margin-bottom: 10px;
@@ -229,12 +236,12 @@ $last-pci: #46607F;
     width: 80px;
 }
 
-.col-120 {
-    width: 120px;
+.col-100 {
+    width: 100px;
 }
 
-.col-200 {
-    width: 200px;
+.col-120 {
+    width: 120px;
 }
 
 .record {

@@ -286,7 +286,7 @@
                 ColorMode = ColorMode.Color,
                 Orientation = Orientation.Portrait,
                 PaperSize = PaperKind.A4,
-                Margins = new MarginSettings { Unit = Unit.Millimeters, Top = 10, Bottom = 10, Left = 5, Right = 5 },
+                Margins = new MarginSettings { Unit = Unit.Millimeters, Top = 8, Bottom = 8, Left = 4, Right = 4 },
                 DocumentTitle = $"{reportDetail.Employee.NickName}'s_PA"
             };
 
@@ -300,7 +300,7 @@
                     LoadImages = true,
                     UserStyleSheet = Path.Combine(hostingEnvironment.WebRootPath, PDFStylePath)
                 },
-                FooterSettings = { FontName = "Arial", FontSize = 7, Center = "[page]" }
+                FooterSettings = { FontName = "Arial", FontSize = 7, Spacing = 1.5, Center = "[page]" }
             };
 
             var pdf = new HtmlToPdfDocument

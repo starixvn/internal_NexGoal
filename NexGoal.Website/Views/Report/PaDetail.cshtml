@@ -52,7 +52,7 @@
                                     <th class="col-120">@ViewLang.UnplannedAnnualLeave</th>
                                     <th class="col-120">@ViewLang.AverageWorkingHours</th>
                                     <th>@ViewLang.Overtime</th>
-                                    <th class="col-200">Toeic</th>
+                                    <th class="col-100">Toeic</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -78,19 +78,17 @@
                                     }
                                 }
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td class="text-center">@ViewLang.Total</td>
-                                    <td class="text-center">@Model.HRM.Sum(x => x.MissingCheckInCheckOut)</td>
-                                    <td class="text-center">@Model.HRM.Sum(x => x.LateIn)</td>
-                                    <td class="text-center">@Model.HRM.Sum(x => x.EarlyOut)</td>
-                                    <td class="text-center">@Model.HRM.Sum(x => x.UnpaidLeave)</td>
-                                    <td class="text-center">@Model.HRM.Sum(x => x.UnplanedAnnualLeave)</td>
-                                    <td class="text-center">@Helper.RenderHour(Model.HRM.Average(x => x.AverageWorkingHours))</td>
-                                    <td class="text-center">@Model.HRM.Average(x => x.Overtime)</td>
-                                    <td></td>
-                                </tr>
-                            </tfoot>
+                            <tr class="footer">
+                                <td class="text-center">@ViewLang.Total</td>
+                                <td class="text-center">@Model.HRM.Sum(x => x.MissingCheckInCheckOut)</td>
+                                <td class="text-center">@Model.HRM.Sum(x => x.LateIn)</td>
+                                <td class="text-center">@Model.HRM.Sum(x => x.EarlyOut)</td>
+                                <td class="text-center">@Model.HRM.Sum(x => x.UnpaidLeave)</td>
+                                <td class="text-center">@Model.HRM.Sum(x => x.UnplanedAnnualLeave)</td>
+                                <td class="text-center">@Helper.RenderHour(Model.HRM.Average(x => x.AverageWorkingHours))</td>
+                                <td class="text-center">@Model.HRM.Average(x => x.Overtime)</td>
+                                <td></td>
+                            </tr>
                         </table>
                     </div>
                 </div>
@@ -114,7 +112,7 @@
                                         index++;
                                         <tr>
                                             <td class="text-center">@index</td>
-                                            <td class="text-center">@discipline.Description</td>
+                                            <td style="padding: 8px">@discipline.Description</td>
                                             <td class="text-center">@discipline.EffectiveDate.ToString("dd MMM yyyy")</td>
                                         </tr>
                                     }
