@@ -75,11 +75,10 @@ class Filter extends Component {
                 </FormGroup>
                 <FormGroup>
                     <div className="checkbox">
-                        <label>
-                            <input type="checkbox" checked={filter.isShowAll}
-                                onChange={this.handleCheckboxChange}
-                            /> {getResource('ShowAllEmployee')}
-                        </label>
+                        <input type="checkbox" checked={filter.isShowAll} className="checkbox-custom"
+                            onChange={this.handleCheckboxChange} id="chbShowAllEmp"
+                        />
+                        <label htmlFor="chbShowAllEmp">{getResource('ShowAllEmployee')}</label>
                     </div>
                 </FormGroup>
                 <FormGroup>

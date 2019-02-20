@@ -83,7 +83,7 @@ export default class Edit extends Component {
         const employees = this.props.settings.map(e => e.employee.nickName).join(', ');
         let numberOfPARecord = this.props.paRecordIds.length;
         let lbstyle = {
-            display: 'inline-block', 
+            display: 'inline-block',
             paddingLeft: '12px'
         };
         return (
@@ -111,10 +111,19 @@ export default class Edit extends Component {
                         <tbody>
                             {values.processes.map((p, i) =>
                                 <tr key={i}>
-                                    {numberOfPARecord > 1 &&
+                                    {
+                                        numberOfPARecord > 1 &&
                                         <td>
-                                            <input type="checkbox" checked={p.isSelected} onChange={handleChange} name={`processes.${i}.isSelected`} />
-                                        </td>}
+                                            <div className="checkbox">
+                                                <input type="checkbox" checked={p.isSelected} onChange={handleChange}
+                                                    id={`chb-processes${i}`}
+                                                    className="checkbox-custom"
+                                                    name={`processes.${i}.isSelected`}
+                                                />
+                                                <label htmlFor={`chb-processes${i}`} />
+                                            </div>
+                                        </td>
+                                    }
                                     <td>{p.process}</td>
                                     <td>
                                         {

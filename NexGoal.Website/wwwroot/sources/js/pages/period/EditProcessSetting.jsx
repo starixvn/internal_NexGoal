@@ -31,17 +31,6 @@ export default class EditProcessSetting extends Component {
             }).catch(axiosError);
     }
 
-    handleNoticeAtBeginChange = e => {
-        var element = e.target;
-        var processId = parseInt(element.dataset.processid);
-
-        var settings = this.state.settings.slice(0);
-        var process = settings.find(e => e.processId === processId);
-        process.noticeAtBegin = element.checked;
-
-        this.setState({ settings: settings });
-    }
-
     handleRemindDayChange = e => {
         var element = e.target;
         var processId = parseInt(element.dataset.processid);
@@ -89,11 +78,10 @@ export default class EditProcessSetting extends Component {
     render() {
         return (
             <Fragment>
-                <table className="table table-bordered" style={{marginTop: '12px'}}>
+                <table className="table table-bordered" style={{ width: '300px', marginTop: '12px' }}>
                     <thead>
                         <tr>
                             <th />
-                            <th>{getResource('NoticeAtBegin')}</th>
                             <th>{getResource('RemindDay')}</th>
                         </tr>
                     </thead>
@@ -101,14 +89,6 @@ export default class EditProcessSetting extends Component {
                         {this.state.settings.map(e =>
                             <tr key={e.processId} >
                                 <td>{e.processName}</td>
-                                <td className="text-center">
-                                    <div className="checkbox">
-                                        <input type="checkbox" id={`notice-${e.processId}`} data-processid={e.processId} checked={e.noticeAtBegin}
-                                            onChange={this.handleNoticeAtBeginChange} className="checkbox-custom"
-                                        />
-                                        <label htmlFor={`notice-${e.processId}`}></label>
-                                    </div>
-                                </td>
                                 <td key={e.processId} className="text-center">
                                     <select data-processid={e.processId} value={e.remindDay} onChange={this.handleRemindDayChange}>
                                         {this.remindDayList.map(this.renderOptions)}

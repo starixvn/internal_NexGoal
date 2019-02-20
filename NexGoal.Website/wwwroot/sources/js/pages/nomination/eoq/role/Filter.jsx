@@ -74,7 +74,7 @@ class Filter extends Component {
                     </div>
                 </FormGroup>
                 <FormGroup>
-                    <div className="checkbox">                        
+                    <div className="checkbox">
                         <input type="checkbox" checked={filter.isShowAll} className="checkbox-custom"
                             onChange={this.handleCheckboxChange} id="chbShowAllEmp"
                         />

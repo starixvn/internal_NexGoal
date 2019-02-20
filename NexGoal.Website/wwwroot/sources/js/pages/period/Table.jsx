@@ -73,10 +73,10 @@ export default class Table extends Component {
             isDummyField: true,
             formatter: (cell, row, rowIndex, colIndex) => {
                 if (this.props.isHost) {
-                    return <div className="checkbox"><input id={'chb-active-' + rowIndex} type='checkbox' defaultChecked={row.isActive} onChange={(e) => this.editPeriodStatus(e, row)} className="checkbox-custom"/><label htmlFor={'chb-active-' + rowIndex}></label></div>;
+                    return <div className="checkbox"><input id={'chb-active-' + rowIndex} type='checkbox' defaultChecked={row.isActive} onChange={(e) => this.editPeriodStatus(e, row)} className="checkbox-custom"/><label htmlFor={'chb-active-' + rowIndex} /></div>;
                 }
 
-                return <div className="checkbox"><input type='checkbox' id={'chb-active-' + rowIndex} checked={row.isActive} readOnly className="checkbox-custom"/><label htmlFor={'chb-active-' + rowIndex}></label></div>;
+                return <div className="checkbox"><input type='checkbox' id={'chb-active-' + rowIndex} checked={row.isActive} readOnly className="checkbox-custom"/><label htmlFor={'chb-active-' + rowIndex} /></div>;
             }
         },
         {
