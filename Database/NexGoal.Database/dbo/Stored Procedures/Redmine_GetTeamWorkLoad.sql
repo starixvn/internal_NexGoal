@@ -44,22 +44,15 @@ BEGIN
 		,e.NickName
 		,p.[Name] AS ProjectName
 		,p.ProjectId
-		,SUM(pst.[Hours]) AS TotalHour
+		,pst.[Hours] AS TotalHour
 	FROM [dbo].Employee AS e WITH (NOLOCK)
 		INNER JOIN [dbo].[Group] AS g WITH (NOLOCK) ON e.GroupId = g.GroupId
 		INNER JOIN #member AS m ON m.EmployeeId = e.EmployeeId
 		LEFT JOIN dbo.ProjectSpentTime AS pst WITH (NOLOCK) ON e.EmployeeId = pst.EmployeeId
+			AND pst.SpentOn BETWEEN @fromDate AND @toDate
 		LEFT JOIN dbo.Project AS p WITH (NOLOCK) ON pst.ProjectId = p.ProjectId
 	WHERE e.IsDeleted = 0
 		AND e.[Enabled] = 1
-		AND (pst.SpentOn IS NULL OR pst.SpentOn BETWEEN @fromDate AND @toDate)
-	GROUP BY g.GroupId
-		,g.[Name]
-		,e.EmployeeId
-		,e.NickName
-		,p.ProjectId
-		,p.[Name]
-		,m.[Priority]
 	ORDER BY m.[Priority]
 		,g.[Name]
 		,e.NickName
