@@ -286,7 +286,7 @@
                 ColorMode = ColorMode.Color,
                 Orientation = Orientation.Portrait,
                 PaperSize = PaperKind.A4,
-                Margins = new MarginSettings { Unit = Unit.Millimeters, Top = 8, Bottom = 8, Left = 4, Right = 4 },
+                Margins = new MarginSettings { Unit = Unit.Millimeters, Top = 10, Bottom = 10, Left = 4, Right = 4 },
                 DocumentTitle = $"{reportDetail.Employee.NickName}'s_PA"
             };
 

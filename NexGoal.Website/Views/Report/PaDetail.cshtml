@@ -57,38 +57,49 @@
                             </thead>
                             <tbody>
                                 @{
-                                    var i = 0;
-                                    foreach (var month in Model.HRM)
+                                    if (Model.HRM.Any())
+                                    {
+                                        var i = 0;
+                                        foreach (var month in Model.HRM)
+                                        {
+                                            <tr>
+                                                <td class="text-center">@string.Format("{0}/{1}", month.Month, month.Year)</td>
+                                                <td class="text-center">@month.MissingCheckInCheckOut</td>
+                                                <td class="text-center">@month.LateIn</td>
+                                                <td class="text-center">@month.EarlyOut</td>
+                                                <td class="text-center">@month.UnpaidLeave</td>
+                                                <td class="text-center">@month.UnplanedAnnualLeave</td>
+                                                <td class="text-center">@Helper.RenderHour(month.AverageWorkingHours)</td>
+                                                <td class="text-center">@month.Overtime</td>
+                                                @if (i == 0)
+                                                {
+                                                    i++;
+                                                    <td class="text-center" rowspan="@Model.HRM.Count()">@Model.PARecord.Toeic</td>
+                                                }
+                                            </tr>
+                                        }
+                                        <tr class="footer">
+                                            <td class="text-center">@ViewLang.Total</td>
+                                            <td class="text-center">@Model.HRM.Sum(x => x.MissingCheckInCheckOut)</td>
+                                            <td class="text-center">@Model.HRM.Sum(x => x.LateIn)</td>
+                                            <td class="text-center">@Model.HRM.Sum(x => x.EarlyOut)</td>
+                                            <td class="text-center">@Model.HRM.Sum(x => x.UnpaidLeave)</td>
+                                            <td class="text-center">@Model.HRM.Sum(x => x.UnplanedAnnualLeave)</td>
+                                            <td class="text-center">
+                                                @Helper.RenderHour(Model.HRM.Average(x => x.AverageWorkingHours))
+                                            </td>
+                                            <td class="text-center">@Model.HRM.Average(x => x.Overtime)</td>
+                                            <td></td>
+                                        </tr>
+                                    }
+                                    else
                                     {
                                         <tr>
-                                            <td class="text-center">@string.Format("{0}/{1}", month.Month, month.Year)</td>
-                                            <td class="text-center">@month.MissingCheckInCheckOut</td>
-                                            <td class="text-center">@month.LateIn</td>
-                                            <td class="text-center">@month.EarlyOut</td>
-                                            <td class="text-center">@month.UnpaidLeave</td>
-                                            <td class="text-center">@month.UnplanedAnnualLeave</td>
-                                            <td class="text-center">@Helper.RenderHour(month.AverageWorkingHours)</td>
-                                            <td class="text-center">@month.Overtime</td>
-                                            @if (i == 0)
-                                            {
-                                                i++;
-                                                <td class="text-center" rowspan="@Model.HRM.Count()">@Model.PARecord.Toeic</td>
-                                            }
+                                            <td colspan="9" class="text-center">@ViewLang.NoRecordFound</td>
                                         </tr>
                                     }
                                 }
                             </tbody>
-                            <tr class="footer">
-                                <td class="text-center">@ViewLang.Total</td>
-                                <td class="text-center">@Model.HRM.Sum(x => x.MissingCheckInCheckOut)</td>
-                                <td class="text-center">@Model.HRM.Sum(x => x.LateIn)</td>
-                                <td class="text-center">@Model.HRM.Sum(x => x.EarlyOut)</td>
-                                <td class="text-center">@Model.HRM.Sum(x => x.UnpaidLeave)</td>
-                                <td class="text-center">@Model.HRM.Sum(x => x.UnplanedAnnualLeave)</td>
-                                <td class="text-center">@Helper.RenderHour(Model.HRM.Average(x => x.AverageWorkingHours))</td>
-                                <td class="text-center">@Model.HRM.Average(x => x.Overtime)</td>
-                                <td></td>
-                            </tr>
                         </table>
                     </div>
                 </div>
