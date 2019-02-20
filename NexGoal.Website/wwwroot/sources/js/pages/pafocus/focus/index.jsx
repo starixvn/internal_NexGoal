@@ -19,7 +19,8 @@ export default class PAFocus extends Component {
                 groups: [],
                 employee: null
             },
-            pafocuses: []
+            pafocuses: [],
+            isSubmittingForm: true
         };
 
         this.periodOptions = [];
@@ -66,6 +67,25 @@ export default class PAFocus extends Component {
                 this.focusEvaluationLevelOptions = levelResponse.data;
                 this.setState({ filter: filter });
             }).catch(axiosError);
+
+        window.addEventListener('beforeunload', this.warnUnsavedData);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('beforeunload', this.warnUnsavedData);
+    }
+
+    warnUnsavedData = (event) => {
+        if (this.state.isSubmittingForm) {
+            return undefined;
+        }
+
+        var confirmationMessage = 'It looks like you have been editing something. '
+            + 'If you leave before saving, your changes will be lost.';
+
+        (event || window.event).returnValue = confirmationMessage;
+
+        return confirmationMessage;
     }
 
     getMembers = (groupIds) => {
@@ -118,7 +138,8 @@ export default class PAFocus extends Component {
             this.periodSelected = filter.period;
 
             this.setState({
-                pafocuses: response.data.paFocuses
+                pafocuses: response.data.paFocuses,
+                isSubmittingForm: true
             });
         }).catch(axiosError);
     }
@@ -156,7 +177,10 @@ export default class PAFocus extends Component {
 
             if (memberIndex >= 0) {
                 pafocuses[index].members[memberIndex] = Object.assign({}, pafocuses[index].members[memberIndex], { [propName]: value });
-                this.setState({ pafocuses });
+                this.setState({
+                    pafocuses: pafocuses,
+                    isSubmittingForm: false
+                });
             }
         }
     }
@@ -202,6 +226,10 @@ export default class PAFocus extends Component {
             } else {
                 toast.error(data.message);
             }
+
+            this.setState({
+                isSubmittingForm: true
+            });
         }).catch(axiosError);
     }
 
