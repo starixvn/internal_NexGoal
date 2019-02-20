@@ -45,7 +45,7 @@
         public CommandResult EditGrade()
         {
             var commandResult = new CommandResult();
-            IEnumerable<PARecordModel> records = GetDataToEditGrade();
+            IEnumerable<EditPAGradeDto> records = GetDataToEditGrade();
 
             if (records != null && records.Any())
             {
@@ -220,12 +220,12 @@
             }
         }
 
-        private IEnumerable<PARecordModel> GetDataToEditGrade()
+        private IEnumerable<EditPAGradeDto> GetDataToEditGrade()
         {
             var criteria = new GetDataToEditGradeCriteria();
-            var records = baseService.GetDataAsync<PARecordModel>(criteria).Result;
+            var records = baseService.GetDataAsync<EditPAGradeDto>(criteria).Result;
             var grades = baseService.GetDataAsync<ReferenceResourceModel>(new GetRefResourceByNameCriteria { RefNames = "PerformanceGrade" }).Result;
-            foreach (PARecordModel record in records)
+            foreach (EditPAGradeDto record in records)
             {
                 record.GradeId = cryptoService.Decrypt(record.GradeId);
                 int.TryParse(record.GradeId, out int gradeId);
@@ -242,6 +242,7 @@
                 }
 
                 record.GradeId = gradeId == 0 ? null : cryptoService.Encrypt(gradeId.ToString());
+                record.OriginalGradeId = record.GradeId;
             }
 
             return records;

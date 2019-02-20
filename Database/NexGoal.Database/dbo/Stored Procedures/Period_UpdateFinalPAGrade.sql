@@ -12,7 +12,7 @@ Original:
 
 Revisions:
 Param's Explanation:
-    Value : '<ROOT><Row PARecordId="4" GradeId="cipher text" ToeicPolicy="1"></Row></ROOT>'
+    Value : '<ROOT><Row PARecordId="4" OriginalGradeId="cipher text" GradeId="cipher text" ToeicPolicy="1"></Row></ROOT>'
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -24,6 +24,7 @@ BEGIN
 
 	CREATE TABLE #tblPARecord (
 		PARecordId INT
+		,OriginalGradeId VARCHAR(MAX)
 		,GradeId VARCHAR(MAX)
 		,ToeicPolicy SMALLINT
 		)
@@ -33,19 +34,18 @@ BEGIN
 
 	INSERT INTO #tblPARecord (
 		PARecordId
+		,OriginalGradeId
 		,GradeId
 		,ToeicPolicy
 		)
 	SELECT PARecordId
+		,OriginalGradeId
 		,GradeId
 		,ToeicPolicy
-	FROM OPENXML(@idoc, '/Root/Row', 1) WITH (PARecordId INT, GradeId VARCHAR(MAX), ToeicPolicy SMALLINT) AS data
+	FROM OPENXML(@idoc, '/Root/Row', 1) WITH (PARecordId INT, OriginalGradeId VARCHAR(MAX), GradeId VARCHAR(MAX), ToeicPolicy SMALLINT) AS data
 
 	UPDATE pa
-	SET pa.OriginalGradeId = CASE 
-			WHEN ISNULL(pa.OriginalGradeId, '') = '' THEN tbl.GradeId
-			ELSE pa.OriginalGradeId
-			END
+	SET pa.OriginalGradeId = tbl.OriginalGradeId
 		,pa.GradeId = tbl.GradeId
 		,pa.Toeic = toeic.Listening + toeic.Reading
 		,pa.ToeicPolicy = tbl.ToeicPolicy

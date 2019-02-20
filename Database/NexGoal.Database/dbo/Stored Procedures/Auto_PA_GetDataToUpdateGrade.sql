@@ -13,8 +13,7 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @Tomorrow DATE = DATEADD(DAY, 1, GETDATE())
-		,@PAOpened TINYINT = 2
+	DECLARE @Today DATE = GETDATE()
 		,@PAInProgress TINYINT = 3
 		,@PAClosed TINYINT = 4
 		,@EvaluatorProcessId TINYINT = 4
@@ -38,7 +37,7 @@ BEGIN
 			FROM dbo.PAProcess AS reviewer WITH (NOLOCK)
 			WHERE pa.PARecordId = reviewer.PARecordId
 				AND reviewer.ProcessId = @ReviewerProcessId
-				AND reviewer.StartDate = @Tomorrow
+				AND reviewer.StartDate = @Today
 			)
 	
 	UNION

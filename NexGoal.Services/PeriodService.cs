@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
@@ -262,16 +261,16 @@
             return result;
         }
 
-        private async Task<IEnumerable<PARecordModel>> GetDataToEditPAGradeAsync(string paRecordIds)
+        private async Task<IEnumerable<EditPAGradeDto>> GetDataToEditPAGradeAsync(string paRecordIds)
         {
             var criteria = new GetPARecordsToUpdateGradeCriteria
             {
                 PARecordIds = paRecordIds
             };
-            var records = await baseService.GetDataAsync<PARecordModel>(criteria).ConfigureAwait(false);
+            var records = await baseService.GetDataAsync<EditPAGradeDto>(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGrade> grades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
-            foreach (PARecordModel record in records)
+            foreach (EditPAGradeDto record in records)
             {
                 record.GradeId = cryptoService.Decrypt(record.GradeId);
                 int.TryParse(record.GradeId, out int gradeId);
@@ -283,6 +282,7 @@
                 }
 
                 record.GradeId = gradeId == 0 ? null : cryptoService.Encrypt(gradeId.ToString());
+                record.OriginalGradeId = record.GradeId;
             }
 
             return records;
@@ -290,22 +290,20 @@
 
         private async Task<CommandResult> EditPAGradeAsync(string paRecordIds)
         {
-            IEnumerable<PARecordModel> records = await GetDataToEditPAGradeAsync(paRecordIds).ConfigureAwait(false);
+            var commandResult = new CommandResult { Code = 0 };
+            IEnumerable<EditPAGradeDto> records = await GetDataToEditPAGradeAsync(paRecordIds).ConfigureAwait(false);
 
-            var xmlTemplate = "<Row PARecordId='{0}' GradeId='{1}' ToeicPolicy='{2}' />";
-            var xml = new StringBuilder();
-            xml.Append("<Root>");
-
-            foreach (var record in records)
+            if (records.Any())
             {
-                xml.AppendFormat(xmlTemplate, record.PARecordId, record.GradeId, record.ToeicPolicy);
+                var criteria = new EditPARecordGradeCriteria
+                {
+                    Value = records.ToXML().ToString()
+                };
+
+                commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
             }
 
-            xml.Append("</Root>");
-
-            var criteria = new EditPARecordGradeCriteria { Value = xml.ToString() };
-
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return commandResult;
         }
 
         private async Task<IEnumerable<EditPAGradeDto>> GetDataToEditFinalPAGradeAsync(int periodId, string paRecordIds = null)
@@ -324,14 +322,22 @@
             {
                 record.GradeId = cryptoService.Decrypt(record.GradeId);
                 int.TryParse(record.GradeId, out int gradeId);
-                gradeId += record.ToeicPolicy;
+
+                record.OriginalGradeId = cryptoService.Decrypt(record.OriginalGradeId);
+                int.TryParse(record.GradeId, out int originalGradeId);
 
                 if (!grades.Any(x => x.GradeId == gradeId))
                 {
                     gradeId = gradeId > maxGradeId ? maxGradeId : minGradeId;
                 }
 
+                if (!grades.Any(x => x.GradeId == gradeId))
+                {
+                    originalGradeId = originalGradeId > maxGradeId ? maxGradeId : minGradeId;
+                }
+
                 record.GradeId = cryptoService.Encrypt(gradeId.ToString());
+                record.OriginalGradeId = cryptoService.Encrypt(originalGradeId.ToString());
             }
 
             return records;

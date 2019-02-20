@@ -26,6 +26,7 @@ BEGIN
 	WHERE ISNUMERIC(val) = 1
 
 	SELECT pa.PARecordId
+		,pa.OriginalGradeId
 		,pa.GradeId
 		,pa.StatusId
 		,ISNULL(toeic.Score, 0) AS ToeicPolicy
