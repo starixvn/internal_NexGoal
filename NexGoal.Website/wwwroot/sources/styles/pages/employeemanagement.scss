@@ -20,3 +20,17 @@
 .employee-wrapper {
   padding-bottom: 20px;
 }
+
+.form-horizontal .edit-role-form {
+  margin: 0;
+}
+
+.edit-role-form {
+  display: flex; 
+
+  .control-label {
+    flex-basis: 64px;
+    max-width: 64px;
+    text-align: left;
+  }
+}

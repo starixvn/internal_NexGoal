@@ -9,10 +9,16 @@
                 color: #fff;
                 background-color: #324476;
             }
-            input[type="checkbox"] {
-                position: relative;
-                top: 2px;
-            }
+            // input[type="checkbox"] {
+            //     position: relative;
+            //     top: 2px;
+            // }
+        }
+
+        .checkbox .checkbox-custom {
+          position: absolute;
+          left: -9999px;
+          opacity: 0;
         }
     }
 }

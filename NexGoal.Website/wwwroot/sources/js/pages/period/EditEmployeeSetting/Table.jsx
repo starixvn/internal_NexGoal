@@ -296,10 +296,10 @@ export default class Table extends Component {
                                     <div className="search-wrapper clearfix" >
                                         <div className="pull-left btn-block">
                                             <button className="btn btn-primary" onClick={this.editSettings}>
-                                                <i className="fa fa-pencil-square-o" /> {getResource('EditEmployeeSetting')}
+                                                {getResource('EditEmployeeSetting')}
                                             </button>
                                             <button className="btn btn-primary" onClick={this.generatePA}>
-                                                <i className="fa fa-pencil-square-o" /> {getResource('GeneratePA')}
+                                                {getResource('GeneratePA')}
                                             </button>
                                         </div>
                                     </div>

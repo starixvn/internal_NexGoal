@@ -29,12 +29,15 @@ export default class Row extends Component {
 
     render() {
         let data = this.props.data;
+        let styleCenter = {
+          verticalAlign: 'middle'
+        };
 
         return (
             <Fragment >
                 <tr>
                     <td colSpan={3}>
-                        <span>{data.pm.nickName} ({data.members.length} members)</span>
+                        <span style={styleCenter}>{data.pm.nickName} ({data.members.length} members)</span>
                         <a className="icon-plus" title="Add" onClick={this.handleAddMember.bind(this, data.pm)} />
                         <a className={`icon-chevron-down ${this.state.expand ? 'collapsed' : 'expanded'}`}
                             title="Collapse/Expand"

@@ -70,9 +70,9 @@ export default class EditEmployeeRole extends Component {
                 </Modal.Header>
                 <Form id="edit-employee-role-form" horizontal onSubmit={this.handleEditEmployeeRoles}>
                     <Modal.Body>
-                        <FormGroup>
-                            <Col componentClass={ControlLabel} sm={2}>{getResource('Roles')}</Col>
-                            <Col sm={10}>
+                        <FormGroup className="edit-role-form">
+                            <label className="control-label">{getResource('Roles')}</label>
+                            <div>
                                 {
                                     this.state.employeeRoles.map(role =>
                                         // <Checkbox key={role.roleId}
@@ -91,7 +91,7 @@ export default class EditEmployeeRole extends Component {
                                         </div>
                                     )
                                 }
-                            </Col>
+                            </div>
                         </FormGroup>
                     </Modal.Body>
                     <Modal.Footer>

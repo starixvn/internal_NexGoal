@@ -36,7 +36,7 @@
   
     // Box checked
     &:checked + label:before {
-      background: #fff;
+      background-color: #458A00;
       border: none;
     }
     
@@ -70,8 +70,8 @@
       //   4px -4px 0 #1c1c1c,
       //   4px -6px 0 #1c1c1c,
       //   4px -8px 0 #1c1c1c;
-      border-right: 2px solid #1c1c1c;
-      border-bottom: 2px solid #1c1c1c;
+      border-right: 2px solid #fff;
+      border-bottom: 2px solid #fff;
       transform: rotate(45deg);
     }
   }

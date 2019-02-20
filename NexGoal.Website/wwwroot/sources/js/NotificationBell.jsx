@@ -246,15 +246,14 @@ export default class NotificationBell extends Component {
     render() {
         const unreadNoti = this.state.unreadNoti;
         return (
-            <div ref={node => this.wrapperRef = node}>
+            <div className="header-notification" ref={node => this.wrapperRef = node}>
                 <span className="icon-bell"
                     onClick={this.handleClickOnBell}
-                >
-                    {
-                        unreadNoti > 0 &&
-                        <span className={`noti-number ${unreadNoti === 0 ? 'empty-noti' : ''}`}>{unreadNoti}</span>
-                    }
-                </span>
+                ></span>
+                {
+                    unreadNoti > 0 &&
+                    <span className={`noti-number ${unreadNoti === 0 ? 'empty-noti' : ''}`}>{unreadNoti}</span>
+                }
                 {
                     this.state.isShowNoti &&
                     <div className="noti-wrapper">
