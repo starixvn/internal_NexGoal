@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
@@ -112,7 +113,7 @@
 
             CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
 
-            if (commandResult.IsSuccessful)
+            if (commandResult.IsSuccessful && model.EndDate.HasValue && model.EndDate.Value.Date < DateTime.Now.Date)
             {
                 commandResult = await EditFinalPAGradeAsync(actorId, criteria.PeriodId).ConfigureAwait(false);
             }
