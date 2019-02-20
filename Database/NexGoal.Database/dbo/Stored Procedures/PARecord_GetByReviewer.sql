@@ -70,7 +70,13 @@ BEGIN
 		INNER JOIN dbo.TOEIC AS t WITH (NOLOCK) ON pa.EmployeeId = t.EmpId
 		INNER JOIN dbo.PAProcess AS p WITH (NOLOCK) ON pa.PARecordId = p.PARecordId
 		AND p.ProcessId = @ReviewerProcessId
-	ORDER BY p.ProcessId, emp.EmployeeId
+	ORDER BY CASE 
+			WHEN g.LeaderId = @ActorId
+				THEN 0
+			ELSE 1
+			END
+		,g.[Rank]
+		,emp.NickName
 
 	SELECT process.PARecordId
 		,process.ProcessId
@@ -85,7 +91,6 @@ BEGIN
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON process.EvaluatorId = emp.EmployeeId
 		LEFT JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON process.PerformanceRecordId = record.PerformanceRecordId
 	WHERE process.ProcessId >= @SelfProcessId
-	ORDER BY process.ProcessId
 
 	DROP TABLE #tblGroupId
 

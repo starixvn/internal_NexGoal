@@ -46,23 +46,34 @@ BEGIN
 	INSERT INTO #tblPARecordId (PARecordId)
 	SELECT pa.PARecordId
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
-		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
-		INNER JOIN #tblPeriodId AS p WITH (NOLOCK) ON period.PeriodId = p.PeriodId
-		INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
+	INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+	INNER JOIN #tblPeriodId AS p WITH (NOLOCK) ON period.PeriodId = p.PeriodId
+	INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
 		AND process.EvaluatorId = @ActorId
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
-		INNER JOIN #tblGroupId AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		INNER JOIN #tblEmployee AS e WITH (NOLOCK) ON e.EmpId = emp.EmployeeId
-	WHERE pa.StatusId IN (@PAInProgress, @PAClosed)
-		AND process.ProcessId IN (@ReviewerProcessId, @EvaluatorProcessId)
+	INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
+	INNER JOIN #tblGroupId AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+	INNER JOIN #tblEmployee AS e WITH (NOLOCK) ON e.EmpId = emp.EmployeeId
+	WHERE pa.StatusId IN (
+			@PAInProgress
+			,@PAClosed
+			)
+		AND process.ProcessId IN (
+			@ReviewerProcessId
+			,@EvaluatorProcessId
+			)
 	GROUP BY pa.PARecordId
 	
 	UNION
+	
 	SELECT pa.PARecordId
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
-		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
-		INNER JOIN #tblPeriodId AS p WITH (NOLOCK) ON period.PeriodId = p.PeriodId
-	WHERE pa.EmployeeId = @ActorId AND pa.StatusId IN (@PAInProgress, @PAClosed)
+	INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+	INNER JOIN #tblPeriodId AS p WITH (NOLOCK) ON period.PeriodId = p.PeriodId
+	WHERE pa.EmployeeId = @ActorId
+		AND pa.StatusId IN (
+			@PAInProgress
+			,@PAClosed
+			)
 	GROUP BY pa.PARecordId
 
 	SELECT pa.PARecordId
@@ -83,11 +94,18 @@ BEGIN
 		,period.PeriodId
 		,period.[Name]
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
-		INNER JOIN #tblPARecordId AS tbl WITH (NOLOCK) ON pa.PARecordId = tbl.PARecordId
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
-		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		INNER JOIN dbo.JobTitle AS jobtitle WITH (NOLOCK) ON emp.JobTitleId = jobtitle.JobTitleId
-		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+	INNER JOIN #tblPARecordId AS tbl WITH (NOLOCK) ON pa.PARecordId = tbl.PARecordId
+	INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
+	INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+	INNER JOIN dbo.JobTitle AS jobtitle WITH (NOLOCK) ON emp.JobTitleId = jobtitle.JobTitleId
+	INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+	ORDER BY CASE 
+			WHEN gr.LeaderId = @ActorId
+				THEN 0
+			ELSE 1
+			END
+		,gr.[Rank]
+		,emp.NickName
 
 	SELECT process.PARecordId
 		,process.ProcessId
@@ -107,13 +125,13 @@ BEGIN
 		,creator.FullName
 		,creator.Code
 	FROM dbo.PAProcess AS process WITH (NOLOCK)
-		INNER JOIN #tblPARecordId AS tbl WITH (NOLOCK) ON process.PARecordId = tbl.PARecordId
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON process.EvaluatorId = emp.EmployeeId
-		LEFT JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON process.PerformanceRecordId = record.PerformanceRecordId
-		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
+	INNER JOIN #tblPARecordId AS tbl WITH (NOLOCK) ON process.PARecordId = tbl.PARecordId
+	INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON process.EvaluatorId = emp.EmployeeId
+	LEFT JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON process.PerformanceRecordId = record.PerformanceRecordId
+	LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 
 	SELECT p.PeriodId
-		  ,p.Name 
+		,p.Name
 	FROM dbo.Period AS p WITH (NOLOCK)
 	INNER JOIN #tblPeriodId AS tpl WITH (NOLOCK) ON p.PeriodId = tpl.PeriodId
 
