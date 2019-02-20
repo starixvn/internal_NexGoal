@@ -7,7 +7,6 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Periods;
-    using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
     using NexGoal.Models.Period;
@@ -318,30 +317,12 @@
         }
 
         [Fact]
-        public async Task GeneratePAAsync_ValidData_ReturnExpectedCommandResult()
+        public async Task GeneratePAAsync_IsUnsuccessful_ReturnExpectedCommandResult()
         {
             // Arrange
-            var expected = new CommandResult { Code = 0 };
-            var paRecords = new List<PARecordModel>
-            {
-                new PARecordModel
-                {
-                    PARecordId = 1,
-                    GradeId = "1",
-                    ToeicPolicy = 1
-                }
-            };
+            var expected = new CommandResult();
             var service = GetPeriodService();
             baseService.ExecuteNonQueryAsync(Arg.Any<GeneratePACriteria>()).Returns(expected);
-            cryptoService.Decrypt("1").Returns("1");
-            cryptoService.Encrypt("1").Returns("1");
-            commonService.GetPerformanceGradeAsync().Returns(new List<PerformanceGrade>
-            {
-                new PerformanceGrade { GradeId = 1 },
-                new PerformanceGrade { GradeId = 2 }
-            });
-            baseService.GetDataAsync<PARecordModel>(Arg.Any<GetPARecordsToUpdateGradeCriteria>()).Returns(paRecords);
-            baseService.ExecuteNonQueryAsync(Arg.Any<EditPARecordGradeCriteria>()).Returns(expected);
 
             // Act
             var actual = await service.GeneratePAAsync(1, "1", 1);
