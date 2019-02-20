@@ -14,6 +14,7 @@
     using NexGoal.Models.PARecord;
     using NexGoal.Models.PerformanceRecord;
     using NexGoal.Models.Report;
+    using NexGoal.Resources;
     using NexGoal.Services.Interfaces;
     using OfficeOpenXml;
     using OfficeOpenXml.Style;
@@ -98,11 +99,26 @@
             worksheet.Row(currentRow).Height = TitleHeight;
             worksheet.Cells[currentRow, 1, currentRow, TotalColumns].Merge = true;
             currentRow++;
-
-            foreach (var group in period.Groups)
+            if (period.Groups != null)
             {
-                WriteCellForGroup(templateWorksheet, worksheet, group, ref currentRow);
+                foreach (var group in period.Groups)
+                {
+                    WriteCellForGroup(templateWorksheet, worksheet, group, ref currentRow);
+                }
             }
+            else
+            {
+                WriteNoRecordFound(worksheet, ref currentRow);
+            }
+        }
+
+        private static void WriteNoRecordFound(ExcelWorksheet worksheet, ref int currentRow)
+        {
+            var row = worksheet.Cells[currentRow, 1, currentRow, TotalColumns];
+            row.Merge = true;
+            row.Value = ViewLang.NoRecordFound;
+            row.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            currentRow++;
         }
 
         private static void WriteCellForGroup(ExcelWorksheet templateWorksheet,
