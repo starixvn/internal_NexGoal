@@ -71,7 +71,7 @@ export default class Edit extends Component {
         handleSubmit,
         setFieldValue }) => {
         return (
-            <Form id="edit-form" horizontal onSubmit={handleSubmit}>
+            <Form className="discipline-form" id="edit-form" inline onSubmit={handleSubmit}>
                 <Modal.Body>
                     {
                         !isEmpty(errors) && !isEmpty(touched) &&
@@ -80,27 +80,30 @@ export default class Edit extends Component {
                             {touched.description && errors.description && <li>{errors.description}</li>}
                         </ul>
                     }
-                    <FormGroup>
-                        <Col componentClass={ControlLabel} className="required-label" sm={3}>{getResource('IssueDate')}</Col>
-                        <Col sm={9}>
-                            <DatePicker className={`form-control  ${touched.effectiveDate && errors.effectiveDate && 'input-validation-error'}`}
-                                dateFormat={DateFormat} selected={values.effectiveDate}
-                                onChange={value => setFieldValue('effectiveDate', value)}
-                                onChangeRaw={this.onChangeRaw}
-                                name="effectiveDate" autoComplete="off"
-                            />
-                        </Col>
-                    </FormGroup>
-                    <FormGroup>
-                        <Col componentClass={ControlLabel} className="required-label" sm={3}>{getResource('Content')}</Col>
-                        <Col sm={9}>
-                            <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
-                                name="description" rows="10"
-                                onChange={handleChange}
-                                value={values.description}
-                            />
-                        </Col>
-                    </FormGroup>
+
+                    <div className="line-group">
+                      <FormGroup>
+                          <label className="control-label required-label">{getResource('IssueDate')}</label>
+                          <div className="control-content">
+                              <DatePicker className={`form-control  ${touched.effectiveDate && errors.effectiveDate && 'input-validation-error'}`}
+                                  dateFormat={DateFormat} selected={values.effectiveDate}
+                                  onChange={value => setFieldValue('effectiveDate', value)}
+                                  onChangeRaw={this.onChangeRaw}
+                                  name="effectiveDate" autoComplete="off"
+                              />
+                          </div>
+                      </FormGroup>
+                      <FormGroup className="description-group">
+                          <label className="control-label required-label">{getResource('Content')}</label>
+                          <div className="control-content">
+                              <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
+                                  name="description" rows="10"
+                                  onChange={handleChange}
+                                  value={values.description}
+                              />
+                          </div>
+                      </FormGroup>
+                    </div>                    
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="btn btn-cancel" onClick={this.props.onClose}>{getResource('Cancel')}</Button>

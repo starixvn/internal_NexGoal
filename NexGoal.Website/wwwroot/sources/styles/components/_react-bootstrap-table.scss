@@ -8,6 +8,7 @@
         .dropdown-toggle {
             color: #333;
             border: 1px solid #ccc;
+            min-width: 50px;
 
             &:hover {
                 background: #fff;
@@ -16,7 +17,21 @@
             }
 
             .caret {
-                margin-left: 5px;
+              position: relative;
+              font-family: 'NexGoalIcon' !important;    
+              display: inline-block;          
+              color: #545454;
+              border: 0;
+              width: 15px;
+              height: 20px;
+
+              &:before {
+                content: "\E90a";
+                position: absolute;
+                top: -6px;
+                height: 25px;
+                font-size: 16px;
+              }
             }
         }
 
