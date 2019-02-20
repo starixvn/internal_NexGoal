@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[Period_UpdateEmployeeSettings] @PeriodId INT
+﻿CREATE PROCEDURE [dbo].[Period_UpdateEmployeeSettings] @PeriodId INT
 	,@Settings VARCHAR(MAX)
 	,@PARecordIds VARCHAR(MAX)
 	,@ModifiedBy INT = NULL
@@ -145,12 +144,11 @@ BEGIN
 			,pr.Comment = STUFF((
 					SELECT CHAR(10) + prcmt.Comment
 					FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
-					WHERE prcmt.EmployeeIds = pr.EmployeeIds
+					WHERE prcmt.EmployeeId = pr.EmployeeId
 						AND prcmt.CreatorId = lg.CreatorId
 						AND prcmt.TypeId = 1
 						AND prcmt.CreatedDate BETWEEN @disciplineStartDate
 							AND @disciplineEndDate
-						AND prcmt.StatusId IN (@PRSubmitted, @PRClosed)
 					ORDER BY prcmt.CreatedDate DESC
 					FOR XML PATH('')
 					), 1, 1, '')
@@ -163,11 +161,10 @@ BEGIN
 			SELECT TOP 1 pr.CreatorId
 				,pr.GradeId
 			FROM dbo.PerformanceRecord AS pr1 WITH (NOLOCK)
-			WHERE pr1.EmployeeIds = pr.EmployeeIds
+			WHERE pr1.EmployeeId = pr.EmployeeId
 				AND pr1.CreatorId = pap.EvaluatorId
 				AND pr1.TypeId = 1
 				AND pr1.CreatedDate <= @disciplineEndDate
-				AND pr1.StatusId IN (@PRSubmitted, @PRClosed)
 			ORDER BY pr1.CreatedDate DESC
 			) lg
 	END

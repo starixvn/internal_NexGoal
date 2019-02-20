@@ -8,17 +8,19 @@ const MenuList = (props) => {
         <components.MenuList {...props}>
             {
                 props.options.length > 0 &&
-                <div className="react-select__option">
+                <div className="react-select__option"
+                    onClick={(event) => {
+                        if (selected.length === props.options.length) {
+                            props.setValue([]);
+                        } else {
+                            props.setValue(props.options);
+                        }
+                    }}
+                >
                     <input type="checkbox" checked={selected.length === props.options.length}
-                        onChange={(event) => {
-                            if (event.target.checked) {
-                                props.setValue(props.options);
-                            } else {
-                                props.setValue([]);
-                            }
-                        }}
+                        onChange={(event) => { }}
                     /> Select All
-            </div>
+                </div>
             }
             {props.children}
         </components.MenuList >

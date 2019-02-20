@@ -14,7 +14,6 @@ const MultiSelect = props => {
             hideSelectedOptions={false}
             closeMenuOnSelect={false}
             isSearchable={false}
-            //menuIsOpen
             components={{ MultiValueContainer, MenuList, Option }}
         />
     );

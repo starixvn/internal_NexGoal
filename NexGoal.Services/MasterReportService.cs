@@ -11,6 +11,7 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.MasterReport;
+    using NexGoal.Criteria.Periods;
     using NexGoal.Models.Common;
     using NexGoal.Models.MasterReport;
     using OfficeOpenXml;
@@ -88,6 +89,7 @@
 
         public async Task<byte[]> ExportAsync(int periodId, string groupIds, string employeeIds)
         {
+            var period = await baseService.GetDataEntityAsync<PeriodBaseModel>(new GetPeriodCriteria { PeriodId = periodId }).ConfigureAwait(false);
             var records = await GetRecords(periodId, groupIds, employeeIds).ConfigureAwait(false);
             var groupedRecord = records.OrderBy(x => x.GroupName).ThenBy(x => x.NickName)
                 .GroupBy(x => new { x.GroupId, x.GroupName }, (key, elements) => new { Key = key, Records = elements });
@@ -99,8 +101,16 @@
             {
                 ExcelWorksheet worksheet = package.Workbook.Worksheets.First();
 
-                // write data
-                var currentRow = 4;
+                var periodCell = worksheet.Cells[4, 1, 4, 19];
+                periodCell.Merge = true;
+                periodCell.Value = period.Name;
+                periodCell.Style.HorizontalAlignment = ExcelHorizontalAlignment.General;
+                periodCell.Style.Font.Bold = true;
+                periodCell.Style.Font.Color.SetColor(Color.White);
+                periodCell.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                periodCell.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(82, 94, 134));
+
+                var currentRow = 5;
                 foreach (var group in groupedRecord)
                 {
                     var groupCell = worksheet.Cells[currentRow, 1, currentRow, 19];
