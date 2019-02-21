@@ -21,6 +21,7 @@ export default class EditEmployeeSetting extends Component {
         };
 
         this.groupOptions = [];
+        this.multiGroupOptions = [];
         this.employeeOptions = [];
         this.performanceStatusOptions = [];
         this.evaluateStatuses = [
@@ -33,9 +34,12 @@ export default class EditEmployeeSetting extends Component {
     componentDidMount = () => {
         Promise.all([this.getPerformanceStatusesAxios(), this.getGroupsAxios(), this.getEmployeesAxios(), this.getEmployeeSettingsAxios()])
             .then(axios.spread((perfRes, groupRes, employeeRes, settingRes) => {
-                this.groupOptions = [defaultOption, ...groupRes.data.map((group) => {
+                let groups = groupRes.data.map((group) => {
                     return { value: group.groupId, label: group.name };
-                })];
+                });
+
+                this.multiGroupOptions = groups;
+                this.groupOptions = [defaultOption, ...groups];
 
                 this.employeeOptions = [defaultOption, ...employeeRes.data.map(employee => {
                     return { value: employee.employeeId, label: `${employee.nickName} (${employee.fullName})` };
@@ -109,7 +113,7 @@ export default class EditEmployeeSetting extends Component {
                     onFilterChange={this.updateFilterValue}
                     onSubmit={this.getEmployeeSettings}
                 />
-                <Table periodId={this.props.periodId} groups={this.groupOptions}
+                <Table periodId={this.props.periodId} groups={this.multiGroupOptions}
                     employeeOptions={this.employeeOptions}
                     data={this.state.settings}
                     refreshData={this.getEmployeeSettings}
