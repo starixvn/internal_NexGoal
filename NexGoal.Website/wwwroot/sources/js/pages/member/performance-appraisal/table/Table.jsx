@@ -44,7 +44,7 @@ class Table extends Component {
         }).then(response => {
             let data = response.data;
             if (data.isSuccessful) {
-                this.props.renderPA();
+                this.props.onRevisedSuccess(paRecordId, isRevised);
             } else {
                 toast.error(data.message);
             }

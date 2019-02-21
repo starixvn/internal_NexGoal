@@ -46,6 +46,21 @@ export default class MemberPerformanceAppraisal extends Component {
         this.getPerformanceAppraisals();
     }
 
+    onQuickEditSuccess = (paRecordId, isRevised) => {
+        let paString = JSON.stringify(this.state.performanceAppraisals);
+        let groupPAs = JSON.parse(paString);
+        for (var i = 0; i < groupPAs.length; i++) {
+            let paIndex = groupPAs[i].performanceAppraisals.findIndex(pa => pa.paRecordId === paRecordId);
+            if (paIndex !== -1) {
+                groupPAs[i].performanceAppraisals[paIndex].isEdited = !isRevised;
+                this.setState({
+                    performanceAppraisals: groupPAs
+                });
+                return;
+            }
+        }
+    }
+
     getPerformanceAppraisals = () => {
         const filter = this.state.filter;
         axios.get(resolveClientUrl('Review/GetPARecords'), {
@@ -75,6 +90,7 @@ export default class MemberPerformanceAppraisal extends Component {
                     data={this.state.performanceAppraisals}
                     gradeOptions={this.props.gradeOptions}
                     renderPA={this.getPerformanceAppraisals}
+                    onRevisedSuccess={this.onQuickEditSuccess}
                 />
             </div>
         );

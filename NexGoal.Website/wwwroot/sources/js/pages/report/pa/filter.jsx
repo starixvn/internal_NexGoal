@@ -19,7 +19,7 @@ export default class Filter extends Component {
     }
 
     handleEmployeeChange = (selectedOption) => {
-        this.props.onFilterChange('employee', selectedOption);
+        this.props.onFilterChange('employees', selectedOption);
     }
 
     handleSubmit = (event) => {
