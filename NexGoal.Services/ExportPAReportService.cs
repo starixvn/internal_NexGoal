@@ -209,7 +209,7 @@
 
                 richTextCollection.Add(Environment.NewLine);
 
-                var gradeText = richTextCollection.Add($"Grade: {(string.IsNullOrWhiteSpace(paRecord.Grade.Name) ? "N/A" : paRecord.Grade.Name)} ");
+                var gradeText = richTextCollection.Add($"Grade: {(string.IsNullOrWhiteSpace(paRecord.Grade?.Name) ? "N/A" : paRecord.Grade.Name)} ");
                 gradeText.Bold = false;
 
                 if (paRecord.GradeId != paRecord.OriginalGradeId)
