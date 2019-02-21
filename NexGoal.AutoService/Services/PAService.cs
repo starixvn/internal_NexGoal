@@ -225,6 +225,9 @@
             var criteria = new GetDataToEditGradeCriteria();
             var records = baseService.GetDataAsync<EditPAGradeDto>(criteria).Result;
             var grades = baseService.GetDataAsync<ReferenceResourceModel>(new GetRefResourceByNameCriteria { RefNames = "PerformanceGrade" }).Result;
+            int minGradeId = grades.Min(x => x.ResourceId);
+            int maxGradeId = grades.Max(x => x.ResourceId);
+
             foreach (EditPAGradeDto record in records)
             {
                 record.GradeId = cryptoService.Decrypt(record.GradeId);
@@ -233,12 +236,12 @@
 
                 if (!grades.Any(x => x.ResourceId == gradeId))
                 {
-                    gradeId = gradeId > grades.Max(x => x.ResourceId) ? grades.Max(x => x.ResourceId) : 0;
+                    gradeId = gradeId > maxGradeId ? maxGradeId : 0;
                 }
 
                 if (gradeId == 0 && record.StatusId == (int)PARecordStatus.Closed)
                 {
-                    gradeId = grades.Min(x => x.ResourceId);
+                    gradeId = minGradeId;
                 }
 
                 record.GradeId = gradeId == 0 ? null : cryptoService.Encrypt(gradeId.ToString());

@@ -68,9 +68,9 @@
         {
             try
             {
+                paService.EditStatus();
                 paService.EditGrade();
                 paService.EditWhenEvaluationFinished();
-                paService.EditStatus();
                 paService.SendMail();
                 paService.SendNotification();
             }
