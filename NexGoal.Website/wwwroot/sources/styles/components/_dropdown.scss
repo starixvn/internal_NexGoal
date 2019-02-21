@@ -19,6 +19,10 @@
           position: absolute;
           left: -9999px;
           opacity: 0;
+
+          + label:before {
+            margin-right: 6px;
+          }
         }
     }
 }
