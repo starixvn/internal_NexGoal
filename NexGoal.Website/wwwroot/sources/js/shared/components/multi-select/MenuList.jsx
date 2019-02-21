@@ -16,12 +16,12 @@ const MenuList = (props) => {
                             props.setValue(props.options);
                         }
                     }}
-                > 
-                <div className="checkbox">
-                  <input className="checkbox-custom" type="checkbox" checked={selected.length === props.options.length}
-                        onChange={(event) => { }}
-                    /> <label>Select All</label> 
-                  </div>                    
+                >
+                    <div className="checkbox">
+                        <input className="checkbox-custom" type="checkbox" checked={selected.length === props.options.length}
+                            onChange={(event) => { }}
+                        /> <label>Select All</label>
+                    </div>
                 </div>
             }
             {props.children}
