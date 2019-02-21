@@ -57,7 +57,7 @@
                 .Select(item => new PARecordGroupByPeriod
                 {
                     PeriodId = item.Key,
-                    Period = item.First().Period,
+                    Period = periods.FirstOrDefault(p => p.PeriodId == item.Key),
                     Groups = item.GroupBy(g => new { g.Employee.GroupCode, g.Employee.GroupName })
                         .Select(group => new PAReportModel
                         {
