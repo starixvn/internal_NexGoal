@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetPeriodsForReportCriteria : CriteriaBase
+    public class GetPeriodForReportCriteria : CriteriaBase
     {
         public override string GetSettingKey() => "Report_GetPeriods";
 

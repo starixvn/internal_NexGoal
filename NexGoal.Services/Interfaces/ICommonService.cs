@@ -31,9 +31,9 @@
 
         Task<HRMSummaryModel> GetHRMSummary(int employeeId);
 
-        Task<IEnumerable<string>> GetAnnouncements(int employeeId);
+        Task<IEnumerable<string>> GetAnnouncementAsync(int employeeId);
 
-        Task<IEnumerable<PeriodBaseModel>> GetPeriodsForReportAsync();
+        Task<IEnumerable<PeriodBaseModel>> GetPeriodForReportAsync();
 
         Task<IEnumerable<PerformanceGradeConversionModel>> GetPerformanceGradeConversionAsync();
     }

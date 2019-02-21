@@ -8,6 +8,7 @@ namespace NexGoal.Services.UnitTests
     using NexGoal.Criteria;
     using NexGoal.Criteria.Common;
     using NexGoal.Criteria.Periods;
+    using NexGoal.Criteria.Report;
     using NexGoal.Models;
     using NexGoal.Models.Common;
     using NSubstitute;
@@ -201,6 +202,54 @@ namespace NexGoal.Services.UnitTests
 
             // Act
             var actual = await service.GetCurrentPerformancePeriodAsync();
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task GetAnnouncementAsync_WhenCalled_ReturnAsExpectedAnnouncements()
+        {
+            // Arrange
+            var expected = new List<string> { "announcement" };
+            var criteria = new GetAnnouncementCriteria();
+            var service = GetCommonService();
+            baseService.GetDataAsync<string>(Arg.Do<GetAnnouncementCriteria>(x => criteria = x)).Returns(expected);
+
+            // Act
+            var actual = await service.GetAnnouncementAsync(1);
+
+            // Assert
+            Assert.Equal(expected, actual);
+
+            Assert.Equal(1, criteria.EmployeeId);
+        }
+
+        [Fact]
+        public async Task GetPeriodForReportAsync_WhenCalled_ReturnAsExpectedPeriods()
+        {
+            // Arrange
+            var expected = new List<PeriodBaseModel> { new PeriodBaseModel { PeriodId = 1, Name = "1h 2019" } };
+            var service = GetCommonService();
+            baseService.GetDataAsync<PeriodBaseModel>(Arg.Any<GetPeriodForReportCriteria>()).Returns(expected);
+
+            // Act
+            var actual = await service.GetPeriodForReportAsync();
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task GetPerformanceGradeConversionAsync_WhenCalled_ReturnAsExpectedPerformanceGrades()
+        {
+            // Arrange
+            var expected = new List<PerformanceGradeConversionModel> { new PerformanceGradeConversionModel { GradeId = 1, Point = 0.5F } };
+            var service = GetCommonService();
+            baseService.GetDataAsync<PerformanceGradeConversionModel>(Arg.Any<GetPerformanceGradeConversionCriteria>()).Returns(expected);
+
+            // Act
+            var actual = await service.GetPerformanceGradeConversionAsync();
 
             // Assert
             Assert.Equal(expected, actual);

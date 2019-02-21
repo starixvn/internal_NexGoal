@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetAnnouncementsCriteria : CriteriaBase
+    public class GetAnnouncementCriteria : CriteriaBase
     {
         public int EmployeeId { get; set; }
 

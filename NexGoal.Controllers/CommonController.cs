@@ -177,17 +177,17 @@
         [HttpGet]
         public async Task<JsonResult> GetAnnouncements()
         {
-            var result = await commonService.GetAnnouncements(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<string> annoucements = await commonService.GetAnnouncementAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
-            return Json(result);
+            return Json(annoucements);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetPeriodsForReport()
         {
-            var result = await commonService.GetPeriodsForReportAsync().ConfigureAwait(false);
+            IEnumerable<PeriodBaseModel> periods = await commonService.GetPeriodForReportAsync().ConfigureAwait(false);
 
-            return Json(result);
+            return Json(periods);
         }
     }
 }

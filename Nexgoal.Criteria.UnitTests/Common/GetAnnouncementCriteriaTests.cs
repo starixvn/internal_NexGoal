@@ -3,13 +3,13 @@
     using NexGoal.Criteria.Common;
     using Xunit;
 
-    public class GetAnnouncementsCriteriaTests
+    public class GetAnnouncementCriteriaTests
     {
         [Fact]
         public void GetSettingKey_ReturnCorrectSettingKey()
         {
             // Arrange
-            var criteria = new GetAnnouncementsCriteria();
+            var criteria = new GetAnnouncementCriteria();
             var expected = "Announcement_Get";
 
             // Act
@@ -25,7 +25,7 @@
         public void IsValid_ParamsAreInvalid_ReturnFalse(int empId)
         {
             // Arrange
-            var criteria = new GetAnnouncementsCriteria
+            var criteria = new GetAnnouncementCriteria
             {
                 EmployeeId = empId
             };
@@ -41,7 +41,7 @@
         public void IsValid_ParamsArevalid_ReturnTrue()
         {
             // Arrange
-            var criteria = new GetAnnouncementsCriteria { EmployeeId = 1 };
+            var criteria = new GetAnnouncementCriteria { EmployeeId = 1 };
             var expected = true;
             // Act
             var actual = criteria.IsValid();

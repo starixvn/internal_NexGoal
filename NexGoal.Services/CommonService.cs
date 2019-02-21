@@ -144,9 +144,9 @@
             return hrm;
         }
 
-        public async Task<IEnumerable<string>> GetAnnouncements(int employeeId)
+        public async Task<IEnumerable<string>> GetAnnouncementAsync(int employeeId)
         {
-            var criteria = new GetAnnouncementsCriteria
+            var criteria = new GetAnnouncementCriteria
             {
                 EmployeeId = employeeId
             };
@@ -154,9 +154,9 @@
             return await baseService.GetDataAsync<string>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<PeriodBaseModel>> GetPeriodsForReportAsync()
+        public async Task<IEnumerable<PeriodBaseModel>> GetPeriodForReportAsync()
         {
-            return await baseService.GetDataAsync<PeriodBaseModel>(new GetPeriodsForReportCriteria()).ConfigureAwait(false);
+            return await baseService.GetDataAsync<PeriodBaseModel>(new GetPeriodForReportCriteria()).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<PerformanceGradeConversionModel>> GetPerformanceGradeConversionAsync()
