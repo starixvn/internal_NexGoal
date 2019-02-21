@@ -143,6 +143,8 @@ BEGIN
 		,emp.NickName
 		,emp.FullName
 		,emp.Code
+		,gr.Code AS GroupCode
+		,gr.[Name] AS GroupName
 		,jobtitle.[Name] AS JobTitle
 	FROM #tblPAFocusIds AS focusid WITH (NOLOCK)
 		INNER JOIN dbo.PAFocus AS focus WITH (NOLOCK) ON focus.PAFocusId = focusid.PAFocusId
@@ -156,7 +158,7 @@ BEGIN
 		LEFT JOIN dbo.EmployeeObjective AS l WITH (NOLOCK) ON l.ObjectiveId = focus.LastObjectiveId
 		LEFT JOIN dbo.EmployeeObjective AS n WITH (NOLOCK) ON n.ObjectiveId = focus.NextObjectiveId
 	ORDER BY gr.[Name]
-		,emp.EmployeeId
+		,emp.NickName
 
 	DROP TABLE #tblGroupIds
 

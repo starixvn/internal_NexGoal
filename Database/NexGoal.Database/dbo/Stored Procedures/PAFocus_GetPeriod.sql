@@ -25,4 +25,5 @@ BEGIN
 	FROM dbo.Period WITH (NOLOCK)
 	WHERE IsActive = 1
 		AND FocusStartDate <= @Today
+	ORDER BY EndDate DESC
 END
