@@ -266,12 +266,17 @@
                         <ul class="evaluation-process">
                             @{
                                 var listGrade = Model.AllGrades;
-                                foreach (var grade in listGrade)
-                                {
-                                    var currentGradeClass = grade.GradeId == Model.PARecord.Grade.GradeId
-                                        ? "current-pci" : "default-pci";
-                                    <li class="process-item @currentGradeClass">@grade.Description<div>@grade.Name</div></li>
 
+                                if (Model.PARecord.Grade != null)
+                                {
+                                    foreach (var grade in listGrade)
+                                    {
+                                        var currentGradeClass = grade.GradeId == Model.PARecord.Grade.GradeId
+                                            ? "current-pci" : "default-pci";
+                                        <li class="process-item @currentGradeClass">@grade.Description<div>@grade.Name</div></li>
+
+                                    }
+                                    }
                                 }
                             }
                         </ul>
