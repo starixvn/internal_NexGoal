@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[Period_GeneratePA] @PeriodId INT
+﻿CREATE PROCEDURE [dbo].[Period_GeneratePA] @PeriodId INT
 	,@PARecordIds VARCHAR(MAX) = NULL
 	,@CreatedBy INT
 	,@Override BIT = 0
@@ -136,43 +135,26 @@ BEGIN
 			,GETDATE()
 			,2
 		FROM @paRecordTbl AS par
+			INNER JOIN dbo.PMSetting pms WITH (NOLOCK) ON par.EmployeeId = pms.MemberId
 			CROSS APPLY (
-			SELECT pr.CreatorId
-				,pr.GradeId
-			FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
-				LEFT JOIN dbo.PerformanceRecord AS pr1 WITH (NOLOCK) ON pr.CreatorId = pr1.CreatorId
-				AND pr.EmployeeId = pr1.EmployeeId
-				AND pr.CreatedDate < pr1.CreatedDate
-				AND pr.TypeId = pr1.TypeId
-				AND pr1.CreatedDate BETWEEN @disciplineStartDate
-					AND @disciplineEndDate
-				AND pr1.TypeId = 1
-			WHERE pr1.CreatedDate IS NULL
-				AND pr.TypeId = 1
-				AND pr.CreatedDate BETWEEN @disciplineStartDate
-					AND @disciplineEndDate
-				AND pr.EmployeeId = par.EmployeeId
-				AND pr.CreatorId <> pr.EmployeeId
-				AND NOT EXISTS (
-					SELECT 1
-					FROM dbo.PAProcess AS pap WITH (NOLOCK)
-					WHERE pap.PARecordId = par.PARecordId
-						AND pap.EvaluatorId = pr.CreatorId
-						AND pap.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
-					)
-				AND EXISTS (
-					SELECT 1
-					FROM dbo.EmployeeRole er WITH (NOLOCK)
-					WHERE er.RoleId = @PMRoleId
-						AND pr.CreatorId = er.EmployeeId
-					)
-				AND EXISTS (
-					SELECT 1
-					FROM dbo.PMSetting pms WITH (NOLOCK)
-					WHERE pms.ProjectManagerId = pr.CreatorId
-						AND pms.MemberId = par.EmployeeId
+				SELECT TOP 1 pr.CreatorId, pr.GradeId
+				FROM dbo.PerformanceRecord pr WITH (NOLOCK)
+				WHERE pr.CreatorId = pms.ProjectManagerId AND pr.EmployeeId = par.EmployeeId
+					AND pr.CreatorId <> pr.EmployeeId AND pr.TypeId = 1
+					AND pr.CreatedDate <= @disciplineEndDate
+					AND NOT EXISTS (
+						SELECT 1
+						FROM dbo.PAProcess AS pap WITH (NOLOCK)
+						WHERE pap.PARecordId = par.PARecordId
+							AND pap.EvaluatorId = pr.CreatorId
+							AND pap.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
 					)
 			) lg
+		WHERE EXISTS (
+			SELECT 1
+			FROM dbo.EmployeeRole er WITH (NOLOCK)
+			WHERE er.EmployeeId = pms.ProjectManagerId AND er.RoleId = @PMRoleId
+		)
 
 		-- Capture for Self, Reviewer, Evaluator
 		INSERT INTO dbo.PerformanceRecord (
@@ -298,10 +280,6 @@ BEGIN
 					WHERE prcmt.EmployeeId = pr.EmployeeId
 						AND prcmt.CreatorId = pap.EvaluatorId
 						AND prcmt.TypeId = 1
-						AND (
-							pap.ProcessId <> @PMProcessId
-							OR prcmt.CreatedDate >= @disciplineStartDate
-							)
 						AND prcmt.CreatedDate <= @disciplineEndDate
 					ORDER BY pr.CreatedDate DESC
 					FOR XML PATH('')
@@ -311,17 +289,13 @@ BEGIN
 		FROM dbo.PerformanceRecord AS pr WITH (ROWLOCK, UPDLOCK)
 			INNER JOIN dbo.PAProcess AS pap WITH (NOLOCK) ON pr.PerformanceRecordId = pap.PerformanceRecordId
 			CROSS APPLY (
-			SELECT TOP 1 pr1.GradeId
-			FROM dbo.PerformanceRecord AS pr1 WITH (NOLOCK)
-			WHERE pr1.EmployeeId = pr.EmployeeId
-				AND pr1.CreatorId = pap.EvaluatorId
-				AND pr1.TypeId = 1
-				AND (
-					pap.ProcessId <> @PMProcessId
-					OR pr.CreatedDate >= @disciplineStartDate
-					)
-				AND pr1.CreatedDate <= @disciplineEndDate
-			ORDER BY pr1.CreatedDate DESC
+				SELECT TOP 1 pr1.GradeId
+				FROM dbo.PerformanceRecord AS pr1 WITH (NOLOCK)
+				WHERE pr1.EmployeeId = pr.EmployeeId
+					AND pr1.CreatorId = pap.EvaluatorId
+					AND pr1.TypeId = 1
+					AND pr1.CreatedDate <= @disciplineEndDate
+				ORDER BY pr1.CreatedDate DESC
 			) lg
 		WHERE EXISTS (
 				SELECT 1
@@ -362,43 +336,26 @@ BEGIN
 			,GETDATE()
 			,2
 		FROM @generatedPARecordTbl AS gpar
+			INNER JOIN dbo.PMSetting pms WITH (NOLOCK) ON gpar.EmployeeId = pms.MemberId
 			CROSS APPLY (
-			SELECT pr.CreatorId
-				,pr.GradeId
-			FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
-				LEFT JOIN dbo.PerformanceRecord AS pr1 WITH (NOLOCK) ON pr.CreatorId = pr1.CreatorId
-				AND pr.EmployeeId = pr1.EmployeeId
-				AND pr.CreatedDate < pr1.CreatedDate
-				AND pr.TypeId = pr1.TypeId
-				AND pr1.CreatedDate BETWEEN @disciplineStartDate
-					AND @disciplineEndDate
-				AND pr1.TypeId = 1
-			WHERE pr1.CreatedDate IS NULL
-				AND pr.TypeId = 1
-				AND pr.CreatedDate BETWEEN @disciplineStartDate
-					AND @disciplineEndDate
-				AND pr.EmployeeId = gpar.EmployeeId
-				AND pr.CreatorId <> pr.EmployeeId
-				AND NOT EXISTS (
-					SELECT 1
-					FROM dbo.PAProcess AS pap WITH (NOLOCK)
-					WHERE pap.PARecordId = gpar.PARecordId
-						AND pap.EvaluatorId = pr.CreatorId
-						AND pap.ProcessId IN (@PMProcessId, @EvaluatorProcessId, @ReviewerProcessId)
-					)
-				AND EXISTS (
-					SELECT 1
-					FROM dbo.EmployeeRole er WITH (NOLOCK)
-					WHERE er.RoleId = @PMRoleId
-						AND pr.CreatorId = er.EmployeeId
-					)
-				AND EXISTS (
-					SELECT 1
-					FROM dbo.PMSetting pms WITH (NOLOCK)
-					WHERE pms.ProjectManagerId = pr.CreatorId
-						AND pms.MemberId = gpar.EmployeeId
+				SELECT TOP 1 pr.CreatorId, pr.GradeId
+				FROM dbo.PerformanceRecord pr WITH (NOLOCK)
+				WHERE pr.CreatorId = pms.ProjectManagerId AND pr.EmployeeId = gpar.EmployeeId
+					AND pr.CreatorId <> pr.EmployeeId AND pr.TypeId = 1
+					AND pr.CreatedDate <= @disciplineEndDate
+					AND NOT EXISTS (
+						SELECT 1
+						FROM dbo.PAProcess AS pap WITH (NOLOCK)
+						WHERE pap.PARecordId = gpar.PARecordId
+							AND pap.EvaluatorId = pr.CreatorId
+							AND pap.ProcessId IN (@PMProcessId, @EvaluatorProcessId, @ReviewerProcessId)
 					)
 			) lg
+		WHERE EXISTS (
+			SELECT 1
+			FROM dbo.EmployeeRole er WITH (NOLOCK)
+			WHERE er.EmployeeId = pms.ProjectManagerId AND er.RoleId = @PMRoleId
+		)
 
 		-- Insert PM Process
 		INSERT INTO dbo.PAProcess (
