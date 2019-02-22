@@ -232,7 +232,7 @@
             {
                 record.GradeId = cryptoService.Decrypt(record.GradeId);
                 int.TryParse(record.GradeId, out int gradeId);
-                gradeId += record.ToeicPolicy;
+                gradeId = gradeId <= 0 ? 0 : gradeId + record.ToeicPolicy;
 
                 if (!grades.Any(x => x.ResourceId == gradeId))
                 {
