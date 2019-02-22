@@ -135,7 +135,7 @@ BEGIN
 		,p.Name
 		,(
 			CASE
-				WHEN p.EndDate > @ToDay
+				WHEN p.EndDate >= @ToDay
 				THEN 1
 				ELSE 0
 				END
