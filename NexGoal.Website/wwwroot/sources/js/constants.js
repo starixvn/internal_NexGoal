@@ -14,7 +14,7 @@ export const StatusOptions = [
 ];
 
 export const PAEditOptions = [
-    { value: null, label: '-- All --' },
+    { value: '', label: '-- All --' },
     { value: true, label: 'Yes' },
     { value: false, label: 'No' }
 ];

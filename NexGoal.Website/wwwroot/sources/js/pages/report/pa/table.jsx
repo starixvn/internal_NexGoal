@@ -30,8 +30,8 @@ export default class Table extends Component {
 
     renderGroupRecords = (groups) => {
         if (groups) {
-            return groups.map(group => {
-                return this.renderGroupPA(group);
+            return groups.map((group, index) => {
+                return this.renderGroupPA(group, index);
             });
         } else {
             return (
@@ -51,14 +51,14 @@ export default class Table extends Component {
             );
         } else {
             return (
-                periodRecords.map(periodRecord => {
+                periodRecords.map((periodRecord, index) => {
                     let title = periodRecord.period.name;
                     if (periodRecord.period.isInProgress) {
                         title += ' - In Progress';
                     }
 
                     return (
-                        <Fragment>
+                        <Fragment key={index}>
                             <tr className="group-row">
                                 <td colSpan={this.totalColums}>{title}</td>
                             </tr>
@@ -85,9 +85,9 @@ export default class Table extends Component {
         return <span className={gradeChangeClass} />;
     }
 
-    renderGroupPA = (groupPA) => {
+    renderGroupPA = (groupPA, index) => {
         return (
-            <Fragment>
+            <Fragment key={index}>
                 <tr className="team-group-row">
                     <td colSpan={this.totalColums}>{groupPA.group.name}</td>
                 </tr>
@@ -113,12 +113,14 @@ export default class Table extends Component {
         return (
             paRecords.map((record, index) => {
                 return (
-                    <tr>
+                    <tr key={index}>
                         <td className="text-center">{index + 1}</td>
                         <td>{record.employee.nickName}</td>
                         <td>{record.employee.jobTitle}</td>
                         <td className="text-center">{this.renderToeic(record.toeicPolicy, record.toeic)}</td>
-                        <td className="text-center">{this.renderGradeByProcess(record.processes, PerformanceProcess.Self)}</td>
+                        <td className="text-center">
+                            {this.renderGradeByProcess(record.processes, PerformanceProcess.Self, record.paRecordId)}
+                        </td>
                         <td className="text-center">
                             {this.renderGradeByProcess(record.processes, PerformanceProcess.ProjectManager)}
                         </td>
@@ -166,18 +168,18 @@ export default class Table extends Component {
         return displayGrades.join(', ');
     }
 
-    renderPMGrades = (paProcesses) => {
+    renderPMGrades = (paProcesses, paRecordId) => {
         const processes = paProcesses.filter(process => process.processId === PerformanceProcess.ProjectManager);
-        const grades = processes.map(process => {
+        const grades = processes.map((process, index) => {
             return process.performanceRecord && process.performanceRecord.grade ?
                 process.performanceRecord.grade.name : getResource('N/A');
         });
         const tooltip = (
-            <Tooltip className="focus-note">
+            <Tooltip className="focus-note" id={`pmGrade-${paRecordId}`}>
                 {
-                    processes.map(process => {
+                    processes.map((process, index) => {
                         return (
-                            <p>
+                            <p key={index}>
                                 {
                                     `${process.evaluator.nickName}: ${process.performanceRecord && process.performanceRecord.grade
                                         ? process.performanceRecord.grade.name : getResource("N/A")} `
@@ -196,7 +198,7 @@ export default class Table extends Component {
         );
     }
 
-    renderGradeByProcess = (processes, processId) => {
+    renderGradeByProcess = (processes, processId, paRecordId) => {
         const processRecords = processes.filter(process => process.processId === processId);
         if (!processRecords.length) return '';
 
@@ -204,7 +206,7 @@ export default class Table extends Component {
             const grade = this.renderGrade(processRecords[0]);
             return grade;
         } else {
-            return this.renderPMGrades(processRecords);
+            return this.renderPMGrades(processRecords, paRecordId);
         }
     }
 

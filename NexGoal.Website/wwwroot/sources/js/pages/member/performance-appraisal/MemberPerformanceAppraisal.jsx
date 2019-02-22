@@ -12,9 +12,9 @@ export default class MemberPerformanceAppraisal extends Component {
 
         this.state = {
             filter: {
-                period: props.periodOptions[0],
-                groups: props.groupOptions,
-                status: PAEditOptions.find(option => option.value === null)
+                period: props.periodOptions[0] || [],
+                groups: props.groupOptions || [],
+                status: PAEditOptions.find(option => option.value === '')
             },
             performanceAppraisals: []
         };

@@ -2,6 +2,7 @@
 import { PerformanceProcess, PAStatus, notAvailableGradeTooltip } from '../../../../constants';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import getResource from '../../../../resourceHelper';
+import { locale } from 'moment';
 
 class Rows extends Component {
     constructor(props) {
@@ -27,9 +28,9 @@ class Rows extends Component {
         return gradeId !== null ? gradeId : 0;
     }
 
-    renderNotAvailableGrade = () => {
+    renderNotAvailableGrade = (paRecordId) => {
         const tooltip = (
-            <Tooltip className="focus-note">
+            <Tooltip className="focus-note" id={`notAvailable-${paRecordId}`}>
                 <p>{notAvailableGradeTooltip}</p>
             </Tooltip>
         );
@@ -77,18 +78,18 @@ class Rows extends Component {
         return <span>{grade}</span>;
     }
 
-    renderPMGrades = (paProcesses) => {
+    renderPMGrades = (paProcesses, paRecordId) => {
         const processes = paProcesses.filter(process => process.processId === PerformanceProcess.ProjectManager);
         const grades = processes.map(process => {
             return process.performanceRecord && process.performanceRecord.grade ?
                 process.performanceRecord.grade.name : getResource('N/A');
         });
         const tooltip = (
-            <Tooltip className="focus-note">
+            <Tooltip className="focus-note" id={`pmProcess-${paRecordId}`}>
                 {
-                    processes.map(process => {
+                    processes.map((process, index) => {
                         return (
-                            <p>
+                            <p key={index}>
                                 {
                                     `${process.evaluator.nickName}: ${process.performanceRecord && process.performanceRecord.grade
                                         ? process.performanceRecord.grade.name : getResource("N/A")} `
@@ -110,11 +111,17 @@ class Rows extends Component {
     renderEvaluatorGrade = (paProcesses, statusId) => {
         const evaluatorProcess = paProcesses.filter(process => process.processId === PerformanceProcess.Evaluator)[0];
         const naClass = statusId === PAStatus.InProgress ? 'red' : '';
+        let grade = <span />;
+
         if (evaluatorProcess.performanceRecord && evaluatorProcess.performanceRecord.grade) {
-            return <span>{evaluatorProcess.performanceRecord.grade.name}</span>;
+            grade = <span>{evaluatorProcess.performanceRecord.grade.name}</span>;
         }
 
-        return <span className={naClass}>{getResource('N/A')}</span>;
+        if (evaluatorProcess.performanceRecord && !evaluatorProcess.performanceRecord.grade) {
+            grade = <span className={naClass}>{getResource('N/A')}</span>;
+        }
+
+        return grade;
     }
 
     renderPAForReviewer = (record) => {
@@ -130,7 +137,7 @@ class Rows extends Component {
 
         let paGrade = <span>{record.grade ? record.grade.name : getResource('N/A')}</span>;
         if (record.statusId === PAStatus.InProgress) {
-            const displayGrade = record.grade ? <span>{record.grade.name}</span> : this.renderNotAvailableGrade();
+            const displayGrade = record.grade ? <span>{record.grade.name}</span> : this.renderNotAvailableGrade(record.paRecordId);
             paGrade = <a onClick={() => this.handleClick(record.paRecordId)}>{displayGrade}</a>;
         }
 
@@ -156,7 +163,7 @@ class Rows extends Component {
                     <input type="checkbox" className="checkbox-custom"
                         id={`chb-${paRecordId}`}
                         checked={isEdited}
-                        onClick={() => this.quickEditPA(paRecordId, isEdited)}
+                        onChange={() => this.quickEditPA(paRecordId, isEdited)}
                     />
                     <label htmlFor={`chb-${paRecordId}`} />
                 </div>
@@ -187,14 +194,14 @@ class Rows extends Component {
                 </tr>
                 {
                     performanceRecords &&
-                    performanceRecords.map(record => {
+                    performanceRecords.map((record, index) => {
                         return (
-                            <tr>
+                            <tr key={index}>
                                 <td>{this.renderNickName(record)}</td>
                                 <td className="text-center">{this.renderToeic(record.toeicPolicy, record.toeic)}</td>
                                 <td className="text-center">{this.renderSelfGrade(record.processes)}</td>
                                 <td className="text-center">
-                                    {this.renderPMGrades(record.processes)}
+                                    {this.renderPMGrades(record.processes, record.paRecordId)}
                                 </td>
                                 <td className="text-center">
                                     {this.renderEvaluatorGrade(record.processes, record.statusId)}
