@@ -83,7 +83,7 @@ export default class NotificationBell extends Component {
                 if (!notificationId) {
                     this.markAsReadSuccess();
                 } else {
-                    this.handleChangeStatusSuccess(notificationId);
+                    this.handleChangeStatusSuccess(notificationId, false);
                 }
             }, false);
         }
@@ -191,19 +191,24 @@ export default class NotificationBell extends Component {
         }
     }
 
-    handleChangeStatusSuccess = (notificationId) => {
+    handleChangeStatusSuccess = (notificationId, isTriggerNotiCenter) => {
         let notifications = this.state.notifications.slice();
         let index = notifications.findIndex(x => x.notificationId === notificationId);
 
         if (index >= 0) {
             notifications[index].statusId = NotificationStatus.Read;
             this.setState({
-                notifications: notifications,
-                unreadNoti: this.state.unreadNoti - 1
+                notifications: notifications
             });
+        }
 
+        if (isTriggerNotiCenter) {
             this.triggerNotificationCenter(notificationId);
         }
+
+        this.setState({
+            unreadNoti: this.state.unreadNoti - 1
+        });
     }
 
     handleChangeStatus = (notificationId, statusId, isRedirect) => {
@@ -218,7 +223,7 @@ export default class NotificationBell extends Component {
                     if (isRedirect) {
                         this.handleRedirectToAction(notificationId);
                     } else {
-                        this.handleChangeStatusSuccess(notificationId);
+                        this.handleChangeStatusSuccess(notificationId, true);
                     }
                 } else {
                     toast.error(data.message);
@@ -249,7 +254,7 @@ export default class NotificationBell extends Component {
             <div className="header-notification" ref={node => this.wrapperRef = node}>
                 <span className="icon-bell"
                     onClick={this.handleClickOnBell}
-                ></span>
+                />
                 {
                     unreadNoti > 0 &&
                     <span className={`noti-number ${unreadNoti === 0 ? 'empty-noti' : ''}`}>{unreadNoti}</span>
