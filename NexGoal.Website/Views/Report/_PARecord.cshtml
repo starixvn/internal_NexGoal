@@ -35,21 +35,6 @@
                     }
                 }
                 <span class="@roleClass">@Model.Evaluator.NickName</span>
-                @{
-                    var submitDate = string.Empty;
-
-                    if (Model.PerformanceRecord.CreatedDate.Year != 1)
-                    {
-                        submitDate = Model.PerformanceRecord.CreatedDate.ToString("dd MMM yyyy");
-                    }
-
-                    if (Model.PerformanceRecord.ModifiedDate.HasValue)
-                    {
-                        submitDate = Model.PerformanceRecord.ModifiedDate.Value.ToString("dd MMM yyyy");
-                    }
-
-                }
-                <div class="submit-date">@submitDate</div>
             </div>
         </div>
         @{
