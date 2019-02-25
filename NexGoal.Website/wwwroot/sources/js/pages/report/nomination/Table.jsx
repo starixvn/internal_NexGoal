@@ -81,8 +81,12 @@ export default class Table extends Component {
     }
 
     render() {
-        let content = this.props.tableData.length > 0 ? this.props.tableData.map(this.renderData)
-            : <tr><td className="text-center" colSpan={6}>{noDataIndication()}</td></tr>;
+        let content = "";
+
+        if (this.props.tableData) {
+            content = this.props.tableData.length > 0 ? this.props.tableData.map(this.renderData)
+                : <tr><td className="text-center" colSpan={6}>{noDataIndication()}</td></tr>;
+        }
 
         return (
             <Fragment>

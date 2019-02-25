@@ -19,7 +19,7 @@ export default class EOQReport extends Component {
                 employees: [],
                 status: defaultStatus
             },
-            tableData: []
+            tableData: null
         };
 
         this.statusOptions = [defaultStatus, ...NominationStatuses.map(ns => ({ value: ns.value, label: ns.text }))];
