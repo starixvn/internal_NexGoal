@@ -12,25 +12,42 @@
 
     .search-member-container {
         position: relative;
+       // @include border-radius(20px);
+        //padding: 0 16px;
+        //background-color: #fff;
+
         &.focused {
-            @include border-radius(20px);
-            padding: 0 16px;
-            background-color: #fff;
+           // @include border-radius(20px);
+            //padding: 0 16px;
+            //background-color: #fff;
+            background-color: unset;
+                border-radius: 0;
+                padding: 0;
             .icon-search  {
                 cursor: pointer;
                 margin-left: 0;
                 position: absolute;
-                top: 6px;
-                padding: 0;
-                &:before {
-                    color: #324476;
-                }
+                top: 6px;                
+                position: unset;
+                    &:before {
+                        color: #fff;
+                    }
             }
+            // input {
+            //     width: 280px;                
+            //     padding: 0 8px;
+            //     padding-left: 24px;
+            // }
+
             input {
-                width: 280px;                
-                padding: 0 8px;
-                padding-left: 24px;
-            }
+              box-shadow: 0 0 6px #dedede;
+              height: 36px;
+              background: #fff;
+              //top: 36px;
+              //right: -20px;
+              //padding: 0 8px;
+          }
+          
             &.has-member {
                 border-bottom-left-radius: 0;
                 border-bottom-right-radius: 0;
@@ -38,6 +55,12 @@
                     border-bottom: 1px solid #C4C4C4;
                 }
             }
+
+            .member-list {
+              top: 72px;
+              right: -20px;
+              width: 280px;
+          }
         }
         .member-list {
             width: 312px;
@@ -53,7 +76,13 @@
             height: 30px;
             width: 0;
             color: #474747;
-            
+            width: 280px;                
+            padding: 0 8px;            
+            position: absolute;
+            top: 34px;
+            right: -20px;
+            width: 280px;
+            height: 0;            
         }
     }
 
@@ -76,43 +105,43 @@
     }
 }
 
-@media screen and (max-width: 1281px) {
-    .search-member-wrapper {
-        .search-member-container  {
-            input {            
-                position: absolute;
-                top: 30px;
-                right: -20px;
-                width: 280px;
-                height: 0;
-                padding: 0;
-            }
-            &.focused {
-                background-color: unset;
-                border-radius: 0;
-                padding: 0;
-                input {
-                    box-shadow: 0 0 6px #dedede;
-                    height: 36px;
-                    background: #fff;
-                    top: 36px;
-                    right: -20px;
-                    padding: 0 8px;
-                }
-                .icon-search {
-                    position: unset;
-                    &:before {
-                        color: #fff;
-                    }
-                }
-            }
-            .member-list {
-                top: 72px;
-                right: -20px;
-                width: 280px;
-            }      
-        }
+// @media screen and (max-width: 1281px) {
+//     .search-member-wrapper {
+//         .search-member-container  {
+//             input {            
+//                 position: absolute;
+//                 top: 30px;
+//                 right: -20px;
+//                 width: 280px;
+//                 height: 0;
+//                 padding: 0;
+//             }
+//             &.focused {
+//                 background-color: unset;
+//                 border-radius: 0;
+//                 padding: 0;
+//                 input {
+//                     box-shadow: 0 0 6px #dedede;
+//                     height: 36px;
+//                     background: #fff;
+//                     top: 36px;
+//                     right: -20px;
+//                     padding: 0 8px;
+//                 }
+//                 .icon-search {
+//                     position: unset;
+//                     &:before {
+//                         color: #fff;
+//                     }
+//                 }
+//             }
+//             .member-list {
+//                 top: 72px;
+//                 right: -20px;
+//                 width: 280px;
+//             }      
+//         }
         
-    }
+//     }
     
-}
+// }
