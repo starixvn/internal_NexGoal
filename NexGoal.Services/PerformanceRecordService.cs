@@ -296,10 +296,11 @@
             performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
             int.TryParse(performanceRecord.GradeId, out int gradeId);
             performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+            var createdDate = performanceRecord.CreatedDate ?? DateTime.MinValue;
 
             performanceRecord.IsHost = performanceRecord.Creator.EmployeeId == actorId
                 && (performanceRecord.IsDraft
-                    || (!performanceRecord.IsDraft && (DateTime.Now - performanceRecord.CreatedDate).Days < Constants.PerformanceCheckinDuration));
+                    || (!performanceRecord.IsDraft && (DateTime.Now - createdDate).Days < Constants.PerformanceCheckinDuration));
 
             if (performanceRecord.Creator.EmployeeId == Constants.NexGoalSystemId)
             {

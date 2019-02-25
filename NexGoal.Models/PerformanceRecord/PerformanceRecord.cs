@@ -20,7 +20,7 @@
 
         public bool IsDraft { get; set; }
 
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
 
         public IEnumerable<ProjectModel> Projects { get; set; } = new List<ProjectModel>();
