@@ -23,13 +23,17 @@ window.overlay = (function () {
 })();
 
 $(document).ready(function () {
-    $('#js-btnToggleMenu').on('click', function () {
-        var $navHamburger = $('#js-navHamburger');
+    var $navHamburger = $('#js-navHamburger');
 
+    $('#js-btnToggleMenu').on('click', function () {
         if ($navHamburger.hasClass('expended')) {
             $navHamburger.removeClass('expended');
         } else {
             $navHamburger.addClass('expended');
         }
+    });
+
+    $navHamburger.find('.dropdown').hover(function () {
+        $('.dropdown-toggle', this).trigger('click'); 
     });
 });
