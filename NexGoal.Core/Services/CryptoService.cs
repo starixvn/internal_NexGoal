@@ -12,10 +12,10 @@ namespace NexGoal.Core.Services
         private const bool OptimalAsymmetricEncryptionPadding = false;
 
         private readonly X509Certificate2 cert2;
-        private readonly IOptionsSnapshot<AppSettings> configuration;
+        private readonly IOptionsMonitor<AppSettings> configuration;
 
         public CryptoService(
-            IOptionsSnapshot<AppSettings> configuration,
+            IOptionsMonitor<AppSettings> configuration,
             X509Certificate2 cert2 = null)
         {
             this.configuration = configuration;
@@ -28,7 +28,7 @@ namespace NexGoal.Core.Services
 
             if (!string.IsNullOrWhiteSpace(plainText))
             {
-                if (configuration.Value.EnableEncrypt)
+                if (configuration.CurrentValue.EnableEncrypt)
                 {
                     byte[] bytesToEncrypt = ASCIIEncoding.ASCII.GetBytes(plainText);
 
@@ -51,7 +51,7 @@ namespace NexGoal.Core.Services
 
             if (!string.IsNullOrWhiteSpace(cipherText))
             {
-                if (configuration.Value.EnableEncrypt)
+                if (configuration.CurrentValue.EnableEncrypt)
                 {
                     RSACryptoServiceProvider rsa = GetPrivateKeyRsaCryptoServiceProvider(cert2);
                     byte[] bytesToDecrypt = Convert.FromBase64String(cipherText);
@@ -72,7 +72,7 @@ namespace NexGoal.Core.Services
         {
             var flags = X509KeyStorageFlags.Exportable;
 
-            return new X509Certificate2(configuration.Value.CertFilePath, configuration.Value.PasswordToSignCertFile, flags);
+            return new X509Certificate2(configuration.CurrentValue.CertFilePath, configuration.CurrentValue.PasswordToSignCertFile, flags);
         }
 
         private RSACryptoServiceProvider GetPublicKeyRsaCryptoServiceProvider(X509Certificate2 certificate)

@@ -14,7 +14,7 @@
             services.AddTransient<IBaseRepository, BaseRepository>();
             services.AddTransient<IBaseService, BaseService>();
             services.AddTransient<IBaseMailService, BaseMailService>();
-            services.AddScoped<ICryptoService, CryptoService>();
+            services.AddSingleton<ICryptoService, CryptoService>();
             services.AddTransient<ILogger, Logger>();
         }
     }
