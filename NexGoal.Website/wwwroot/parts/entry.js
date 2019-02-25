@@ -17,7 +17,6 @@ module.exports = {
         [`${styleDistPath}/evaluationflow`]: `${styleSourcePath}/pages/flow/index.scss`,
         [`${styleDistPath}/period`]: `${styleSourcePath}/pages/period/period.scss`,
         [`${styleDistPath}/editperiod`]: `${styleSourcePath}/pages/period/edit.scss`,
-        [`${styleDistPath}/evaluation`]: `${styleSourcePath}/pages/evaluation.scss`,
         [`${styleDistPath}/member-index`]: `${styleSourcePath}/pages/member/index.scss`,
         [`${styleDistPath}/member-details`]: `${styleSourcePath}/pages/member/details.scss`,
         [`${styleDistPath}/pafocus`]: `${styleSourcePath}/pages/pafocus/index.scss`,

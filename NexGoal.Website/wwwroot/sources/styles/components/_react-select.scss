@@ -27,5 +27,32 @@
 
     .react-select__menu {
         @include border-radius(2px);
+        margin: 0;
+
+        .react-select__option {
+            color: #545454;
+            background: inherit;
+            padding: 8px 12px;
+
+            &:hover, &:active {
+                color: #fff;
+                background-color: #324476;
+            }
+
+            &.react-select__option--is-focused {
+                color: #fff;
+                background-color: #324476;
+            }
+        }
+
+        .checkbox .checkbox-custom {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
+
+            + label:before {
+                margin-right: 6px;
+            }
+        }
     }
 }
