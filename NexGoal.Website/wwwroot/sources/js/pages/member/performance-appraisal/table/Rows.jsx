@@ -81,8 +81,12 @@ class Rows extends Component {
     renderPMGrades = (paProcesses, paRecordId) => {
         const processes = paProcesses.filter(process => process.processId === PerformanceProcess.ProjectManager);
         const grades = processes.map(process => {
-            return process.performanceRecord && process.performanceRecord.grade ?
-                process.performanceRecord.grade.name : getResource('N/A');
+            if (process.performanceRecord) {
+                return process.performanceRecord.grade ?
+                    process.performanceRecord.grade.name : getResource('N/A');
+            } else {
+                return '';
+            }
         });
         const tooltip = (
             <Tooltip className="focus-note" id={`pmProcess-${paRecordId}`}>
