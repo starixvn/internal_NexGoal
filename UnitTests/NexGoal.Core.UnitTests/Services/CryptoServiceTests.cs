@@ -20,7 +20,7 @@
         {
             // Arrange
             var cert = Substitute.For<X509Certificate2>();
-            IOptionsSnapshot<AppSettings> configuration = FakeIOptionsSnapshot(true);
+            IOptionsMonitor<AppSettings> configuration = FakeOptionsMonitor(true);
             var service = GetCryptoService(configuration, cert);
 
             // Act
@@ -36,7 +36,7 @@
             // Arrange
             var plainText = "123456";
             var cert = Substitute.For<X509Certificate2>();
-            IOptionsSnapshot<AppSettings> configuration = FakeIOptionsSnapshot(false);
+            IOptionsMonitor<AppSettings> configuration = FakeOptionsMonitor(false);
             var service = GetCryptoService(configuration, cert);
 
             // Act
@@ -52,7 +52,7 @@
             // Arrange
             var plainText = "123456";
             X509Certificate2 cert = GetX509Certificate2();
-            IOptionsSnapshot<AppSettings> configuration = FakeIOptionsSnapshot(true);
+            IOptionsMonitor<AppSettings> configuration = FakeOptionsMonitor(true);
             var service = GetCryptoService(configuration, cert);
 
             // Act
@@ -73,7 +73,7 @@
         {
             // Arrange
             var cert = Substitute.For<X509Certificate2>();
-            IOptionsSnapshot<AppSettings> configuration = FakeIOptionsSnapshot(true);
+            IOptionsMonitor<AppSettings> configuration = FakeOptionsMonitor(true);
             var service = GetCryptoService(configuration, cert);
 
             // Act
@@ -89,7 +89,7 @@
             // Arrange
             var cipherText = "123456";
             var cert = Substitute.For<X509Certificate2>();
-            IOptionsSnapshot<AppSettings> configuration = FakeIOptionsSnapshot(false);
+            IOptionsMonitor<AppSettings> configuration = FakeOptionsMonitor(false);
             var service = GetCryptoService(configuration, cert);
 
             // Act
@@ -105,7 +105,7 @@
             // Arrange
             var expected = "123456";
             X509Certificate2 cert = GetX509Certificate2();
-            IOptionsSnapshot<AppSettings> configuration = FakeIOptionsSnapshot(true);
+            IOptionsMonitor<AppSettings> configuration = FakeOptionsMonitor(true);
             var service = GetCryptoService(configuration, cert);
             var cipherText = service.Encrypt(expected);
 
@@ -120,15 +120,15 @@
 
         #region Helpers
 
-        private IOptionsSnapshot<AppSettings> FakeIOptionsSnapshot(bool enableEncrypt)
+        private IOptionsMonitor<AppSettings> FakeOptionsMonitor(bool enableEncrypt)
         {
             var appSettings = new AppSettings
             {
                 EnableEncrypt = enableEncrypt
             };
 
-            var config = Substitute.For<IOptionsSnapshot<AppSettings>>();
-            config.Value.Returns(appSettings);
+            var config = Substitute.For<IOptionsMonitor<AppSettings>>();
+            config.CurrentValue.Returns(appSettings);
 
             return config;
         }
@@ -153,7 +153,7 @@
         }
 
         private static CryptoService GetCryptoService(
-            IOptionsSnapshot<AppSettings> config,
+            IOptionsMonitor<AppSettings> config,
             X509Certificate2 cert)
         {
             var service = new CryptoService(config, cert);
