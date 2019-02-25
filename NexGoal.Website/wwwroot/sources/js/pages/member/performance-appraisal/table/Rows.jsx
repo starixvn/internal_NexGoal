@@ -2,7 +2,6 @@
 import { PerformanceProcess, PAStatus, notAvailableGradeTooltip } from '../../../../constants';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import getResource from '../../../../resourceHelper';
-import { locale } from 'moment';
 
 class Rows extends Component {
     constructor(props) {
@@ -51,21 +50,24 @@ class Rows extends Component {
         let currentGrade = null;
         var count = 0;
         for (let i = 0; i < grades.length; i++) {
-            if (grades[i] !== currentGrade) {
-                if (count > 0) {
-                    displayGrades.push(count > 1 ? count + currentGrade : currentGrade);
+            if (grades[i]) {
+                if (grades[i] !== currentGrade) {
+                    if (count > 0) {
+                        displayGrades.push(count > 1 ? count + currentGrade : currentGrade);
+                    }
+                    currentGrade = grades[i];
+                    count = 1;
+                } else {
+                    count++;
                 }
-                currentGrade = grades[i];
-                count = 1;
-            } else {
-                count++;
             }
         }
+
         if (count > 0) {
             displayGrades.push(count > 1 ? count + currentGrade : currentGrade);
         }
 
-        return displayGrades.join(', ');
+        return displayGrades.length > 0 ? displayGrades.join(', ') : '';
     }
 
     renderSelfGrade = (paProcesses) => {
@@ -86,6 +88,7 @@ class Rows extends Component {
                     process.performanceRecord.grade.name : getResource('N/A');
             }
         });
+
         const tooltip = (
             <Tooltip className="focus-note" id={`pmProcess-${paRecordId}`}>
                 {
@@ -94,7 +97,7 @@ class Rows extends Component {
                             return (
                                 <p key={index}>
                                     {
-                                        `${process.evaluator.nickName}: ${process.performanceRecord && process.performanceRecord.grade
+                                        `${process.evaluator.nickName}: ${process.performanceRecord.grade
                                             ? process.performanceRecord.grade.name : getResource("N/A")} `
                                     }
                                 </p>
@@ -128,8 +131,7 @@ class Rows extends Component {
         return grade;
     }
 
-    renderPAForReviewer = (record) => {
-        let reviewerProcess = record.processes.filter(process => process.processId === PerformanceProcess.Reviewer)[0];
+    renderPAGrade = (record) => {
         let gradeChangeClass = '';
         if (this.parseIntGradeId(record.gradeId) > this.parseIntGradeId(record.originalGradeId)) {
             gradeChangeClass = 'icon-increase-arrow';
@@ -145,10 +147,9 @@ class Rows extends Component {
             paGrade = <a onClick={() => this.handleClick(record.paRecordId)}>{displayGrade}</a>;
         }
 
-        const noteClass = reviewerProcess.performanceRecord ? 'reviewer-seen' : 'reviewer-notyetseen';
         return (
             <Fragment>
-                <span className={`pa-grade text-center ${noteClass}`}>{paGrade}
+                <span className="pa-grade text-center">{paGrade}
                     <span className={gradeChangeClass} />
                 </span>
             </Fragment>
@@ -175,6 +176,16 @@ class Rows extends Component {
         }
 
         return status;
+    }
+
+    renderReviewerGrade = (paProcesses) => {
+        const processes = paProcesses.filter(process => process.processId === PerformanceProcess.Reviewer);
+        let grade = '';
+        if (processes[0].performanceRecord) {
+            grade = processes[0].performanceRecord.grade ? processes[0].performanceRecord.grade.name : getResource('N/A');
+        }
+
+        return <span>{grade}</span>;
     }
 
     renderNickName = (record) => {
@@ -210,7 +221,8 @@ class Rows extends Component {
                                 <td className="text-center">
                                     {this.renderEvaluatorGrade(record.processes, record.statusId)}
                                 </td>
-                                <td className="">{this.renderPAForReviewer(record)}</td>
+                                <td className="">{this.renderReviewerGrade(record.processes)}</td>
+                                <td className="">{this.renderPAGrade(record)}</td>
                                 <td className="text-center">
                                     {this.renderStatus(record.isEdited, record.paRecordId, record.statusId)}
                                 </td>

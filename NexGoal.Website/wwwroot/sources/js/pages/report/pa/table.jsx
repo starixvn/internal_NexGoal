@@ -151,16 +151,19 @@ export default class Table extends Component {
         let currentGrade = null;
         var count = 0;
         for (let i = 0; i < grades.length; i++) {
-            if (grades[i] !== currentGrade) {
-                if (count > 0) {
-                    displayGrades.push(count > 1 ? count + currentGrade : currentGrade);
+            if (grades[i]) {
+                if (grades[i] !== currentGrade) {
+                    if (count > 0) {
+                        displayGrades.push(count > 1 ? count + currentGrade : currentGrade);
+                    }
+                    currentGrade = grades[i];
+                    count = 1;
+                } else {
+                    count++;
                 }
-                currentGrade = grades[i];
-                count = 1;
-            } else {
-                count++;
             }
         }
+
         if (count > 0) {
             displayGrades.push(count > 1 ? count + currentGrade : currentGrade);
         }
@@ -169,27 +172,24 @@ export default class Table extends Component {
     }
 
     renderPMGrades = (paProcesses, paRecordId) => {
-        const processes = paProcesses.filter(process => process.processId === PerformanceProcess.ProjectManager);
+        const processes = paProcesses.filter(process => process.performanceRecord &&
+            process.processId === PerformanceProcess.ProjectManager);
         const grades = processes.map((process, index) => {
-            if (process.performanceRecord) {
-                return process.performanceRecord.grade ?
-                    process.performanceRecord.grade.name : getResource('N/A');
-            }
+            return process.performanceRecord.grade ?
+                process.performanceRecord.grade.name : getResource('N/A');
         });
         const tooltip = (
             <Tooltip className="focus-note" id={`pmGrade-${paRecordId}`}>
                 {
                     processes.map((process, index) => {
-                        if (process.performanceRecord) {
-                            return (
-                                <p key={index}>
-                                    {
-                                        `${process.evaluator.nickName}: ${process.performanceRecord.grade
-                                            ? process.performanceRecord.grade.name : getResource("N/A")} `
-                                    }
-                                </p>
-                            );
-                        }
+                        return (
+                            <p key={index}>
+                                {
+                                    `${process.evaluator.nickName}: ${process.performanceRecord.grade
+                                        ? process.performanceRecord.grade.name : getResource("N/A")} `
+                                }
+                            </p>
+                        );
                     })
                 }
             </Tooltip>
@@ -203,7 +203,7 @@ export default class Table extends Component {
     }
 
     renderGradeByProcess = (processes, processId, paRecordId) => {
-        const processRecords = processes.filter(process => process.processId === processId);
+        const processRecords = processes.filter(process => process.performanceRecord && process.processId === processId);
         if (!processRecords.length) return '';
 
         if (processId !== PerformanceProcess.ProjectManager) {

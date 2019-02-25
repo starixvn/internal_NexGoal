@@ -75,7 +75,7 @@ class Table extends Component {
         if (isNoData) {
             return (
                 <tr>
-                    <td className="empty-result" colSpan={7}>{getResource('NoRecordFound')}</td>
+                    <td className="empty-result" colSpan={8}>{getResource('NoRecordFound')}</td>
                 </tr>
             );
         } else {
@@ -84,7 +84,7 @@ class Table extends Component {
                     return (
                         <Rows key={group.groupName}
                             data={group}
-                            colSpan={7}
+                            colSpan={8}
                             gradeOptions={this.props.gradeOptions}
                             onClickEditPA={this.onClickEditPA}
                             onQuickEditPA={this.onQuickEditPA}
@@ -100,13 +100,18 @@ class Table extends Component {
                 <table className="table table-bordered" >
                     <thead>
                         <tr>
-                            <th>{getResource('NickName')}</th>
-                            <th>{getResource('Toeic')}</th>
-                            <th>{getResource('Self')}</th>
-                            <th>{getResource('ProjectManager')}</th>
-                            <th>{getResource('Evaluator')}</th>
-                            <th>{getResource('Reviewer')}</th>
-                            <th>{getResource('Revised')}</th>
+                            <th rowSpan="2">{getResource('NickName')}</th>
+                            <th rowSpan="2">{getResource('Toeic')}</th>
+                            <th rowSpan="1" colSpan="4">{getResource('PerformanceRecord')}</th>
+
+                            <th rowSpan="2">{getResource('PAFinal')}</th>
+                            <th rowSpan="2">{getResource('Revised')}</th>
+                        </tr>
+                        <tr>
+                            <th rowSpan="1">{getResource('Self')}</th>
+                            <th rowSpan="1">{getResource('ProjectManager')}</th>
+                            <th rowSpan="1">{getResource('Evaluator')}</th>
+                            <th rowSpan="1">{getResource('Reviewer')}</th>
                         </tr>
                     </thead>
                     <tbody>
