@@ -23,4 +23,13 @@ window.overlay = (function () {
 })();
 
 $(document).ready(function () {
+    $('#js-btnToggleMenu').on('click', function () {
+        var $navHamburger = $('#js-navHamburger');
+
+        if ($navHamburger.hasClass('expended')) {
+            $navHamburger.removeClass('expended');
+        } else {
+            $navHamburger.addClass('expended');
+        }
+    });
 });
