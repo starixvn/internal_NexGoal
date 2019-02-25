@@ -23,11 +23,10 @@ export default class PAProcessTab extends Component {
                     return (
                         <PerformanceRecord key={index} data={process.performanceRecord} isHideProjectTag />
                     );
-                } else {
-                    return <span key={index}>{getResource('NoRecordFound')}</span>;
                 }
             });
         }
+
         return <span>{getResource('NoRecordFound')}</span>;
     };
 

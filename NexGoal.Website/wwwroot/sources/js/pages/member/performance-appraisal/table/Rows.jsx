@@ -84,22 +84,22 @@ class Rows extends Component {
             if (process.performanceRecord) {
                 return process.performanceRecord.grade ?
                     process.performanceRecord.grade.name : getResource('N/A');
-            } else {
-                return '';
             }
         });
         const tooltip = (
             <Tooltip className="focus-note" id={`pmProcess-${paRecordId}`}>
                 {
                     processes.map((process, index) => {
-                        return (
-                            <p key={index}>
-                                {
-                                    `${process.evaluator.nickName}: ${process.performanceRecord && process.performanceRecord.grade
-                                        ? process.performanceRecord.grade.name : getResource("N/A")} `
-                                }
-                            </p>
-                        );
+                        if (process.performanceRecord) {
+                            return (
+                                <p key={index}>
+                                    {
+                                        `${process.evaluator.nickName}: ${process.performanceRecord && process.performanceRecord.grade
+                                            ? process.performanceRecord.grade.name : getResource("N/A")} `
+                                    }
+                                </p>
+                            );
+                        }
                     })
                 }
             </Tooltip>
