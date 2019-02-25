@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { stringify } from 'qs';
 
-import { axiosError, resolveClientUrl } from '../../../../common-functions';
+import { axiosError, resolveClientUrl, noDataIndication } from '../../../../common-functions';
 import getResource from '../../../../resourceHelper';
 import Rows from './Rows';
 import EditMemberPA from '../EditPAForm';
@@ -70,31 +70,30 @@ class Table extends Component {
         this.props.renderPA();
     }
 
-    renderRow = () => {
-        const isNoData = this.props.data.length === 0;
-        if (isNoData) {
-            return (
-                <tr>
-                    <td className="empty-result" colSpan={8}>{getResource('NoRecordFound')}</td>
-                </tr>
-            );
-        } else {
-            return (
-                this.props.data.map(group => {
-                    return (
-                        <Rows key={group.groupName}
-                            data={group}
-                            colSpan={8}
-                            gradeOptions={this.props.gradeOptions}
-                            onClickEditPA={this.onClickEditPA}
-                            onQuickEditPA={this.onQuickEditPA}
-                        />
-                    );
-                }));
-        }
+    renderRow = (data) => {
+        return (
+            data.map(group => {
+                return (
+                    <Rows key={group.groupName}
+                        data={group}
+                        colSpan={8}
+                        gradeOptions={this.props.gradeOptions}
+                        onClickEditPA={this.onClickEditPA}
+                        onQuickEditPA={this.onQuickEditPA}
+                    />
+                );
+            })
+        );
     };
 
     render() {
+        let content = "";
+
+        if (this.props.data) {
+            content = this.props.data.length > 0 ? this.renderRow(this.props.data)
+                : <tr><td className="text-center" colSpan={10}>{noDataIndication()}</td></tr>;
+        }
+
         return (
             <Fragment>
                 <table className="table table-bordered" >
@@ -115,9 +114,7 @@ class Table extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {
-                            this.renderRow()
-                        }
+                        {content}
                     </tbody>
                 </table>
                 {

@@ -16,7 +16,7 @@ export default class MemberPerformanceAppraisal extends Component {
                 groups: props.groupOptions || [],
                 status: PAEditOptions.find(option => option.value === '')
             },
-            performanceAppraisals: []
+            performanceAppraisals: null
         };
     }
 

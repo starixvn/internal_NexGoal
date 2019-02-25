@@ -18,7 +18,7 @@ export default class App extends Component {
                 groups: [],
                 employees: []
             },
-            paPeriodRecords: [],
+            paPeriodRecords: null,
             isShowPADetail: false,
             paDetailId: null
         };

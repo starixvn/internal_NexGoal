@@ -2,6 +2,7 @@
 import getResource from '../../../resourceHelper';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { PerformanceProcess, PAStatus } from '../../../constants';
+import { noDataIndication } from '../../../common-functions';
 
 export default class Table extends Component {
     constructor(props) {
@@ -223,7 +224,12 @@ export default class Table extends Component {
     }
 
     render() {
-        const periodRecords = this.props.periodRecords;
+        let content = "";
+        if (this.props.periodRecords) {
+            content = this.props.periodRecords.length > 0 ? this.renderRows(this.props.periodRecords)
+                : <tr><td className="text-center" colSpan={10}>{noDataIndication()}</td></tr>;
+        }
+
         return (
             <table className="table table-bordered">
                 <thead>
@@ -245,9 +251,7 @@ export default class Table extends Component {
 
                 </thead>
                 <tbody>
-                    {
-                        this.renderRows(periodRecords)
-                    }
+                    {content}
                 </tbody>
             </table>
         );
