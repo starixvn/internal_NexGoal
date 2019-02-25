@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, Slide } from 'react-toastify';
 
 const ToastLayout = props => (
     <Fragment>
@@ -7,6 +7,7 @@ const ToastLayout = props => (
             position="top-center"
             autoClose={3000}
             hideProgressBar={false}
+            transition={Slide}
             closeOnClick={false}
             draggable={false} />
         {props.children}

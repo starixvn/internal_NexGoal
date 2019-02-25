@@ -20,11 +20,18 @@
         top: 3px;
 
     }
+
+    .Toastify__progress-bar {
+      height: 2px;
+    }
     .Toastify__toast--success {
         background-color: #E0F3FF;
         color: #2270CE;
         .Toastify__toast-body:before {
             content: '\e908';
+        }
+        .Toastify__progress-bar {
+          background: #2270CE;
         }
     }
     .Toastify__toast--error {
@@ -32,6 +39,9 @@
         color: #FF0000;
         .Toastify__toast-body:before {
             content: "\e934";
+        }
+        .Toastify__progress-bar {
+          background: #FF0000;
         }
     }
     .Toastify__close-button {
