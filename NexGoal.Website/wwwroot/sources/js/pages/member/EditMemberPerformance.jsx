@@ -148,7 +148,7 @@ export default class EditMemberPerformance extends Component {
                 performanceRecordId: record.performanceRecordId,
                 employeeIds: record.employees.map((employee) => { return employee.value; }).join(','),
                 gradeId: record.grade ? record.grade.value : null,
-                comment: record.comment,
+                comment: record.comment.trim(),
                 isFromDraft: record.isDraft,
                 projectIds: record.projects.map((project) => { return project.value; }).join(',')
             });
@@ -195,7 +195,7 @@ export default class EditMemberPerformance extends Component {
                 performanceRecordId: record.performanceRecordId,
                 employeeIds: record.employees.map((employee) => { return employee.value; }).join(','),
                 gradeId: record.grade ? record.grade.value : null,
-                comment: record.comment,
+                comment: record.comment.trim(),
                 projectIds: record.projects.map((project) => { return project.value; }).join(',')
             });
 

@@ -18,9 +18,11 @@
         background-color: #EBF4FF;
         border: 1px solid #5191DF;
         grid-row-gap: 0;
+
         .comment {
             padding-bottom: 0;
         }
+
         &[class*="status"] {
             grid-template-rows: 50px 1fr 0;
         }
@@ -47,7 +49,7 @@
 
     &:focus-within {
         box-shadow: 0 0 32px #cecece;
-        border-color:#E5E5E5;
+        border-color: #E5E5E5;
     }
 
     .avatar-user {
@@ -79,23 +81,29 @@
                     font-size: 20px;
                 }
             }
+
             &.icon-status-nomination {
                 background-color: $status-nomination-color;
             }
+
             &.icon-status-shortlisted {
                 background-color: $status-shortlisted-color;
             }
+
             &.icon-status-winner {
                 background: #324476;
                 background-repeat: no-repeat;
                 background-position: 50% 50%;
+
                 &.eoq {
-                   background-image: url('../../images/winner-eoq.svg'), linear-gradient( to top right, #5E6E9C, #324476);                   
+                    background-image: url('../../images/winner-eoq.svg'), linear-gradient( to top right, #5E6E9C, #324476);
                 }
+
                 &.eoy {
                     background-image: url('../../images/winner-eoy.svg'), linear-gradient( to top right, #5E6E9C, #324476);
                 }
             }
+
             &.nexgoal-system {
                 background-color: #324476;
                 text-align: center;
@@ -107,6 +115,7 @@
             [class^="role-"] {
                 font-weight: 700;
                 font-size: 15px;
+
                 @media screen and (min-width: 1280px) {
                     font-size: 16px;
                 }
@@ -205,6 +214,7 @@
             top: 8px;
             cursor: pointer;
             color: #BFBFBF;
+
             &:hover {
                 color: #959595;
             }
@@ -229,7 +239,7 @@
             }
 
             &.expanded {
-                max-height: 1000px;
+                max-height: 10000px;
                 transition: max-height 1.5s ease-in-out;
             }
         }
@@ -302,7 +312,6 @@
             }
 
             .react-select__multi-value__remove {
-
                 &:hover {
                     background-color: transparent;
                     cursor: pointer;

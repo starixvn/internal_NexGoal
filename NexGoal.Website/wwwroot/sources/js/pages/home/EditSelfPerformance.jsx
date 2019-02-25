@@ -100,7 +100,7 @@ export default class EditSelfPerformance extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 performanceRecordId: record.performanceRecordId,
                 gradeId: record.grade ? record.grade.value : null,
-                comment: record.comment,
+                comment: record.comment.trim(),
                 isFromDraft: record.isDraft,
                 projectIds: record.projects.map((project) => { return project.value; }).join(',')
             });
@@ -145,7 +145,7 @@ export default class EditSelfPerformance extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 performanceRecordId: record.performanceRecordId,
                 gradeId: record.grade ? record.grade.value : null,
-                comment: record.comment,
+                comment: record.comment.trim(),
                 projectIds: record.projects.map((project) => { return project.value; }).join(',')
             });
 

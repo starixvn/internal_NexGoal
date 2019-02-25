@@ -158,7 +158,7 @@ export default class CreateMemberPerformance extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 employeeIds: employeeIds,
                 gradeId: record.grade ? record.grade.value : null,
-                comment: record.comment,
+                comment: record.comment.trim(),
                 projectIds: record.projects.map((project) => { return project.value; }).join(',')
             });
 
@@ -204,7 +204,7 @@ export default class CreateMemberPerformance extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 employeeIds: employeeIds,
                 gradeId: record.grade ? record.grade.value : null,
-                comment: record.comment,
+                comment: record.comment.trim(),
                 projectIds: record.projects.map((project) => { return project.value; }).join(',')
             });
 

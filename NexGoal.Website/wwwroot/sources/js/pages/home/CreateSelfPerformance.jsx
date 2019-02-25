@@ -109,7 +109,7 @@ export default class CreateSelfPerformance extends Component {
             let performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 gradeId: this.state.performanceRecord.grade ? this.state.performanceRecord.grade.value : null,
-                comment: this.state.performanceRecord.comment,
+                comment: this.state.performanceRecord.comment.trim(),
                 projectIds: this.state.performanceRecord.projects.map((project) => { return project.value; }).join(',')
             });
 
@@ -152,7 +152,7 @@ export default class CreateSelfPerformance extends Component {
             let performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 gradeId: this.state.performanceRecord.grade ? this.state.performanceRecord.grade.value : null,
-                comment: this.state.performanceRecord.comment,
+                comment: this.state.performanceRecord.comment.trim(),
                 projectIds: this.state.performanceRecord.projects.map((project) => { return project.value; }).join(',')
             });
 
