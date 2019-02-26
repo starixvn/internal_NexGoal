@@ -150,7 +150,7 @@ export default class Row extends Component {
                 {
                     objective !== null && objective.length > 0 &&
                     <Fragment>
-                        {objective.length > 25 ? `${objective.substring(0, 25)} ...` : objective}
+                        {objective.length > 50 ? `${objective.substring(0, 50)} ...` : objective}
                     </Fragment>
                 }
             </Fragment>
