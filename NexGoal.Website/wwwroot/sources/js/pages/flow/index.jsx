@@ -59,7 +59,7 @@ export default class App extends Component {
     render() {
         return (
             <ToastLayout>
-                <div className="row">
+                <div className="row content-wrapper">
                     <Breadcrumb>
                         <li className="current">{getResource('EvaluationFlow')}</li>
                     </Breadcrumb>

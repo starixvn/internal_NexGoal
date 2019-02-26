@@ -34,14 +34,15 @@
             background: inherit;
             padding: 8px 12px;
 
-            &:hover, &:active {
-                color: #fff;
-                background-color: #324476;
-            }
+            // &:hover, &:active {
+            //     color: #fff;
+            //     background-color: #324476;
+            // }
 
             &.react-select__option--is-focused {
-                color: #fff;
-                background-color: #324476;
+                //color: #fff;
+                //color: #545454;
+                background-color: #DFE2EB;
             }
         }
 

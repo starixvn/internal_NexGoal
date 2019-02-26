@@ -50,6 +50,12 @@
         &.status-width {
             width: 150px;
         }
+
+        &.team {
+          .react-select__menu {
+            width: 240px;
+          }
+        }
     }
 
     .checkbox {

@@ -39,6 +39,14 @@
         .team {
             padding-bottom: 4px;
         }
+
+        .react-select-container {          
+          width: 250px;         
+  
+          @media only screen and (max-width: 1299px) {
+              width: 100%;
+          }
+      }
     }
 }
 
@@ -323,11 +331,15 @@
 
     .react-select-container {
         display: inline-block;
-        width: calc(100% - 40px);
+        width: 250px;
 
         .react-select__value-container {
             padding: 2px 0 2px 4px;
             font-size: 12px;
+        }
+
+        @media only screen and (max-width: 1299px) {
+            width: 100%;
         }
     }
     #chart-wrapper {
