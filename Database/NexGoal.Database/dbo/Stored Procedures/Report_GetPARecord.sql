@@ -101,7 +101,7 @@ BEGIN
 	INNER JOIN dbo.JobTitle AS jobtitle WITH (NOLOCK) ON emp.JobTitleId = jobtitle.JobTitleId
 	INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
 	ORDER BY (
-			SELECT MIN(process.ProcessId)
+			SELECT ISNULL(MIN(process.ProcessId), 0)
 			FROM dbo.PAProcess AS process WITH (NOLOCK)
 			WHERE process.PARecordId = pa.PARecordId
 				AND process.ProcessId IN (
