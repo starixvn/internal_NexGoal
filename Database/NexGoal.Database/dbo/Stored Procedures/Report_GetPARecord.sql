@@ -82,6 +82,7 @@ BEGIN
 		,pa.ToeicPolicy
 		,pa.OriginalGradeId
 		,pa.ModifiedDate
+        ,pa.IsRevised
 		,pa.StatusId
 		,pa.GradeId
 		,pa.Comment

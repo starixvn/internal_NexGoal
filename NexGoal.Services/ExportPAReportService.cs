@@ -198,7 +198,7 @@
 
         private static void WritePAFinalGrade(ExcelRange paCell, PARecordModel paRecord)
         {
-            if (paRecord.StatusId == (int)PARecordStatus.InProgress && !paRecord.IsEdited)
+            if (paRecord.StatusId == (int)PARecordStatus.InProgress && !paRecord.IsRevised)
             {
                 paCell.Value = string.Empty;
             }

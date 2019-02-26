@@ -35,7 +35,7 @@ export default class EditMemberPA extends Component {
         axios(resolveClientUrl(`PA/GetById/${this.props.paRecordId}`)).then(response => {
             if (response.data) {
                 let pa = response.data;
-                let grade = pa.isEdited ? pa.grade : pa.originalGrade;
+                let grade = pa.isRevised ? pa.grade : pa.originalGrade;
                 this.setState({
                     paRecord: {
                         paRecordId: pa.paRecordId,

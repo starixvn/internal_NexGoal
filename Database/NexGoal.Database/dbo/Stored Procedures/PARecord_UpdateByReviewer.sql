@@ -35,6 +35,7 @@ BEGIN
 				,Comment AS '@comment'
 				,ModifiedBy AS '@modifiedby'
 				,ModifiedDate AS '@modifiedDate'
+                ,IsRevised AS '@isRevised'
 			FROM dbo.PARecord WITH (NOLOCK)
 			WHERE PARecordId = @PARecordId
 			FOR XML PATH('r')
@@ -47,6 +48,7 @@ BEGIN
 		,Comment = @Comment
 		,ModifiedBy = @ActorId
 		,ModifiedDate = GETDATE()
+        ,IsRevised = 1
 	WHERE PARecordId = @PARecordId
 
 	-- write log after insert
@@ -56,6 +58,7 @@ BEGIN
 				,Comment AS '@comment'
 				,ModifiedBy AS '@modifiedby'
 				,ModifiedDate AS '@modifiedDate'
+                ,IsRevised AS '@isRevised'
 			FROM dbo.PARecord WITH (NOLOCK)
 			WHERE PARecordId = @PARecordId
 			FOR XML PATH('r')

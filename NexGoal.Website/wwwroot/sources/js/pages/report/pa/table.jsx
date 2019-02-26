@@ -103,7 +103,7 @@ export default class Table extends Component {
         const paGrade = record.grade ? record.grade.name : getResource('N/A');
         const revisedIcon = this.renderPARivisedIcon(record.gradeId, record.originalGradeId);
         let displayGrade = <span>{paGrade}{revisedIcon}</span>;
-        if (record.statusId === PAStatus.InProgress && !record.isEdited) {
+        if (record.statusId === PAStatus.InProgress && !record.isRevised) {
             displayGrade = <span />;
         }
 

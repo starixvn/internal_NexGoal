@@ -43,6 +43,7 @@ BEGIN
 
 	SELECT pa.PARecordId
 		,pa.ModifiedDate
+        ,pa.IsRevised
 		,pa.OriginalGradeId
 		,pa.Toeic
 		,(

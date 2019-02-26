@@ -262,6 +262,7 @@
     <Build Include="dbo\Stored Procedures\MasterReport_Get.sql" />
     <Build Include="dbo\Stored Procedures\Period_UpdateFinalPAGrade.sql" />
     <Build Include="dbo\Stored Procedures\Period_GetDataToUpdateFinalPAGrade.sql" />
+    <Build Include="dbo\Stored Procedures\PAReport_GetGroupAndMember.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">
@@ -288,5 +289,8 @@
       <DefaultValue>RedmineNexcel</DefaultValue>
       <Value>$(SqlCmdVar__2)</Value>
     </SqlCmdVariable>
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="NexGoal.Database.refactorlog" />
   </ItemGroup>
 </Project>

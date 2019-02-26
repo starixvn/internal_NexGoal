@@ -29,7 +29,7 @@
 
         public DateTime? ModifiedDate { get; set; }
 
-        public bool IsEdited => ModifiedDate != null;
+        public bool IsRevised { get; set; }
 
         public int? Toeic { get; set; }
 

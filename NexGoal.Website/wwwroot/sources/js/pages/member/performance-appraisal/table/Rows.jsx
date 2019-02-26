@@ -156,19 +156,19 @@ class Rows extends Component {
         );
     };
 
-    renderStatus = (isEdited, paRecordId, paStatusId) => {
+    renderStatus = (isRevised, paRecordId, paStatusId) => {
         const isClosed = paStatusId === PAStatus.Closed;
         let status;
         if (isClosed) {
-            const checked = isEdited ? 'icon-check' : '';
+            const checked = isRevised ? 'icon-check' : '';
             status = <span className={checked} />;
         } else {
             status = (
                 <div>
                     <input type="checkbox" className="checkbox-custom"
                         id={`chb-${paRecordId}`}
-                        checked={isEdited}
-                        onChange={() => this.quickEditPA(paRecordId, isEdited)}
+                        checked={isRevised}
+                        onChange={() => this.quickEditPA(paRecordId, isRevised)}
                     />
                     <label htmlFor={`chb-${paRecordId}`} />
                 </div>
@@ -224,7 +224,7 @@ class Rows extends Component {
                                 <td className="text-center">{this.renderReviewerGrade(record.processes)}</td>
                                 <td className="text-center">{this.renderPAGrade(record)}</td>
                                 <td className="text-center">
-                                    {this.renderStatus(record.isEdited, record.paRecordId, record.statusId)}
+                                    {this.renderStatus(record.isRevised, record.paRecordId, record.statusId)}
                                 </td>
                             </tr>
                         );
