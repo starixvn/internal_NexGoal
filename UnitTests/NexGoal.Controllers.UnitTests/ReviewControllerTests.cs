@@ -64,11 +64,11 @@
             {
                 PeriodId = 1,
                 GroupIds = "1,2",
-                IsEdited = true
+                IsRevised = true
             };
-            var records = new List<PARecordModel>
+            var records = new List<PARecordGroupModel>
             {
-                new PARecordModel { PARecordId = 1, EmployeeId = 1 }
+                new PARecordGroupModel { GroupName = "Nexus", PerformanceAppraisals = new List<PARecordModel>() }
             };
             var controller = GetReviewController();
             paRecordService.GetPARecordByReviewerAsync(Arg.Any<GetPARecordParam>()).Returns(records);

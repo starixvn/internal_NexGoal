@@ -1,6 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[PARecord_GetByReviewer] @ActorId INT
 	,@PeriodId INT
 	,@GroupIds VARCHAR(MAX) = ''
+	,@IsRevised BIT = NULL
 AS
 /*
 Created: 20181127@Oliver.Dang
@@ -33,14 +34,27 @@ BEGIN
 	INSERT INTO #tblPARecordId (PARecordId)
 	SELECT pa.PARecordId
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
-		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+	INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
 		AND period.PeriodId = @PeriodId
-		INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
+	INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
 		AND process.EvaluatorId = @ActorId
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
-		INNER JOIN #tblGroupId AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-	WHERE pa.StatusId IN (@PAInProgress, @PAClosed)
+	INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
+	INNER JOIN #tblGroupId AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+	WHERE pa.StatusId IN (
+			@PAInProgress
+			,@PAClosed
+			)
 		AND process.ProcessId = @ReviewerProcessId
+		AND (
+			@IsRevised IS NULL
+			OR @IsRevised = (
+				CASE 
+					WHEN pa.ModifiedDate IS NULL
+						THEN 0
+					ELSE 1
+					END
+				)
+			)
 	GROUP BY pa.PARecordId
 
 	SELECT pa.PARecordId
@@ -48,13 +62,16 @@ BEGIN
 		,pa.OriginalGradeId
 		,pa.ModifiedDate
 		,pa.Toeic
-		,(CASE 
-			WHEN pa.StatusId = @PAInProgress
-				AND (
-					@Today BETWEEN p.StartDate
-						AND p.EndDate
-					) THEN @PAInProgress
-			ELSE @PAClosed END
+		,(
+			CASE 
+				WHEN pa.StatusId = @PAInProgress
+					AND (
+						@Today BETWEEN p.StartDate
+							AND p.EndDate
+						)
+					THEN @PAInProgress
+				ELSE @PAClosed
+				END
 			) AS StatusId
 		,pa.GradeId
 		,pa.Comment
@@ -64,11 +81,11 @@ BEGIN
 		,emp.Code
 		,g.Name AS GroupName
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
-		INNER JOIN #tblPARecordId AS tbl WITH (NOLOCK) ON pa.PARecordId = tbl.PARecordId
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
-		INNER JOIN dbo.[Group] AS g WITH (NOLOCK) ON emp.GroupId = g.GroupId
-		INNER JOIN dbo.TOEIC AS t WITH (NOLOCK) ON pa.EmployeeId = t.EmpId
-		INNER JOIN dbo.PAProcess AS p WITH (NOLOCK) ON pa.PARecordId = p.PARecordId
+	INNER JOIN #tblPARecordId AS tbl WITH (NOLOCK) ON pa.PARecordId = tbl.PARecordId
+	INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
+	INNER JOIN dbo.[Group] AS g WITH (NOLOCK) ON emp.GroupId = g.GroupId
+	INNER JOIN dbo.TOEIC AS t WITH (NOLOCK) ON pa.EmployeeId = t.EmpId
+	INNER JOIN dbo.PAProcess AS p WITH (NOLOCK) ON pa.PARecordId = p.PARecordId
 		AND p.ProcessId = @ReviewerProcessId
 	ORDER BY CASE 
 			WHEN g.LeaderId = @ActorId
@@ -87,9 +104,9 @@ BEGIN
 		,record.PerformanceRecordId
 		,record.GradeId
 	FROM dbo.PAProcess AS process WITH (NOLOCK)
-		INNER JOIN #tblPARecordId AS tbl WITH (NOLOCK) ON process.PARecordId = tbl.PARecordId
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON process.EvaluatorId = emp.EmployeeId
-		LEFT JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON process.PerformanceRecordId = record.PerformanceRecordId
+	INNER JOIN #tblPARecordId AS tbl WITH (NOLOCK) ON process.PARecordId = tbl.PARecordId
+	INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON process.EvaluatorId = emp.EmployeeId
+	LEFT JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON process.PerformanceRecordId = record.PerformanceRecordId
 	WHERE process.ProcessId >= @SelfProcessId
 
 	DROP TABLE #tblGroupId

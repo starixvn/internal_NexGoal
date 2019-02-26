@@ -67,7 +67,7 @@ export default class MemberPerformanceAppraisal extends Component {
             params: {
                 periodId: filter.period.value,
                 groupIds: filter.groups.map(group => { return group.value; }).join(','),
-                isEdited: filter.status.value
+                isRevised: filter.status.value
             }
         }).then(response => {
             this.setState({

@@ -8,6 +8,6 @@
 
         public string GroupIds { get; set; }
 
-        public bool? IsEdited { get; set; }
+        public bool? IsRevised { get; set; }
     }
 }

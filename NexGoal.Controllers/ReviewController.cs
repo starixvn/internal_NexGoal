@@ -44,20 +44,9 @@
         public async Task<JsonResult> GetPARecords(GetPARecordParam param)
         {
             param.ActorId = sessionService.EmployeeId;
-            IEnumerable<PARecordModel> paRecords = await paRecordService.GetPARecordByReviewerAsync(param).ConfigureAwait(false);
-            if (param.IsEdited != null)
-            {
-                paRecords = paRecords.Where(r => r.IsEdited == param.IsEdited);
-            }
+            IEnumerable<PARecordGroupModel> paRecords = await paRecordService.GetPARecordByReviewerAsync(param).ConfigureAwait(false);
 
-            var paRecordsGroupByTeam = paRecords.GroupBy(p => p.Employee.GroupName)
-                .Select(x => new PARecordGroupModel
-                {
-                    GroupName = x.Key,
-                    PerformanceAppraisals = x
-                });
-
-            return Json(paRecordsGroupByTeam);
+            return Json(paRecords);
         }
 
         [HttpPost]

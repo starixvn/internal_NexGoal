@@ -127,13 +127,14 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<PARecordModel>> GetPARecordByReviewerAsync(GetPARecordParam param)
+        public async Task<IEnumerable<PARecordGroupModel>> GetPARecordByReviewerAsync(GetPARecordParam param)
         {
             var criteria = new GetPARecordByReviewerCriteria
             {
                 ActorId = param.ActorId,
                 PeriodId = param.PeriodId,
-                GroupIds = param.GroupIds
+                GroupIds = param.GroupIds,
+                IsRevised = param.IsRevised
             };
             IEnumerable<PARecordModel> performanceAppraisals = await paRepository.GetPARecordByReviewerAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
@@ -143,7 +144,14 @@
                 MappingData(performanceAppraisal, performanceGrades);
             }
 
-            return performanceAppraisals;
+            var paRecords = performanceAppraisals.GroupBy(p => p.Employee.GroupName)
+                .Select(r => new PARecordGroupModel
+                {
+                    GroupName = r.Key,
+                    PerformanceAppraisals = r
+                });
+
+            return paRecords;
         }
 
         public async Task<CommandResult> EditPARecordByReviewerAsync(int actorId, EditPARecordByReviewerModel paRecord)

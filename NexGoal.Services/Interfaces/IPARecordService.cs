@@ -20,7 +20,7 @@
             int? periodId = null,
             int? employeeId = null);
 
-        Task<IEnumerable<PARecordModel>> GetPARecordByReviewerAsync(GetPARecordParam param);
+        Task<IEnumerable<PARecordGroupModel>> GetPARecordByReviewerAsync(GetPARecordParam param);
 
         Task<PARecordModel> GetPARecordByIdAsync(int paRecordId, int actorId);
 
