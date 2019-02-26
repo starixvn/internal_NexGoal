@@ -1,6 +1,17 @@
-﻿.page-content {
+﻿
+body {
+    padding: 0;
+    margin: 0;
+    min-width: 760px;
+    height: 100%;
+    font-size: 13px;
+    font-family: Open Sans, Arial, Tahoma, sans-serif;
+    color: #545454;
+}
+
+.page-content {
     text-align: center;
-    padding-top: 40px;
+    padding-top: 140px;
 }
 
 // ------------------------ 404 PAGE -----------------------------//
@@ -34,6 +45,7 @@
     margin-bottom: 10px;
     color: #007fea;
     font-size: 15px;
+    text-decoration: none;
 
     .icon {
         transition: all 0.3s ease;
