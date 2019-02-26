@@ -62,7 +62,7 @@
                         .Select(group => new PAReportModel
                         {
                             Group = new Group { Code = group.Key.GroupCode, Name = group.Key.GroupName },
-                            PARecords = group.OrderBy(r => r.Employee.EmployeeId == criteria.ActorId)
+                            PARecords = group.OrderByDescending(r => r.Employee.EmployeeId == criteria.ActorId)
                         })
                 }).ToList();
 
