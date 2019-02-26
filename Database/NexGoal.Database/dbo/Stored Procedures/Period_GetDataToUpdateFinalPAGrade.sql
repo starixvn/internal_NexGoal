@@ -15,6 +15,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @Today DATE = GETDATE()
+		,@PAInProgress TINYINT = 3
 		,@PAClosed TINYINT = 4
 		,@ReviewerProcessId TINYINT = 5
 
@@ -34,12 +35,31 @@ BEGIN
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
 		AND @PeriodId = @PeriodId
 		AND period.IsActive = 1
-		INNER JOIN dbo.PAProcess AS reviewer WITH (NOLOCK) ON pa.PARecordId = reviewer.PARecordId
-		AND reviewer.ProcessId = @ReviewerProcessId
 		LEFT JOIN dbo.ToeicPolicy AS toeic WITH (NOLOCK) ON pa.EmployeeId = toeic.EmployeeId
 	WHERE pa.StatusId = @PAClosed
-		AND period.EndDate < @Today
-		AND reviewer.EndDate < @Today
+		AND (
+			@PARecordIds IS NULL
+			OR EXISTS (
+				SELECT 1
+				FROM #tblPARecordIds AS tbl
+				WHERE pa.PARecordId = tbl.PARecordId
+				)
+			)
+	
+	UNION
+	SELECT pa.PARecordId
+		,pa.OriginalGradeId
+		,pa.OriginalGradeId AS GradeId
+		,pa.StatusId
+		,ISNULL(toeic.Score, 0) AS ToeicPolicy
+	FROM dbo.PARecord AS pa WITH (ROWLOCK, UPDLOCK)
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+		AND @PeriodId = @PeriodId
+		AND period.IsActive = 1
+		LEFT JOIN dbo.ToeicPolicy AS toeic WITH (NOLOCK) ON pa.EmployeeId = toeic.EmployeeId
+	WHERE pa.StatusId = @PAInProgress
+		AND pa.ModifiedBy IS NULL
+		AND pa.IsRevised IS NULL
 		AND (
 			@PARecordIds IS NULL
 			OR EXISTS (

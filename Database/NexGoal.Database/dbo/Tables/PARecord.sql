@@ -11,8 +11,11 @@
     [PerformanceRecordId] INT            NULL,
     [ModifiedBy]          INT            NULL,
     [ModifiedDate]        DATETIME       NULL,
+    [IsRevised]           BIT            NULL,
     CONSTRAINT [PK_PARecord] PRIMARY KEY CLUSTERED ([PARecordId] ASC)
 );
+
+
 
 
 

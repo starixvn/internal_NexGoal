@@ -30,8 +30,9 @@ BEGIN
 	-- Write log before update	
 	SET @xml = (
 			SELECT PARecordId AS '@id'
-				,ModifiedBy AS '@modifiedby'
-				,ModifiedDate AS '@modifiedDate'
+				,ModifiedBy AS '@mid'
+				,ModifiedDate AS '@mdate'
+				,IsRevised AS '@isrevised'
 			FROM dbo.PARecord WITH (NOLOCK)
 			WHERE PARecordId = @PARecordId
 			FOR XML PATH('r')
@@ -41,17 +42,16 @@ BEGIN
 
 	UPDATE dbo.PARecord WITH (ROWLOCK, UPDLOCK)
 	SET ModifiedBy = @ActorId
-		,ModifiedDate = (CASE 
-			WHEN @IsRevised = 0 THEN GETDATE()
-			ELSE NULL END
-			)
+		,ModifiedDate = GETDATE()
+		,IsRevised = @IsRevised
 	WHERE PARecordId = @PARecordId
 
 	-- write log after insert
 	SET @xml = (
 			SELECT PARecordId AS '@id'
-				,ModifiedBy AS '@modifiedby'
-				,ModifiedDate AS '@modifiedDate'
+				,ModifiedBy AS '@mid'
+				,ModifiedDate AS '@mdate'
+				,IsRevised AS '@isrevised'
 			FROM dbo.PARecord WITH (NOLOCK)
 			WHERE PARecordId = @PARecordId
 			FOR XML PATH('r')

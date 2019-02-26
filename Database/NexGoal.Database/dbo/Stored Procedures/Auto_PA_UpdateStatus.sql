@@ -19,12 +19,11 @@ BEGIN
 		,@PAOpened TINYINT = 2
 		,@PAInProgress TINYINT = 3
 		,@PAClosed TINYINT = 4
-		,@HRProcessId TINYINT = 1
 		,@ReviewerProcessId TINYINT = 5
 
 	UPDATE pa
 	SET pa.StatusId = (CASE 
-			WHEN @Today >= hr.StartDate
+			WHEN @Today >= reviewer.StartDate
 				AND (
 					@Today <= reviewer.EndDate
 					OR @Today <= period.EndDate
@@ -38,15 +37,6 @@ BEGIN
 	FROM dbo.PARecord AS pa WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
 		AND period.IsActive = 1
-		INNER JOIN (
-		SELECT DISTINCT pa1.PARecordId
-			,StartDate
-			,EndDate
-		FROM dbo.PARecord AS pa1 WITH (NOLOCK)
-			INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa1.PARecordId = process.PARecordId
-		WHERE pa1.StatusId IN (@PAOpened, @PAInProgress)
-			AND ProcessId = @HRProcessId
-		) AS hr ON pa.PARecordId = hr.PARecordId
 		INNER JOIN dbo.PAProcess AS reviewer WITH (NOLOCK) ON pa.PARecordId = reviewer.PARecordId
 		AND reviewer.ProcessId = @ReviewerProcessId
 	WHERE pa.StatusId IN (@PAOpened, @PAInProgress)

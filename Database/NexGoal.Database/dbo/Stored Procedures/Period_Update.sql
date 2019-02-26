@@ -24,6 +24,10 @@ BEGIN
 
 	DECLARE @TargetTypeId INT
 		,@Today DATE = GETDATE()
+		,@PAOpened TINYINT = 2
+		,@PAInProgress TINYINT = 3
+		,@PAClosed TINYINT = 4
+		,@ReviewerProcessId TINYINT = 5
 
 	SELECT @TargetTypeId = p.TargetTypeId
 	FROM dbo.Period p WITH (NOLOCK)
@@ -87,7 +91,7 @@ BEGIN
 			)
 	SET @logOldData = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
 
-	UPDATE [dbo].[Period]
+	UPDATE [dbo].[Period] WITH (ROWLOCK, UPDLOCK)
 	SET [Name] = @Name
 		,[Description] = @Description
 		,[StartDate] = @StartDate
@@ -100,6 +104,26 @@ BEGIN
 		,[ModifiedBy] = @ModifiedBy
 		,[ModifiedDate] = GETDATE()
 	WHERE PeriodId = @PeriodId
+
+	UPDATE pa
+	SET pa.StatusId = (CASE 
+			WHEN @Today >= reviewer.StartDate
+				AND (
+					@Today <= reviewer.EndDate
+					OR @Today <= period.EndDate
+					)
+				AND pa.StatusId <> @PAInProgress THEN @PAInProgress
+			WHEN period.EndDate < @Today
+				AND reviewer.EndDate < @Today
+				AND pa.StatusId <> @PAClosed THEN @PAClosed
+			ELSE pa.StatusId END
+			)
+	FROM dbo.PARecord AS pa WITH (ROWLOCK, UPDLOCK)
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+		INNER JOIN dbo.PAProcess AS reviewer WITH (NOLOCK) ON pa.PARecordId = reviewer.PARecordId
+		AND reviewer.ProcessId = @ReviewerProcessId
+	WHERE period.PeriodId = @PeriodId
+		AND pa.StatusId IN (@PAOpened, @PAInProgress)
 
 	IF @FocusStartDate < @Today
 	BEGIN
@@ -128,7 +152,6 @@ BEGIN
 				,TYPE
 			)
 	SET @logData = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
-
 	SET @endRun = GETDATE()
 	SET @duration = DATEDIFF(millisecond, @startRun, @endRun)
 
