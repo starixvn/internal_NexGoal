@@ -14,36 +14,48 @@
 @import "../../components/toast";
 @import "../../components/react-bootstrap-table-pagination";
 
+#nomination-wrapper .sub-header .breadcrumb li {
+    a {
+        color: #e8743e;
+    }
+
+    &.current {
+        color: #545454;
+    }
+}
+
 .settings-form {
     margin-top: 12px;
+
     .line-group {
-        margin-bottom: 14px; 
+        margin-bottom: 14px;
+
         .title-group {
             margin-bottom: 8px;
         }
+
         &:last-child {
             margin-bottom: 0;
         }
     }
+
     &.form-inline .control-content.description-content {
         width: 960px;
+
         textarea {
             height: 90px;
         }
     }
 }
+
 .form-filter.filter-role-management .checkbox label {
     padding-left: 0;
+
     &:before {
         margin-right: 6px;
     }
 }
 
-#nomination-wrapper .sub-header .breadcrumb li  {
-    a {
-        color: #e8743e;
-    }
-    &.current {
-        color: #545454; 
-    }
+.table {
+    margin: 0;
 }

@@ -305,12 +305,12 @@ export default class Table extends Component {
                                     </div>
                                     <BootstrapTable  {...props.baseProps} noDataIndication={noDataIndication}
                                         pagination={paginationFactory(PaginationOptions)} striped
-                                        id="tbl-setting"
+                                        classes="table-employee-settings"
                                         selectRow={{
                                             mode: 'checkbox', onSelect: this.onSelectRow, onSelectAll: this.onSelectAllRows, selectionRenderer: ({ mode, ...rest }) => (
                                                 <div className="checkbox">
                                                     <input type={mode} {...rest} className="checkbox-custom" />
-                                                    <label></label>
+                                                    <label />
                                                 </div>
 
                                             ),
@@ -322,7 +322,7 @@ export default class Table extends Component {
                                                         }}
                                                         checked={checked}
                                                     />
-                                                    <label></label>
+                                                    <label />
                                                 </div>
                                             )
                                         }}

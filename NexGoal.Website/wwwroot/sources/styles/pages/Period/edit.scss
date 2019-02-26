@@ -54,26 +54,27 @@ table select {
             height: auto;
         }
     }
-}
 
-.pagination {
-    > .active {
-        > a, span {
-            &, &:hover {
-                background: #314172;
+    .react-select__option {
+        .checkbox {
+            display: inline-block;
+
+            label {
+                margin-top: 0;
+                min-height: auto;
             }
         }
     }
 }
 
-.page-size {
+/*.page-size {
     margin: 20px 0;
 
     button {
         color: #333;
         border: 1px solid #ccc;
     }
-}
+}*/
 
 .btn-block {
     .btn + .btn {
@@ -91,33 +92,26 @@ table select {
     }
 }
 
-.react-bootstrap-table th[data-row-selection] {
-    width: 50px;
-    text-align: center
-}
-
-#tbl-setting > tbody > tr > td:first-child {
-    text-align: center;
-}
-
-.react-select__option {
-  .checkbox {
-    display: inline-block;
-
-    label {
-      margin-top: 0;
-      min-height: auto;
-    }
-  }
-}
-
 .search-wrapper {
-  .btn {
-    height: 30px;
-    line-height: 30px;
-  }
+    .btn {
+        height: 30px;
+        line-height: 30px;
+    }
 
-  .search .search-textbox {
-    height: 30px;
-  }
+    .search .search-textbox {
+        height: 30px;
+    }
+}
+
+.table-employee-settings {
+    margin: 0;
+
+    th[data-row-selection] {
+        width: 50px;
+        text-align: center
+    }
+
+    > tbody > tr > td:first-child {
+        text-align: center;
+    }
 }

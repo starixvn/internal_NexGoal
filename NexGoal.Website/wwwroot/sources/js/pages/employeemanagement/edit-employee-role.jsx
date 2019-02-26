@@ -75,18 +75,13 @@ export default class EditEmployeeRole extends Component {
                             <div>
                                 {
                                     this.state.employeeRoles.map(role =>
-                                        // <Checkbox key={role.roleId}
-                                        //     defaultChecked={role.hasRole}
-                                        //     value={role.roleId}
-                                        //     disabled={role.roleId === EmployeeRoleId}
-                                        // >
-                                        //     {role.role}
-                                        // </Checkbox>
                                         <div className="checkbox">
-                                            <input type="checkbox"  key={role.roleId}
-                                            defaultChecked={role.hasRole}
-                                            value={role.roleId}
-                                            disabled={role.roleId === EmployeeRoleId} id={'chb-role' + role.roleId} className="checkbox-custom"/>
+                                            <input type="checkbox" key={role.roleId}
+                                                defaultChecked={role.hasRole}
+                                                value={role.roleId}
+                                                disabled={role.roleId === EmployeeRoleId}
+                                                id={'chb-role' + role.roleId} className="checkbox-custom"
+                                            />
                                             <label htmlFor={'chb-role' + role.roleId}>{role.role}</label>
                                         </div>
                                     )

@@ -9,7 +9,7 @@ import getResource from '../../resourceHelper';
 import { NominationStatuses } from '../../constants';
 import SearchForm from './SearchForm';
 import NominationProcess from './NominationProcess';
-import Table from './Table';
+import Table from './table/Table';
 
 export default class EOQAssessment extends Component {
     constructor(props) {

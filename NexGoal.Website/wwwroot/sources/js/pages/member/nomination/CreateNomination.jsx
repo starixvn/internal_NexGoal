@@ -57,7 +57,7 @@ export default class CreateNomination extends Component {
             errors.employee = 'Employee is required!';
         }
 
-        if (!values.comment) {
+        if (!values.comment || values.comment.trim() === '') {
             errors.comment = 'Comment is required!';
         }
 
@@ -72,7 +72,7 @@ export default class CreateNomination extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 nominationPeriodId: values.period.value,
                 nomineeId: this.props.isEmployeeSelectable ? values.employee.value : this.props.nomineeId,
-                comment: values.comment
+                comment: values.comment.trim()
             }),
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',

@@ -18,19 +18,24 @@
         &.description-group {
             display: block;
             margin-right: 0;
+
             .control-content {
                 width: 100%;
             }
         }
+
         .form-control {
             width: inherit;
         }
     }
+
     .line-group {
         margin-bottom: 12px;
+
         .title-group {
             margin-bottom: 8px;
         }
+
         &:last-child {
             margin-bottom: 0;
         }

@@ -13,22 +13,25 @@
 @import "../../components/react-datepicker-custom";
 @import "../../components/react-select";
 @import "../../components/toast";
-@import "../../components/dropdown";
 
 .discipline-form {
-  .form-group {
-    margin-bottom: 12px;
+    .form-group {
+        margin-bottom: 12px;
 
-    &:last-child {
-      margin-bottom: 0;
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
-  }
 
-  .description-group {
-    width: 100%;
+    .description-group {
+        width: 100%;
 
-    .control-content {
-      width: 100%;
+        .control-content {
+            width: 100%;
+        }
     }
-  }
+}
+
+.table {
+    margin: 0;
 }

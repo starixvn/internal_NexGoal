@@ -1,21 +1,14 @@
 ﻿import React, { Component, Fragment } from 'react';
-import Select, { components } from 'react-select';
+import Select from 'react-select';
 
-import getResource from '../../resourceHelper';
-import { NominationStatuses } from '../../constants';
-import { getNominationClassName, noDataIndication } from '../../common-functions';
-
-const SingleValue = ({ children, ...props }) => (
-    <components.SingleValue {...props}>
-        <span className={getNominationClassName(props.selectProps.value.value)} >{children}</span>
-    </components.SingleValue>
-);
+import getResource from '../../../resourceHelper';
+import { NominationStatuses } from '../../../constants';
+import { getNominationClassName, noDataIndication } from '../../../common-functions';
+import SingleValue from './SingleValue';
 
 export default class Table extends Component {
     constructor(props) {
         super(props);
-
-        this.selectComponents = { SingleValue };
     }
 
     componentDidMount() {
@@ -45,9 +38,12 @@ export default class Table extends Component {
         }));
         let renderStatus = this.props.isHost ?
             <Select name="nominationPeriod" className="react-select-container" classNamePrefix="react-select"
-                value={nominationStatusOptions.find(x => x.value === nomination.statusId)} options={nominationStatusOptions}
-                isClearable={false} isSearchable={false} components={this.selectComponents}
+                value={nominationStatusOptions.find(x => x.value === nomination.statusId)}
+                options={nominationStatusOptions}
+                isClearable={false} isSearchable={false}
+                components={{ SingleValue }}
                 onChange={this.handleChangeStatus.bind(this, nomination.nominationId)}
+                menuPlacement="auto"
             />
             :
             <span className={getNominationClassName(nomination.statusId)}>

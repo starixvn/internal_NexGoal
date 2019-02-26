@@ -41,7 +41,7 @@ export default class EditNomination extends Component {
     validateForm = values => {
         let errors = {};
 
-        if (!values.comment) {
+        if (!values.comment || values.comment.trim() === '') {
             errors.comment = 'Comment is required!';
         }
 
@@ -57,7 +57,7 @@ export default class EditNomination extends Component {
                 performanceRecordId: this.props.performanceRecord.performanceRecordId,
                 nominationPeriodId: values.period.value,
                 nomineeId: values.employee.value,
-                comment: values.comment
+                comment: values.comment.trim()
             }),
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',

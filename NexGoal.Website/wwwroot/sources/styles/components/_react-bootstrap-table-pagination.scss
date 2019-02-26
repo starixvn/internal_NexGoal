@@ -1,81 +1,127 @@
+@import '~react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
+
 .react-bootstrap-table-pagination {
     margin: 0;
     background-color: #F2F2F2;
     border: 1px solid #C4C4C4;
     border-top: none;
     height: 40px;
-    padding: 4px 8px; 
+    padding: 4px 8px;
 
     > div {
-      padding: 0;
+        padding: 0;
+    }
+
+    .react-bs-table-sizePerPage-dropdown {
+        .dropdown-toggle {
+            color: #333;
+            border: 1px solid #ccc;
+            min-width: 50px;
+
+            &:hover {
+                background: #fff;
+                color: #333;
+                border: 1px solid #ccc;
+            }
+
+            .caret {
+                position: relative;
+                font-family: 'NexGoalIcon' !important;
+                display: inline-block;
+                color: #545454;
+                border: 0;
+                width: 15px;
+                height: 20px;
+
+                &:before {
+                    content: "\E90a";
+                    position: absolute;
+                    top: -6px;
+                    height: 25px;
+                    font-size: 16px;
+                }
+            }
+        }
+
+        .dropdown-menu {
+            min-width: 60px;
+            top: auto;
+            bottom: 100%;
+        }
     }
 
     .pagination {
-      margin-bottom: 0;
-      padding-top: 4px;
+        margin-bottom: 0;
+        padding-top: 4px;
 
-      .page-link {
-        border-radius: 50%;
-
-        &:hover {
-          background: #b0d2f0;
+        > .active > a, span {
+            &, &:hover {
+                background: #314172;
+            }
         }
-      }
 
-      .page-item[title="first page"] {
         .page-link {
-          font-family: 'NexGoalIcon' !important;
-          transform: rotate(180deg);
-          color: #545454;
-          font-size: 0;
+            border-radius: 50%;
 
-          &:before {
-            content: "\E935";
-            font-size: 15px;
-          }
+            &:hover {
+                background: #b0d2f0;
+            }
         }
-      }
 
-      .page-item[title="previous page"] {
-        .page-link {
-          font-family: 'NexGoalIcon' !important;
-          transform: rotate(90deg);
-          color: #545454;
-          font-size: 0;
+        .page-item[title="first page"] {
+            .page-link {
+                font-family: 'NexGoalIcon' !important;
+                transform: rotate(180deg);
+                color: #545454;
+                font-size: 0;
 
-          &:before {
-            content: "\e90a";
-            font-size: 15px;
-          }
+                &:before {
+                    content: "\E935";
+                    font-size: 15px;
+                }
+            }
         }
-      }
 
-      .page-item[title="next page"] {
-        .page-link {
-          font-family: 'NexGoalIcon' !important;
-          transform: rotate(-90deg);
-          color: #545454;
-          font-size: 0;
+        .page-item[title="previous page"] {
+            .page-link {
+                font-family: 'NexGoalIcon' !important;
+                transform: rotate(90deg);
+                color: #545454;
+                font-size: 0;
 
-          &:before {
-            content: "\e90a";
-            font-size: 15px;
-          }
+                &:before {
+                    content: "\e90a";
+                    font-size: 15px;
+                }
+            }
         }
-      }
 
-      .page-item[title="last page"] {
-        .page-link {
-          font-family: 'NexGoalIcon' !important;
-          color: #545454;
-          font-size: 0;
+        .page-item[title="next page"] {
+            .page-link {
+                font-family: 'NexGoalIcon' !important;
+                transform: rotate(-90deg);
+                color: #545454;
+                font-size: 0;
 
-          &:before {
-            content: "\e935";
-            font-size: 15px;
-          }
+                &:before {
+                    content: "\e90a";
+                    font-size: 15px;
+                }
+            }
         }
-      }
+
+        .page-item[title="last page"] {
+            .page-link {
+                font-family: 'NexGoalIcon' !important;
+                color: #545454;
+                font-size: 0;
+
+                &:before {
+                    content: "\e935";
+                    font-size: 15px;
+                }
+            }
+        }
 
         > li > a {
             background-color: inherit;
@@ -89,6 +135,7 @@
             text-align: center;
             line-height: 22px;
         }
+
         > .active > a {
             color: #fff;
             border-radius: 18px;
