@@ -1,8 +1,11 @@
 ﻿namespace NexGoal.Controllers
 {
+    using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
+    using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
     using NexGoal.Services;
     using NexGoal.Services.Interfaces;
@@ -28,6 +31,13 @@
         public IActionResult PAReport()
         {
             return View();
+        }
+
+        public async Task<JsonResult> GetGroupAndMember()
+        {
+            Tuple<IEnumerable<Group>, IEnumerable<Employee>> tuple = await reportService.GetGroupAndMember(sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(new { Groups = tuple.Item1, Members = tuple.Item2 });
         }
 
         public async Task<JsonResult> GetPARecords(GetPARecordMultiPeriodParam model)

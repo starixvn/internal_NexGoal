@@ -167,6 +167,7 @@
   <Function name="Report">
     <Setting Key="Report_GetPARecord" SpName="Report_GetPARecord" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Report_GetPeriods" SpName="Report_GetPeriods" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PAReport_GetGroupAndMember" SpName="PAReport_GetGroupAndMember" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function name="Announcement">
     <Setting Key="Announcement_Get" SpName="Announcement_Get" DbName="bodb_NexGoal" Plain="0"></Setting>

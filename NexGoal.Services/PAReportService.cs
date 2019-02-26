@@ -37,6 +37,15 @@
             this.commonService = commonService;
         }
 
+        public async Task<Tuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupAndMember(int actorId)
+        {
+            var criteria = new GetGroupAndMemberForReportCriteria
+            {
+                ActorId = actorId
+            };
+            return await baseService.FetchMultipleAsync<Group, Employee>(criteria).ConfigureAwait(false);
+        }
+
         public async Task<IEnumerable<PARecordGroupByPeriod>> GetPAReportAsync(GetPARecordMultiPeriodParam param)
         {
             var criteria = new GetPARecordForReportCriteria

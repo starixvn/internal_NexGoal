@@ -31,25 +31,25 @@ export default class App extends Component {
     componentDidMount() {
         const promises = [
             axios(resolveClientUrl('Common/GetPeriodsForReport')),
-            axios(resolveClientUrl('Common/GetMyGroup')),
-            axios(resolveClientUrl('Common/GetMyMember'))
+            axios(resolveClientUrl('Report/GetGroupAndMember'))
         ];
 
         Promise.all(promises)
-            .then(([periodResponse, myGroupResponse, employeeResponse]) => {
+            .then(([periodResponse, groupAndMemberResponse]) => {
                 this.periodOptions = periodResponse.data.map((period) => {
                     return {
                         label: period.name,
                         value: period.periodId
                     };
                 });
-                this.groupOptions = myGroupResponse.data.map((group) => {
+
+                this.groupOptions = groupAndMemberResponse.data.groups.map((group) => {
                     return {
                         label: group.name,
                         value: group.groupId
                     };
                 });
-                this.employeeOptions = employeeResponse.data.map((employee) => {
+                this.employeeOptions = groupAndMemberResponse.data.members.map((employee) => {
                     return {
                         label: `${employee.nickName} (${employee.fullName})`,
                         value: employee.employeeId,
