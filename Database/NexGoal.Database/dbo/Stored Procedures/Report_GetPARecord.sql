@@ -63,9 +63,9 @@ BEGIN
 			,@EvaluatorProcessId
 			)
 	GROUP BY pa.PARecordId
-	
+
 	UNION
-	
+
 	SELECT pa.PARecordId
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
 	INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
@@ -100,13 +100,17 @@ BEGIN
 	INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 	INNER JOIN dbo.JobTitle AS jobtitle WITH (NOLOCK) ON emp.JobTitleId = jobtitle.JobTitleId
 	INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
-	ORDER BY CASE 
-			WHEN gr.LeaderId = @ActorId
-				THEN 0
-			ELSE 1
-			END
-		,gr.[Rank]
-		,emp.NickName
+	ORDER BY (
+			SELECT MIN(process.ProcessId)
+			FROM dbo.PAProcess AS process WITH (NOLOCK)
+			WHERE process.PARecordId = pa.PARecordId
+				AND process.ProcessId IN (
+					@EvaluatorProcessId
+					,@ReviewerProcessId
+					)
+				AND process.EvaluatorId = @ActorId
+			),
+			emp.NickName
 
 	SELECT process.PARecordId
 		,process.ProcessId
@@ -134,12 +138,12 @@ BEGIN
 	SELECT p.PeriodId
 		,p.Name
 		,(
-			CASE
+			CASE 
 				WHEN p.EndDate >= @ToDay
-				THEN 1
+					THEN 1
 				ELSE 0
 				END
-		) AS IsInProgress
+			) AS IsInProgress
 	FROM dbo.Period AS p WITH (NOLOCK)
 	INNER JOIN #tblPeriodId AS tpl WITH (NOLOCK) ON p.PeriodId = tpl.PeriodId
 
