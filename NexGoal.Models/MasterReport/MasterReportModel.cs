@@ -52,6 +52,8 @@
 
         public float TotalSpentTime { get; set; }
 
+        public bool IsGroupLeader { get; set; }
+
         public IEnumerable<AwardModel> Awards { get; set; }
 
         public IEnumerable<AssessmentModel> Assessments { get; set; }

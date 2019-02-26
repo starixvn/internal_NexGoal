@@ -91,7 +91,7 @@
         {
             var period = await baseService.GetDataEntityAsync<PeriodBaseModel>(new GetPeriodCriteria { PeriodId = periodId }).ConfigureAwait(false);
             var records = await GetRecords(periodId, groupIds, employeeIds).ConfigureAwait(false);
-            var groupedRecord = records.OrderBy(x => x.GroupName).ThenBy(x => x.NickName)
+            var groupedRecord = records.OrderBy(x => x.GroupName).ThenByDescending(x => x.IsGroupLeader).ThenBy(x => x.NickName)
                 .GroupBy(x => new { x.GroupId, x.GroupName }, (key, elements) => new { Key = key, Records = elements });
 
             var gradeConversions = await commonService.GetPerformanceGradeConversionAsync().ConfigureAwait(false);

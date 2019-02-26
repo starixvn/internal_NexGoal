@@ -52,6 +52,10 @@ BEGIN
 		,wd.WorkingDay
 		,wd.ActualWorkingDay
 		,tst.TotalSpentTime
+		,(CASE
+			WHEN e.EmployeeId = g.LeaderId THEN CAST(1 AS BIT)
+			ELSE CAST(0 AS BIT)
+		END) AS IsGroupLeader
 	FROM dbo.PARecord par WITH (NOLOCK)
 		INNER JOIN dbo.Employee e WITH (NOLOCK) ON par.EmployeeId = e.EmployeeId
 		INNER JOIN dbo.[Group] g WITH (NOLOCK) ON e.GroupId = g.GroupId

@@ -19,7 +19,7 @@
         public void Encrypt_PlainTextIsNullOrWhiteSpace_ReturnEmpty(string plainText)
         {
             // Arrange
-            var cert = Substitute.For<X509Certificate2>();
+            var cert = GetX509Certificate2();
             IOptionsMonitor<AppSettings> configuration = FakeOptionsMonitor(true);
             var service = GetCryptoService(configuration, cert);
 
@@ -35,7 +35,7 @@
         {
             // Arrange
             var plainText = "123456";
-            var cert = Substitute.For<X509Certificate2>();
+            var cert = GetX509Certificate2();
             IOptionsMonitor<AppSettings> configuration = FakeOptionsMonitor(false);
             var service = GetCryptoService(configuration, cert);
 
@@ -72,7 +72,7 @@
         public void Decrypt_CipherTextIsNullOrWhiteSpace_ReturnEmpty(string cipherText)
         {
             // Arrange
-            var cert = Substitute.For<X509Certificate2>();
+            var cert = GetX509Certificate2();
             IOptionsMonitor<AppSettings> configuration = FakeOptionsMonitor(true);
             var service = GetCryptoService(configuration, cert);
 
@@ -88,7 +88,7 @@
         {
             // Arrange
             var cipherText = "123456";
-            var cert = Substitute.For<X509Certificate2>();
+            var cert = GetX509Certificate2();
             IOptionsMonitor<AppSettings> configuration = FakeOptionsMonitor(false);
             var service = GetCryptoService(configuration, cert);
 
