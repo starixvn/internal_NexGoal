@@ -19,5 +19,7 @@
         public PerformanceProcess ProcessId { get; set; }
 
         public int EmployeeId { get; set; }
+
+        public int? PerformanceRecordId { get; set; }
     }
 }

@@ -152,27 +152,24 @@
             jobTitleCell.Merge = merge;
             jobTitleCell.Value = record.JobTitle;
 
-            if (record.Toeic.HasValue)
-            {
-                WriteToeic(worksheet.Cells[currentRow, 4, toRow, 4], record, merge);
-            }
+            WriteToeic(worksheet.Cells[currentRow, 4, toRow, 4], record, merge);
 
             var selfCell = worksheet.Cells[currentRow, 5, toRow, 5];
             selfCell.Merge = merge;
             selfCell.Style.WrapText = true;
-            WriteAssessment(selfCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.Self));
+            WriteAssessment(selfCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.Self && x.PerformanceRecordId.HasValue));
 
             var pmCell = worksheet.Cells[currentRow, 6, toRow, 6];
             pmCell.Merge = merge;
-            WriteAssessment(pmCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.ProjectManager));
+            WriteAssessment(pmCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.ProjectManager && x.PerformanceRecordId.HasValue));
 
             var evaluatorCell = worksheet.Cells[currentRow, 7, toRow, 7];
             evaluatorCell.Merge = merge;
-            WriteAssessment(evaluatorCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.Evaluator));
+            WriteAssessment(evaluatorCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.Evaluator && x.PerformanceRecordId.HasValue));
 
             var reviewerCell = worksheet.Cells[currentRow, 8, toRow, 8];
             reviewerCell.Merge = merge;
-            WriteAssessment(reviewerCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.Reviewer));
+            WriteAssessment(reviewerCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.Reviewer && x.PerformanceRecordId.HasValue));
 
             var paCell = worksheet.Cells[currentRow, 9, toRow, 9];
             paCell.Merge = merge;
@@ -221,13 +218,21 @@
 
         private static void WriteToeic(ExcelRange toeiceCell, MasterReportModel record, bool merge)
         {
-            if (record.ToeicPolicy != 0)
-            {
-                toeiceCell.Style.Font.Color.SetColor(record.ToeicPolicy > 0 ? Color.FromArgb(0, 176, 80) : Color.FromArgb(255, 0, 0));
-            }
-
             toeiceCell.Merge = merge;
-            toeiceCell.Value = record.Toeic;
+
+            if (record.Toeic.HasValue)
+            {
+                if (record.ToeicPolicy != 0)
+                {
+                    toeiceCell.Style.Font.Color.SetColor(record.ToeicPolicy > 0 ? Color.FromArgb(0, 176, 80) : Color.FromArgb(255, 0, 0));
+                }
+
+                toeiceCell.Value = record.Toeic;
+            }
+            else
+            {
+                toeiceCell.Value = "N/A";
+            }
         }
 
         private static Color GetNominationStatusFontColor(NominationStatus statusId)

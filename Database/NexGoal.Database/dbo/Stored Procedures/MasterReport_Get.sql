@@ -133,6 +133,7 @@ BEGIN
 		,pr.Comment
 		,pap.ProcessId
 		,par.EmployeeId
+		,pap.PerformanceRecordId
 	FROM dbo.PARecord par WITH (NOLOCK)
 		INNER JOIN dbo.PAProcess pap WITH (NOLOCK) ON par.PARecordId = pap.PARecordId
 		INNER JOIN dbo.Employee e WITH (NOLOCK) ON pap.EvaluatorId = e.EmployeeId
