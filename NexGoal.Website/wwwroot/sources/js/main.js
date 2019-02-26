@@ -33,7 +33,7 @@ $(document).ready(function () {
         }
     });
 
-    //$navHamburger.find('.dropdown').hover(function () {
-    //    $('.dropdown-toggle', this).trigger('click'); 
-    //});
+    $navHamburger.find('.dropdown').hover(function () {
+        $('.dropdown-toggle', this).trigger('click'); 
+    });
 });

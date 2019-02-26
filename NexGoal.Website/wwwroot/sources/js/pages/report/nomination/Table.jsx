@@ -55,7 +55,7 @@ export default class Table extends Component {
             <tr key={nomination.nominationId}>
                 <td className="text-center">{index + 1}</td>
                 <td>{`${nomination.nominee.nickName} (${nomination.nominee.fullName})`}</td>
-                <td className="text-center">{nomination.nominee.groupName}</td>
+                <td>{nomination.nominee.groupName}</td>
                 <td className="text-center">
                     <a onClick={this.handleShowNominatorComment.bind(this, nomination, nomination.nominators[0].performanceRecordId)}>
                         {nomination.nominators.length}
