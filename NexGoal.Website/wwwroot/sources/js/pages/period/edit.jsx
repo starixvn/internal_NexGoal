@@ -36,7 +36,7 @@ export default class EditPeriod extends Component {
 
     render() {
         return (
-            <div className="row">
+            <div className="row content-wrapper">
                 <Breadcrumb>
                     <li><a href={resolveClientUrl('period')}>{getResource('EvaluationPeriod')}</a></li>
                     <li className="current">{getResource('EditEvaluationPeriod')}</li>

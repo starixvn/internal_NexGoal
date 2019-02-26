@@ -65,7 +65,7 @@ export default class EvaluationPeriod extends Component {
 
     render() {
         return (
-            <div className="row">
+            <div className="row content-wrapper">
                 <Breadcrumb>
                     <li className="current">{getResource('EvaluationPeriod')}</li>
                 </Breadcrumb>

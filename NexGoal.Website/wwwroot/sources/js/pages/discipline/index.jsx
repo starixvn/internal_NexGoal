@@ -179,7 +179,7 @@ export default class Discipline extends Component {
 
     render() {
         return (
-            <div className="row">
+            <div className="row content-wrapper">
                 <ToastLayout />
                 <Breadcrumb>
                     <li className="current">{getResource('Discipline')}</li>

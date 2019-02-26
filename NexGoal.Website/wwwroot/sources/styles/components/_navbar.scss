@@ -30,7 +30,24 @@
                 &:hover {
                   background: #2C3C69;
                 }
+
+                &:focus {
+                  background: transparent;
+                } 
             }
+
+            &.open {
+              .icon-chevron-down {
+                display: inline-block;
+                transform: rotate(-180deg);
+                transition: .2s ease all;
+                backface-visibility: visible;
+              }
+            }            
+        }
+
+        > .active > a:focus {
+          background: transparent;
         }
     }
 
@@ -147,6 +164,10 @@
           //color: #fff;
           background: #324476;
         }
+
+        &.open > a:hover {
+          color: #fff;
+        }
       }
 
       > .dropdown-menu {
@@ -154,7 +175,13 @@
         top: -10px;
         padding: 10px 0;
       }
-    }
+
+      &.open {
+        .icon-chevron-down {          
+          transform: rotate(0);
+        }
+      }
+    }    
   }
 
   .expended {
