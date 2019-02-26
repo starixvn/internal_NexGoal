@@ -11,15 +11,18 @@ namespace NexGoal.Core.Services
     {
         private const bool OptimalAsymmetricEncryptionPadding = false;
 
-        private readonly X509Certificate2 cert2;
         private readonly IOptionsMonitor<AppSettings> configuration;
+        private readonly RSACryptoServiceProvider privateRSA;
+        private readonly RSACryptoServiceProvider publicRSA;
 
         public CryptoService(
             IOptionsMonitor<AppSettings> configuration,
             X509Certificate2 cert2 = null)
         {
             this.configuration = configuration;
-            this.cert2 = cert2 ?? InitCertificate();
+            var cert = cert2 ?? InitCertificate();
+            privateRSA = GetPrivateKeyRsaCryptoServiceProvider(cert);
+            publicRSA = GetPublicKeyRsaCryptoServiceProvider(cert);
         }
 
         public string Encrypt(string plainText)
@@ -31,9 +34,7 @@ namespace NexGoal.Core.Services
                 if (configuration.CurrentValue.EnableEncrypt)
                 {
                     byte[] bytesToEncrypt = ASCIIEncoding.ASCII.GetBytes(plainText);
-
-                    RSACryptoServiceProvider rsa = GetPublicKeyRsaCryptoServiceProvider(cert2);
-                    byte[] encryptedBytes = rsa.Encrypt(bytesToEncrypt, OptimalAsymmetricEncryptionPadding);
+                    byte[] encryptedBytes = publicRSA.Encrypt(bytesToEncrypt, OptimalAsymmetricEncryptionPadding);
                     cipherText = Convert.ToBase64String(encryptedBytes);
                 }
                 else
@@ -53,9 +54,8 @@ namespace NexGoal.Core.Services
             {
                 if (configuration.CurrentValue.EnableEncrypt)
                 {
-                    RSACryptoServiceProvider rsa = GetPrivateKeyRsaCryptoServiceProvider(cert2);
                     byte[] bytesToDecrypt = Convert.FromBase64String(cipherText);
-                    byte[] plainbytes = rsa.Decrypt(bytesToDecrypt, OptimalAsymmetricEncryptionPadding);
+                    byte[] plainbytes = privateRSA.Decrypt(bytesToDecrypt, OptimalAsymmetricEncryptionPadding);
                     ASCIIEncoding enc = new ASCIIEncoding();
                     plainText = enc.GetString(plainbytes);
                 }

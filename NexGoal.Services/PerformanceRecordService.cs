@@ -33,6 +33,7 @@
             this.commonService = commonService;
             this.notificationService = notificationService;
             this.performanceRecordRepository = performanceRecordRepository;
+            this.logger = logger;
         }
 
         public async Task<IEnumerable<PerformanceRecord>> GetPerformanceRecordByEmployeeAsync(int employeeId)
