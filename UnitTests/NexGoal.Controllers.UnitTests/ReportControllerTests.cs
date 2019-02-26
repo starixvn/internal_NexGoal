@@ -69,9 +69,8 @@
 
             var controller = GetReportController();
 
-            reportService.GetPAReportAsync(Arg.Any<GetPARecordMultiPeriodParam>()).Returns(records);
             byte[] bytes = Convert.FromBase64String("text");
-            exportService.ExportExcel(records).Returns(bytes);
+            exportService.ExportExcel(Arg.Any<GetPARecordMultiPeriodParam>()).Returns(bytes);
 
             // Act
             var actual = await controller.ExportPAReport(param);
