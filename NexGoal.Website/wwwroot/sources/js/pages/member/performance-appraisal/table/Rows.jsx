@@ -221,8 +221,8 @@ class Rows extends Component {
                                 <td className="text-center">
                                     {this.renderEvaluatorGrade(record.processes, record.statusId)}
                                 </td>
-                                <td className="">{this.renderReviewerGrade(record.processes)}</td>
-                                <td className="">{this.renderPAGrade(record)}</td>
+                                <td className="text-center">{this.renderReviewerGrade(record.processes)}</td>
+                                <td className="text-center">{this.renderPAGrade(record)}</td>
                                 <td className="text-center">
                                     {this.renderStatus(record.isEdited, record.paRecordId, record.statusId)}
                                 </td>
