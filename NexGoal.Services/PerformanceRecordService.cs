@@ -293,7 +293,7 @@
 
         private void MappingDataForPerformanceRecord(PerformanceRecord performanceRecord, IEnumerable<PerformanceGrade> performanceGrades, int actorId)
         {
-            // performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
+            performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
             int.TryParse(performanceRecord.GradeId, out int gradeId);
             performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
             var createdDate = performanceRecord.CreatedDate ?? DateTime.MinValue;
