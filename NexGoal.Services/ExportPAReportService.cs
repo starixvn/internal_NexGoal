@@ -42,8 +42,9 @@
             this.converter = converter;
         }
 
-        public byte[] ExportExcel(IEnumerable<PARecordGroupByPeriod> paRecords)
+        public async  Task<byte[]> ExportExcel(GetPARecordMultiPeriodParam param)
         {
+            var paRecords = await reportService.GetPAReportAsync(param).ConfigureAwait(false);
             var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.WebRootPath, ExcelTemplatePath));
 
             using (var templatePackage = new ExcelPackage(fileInfo))

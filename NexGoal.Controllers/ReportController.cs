@@ -44,9 +44,8 @@
         public async Task<IActionResult> ExportPAReport(GetPARecordMultiPeriodParam model)
         {
             model.ActorId = sessionService.EmployeeId;
-            var paRecords = await reportService.GetPAReportAsync(model).ConfigureAwait(false);
+            byte[] fileContent = await exportService.ExportExcel(model).ConfigureAwait(false);
             var fileName = "PA Report";
-            byte[] fileContent = exportService.ExportExcel(paRecords);
 
             return File(fileContent, MimeType.XLSX, fileName);
         }
