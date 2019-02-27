@@ -42,6 +42,16 @@
                 transform: rotate(-180deg);
                 transition: .2s ease all;
                 backface-visibility: visible;
+              }      
+              
+              .icon-submenu {
+                &:before {
+                  transform: translateX(-2px) rotate(-45deg);
+                }
+          
+                &:after {
+                  transform: translateX(2px) rotate(45deg);
+                }
               }
             }            
         }
@@ -70,6 +80,32 @@
             top: 2px;
             left: 2px;
         }
+    }
+
+    .icon-submenu {
+      position: relative;
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      padding-left: 5px;
+
+      &:before, &:after {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 5px;
+        height: 1px;
+        background: #B6BFD8;
+        transition: all 275ms ease-in-out;
+      }
+
+      &:before {
+        transform: translateX(-2px) rotate(45deg);
+      }
+
+      &:after {
+        transform: translateX(2px) rotate(-45deg);
+      }      
     }
 }
 

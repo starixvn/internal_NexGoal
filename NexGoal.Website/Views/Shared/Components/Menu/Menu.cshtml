@@ -30,7 +30,7 @@
                         <li class="dropdown @(menuGroup.Childs.Any(c => currentUrl.Equals(c.Link.ToLowerInvariant(), StringComparison.CurrentCultureIgnoreCase)) ? "active" : string.Empty)">
                             <a href="#" id="@dropdownId" class="dropdown-toggle"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                @menuGroup.Name <span class="icon-chevron-down"></span>
+                                @menuGroup.Name <span class="icon-submenu"></span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="@dropdownId">
                                 @foreach (MenuItemSession child in menuGroup.Childs)
