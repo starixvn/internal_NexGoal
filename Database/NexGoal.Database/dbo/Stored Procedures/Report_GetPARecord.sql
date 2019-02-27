@@ -15,7 +15,8 @@ Param's Explanation:
 
 */
 BEGIN
-	DECLARE @ReviewerProcessId TINYINT = 5
+	DECLARE @SelfProcessId TINYINT = 2
+		,@ReviewerProcessId TINYINT = 5
 		,@EvaluatorProcessId TINYINT = 4
 		,@PAInProgress TINYINT = 3
 		,@PAClosed TINYINT = 4
@@ -61,19 +62,7 @@ BEGIN
 		AND process.ProcessId IN (
 			@ReviewerProcessId
 			,@EvaluatorProcessId
-			)
-	GROUP BY pa.PARecordId
-
-	UNION
-
-	SELECT pa.PARecordId
-	FROM dbo.PARecord AS pa WITH (NOLOCK)
-	INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
-	INNER JOIN #tblPeriodId AS p WITH (NOLOCK) ON period.PeriodId = p.PeriodId
-	WHERE pa.EmployeeId = @ActorId
-		AND pa.StatusId IN (
-			@PAInProgress
-			,@PAClosed
+			,@SelfProcessId
 			)
 	GROUP BY pa.PARecordId
 
@@ -82,7 +71,7 @@ BEGIN
 		,pa.ToeicPolicy
 		,pa.OriginalGradeId
 		,pa.ModifiedDate
-        ,pa.IsRevised
+		,pa.IsRevised
 		,pa.StatusId
 		,pa.GradeId
 		,pa.Comment
@@ -108,6 +97,7 @@ BEGIN
 				AND process.ProcessId IN (
 					@EvaluatorProcessId
 					,@ReviewerProcessId
+					,@SelfProcessId
 					)
 				AND process.EvaluatorId = @ActorId
 			),
