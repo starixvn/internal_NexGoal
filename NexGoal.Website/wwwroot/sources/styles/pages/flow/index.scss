@@ -89,12 +89,12 @@
     @include border-radius(2px);
 
     .header {
-        background-color: #acacac;
-        font-size: 16px;
-        text-transform: uppercase;
+        background-color: #324373;
+        //font-size: 16px;
+        //text-transform: uppercase;
         text-align: center;
         color: #fff;
-        padding: 7px 10px;
+        padding: 10px;
     }
 
     .content {
@@ -187,4 +187,10 @@
             margin-left: 16px;
         }
     }
+}
+
+.flowlist {
+  .nav-tabs {
+    margin-bottom: 10px;
+  }
 }
