@@ -1,5 +1,6 @@
 ﻿import React, { Component, Fragment } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { NominationStatuses } from '../../../constants';
@@ -26,6 +27,7 @@ export default class EOQReport extends Component {
         this.periodOptions = [];
         this.groupOptions = [];
         this.employeeOptions = [];
+        this.today = moment();
     }
 
     componentDidMount() {
@@ -51,7 +53,12 @@ export default class EOQReport extends Component {
                 });
                 this.employees = employeeResponse.data;
                 this.periods = nominationPeriodResponse.data;
-                this.periodOptions = nominationPeriodResponse.data.map(x => ({ value: x.nominationPeriodId, label: x.title }));
+                this.periodOptions = nominationPeriodResponse.data.map(x => ({
+                    value: x.nominationPeriodId,
+                    label: x.title,
+                    startDateForNominator: x.startDateForNominator,
+                    endDateForCommittee: x.endDateForCommittee,
+                }));
 
                 let filter = {
                     ... this.state.filter,
@@ -81,6 +88,7 @@ export default class EOQReport extends Component {
                 tableData: filter.periods.map(p => ({
                     nominationPeriodId: p.value,
                     title: p.label,
+                    isInProgress: this.today.isSameOrAfter(p.startDateForNominator) && this.today.isSameOrBefore(p.endDateForCommittee),
                     nominations: response.data.filter(n => n.period.nominationPeriodId === p.value)
                 }))
             });

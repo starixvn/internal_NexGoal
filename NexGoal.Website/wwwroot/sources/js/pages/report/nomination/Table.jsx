@@ -39,7 +39,7 @@ export default class Table extends Component {
         return (
             <Fragment key={data.nominationPeriodId}>
                 <tr className="group-row">
-                    <td className="title" colSpan={6}>{data.title}</td>
+                    <td className="title" colSpan={6}>{data.title}{data.isInProgress && ` - ${getResource('InProgress')}`}</td>
                 </tr>
                 {
                     data.nominations.length > 0
