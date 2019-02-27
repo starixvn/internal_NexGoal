@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
@@ -272,17 +273,7 @@
 
             foreach (EditPAGradeDto record in records)
             {
-                record.GradeId = cryptoService.Decrypt(record.GradeId);
-                int.TryParse(record.GradeId, out int gradeId);
-                gradeId = gradeId <= 0 ? 0 : gradeId + record.ToeicPolicy;
-
-                if (!grades.Any(x => x.GradeId == gradeId))
-                {
-                    gradeId = gradeId > grades.Max(x => x.GradeId) ? grades.Max(x => x.GradeId) : 0;
-                }
-
-                record.GradeId = gradeId == 0 ? null : cryptoService.Encrypt(gradeId.ToString());
-                record.OriginalGradeId = record.GradeId;
+                CalculatePAGrade(record, grades);
             }
 
             return records;
@@ -315,29 +306,22 @@
             };
             var records = await baseService.GetDataAsync<EditPAGradeDto>(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGrade> grades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
-            int minGradeId = grades.Min(x => x.GradeId);
-            int maxGradeId = grades.Max(x => x.GradeId);
 
             foreach (EditPAGradeDto record in records)
             {
-                record.GradeId = cryptoService.Decrypt(record.GradeId);
-                int.TryParse(record.GradeId, out int gradeId);
-
-                record.OriginalGradeId = cryptoService.Decrypt(record.OriginalGradeId);
-                int.TryParse(record.OriginalGradeId, out int originalGradeId);
-
-                if (!grades.Any(x => x.GradeId == gradeId))
+                switch (record.StatusId)
                 {
-                    gradeId = gradeId > maxGradeId ? maxGradeId : minGradeId;
-                }
+                    case (int)PARecordStatus.InProgress:
+                        CalculatePAGrade(record, grades);
+                        break;
 
-                if (!grades.Any(x => x.GradeId == originalGradeId))
-                {
-                    originalGradeId = originalGradeId > maxGradeId ? maxGradeId : minGradeId;
-                }
+                    case (int)PARecordStatus.Closed:
+                        CalculateFinalPAGrade(record, grades);
+                        break;
 
-                record.GradeId = cryptoService.Encrypt(gradeId.ToString());
-                record.OriginalGradeId = cryptoService.Encrypt(originalGradeId.ToString());
+                    default:
+                        continue;
+                }
             }
 
             return records;
@@ -360,6 +344,49 @@
             }
 
             return commandResult;
+        }
+
+        private void CalculatePAGrade(EditPAGradeDto record, IEnumerable<PerformanceGrade> grades)
+        {
+            int maxGradeId = grades.Max(x => x.GradeId);
+
+            record.GradeId = cryptoService.Decrypt(record.GradeId);
+            int.TryParse(record.GradeId, out int gradeId);
+
+            gradeId = gradeId <= 0 ? 0 : gradeId + record.ToeicPolicy;
+
+            if (!grades.Any(x => x.GradeId == gradeId))
+            {
+                gradeId = gradeId > maxGradeId ? maxGradeId : 0;
+            }
+
+            record.GradeId = gradeId == 0 ? null : cryptoService.Encrypt(gradeId.ToString());
+            record.OriginalGradeId = record.GradeId;
+        }
+
+        private void CalculateFinalPAGrade(EditPAGradeDto record, IEnumerable<PerformanceGrade> grades)
+        {
+            int minGradeId = grades.Min(x => x.GradeId);
+            int maxGradeId = grades.Max(x => x.GradeId);
+
+            record.GradeId = cryptoService.Decrypt(record.GradeId);
+            int.TryParse(record.GradeId, out int gradeId);
+
+            record.OriginalGradeId = cryptoService.Decrypt(record.OriginalGradeId);
+            int.TryParse(record.OriginalGradeId, out int originalGradeId);
+
+            if (!grades.Any(x => x.GradeId == gradeId))
+            {
+                gradeId = gradeId > maxGradeId ? maxGradeId : minGradeId;
+            }
+
+            if (!grades.Any(x => x.GradeId == originalGradeId))
+            {
+                originalGradeId = originalGradeId > maxGradeId ? maxGradeId : 0;
+            }
+
+            record.GradeId = cryptoService.Encrypt(gradeId.ToString());
+            record.OriginalGradeId = originalGradeId == 0 ? null : cryptoService.Encrypt(originalGradeId.ToString());
         }
     }
 }

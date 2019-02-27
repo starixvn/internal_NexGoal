@@ -290,7 +290,4 @@
       <Value>$(SqlCmdVar__2)</Value>
     </SqlCmdVariable>
   </ItemGroup>
-  <ItemGroup>
-    <RefactorLog Include="NexGoal.Database.refactorlog" />
-  </ItemGroup>
 </Project>
