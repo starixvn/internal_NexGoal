@@ -14,23 +14,21 @@
 </head>
 <body>
     <div class="page-error page-error-405">
-        <div class="page-content vertical-align-middle">
-            <header>
-                <div class="img-block">
-                    <img class="door" src="~/sources/styles/images/405/door.svg" />
-                    <div class="seal-slideshow">
-                        <div class="mover-1"></div>
-                    </div>
-
-                    <img class="signage" src="~/sources/styles/images/405/signage.svg" />
+        <div class="page-content vertical-align-middle">            
+            <div class="img-block">
+                <img class="door" src="~/sources/styles/images/405/door.svg" />
+                <div class="seal-slideshow">
+                    <div class="mover-1"></div>
                 </div>
-            </header>
+
+                <img class="signage" src="~/sources/styles/images/405/signage.svg" />
+            </div>            
             <p class="error-advise">Oops. 405, ACCESS DENIED</p>
-            <p class="margin-bottom-30 font-size-16">
+            <p class="small-text">
                 Sorry about that, but you don't have permission to access this page.
             </p>
             <a class="cta" asp-controller="home" asp-action="index">
-                <i class="icon fa fa-long-arrow-left" aria-hidden="true"></i>Take me back to the dashboard
+                <span class="icon-back"></span>Take me back to the dashboard
             </a>
         </div>
     </div>
