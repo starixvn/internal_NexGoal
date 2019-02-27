@@ -75,7 +75,7 @@ BEGIN
 				ELSE 1
 				END
 			),
-			emp.EmployeeId
+			emp.NickName
 
 	
 
