@@ -20,12 +20,13 @@ export default class App extends Component {
             },
             paPeriodRecords: null,
             isShowPADetail: false,
-            paDetailId: null
+            paDetailId: null,
+            employeeOptions: []
         };
 
         this.periodOptions = [];
         this.groupOptions = [];
-        this.employeeOptions = [];
+        this.employees = [];
     }
 
     componentDidMount() {
@@ -49,19 +50,20 @@ export default class App extends Component {
                         value: group.groupId
                     };
                 });
-                this.employeeOptions = groupAndMemberResponse.data.members.map((employee) => {
+                this.employees = groupAndMemberResponse.data.members.map((employee) => {
                     return {
                         label: `${employee.nickName} (${employee.fullName})`,
                         value: employee.employeeId,
-                        groupName: employee.groupName
+                        groupId: employee.groupId
                     };
                 });
                 this.setState({
                     filter: {
                         periods: this.periodOptions[0] ? [this.periodOptions[0]] : [],
                         groups: this.groupOptions,
-                        employees: this.employeeOptions
-                    }
+                        employees: this.employees
+                    },
+                    employeeOptions: this.employees
                 }, () => this.getPARecords());
             }).catch(axiosError);
     }
@@ -71,33 +73,21 @@ export default class App extends Component {
             filter: Object.assign({}, this.state.filter, { [filterName]: values })
         }, () => {
             if (filterName === 'groups') {
-                const groupIds = values.length > 0 ? values.map(group => group.value).join(',') : '-1';
-                this.getEmployees(groupIds);
+                const groupIds = values.length > 0 ? values.map(group => group.value) : [];
+                this.onGroupChange(groupIds);
             }
         });
     }
 
-    getEmployees = (groupIds) => {
-        axios(resolveClientUrl('common/GetEmployees'), { params: { groupIds: groupIds } })
-            .then(response => {
-                let employeeOptions = response.data.map(item => {
-                    return {
-                        value: item.employeeId,
-                        label: `${item.nickName} (${item.fullName})`
-                    };
-                });
-                let filter = this.state.filter;
-
-                if (employeeOptions.indexOf(filter.employee) < 0) {
-                    filter = Object.assign({}, this.state.filter, { employee: null });
-                }
-
-                this.employeeOptions = employeeOptions;
-
-                this.setState({
-                    filter: filter
-                });
-            }).catch(axiosError);
+    onGroupChange = (selectedGroups) => {
+        let employees = [...this.employees];
+        let employeeOptions = employees.filter(employee => selectedGroups.includes(employee.groupId))
+        let filter = this.state.filter;
+        filter = Object.assign({}, this.state.filter, { employees: employeeOptions })
+        this.setState({
+            filter: filter,
+            employeeOptions: employeeOptions
+        });
     }
 
     handleClickViewPADetail = (paRecordId) => {
@@ -180,7 +170,8 @@ export default class App extends Component {
                 <div className="col-sm-12">
                     <Filter periodOptions={this.periodOptions}
                         groupOptions={this.groupOptions}
-                        employeeOptions={this.employeeOptions}
+                        employeeOptions={this.state.employeeOptions}
+                        displayMemberFilter={this.employees.length > 1}
                         filter={this.state.filter}
                         onFilterChange={this.handleFilterChange}
                         onSubmit={this.handleFilterSubmit}

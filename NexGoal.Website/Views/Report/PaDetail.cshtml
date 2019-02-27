@@ -241,19 +241,28 @@
             <div class="title final">@ViewLang.FinalResult</div>
             <div class="sub-content">
                 @{
-                    var finalResult = new PAProcessModel
+                    if (Model.PARecord.StatusId == (int)PARecordStatus.InProgress && !Model.PARecord.IsRevised)
                     {
-                        Evaluator = reviewerProcess.Evaluator,
-                        PerformanceRecord = new PerformanceRecord
+                        <div class="record-list">
+                            <p class="text-center">@ViewLang.NoRecordFound</p>
+                        </div>
+                    }
+                    else
+                    {
+                        var finalResult = new PAProcessModel
                         {
-                            ModifiedDate = Model.PARecord.ModifiedDate,
-                            Grade = Model.PARecord.Grade,
-                            Comment = Model.PARecord.Comment
-                        },
+                            Evaluator = reviewerProcess.Evaluator,
+                            PerformanceRecord = new PerformanceRecord
+                            {
+                                ModifiedDate = Model.PARecord.ModifiedDate,
+                                Grade = Model.PARecord.Grade,
+                                Comment = Model.PARecord.Comment
+                            },
 
-                    };
+                        };
 
-                    @await Html.PartialAsync(@paRecordPartialView, finalResult)
+                        @await Html.PartialAsync(@paRecordPartialView, finalResult)
+                    }
                 }
             </div>
         </div>
@@ -263,29 +272,35 @@
                 <div class="sub-box performance-sum">
                     <div class="title">A. @ViewLang.CurrentPeriod</div>
                     <div class="sub-content">
-                        <ul class="evaluation-process">
-                            @{
-                                var listGrade = Model.AllGrades;
+                        @{
+                            if (Model.PARecord.StatusId == (int)PARecordStatus.InProgress && !Model.PARecord.IsRevised)
+                            {
+                                <div class="record-list">
+                                    <p class="text-center">@ViewLang.NoRecordFound</p>
+                                </div>
 
-                                if (Model.PARecord.Grade != null)
-                                {
-                                    foreach (var grade in listGrade)
-                                    {
-                                        var currentGradeClass = grade.GradeId == Model.PARecord.Grade.GradeId
-                                            ? "current-pci" : "default-pci";
-                                        <li class="process-item @currentGradeClass">@grade.Description<div>@grade.Name</div></li>
-
-                                    }
-                                }
                             }
-                        </ul>
+                            else
+                            {
+                                <ul class="evaluation-process">
+                                    @{foreach (var grade in Model.AllGrades)
+                                        {
+                                            var currentGradeClass = grade.GradeId == Model.PARecord.Grade.GradeId
+                                            ? "current-pci" : "default-pci";
+                                            <li class="process-item @currentGradeClass">@grade.Description<div>@grade.Name</div></li>
+                                        }
+                                    }
+                                </ul>
+
+                            }
+                        }
                     </div>
                     @if (Model.PreviousGrade != null)
                     {
                         <div class="title">B. @ViewLang.LastPeriod</div>
                         <div class="sub-content">
                             <ul class="evaluation-process">
-                                @foreach (var grade in listGrade)
+                                @foreach (var grade in Model.AllGrades)
                                 {
                                     var previousGradeClass = grade.GradeId == Model.PreviousGrade.GradeId
                                     ? "last-pci" : "default-pci";

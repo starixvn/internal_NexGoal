@@ -1,7 +1,5 @@
 ﻿import React, { Component } from 'react';
 import { Button, ControlLabel, Form, FormGroup } from 'react-bootstrap';
-import Select from 'react-select';
-
 import MultiSelect from '../../../shared/components/multi-select/index';
 import getResource from '../../../resourceHelper';
 
@@ -29,7 +27,6 @@ export default class Filter extends Component {
 
     render() {
         let filter = this.props.filter;
-
         return (
             <Form inline className="form-filter" onSubmit={this.handleSubmit}>
                 <FormGroup>
@@ -58,7 +55,7 @@ export default class Filter extends Component {
                     </FormGroup>
                 }
                 {
-                    this.props.groupOptions.length > 0 && this.props.employeeOptions.length > 1 &&
+                    this.props.groupOptions.length > 0 && this.props.displayMemberFilter &&
                     <FormGroup>
                         <ControlLabel>{getResource('Employee')}</ControlLabel>
                         <div className="control-content employee-width">
