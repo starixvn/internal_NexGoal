@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[PAReport_GetGroupAndMember] @ActorId INT
+﻿
+CREATE PROCEDURE [dbo].[PAReport_GetGroupAndMember] @ActorId INT
 AS
 /*
 Created: 20192603@Oliver.Dang
@@ -16,8 +17,7 @@ BEGIN
 	DECLARE @Today DATE = GETDATE()
 		,@ProbationDuration SMALLINT
 	-- process
-	DECLARE @PMProcessId TINYINT = 3
-		,@EvaluatorProcessId TINYINT = 4
+	DECLARE @EvaluatorProcessId TINYINT = 4
 		,@ReviewerProcessId TINYINT = 5
 
 	SELECT TOP 1 @ProbationDuration = CAST(Value AS SMALLINT)
@@ -55,6 +55,7 @@ BEGIN
 	SELECT emp.EmployeeId
 		,emp.FullName
 		,emp.NickName
+		,emp.GroupId
 		,(
 			CASE 
 				WHEN @Today BETWEEN emp.JoinedDate
@@ -75,6 +76,8 @@ BEGIN
 				END
 			),
 			emp.EmployeeId
+
+	
 
 	DROP TABLE #tplEmployee
 END

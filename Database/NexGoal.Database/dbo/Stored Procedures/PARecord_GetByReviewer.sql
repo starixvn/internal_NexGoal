@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[PARecord_GetByReviewer] @ActorId INT
+﻿
+CREATE PROCEDURE [dbo].[PARecord_GetByReviewer] @ActorId INT
 	,@PeriodId INT
 	,@GroupIds VARCHAR(MAX) = ''
 	,@IsRevised BIT = NULL
@@ -47,13 +48,7 @@ BEGIN
 		AND process.ProcessId = @ReviewerProcessId
 		AND (
 			@IsRevised IS NULL
-			OR @IsRevised = (
-				CASE 
-					WHEN pa.ModifiedDate IS NULL
-						THEN 0
-					ELSE 1
-					END
-				)
+			OR @IsRevised = pa.IsRevised
 			)
 	GROUP BY pa.PARecordId
 
@@ -61,6 +56,7 @@ BEGIN
 		,pa.ToeicPolicy
 		,pa.OriginalGradeId
 		,pa.ModifiedDate
+		,pa.IsRevised
 		,pa.Toeic
 		,(
 			CASE 
