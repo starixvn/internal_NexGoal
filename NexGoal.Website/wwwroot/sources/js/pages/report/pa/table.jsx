@@ -73,7 +73,7 @@ export default class Table extends Component {
         }
     }
 
-    renderPARivisedIcon = (gradeId, originalGradeId) => {
+    renderPARivisedIcon = (originalGradeId, gradeId) => {
         const gradeChangeClass = getPAGradeClassName(originalGradeId, gradeId);
 
         return <span className={gradeChangeClass} />;
@@ -94,7 +94,10 @@ export default class Table extends Component {
 
     renderPAGrade = (record) => {
         const paGrade = record.grade ? record.grade.name : getResource('N/A');
-        const revisedIcon = this.renderPARivisedIcon(record.gradeId, record.originalGradeId);
+        let gradeId = record.grade ? record.grade.gradeId : null;
+        let originalGradeId = record.originalGrade ? record.originalGrade.gradeId : null;
+
+        const revisedIcon = this.renderPARivisedIcon(originalGradeId, gradeId);
         let displayGrade = <span>{paGrade}{revisedIcon}</span>;
         if (record.statusId === PAStatus.InProgress && !record.isRevised) {
             displayGrade = <span />;

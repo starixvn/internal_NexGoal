@@ -133,7 +133,10 @@ class Rows extends Component {
     }
 
     renderPAGrade = (record) => {
-        let gradeChangeClass = getPAGradeClassName(record.originalGradeId, record.gradeId);
+        let gradeId = record.grade ? record.grade.gradeId : null;
+        let originalGradeId = record.originalGrade ? record.originalGrade.gradeId : null;
+
+        let gradeChangeClass = getPAGradeClassName(originalGradeId, gradeId);
 
         let paGrade = <span>{record.grade ? record.grade.name : getResource('N/A')}</span>;
         if (record.statusId === PAStatus.InProgress) {
