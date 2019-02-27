@@ -26,6 +26,8 @@
         private readonly ICommonService commonService;
         private readonly IHostingEnvironment hostingEnvironment;
 
+        private const int unsatisfactoryGradeId = 1;
+
         public MasterReportService(
             IBaseService baseService,
             ICryptoService cryptoService,
@@ -358,25 +360,27 @@
                 int.TryParse(record.GradeId, out int gradeId);
                 int.TryParse(record.OriginalGradeId, out int originalGradeId);
 
-                var icon = "";
-                var color = Color.Black;
-                if (gradeId > originalGradeId)
+                if (gradeId != unsatisfactoryGradeId || originalGradeId != 0)
                 {
-                    icon = "▲";
-                    color = Color.Green;
-                }
-                else
-                {
+                    var icon = "";
+                    var color = Color.Black;
+
+                    if (gradeId > originalGradeId)
+                    {
+                        icon = "▲";
+                        color = Color.Green;
+                    }
+
                     if (gradeId < originalGradeId)
                     {
                         icon = "▼";
                         color = Color.Red;
                     }
-                }
 
-                var iconText = richTextCollection.Add(icon);
-                iconText.Bold = true;
-                iconText.Color = color;
+                    var iconText = richTextCollection.Add(icon);
+                    iconText.Bold = true;
+                    iconText.Color = color;
+                }
             }
 
             if (!string.IsNullOrWhiteSpace(record.Comment))
