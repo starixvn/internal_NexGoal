@@ -93,6 +93,22 @@ export const getNominationClassName = (statusId) => {
     return className;
 };
 
+export const getPAGradeClassName = (originalGradeId = null, gradeId = null) => {
+    originalGradeId = originalGradeId === null ? 1 : originalGradeId;
+    gradeId = gradeId === null ? 1 : gradeId;
+
+    let gradeClass = '';
+    if (gradeId > originalGradeId) {
+        gradeClass = 'icon-increase-arrow';
+    } else if (gradeId < originalGradeId) {
+        gradeClass = 'icon-descrease-arrow';
+    } else {
+        gradeClass = '';
+    }
+
+    return gradeClass;
+};
+
 export const calculateTimelineNode = () => {
     const width = window.innerWidth;
     if (width > 1600) return 8;

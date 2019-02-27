@@ -1,5 +1,6 @@
 ﻿import React, { Component, Fragment } from 'react';
 
+import { getPAGradeClassName } from '../../../common-functions';
 import ObjectiveModal from './ObjectiveModal';
 
 export default class Row extends Component {
@@ -185,17 +186,10 @@ export default class Row extends Component {
     }
 
     renderGrade = (originalGrade, grade) => {
-        let gradeId = grade ? grade.gradeId : 0;
-        let originalGradeId = originalGrade ? originalGrade.gradeId : 0;
+        let gradeId = grade ? grade.gradeId : null;
+        let originalGradeId = originalGrade ? originalGrade.gradeId : null;
 
-        let gradeClass = '';
-        if (gradeId > originalGradeId) {
-            gradeClass = 'icon-increase-arrow';
-        }
-
-        if (gradeId < originalGradeId) {
-            gradeClass = 'icon-descrease-arrow';
-        }
+        let gradeClass = getPAGradeClassName(originalGradeId, gradeId);
 
         return <span>{grade ? grade.name : 'N/A'}<span className={gradeClass} /></span>;
     }

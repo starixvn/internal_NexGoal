@@ -171,8 +171,8 @@
 
         private static void WritePAGrade(ExcelRange gradeCell, TemplateRowIndex templateRowIndex, PAFocusModel paFocus)
         {
-            int gradeId = paFocus.Grade != null ? paFocus.Grade.GradeId : 0;
-            int originalGradeId = paFocus.OriginalGrade != null ? paFocus.OriginalGrade.GradeId : 0;
+            int gradeId = paFocus.Grade != null ? paFocus.Grade.GradeId : Constants.MinGradeId;
+            int originalGradeId = paFocus.OriginalGrade != null ? paFocus.OriginalGrade.GradeId : Constants.MinGradeId;
 
             gradeCell.Value = paFocus.Grade == null ? "N/A" : paFocus.Grade.Name;
 
