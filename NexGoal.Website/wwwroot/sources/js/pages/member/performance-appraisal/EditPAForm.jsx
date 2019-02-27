@@ -112,7 +112,7 @@ export default class EditMemberPA extends Component {
                 let data = response.data;
 
                 if (data.isSuccessful) {
-                    toast.success(getResource('CreatedSuccessfully'));
+                    toast.success(getResource('UpdatedSuccessfully'));
 
                     this.props.onSubmitSuccess();
                 } else {
