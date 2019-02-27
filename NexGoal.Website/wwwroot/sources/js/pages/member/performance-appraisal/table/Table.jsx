@@ -35,7 +35,7 @@ class Table extends Component {
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 paRecordId: paRecordId,
-                isRevised: isRevised
+                isRevised: !isRevised
             }),
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',

@@ -9,6 +9,7 @@
     using DinkToPdf;
     using DinkToPdf.Contracts;
     using Microsoft.AspNetCore.Hosting;
+    using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Models.PARecord;
     using NexGoal.Models.PerformanceRecord;
@@ -42,7 +43,7 @@
             this.converter = converter;
         }
 
-        public async  Task<byte[]> ExportExcel(GetPARecordMultiPeriodParam param)
+        public async Task<byte[]> ExportExcel(GetPARecordMultiPeriodParam param)
         {
             var paRecords = await reportService.GetPAReportAsync(param).ConfigureAwait(false);
             var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.WebRootPath, ExcelTemplatePath));
@@ -209,33 +210,30 @@
                 assessorText.Bold = true;
 
                 richTextCollection.Add(Environment.NewLine);
-
-                var gradeText = richTextCollection.Add($"Grade: {(string.IsNullOrWhiteSpace(paRecord.Grade?.Name) ? "N/A" : paRecord.Grade.Name)} ");
+                var gradeValue = paRecord.Grade != null ? paRecord.Grade.Name : "N/A";
+                var gradeText = richTextCollection.Add($"Grade: {gradeValue}");
                 gradeText.Bold = false;
 
-                if (paRecord.GradeId != paRecord.OriginalGradeId)
+                var grade = paRecord.Grade != null ? paRecord.Grade.GradeId : Constants.MinGradeId;
+                var originalGrade = paRecord.OriginalGrade != null ? paRecord.OriginalGrade.GradeId : Constants.MinGradeId;
+
+                var icon = "";
+                var color = Color.Black;
+                if (grade > originalGrade)
                 {
-                    int.TryParse(paRecord.GradeId, out int gradeId);
-                    int.TryParse(paRecord.OriginalGradeId, out int originalGradeId);
-
-                    var icon = "";
-                    var color = Color.Black;
-                    if (gradeId > originalGradeId)
-                    {
-                        icon = "▲";
-                        color = Color.Green;
-                    }
-
-                    if (gradeId < originalGradeId)
-                    {
-                        icon = "▼";
-                        color = Color.Red;
-                    }
-
-                    var iconText = richTextCollection.Add(icon);
-                    iconText.Bold = true;
-                    iconText.Color = color;
+                    icon = "▲";
+                    color = Color.Green;
                 }
+
+                if (grade < originalGrade)
+                {
+                    icon = "▼";
+                    color = Color.Red;
+                }
+
+                var iconText = richTextCollection.Add(icon);
+                iconText.Bold = true;
+                iconText.Color = color;
 
                 if (!string.IsNullOrWhiteSpace(paRecord.Comment))
                 {

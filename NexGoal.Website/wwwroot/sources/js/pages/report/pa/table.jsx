@@ -2,7 +2,7 @@
 import getResource from '../../../resourceHelper';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { PerformanceProcess, PAStatus } from '../../../constants';
-import { noDataIndication } from '../../../common-functions';
+import { noDataIndication, getPAGradeClassName } from '../../../common-functions';
 
 export default class Table extends Component {
     constructor(props) {
@@ -74,14 +74,7 @@ export default class Table extends Component {
     }
 
     renderPARivisedIcon = (gradeId, originalGradeId) => {
-        let gradeChangeClass = '';
-        if (this.parseIntGradeId(gradeId) > this.parseIntGradeId(originalGradeId)) {
-            gradeChangeClass = 'icon-increase-arrow';
-        }
-
-        if (this.parseIntGradeId(gradeId) < this.parseIntGradeId(originalGradeId)) {
-            gradeChangeClass = 'icon-descrease-arrow';
-        }
+        const gradeChangeClass = getPAGradeClassName(originalGradeId, gradeId);
 
         return <span className={gradeChangeClass} />;
     }

@@ -52,13 +52,13 @@ export default class MemberPerformanceAppraisal extends Component {
         for (var i = 0; i < groupPAs.length; i++) {
             let paIndex = groupPAs[i].performanceAppraisals.findIndex(pa => pa.paRecordId === paRecordId);
             if (paIndex !== -1) {
-                groupPAs[i].performanceAppraisals[paIndex].isRevised = !isRevised;
-                this.setState({
-                    performanceAppraisals: groupPAs
-                });
-                return;
+                groupPAs[i].performanceAppraisals[paIndex].isRevised = isRevised;
             }
         }
+
+        this.setState({
+            performanceAppraisals: groupPAs
+        });
     }
 
     getPerformanceAppraisals = () => {

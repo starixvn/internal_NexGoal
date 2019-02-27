@@ -1,5 +1,6 @@
 ﻿import React, { Component, Fragment } from 'react';
 import { PerformanceProcess, PAStatus, notAvailableGradeTooltip } from '../../../../constants';
+import { getPAGradeClassName } from '../../../../common-functions';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import getResource from '../../../../resourceHelper';
 
@@ -132,14 +133,7 @@ class Rows extends Component {
     }
 
     renderPAGrade = (record) => {
-        let gradeChangeClass = '';
-        if (this.parseIntGradeId(record.gradeId) > this.parseIntGradeId(record.originalGradeId)) {
-            gradeChangeClass = 'icon-increase-arrow';
-        }
-
-        if (this.parseIntGradeId(record.gradeId) < this.parseIntGradeId(record.originalGradeId)) {
-            gradeChangeClass = 'icon-descrease-arrow';
-        }
+        let gradeChangeClass = getPAGradeClassName(record.originalGradeId, record.gradeId);
 
         let paGrade = <span>{record.grade ? record.grade.name : getResource('N/A')}</span>;
         if (record.statusId === PAStatus.InProgress) {
