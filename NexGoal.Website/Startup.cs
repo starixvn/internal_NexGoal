@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO.Compression;
     using System.Linq;
     using DinkToPdf;
     using DinkToPdf.Contracts;
@@ -13,9 +14,12 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Infrastructure;
+    using Microsoft.AspNetCore.ResponseCompression;
     using Microsoft.AspNetCore.Server.IISIntegration;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Options;
+    using NexGoal.Core;
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using NexGoal.Services.Extensions;
@@ -44,9 +48,11 @@
                 .GetChildren()
                 .ToDictionary(connection => connection.Key, connection => connection.Value, StringComparer.OrdinalIgnoreCase);
 
+            int.TryParse(Configuration.GetSection("ConnectionStringsEncryptionAlgorithm").Value, out int algorithm);
+
             DbSettingProviderManager
                 .StartNewSession()
-                .UseConnectionStrings(connections)
+                .Use(new CustomConnectionStringProvider(connections, algorithm, services.BuildServiceProvider().GetService<IOptionsMonitor<AppSettings>>()))
                 .UseDefaultDbSettingProvider("~/App_Data")
                 .Run();
 
@@ -68,6 +74,12 @@
             services.AddAuthentication(IISDefaults.AuthenticationScheme);
 
             services.AddMemoryCache();
+
+            services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
+            services.AddResponseCompression(options =>
+            {
+                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "image/svg+xml" });
+            });
 
             services.AddMvc(options =>
             {
@@ -103,6 +115,7 @@
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseSession();
+            app.UseResponseCompression();
             app.UseMiddleware<AuthenticationMiddleware>();
 
             app.UseMvc(routes =>

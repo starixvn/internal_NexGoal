@@ -9,7 +9,9 @@
     using Fanex.Logging.Sentry;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Services;
+    using NexGoal.Core;
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using Sentry;
@@ -31,16 +33,18 @@
                 .GetChildren()
                 .ToDictionary(connection => connection.Key, connection => connection.Value, StringComparer.OrdinalIgnoreCase);
 
+            var serviceCollection = new ServiceCollection();
+            ConfigureServices(serviceCollection);
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+
+            int.TryParse(Configuration.GetSection("ConnectionStringsEncryptionAlgorithm").Value, out int algorithm);
+
             DbSettingProviderManager
                 .StartNewSession()
-                .UseConnectionStrings(connections)
+                .Use(new CustomConnectionStringProvider(connections, algorithm, serviceProvider.GetService<IOptionsMonitor<AppSettings>>()))
                 .UseDefaultDbSettingProvider("~/App_Data")
                 .Run();
 
-            var serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
-
-            var serviceProvider = serviceCollection.BuildServiceProvider();
             var appService = serviceProvider.GetService<IAppService>();
             appService.Run();
         }
