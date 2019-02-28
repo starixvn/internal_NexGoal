@@ -36,6 +36,23 @@ export default class EditNomination extends Component {
                     eoyQuestions: eoyResponse.data
                 });
             }).catch(axiosError);
+
+        window.addEventListener('beforeunload', this.onLeavingPageEventListener);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('beforeunload', this.onLeavingPageEventListener);
+    }
+
+    onLeavingPageEventListener = event => {
+        debugger;
+        if (this.refs.form) {
+            var isDirty = this.refs.form.getFormikComputedProps().dirty;
+            if (isDirty) {
+                event.returnValue = '';
+                return '';
+            }
+        }
     }
 
     validateForm = values => {
@@ -158,10 +175,7 @@ export default class EditNomination extends Component {
                 label: this.props.performanceRecord.nominationPeriod.title,
                 value: this.props.performanceRecord.nominationPeriod.nominationPeriodId
             },
-            employee: {
-                label: `${this.props.performanceRecord.employees[0].fullName} (${this.props.performanceRecord.employees[0].nickName})`,
-                value: this.props.performanceRecord.employees[0].employeeId
-            },
+            employee: this.props.employeeOptions.find(e => e.value === this.props.performanceRecord.employees[0].employeeId),
             comment: this.props.performanceRecord.comment
         };
         let createdDate = moment(this.props.performanceRecord.createdDate);
@@ -184,7 +198,7 @@ export default class EditNomination extends Component {
                             </div>
                         </div>
                         <div className="comment">
-                            <Formik enableReinitialize
+                            <Formik
                                 initialValues={initialObj}
                                 validate={this.validateForm}
                                 onSubmit={this.handleSubmit}

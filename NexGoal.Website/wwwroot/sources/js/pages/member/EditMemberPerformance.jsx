@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 import moment from 'moment';
+import isEqual from "react-fast-compare";
 
 import { axiosError, getRoleClassName, resolveClientUrl } from '../../common-functions';
 import { DateFormat, PerformanceRecordStatus, ProbationTag } from '../../constants';
@@ -43,6 +44,7 @@ export default class EditMemberPerformance extends Component {
 
         this.state = {
             performanceRecord: {},
+            initialPerformanceRecord: {},
             errors: {}
         };
     }
@@ -52,12 +54,8 @@ export default class EditMemberPerformance extends Component {
         axios(resolveClientUrl(url))
             .then((response) => {
                 let performanceRecord = response.data;
-                performanceRecord.grade = performanceRecord.grade ? {
-                    value: performanceRecord.grade.gradeId,
-                    label: performanceRecord.grade.description ?
-                        `${performanceRecord.grade.description} (${performanceRecord.grade.name})`
-                        : performanceRecord.grade.name
-                } : null;
+                performanceRecord.grade = performanceRecord.grade ? this.props.performanceGradeOptions.find(x => x.value === performanceRecord.grade.gradeId) : null;
+
                 performanceRecord.employees = performanceRecord.employees.map(employee => {
                     return { value: employee.employeeId, label: `${employee.nickName} (${employee.fullName})` };
                 });
@@ -65,8 +63,21 @@ export default class EditMemberPerformance extends Component {
                     return { value: project.projectId, label: project.name };
                 });
 
-                this.setState({ performanceRecord });
+                this.setState({ performanceRecord: performanceRecord, initialPerformanceRecord: { ...performanceRecord } });
             }).catch(axiosError);
+
+        window.addEventListener('beforeunload', this.onLeavingPageEventListener);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('beforeunload', this.onLeavingPageEventListener);
+    }
+
+    onLeavingPageEventListener = event => {
+        if (!isEqual(this.state.performanceRecord, this.state.initialPerformanceRecord)) {
+            event.returnValue = '';
+            return '';
+        }
     }
 
     handleEmployeeChange = (selectedOptions) => {

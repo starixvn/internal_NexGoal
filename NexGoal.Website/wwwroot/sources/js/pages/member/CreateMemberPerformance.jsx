@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 import moment from 'moment';
+import isEqual from "react-fast-compare";
 
 import { axiosError, getRoleClassName, resolveClientUrl } from '../../common-functions';
 import { DateFormat, PerformanceRecordStatus, ProbationTag } from '../../constants';
@@ -32,8 +33,8 @@ export default class CreateMemberPerformance extends Component {
         projectOptions: [],
         selectedMemberInfo: null,
         isMultiple: true,
-        onSubmitSuccess: function () { },
-        onSubmitDraftSuccess: function () { }
+        onSubmitSuccess: function() { },
+        onSubmitDraftSuccess: function() { }
     };
 
     constructor(props) {
@@ -48,11 +49,29 @@ export default class CreateMemberPerformance extends Component {
                 projects: props.selectedMemberInfo && props.selectedMemberInfo.isProbation ? [ProbationTag] : [],
                 statusId: null
             },
+            initialPerformanceRecord: {
+                employees: [],
+                grade: null,
+                comment: '',
+                projects: props.selectedMemberInfo && props.selectedMemberInfo.isProbation ? [ProbationTag] : [],
+                statusId: null
+            },
             currentDate: moment(),
             errors: {}
         };
 
         this.textareaEditor = React.createRef();
+    }
+
+    componentDidMount() {
+        window.addEventListener('beforeunload', this.onLeavingPageEventListener);
+    }
+
+    onLeavingPageEventListener = event => {
+        if (!isEqual(this.state.performanceRecord, this.state.initialPerformanceRecord)) {
+            event.returnValue = '';
+            return '';
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {

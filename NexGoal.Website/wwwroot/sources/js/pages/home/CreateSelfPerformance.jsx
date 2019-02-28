@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 import moment from 'moment';
+import isEqual from "react-fast-compare";
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import { DateFormat, PerformanceRecordStatus, ProbationTag } from '../../constants';
@@ -39,10 +40,27 @@ export default class CreateSelfPerformance extends Component {
                 projects: props.currentUser.isProbation ? [ProbationTag] : [],
                 statusId: null
             },
+            initialPerformanceRecord: {
+                grade: null,
+                comment: '',
+                projects: props.currentUser.isProbation ? [ProbationTag] : [],
+                statusId: null
+            },
             errors: {}
         };
 
         this.textareaEditor = React.createRef();
+    }
+
+    componentDidMount() {
+        window.addEventListener('beforeunload', this.onLeavingPageEventListener);
+    }
+
+    onLeavingPageEventListener = event => {
+        if (!isEqual(this.state.performanceRecord, this.state.initialPerformanceRecord)) {
+            event.returnValue = '';
+            return '';
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -249,7 +267,7 @@ export default class CreateSelfPerformance extends Component {
                                         options={performanceGradeOptions}
                                         isSearchable={false}
                                         isClearable
-                                        onChange={this.handleGradeChange}  
+                                        onChange={this.handleGradeChange}
                                     />
                                 </div>
                                 <div className="project">

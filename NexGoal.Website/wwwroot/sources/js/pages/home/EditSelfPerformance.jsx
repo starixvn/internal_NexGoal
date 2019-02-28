@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 import moment from 'moment';
+import isEqual from "react-fast-compare";
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import { DateFormat, PerformanceRecordStatus } from '../../constants';
@@ -30,6 +31,7 @@ export default class EditSelfPerformance extends Component {
 
         this.state = {
             performanceRecord: {},
+            initialPerformanceRecord: {},
             errors: {}
         };
     }
@@ -41,16 +43,27 @@ export default class EditSelfPerformance extends Component {
                 let performanceRecord = response.data;
                 performanceRecord.grade = performanceRecord.grade ? {
                     value: performanceRecord.grade.gradeId,
-                    label: performanceRecord.grade.description ?
-                        `${performanceRecord.grade.description} (${performanceRecord.grade.name})`
-                        : performanceRecord.grade.name
+                    label: `(${performanceRecord.grade.name}) ${performanceRecord.grade.description}`
                 } : null;
                 performanceRecord.projects = performanceRecord.projects.map(project => {
                     return { value: project.projectId, label: project.name };
                 });
 
-                this.setState({ performanceRecord });
+                this.setState({ performanceRecord: performanceRecord, initialPerformanceRecord: { ...performanceRecord } });
             }).catch(axiosError);
+
+        window.addEventListener('beforeunload', this.onLeavingPageEventListener);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('beforeunload', this.onLeavingPageEventListener);
+    }
+
+    onLeavingPageEventListener = event => {
+        if (!isEqual(this.state.performanceRecord, this.state.initialPerformanceRecord)) {
+            event.returnValue = '';
+            return '';
+        }
     }
 
     handleGradeChange = (selectedOption) => {

@@ -22,6 +22,12 @@ export default class CreateNomination extends Component {
             eoqQuestions: [],
             eoyQuestions: []
         };
+
+        this.initialObj = {
+            period: null,
+            employee: null,
+            comment: ''
+        };
     }
 
     componentDidMount() {
@@ -36,6 +42,18 @@ export default class CreateNomination extends Component {
                 eoyQuestions: eoyResponse.data
             });
         }).catch(axiosError);
+
+        window.addEventListener('beforeunload', this.onLeavingPageEventListener);
+    }
+
+    onLeavingPageEventListener = event => {
+        if (this.refs.form) {
+            var isDirty = this.refs.form.getFormikComputedProps().dirty;
+            if (isDirty) {
+                event.returnValue = '';
+                return '';
+            }
+        }
     }
 
     handleOpenForm = () => {
@@ -106,7 +124,9 @@ export default class CreateNomination extends Component {
         touched,
         handleChange,
         handleSubmit,
-        setFieldValue }) => {
+        setFieldValue,
+        dirty
+    }) => {
         let onPeriodChange = (value) => {
             let period = this.props.nominationPeriods.find(x => x.nominationPeriodId === value.value);
             let questions = '';
@@ -167,11 +187,7 @@ export default class CreateNomination extends Component {
 
     render() {
         let currentUser = this.props.currentUser;
-        let initialObj = {
-            period: null,
-            employee: null,
-            comment: ''
-        };
+
         let currentDate = moment();
 
         return (
@@ -194,8 +210,8 @@ export default class CreateNomination extends Component {
                     }
                     {
                         this.state.openForm &&
-                        <Formik
-                            initialValues={initialObj}
+                        <Formik ref="form"
+                            initialValues={this.initialObj}
                             validate={this.validateForm}
                             onSubmit={this.handleSubmit}
                             render={this.renderForm}
