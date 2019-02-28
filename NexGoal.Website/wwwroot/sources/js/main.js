@@ -20,6 +20,12 @@ $(document).ready(function () {
     });
 
     $navHamburger.find('.dropdown').hover(function () {
-        $('.dropdown-toggle', this).trigger('click'); 
+        if (!$(this).hasClass('open')) {
+            $('.dropdown-toggle', this).trigger('click');
+        }
+    }, function () {
+        if ($(this).hasClass('open')) {
+            $('.dropdown-toggle', this).trigger('click');
+        }
     });
 });
