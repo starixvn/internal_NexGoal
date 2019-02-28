@@ -17,7 +17,7 @@ BEGIN
 	DECLARE @Today DATE = GETDATE()
 		,@PAInProgress TINYINT = 3
 		,@PAClosed TINYINT = 4
-		,@ReviewerProcessId TINYINT = 5
+		,@EvaluatorProcessId TINYINT = 4
 
 	CREATE TABLE #tblPARecordIds (PARecordId INT)
 
@@ -34,7 +34,6 @@ BEGIN
 	FROM dbo.PARecord AS pa WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
 		AND @PeriodId = @PeriodId
-		AND period.IsActive = 1
 		LEFT JOIN dbo.ToeicPolicy AS toeic WITH (NOLOCK) ON pa.EmployeeId = toeic.EmployeeId
 	WHERE pa.StatusId = @PAClosed
 		AND (
@@ -47,19 +46,22 @@ BEGIN
 			)
 	
 	UNION
+	-- reset grade if reviewer is not revised
 	SELECT pa.PARecordId
-		,pa.OriginalGradeId
-		,pa.OriginalGradeId AS GradeId
+		,NULL AS OriginalGradeId
+		,record.GradeId
 		,pa.StatusId
 		,ISNULL(toeic.Score, 0) AS ToeicPolicy
 	FROM dbo.PARecord AS pa WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
 		AND @PeriodId = @PeriodId
-		AND period.IsActive = 1
+		INNER JOIN dbo.PAProcess AS paprocess WITH (NOLOCK) ON pa.PARecordId = paprocess.PARecordId
+		AND paprocess.ProcessId = @EvaluatorProcessId
+		LEFT JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON paprocess.PerformanceRecordId = record.PerformanceRecordId
 		LEFT JOIN dbo.ToeicPolicy AS toeic WITH (NOLOCK) ON pa.EmployeeId = toeic.EmployeeId
 	WHERE pa.StatusId = @PAInProgress
 		AND pa.ModifiedBy IS NULL
-		AND pa.IsRevised IS NULL
+		AND ISNULL(pa.IsRevised, 0) = 0
 		AND (
 			@PARecordIds IS NULL
 			OR EXISTS (

@@ -254,8 +254,6 @@
     <Build Include="dbo\Stored Procedures\PerformanceRecord_GetMemberPerformanceByMemberId.sql" />
     <Build Include="dbo\Stored Procedures\DraftPerformanceRecord_GetById.sql" />
     <Build Include="dbo\Stored Procedures\Report_GetPeriods.sql" />
-    <Build Include="dbo\Stored Procedures\PerformanceGradeConversion_Get.sql" />
-    <Build Include="dbo\Tables\PerformanceGradeConversion.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetInfo.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_GetByPARecordId.sql" />
     <Build Include="dbo\Stored Procedures\PARecord_GetDisciplineHRMInfoAndPreviousPAGrade.sql" />
@@ -263,6 +261,8 @@
     <Build Include="dbo\Stored Procedures\Period_UpdateFinalPAGrade.sql" />
     <Build Include="dbo\Stored Procedures\Period_GetDataToUpdateFinalPAGrade.sql" />
     <Build Include="dbo\Stored Procedures\PAReport_GetGroupAndMember.sql" />
+    <Build Include="dbo\Tables\PerformanceGrade.sql" />
+    <Build Include="dbo\Stored Procedures\PerformanceGrade_Get.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">
