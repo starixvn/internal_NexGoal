@@ -120,3 +120,16 @@ export const calculateTimelineNode = () => {
 };
 
 export const noDataIndication = () => <span className="empty-result">No record found</span>;
+
+export function compareArray(a, b, compareOnProp) {
+    if (a === b)
+        return true;
+
+    if (a.length !== b.length) return false;
+
+    if (a.some(a => !b.some(b => b[compareOnProp] === a[compareOnProp]))
+        || b.some(b => !a.some(a => a[compareOnProp] === b[compareOnProp])))
+        return false;
+
+    return true;
+}

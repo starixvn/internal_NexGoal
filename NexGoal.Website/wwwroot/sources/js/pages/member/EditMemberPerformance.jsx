@@ -7,9 +7,8 @@ import { toast } from 'react-toastify';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 import moment from 'moment';
-import isEqual from "react-fast-compare";
 
-import { axiosError, getRoleClassName, resolveClientUrl } from '../../common-functions';
+import { axiosError, getRoleClassName, resolveClientUrl, compareArray } from '../../common-functions';
 import { DateFormat, PerformanceRecordStatus, ProbationTag } from '../../constants';
 import getResource from '../../resourceHelper';
 import TextareaFullscreenEditor from '../../shared/components/textarea-fullscreen/index';
@@ -74,7 +73,11 @@ export default class EditMemberPerformance extends Component {
     }
 
     onLeavingPageEventListener = event => {
-        if (!isEqual(this.state.performanceRecord, this.state.initialPerformanceRecord)) {
+        let performanceRecord = this.state.performanceRecord;
+        let initialPerformanceRecord = this.state.initialPerformanceRecord;
+
+        if (performanceRecord.grade.value !== initialPerformanceRecord.grade.value || performanceRecord.comment !== initialPerformanceRecord.comment
+            || !compareArray(performanceRecord.projects, initialPerformanceRecord.projects, 'value')) {
             event.returnValue = '';
             return '';
         }
