@@ -3,14 +3,14 @@
     using NexGoal.Criteria.Common;
     using Xunit;
 
-    public class GetPerformanceGradeConversionCriteriaTests
+    public class GetPerformanceGradeCriteriaTests
     {
         [Fact]
         public void GetSettingKey_ReturnCorrectSettingKey()
         {
             // Arrange
-            var criteria = new GetPerformanceGradeConversionCriteria();
-            var expected = "PerformanceGradeConversion_Get";
+            var criteria = new GetPerformanceGradeCriteria();
+            var expected = "PerformanceGrade_Get";
 
             // Act
             var actual = criteria.GetSettingKey();
@@ -23,7 +23,7 @@
         public void IsValid_Always_ReturnTrue()
         {
             // Arrange
-            var criteria = new GetPerformanceGradeConversionCriteria();
+            var criteria = new GetPerformanceGradeCriteria();
             var expected = true;
             // Act
             var actual = criteria.IsValid();

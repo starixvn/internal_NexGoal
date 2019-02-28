@@ -95,17 +95,11 @@
 
         public async Task<IEnumerable<PerformanceGrade>> GetPerformanceGradeAsync()
         {
-            memoryCache.TryGetValue(CacheKeys.PerformanceGrades, out IList<PerformanceGrade> performanceGrades);
+            memoryCache.TryGetValue(CacheKeys.PerformanceGrades, out IEnumerable<PerformanceGrade> performanceGrades);
             if (performanceGrades == null)
             {
-                string[] refNames = { ReferenceResource.PerformanceGrade };
-                IEnumerable<ReferenceResourceModel> referenceResources = await GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
-                performanceGrades = referenceResources.Select(x => new PerformanceGrade
-                {
-                    GradeId = x.ResourceId,
-                    Name = x.Value,
-                    Description = x.Description
-                }).OrderBy(x => x.GradeId).ToList();
+                var criteria = new GetPerformanceGradeCriteria();
+                performanceGrades = await baseService.GetDataAsync<PerformanceGrade>(criteria).ConfigureAwait(false);
 
                 var cacheExpirationOptions = new MemoryCacheEntryOptions
                 {
@@ -157,13 +151,6 @@
         public async Task<IEnumerable<PeriodBaseModel>> GetPeriodForReportAsync()
         {
             return await baseService.GetDataAsync<PeriodBaseModel>(new GetPeriodForReportCriteria()).ConfigureAwait(false);
-        }
-
-        public async Task<IEnumerable<PerformanceGradeConversionModel>> GetPerformanceGradeConversionAsync()
-        {
-            var criteria = new GetPerformanceGradeConversionCriteria();
-
-            return await baseService.GetDataAsync<PerformanceGradeConversionModel>(criteria).ConfigureAwait(false);
         }
     }
 }

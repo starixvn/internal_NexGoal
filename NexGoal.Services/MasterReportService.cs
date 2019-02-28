@@ -12,6 +12,7 @@
     using NexGoal.Core.Services;
     using NexGoal.Criteria.MasterReport;
     using NexGoal.Criteria.Periods;
+    using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.MasterReport;
     using OfficeOpenXml;
@@ -96,7 +97,7 @@
             var groupedRecord = records.OrderBy(x => x.GroupName).ThenByDescending(x => x.IsGroupLeader).ThenBy(x => x.NickName)
                 .GroupBy(x => new { x.GroupId, x.GroupName }, (key, elements) => new { Key = key, Records = elements });
 
-            var gradeConversions = await commonService.GetPerformanceGradeConversionAsync().ConfigureAwait(false);
+            var performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
             var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.WebRootPath, ExcelTemplatePath));
             using (var package = new ExcelPackage(fileInfo, true))
@@ -128,7 +129,7 @@
 
                     foreach (var record in group.Records)
                     {
-                        WriteRecord(worksheet, record, gradeConversions, ref currentRow, ref rowIndex);
+                        WriteRecord(worksheet, record, performanceGrades, ref currentRow, ref rowIndex);
                     }
                 }
 
@@ -136,7 +137,7 @@
             }
         }
 
-        private static void WriteRecord(ExcelWorksheet worksheet, MasterReportModel record, IEnumerable<PerformanceGradeConversionModel> gradeConversions, ref int currentRow, ref int rowIndex)
+        private static void WriteRecord(ExcelWorksheet worksheet, MasterReportModel record, IEnumerable<PerformanceGrade> performanceGrades, ref int currentRow, ref int rowIndex)
         {
             var numberOfAwards = record.Awards.Count();
             var toRow = numberOfAwards > 0 ? currentRow + numberOfAwards - 1 : currentRow;
@@ -188,11 +189,11 @@
             var avgPMGradeWithoutNACell = worksheet.Cells[currentRow, 12, toRow, 12];
             avgPMGradeWithoutNACell.Merge = merge;
             avgPMGradeWithoutNACell.Value =
-                CalculateAverageGrade(record.Assessments.Where(x => x.ProcessId == PerformanceProcess.ProjectManager && !string.IsNullOrWhiteSpace(x.GradeId)), gradeConversions);
+                CalculateAverageGrade(record.Assessments.Where(x => x.ProcessId == PerformanceProcess.ProjectManager && !string.IsNullOrWhiteSpace(x.GradeId)), performanceGrades);
 
             var avgPMGradeWithNACell = worksheet.Cells[currentRow, 13, toRow, 13];
             avgPMGradeWithNACell.Merge = merge;
-            avgPMGradeWithNACell.Value = CalculateAverageGrade(record.Assessments.Where(x => x.ProcessId == PerformanceProcess.ProjectManager), gradeConversions);
+            avgPMGradeWithNACell.Value = CalculateAverageGrade(record.Assessments.Where(x => x.ProcessId == PerformanceProcess.ProjectManager), performanceGrades);
 
             WritePAFocus(worksheet, currentRow, toRow, record, merge);
 
@@ -305,12 +306,12 @@
             }
         }
 
-        private static float CalculateAverageGrade(IEnumerable<AssessmentModel> assessments, IEnumerable<PerformanceGradeConversionModel> gradeConversions)
+        private static float CalculateAverageGrade(IEnumerable<AssessmentModel> assessments, IEnumerable<PerformanceGrade> performanceGrades)
         {
             var points = assessments.Select(x =>
             {
                 int.TryParse(x.GradeId, out int gradeId);
-                var conversion = gradeConversions.FirstOrDefault(g => g.GradeId == gradeId);
+                var conversion = performanceGrades.FirstOrDefault(g => g.GradeId == gradeId);
 
                 return conversion != null ? conversion.Point : 0f;
             });

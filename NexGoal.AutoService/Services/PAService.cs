@@ -224,9 +224,9 @@
         {
             var criteria = new GetDataToEditGradeCriteria();
             var records = baseService.GetDataAsync<EditPAGradeDto>(criteria).Result;
-            var grades = baseService.GetDataAsync<ReferenceResourceModel>(new GetRefResourceByNameCriteria { RefNames = "PerformanceGrade" }).Result;
-            int minGradeId = grades.Min(x => x.ResourceId);
-            int maxGradeId = grades.Max(x => x.ResourceId);
+            var grades = baseService.GetDataAsync<PerformanceGrade>(new GetPerformanceGradeCriteria()).Result;
+            int minGradeId = grades.Min(x => x.GradeId);
+            int maxGradeId = grades.Max(x => x.GradeId);
 
             foreach (EditPAGradeDto record in records)
             {
@@ -234,7 +234,7 @@
                 int.TryParse(record.GradeId, out int gradeId);
                 gradeId = gradeId <= 0 ? 0 : gradeId + record.ToeicPolicy;
 
-                if (!grades.Any(x => x.ResourceId == gradeId))
+                if (!grades.Any(x => x.GradeId == gradeId))
                 {
                     gradeId = gradeId > maxGradeId ? maxGradeId : 0;
                 }

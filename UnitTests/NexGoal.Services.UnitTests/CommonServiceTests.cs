@@ -162,16 +162,15 @@ namespace NexGoal.Services.UnitTests
         public async Task GetPerformanceGradeAsync_WhenCalled_ReturnAsExpectedPerformanceGrades()
         {
             // Arrange
-            var referenceResources = GetRefResourcesForTest();
+            var performanceGrades = Helpers.GetPerformanceGrades();
             var service = GetCommonService();
-            baseService.GetDataAsync<ReferenceResourceModel>(Arg.Any<GetRefResourceByNamesCriteria>()).Returns(referenceResources);
+            baseService.GetDataAsync<PerformanceGrade>(Arg.Any<GetPerformanceGradeCriteria>()).Returns(performanceGrades);
 
             // Act
             var actual = await service.GetPerformanceGradeAsync();
 
             // Assert
-            Assert.IsAssignableFrom<IEnumerable<PerformanceGrade>>(actual);
-            Assert.Equal(referenceResources.Count, actual.Count());
+            Assert.Equal(performanceGrades, actual);
         }
 
         [Fact]
@@ -235,21 +234,6 @@ namespace NexGoal.Services.UnitTests
 
             // Act
             var actual = await service.GetPeriodForReportAsync();
-
-            // Assert
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public async Task GetPerformanceGradeConversionAsync_WhenCalled_ReturnAsExpectedPerformanceGrades()
-        {
-            // Arrange
-            var expected = new List<PerformanceGradeConversionModel> { new PerformanceGradeConversionModel { GradeId = 1, Point = 0.5F } };
-            var service = GetCommonService();
-            baseService.GetDataAsync<PerformanceGradeConversionModel>(Arg.Any<GetPerformanceGradeConversionCriteria>()).Returns(expected);
-
-            // Act
-            var actual = await service.GetPerformanceGradeConversionAsync();
 
             // Assert
             Assert.Equal(expected, actual);
