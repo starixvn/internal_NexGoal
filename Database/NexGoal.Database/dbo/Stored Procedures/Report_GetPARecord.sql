@@ -135,8 +135,10 @@ BEGIN
 				ELSE 0
 				END
 			) AS IsInProgress
+        ,p.EndDate
 	FROM dbo.Period AS p WITH (NOLOCK)
 	INNER JOIN #tblPeriodId AS tpl WITH (NOLOCK) ON p.PeriodId = tpl.PeriodId
+    ORDER BY p.EndDate DESC
 
 	DROP TABLE #tblGroupId
 

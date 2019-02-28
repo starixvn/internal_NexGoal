@@ -87,7 +87,7 @@
                 groupRecords.AddRange(emptyPeriods);
             }
 
-            return groupRecords.OrderByDescending(g => g.PeriodId);
+            return groupRecords.OrderByDescending(g => g.Period.EndDate);
         }
 
         private void MappingData(
