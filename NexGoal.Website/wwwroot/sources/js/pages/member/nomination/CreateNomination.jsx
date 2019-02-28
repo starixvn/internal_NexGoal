@@ -204,7 +204,7 @@ export default class CreateNomination extends Component {
                         !this.state.openForm &&
                         <input className="form-control"
                             style={{ height: 50 }}
-                            placeholder="What's on your mind?"
+                            placeholder="Who has contributed the most to the company, recently? Vote for them now!"
                             onClick={this.handleOpenForm}
                         />
                     }

@@ -296,7 +296,7 @@ export default class CreateMemberPerformance extends Component {
                         !isOpenForm &&
                         <input className="form-control"
                             style={{ height: 50 }}
-                            placeholder="What's on your mind?"
+                            placeholder="How's your team members performance? What do you expect from them in the near future? Share your thoughts to boost up the team chemistry."
                             onClick={this.handleOpenForm}
                         />
                     }
