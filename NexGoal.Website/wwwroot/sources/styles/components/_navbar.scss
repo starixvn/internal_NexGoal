@@ -187,11 +187,23 @@
           color: #324476;
         }
 
-        .icon-chevron-down {
+        .icon-submenu {
           position: absolute;
-          right: 10px;
-          top: 8px;
-          transform: rotate(-90deg);
+          right: 23px;
+          top: 15px;
+          //transform: rotate(-90deg);
+
+          &:before, &:after {
+            background: #3A4D80;
+          }
+
+          &:before {
+            transform: translateY(-2px) rotate(45deg);
+          }
+    
+          &:after {
+            transform: translateY(2px) rotate(-45deg);
+          }
         }
       }
 
@@ -213,8 +225,14 @@
       }
 
       &.open {
-        .icon-chevron-down {          
-          transform: rotate(0);
+        .icon-submenu {          
+          &:before {
+            transform: translateX(-2px) rotate(45deg);
+          }
+    
+          &:after {
+            transform: translateX(2px) rotate(-45deg);
+          } 
         }
       }
     }    
