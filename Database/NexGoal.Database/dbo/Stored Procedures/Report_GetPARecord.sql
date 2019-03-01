@@ -20,6 +20,8 @@ BEGIN
 		,@EvaluatorProcessId TINYINT = 4
 		,@PAInProgress TINYINT = 3
 		,@PAClosed TINYINT = 4
+		,@SARoleId TINYINT = 1
+		,@ManagementRoleId TINYINT = 3
 		,@Today DATE = GETDATE()
 
 	CREATE TABLE #tblGroupId (GroupId INT)
@@ -45,26 +47,58 @@ BEGIN
 	FROM dbo.func_SplitString(@EmployeeIds, ',')
 	WHERE ISNUMERIC(val) = 1
 
-	INSERT INTO #tblPARecordId (PARecordId)
-	SELECT pa.PARecordId
-	FROM dbo.PARecord AS pa WITH (NOLOCK)
-	INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
-	INNER JOIN #tblPeriodId AS p WITH (NOLOCK) ON period.PeriodId = p.PeriodId
-	INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
-		AND process.EvaluatorId = @ActorId
-	INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
-	INNER JOIN #tblGroupId AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-	INNER JOIN #tblEmployee AS e WITH (NOLOCK) ON e.EmpId = emp.EmployeeId
-	WHERE pa.StatusId IN (
-			@PAInProgress
-			,@PAClosed
+	IF (
+			EXISTS (
+				SELECT 1
+				FROM dbo.Employee AS emp WITH (NOLOCK)
+				INNER JOIN dbo.EmployeeRole AS er WITH (NOLOCK) ON er.EmployeeId = emp.EmployeeId
+					AND er.RoleId IN (
+						@SARoleId
+						,@ManagementRoleId
+						)
+				WHERE emp.EmployeeId = @ActorId
+				)
 			)
-		AND process.ProcessId IN (
-			@ReviewerProcessId
-			,@EvaluatorProcessId
-			,@SelfProcessId
-			)
-	GROUP BY pa.PARecordId
+	BEGIN
+		INSERT INTO #tblPARecordId (PARecordId)
+		SELECT pa.PARecordId
+		FROM dbo.PARecord AS pa WITH (NOLOCK)
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+		INNER JOIN #tblPeriodId AS p WITH (NOLOCK) ON period.PeriodId = p.PeriodId
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
+		INNER JOIN #tblGroupId AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		INNER JOIN #tblEmployee AS e WITH (NOLOCK) ON e.EmpId = emp.EmployeeId
+		WHERE pa.StatusId IN (
+				@PAInProgress
+				,@PAClosed
+				)
+		GROUP BY pa.PARecordId
+	END
+	ELSE
+	BEGIN
+		INSERT INTO #tblPARecordId (PARecordId)
+		SELECT pa.PARecordId
+		FROM dbo.PARecord AS pa WITH (NOLOCK)
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+		INNER JOIN #tblPeriodId AS p WITH (NOLOCK) ON period.PeriodId = p.PeriodId
+		INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
+			AND process.EvaluatorId = @ActorId
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
+		INNER JOIN #tblGroupId AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		INNER JOIN #tblEmployee AS e WITH (NOLOCK) ON e.EmpId = emp.EmployeeId
+		WHERE pa.StatusId IN (
+				@PAInProgress
+				,@PAClosed
+				)
+			AND (
+				process.ProcessId IN (
+					@EvaluatorProcessId
+					,@ReviewerProcessId
+					,@SelfProcessId
+					)
+				)
+		GROUP BY pa.PARecordId
+	END 
 
 	SELECT pa.PARecordId
 		,pa.Toeic
@@ -100,8 +134,8 @@ BEGIN
 					,@SelfProcessId
 					)
 				AND process.EvaluatorId = @ActorId
-			),
-			emp.NickName
+			)
+		,emp.NickName
 
 	SELECT process.PARecordId
 		,process.ProcessId
@@ -135,10 +169,10 @@ BEGIN
 				ELSE 0
 				END
 			) AS IsInProgress
-        ,p.EndDate
+		,p.EndDate
 	FROM dbo.Period AS p WITH (NOLOCK)
 	INNER JOIN #tblPeriodId AS tpl WITH (NOLOCK) ON p.PeriodId = tpl.PeriodId
-    ORDER BY p.EndDate DESC
+	ORDER BY p.EndDate DESC
 
 	DROP TABLE #tblGroupId
 

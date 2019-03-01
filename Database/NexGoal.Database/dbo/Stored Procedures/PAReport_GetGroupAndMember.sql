@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[PAReport_GetGroupAndMember] @ActorId INT
+﻿CREATE PROCEDURE [dbo].[PAReport_GetGroupAndMember] @ActorId INT
 AS
 /*
 Created: 20192603@Oliver.Dang
@@ -19,6 +18,8 @@ BEGIN
 	-- process
 	DECLARE @EvaluatorProcessId TINYINT = 4
 		,@ReviewerProcessId TINYINT = 5
+		,@SARoleId TINYINT = 1
+		,@ManagementRoleId TINYINT = 3
 
 	SELECT TOP 1 @ProbationDuration = CAST(Value AS SMALLINT)
 	FROM dbo.RefResource WITH (NOLOCK)
@@ -26,16 +27,36 @@ BEGIN
 
 	CREATE TABLE #tplEmployee (EmployeeId INT)
 
-	INSERT INTO #tplEmployee (EmployeeId)
-	SELECT DISTINCT member.EmployeeId
-	FROM dbo.func_GetMember(@ActorId) AS member
-	WHERE member.ProcessId IN (
-			@EvaluatorProcessId
-			,@ReviewerProcessId
+	IF EXISTS (
+			SELECT 1
+			FROM dbo.Employee AS emp WITH (NOLOCK)
+			INNER JOIN dbo.EmployeeRole AS er WITH (NOLOCK) ON er.EmployeeId = emp.EmployeeId
+				AND er.RoleId IN (
+					@SARoleId
+					,@ManagementRoleId
+					)
+			WHERE emp.EmployeeId = @ActorId
 			)
+	BEGIN
+		INSERT INTO #tplEmployee (EmployeeId)
+		SELECT DISTINCT e.EmployeeId
+		FROM dbo.Employee AS e WITH (NOLOCK)
+		WHERE e.IsDeleted = 0
+			AND e.[Enabled] = 1
+	END
+	ELSE
+	BEGIN
+		INSERT INTO #tplEmployee (EmployeeId)
+		SELECT DISTINCT member.EmployeeId
+		FROM dbo.func_GetMember(@ActorId) AS member
+		WHERE member.ProcessId IN (
+				@EvaluatorProcessId
+				,@ReviewerProcessId
+				)
 
-	INSERT INTO #tplEmployee (EmployeeId)
-	SELECT @ActorId
+		INSERT INTO #tplEmployee (EmployeeId)
+		SELECT @ActorId
+	END
 
 	-- Get groups
 	SELECT DISTINCT gr.GroupId
@@ -43,13 +64,13 @@ BEGIN
 		,gr.Code
 		,gr.[Rank]
 	FROM dbo.Employee AS emp WITH (NOLOCK)
-		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+	INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		AND gr.IsDeleted = 0
-		INNER JOIN #tplEmployee AS tpl WITH (NOLOCK) ON tpl.EmployeeId = emp.EmployeeId
+	INNER JOIN #tplEmployee AS tpl WITH (NOLOCK) ON tpl.EmployeeId = emp.EmployeeId
 	WHERE emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
 	ORDER BY gr.[Rank]
-			,gr.[Name]
+		,gr.[Name]
 
 	-- Get members
 	SELECT emp.EmployeeId
@@ -74,10 +95,8 @@ BEGIN
 					THEN 0
 				ELSE 1
 				END
-			),
-			emp.NickName
-
-	
+			)
+		,emp.NickName
 
 	DROP TABLE #tplEmployee
 END
