@@ -127,7 +127,7 @@ var resource_en_US = {
     'RemovedSuccessfully': 'Removed Successfully',
     'RemindDate': 'Reminder Date',
     'RemindDateForNominator': 'Remind Date For Nominator',
-    'RemindDay': 'Remind Day',
+    'RemindDay': 'Reminder Day',
     'Reset': 'Reset',
     'Reviewer': 'Reviewer',
     'Revised': 'Revised',

@@ -42,6 +42,19 @@ export default class EditProcessSetting extends Component {
         this.setState({ settings: settings });
     }
 
+    renderSetting = e => {
+        return (
+            <tr key={e.processId} >
+                <td>{e.processName}</td>
+                <td key={e.processId} className="text-center">
+                    <select data-processid={e.processId} value={e.remindDay} onChange={this.handleRemindDayChange}>
+                        {this.remindDayList.map(this.renderOptions)}
+                    </select>
+                </td>
+            </tr>
+        );
+    }
+
     save = () => {
         axios({
             url: resolveClientUrl('period/editprocesssetting'),
@@ -78,7 +91,7 @@ export default class EditProcessSetting extends Component {
     render() {
         return (
             <Fragment>
-                <table className="table table-bordered" style={{marginTop: '12px', width: '700px'}}>
+                <table className="table table-bordered" style={{ marginTop: '12px', width: '700px' }}>
                     <thead>
                         <tr>
                             <th />
@@ -86,15 +99,8 @@ export default class EditProcessSetting extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.settings.map(e =>
-                            <tr key={e.processId} >
-                                <td>{e.processName}</td>
-                                <td key={e.processId} className="text-center">
-                                    <select data-processid={e.processId} value={e.remindDay} onChange={this.handleRemindDayChange}>
-                                        {this.remindDayList.map(this.renderOptions)}
-                                    </select>
-                                </td>
-                            </tr>)
+                        {
+                            this.state.settings.map(this.renderSetting)
                         }
 
                     </tbody>
