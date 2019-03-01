@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[PAReport_GetGroupAndMember] @ActorId INT
+﻿
+CREATE PROCEDURE [dbo].[PAReport_GetGroupAndMember] @ActorId INT
 AS
 /*
 Created: 20192603@Oliver.Dang
@@ -18,7 +19,7 @@ BEGIN
 	-- process
 	DECLARE @EvaluatorProcessId TINYINT = 4
 		,@ReviewerProcessId TINYINT = 5
-		,@SARoleId TINYINT = 1
+		,@HRRoleId TINYINT = 2
 		,@ManagementRoleId TINYINT = 3
 
 	SELECT TOP 1 @ProbationDuration = CAST(Value AS SMALLINT)
@@ -32,7 +33,7 @@ BEGIN
 			FROM dbo.Employee AS emp WITH (NOLOCK)
 			INNER JOIN dbo.EmployeeRole AS er WITH (NOLOCK) ON er.EmployeeId = emp.EmployeeId
 				AND er.RoleId IN (
-					@SARoleId
+					@HRRoleId
 					,@ManagementRoleId
 					)
 			WHERE emp.EmployeeId = @ActorId

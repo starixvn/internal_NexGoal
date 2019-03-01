@@ -21,11 +21,13 @@ BEGIN
 		-- PA status
 		,@PAInProgress TINYINT = 3
 		,@PAClosed TINYINT = 4
-		,@ReviewerId INT
-		,@AllowGet BIT = 0
+		
+		,@HRRoleId TINYINT = 2
+		,@ManagementRoleId TINYINT = 3
+		,@CheckPermission BIT = 0
 
 	-- Check permission for actor
-	SET @AllowGet = CASE 
+	SET @CheckPermission = CASE 
 			WHEN EXISTS (
 					SELECT 1
 					FROM dbo.PARecord AS pa WITH (NOLOCK)
@@ -37,13 +39,23 @@ BEGIN
 							,@PMProcessId
 							)
 					)
+				OR EXISTS (
+					SELECT 1
+					FROM dbo.Employee AS emp WITH (NOLOCK)
+					INNER JOIN dbo.EmployeeRole AS er WITH (NOLOCK) ON er.EmployeeId = emp.EmployeeId
+						AND er.RoleId IN (
+							@HRRoleId
+							,@ManagementRoleId
+							)
+					WHERE emp.EmployeeId = @ActorId
+					)
 				THEN 1
-				ELSE 0
+			ELSE 0
 			END
 
 	SELECT pa.PARecordId
 		,pa.ModifiedDate
-        ,pa.IsRevised
+		,pa.IsRevised
 		,pa.OriginalGradeId
 		,pa.Toeic
 		,(
@@ -68,7 +80,7 @@ BEGIN
 	INNER JOIN dbo.PAProcess AS reviewer WITH (NOLOCK) ON pa.PARecordId = reviewer.PARecordId
 		AND reviewer.ProcessId = @ReviewerProcessId
 	WHERE pa.PARecordId = @PARecordId
-		AND @AllowGet <> 0
+		AND @CheckPermission <> 0
 
 	SELECT process.PARecordId
 		,process.ProcessId
@@ -79,8 +91,8 @@ BEGIN
 		,record.PerformanceRecordId
 		,record.GradeId
 		,record.Comment
-		,record.ProjectIds
-		,record.CreatedDate
+		--,record.ProjectIds
+		--,record.CreatedDate
 		,process.ProcessId AS RoleId
 		,record.TypeId
 		,record.CreatorId
@@ -93,5 +105,5 @@ BEGIN
 	LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 	WHERE process.PARecordId = @PARecordId
 		AND process.ProcessId NOT IN (@HRProcessId)
-		AND @AllowGet <> 0
+		AND @CheckPermission <> 0
 END

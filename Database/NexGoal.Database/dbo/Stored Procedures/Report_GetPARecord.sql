@@ -1,7 +1,9 @@
-﻿CREATE PROCEDURE [dbo].[Report_GetPARecord] @ActorId INT
+﻿
+CREATE PROCEDURE [dbo].[Report_GetPARecord] @ActorId INT
 	,@PeriodIds VARCHAR(MAX) = ''
 	,@GroupIds VARCHAR(MAX) = ''
 	,@EmployeeIds VARCHAR(MAX) = ''
+	,@IsRevised BIT = NULL
 AS
 /*
 Created: 20181220@Oliver.Dang
@@ -20,7 +22,7 @@ BEGIN
 		,@EvaluatorProcessId TINYINT = 4
 		,@PAInProgress TINYINT = 3
 		,@PAClosed TINYINT = 4
-		,@SARoleId TINYINT = 1
+		,@HRRoleId TINYINT = 2
 		,@ManagementRoleId TINYINT = 3
 		,@Today DATE = GETDATE()
 
@@ -53,7 +55,7 @@ BEGIN
 				FROM dbo.Employee AS emp WITH (NOLOCK)
 				INNER JOIN dbo.EmployeeRole AS er WITH (NOLOCK) ON er.EmployeeId = emp.EmployeeId
 					AND er.RoleId IN (
-						@SARoleId
+						@HRRoleId
 						,@ManagementRoleId
 						)
 				WHERE emp.EmployeeId = @ActorId
@@ -71,6 +73,10 @@ BEGIN
 		WHERE pa.StatusId IN (
 				@PAInProgress
 				,@PAClosed
+				)
+			AND (
+				@IsRevised IS NULL
+				OR ISNULL(pa.IsRevised,0) = @IsRevised
 				)
 		GROUP BY pa.PARecordId
 	END
@@ -97,8 +103,12 @@ BEGIN
 					,@SelfProcessId
 					)
 				)
+			AND (
+				@IsRevised IS NULL
+				OR ISNULL(pa.IsRevised,0) = @IsRevised
+				)
 		GROUP BY pa.PARecordId
-	END 
+	END
 
 	SELECT pa.PARecordId
 		,pa.Toeic
