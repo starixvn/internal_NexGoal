@@ -3,12 +3,14 @@
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Services;
+    using NexGoal.Web.Core.Services;
     using NSubstitute;
     using Xunit;
 
     public class MasterReportControllerTests
     {
         private IMasterReportService masterReportService;
+        private ISessionService sessionService;
 
         [Fact]
         public void Index_WhenCalled_ReturnExpectedViewResult()
@@ -26,7 +28,7 @@
         {
             var controller = GetContronller();
 
-            masterReportService.ExportAsync(1, "1", "1,2,3").Returns(new byte[10]);
+            masterReportService.ExportAsync(1, "1", "1,2,3", sessionService.EmployeeId).Returns(new byte[10]);
 
             var actual = await controller.Export(1, "1", "1,2,3");
 
@@ -38,8 +40,10 @@
         private MasterReportController GetContronller()
         {
             masterReportService = Substitute.For<IMasterReportService>();
+            sessionService = Substitute.For<ISessionService>();
+            sessionService.EmployeeId = 1;
 
-            var controller = new MasterReportController(masterReportService);
+            var controller = new MasterReportController(masterReportService, sessionService);
 
             return controller;
         }
