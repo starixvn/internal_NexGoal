@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Redmine_GetTeamWorkLoad] @EmployeeId INT
+﻿
+CREATE PROCEDURE [dbo].[Redmine_GetTeamWorkLoad] @EmployeeId INT
 	,@PeriodId INT
 AS
 /*
@@ -50,12 +51,12 @@ BEGIN
 		INNER JOIN #member AS m ON m.EmployeeId = e.EmployeeId
 		LEFT JOIN dbo.ProjectSpentTime AS pst WITH (NOLOCK) ON e.EmployeeId = pst.EmployeeId
 			AND pst.SpentOn BETWEEN @fromDate AND @toDate
+			
 		LEFT JOIN dbo.Project AS p WITH (NOLOCK) ON pst.ProjectId = p.ProjectId
+		INNER JOIN dbo.func_GetSortedEmployee(@EmployeeId) AS ee ON e.EmployeeId = ee.EmployeeId
 	WHERE e.IsDeleted = 0
 		AND e.[Enabled] = 1
-	ORDER BY m.[Priority]
-		,g.[Name]
-		,e.NickName
+	ORDER BY ee.RankIndex
 
 	DROP TABLE #member
 END

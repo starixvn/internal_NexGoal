@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[Period_GetEmployeeSettings] @PeriodId INT
 	,@GroupId INT = NULL
 	,@IsEvaluated BIT = NULL
@@ -51,7 +52,9 @@ BEGIN
 		INNER JOIN dbo.RefResource AS rr WITH (NOLOCK) ON par.StatusId = rr.ResourceId
 		AND rr.RefName = 'PerformanceStatus'
 		INNER JOIN @PARecordTbl AS tbl ON par.PARecordId = tbl.Id
-	ORDER BY par.PARecordId
+		INNER JOIN dbo.func_GetSortedEmployee(null) AS ee ON e.EmployeeId = ee.EmployeeId
+	ORDER BY ee.RankIndex
+	
 
 	SELECT pap.PARecordId
 		,pap.ProcessId

@@ -157,8 +157,10 @@ BEGIN
 		INNER JOIN #tblGroupIds AS grid WITH (NOLOCK) ON emp.GroupId = grid.GroupId
 		LEFT JOIN dbo.EmployeeObjective AS l WITH (NOLOCK) ON l.ObjectiveId = focus.LastObjectiveId
 		LEFT JOIN dbo.EmployeeObjective AS n WITH (NOLOCK) ON n.ObjectiveId = focus.NextObjectiveId
-	ORDER BY gr.[Name]
-		,emp.NickName
+		INNER JOIN dbo.func_GetSortedEmployee(@ActorId) AS ee ON emp.EmployeeId = ee.EmployeeId
+	ORDER BY ee.RankIndex
+	--ORDER BY gr.[Name]
+	--	,emp.NickName
 
 	DROP TABLE #tblGroupIds
 
