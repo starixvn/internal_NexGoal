@@ -1,5 +1,4 @@
 ﻿import React from 'react';
-import PropTypes from 'prop-types';
 import { default as ReactSelect } from 'react-select';
 
 import MultiValueContainer from './MultiValueContainer';
@@ -19,12 +18,6 @@ const MultiSelect = props => {
             components={{ MultiValueContainer, MenuList, Option }}
         />
     );
-};
-
-MultiSelect.propTypes = {
-    options: PropTypes.arrayOf(PropTypes.object),
-    value: PropTypes.arrayOf(PropTypes.object),
-    onChange: PropTypes.func
 };
 
 export default MultiSelect;
