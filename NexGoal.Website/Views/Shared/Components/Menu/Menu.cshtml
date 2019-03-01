@@ -26,13 +26,11 @@
                 {
                     @if (menuGroup.Childs.Any())
                     {
-                        var dropdownId = string.Format("dropdownMenu{0}", menuGroup.MenuId);
                         <li class="dropdown @(menuGroup.Childs.Any(c => currentUrl.Equals(c.Link.ToLowerInvariant(), StringComparison.CurrentCultureIgnoreCase)) ? "active" : string.Empty)">
-                            <a href="#" id="@dropdownId" class="dropdown-toggle"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a href="javascript:;" class="dropdown-toggle">
                                 @menuGroup.Name <span class="icon-submenu"></span>
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="@dropdownId">
+                            <ul class="dropdown-menu">
                                 @foreach (MenuItemSession child in menuGroup.Childs)
                                 {
                                     <li class="@(currentUrl.Equals(child.Link.ToLowerInvariant(),  StringComparison.CurrentCultureIgnoreCase) ? "active" : string.Empty)">

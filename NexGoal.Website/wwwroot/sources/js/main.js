@@ -21,11 +21,11 @@ $(document).ready(function () {
 
     $navHamburger.find('.dropdown').hover(function () {
         if (!$(this).hasClass('open')) {
-            $('.dropdown-toggle', this).trigger('click');
+            $(this).addClass('open');
         }
     }, function () {
         if ($(this).hasClass('open')) {
-            $('.dropdown-toggle', this).trigger('click');
+            $(this).removeClass('open');
         }
 
         $('.dropdown-toggle', this).blur();
