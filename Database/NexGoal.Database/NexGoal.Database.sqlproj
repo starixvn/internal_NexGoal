@@ -263,6 +263,7 @@
     <Build Include="dbo\Stored Procedures\PAReport_GetGroupAndMember.sql" />
     <Build Include="dbo\Tables\PerformanceGrade.sql" />
     <Build Include="dbo\Stored Procedures\PerformanceGrade_Get.sql" />
+    <Build Include="dbo\Functions\func_GetSortedEmployee.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">
