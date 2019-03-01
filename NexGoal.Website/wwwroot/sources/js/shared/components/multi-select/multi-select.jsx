@@ -13,8 +13,10 @@ const MultiSelect = props => {
             hideSelectedOptions={false}
             closeMenuOnSelect={false}
             isSearchable={false}
+            isClearable={false}
             menuPlacement="auto"
             //defaultMenuIsOpen={true}
+            placeholder="0 item(s) selected"
             components={{ MultiValueContainer, MenuList, Option }}
         />
     );

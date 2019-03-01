@@ -1,9 +1,10 @@
 ﻿import React, { Component } from 'react';
-import { Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
+import { Form, FormGroup, ControlLabel } from 'react-bootstrap';
 import Select from 'react-select';
 
 import getResource from '../../../resourceHelper';
-import MultiSelect from '../../../shared/components/multi-select/index';
+import MultiSelect from '../../../shared/components/multi-select/multi-select';
+import MultiSelectSearchbox from '../../../shared/components/multi-select/multi-select-searchbox';
 
 export default class SearchForm extends Component {
     constructor(props) {
@@ -56,8 +57,7 @@ export default class SearchForm extends Component {
                 <FormGroup>
                     <ControlLabel>{getResource('Employee')}</ControlLabel>
                     <div className="control-content employee-width">
-                        <MultiSelect name="employees"
-                            className="react-select-container" classNamePrefix="react-select"
+                        <MultiSelectSearchbox
                             value={filter.employees}
                             options={this.props.employeeOptions}
                             onChange={this.handleEmployeeChange} isClearable

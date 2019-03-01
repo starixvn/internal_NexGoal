@@ -2,7 +2,7 @@
 import { Button, ControlLabel, Form, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 
-import MultiSelect from '../../../shared/components/multi-select/index';
+import MultiSelect from '../../../shared/components/multi-select/multi-select';
 import getResource from '../../../resourceHelper';
 import { PAEditOptions } from '../../../constants';
 
@@ -47,7 +47,7 @@ export default class Filter extends Component {
                             name="groups"
                             value={filter.groups}
                             options={this.props.groupOptions}
-                            onChange={this.handleGroupChange}           
+                            onChange={this.handleGroupChange}
                         />
                     </div>
                 </FormGroup>

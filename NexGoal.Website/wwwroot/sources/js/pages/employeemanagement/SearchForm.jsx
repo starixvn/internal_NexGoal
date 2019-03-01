@@ -2,7 +2,7 @@
 import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import Select from 'react-select';
 
-import Multiselect from '../../shared/components/multi-select/index';
+import Multiselect from '../../shared/components/multi-select/multi-select';
 import getResource from '../../resourceHelper';
 
 export default class SearchForm extends Component {
@@ -70,10 +70,12 @@ export default class SearchForm extends Component {
                     </div>
                 </FormGroup>
                 <FormGroup>
-                        <div className="checkbox"><input type="checkbox" name="isDisabled"
-                            checked={filter.isDisabled}
-                            onChange={this.handleCheckboxChange} id="chbIsResigned" className="checkbox-custom"
-                        /><label for="chbIsResigned">Is Resigned</label></div>
+                    <div className="checkbox"><input type="checkbox" name="isDisabled"
+                        checked={filter.isDisabled}
+                        onChange={this.handleCheckboxChange} id="chbIsResigned" className="checkbox-custom"
+                    />
+                        <label htmlFor="chbIsResigned">Is Resigned</label>
+                    </div>
                 </FormGroup>
                 <FormGroup>
                     <Button type="submit" bsStyle="primary">{getResource('Search')}</Button>

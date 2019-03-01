@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
-import Multiselect from '../../../shared/components/multi-select/index';
+import Multiselect from '../../../shared/components/multi-select/multi-select';
 import Line from './Line';
 
 export default class Timeline extends Component {

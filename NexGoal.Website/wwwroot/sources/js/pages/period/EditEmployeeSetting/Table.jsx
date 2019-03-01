@@ -10,7 +10,7 @@ import Select from 'react-select';
 
 import { axiosError, noDataIndication, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
-import Multiselect from '../../../shared/components/multi-select/index';
+import Multiselect from '../../../shared/components/multi-select/multi-select';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import { PaginationOptions, PAStatus, PerformanceProcess } from '../../../constants';
 import Edit from './Edit';

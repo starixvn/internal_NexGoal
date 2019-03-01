@@ -1,3 +1,69 @@
+.react-multiselect-container {
+    position: relative;
+    width: 100%;
+
+    .react-multiselect-content {
+        font-size: 13px;
+        height: 30px;
+        padding: 3px 8px;
+        border: 1px solid #dfdfdf;
+        @include border-radius(2px);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &.is-focused {
+            @include box-shadow-multiple('inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6)');
+            border-color: #66afe9;
+        }
+
+        .react-multiselect-indicators {
+            display: flex;
+            align-self: stretch;
+
+            .separator {
+                align-self: stretch;
+                background-color: hsl(0,0%,80%);
+                margin: 4px 0;
+                width: 1px;
+            }
+
+            .icon-chevron-down {
+                font-size: 20px;
+                color: hsl(0,0%,80%);
+            }
+        }
+    }
+
+    .react-select-container {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        background: #fff;
+        border: 1px solid #dfdfdf;
+        @include border-radius(2px);
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+
+        .react-select__control {
+            margin: 8px;
+
+            .react-select__indicators {
+                padding-right: 8px;
+
+                .fa-search {
+                    color: hsl(0,0%,80%);
+                }
+            }
+        }
+
+        .react-select__menu {
+            border-top-left-radius: 0px;
+            border-top-right-radius: 0px;
+        }
+    }
+}
+
 .react-select-container {
     &.input-validation-error {
         .react-select__control {
@@ -34,12 +100,10 @@
             background: inherit;
             padding: 8px 12px;
             padding-right: 5px;
-
             // &:hover, &:active {
             //     color: #fff;
             //     background-color: #324476;
             // }
-
             &.react-select__option--is-focused {
                 //color: #fff;
                 //color: #545454;

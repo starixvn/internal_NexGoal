@@ -3,7 +3,7 @@ import { Form, ControlLabel, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 
 import getResource from '../../../resourceHelper';
-import Multiselect from '../../../shared/components/multi-select/index';
+import Multiselect from '../../../shared/components/multi-select/multi-select';
 
 export default class SearchForm extends Component {
     shouldComponentUpdate(nextProps) {
