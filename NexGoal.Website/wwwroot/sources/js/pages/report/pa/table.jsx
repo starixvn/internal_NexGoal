@@ -2,13 +2,13 @@
 import getResource from '../../../resourceHelper';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { PerformanceProcess, PAStatus } from '../../../constants';
-import { noDataIndication, getPAGradeClassName } from '../../../common-functions';
+import { noDataIndication, getPAGradeClassName, resolveClientUrl } from '../../../common-functions';
 
 export default class Table extends Component {
     constructor(props) {
         super(props);
 
-        this.totalColums = 10;
+        this.totalColums = 11;
     }
 
     shouldComponentUpdate(nextProps) {
@@ -98,12 +98,7 @@ export default class Table extends Component {
         let originalGradeId = record.originalGrade ? record.originalGrade.gradeId : null;
 
         const revisedIcon = this.renderPARivisedIcon(originalGradeId, gradeId);
-        let displayGrade = <span>{paGrade}{revisedIcon}</span>;
-        if (record.statusId === PAStatus.InProgress && !record.isRevised) {
-            displayGrade = <span />;
-        }
-
-        return displayGrade;
+        return <span>{paGrade}{revisedIcon}</span>;
     }
 
     renderPARecordInfo = (paRecords) => {
@@ -124,11 +119,12 @@ export default class Table extends Component {
                         <td className="text-center">{this.renderGradeByProcess(record.processes, PerformanceProcess.Evaluator)}</td>
                         <td className="text-center">{this.renderGradeByProcess(record.processes, PerformanceProcess.Reviewer)}</td>
                         <td className="text-center">{this.renderPAGrade(record)}</td>
+                        <td className="text-center">{record.isRevised ? <span className="icon-check" /> : ''}</td>
                         <td className="text-center">
                             <span className="icon-search"
                                 onClick={() => this.showPADetails(record.paRecordId)}
                             />
-                            <a href={`PaDetail?paRecordId=${record.paRecordId}`} >
+                            <a href={resolveClientUrl(`PaDetail?paRecordId=${record.paRecordId}`)} >
                                 <span className="icon-pdf" />
                             </a>
                         </td>
@@ -236,6 +232,7 @@ export default class Table extends Component {
                         <th rowSpan="2">{getResource('Toeic')}</th>
                         <th rowSpan="1" colSpan="4">{getResource('PerformanceRecord')}</th>
                         <th rowSpan="2">{getResource('PAFinal')}</th>
+                        <th rowSpan="2">{getResource('Revised')}</th>
                         <th rowSpan="2">{getResource('Action')}</th>
                     </tr>
                     <tr>

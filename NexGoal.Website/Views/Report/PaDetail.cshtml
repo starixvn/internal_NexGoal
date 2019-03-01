@@ -241,28 +241,19 @@
             <div class="title final">@ViewLang.FinalResult</div>
             <div class="sub-content">
                 @{
-                    if (Model.PARecord.StatusId == (int)PARecordStatus.InProgress && !Model.PARecord.IsRevised)
+                    var finalResult = new PAProcessModel
                     {
-                        <div class="record-list">
-                            <p class="text-center">@ViewLang.NoRecordFound</p>
-                        </div>
-                    }
-                    else
-                    {
-                        var finalResult = new PAProcessModel
+                        Evaluator = reviewerProcess.Evaluator,
+                        PerformanceRecord = new PerformanceRecord
                         {
-                            Evaluator = reviewerProcess.Evaluator,
-                            PerformanceRecord = new PerformanceRecord
-                            {
-                                ModifiedDate = Model.PARecord.ModifiedDate,
-                                Grade = Model.PARecord.Grade,
-                                Comment = Model.PARecord.Comment
-                            },
+                            ModifiedDate = Model.PARecord.ModifiedDate,
+                            Grade = Model.PARecord.Grade,
+                            Comment = Model.PARecord.Comment
+                        },
 
-                        };
+                    };
 
-                        @await Html.PartialAsync(@paRecordPartialView, finalResult)
-                    }
+                    @await Html.PartialAsync(@paRecordPartialView, finalResult)
                 }
             </div>
         </div>
@@ -285,7 +276,7 @@
                                 <ul class="evaluation-process">
                                     @{foreach (var grade in Model.AllGrades)
                                         {
-                                            var currentGradeClass = grade.GradeId == Model.PARecord.Grade.GradeId
+                                            var currentGradeClass = grade.GradeId == Model.PARecord.Grade?.GradeId
                                             ? "current-pci" : "default-pci";
                                             <li class="process-item @currentGradeClass">@grade.Description<div>@grade.Name</div></li>
                                         }
