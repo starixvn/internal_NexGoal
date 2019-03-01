@@ -83,13 +83,8 @@ BEGIN
 	INNER JOIN dbo.TOEIC AS t WITH (NOLOCK) ON pa.EmployeeId = t.EmpId
 	INNER JOIN dbo.PAProcess AS p WITH (NOLOCK) ON pa.PARecordId = p.PARecordId
 		AND p.ProcessId = @ReviewerProcessId
-	ORDER BY CASE 
-			WHEN g.LeaderId = @ActorId
-				THEN 0
-			ELSE 1
-			END
-		,g.[Rank]
-		,emp.NickName
+	INNER JOIN dbo.func_GetSortedEmployee(@ActorId) AS es ON es.EmployeeId = emp.EmployeeId
+	ORDER BY es.RankIndex
 
 	SELECT process.PARecordId
 		,process.ProcessId

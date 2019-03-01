@@ -70,8 +70,7 @@ BEGIN
 	INNER JOIN #tplEmployee AS tpl WITH (NOLOCK) ON tpl.EmployeeId = emp.EmployeeId
 	WHERE emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
-	ORDER BY gr.[Rank]
-		,gr.[Name]
+	ORDER BY gr.[Name]
 
 	-- Get members
 	SELECT emp.EmployeeId
@@ -90,14 +89,7 @@ BEGIN
 	INNER JOIN #tplEmployee AS tpl ON tpl.EmployeeId = emp.EmployeeId
 	WHERE emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
-	ORDER BY (
-			CASE 
-				WHEN emp.EmployeeId = @ActorId
-					THEN 0
-				ELSE 1
-				END
-			)
-		,emp.NickName
+	ORDER BY emp.NickName
 
 	DROP TABLE #tplEmployee
 END

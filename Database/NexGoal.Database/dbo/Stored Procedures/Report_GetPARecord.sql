@@ -25,6 +25,7 @@ BEGIN
 		,@HRRoleId TINYINT = 2
 		,@ManagementRoleId TINYINT = 3
 		,@Today DATE = GETDATE()
+		,@IsHRRole BIT = 0
 
 	CREATE TABLE #tblGroupId (GroupId INT)
 
@@ -76,9 +77,11 @@ BEGIN
 				)
 			AND (
 				@IsRevised IS NULL
-				OR ISNULL(pa.IsRevised,0) = @IsRevised
+				OR ISNULL(pa.IsRevised, 0) = @IsRevised
 				)
 		GROUP BY pa.PARecordId
+
+		SET @IsHRRole = 1
 	END
 	ELSE
 	BEGIN
@@ -105,7 +108,7 @@ BEGIN
 				)
 			AND (
 				@IsRevised IS NULL
-				OR ISNULL(pa.IsRevised,0) = @IsRevised
+				OR ISNULL(pa.IsRevised, 0) = @IsRevised
 				)
 		GROUP BY pa.PARecordId
 	END
@@ -134,18 +137,8 @@ BEGIN
 	INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 	INNER JOIN dbo.JobTitle AS jobtitle WITH (NOLOCK) ON emp.JobTitleId = jobtitle.JobTitleId
 	INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
-	ORDER BY (
-			SELECT ISNULL(MIN(process.ProcessId), 0)
-			FROM dbo.PAProcess AS process WITH (NOLOCK)
-			WHERE process.PARecordId = pa.PARecordId
-				AND process.ProcessId IN (
-					@EvaluatorProcessId
-					,@ReviewerProcessId
-					,@SelfProcessId
-					)
-				AND process.EvaluatorId = @ActorId
-			)
-		,emp.NickName
+	INNER JOIN dbo.func_GetSortedEmployee(@ActorId) AS ee ON emp.EmployeeId = ee.EmployeeId
+	ORDER BY ee.RankIndex
 
 	SELECT process.PARecordId
 		,process.ProcessId
