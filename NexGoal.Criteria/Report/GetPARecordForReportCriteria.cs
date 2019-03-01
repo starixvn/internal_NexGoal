@@ -12,6 +12,8 @@
 
         public string EmployeeIds { get; set; }
 
+        public bool? IsRevised { get; set; }
+
         public override string GetSettingKey() => "Report_GetPARecord";
 
         public override bool IsValid() => ActorId > 0;

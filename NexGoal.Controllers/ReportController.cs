@@ -58,10 +58,16 @@
             return File(fileContent, MimeType.XLSX, fileName);
         }
 
-        public async Task<IActionResult> PaDetail(int paRecordId)
+        public async Task<IActionResult> PADetailPDF(int id)
         {
-            var tuple = await exportService.ExportPADetailPDF(sessionService.EmployeeId, paRecordId).ConfigureAwait(false);
-            return File(tuple.Item2, MimeType.PDF, tuple.Item1);
+            var paDetails = await reportService.GetPAReportDetailAsync(sessionService.EmployeeId, id).ConfigureAwait(false);
+            if (paDetails.PARecord != null)
+            {
+                var tuple = await exportService.ExportPADetailPDF(paDetails).ConfigureAwait(false);
+                return File(tuple.Item2, MimeType.PDF, tuple.Item1);
+            }
+
+            return RedirectToAction("PageNotFound", "Error");
         }
     }
 }

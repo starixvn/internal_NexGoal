@@ -4,7 +4,7 @@ import axios from 'axios';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import Breadcrumb from '../../../shared/components/Breadcrumb';
-import { PerformanceProcess } from '../../../constants';
+import { PerformanceProcess, PAEditOptions } from '../../../constants';
 import Filter from './filter';
 import Table from './table';
 import ViewPADetail from '../../../shared/components/performance-appraisal/ViewPADetail';
@@ -16,7 +16,8 @@ export default class App extends Component {
             filter: {
                 periods: [],
                 groups: [],
-                employees: []
+                employees: [],
+                isRevised: PAEditOptions[0]
             },
             paPeriodRecords: null,
             isShowPADetail: false,
@@ -61,7 +62,8 @@ export default class App extends Component {
                     filter: {
                         periods: this.periodOptions[0] ? [this.periodOptions[0]] : [],
                         groups: this.groupOptions,
-                        employees: this.employees
+                        employees: this.employees,
+                        isRevised: PAEditOptions[0]
                     },
                     employeeOptions: this.employees
                 }, () => this.getPARecords());
@@ -81,9 +83,9 @@ export default class App extends Component {
 
     onGroupChange = (selectedGroups) => {
         let employees = [...this.employees];
-        let employeeOptions = employees.filter(employee => selectedGroups.includes(employee.groupId))
+        let employeeOptions = employees.filter(employee => selectedGroups.includes(employee.groupId));
         let filter = this.state.filter;
-        filter = Object.assign({}, this.state.filter, { employees: employeeOptions })
+        filter = Object.assign({}, this.state.filter, { employees: employeeOptions });
         this.setState({
             filter: filter,
             employeeOptions: employeeOptions
@@ -152,7 +154,8 @@ export default class App extends Component {
             params: {
                 periodIds: filter.periods.map((period) => { return period.value; }).join(','),
                 groupIds: filter.groups.map(group => { return group.value; }).join(','),
-                employeeIds: filter.employees.map(employee => { return employee.value; }).join(',')
+                employeeIds: filter.employees.map(employee => { return employee.value; }).join(','),
+                isRevised: filter.isRevised ? filter.isRevised.value : null
             }
         }).then(response => {
             this.setState({

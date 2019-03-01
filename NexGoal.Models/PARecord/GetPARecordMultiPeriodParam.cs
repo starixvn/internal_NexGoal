@@ -9,5 +9,7 @@
         public string GroupIds { get; set; }
 
         public string EmployeeIds { get; set; }
+
+        public bool? IsRevised { get; set; }
     }
 }

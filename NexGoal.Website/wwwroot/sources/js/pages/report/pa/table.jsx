@@ -1,7 +1,7 @@
 ﻿import React, { Component, Fragment } from 'react';
 import getResource from '../../../resourceHelper';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
-import { PerformanceProcess, PAStatus } from '../../../constants';
+import { PerformanceProcess } from '../../../constants';
 import { noDataIndication, getPAGradeClassName, resolveClientUrl } from '../../../common-functions';
 
 export default class Table extends Component {
@@ -124,7 +124,7 @@ export default class Table extends Component {
                             <span className="icon-search"
                                 onClick={() => this.showPADetails(record.paRecordId)}
                             />
-                            <a href={resolveClientUrl(`PaDetail?paRecordId=${record.paRecordId}`)} >
+                            <a href={resolveClientUrl(`Report/PADetailPDF/${record.paRecordId}`)} >
                                 <span className="icon-pdf" />
                             </a>
                         </td>

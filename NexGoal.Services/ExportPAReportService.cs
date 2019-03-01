@@ -274,10 +274,8 @@
             }
         }
 
-        public async Task<Tuple<string, byte[]>> ExportPADetailPDF(int actorId, int paRecordId)
+        public async Task<Tuple<string, byte[]>> ExportPADetailPDF(PAReportDetail reportDetail)
         {
-            var reportDetail = await reportService.GetPAReportDetailAsync(actorId, paRecordId).ConfigureAwait(false);
-
             var pdf = await GetPdfSetting(reportDetail).ConfigureAwait(false);
             var fileName = $"{reportDetail.Employee.NickName}_PA_{reportDetail.PARecord.Period.Name}.pdf";
             var file = converter.Convert(pdf);

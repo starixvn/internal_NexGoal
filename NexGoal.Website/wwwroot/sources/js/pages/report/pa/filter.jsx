@@ -1,7 +1,9 @@
 ﻿import React, { Component } from 'react';
+import Select from 'react-select';
 import { Button, ControlLabel, Form, FormGroup } from 'react-bootstrap';
 import MultiSelect from '../../../shared/components/multi-select/index';
 import getResource from '../../../resourceHelper';
+import { PAEditOptions } from '../../../constants';
 
 export default class Filter extends Component {
     constructor(props) {
@@ -18,6 +20,10 @@ export default class Filter extends Component {
 
     handleEmployeeChange = (selectedOption) => {
         this.props.onFilterChange('employees', selectedOption);
+    }
+
+    handleIsRevisedChange = (selectedOption) => {
+        this.props.onFilterChange('isRevised', selectedOption);
     }
 
     handleSubmit = (event) => {
@@ -65,6 +71,20 @@ export default class Filter extends Component {
                                 options={this.props.employeeOptions}
                                 onChange={this.handleEmployeeChange}
                                 isClearable
+                            />
+                        </div>
+                    </FormGroup>
+                }
+                {
+                    this.props.groupOptions.length > 0 && this.props.displayMemberFilter &&
+                    <FormGroup>
+                        <ControlLabel>{getResource('IsRevised')}</ControlLabel>
+                        <div className="control-content">
+                            <Select className="react-select-container" classNamePrefix="react-select"
+                                name="status"
+                                value={filter.isRevised}
+                                options={PAEditOptions}
+                                onChange={this.handleIsRevisedChange}
                             />
                         </div>
                     </FormGroup>

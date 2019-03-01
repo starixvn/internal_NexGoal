@@ -53,7 +53,8 @@
                 ActorId = param.ActorId,
                 PeriodIds = param.PeriodIds,
                 GroupIds = param.GroupIds,
-                EmployeeIds = param.EmployeeIds
+                EmployeeIds = param.EmployeeIds,
+                IsRevised = param.IsRevised
             };
 
             var tuple = await reportRepository.GetPAReportAsync(criteria).ConfigureAwait(false);
@@ -120,7 +121,12 @@
         public async Task<PAReportDetail> GetPAReportDetailAsync(int actorId, int paRecordId)
         {
             var paRecord = await paRecordService.GetPARecordByIdAsync(paRecordId, actorId).ConfigureAwait(false);
-            var employeeInfo = await commonService.GetEmployeeByIdAsync(paRecord.Employee.EmployeeId).ConfigureAwait(false);
+            var employeeInfo = new Employee();
+            if (paRecord != null)
+            {
+                employeeInfo = await commonService.GetEmployeeByIdAsync(paRecord.Employee.EmployeeId).ConfigureAwait(false);
+            }
+
             var grades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
             Tuple<IEnumerable<DisciplineModel>, IEnumerable<HRMInfo>, string> hrmAndPrevGrade = await GetPARecordDetail(actorId, paRecordId).ConfigureAwait(false);
