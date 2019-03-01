@@ -86,7 +86,7 @@
     .icon-submenu {
       position: relative;
       display: inline-block;
-      width: 5px;
+      width: 6px;
       height: 5px;
       padding-left: 5px;
 
@@ -94,7 +94,7 @@
         content: '';
         position: absolute;
         display: block;
-        width: 5px;
+        width: 6px;
         height: 1px;
         background: #B6BFD8;
         transition: all 275ms ease-in-out;
@@ -216,6 +216,10 @@
 
         &.open > a:hover {
           color: #fff;
+        }
+
+        .icon-submenu::before, .icon-submenu:after {
+          background: #fff;
         }
       }
 

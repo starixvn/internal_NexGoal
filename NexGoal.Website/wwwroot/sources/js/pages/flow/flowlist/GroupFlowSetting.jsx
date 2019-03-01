@@ -6,7 +6,7 @@ class GroupFlowSetting extends Component {
     render() {
         let groupFlowSettings = this.props.groupFlowSettings;
         const tableWidth = {
-          width: '700px'
+          width: '800px'
         }
         return (
             <table className="table table-bordered table-striped" style={tableWidth}>
