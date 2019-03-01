@@ -3,6 +3,7 @@ import getResource from '../../../resourceHelper';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { PerformanceProcess } from '../../../constants';
 import { noDataIndication, getPAGradeClassName, resolveClientUrl } from '../../../common-functions';
+import StickyBlock from '../../../shared/components/StickyBlock';
 
 export default class Table extends Component {
     constructor(props) {
@@ -223,30 +224,53 @@ export default class Table extends Component {
         }
 
         return (
-            <table className="table table-bordered">
-                <thead>
-                    <tr>
-                        <th rowSpan="2">#</th>
-                        <th rowSpan="2">{getResource('NickName')}</th>
-                        <th rowSpan="2">{getResource('JobTitle')}</th>
-                        <th rowSpan="2">{getResource('Toeic')}</th>
-                        <th rowSpan="1" colSpan="4">{getResource('PerformanceRecord')}</th>
-                        <th rowSpan="2">{getResource('PAFinal')}</th>
-                        <th rowSpan="2">{getResource('Revised')}</th>
-                        <th rowSpan="2">{getResource('Action')}</th>
-                    </tr>
-                    <tr>
-                        <th rowSpan="1">{getResource('Self')}</th>
-                        <th rowSpan="1">{getResource('ProjectManager')}</th>
-                        <th rowSpan="1">{getResource('Evaluator')}</th>
-                        <th rowSpan="2">{getResource('Reviewer')}</th>
-                    </tr>
-
-                </thead>
-                <tbody>
-                    {content}
-                </tbody>
-            </table>
+            <Fragment>
+                <StickyBlock threshold={236}>
+                    <table className="table table-bordered pa-report-table">
+                        <thead>
+                            <tr>
+                                <th className="order" rowSpan="2">#</th>
+                                <th className="nick-name" rowSpan="2">{getResource('NickName')}</th>
+                                <th className="job-title" rowSpan="2">{getResource('JobTitle')}</th>
+                                <th className="toeic" rowSpan="2">{getResource('Toeic')}</th>
+                                <th rowSpan="1" colSpan="4">{getResource('PerformanceRecord')}</th>
+                                <th className="pa-final" rowSpan="2">{getResource('PAFinal')}</th>
+                                <th className="revised" rowSpan="2">{getResource('Revised')}</th>
+                                <th className="action" rowSpan="2">{getResource('Action')}</th>
+                            </tr>
+                            <tr>
+                                <th className="self" rowSpan="1">{getResource('Self')}</th>
+                                <th className="pm" rowSpan="1">{getResource('ProjectManager')}</th>
+                                <th className="evaluator" rowSpan="1">{getResource('Evaluator')}</th>
+                                <th className="reviewer" rowSpan="2">{getResource('Reviewer')}</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </StickyBlock>
+                <table className="table table-bordered pa-report-table">
+                    <thead>
+                        <tr>
+                            <th className="order" rowSpan="2">#</th>
+                            <th className="nick-name" rowSpan="2">{getResource('NickName')}</th>
+                            <th className="job-title" rowSpan="2">{getResource('JobTitle')}</th>
+                            <th className="toeic" rowSpan="2">{getResource('Toeic')}</th>
+                            <th rowSpan="1" colSpan="4">{getResource('PerformanceRecord')}</th>
+                            <th className="pa-final" rowSpan="2">{getResource('PAFinal')}</th>
+                            <th className="revised" rowSpan="2">{getResource('Revised')}</th>
+                            <th className="action" rowSpan="2">{getResource('Action')}</th>
+                        </tr>
+                        <tr>
+                            <th className="self" rowSpan="1">{getResource('Self')}</th>
+                            <th className="pm" rowSpan="1">{getResource('ProjectManager')}</th>
+                            <th className="evaluator" rowSpan="1">{getResource('Evaluator')}</th>
+                            <th className="reviewer" rowSpan="2">{getResource('Reviewer')}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {content}
+                    </tbody>
+                </table>
+            </Fragment>
         );
     }
 }

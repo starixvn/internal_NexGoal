@@ -15,8 +15,9 @@
 @import '~react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 @import "../../components/toast";
 @import "../member/performance-appraisal";
+@import "../../components/sticky-block";
 
-.table {
+.pa-report-table {
     margin-bottom: 24px;
 
     tbody {
@@ -47,11 +48,56 @@
             color: $role-member-color;
         }
     }
+
+    .order {
+        width: 5%;
+    }
+
+    .nick-name {
+        width: 10%;
+    }
+
+    .job-title {
+        width: 15%;
+    }
+
+    .toeic {
+        width: 5%;
+    }
+
+    .self {
+        width: 5%;
+    }
+
+    .pm {
+        width: 10%;
+    }
+
+    .evaluator {
+        width: 10%;
+    }
+
+    .reviewer {
+        width: 10%;
+    }
+
+    .pa-final {
+        width: 10%;
+    }
+
+    .revised {
+        width: 10%;
+    }
+
+    .action {
+        width: 10%;
+    }
 }
 
 .performance-appraisal .record {
     margin: 16px 20px;
 }
+
 .table > thead > tr > th {
     padding: 5px 8px;
     height: 30px;

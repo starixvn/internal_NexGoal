@@ -13,6 +13,7 @@
 @import "../../components/tooltip";
 @import "../../components/tabs";
 @import "./evaluation-process";
+@import "../../components/sticky-block";
 
 .form-filter .control-content {
     width: 300px;
@@ -111,10 +112,4 @@
     .tab-pane {
         height: 500px;
     }
-}
-
-.sticky-block {
-    position: sticky;
-    top: 50px;
-    z-index: 1;
 }

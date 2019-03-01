@@ -12,6 +12,7 @@
 @import "../../components/toast";
 @import "../../components/tooltip";
 @import "../../components/tabs";
+@import "../../components/sticky-block";
 
 #nomination-report-wrapper {
     margin-bottom: 24px;
@@ -48,12 +49,6 @@
         font-size: 14px;
         color: #fff;
     }
-}
-
-.sticky-block {
-    position: sticky;
-    top: 50px;
-    z-index: 1;
 }
 
 .nomination-comment-modal {

@@ -3,28 +3,11 @@
 import getResource from '../../../resourceHelper';
 import { NominationStatuses } from '../../../constants';
 import { getNominationClassName, noDataIndication } from '../../../common-functions';
+import StickyBlock from '../../../shared/components/StickyBlock';
 
 export default class Table extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            showStickyHeader: false
-        };
-    }
-
-    componentDidMount() {
-        window.addEventListener('scroll', e => {
-            if (window.scrollY > 236) {
-                if (!this.state.showStickyHeader) {
-                    this.setState({ showStickyHeader: true });
-                }
-            } else {
-                if (this.state.showStickyHeader) {
-                    this.setState({ showStickyHeader: false });
-                }
-            }
-        });
     }
 
     handleShowNominatorComment = (nomination, performanceRecordId) => {
@@ -90,7 +73,7 @@ export default class Table extends Component {
 
         return (
             <Fragment>
-                <div className={`sticky-block ${this.state.showStickyHeader ? '' : 'hidden'}`}>
+                <StickyBlock threshold={236}>
                     <table className="table table-bordered table-striped tbl-nomination-report">
                         <thead>
                             <tr>
@@ -103,7 +86,7 @@ export default class Table extends Component {
                             </tr>
                         </thead>
                     </table>
-                </div>
+                </StickyBlock>
                 <table className="table table-bordered table-striped tbl-nomination-report">
                     <colgroup>
                         <col className="order" />
