@@ -6,15 +6,18 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Services;
     using NexGoal.Web.Core.Filters;
+    using NexGoal.Web.Core.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.MasterReport, Policy = Policy.Read)]
     public class MasterReportController : Controller
     {
         private readonly IMasterReportService masterReportService;
+        private readonly ISessionService sessionService;
 
-        public MasterReportController(IMasterReportService masterReportService)
+        public MasterReportController(IMasterReportService masterReportService, ISessionService sessionService)
         {
             this.masterReportService = masterReportService;
+            this.sessionService = sessionService;
         }
 
         [HttpGet]
@@ -26,7 +29,7 @@
         [HttpGet]
         public async Task<IActionResult> Export(int periodId, string groupIds, string employeeIds)
         {
-            var fileContent = await masterReportService.ExportAsync(periodId, groupIds, employeeIds).ConfigureAwait(false);
+            var fileContent = await masterReportService.ExportAsync(periodId, groupIds, employeeIds, sessionService.EmployeeId).ConfigureAwait(false);
 
             return File(fileContent, MimeType.XLSX, "Master Report.xlsx");
         }

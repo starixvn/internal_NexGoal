@@ -41,13 +41,14 @@
             this.hostingEnvironment = hostingEnvironment;
         }
 
-        private async Task<IEnumerable<MasterReportModel>> GetRecords(int periodId, string groupIds, string employeeIds)
+        private async Task<IEnumerable<MasterReportModel>> GetRecords(int periodId, string groupIds, string employeeIds, int employeeId)
         {
             var result = await baseService.FetchMultipleAsync<MasterReportModel, AwardModel, AssessmentModel>(new GetRecordsCriteria
             {
                 PeriodId = periodId,
                 GroupIds = groupIds,
-                EmployeeIds = employeeIds
+                EmployeeIds = employeeIds,
+                ActorId = employeeId
             }).ConfigureAwait(false);
 
             var performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
@@ -90,11 +91,11 @@
             return records;
         }
 
-        public async Task<byte[]> ExportAsync(int periodId, string groupIds, string employeeIds)
+        public async Task<byte[]> ExportAsync(int periodId, string groupIds, string employeeIds, int employeeId)
         {
             var period = await baseService.GetDataEntityAsync<PeriodBaseModel>(new GetPeriodCriteria { PeriodId = periodId }).ConfigureAwait(false);
-            var records = await GetRecords(periodId, groupIds, employeeIds).ConfigureAwait(false);
-            var groupedRecord = records.OrderBy(x => x.GroupName).ThenByDescending(x => x.IsGroupLeader).ThenBy(x => x.NickName)
+            var records = await GetRecords(periodId, groupIds, employeeIds, employeeId).ConfigureAwait(false);
+            var groupedRecord = records
                 .GroupBy(x => new { x.GroupId, x.GroupName }, (key, elements) => new { Key = key, Records = elements });
 
             var performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);

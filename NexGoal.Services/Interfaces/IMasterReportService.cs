@@ -4,6 +4,6 @@
 
     public interface IMasterReportService
     {
-        Task<byte[]> ExportAsync(int periodId, string groupIds, string employeeIds);
+        Task<byte[]> ExportAsync(int periodId, string groupIds, string employeeIds, int employeeId);
     }
 }
