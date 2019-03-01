@@ -31,4 +31,5 @@ BEGIN
 			END AS HasRole
 	FROM dbo.RefResource AS rr WITH (NOLOCK)
 	WHERE rr.RefName = 'SystemRole'
+	ORDER BY ResourceId
 END

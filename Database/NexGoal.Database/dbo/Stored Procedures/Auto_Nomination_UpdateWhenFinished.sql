@@ -24,34 +24,21 @@ BEGIN
 	CREATE TABLE #tblNomination (
 		NominationId INT
 		,EmployeeId INT
-		,PerformanceRecordId INT
 		)
 
 	-- insert performance record
 	INSERT INTO #tblNomination (
 		NominationId
 		,EmployeeId
-		,PerformanceRecordId
 		)
 	SELECT nomination.NominationId
 		,nomination.NomineeId
-		,nomination.PerformanceRecordId
 	FROM dbo.Nomination AS nomination WITH (NOLOCK)
 		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
 		AND period.EndDateForCommittee < @Today
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON nomination.NomineeId = emp.EmployeeId
-		AND emp.[Enabled] = 1
-		AND emp.IsDeleted = 0
 	WHERE ISNULL(@NominationPeriodId, period.EOQYId) = period.EOQYId
-
-	UPDATE record
-	SET CreatedDate = @CreatedDate
-	FROM dbo.PerformanceRecord AS record WITH (ROWLOCK, UPDLOCK)
-		INNER JOIN #tblNomination AS nomination ON record.PerformanceRecordId = nomination.PerformanceRecordId
-
-	DELETE
-	FROM #tblNomination
-	WHERE PerformanceRecordId IS NOT NULL
+		AND nomination.PerformanceRecordId IS NULL
 
 	WHILE EXISTS (
 			SELECT 1

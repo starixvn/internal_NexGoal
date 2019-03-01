@@ -1,5 +1,5 @@
 ﻿
-CREATE FUNCTION [dbo].[func_GetSortedEmployee] (@ActorId INT)
+CREATE FUNCTION [dbo].[func_GetSortedEmployee] (@ActorId INT = NULL)
 RETURNS @result TABLE (
 	EmployeeId INT 
 	,RankIndex SMALLINT IDENTITY(1,1)
@@ -7,8 +7,8 @@ RETURNS @result TABLE (
 AS
 BEGIN
 	DECLARE @IsHRRole BIT = 0
-	IF (
-			EXISTS (
+	IF (@ActorId IS NULL
+			OR EXISTS (
 				SELECT 1
 				FROM dbo.Employee AS emp WITH (NOLOCK)
 				INNER JOIN dbo.EmployeeRole AS er WITH (NOLOCK) ON er.EmployeeId = emp.EmployeeId
@@ -32,6 +32,11 @@ BEGIN
 			END
 		,g.Rank
 		,g.Name
+		,(CASE e.EmployeeId
+                WHEN g.LeaderId THEN 2 -- employee is leader
+                WHEN g.AssistantLeaderId THEN 1 -- employee is assistant leader
+                ELSE 0 END
+                ) DESC
 		,e.Code
 
 	RETURN

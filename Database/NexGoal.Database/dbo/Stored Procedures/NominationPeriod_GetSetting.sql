@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[NominationPeriod_GetSetting] @NominationPeriodId INT
 	,@Keyword NVARCHAR(200) = NULL
 	,@GroupIds NVARCHAR(MAX) = ''
@@ -38,6 +39,7 @@ BEGIN
 		,gr.[Name] AS GroupName
 		,job.[Name] AS JobTitle
 		,setting.RoleIds
+		,ee.RankIndex
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		INNER JOIN dbo.JobTitle AS job WITH (NOLOCK) ON emp.JobTitleId = job.JobTitleId
@@ -45,6 +47,7 @@ BEGIN
 		LEFT JOIN dbo.EOQYNominatorSetting AS setting WITH (NOLOCK) ON emp.EmployeeId = setting.NominatorId
 		AND setting.EOQYId = @NominationPeriodId
 		LEFT JOIN dbo.EOQY AS eoy WITH (NOLOCK) ON setting.EOQYId = eoy.EOQYId
+		INNER JOIN dbo.func_GetSortedEmployee(null) AS ee ON emp.EmployeeId = ee.EmployeeId
 	WHERE (
 			emp.FullName LIKE '%' + ISNULL(@Keyword, '') + '%'
 			OR emp.NickName LIKE '%' + ISNULL(@Keyword, '') + '%'
@@ -65,7 +68,7 @@ BEGIN
 				)
 			OR @IsShowAll = 1
 			)
-	ORDER BY emp.NickName
+	ORDER BY ee.RankIndex
 
 	DROP TABLE #tblGroupIds
 END

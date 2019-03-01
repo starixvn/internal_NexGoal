@@ -225,9 +225,11 @@ BEGIN
 		FROM #tblPerformanceRecord WITH (NOLOCK)
 		GROUP BY EmployeeId
 		) AS record ON emp.EmployeeId = record.EmployeeId
-	ORDER BY member.[Priority]
-		,gr.[Name]
-		,emp.NickName
+	INNER JOIN dbo.func_GetSortedEmployee(@ActorId) AS ee ON emp.EmployeeId = ee.EmployeeId
+	ORDER BY ee.RankIndex
+	--ORDER BY member.[Priority]
+	--	,gr.[Name]
+	--	,emp.NickName
 
 	IF @EmployeeId IS NULL
 	BEGIN
