@@ -79,15 +79,6 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average Working Hours.
-        /// </summary>
-        public static string AverageWorkingHours {
-            get {
-                return ResourceManager.GetString("AverageWorkingHours", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Create Performance Check-in.
         /// </summary>
         public static string CreatePerformanceCheckin {
@@ -264,15 +255,6 @@ namespace NexGoal.Resources {
         public static string MemberPage {
             get {
                 return ResourceManager.GetString("MemberPage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Missing Check In/Out.
-        /// </summary>
-        public static string MissingCheckInOut {
-            get {
-                return ResourceManager.GetString("MissingCheckInOut", resourceCulture);
             }
         }
         

@@ -28,10 +28,7 @@
                 <div class="section">
                     <div class="item"><span class="key">Full name:</span><span class="value">@Model.Employee.FullName</span></div>
                     <div class="item"><span class="key">@ViewLang.Team:</span><span class="value">@Model.Employee.GroupName</span></div>
-                    <div class="item">
-                        <span class="key">Joined date:</span>
-                        <span class="value">@Model.Employee.JoinedDate.ToString("dd MMM yyyy")</span>
-                    </div>
+                    <div class="item"><span class="key">Joined date:</span><span class="value">@Model.Employee.JoinedDate.ToString("dd MMM yyyy")</span></div>
                 </div>
             </div>
         </div>
@@ -45,12 +42,12 @@
                             <thead>
                                 <tr>
                                     <th class="col-80">@ViewLang.Month</th>
-                                    <th class="col-120">@ViewLang.MissingCheckInOut</th>
+                                    <th class="col-120">Missing<br />Check In/Out</th>
                                     <th>@ViewLang.LateIn</th>
                                     <th>@ViewLang.EarlyOut</th>
                                     <th>@ViewLang.UnpaidLeave</th>
                                     <th class="col-120">@ViewLang.UnplannedAnnualLeave</th>
-                                    <th class="col-120">@ViewLang.AverageWorkingHours</th>
+                                    <th class="col-120">Average<br />Working Hours</th>
                                     <th>@ViewLang.Overtime</th>
                                     <th class="col-100">Toeic</th>
                                 </tr>
@@ -197,7 +194,7 @@
                         <div class="sub-content">
                             <div class="list-pci">
                                 @{
-                                    var pmProcesses = Model.PARecord.Processes.Where(p => p.ProcessId == (int)PerformanceProcess.ProjectManager);
+                                    var pmProcesses = Model.PARecord.Processes.Where(p => p.ProcessId == (int)PerformanceProcess.ProjectManager && p.PerformanceRecord != null);
 
                                     if (pmProcesses.Any())
                                     {
@@ -264,26 +261,15 @@
                     <div class="title">A. @ViewLang.CurrentPeriod</div>
                     <div class="sub-content">
                         @{
-                            if (Model.PARecord.StatusId == (int)PARecordStatus.InProgress && !Model.PARecord.IsRevised)
-                            {
-                                <div class="record-list">
-                                    <p class="text-center">@ViewLang.NoRecordFound</p>
-                                </div>
-
-                            }
-                            else
-                            {
-                                <ul class="evaluation-process">
-                                    @{foreach (var grade in Model.AllGrades)
-                                        {
-                                            var currentGradeClass = grade.GradeId == Model.PARecord.Grade?.GradeId
-                                            ? "current-pci" : "default-pci";
-                                            <li class="process-item @currentGradeClass">@grade.Description<div>@grade.Name</div></li>
-                                        }
+                            <ul class="evaluation-process">
+                                @{foreach (var grade in Model.AllGrades)
+                                    {
+                                        var currentGradeClass = grade.GradeId == Model.PARecord.Grade?.GradeId
+                                        ? "current-pci" : "default-pci";
+                                        <li class="process-item @currentGradeClass">@grade.Description<div>@grade.Name</div></li>
                                     }
-                                </ul>
-
-                            }
+                                }
+                            </ul>
                         }
                     </div>
                     @if (Model.PreviousGrade != null)

@@ -198,9 +198,6 @@
   <data name="ApproachToWork" xml:space="preserve">
     <value>Approach To Work</value>
   </data>
-  <data name="AverageWorkingHours" xml:space="preserve">
-    <value>Average Working Hours</value>
-  </data>
   <data name="CurrentPeriod" xml:space="preserve">
     <value>Current Period</value>
   </data>
@@ -227,9 +224,6 @@
   </data>
   <data name="LateIn" xml:space="preserve">
     <value>Late In</value>
-  </data>
-  <data name="MissingCheckInOut" xml:space="preserve">
-    <value>Missing Check In/Out</value>
   </data>
   <data name="Month" xml:space="preserve">
     <value>Month</value>
