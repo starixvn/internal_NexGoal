@@ -9,16 +9,22 @@ import SingleValue from './SingleValue';
 export default class Table extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            showStickyHeader: false
+        };
     }
 
     componentDidMount() {
-        let header = this.refs.stickyHeader;
-
-        window.addEventListener('scroll', function (e) {
-            if (window.scrollY > 168) {
-                header.classList.add('sticky');
+        window.addEventListener('scroll', e => {
+            if (window.scrollY > 236) {
+                if (!this.state.showStickyHeader) {
+                    this.setState({ showStickyHeader: true });
+                }
             } else {
-                header.classList.remove('sticky');
+                if (this.state.showStickyHeader) {
+                    this.setState({ showStickyHeader: false });
+                }
             }
         });
     }
@@ -80,29 +86,38 @@ export default class Table extends Component {
             : <tr><td className="text-center" colSpan={6}>{noDataIndication()}</td></tr>;
 
         return (
-            <table className="table table-bordered table-striped tbl-nomination-assessment">
-                <colgroup>
-                    <col className="order" />
-                    <col className="nominee" />
-                    <col className="team" />
-                    <col className="vote" />
-                    <col className="nominator" />
-                    <col className="status" />
-                </colgroup>
-                <thead>
-                    <tr ref='stickyHeader'>
-                        <th className="order">{getResource('SymbolCount')}</th>
-                        <th className="nominee">{getResource('Nominee')}</th>
-                        <th className="team">{getResource('Team')}</th>
-                        <th className="vote">{getResource('Vote')}</th>
-                        <th className="nominator">{getResource('Nominator')}</th>
-                        <th className="status">{getResource('Status')}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {content}
-                </tbody>
-            </table>
+            <Fragment>
+                <div className={`sticky-block ${this.state.showStickyHeader ? '' : 'hidden'}`}>
+                    <table className="table table-bordered table-striped tbl-nomination-assessment">
+                        <thead>
+                            <tr>
+                                <th className="order">{getResource('SymbolCount')}</th>
+                                <th className="nominee">{getResource('Nominee')}</th>
+                                <th className="team">{getResource('Team')}</th>
+                                <th className="vote">{getResource('Vote')}</th>
+                                <th className="nominator">{getResource('Nominator')}</th>
+                                <th className="status">{getResource('Status')}</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <table className="table table-bordered table-striped tbl-nomination-assessment">
+                    <thead>
+                        <tr>
+                            <th className="order">{getResource('SymbolCount')}</th>
+                            <th className="nominee">{getResource('Nominee')}</th>
+                            <th className="team">{getResource('Team')}</th>
+                            <th className="vote">{getResource('Vote')}</th>
+                            <th className="nominator">{getResource('Nominator')}</th>
+                            <th className="status">{getResource('Status')}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {content}
+                    </tbody>
+                </table>
+            </Fragment>
+
         );
     }
 }
