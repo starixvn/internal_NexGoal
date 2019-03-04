@@ -17,6 +17,7 @@ BEGIN
 
 	DECLARE @Permission TINYINT = 0 -- don't permission
 		,@SARoleId TINYINT = 1
+		,@HRRoleId TINYINT = 2
 		,@ManagementRoleId TINYINT = 3
 		,@EvaluatorProcessId TINYINT = 4
 		,@ReviewerProcessId TINYINT = 5
@@ -30,7 +31,7 @@ BEGIN
 			SELECT 1
 			FROM dbo.Employee AS emp WITH (NOLOCK)
 				INNER JOIN dbo.EmployeeRole AS er WITH (NOLOCK) ON er.EmployeeId = emp.EmployeeId
-				AND er.RoleId IN (@SARoleId, @ManagementRoleId)
+				AND er.RoleId IN (@SARoleId, @HRRoleId, @ManagementRoleId)
 			WHERE emp.EmployeeId = @ActorId
 			)
 		OR EXISTS (

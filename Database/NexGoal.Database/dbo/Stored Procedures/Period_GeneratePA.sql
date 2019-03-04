@@ -23,6 +23,8 @@ BEGIN
 		,@periodEndDate DATE
 		,@workingFromDate DATETIME
 		,@workingToDate DATETIME
+		,@separator NVARCHAR(43) = CHAR(10) + CHAR(10) + '----------------------------------------' + CHAR(10)
+		,@separatorLength TINYINT = 43
 		,@dateFormat VARCHAR(11) = 'dd MMM yyyy'
 		-- process
 		,@SelfProcessId TINYINT = 2
@@ -141,7 +143,7 @@ BEGIN
 		,pm.ProjectManagerId
 		,lg.GradeId
 		,STUFF((
-				SELECT CHAR(10) + CHAR(10) + FORMAT(prcmt.CreatedDate, @dateFormat) + CHAR(10) + prcmt.Comment
+				SELECT @separator + FORMAT(prcmt.CreatedDate, @dateFormat) + CHAR(10) + prcmt.Comment
 				FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
 				WHERE prcmt.CreatorId = pm.ProjectManagerId
 					AND prcmt.EmployeeId = pa.EmployeeId
@@ -152,7 +154,7 @@ BEGIN
 				ORDER BY prcmt.CreatedDate DESC
 				FOR XML PATH
 					,TYPE
-				).value(N'.[1]', N'NVARCHAR(MAX)'), 1, 2, N'')
+				).value(N'.[1]', N'NVARCHAR(MAX)'), 1, @separatorLength, N'')
 		,GETDATE()
 		,@PATypeId
 		,@PMProcessId
@@ -213,7 +215,7 @@ BEGIN
 		,paprocess.EvaluatorId
 		,lg.GradeId
 		,STUFF((
-				SELECT CHAR(10) + CHAR(10) + FORMAT(prcmt.CreatedDate, @dateFormat) + CHAR(10) + prcmt.Comment
+				SELECT @separator + FORMAT(prcmt.CreatedDate, @dateFormat) + CHAR(10) + prcmt.Comment
 				FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
 				WHERE prcmt.CreatorId = paprocess.EvaluatorId
 					AND prcmt.EmployeeId = pa.EmployeeId
@@ -224,7 +226,7 @@ BEGIN
 				ORDER BY prcmt.CreatedDate DESC
 				FOR XML PATH
 					,TYPE
-				).value(N'.[1]', N'NVARCHAR(MAX)'), 1, 2, N'')
+				).value(N'.[1]', N'NVARCHAR(MAX)'), 1, @separatorLength, N'')
 		,GETDATE()
 		,@PATypeId
 		,paprocess.ProcessId
@@ -274,7 +276,7 @@ BEGIN
 		,paprocess.EvaluatorId
 		,lg.GradeId
 		,STUFF((
-				SELECT CHAR(10) + CHAR(10) + FORMAT(prcmt.CreatedDate, @dateFormat) + CHAR(10) + prcmt.Comment
+				SELECT @separator + FORMAT(prcmt.CreatedDate, @dateFormat) + CHAR(10) + prcmt.Comment
 				FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
 				WHERE prcmt.CreatorId = paprocess.EvaluatorId
 					AND prcmt.EmployeeId = pa.EmployeeId
@@ -285,7 +287,7 @@ BEGIN
 				ORDER BY prcmt.CreatedDate DESC
 				FOR XML PATH
 					,TYPE
-				).value(N'.[1]', N'NVARCHAR(MAX)'), 1, 2, N'')
+				).value(N'.[1]', N'NVARCHAR(MAX)'), 1, @separatorLength, N'')
 		,GETDATE()
 		,@PATypeId
 		,paprocess.ProcessId
@@ -421,7 +423,7 @@ BEGIN
 		UPDATE pr
 		SET pr.GradeId = lg.GradeId
 			,pr.Comment = STUFF((
-					SELECT CHAR(10) + CHAR(10) + FORMAT(prcmt.CreatedDate, @dateFormat) + CHAR(10) + prcmt.Comment
+					SELECT @separator + FORMAT(prcmt.CreatedDate, @dateFormat) + CHAR(10) + prcmt.Comment
 					FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
 					WHERE prcmt.EmployeeId = pa.EmployeeId
 						AND prcmt.CreatorId = paprocess.EvaluatorId
@@ -432,7 +434,7 @@ BEGIN
 					ORDER BY prcmt.CreatedDate DESC
 					FOR XML PATH
 						,TYPE
-					).value(N'.[1]', N'NVARCHAR(MAX)'), 1, 2, N'')
+					).value(N'.[1]', N'NVARCHAR(MAX)'), 1, @separatorLength, N'')
 		FROM dbo.PerformanceRecord AS pr WITH (ROWLOCK, UPDLOCK)
 			INNER JOIN dbo.PAProcess AS paprocess WITH (NOLOCK) ON pr.PerformanceRecordId = paprocess.PerformanceRecordId
 			AND paprocess.ProcessId IN (@SelfProcessId, @PMProcessId, @ReviewerProcessId)
@@ -465,7 +467,7 @@ BEGIN
 		UPDATE pr
 		SET pr.GradeId = lg.GradeId
 			,pr.Comment = STUFF((
-					SELECT CHAR(10) + CHAR(10) + FORMAT(prcmt.CreatedDate, @dateFormat) + CHAR(10) + prcmt.Comment
+					SELECT @separator + FORMAT(prcmt.CreatedDate, @dateFormat) + CHAR(10) + prcmt.Comment
 					FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
 					WHERE prcmt.EmployeeId = pa.EmployeeId
 						AND prcmt.CreatorId = paprocess.EvaluatorId
@@ -476,7 +478,7 @@ BEGIN
 					ORDER BY prcmt.CreatedDate DESC
 					FOR XML PATH
 						,TYPE
-					).value(N'.[1]', N'NVARCHAR(MAX)'), 1, 2, N'')
+					).value(N'.[1]', N'NVARCHAR(MAX)'), 1, @separatorLength, N'')
 		FROM dbo.PerformanceRecord AS pr WITH (ROWLOCK, UPDLOCK)
 			INNER JOIN dbo.PAProcess AS paprocess WITH (NOLOCK) ON pr.PerformanceRecordId = paprocess.PerformanceRecordId
 			AND paprocess.ProcessId = @EvaluatorProcessId

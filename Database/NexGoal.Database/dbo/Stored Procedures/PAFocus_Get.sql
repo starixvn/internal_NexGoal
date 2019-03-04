@@ -22,19 +22,12 @@ BEGIN
 		,@FunctionKey VARCHAR(50) = 'PAFocus'
 		-- system role
 		,@SARoleId TINYINT = 1
+		,@HRRoleId TINYINT = 2
 		,@ManagementRoleId TINYINT = 3
 		,@EvaluatorRoleId TINYINT = 4
 		,@ReviewerRoleId TINYINT = 5
-		-- process
-		,@EvaluatorProcessId TINYINT = 4
-		,@ReviewerProcessId TINYINT = 5
 
 	CREATE TABLE #tblGroupIds (GroupId INT)
-
-	CREATE TABLE #tblMembers (
-		EmployeeId INT
-		,RoleId TINYINT
-		)
 
 	CREATE TABLE #tblPAFocusIds (
 		PAFocusId INT
@@ -44,16 +37,6 @@ BEGIN
 	INSERT INTO #tblGroupIds (GroupId)
 	SELECT DISTINCT val
 	FROM dbo.func_SplitString(@GroupIds, ',')
-
-	INSERT INTO #tblMembers (
-		EmployeeId
-		,RoleId
-		)
-	SELECT DISTINCT EmployeeId
-		,RoleId
-	FROM dbo.func_GetMember(@ActorId)
-	WHERE RoleId IN (@SARoleId, @ManagementRoleId, @EvaluatorRoleId)
-		AND ISNULL(@EmployeeId, EmployeeId) = EmployeeId
 
 	SELECT @Policy = r.Policy
 	FROM dbo.Employee AS emp WITH (NOLOCK)
@@ -75,18 +58,18 @@ BEGIN
 		AND period.IsActive = 1
 		AND period.FocusStartDate <= @Today
 		AND period.PeriodId = @PeriodId
-	WHERE EXISTS (
-			SELECT 1
-			FROM #tblMembers AS member WITH (NOLOCK)
-			WHERE member.EmployeeId = focus.EmployeeId
-				AND member.RoleId = @EvaluatorRoleId
+		INNER JOIN dbo.func_GetMember(@ActorId) AS member ON focus.EmployeeId = member.EmployeeId
+		AND member.RoleId = @EvaluatorRoleId
+	WHERE (
+			@EmployeeId IS NULL
+			OR focus.EmployeeId = @EmployeeId
 			)
 
 	IF EXISTS (
 			SELECT 1
 			FROM dbo.Employee AS emp WITH (NOLOCK)
 				INNER JOIN dbo.EmployeeRole AS er WITH (NOLOCK) ON er.EmployeeId = emp.EmployeeId
-				AND er.RoleId = @ManagementRoleId
+				AND er.RoleId IN (@HRRoleId, @ManagementRoleId)
 				INNER JOIN dbo.RoleFunction AS r WITH (NOLOCK) ON r.RoleId = er.RoleId
 				AND r.Policy > 0
 				INNER JOIN dbo.[Function] AS f WITH (NOLOCK) ON f.FunctionId = r.FunctionId
@@ -116,11 +99,16 @@ BEGIN
 				SELECT PAFocusId
 				FROM #tblPAFocusIds WITH (NOLOCK)
 				)
+			AND (
+				@EmployeeId IS NULL
+				OR focus.EmployeeId = @EmployeeId
+				)
 			AND EXISTS (
 				SELECT 1
-				FROM #tblMembers AS member WITH (NOLOCK)
-				WHERE member.EmployeeId = focus.EmployeeId
-					AND member.RoleId IN (@SARoleId, @ManagementRoleId)
+				FROM dbo.Employee AS emp WITH (NOLOCK)
+				WHERE focus.EmployeeId = emp.EmployeeId
+					AND emp.[Enabled] = 1
+					AND emp.IsDeleted = 0
 				)
 	END
 
@@ -159,12 +147,8 @@ BEGIN
 		LEFT JOIN dbo.EmployeeObjective AS n WITH (NOLOCK) ON n.ObjectiveId = focus.NextObjectiveId
 		INNER JOIN dbo.func_GetSortedEmployee(@ActorId) AS ee ON emp.EmployeeId = ee.EmployeeId
 	ORDER BY ee.RankIndex
-	--ORDER BY gr.[Name]
-	--	,emp.NickName
 
 	DROP TABLE #tblGroupIds
-
-	DROP TABLE #tblMembers
 
 	DROP TABLE #tblPAFocusIds
 END
