@@ -276,13 +276,25 @@
         @include border-radius(2px);
         border: 1px solid #B0CBDD;
         background-color: #E1EEF7;
-        margin: 2px 4px;
-        padding: 0px 4px 1px;
+        margin: 0 4px;
+        padding: 2px 4px 3px;
         font-size: 11px;
         .react-select__multi-value__label {
             font-size: 100%;
             padding: 0;
         }
+    }    
+
+    .react-select__multi-value__remove {
+      padding-right: 0;
+      svg {
+        color: #545454;
+      }
+
+      &:hover {
+        background: none;
+        color: #333;
+      }
     }
 
     .comment .form-control {

@@ -48,10 +48,12 @@
               .icon-submenu {
                 &:before {
                   transform: translateX(-2px) rotate(-45deg);
+                  background: #fff;
                 }
           
                 &:after {
                   transform: translateX(2px) rotate(45deg);
+                  background: #fff;
                 }
               }
             }            
@@ -233,10 +235,12 @@
         .icon-submenu {          
           &:before {
             transform: translateX(-2px) rotate(45deg);
+            background: #fff;
           }
     
           &:after {
             transform: translateX(2px) rotate(-45deg);
+            background: #fff;
           } 
         }
       }
