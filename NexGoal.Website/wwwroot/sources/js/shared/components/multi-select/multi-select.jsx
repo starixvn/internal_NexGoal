@@ -11,7 +11,6 @@ const MultiSelect = props => {
             isMulti
             hideSelectedOptions={false}
             closeMenuOnSelect={false}
-            isSearchable={true}
             isClearable={false}
             menuPlacement="auto"
             backspaceRemovesValue={false}

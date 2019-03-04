@@ -2,7 +2,6 @@
 import Select from 'react-select';
 import { Button, ControlLabel, Form, FormGroup } from 'react-bootstrap';
 import MultiSelect from '../../../shared/components/multi-select/multi-select';
-import MultiSelectSearchbox from '../../../shared/components/multi-select/multi-select-searchbox';
 import getResource from '../../../resourceHelper';
 import { PAEditOptions } from '../../../constants';
 
@@ -66,7 +65,8 @@ export default class Filter extends Component {
                     <FormGroup>
                         <ControlLabel>{getResource('Employee')}</ControlLabel>
                         <div className="control-content employee-width">
-                            <MultiSelectSearchbox
+                            <MultiSelect
+                                className="react-select-container" classNamePrefix="react-select"
                                 value={filter.employees}
                                 options={this.props.employeeOptions}
                                 onChange={this.handleEmployeeChange}
