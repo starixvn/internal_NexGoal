@@ -22,7 +22,7 @@
     public class ExportPAReportService : IExportPAReportService
     {
         private const string ExcelTemplatePath = @"ExcelTemplates\\PAReport.xlsx";
-        private const string PADetailView = "Report/PADetail";
+        private const string PADetailView = "PAReport/PADetail";
         private const string PDFStylePath = @"dist\\styles\\paDetail-pdf.css";
         private const string RevisedIcon = "✔";
         private const int TotalColumns = 10;

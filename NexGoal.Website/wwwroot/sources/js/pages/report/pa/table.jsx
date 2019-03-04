@@ -125,7 +125,7 @@ export default class Table extends Component {
                             <span className="icon-search"
                                 onClick={() => this.showPADetails(record.paRecordId)}
                             />
-                            <a href={resolveClientUrl(`Report/PADetailPDF/${record.paRecordId}`)} >
+                            <a href={resolveClientUrl(`PAReport/PADetailPDF/${record.paRecordId}`)} >
                                 <span className="icon-pdf" />
                             </a>
                         </td>

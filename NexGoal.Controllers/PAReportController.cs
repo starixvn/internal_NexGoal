@@ -5,19 +5,22 @@
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
     using NexGoal.Services;
     using NexGoal.Services.Interfaces;
+    using NexGoal.Web.Core.Filters;
     using NexGoal.Web.Core.Services;
 
-    public class ReportController : Controller
+    [NexGoalPermission(FunctionKey = FunctionKey.PAReport, Policy = Policy.Read)]
+    public class PAReportController : Controller
     {
         private readonly ISessionService sessionService;
         private readonly IPAReportService reportService;
         private readonly IExportPAReportService exportService;
 
-        public ReportController(
+        public PAReportController(
             ISessionService sessionService,
             IPAReportService reportService,
             IExportPAReportService exportService
@@ -28,7 +31,7 @@
             this.exportService = exportService;
         }
 
-        public IActionResult PAReport()
+        public IActionResult Index()
         {
             return View();
         }

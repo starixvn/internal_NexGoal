@@ -33,7 +33,7 @@ export default class App extends Component {
     componentDidMount() {
         const promises = [
             axios(resolveClientUrl('Common/GetPeriodsForReport')),
-            axios(resolveClientUrl('Report/GetGroupAndMember'))
+            axios(resolveClientUrl('PAReport/GetGroupAndMember'))
         ];
 
         Promise.all(promises)
@@ -130,7 +130,7 @@ export default class App extends Component {
         const filter = this.state.filter;
 
         axios({
-            url: resolveClientUrl('report/ExportPAReport'),
+            url: resolveClientUrl('PAReport/ExportPAReport'),
             params: {
                 periodIds: filter.periods.map((period) => { return period.value; }).join(','),
                 groupIds: filter.groups.map(group => { return group.value; }).join(','),
@@ -150,7 +150,7 @@ export default class App extends Component {
 
     getPARecords = () => {
         const filter = this.state.filter;
-        axios.get(resolveClientUrl('Report/GetPARecords'), {
+        axios.get(resolveClientUrl('PAReport/GetPARecords'), {
             params: {
                 periodIds: filter.periods.map((period) => { return period.value; }).join(','),
                 groupIds: filter.groups.map(group => { return group.value; }).join(','),
