@@ -51,32 +51,36 @@ export default class App extends Component {
         let functionId = functionObj.functionId;
         let parentId = functionObj.parentId;
         let functions = this.state.functions.slice();
+        let totalItems = functions.length;
 
         let index = functions.indexOf(functionObj);
         if (isChecked) {
             functions[index].policy = target === 'funcRead' ? Policy.Read : Policy.Host;
         } else {
-            functions[index].policy = target === 'funcRead' ? Policy.None : functions[index].policy === Policy.Host ? Policy.Read : Policy.None;
+            functions[index].policy = target === 'funcRead'
+                ? Policy.None : functions[index].policy === Policy.Host
+                    ? functions[index].onlyPolicy === Policy.Host ? Policy.None : Policy.Read : Policy.None;
         }
 
         if (parentId) {
             let childs = functions.filter(f => f.parentId === parentId);
             let policy = Math.max.apply(Math, childs.map(f => { return f.policy; }));
 
-            for (index = 0; index < functions.length; index++) {
+            for (index = 0; index < totalItems; index++) {
                 if (functions[index].functionId === parentId) {
                     functions[index].policy = policy;
                     break;
                 }
             }
         } else {
-            for (index = 0; index < functions.length; index++) {
+            for (index = 0; index < totalItems; index++) {
                 if (functions[index].parentId === functionId) {
                     if (isChecked) {
                         functions[index].policy = target === 'funcRead' ? Policy.Read : Policy.Host;
                     } else {
                         functions[index].policy = target === 'funcRead' ?
-                            Policy.None : functions[index].policy === Policy.Host ? Policy.Read : Policy.None;
+                            Policy.None : functions[index].policy === Policy.Host
+                                ? functions[index].onlyPolicy === Policy.Host ? Policy.None : Policy.Read : Policy.None;
                     }
                 }
             }

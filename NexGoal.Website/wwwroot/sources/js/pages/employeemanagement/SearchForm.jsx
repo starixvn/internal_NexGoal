@@ -70,10 +70,11 @@ export default class SearchForm extends Component {
                     </div>
                 </FormGroup>
                 <FormGroup>
-                    <div className="checkbox"><input type="checkbox" name="isDisabled"
-                        checked={filter.isDisabled}
-                        onChange={this.handleCheckboxChange} id="chbIsResigned" className="checkbox-custom"
-                    />
+                    <div className="checkbox">
+                        <input type="checkbox" name="isDisabled"
+                            checked={filter.isDisabled}
+                            onChange={this.handleCheckboxChange} id="chbIsResigned" className="checkbox-custom"
+                        />
                         <label htmlFor="chbIsResigned">Is Resigned</label>
                     </div>
                 </FormGroup>

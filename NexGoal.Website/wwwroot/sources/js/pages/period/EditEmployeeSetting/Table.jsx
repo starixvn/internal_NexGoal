@@ -101,7 +101,12 @@ export default class Table extends Component {
             headerStyle: { width: '80px' },
             formatter: (cell, row, rowIndex) => {
                 return (
-                    <div className="checkbox"><input type="checkbox" className="checkbox-custom" id={'chb-include' + rowIndex} checked={row.statusId !== PAStatus.Rejected} onChange={() => this.editSettingStatusConfirmation(row)} /><label htmlFor={'chb-include' + rowIndex}></label></div>
+                    <div className="checkbox">
+                        <input type="checkbox" className="checkbox-custom" id={'chb-include' + rowIndex}
+                            checked={row.statusId !== PAStatus.Rejected} onChange={() => this.editSettingStatusConfirmation(row)}
+                        />
+                        <label htmlFor={'chb-include' + rowIndex} />
+                    </div>
                 );
             }
         },
@@ -312,7 +317,6 @@ export default class Table extends Component {
                                                     <input type={mode} {...rest} className="checkbox-custom" />
                                                     <label />
                                                 </div>
-
                                             ),
                                             selectionHeaderRenderer: ({ indeterminate, mode, checked }) => (
                                                 <div className="checkbox">
