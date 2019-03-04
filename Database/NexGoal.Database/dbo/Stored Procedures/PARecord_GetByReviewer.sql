@@ -48,7 +48,7 @@ BEGIN
 		AND process.ProcessId = @ReviewerProcessId
 		AND (
 			@IsRevised IS NULL
-			OR @IsRevised = pa.IsRevised
+			OR @IsRevised = ISNULL(pa.IsRevised,0)
 			)
 	GROUP BY pa.PARecordId
 
