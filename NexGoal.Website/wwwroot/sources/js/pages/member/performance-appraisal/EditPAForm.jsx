@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Button, ControlLabel, Modal, FormGroup, Tab, Tabs } from 'react-bootstrap';
+import { Button, ControlLabel, Modal, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 import { camelCase, isEmpty } from 'lodash';
 import { toast } from 'react-toastify';
@@ -10,7 +10,8 @@ import CustomScrollbars from '../../../shared/components/CustomScrollbars';
 import getResource from '../../../resourceHelper';
 import axios from 'axios';
 import { axiosError, getCurrentUserInfo, resolveClientUrl } from '../../../common-functions';
-import { PAStatus, DateFormat } from '../../../constants';
+import { PAStatus, DateFormat, PerformanceProcess } from '../../../constants';
+import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 import PAProcessTab from '../../../shared/components/performance-appraisal/PAProcessTab';
 
 export default class EditMemberPA extends Component {
@@ -35,12 +36,13 @@ export default class EditMemberPA extends Component {
         axios(resolveClientUrl(`PA/GetById/${this.props.paRecordId}`)).then(response => {
             if (response.data) {
                 let pa = response.data;
-                let grade = pa.isRevised ? pa.grade : pa.originalGrade;
                 this.setState({
                     paRecord: {
                         paRecordId: pa.paRecordId,
-                        grade: grade ? this.props.gradeOptions.find(o => o.value === grade.gradeId) : grade,
+                        grade: pa.grade ? this.props.gradeOptions.find(o => o.value === pa.grade.gradeId) : pa.grade,
                         comment: pa.comment,
+                        creator: pa.processes.filter(process => process.processId === PerformanceProcess.Reviewer)[0].evaluator,
+                        modifiedDate: pa.modifiedDate,
                         paStatus: pa.statusId
                     },
                     employee: pa.employee,
@@ -131,12 +133,72 @@ export default class EditMemberPA extends Component {
         }
     }
 
+    renderViewPA = (paRecord) => {
+        const data = {
+            typeId: 1,
+            roleId: PerformanceProcess.Reviewer,
+            creator: paRecord.creator,
+            createdDate: paRecord.modifiedDate ? paRecord.modifiedDate : null,
+            comment: paRecord.comment,
+            grade: paRecord.grade
+
+        };
+        return (
+            <div className="record record-your-mind">
+                <PerformanceRecord data={data} isHideProjectTag />
+            </div>
+        );
+    }
+
+    renderEditPA = (paRecord) => {
+        let errors = this.state.errors;
+        const currentUserInfo = this.state.currentUserInfo;
+
+        return (
+            <div className="record record-your-mind">
+                <div className="avatar-user">
+                    <img src={currentUserInfo.avatar} className="avatar" />
+                    <div className="person-info">
+                        <span className="role-reviewer">{currentUserInfo.nickName}</span>
+                        <div className="submit-date">{this.state.currentDate.format(DateFormat)}</div>
+                    </div>
+                </div>
+                <div className="comment">
+                    <form className="form-filter form-performance edit">
+                        <FormGroup>
+                            <ControlLabel>{getResource('Comment')}</ControlLabel>
+                            <TextareaFullscreenEditor
+                                className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
+                                name="comment"
+                                value={paRecord.comment}
+                                onChange={this.handleCommentChange}
+                                disabled={this.state.paRecord.paStatus === PAStatus.Closed}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <div className="grade">
+                                <ControlLabel>{getResource('Grade')}</ControlLabel>
+                                <Select name="grade" classNamePrefix="react-select"
+                                    className={`react-select-container grade-field ${!isEmpty(errors) && errors.grade ? 'input-validation-error' : ''}`}
+                                    placeholder="Select Grade"
+                                    value={paRecord.grade}
+                                    options={this.props.gradeOptions}
+                                    isSearchable={false}
+                                    onChange={this.handleGradeChange}
+                                    isDisabled={this.state.paRecord.paStatus === PAStatus.Closed}
+                                />
+                            </div>
+                        </FormGroup>
+                    </form>
+                </div>
+            </div>
+        );
+    }
+
     render() {
         let paRecord = this.state.paRecord;
-        let errors = this.state.errors;
         let employees = [];
         employees.push(this.state.employee);
-        const currentUserInfo = this.state.currentUserInfo;
         let title = this.state.paRecord.paStatus === PAStatus.Closed ?
             getResource('PerformanceAppraisal') :
             getResource('EditPerformanceAppraisal');
@@ -151,43 +213,9 @@ export default class EditMemberPA extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <CustomScrollbars>
-                        <div className="record record-your-mind">
-                            <div className="avatar-user">
-                                <img src={currentUserInfo.avatar} className="avatar" />
-                                <div className="person-info">
-                                    <span className="role-reviewer">{currentUserInfo.nickName}</span>
-                                    <div className="submit-date">{this.state.currentDate.format(DateFormat)}</div>
-                                </div>
-                            </div>
-                            <div className="comment">
-                                <form className="form-filter form-performance edit">
-                                    <FormGroup>
-                                        <ControlLabel>{getResource('Comment')}</ControlLabel>
-                                        <TextareaFullscreenEditor
-                                            className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
-                                            name="comment"
-                                            value={paRecord.comment}
-                                            onChange={this.handleCommentChange}
-                                            disabled={this.state.paRecord.paStatus === PAStatus.Closed}
-                                        />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <div className="grade">
-                                            <ControlLabel>{getResource('Grade')}</ControlLabel>
-                                            <Select name="grade" classNamePrefix="react-select"
-                                                className={`react-select-container grade-field ${!isEmpty(errors) && errors.grade ? 'input-validation-error' : ''}`}
-                                                placeholder="Select Grade"
-                                                value={paRecord.grade}
-                                                options={this.props.gradeOptions}
-                                                isSearchable={false}
-                                                onChange={this.handleGradeChange}
-                                                isDisabled={this.state.paRecord.paStatus === PAStatus.Closed}
-                                            />
-                                        </div>
-                                    </FormGroup>
-                                </form>
-                            </div>
-                        </div>
+                        {
+                            paRecord.paStatus === PAStatus.Closed ? this.renderViewPA(paRecord) : this.renderEditPA(paRecord)
+                        }
                         <PAProcessTab processes={this.state.paProcesses} employees={employees} />
                     </CustomScrollbars>
 
