@@ -1,7 +1,6 @@
 ﻿import React from 'react';
 import { default as ReactSelect } from 'react-select';
 
-import MultiValueContainer from './MultiValueContainer';
 import MenuList from './MenuList';
 import Option from './Option';
 
@@ -12,12 +11,13 @@ const MultiSelect = props => {
             isMulti
             hideSelectedOptions={false}
             closeMenuOnSelect={false}
-            isSearchable={false}
+            isSearchable={true}
             isClearable={false}
             menuPlacement="auto"
-            //defaultMenuIsOpen={true}
-            placeholder="0 item(s) selected"
-            components={{ MultiValueContainer, MenuList, Option }}
+            backspaceRemovesValue={false}
+            controlShouldRenderValue={false}
+            placeholder={`${props.value.length} item(s) selected`}
+            components={{ MenuList, Option }}
         />
     );
 };
