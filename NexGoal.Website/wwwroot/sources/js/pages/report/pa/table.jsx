@@ -263,7 +263,7 @@ export default class Table extends Component {
                             <th className="self" rowSpan="1">{getResource('Self')}</th>
                             <th className="pm" rowSpan="1">{getResource('ProjectManager')}</th>
                             <th className="evaluator" rowSpan="1">{getResource('Evaluator')}</th>
-                            <th className="reviewer" rowSpan="2">{getResource('Reviewer')}</th>
+                            <th className="reviewer" rowSpan="1">{getResource('Reviewer')}</th>
                         </tr>
                     </thead>
                     <tbody>
