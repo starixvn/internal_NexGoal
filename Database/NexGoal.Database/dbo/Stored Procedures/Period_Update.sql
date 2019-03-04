@@ -123,7 +123,7 @@ BEGIN
 		INNER JOIN dbo.PAProcess AS reviewer WITH (NOLOCK) ON pa.PARecordId = reviewer.PARecordId
 		AND reviewer.ProcessId = @ReviewerProcessId
 	WHERE period.PeriodId = @PeriodId
-		AND pa.StatusId IN (@PAOpened, @PAInProgress)
+		AND pa.StatusId IN (@PAOpened, @PAInProgress, @PAClosed)
 
 	IF @FocusStartDate < @Today
 	BEGIN

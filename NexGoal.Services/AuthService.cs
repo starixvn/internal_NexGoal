@@ -71,5 +71,18 @@
 
             return tuple;
         }
+
+        public async Task WriteLogLoginAsync(LogLogin logInfo)
+        {
+            var criteria = new WriteLogLoginCriteria
+            {
+                Username = logInfo.Username,
+                IP = logInfo.IP,
+                MachineName = logInfo.MachineName,
+                Platform = logInfo.Platform
+            };
+
+            await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
     }
 }

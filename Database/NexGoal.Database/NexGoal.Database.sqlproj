@@ -264,6 +264,8 @@
     <Build Include="dbo\Tables\PerformanceGrade.sql" />
     <Build Include="dbo\Stored Procedures\PerformanceGrade_Get.sql" />
     <Build Include="dbo\Functions\func_GetSortedEmployee.sql" />
+    <Build Include="dbo\Tables\LogUserLogin.sql" />
+    <Build Include="dbo\Stored Procedures\LogUserLogin_Insert.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">

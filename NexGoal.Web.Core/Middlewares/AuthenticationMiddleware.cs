@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Web.Core.Middlewares
 {
+    using System.Net;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http;
     using NexGoal.Models.Auth;
@@ -35,10 +36,41 @@
                     currentSession.FullName = employee.FullName;
                     currentSession.Functions = await authService.GetFunctionByEmployeeIdAsync(employee.EmployeeId).ConfigureAwait(false);
                     currentSession.MenuItems = await authService.GetMenuByEmployeeIdAsync(employee.EmployeeId).ConfigureAwait(false);
+
+                    await WriteLogAsync(domainUsername, context).ConfigureAwait(false);
                 }
             }
 
             await next(context).ConfigureAwait(false);
+        }
+
+        private async Task WriteLogAsync(string username, HttpContext context)
+        {
+            var logInfo = new LogLogin
+            {
+                Username = username,
+                IP = context.Connection?.RemoteIpAddress?.ToString(),
+                Platform = context.Request?.Headers["User-Agent"].ToString()
+            };
+            logInfo.MachineName = GetMachineName(logInfo.IP);
+
+            await authService.WriteLogLoginAsync(logInfo).ConfigureAwait(false);
+        }
+
+        private static string GetMachineName(string ipAdress)
+        {
+            var machineName = string.Empty;
+            try
+            {
+                IPHostEntry hostEntry = Dns.GetHostEntry(ipAdress);
+                machineName = hostEntry.HostName;
+            }
+            catch
+            {
+                // log here
+            }
+
+            return machineName;
         }
     }
 }

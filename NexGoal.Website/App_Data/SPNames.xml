@@ -181,4 +181,7 @@
   <Function name="Performance Grade">
     <Setting Key="PerformanceGrade_Get" SpName="PerformanceGrade_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
+  <Function name="Log Login">
+    <Setting Key="LogUserLogin_Insert" SpName="LogUserLogin_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
 </Functions>
