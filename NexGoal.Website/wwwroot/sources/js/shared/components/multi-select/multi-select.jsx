@@ -7,7 +7,6 @@ import Option from './Option';
 const MultiSelect = props => {
     return (
         <ReactSelect {...props}
-            styles={{ multiValue: (base) => ({ ...base, backgroundColor: 'none', border: 'unset' }) }}
             isMulti
             hideSelectedOptions={false}
             closeMenuOnSelect={false}
