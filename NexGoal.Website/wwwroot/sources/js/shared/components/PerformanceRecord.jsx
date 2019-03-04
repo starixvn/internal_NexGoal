@@ -113,7 +113,7 @@ export default class PerformanceRecord extends Component {
                             <div className="edit-date">
                                 {
                                     modifiedDate &&
-                                    <Fragment>Edited on {modifiedDate}</Fragment>
+                                    <Fragment><span>Edited on {modifiedDate}</span></Fragment>
                                 }
                                 {
                                     record.isHost &&
@@ -241,7 +241,7 @@ export default class PerformanceRecord extends Component {
                                 <div className="nomination-period">{record.nominationPeriod && record.nominationPeriod.title}</div>
                                 {
                                     modifiedDate && endDateForNominator >= currentDate &&
-                                    <Fragment> Edited on {modifiedDate}</Fragment>
+                                    <Fragment><span> Edited on {modifiedDate}</span></Fragment>
                                 }
                             </div>
                             {

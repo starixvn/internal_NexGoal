@@ -171,20 +171,32 @@
         float: left;
         font-weight: bold;
         font-size: 12px;
-        border: 1px solid #000;
+        border: 1px solid #545454;
         height: 14px;
         width: 14px;
         line-height: 13px;
         margin-right: 6px;
         position: relative;
         top: 3px;
+
+        &:before, &:after {
+          content: '';
+          display: block;
+          position: absolute;
+          left: 2px;
+          top: 5px;
+          width: 8px;
+          height: 2px;
+          background: #545454;
+          transition: .2s ease all;
+        }
     }
 
     .collapsed {
-        .icon-minus:before {
-            //transform: rotate(-90deg);
-            transition: 0.3s ease all;
-            content: '\e914';
+        .icon-minus:before {            
+            
+            //content: '\e914';
+            transform: rotate(90deg);
         }
     }
 }
@@ -343,7 +355,7 @@
         }
     }
     #chart-wrapper {
-        margin-top: 6px;
+        margin-top: 10px;
     }
 }
 
