@@ -23,8 +23,8 @@ BEGIN
 		,@periodEndDate DATE
 		,@workingFromDate DATETIME
 		,@workingToDate DATETIME
-		,@separator NVARCHAR(43) = CHAR(10) + CHAR(10) + '----------------------------------------' + CHAR(10)
-		,@separatorLength TINYINT = 43
+		,@separator NVARCHAR(42) = CHAR(10) + '----------------------------------------' + CHAR(10)
+		,@separatorLength TINYINT = 42
 		,@dateFormat VARCHAR(11) = 'dd MMM yyyy'
 		-- process
 		,@SelfProcessId TINYINT = 2
