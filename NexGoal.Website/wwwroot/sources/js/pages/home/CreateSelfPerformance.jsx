@@ -58,8 +58,8 @@ export default class CreateSelfPerformance extends Component {
 
     onLeavingPageEventListener = event => {
         if (!isEqual(this.state.performanceRecord, this.state.initialPerformanceRecord)) {
-            event.returnValue = '';
-            return '';
+            event.returnValue = ' ';
+            return ' ';
         }
     }
 

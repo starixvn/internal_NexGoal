@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 import moment from 'moment';
+import isEqual from "react-fast-compare";
 
 import { axiosError, resolveClientUrl, compareArray } from '../../common-functions';
 import { DateFormat, PerformanceRecordStatus } from '../../constants';
@@ -62,10 +63,10 @@ export default class EditSelfPerformance extends Component {
         let performanceRecord = this.state.performanceRecord;
         let initialPerformanceRecord = this.state.initialPerformanceRecord;
 
-        if (performanceRecord.grade.value !== initialPerformanceRecord.grade.value || performanceRecord.comment !== initialPerformanceRecord.comment
+        if (!isEqual(performanceRecord.grade, initialPerformanceRecord.grade) || performanceRecord.comment !== initialPerformanceRecord.comment
             || !compareArray(performanceRecord.projects, initialPerformanceRecord.projects, 'value')) {
-            event.returnValue = '';
-            return '';
+            event.returnValue = ' ';
+            return ' ';
         }
     }
 

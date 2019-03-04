@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 import moment from 'moment';
+import isEqual from "react-fast-compare";
 
 import { axiosError, getRoleClassName, resolveClientUrl, compareArray } from '../../common-functions';
 import { DateFormat, PerformanceRecordStatus, ProbationTag } from '../../constants';
@@ -76,10 +77,11 @@ export default class EditMemberPerformance extends Component {
         let performanceRecord = this.state.performanceRecord;
         let initialPerformanceRecord = this.state.initialPerformanceRecord;
 
-        if (performanceRecord.grade.value !== initialPerformanceRecord.grade.value || performanceRecord.comment !== initialPerformanceRecord.comment
-            || !compareArray(performanceRecord.projects, initialPerformanceRecord.projects, 'value')) {
-            event.returnValue = '';
-            return '';
+        if (!isEqual(performanceRecord.grade, initialPerformanceRecord.grade) || performanceRecord.comment !== initialPerformanceRecord.comment
+            || !compareArray(performanceRecord.projects, initialPerformanceRecord.projects, 'value')
+            || (initialPerformanceRecord.isDraft && !compareArray(performanceRecord.employees, initialPerformanceRecord.employees, 'value'))) {
+            event.returnValue = ' ';
+            return ' ';
         }
     }
 

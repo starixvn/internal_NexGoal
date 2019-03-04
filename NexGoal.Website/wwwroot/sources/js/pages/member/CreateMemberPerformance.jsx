@@ -33,8 +33,8 @@ export default class CreateMemberPerformance extends Component {
         projectOptions: [],
         selectedMemberInfo: null,
         isMultiple: true,
-        onSubmitSuccess: function() { },
-        onSubmitDraftSuccess: function() { }
+        onSubmitSuccess: function () { },
+        onSubmitDraftSuccess: function () { }
     };
 
     constructor(props) {
@@ -69,8 +69,8 @@ export default class CreateMemberPerformance extends Component {
 
     onLeavingPageEventListener = event => {
         if (!isEqual(this.state.performanceRecord, this.state.initialPerformanceRecord)) {
-            event.returnValue = '';
-            return '';
+            event.returnValue = ' ';
+            return ' ';
         }
     }
 

@@ -49,8 +49,8 @@ export default class EditNomination extends Component {
         if (this.refs.form) {
             var isDirty = this.refs.form.getFormikComputedProps().dirty;
             if (isDirty) {
-                event.returnValue = '';
-                return '';
+                event.returnValue = ' ';
+                return ' ';
             }
         }
     }
