@@ -78,7 +78,9 @@
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
             services.AddResponseCompression(options =>
             {
+                options.Providers.Add<GzipCompressionProvider>();
                 options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "image/svg+xml" });
+                options.EnableForHttps = true;
             });
 
             services.AddMvc(options =>
@@ -111,11 +113,11 @@
                 app.UseHsts();
             }
 
+            app.UseResponseCompression();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseSession();
-            app.UseResponseCompression();
             app.UseMiddleware<AuthenticationMiddleware>();
 
             app.UseMvc(routes =>
