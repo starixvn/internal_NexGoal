@@ -92,7 +92,7 @@ export default class PerformanceRecord extends Component {
 
         return (
             <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${record.performanceRecordId}`}>
-                <div className="avatar-user">
+                <div className={`avatar-user ${record.createdDate ? '' : 'small'}`}>
                     <img src={creator.avatar} alt="avatar" className="avatar" />
                     <div className="person-info">
                         <span className={getRoleClassName(record.roleId)}>{creator.nickName}</span>

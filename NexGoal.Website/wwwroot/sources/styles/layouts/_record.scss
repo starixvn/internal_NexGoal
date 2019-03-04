@@ -112,6 +112,20 @@
             }
         }
 
+        &.small {
+          grid-template-columns: 32px minmax(220px, 1fr) 1fr;
+
+          .avatar {
+            width: 32px;
+            height: 32px;
+          }
+
+          .person-info > span {
+            position: relative;
+            top: 6px;
+          }
+        }
+
         .person-info {
             [class^="role-"] {
                 font-weight: 700;
