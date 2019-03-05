@@ -59,9 +59,18 @@
             }            
         }
 
-        > .active > a:focus {
-          background: transparent;
+        > .active {
+          > a:focus {
+            background: transparent;
+          }
+
+          .icon-submenu {
+            &:before, &:after {
+              background: #fff;
+            }
+          }
         }
+        
     }
 
     .user-avatar {
