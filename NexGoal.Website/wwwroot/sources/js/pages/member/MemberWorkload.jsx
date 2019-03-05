@@ -88,9 +88,6 @@ export default class MemberWorkload extends Component {
                     var currentValue = dataset.data[tooltipItem.index];
                     return currentValue > 0 ? `${dataset.label}: ${currentValue}h` : ``;
                 },
-                title: function (tooltipItem, data) {
-                    return data.labels[tooltipItem[0].index] > 0 ? data.labels[tooltipItem[0].index] : ``;
-                }
             },
             enabled: false,
             custom: function (tooltipModel) {
@@ -164,7 +161,8 @@ export default class MemberWorkload extends Component {
             xAxes: [{
                 ticks: {
                     beginAtZero: true
-                }
+                },
+                stacked: true
             }]
         },
         legend: {
