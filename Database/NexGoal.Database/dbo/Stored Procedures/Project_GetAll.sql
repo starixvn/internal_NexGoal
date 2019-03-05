@@ -16,8 +16,4 @@ BEGIN
 	SELECT ProjectId
 		,[Name]
 	FROM dbo.Project WITH (NOLOCK)
-	
-	UNION
-	SELECT - 1
-		,'Probation'
 END
