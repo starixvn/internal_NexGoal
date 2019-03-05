@@ -128,6 +128,7 @@
             app.UseSession();
             app.UseMiddleware<AuthenticationMiddleware>();
             app.UseHangfireServer();
+            app.UseHangfireDashboard("/admin/hangfire");
 
             app.UseMvc(routes =>
             {
@@ -137,7 +138,6 @@
             });
 
             // recurring jobs
-            /////BackgroundJob.Schedule<IAppService>(x => x.Run(), TimeSpan.FromMinutes(1));
             recurringJobs.AddOrUpdate("NexGoal.AutoService", Job.FromExpression<IAppService>(x => x.Run()), "5 0 * * *"); // 00:05 AM
         }
     }
