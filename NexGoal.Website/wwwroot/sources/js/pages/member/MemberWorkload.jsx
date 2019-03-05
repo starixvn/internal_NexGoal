@@ -158,7 +158,7 @@ export default class MemberWorkload extends Component {
                 stacked: true,
                 barThickness: 20,
                 afterFit: function (scaleInstance) {
-                    scaleInstance.width = 60;
+                    scaleInstance.width = 80;
                 }
             }],
             xAxes: [{
