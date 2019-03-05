@@ -65,7 +65,7 @@ export default class SearchForm extends Component {
                     </div>
                 </FormGroup>
                 <FormGroup>
-                    <a className="btn btn-success" href={this.props.exportUrl} >{getResource('Excel')}</a>
+                    <a className="btn btn-excel" href={this.props.exportUrl} >{getResource('Excel')}</a>
                 </FormGroup>
             </Form>
         );
