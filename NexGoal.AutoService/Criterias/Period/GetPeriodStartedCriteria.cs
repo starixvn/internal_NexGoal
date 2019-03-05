@@ -4,7 +4,7 @@
 
     public class GetPeriodStartedCriteria : CriteriaBase
     {
-        public override string GetSettingKey() => "Period_GetPeriodStarted";
+        public override string GetSettingKey() => "Auto_Period_GetPeriodStarted";
 
         public override bool IsValid() => true;
     }

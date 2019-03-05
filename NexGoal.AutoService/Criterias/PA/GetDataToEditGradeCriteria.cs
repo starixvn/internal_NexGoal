@@ -6,6 +6,6 @@
     {
         public override bool IsValid() => true;
 
-        public override string GetSettingKey() => "GetDataToEditPAGrade";
+        public override string GetSettingKey() => "Auto_PA_GetDataToUpdateGrade";
     }
 }

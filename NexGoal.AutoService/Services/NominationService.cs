@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.Nomination;
@@ -20,15 +21,18 @@
         private const string StartMailTemplateToNominator = "EmailTemplates\\Nomination\\StartToNominator.cshtml";
         private const string RemindMailTemplateToNominator = "EmailTemplates\\Nomination\\RemindToNominator.cshtml";
 
+        private readonly IHostingEnvironment hostingEnvironment;
         private readonly IOptionsSnapshot<AppSettings> configuration;
         private readonly IBaseService baseService;
         private readonly IBaseMailService mailService;
 
         public NominationService(
+            IHostingEnvironment hostingEnvironment,
             IOptionsSnapshot<AppSettings> configuration,
             IBaseService baseService,
             IBaseMailService mailService)
         {
+            this.hostingEnvironment = hostingEnvironment;
             this.configuration = configuration;
             this.baseService = baseService;
             this.mailService = mailService;
@@ -38,9 +42,8 @@
         {
             Tuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>> tuple = GetSettingToSendNotification(ReceiveNotificationType.Email);
 
-            var path = Directory.GetCurrentDirectory();
-            var startMailPath = Path.Combine(path, StartMailTemplateToNominator);
-            var remindMailPath = Path.Combine(path, RemindMailTemplateToNominator);
+            var startMailPath = Path.Combine(hostingEnvironment.WebRootPath, StartMailTemplateToNominator);
+            var remindMailPath = Path.Combine(hostingEnvironment.WebRootPath, RemindMailTemplateToNominator);
             var body = string.Empty;
 
             foreach (NominationPeriodModel period in tuple.Item1)

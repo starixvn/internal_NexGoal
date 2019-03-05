@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Criteria.EmployeeNomination
 {
+    using NexGoal.Core.Criteria;
+
     public class CreateEmployeeNominationCriteria : CommandBaseCriteria
     {
         public int NominationPeriodId { get; set; }

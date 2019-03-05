@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Criteria.EOY
 {
     using System;
+    using NexGoal.Core.Criteria;
 
     public class CreateEOYCriteria : CommandBaseCriteria
     {

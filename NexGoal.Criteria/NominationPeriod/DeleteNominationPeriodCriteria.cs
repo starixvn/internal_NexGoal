@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Criteria.NominationPeriod
 {
+    using NexGoal.Core.Criteria;
+
     public class DeleteNominationPeriodCriteria : CommandBaseCriteria
     {
         public int NominationPeriodId { get; set; }

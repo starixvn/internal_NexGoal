@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.AutoService.UnitTests
 {
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Options;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
@@ -12,6 +13,8 @@
         public static IBaseMailService FakeBaseMailService() => Substitute.For<IBaseMailService>();
 
         public static ICryptoService FakeCryptoService() => Substitute.For<ICryptoService>();
+
+        public static IHostingEnvironment FakeHostingEnvironment() => Substitute.For<IHostingEnvironment>();
 
         public static IOptionsSnapshot<AppSettings> FakeOptionsSnapshot()
         {

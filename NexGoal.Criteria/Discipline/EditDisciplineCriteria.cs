@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Criteria.Discipline
 {
     using System;
+    using NexGoal.Core.Criteria;
 
     public class EditDisciplineCriteria : CommandBaseCriteria
     {

@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Criteria.Periods
 {
+    using NexGoal.Core.Criteria;
+
     public class EditProcessSettingCriteria : CommandBaseCriteria
     {
         public int PeriodId { get; set; }

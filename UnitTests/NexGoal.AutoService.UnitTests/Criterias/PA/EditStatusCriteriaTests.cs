@@ -10,7 +10,7 @@
         {
             // Arrange
             var criteria = new EditStatusCriteria();
-            var expected = "EditPAStatus";
+            var expected = "Auto_PA_UpdateStatus";
 
             // Act
             var actual = criteria.GetSettingKey();

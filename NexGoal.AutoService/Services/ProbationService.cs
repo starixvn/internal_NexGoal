@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.Probation;
@@ -21,15 +22,18 @@
         private const string RemindMailTemplateToMember = "EmailTemplates\\Probation\\RemindToMember.cshtml";
         private const string RemindMailTemplateToEvaluator = "EmailTemplates\\Probation\\RemindToEvaluator.cshtml";
 
+        private readonly IHostingEnvironment hostingEnvironment;
         private readonly IOptionsSnapshot<AppSettings> configuration;
         private readonly IBaseService baseService;
         private readonly IBaseMailService mailService;
 
         public ProbationService(
+            IHostingEnvironment hostingEnvironment,
             IOptionsSnapshot<AppSettings> configuration,
             IBaseService baseService,
             IBaseMailService mailService)
         {
+            this.hostingEnvironment = hostingEnvironment;
             this.configuration = configuration;
             this.baseService = baseService;
             this.mailService = mailService;
@@ -39,10 +43,9 @@
         {
             IEnumerable<ProcessSettingModel> settings = GetSettingToSendNotification(ReceiveNotificationType.Email);
 
-            var path = Directory.GetCurrentDirectory();
-            var remindToHRPath = Path.Combine(path, RemindMailTemplateToHR);
-            var remindToMemberPath = Path.Combine(path, RemindMailTemplateToMember);
-            var remindToEvaluatorPath = Path.Combine(path, RemindMailTemplateToEvaluator);
+            var remindToHRPath = Path.Combine(hostingEnvironment.WebRootPath, RemindMailTemplateToHR);
+            var remindToMemberPath = Path.Combine(hostingEnvironment.WebRootPath, RemindMailTemplateToMember);
+            var remindToEvaluatorPath = Path.Combine(hostingEnvironment.WebRootPath, RemindMailTemplateToEvaluator);
             var subjectRemindMail = Message.EmailSubject_Probation_RemindToMember;
             var body = string.Empty;
 

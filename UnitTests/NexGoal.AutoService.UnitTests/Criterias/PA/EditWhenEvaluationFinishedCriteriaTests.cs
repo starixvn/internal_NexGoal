@@ -10,7 +10,7 @@
         {
             // Arrange
             var criteria = new EditWhenEvaluationFinishedCriteria();
-            var expected = "EditWhenEvaluationFinished";
+            var expected = "Auto_PA_UpdateWhenEvaluationFinished";
 
             // Act
             var actual = criteria.GetSettingKey();

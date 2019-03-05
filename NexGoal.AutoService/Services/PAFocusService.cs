@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.PAFocus;
@@ -21,15 +22,18 @@
         private const string StartMailTemplateToEvaluator = "EmailTemplates\\PAFocus\\StartToEvaluator.cshtml";
         private const string RemindMailTemplateToEvaluator = "EmailTemplates\\PAFocus\\RemindToEvaluator.cshtml";
 
+        private readonly IHostingEnvironment hostingEnvironment;
         private readonly IOptionsSnapshot<AppSettings> configuration;
         private readonly IBaseService baseService;
         private readonly IBaseMailService mailService;
 
         public PAFocusService(
+            IHostingEnvironment hostingEnvironment,
             IOptionsSnapshot<AppSettings> configuration,
             IBaseService baseService,
             IBaseMailService mailService)
         {
+            this.hostingEnvironment = hostingEnvironment;
             this.configuration = configuration;
             this.baseService = baseService;
             this.mailService = mailService;
@@ -50,9 +54,8 @@
         {
             Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = GetSettingToSendNotification(ReceiveNotificationType.Email);
 
-            var path = Directory.GetCurrentDirectory();
-            var startMailPath = Path.Combine(path, StartMailTemplateToEvaluator);
-            var remindMailPath = Path.Combine(path, RemindMailTemplateToEvaluator);
+            var startMailPath = Path.Combine(hostingEnvironment.WebRootPath, StartMailTemplateToEvaluator);
+            var remindMailPath = Path.Combine(hostingEnvironment.WebRootPath, RemindMailTemplateToEvaluator);
             var body = string.Empty;
 
             foreach (PeriodModel period in tuple.Item1)

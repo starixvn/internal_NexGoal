@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Functions>
+  <Function Name="Period">
+    <Setting Key="Auto_Period_Insert" SpName="Auto_Period_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Auto_Period_GetPeriodStarted" SpName="Auto_Period_GetPeriodStarted" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Auto_Period_InsertEmployeeSettings" SpName="Auto_Period_InsertEmployeeSettings" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Auto_Period_GeneratePA" SpName="Auto_Period_GeneratePA" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
+  <Function Name="Performance Appraisal">
+    <Setting Key="Auto_PA_UpdateWhenEvaluationFinished" SpName="Auto_PA_UpdateWhenEvaluationFinished" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Auto_PA_UpdateStatus" SpName="Auto_PA_UpdateStatus" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Auto_PA_GetDataToUpdateGrade" SpName="Auto_PA_GetDataToUpdateGrade" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Auto_PA_UpdateGrade" SpName="Auto_PA_UpdateGrade" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Auto_PARecord_GetSettingToSendNotification" SpName="Auto_PARecord_GetSettingToSendNotification" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
+  <Function Name="Nomination">
+    <Setting Key="Auto_Nomination_UpdateWhenFinished" SpName="Auto_Nomination_UpdateWhenFinished" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Auto_NominationPeriod_GetSettingToSendNotification" SpName="Auto_NominationPeriod_GetSettingToSendNotification" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
+  <Function Name="PA Focus">
+    <Setting Key="Auto_PAFocus_GetPeriodStarted" SpName="Auto_PAFocus_GetPeriodStarted" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Auto_PAFocus_Generate" SpName="Auto_PAFocus_Generate" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Auto_PAFocus_GetSettingToSendNotification" SpName="Auto_PAFocus_GetSettingToSendNotification" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
+  <Function Name="Notification">
+    <Setting Key="Auto_Notification_Insert" SpName="Auto_Notification_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
+  <Function Name="Probation">
+    <Setting Key="Auto_Probation_GetSettingToSendNotification" SpName="Auto_Probation_GetSettingToSendNotification" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
+</Functions>

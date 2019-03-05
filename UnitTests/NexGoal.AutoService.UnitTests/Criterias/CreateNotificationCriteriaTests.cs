@@ -10,7 +10,7 @@
         {
             // Arrange
             var criteria = new CreateNotificationCriteria();
-            var expected = "Notification_Insert";
+            var expected = "Auto_Notification_Insert";
 
             // Act
             var actual = criteria.GetSettingKey();

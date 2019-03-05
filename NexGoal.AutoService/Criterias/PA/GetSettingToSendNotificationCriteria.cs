@@ -6,7 +6,7 @@
     {
         public int ReceiveType { get; set; }
 
-        public override string GetSettingKey() => "PA_GetSettingToSendNotification";
+        public override string GetSettingKey() => "Auto_PARecord_GetSettingToSendNotification";
 
         public override bool IsValid() => true;
     }

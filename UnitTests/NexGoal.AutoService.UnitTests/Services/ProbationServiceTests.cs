@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.Probation;
@@ -113,11 +114,12 @@
 
         private ProbationService GetProbationService()
         {
+            IHostingEnvironment hostingEnvironment = Helpers.FakeHostingEnvironment();
             configuration = Helpers.FakeOptionsSnapshot();
             baseService = Helpers.FakeBaseService();
             mailService = Helpers.FakeBaseMailService();
 
-            return new ProbationService(configuration, baseService, mailService);
+            return new ProbationService(hostingEnvironment, configuration, baseService, mailService);
         }
 
         #endregion Helpers

@@ -1,114 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <CodeAnalysisRuleSet>NexGoal.AutoService.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <CodeAnalysisRuleSet>NexGoal.AutoService.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="appsettings.json" />
-    <None Remove="App_Data\SPNames.xml" />
-    <None Remove="EmailTemplates\Nomination\RemindToNominator.cshtml" />
-    <None Remove="EmailTemplates\Nomination\StartToNominator.cshtml" />
-    <None Remove="EmailTemplates\PAFocus\RemindToEvaluator.cshtml" />
-    <None Remove="EmailTemplates\PAFocus\StartToEvaluator.cshtml" />
-    <None Remove="EmailTemplates\PA\EndToSelf.cshtml" />
-    <None Remove="EmailTemplates\PA\RemindStartToSelf.cshtml" />
-    <None Remove="EmailTemplates\PA\RemindStartToSupervisor.cshtml" />
-    <None Remove="EmailTemplates\PA\RemindToReviewer.cshtml" />
-    <None Remove="EmailTemplates\PA\StartToReviewer.cshtml" />
-    <None Remove="EmailTemplates\Probation\RemindToEvaluator.cshtml" />
-    <None Remove="EmailTemplates\Probation\RemindToHR.cshtml" />
-    <None Remove="EmailTemplates\Probation\RemindToMember.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Data\SPNames.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="EmailTemplates\Nomination\RemindToNominator.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="EmailTemplates\Nomination\StartToNominator.cshtml">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="EmailTemplates\PAFocus\RemindToEvaluator.cshtml">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="EmailTemplates\PAFocus\StartToEvaluator.cshtml">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="EmailTemplates\PA\RemindStartToSupervisor.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="EmailTemplates\PA\RemindStartToSelf.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="EmailTemplates\PA\EndToSelf.cshtml">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="EmailTemplates\PA\RemindToReviewer.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="EmailTemplates\PA\StartToReviewer.cshtml">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="EmailTemplates\Probation\RemindToHR.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="EmailTemplates\Probation\RemindToEvaluator.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="EmailTemplates\Probation\RemindToMember.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Fanex.Data" Version="3.0.2" />
-    <PackageReference Include="Fanex.Data.Repository" Version="3.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="2.1.1" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="7.9.1.7622">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj" />
     <ProjectReference Include="..\NexGoal.Resources\NexGoal.Resources.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\PAFocus\" />
   </ItemGroup>
 
 </Project>

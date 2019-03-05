@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Criteria.PARecord
 {
+    using NexGoal.Core.Criteria;
+
     public class EditPARecordByReviewerCriteria : CommandBaseCriteria
     {
         public int PARecordId { get; set; }

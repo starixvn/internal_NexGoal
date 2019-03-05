@@ -10,7 +10,7 @@
         {
             // Arrange
             var criteria = new GetSettingToSendNotificationCriteria();
-            var expected = "Probation_GetSettingToSendNotification";
+            var expected = "Auto_Probation_GetSettingToSendNotification";
 
             // Act
             var actual = criteria.GetSettingKey();

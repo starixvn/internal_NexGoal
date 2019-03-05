@@ -10,7 +10,7 @@
         {
             // Arrange
             var criteria = new GetPeriodStartedCriteria();
-            var expected = "PAFocus_GetPeriodStarted";
+            var expected = "Auto_PAFocus_GetPeriodStarted";
 
             // Act
             var actual = criteria.GetSettingKey();

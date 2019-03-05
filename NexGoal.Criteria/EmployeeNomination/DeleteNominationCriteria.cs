@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Criteria.EmployeeNomination
 {
+    using NexGoal.Core.Criteria;
+
     public class DeleteNominationCriteria : CommandBaseCriteria
     {
         public int PerformanceRecordId { get; set; }

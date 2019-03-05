@@ -6,6 +6,6 @@
     {
         public override bool IsValid() => true;
 
-        public override string GetSettingKey() => "GetPerformanceGrade";
+        public override string GetSettingKey() => "PerformanceGrade_Get";
     }
 }

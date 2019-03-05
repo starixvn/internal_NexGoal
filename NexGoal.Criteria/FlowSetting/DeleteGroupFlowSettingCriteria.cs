@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Criteria.FlowSetting
 {
+    using NexGoal.Core.Criteria;
+
     public class DeleteGroupFlowSettingCriteria : CommandBaseCriteria
     {
         public int GroupId { get; set; }

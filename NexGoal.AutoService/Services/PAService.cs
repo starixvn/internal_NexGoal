@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.PA;
@@ -25,17 +26,20 @@
         private const string RemindMailTemplateToReviewer = "EmailTemplates\\PA\\RemindToReviewer.cshtml";
         private const string EndEvaluationMailTemplateToSelf = "EmailTemplates\\PA\\EndToSelf.cshtml";
 
+        private readonly IHostingEnvironment hostingEnvironment;
         private readonly IOptionsSnapshot<AppSettings> configuration;
         private readonly IBaseService baseService;
         private readonly IBaseMailService mailService;
         private readonly ICryptoService cryptoService;
 
         public PAService(
+            IHostingEnvironment hostingEnvironment,
             IOptionsSnapshot<AppSettings> configuration,
             IBaseService baseService,
             IBaseMailService mailService,
             ICryptoService cryptoService)
         {
+            this.hostingEnvironment = hostingEnvironment;
             this.configuration = configuration;
             this.baseService = baseService;
             this.mailService = mailService;
@@ -75,12 +79,11 @@
         {
             Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = GetSettingToSendNotification(ReceiveNotificationType.Email);
 
-            var path = Directory.GetCurrentDirectory();
-            var remindStartEvaluationToSelfPath = Path.Combine(path, RemindStartEvaluationMailTemplateToSelf);
-            var remindStartEvaluationToSupervisorPath = Path.Combine(path, RemindStartEvaluationMailTemplateToSupervisor);
-            var startToReviewerPath = Path.Combine(path, StartMailTemplateToReviewer);
-            var remindToReviewerPath = Path.Combine(path, RemindMailTemplateToReviewer);
-            var endEvaluationMailPath = Path.Combine(path, EndEvaluationMailTemplateToSelf);
+            var remindStartEvaluationToSelfPath = Path.Combine(hostingEnvironment.WebRootPath, RemindStartEvaluationMailTemplateToSelf);
+            var remindStartEvaluationToSupervisorPath = Path.Combine(hostingEnvironment.WebRootPath, RemindStartEvaluationMailTemplateToSupervisor);
+            var startToReviewerPath = Path.Combine(hostingEnvironment.WebRootPath, StartMailTemplateToReviewer);
+            var remindToReviewerPath = Path.Combine(hostingEnvironment.WebRootPath, RemindMailTemplateToReviewer);
+            var endEvaluationMailPath = Path.Combine(hostingEnvironment.WebRootPath, EndEvaluationMailTemplateToSelf);
 
             foreach (PeriodModel period in tuple.Item1)
             {

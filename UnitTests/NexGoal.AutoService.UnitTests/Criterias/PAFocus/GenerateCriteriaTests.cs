@@ -10,7 +10,7 @@
         {
             // Arrange
             var criteria = new GenerateCriteria();
-            var expected = "PAFocus_Generate";
+            var expected = "Auto_PAFocus_Generate";
 
             // Act
             var actual = criteria.GetSettingKey();

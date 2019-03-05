@@ -10,7 +10,7 @@
         {
             // Arrange
             var criteria = new GetSettingToSendNotificationCriteria();
-            var expected = "NominationPeriod_GetSettingToSendNotification";
+            var expected = "Auto_NominationPeriod_GetSettingToSendNotification";
 
             // Act
             var actual = criteria.GetSettingKey();

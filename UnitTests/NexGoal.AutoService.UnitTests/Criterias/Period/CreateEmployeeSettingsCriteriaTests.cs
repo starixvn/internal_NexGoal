@@ -10,7 +10,7 @@
         {
             // Arrange
             var criteria = new CreateEmployeeSettingsCriteria();
-            var expected = "InsertEmployeeSettings";
+            var expected = "Auto_Period_InsertEmployeeSettings";
 
             // Act
             var actual = criteria.GetSettingKey();

@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Criteria.Employee
 {
+    using NexGoal.Core.Criteria;
+
     public class EditEmployeeRolesCriteria : CommandBaseCriteria
     {
         public int EmployeeId { get; set; }

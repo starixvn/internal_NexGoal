@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Criteria.EOQ
 {
     using System;
+    using NexGoal.Core.Criteria;
 
     public class CreateEOQCriteria : CommandBaseCriteria
     {

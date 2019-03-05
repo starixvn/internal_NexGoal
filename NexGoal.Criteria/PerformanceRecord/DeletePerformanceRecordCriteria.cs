@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Criteria.PerformanceRecord
 {
+    using NexGoal.Core.Criteria;
+
     public class DeletePerformanceRecordCriteria : CommandBaseCriteria
     {
         public int PerformanceRecordId { get; set; }

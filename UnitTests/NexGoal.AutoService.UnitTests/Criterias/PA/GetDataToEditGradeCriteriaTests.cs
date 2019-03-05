@@ -10,7 +10,7 @@
         {
             // Arrange
             var criteria = new GetDataToEditGradeCriteria();
-            var expected = "GetDataToEditPAGrade";
+            var expected = "Auto_PA_GetDataToUpdateGrade";
 
             // Act
             var actual = criteria.GetSettingKey();

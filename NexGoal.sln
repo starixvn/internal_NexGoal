@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Controllers", "NexG
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{64E62A2E-4E7A-4BAC-ADC9-2A7AB8848D62}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.AutoService", "NexGoal.AutoService\NexGoal.AutoService.csproj", "{ACEF4A7E-C6A3-48DD-881E-BD75DD3FFF09}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Website", "NexGoal.Website\NexGoal.Website.csproj", "{EDABDF2E-4D53-4588-A7E8-7BF5CE71E59A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{63CCDB0E-35CA-4105-A118-D906485CA6B9}"
@@ -57,7 +55,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Repositories.UnitTe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.AutoService.UnitTests", "UnitTests\NexGoal.AutoService.UnitTests\NexGoal.AutoService.UnitTests.csproj", "{BFCB8422-9412-4220-AA2F-FCC4B8778E0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexGoal.Criteria.UnitTests", "Nexgoal.Criteria.UnitTests\NexGoal.Criteria.UnitTests.csproj", "{E8DECE7F-8D72-4B50-ADDF-67BE6883C1FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Criteria.UnitTests", "Nexgoal.Criteria.UnitTests\NexGoal.Criteria.UnitTests.csproj", "{E8DECE7F-8D72-4B50-ADDF-67BE6883C1FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexGoal.AutoService", "NexGoal.AutoService\NexGoal.AutoService.csproj", "{DC13365E-E949-46BD-9BE0-6F7947D0B0F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -92,9 +92,6 @@ Global
 		{0628C3E6-5E10-4C42-AA75-D25046A8EBC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0628C3E6-5E10-4C42-AA75-D25046A8EBC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0628C3E6-5E10-4C42-AA75-D25046A8EBC2}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{ACEF4A7E-C6A3-48DD-881E-BD75DD3FFF09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ACEF4A7E-C6A3-48DD-881E-BD75DD3FFF09}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ACEF4A7E-C6A3-48DD-881E-BD75DD3FFF09}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{EDABDF2E-4D53-4588-A7E8-7BF5CE71E59A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EDABDF2E-4D53-4588-A7E8-7BF5CE71E59A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDABDF2E-4D53-4588-A7E8-7BF5CE71E59A}.Release|Any CPU.ActiveCfg = Debug|Any CPU
@@ -159,6 +156,10 @@ Global
 		{E8DECE7F-8D72-4B50-ADDF-67BE6883C1FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8DECE7F-8D72-4B50-ADDF-67BE6883C1FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8DECE7F-8D72-4B50-ADDF-67BE6883C1FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC13365E-E949-46BD-9BE0-6F7947D0B0F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC13365E-E949-46BD-9BE0-6F7947D0B0F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC13365E-E949-46BD-9BE0-6F7947D0B0F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC13365E-E949-46BD-9BE0-6F7947D0B0F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

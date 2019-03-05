@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Criteria.Discipline
 {
+    using NexGoal.Core.Criteria;
+
     public class UpdateDisciplineStatusCriteria : CommandBaseCriteria
     {
         public int DisciplineId { get; set; }

@@ -4,7 +4,7 @@
 
     public class GetPeriodStartedCriteria : CriteriaBase
     {
-        public override string GetSettingKey() => "PAFocus_GetPeriodStarted";
+        public override string GetSettingKey() => "Auto_PAFocus_GetPeriodStarted";
 
         public override bool IsValid() => true;
     }

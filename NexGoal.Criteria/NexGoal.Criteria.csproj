@@ -13,12 +13,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fanex.Data" Version="3.0.2" />
-    <PackageReference Include="Fanex.Data.Repository" Version="3.0.0" />
     <PackageReference Include="SonarAnalyzer.CSharp" Version="7.9.1.7622">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj" />
   </ItemGroup>
 
 </Project>

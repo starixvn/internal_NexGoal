@@ -10,7 +10,7 @@
         {
             // Arrange
             var criteria = new GetPerformanceGradeCriteria();
-            var expected = "GetPerformanceGrade";
+            var expected = "PerformanceGrade_Get";
 
             // Act
             var actual = criteria.GetSettingKey();

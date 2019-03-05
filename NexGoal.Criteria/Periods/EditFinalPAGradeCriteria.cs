@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Criteria.Periods
 {
+    using NexGoal.Core.Criteria;
+
     public class EditFinalPAGradeCriteria : CommandBaseCriteria
     {
         public int ActorId { get; set; }

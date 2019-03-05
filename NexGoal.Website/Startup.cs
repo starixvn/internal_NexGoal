@@ -9,6 +9,8 @@
     using Fanex.Data;
     using Fanex.Logging;
     using Fanex.Logging.Sentry;
+    using Hangfire;
+    using Hangfire.Common;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -19,6 +21,8 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Options;
+    using NexGoal.AutoService.Extensions;
+    using NexGoal.AutoService.Services;
     using NexGoal.Core;
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
@@ -67,6 +71,9 @@
                 })
             });
 
+            var hangfireConnectionString = Cryptography.DecryptConnectionString(Configuration.GetSection("HangfireConnectionString").Value);
+            services.AddHangfire(config => config.UseSqlServerStorage(hangfireConnectionString));
+
             services.Configure<IISOptions>(options =>
             {
                 options.AutomaticAuthentication = false;
@@ -98,10 +105,11 @@
             services.ResolveCoreDI();
             services.ResolveServiceDI();
             services.ResolveWebCoreDI();
+            services.ResolveAutoServiceDI();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public static void Configure(IApplicationBuilder app, IHostingEnvironment env, IRecurringJobManager recurringJobs)
         {
             if (env.IsDevelopment())
             {
@@ -119,6 +127,7 @@
             app.UseAuthentication();
             app.UseSession();
             app.UseMiddleware<AuthenticationMiddleware>();
+            app.UseHangfireServer();
 
             app.UseMvc(routes =>
             {
@@ -126,6 +135,10 @@
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            // recurring jobs
+            /////BackgroundJob.Schedule<IAppService>(x => x.Run(), TimeSpan.FromMinutes(1));
+            recurringJobs.AddOrUpdate("NexGoal.AutoService", Job.FromExpression<IAppService>(x => x.Run()), "5 0 * * *"); // 00:05 AM
         }
     }
 }

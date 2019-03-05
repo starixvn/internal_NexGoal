@@ -10,7 +10,7 @@
         {
             // Arrange
             var criteria = new GetSettingToSendNotificationCriteria();
-            var expected = "PAFocus_GetSettingToSendNotification";
+            var expected = "Auto_PAFocus_GetSettingToSendNotification";
 
             // Act
             var actual = criteria.GetSettingKey();

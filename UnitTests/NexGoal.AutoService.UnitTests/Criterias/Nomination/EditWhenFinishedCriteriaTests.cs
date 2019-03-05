@@ -10,7 +10,7 @@
         {
             // Arrange
             var criteria = new EditWhenFinishedCriteria();
-            var expected = "EditWhenNominationFinished";
+            var expected = "Auto_Nomination_UpdateWhenFinished";
 
             // Act
             var actual = criteria.GetSettingKey();

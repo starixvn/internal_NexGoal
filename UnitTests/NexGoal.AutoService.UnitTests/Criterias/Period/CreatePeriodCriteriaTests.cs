@@ -10,7 +10,7 @@
         {
             // Arrange
             var criteria = new CreatePeriodCriteria();
-            var expected = "InsertPeriod";
+            var expected = "Auto_Period_Insert";
 
             // Act
             var actual = criteria.GetSettingKey();

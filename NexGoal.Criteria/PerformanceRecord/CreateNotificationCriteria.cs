@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Criteria.PerformanceRecord
 {
+    using NexGoal.Core.Criteria;
+
     public class CreateNotificationCriteria : CommandBaseCriteria
     {
         public int ActorId { get; set; }

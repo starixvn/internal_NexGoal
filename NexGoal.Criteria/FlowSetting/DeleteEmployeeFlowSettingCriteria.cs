@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Criteria.FlowSetting
 {
+    using NexGoal.Core.Criteria;
+
     public class DeleteEmployeeFlowSettingCriteria : CommandBaseCriteria
     {
         public int EmployeeId { get; set; }

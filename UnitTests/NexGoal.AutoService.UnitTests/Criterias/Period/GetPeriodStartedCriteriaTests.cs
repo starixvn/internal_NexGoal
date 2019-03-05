@@ -10,7 +10,7 @@
         {
             // Arrange
             var criteria = new GetPeriodStartedCriteria();
-            var expected = "Period_GetPeriodStarted";
+            var expected = "Auto_Period_GetPeriodStarted";
 
             // Act
             var actual = criteria.GetSettingKey();

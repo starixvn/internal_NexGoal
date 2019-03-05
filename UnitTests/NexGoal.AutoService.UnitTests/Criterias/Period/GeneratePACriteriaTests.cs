@@ -10,7 +10,7 @@
         {
             // Arrange
             var criteria = new GeneratePACriteria();
-            var expected = "GeneratePA";
+            var expected = "Auto_Period_GeneratePA";
 
             // Act
             var actual = criteria.GetSettingKey();

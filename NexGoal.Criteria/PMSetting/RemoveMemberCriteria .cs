@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Criteria.PMSetting
 {
+    using NexGoal.Core.Criteria;
+
     public class RemoveMemberCriteria : CommandBaseCriteria
     {
         public int ProjectManagerId { get; set; }

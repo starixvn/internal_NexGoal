@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Criteria.Periods
 {
     using System;
+    using NexGoal.Core.Criteria;
 
     public class EditPeriodCriteria : CommandBaseCriteria
     {

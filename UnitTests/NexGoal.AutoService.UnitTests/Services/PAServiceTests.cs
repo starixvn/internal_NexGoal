@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.PA;
@@ -209,12 +210,13 @@
 
         private PAService GetPAService()
         {
+            IHostingEnvironment hostingEnvironment = Helpers.FakeHostingEnvironment();
             configuration = Helpers.FakeOptionsSnapshot();
             baseService = Helpers.FakeBaseService();
             mailService = Helpers.FakeBaseMailService();
             cryptoService = Helpers.FakeCryptoService();
 
-            return new PAService(configuration, baseService, mailService, cryptoService);
+            return new PAService(hostingEnvironment, configuration, baseService, mailService, cryptoService);
         }
 
         #endregion Helpers

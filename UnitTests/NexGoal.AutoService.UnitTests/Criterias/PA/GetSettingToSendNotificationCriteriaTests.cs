@@ -10,7 +10,7 @@
         {
             // Arrange
             var criteria = new GetSettingToSendNotificationCriteria();
-            var expected = "PA_GetSettingToSendNotification";
+            var expected = "Auto_PARecord_GetSettingToSendNotification";
 
             // Act
             var actual = criteria.GetSettingKey();

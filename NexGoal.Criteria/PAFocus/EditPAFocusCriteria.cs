@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Criteria.PAFocus
 {
+    using NexGoal.Core.Criteria;
+
     public class EditPAFocusCriteria : CommandBaseCriteria
     {
         public int ActorId { get; set; }

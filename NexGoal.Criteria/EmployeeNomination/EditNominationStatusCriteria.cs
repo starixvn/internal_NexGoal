@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Criteria.EmployeeNomination
 {
+    using NexGoal.Core.Criteria;
+
     public class EditNominationStatusCriteria : CommandBaseCriteria
     {
         public int NominationId { get; set; }

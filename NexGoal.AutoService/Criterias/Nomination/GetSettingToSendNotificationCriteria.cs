@@ -6,7 +6,7 @@
     {
         public int ReceiveType { get; set; }
 
-        public override string GetSettingKey() => "NominationPeriod_GetSettingToSendNotification";
+        public override string GetSettingKey() => "Auto_NominationPeriod_GetSettingToSendNotification";
 
         public override bool IsValid() => true;
     }
