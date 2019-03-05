@@ -348,12 +348,16 @@
 
         private void CalculatePAGrade(EditPAGradeDto record, IEnumerable<PerformanceGrade> grades)
         {
+            int minGradeId = grades.Min(x => x.GradeId);
             int maxGradeId = grades.Max(x => x.GradeId);
 
             record.GradeId = cryptoService.Decrypt(record.GradeId);
             int.TryParse(record.GradeId, out int gradeId);
 
-            gradeId = gradeId <= 0 ? 0 : gradeId + record.ToeicPolicy;
+            if (gradeId > 0)
+            {
+                gradeId = gradeId + record.ToeicPolicy <= 0 ? minGradeId : gradeId + record.ToeicPolicy;
+            }
 
             if (!grades.Any(x => x.GradeId == gradeId))
             {

@@ -225,30 +225,55 @@
             var criteria = new GetDataToEditGradeCriteria();
             var records = baseService.GetDataAsync<EditPAGradeDto>(criteria).Result;
             var grades = baseService.GetDataAsync<PerformanceGrade>(new GetPerformanceGradeCriteria()).Result;
-            int minGradeId = grades.Min(x => x.GradeId);
-            int maxGradeId = grades.Max(x => x.GradeId);
 
             foreach (EditPAGradeDto record in records)
             {
-                record.GradeId = cryptoService.Decrypt(record.GradeId);
-                int.TryParse(record.GradeId, out int gradeId);
-                gradeId = gradeId <= 0 ? 0 : gradeId + record.ToeicPolicy;
-
-                if (!grades.Any(x => x.GradeId == gradeId))
+                switch (record.StatusId)
                 {
-                    gradeId = gradeId > maxGradeId ? maxGradeId : 0;
-                }
+                    case (int)PARecordStatus.InProgress:
+                        CalculatePAGrade(record, grades);
+                        break;
 
-                if (gradeId == 0 && record.StatusId == (int)PARecordStatus.Closed)
-                {
-                    gradeId = minGradeId;
-                }
+                    case (int)PARecordStatus.Closed:
+                        CalculateNullFinalPAGrade(record, grades);
 
-                record.GradeId = gradeId == 0 ? null : cryptoService.Encrypt(gradeId.ToString());
-                record.OriginalGradeId = record.GradeId;
+                        break;
+
+                    default:
+                        continue;
+                }
             }
 
             return records;
+        }
+
+        private void CalculatePAGrade(EditPAGradeDto record, IEnumerable<PerformanceGrade> grades)
+        {
+            int minGradeId = grades.Min(x => x.GradeId);
+            int maxGradeId = grades.Max(x => x.GradeId);
+
+            record.GradeId = cryptoService.Decrypt(record.GradeId);
+            int.TryParse(record.GradeId, out int gradeId);
+
+            if (gradeId > 0)
+            {
+                gradeId = gradeId + record.ToeicPolicy <= 0 ? minGradeId : gradeId + record.ToeicPolicy;
+            }
+
+            if (!grades.Any(x => x.GradeId == gradeId))
+            {
+                gradeId = gradeId > maxGradeId ? maxGradeId : 0;
+            }
+
+            record.GradeId = gradeId == 0 ? null : cryptoService.Encrypt(gradeId.ToString());
+            record.OriginalGradeId = record.GradeId;
+        }
+
+        private void CalculateNullFinalPAGrade(EditPAGradeDto record, IEnumerable<PerformanceGrade> grades)
+        {
+            int minGradeId = grades.Min(x => x.GradeId);
+
+            record.GradeId = cryptoService.Encrypt(minGradeId.ToString());
         }
 
         private Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> GetSettingToSendNotification(ReceiveNotificationType receiveType)
