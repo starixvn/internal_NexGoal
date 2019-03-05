@@ -27,7 +27,7 @@
             var controller = GetReportController();
 
             // Act
-            var actual = controller.PAReport();
+            var actual = controller.Index();
 
             // Assert
             Assert.IsType<ViewResult>(actual);
@@ -115,12 +115,12 @@
             return records;
         }
 
-        private ReportController GetReportController()
+        private PAReportController GetReportController()
         {
             sessionService = Helpers.FakeSessionService();
             reportService = Substitute.For<IPAReportService>();
             exportService = Substitute.For<IExportPAReportService>();
-            var controller = new ReportController(sessionService, reportService, exportService);
+            var controller = new PAReportController(sessionService, reportService, exportService);
 
             return controller;
         }
