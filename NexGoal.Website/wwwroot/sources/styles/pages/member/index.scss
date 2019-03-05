@@ -276,26 +276,14 @@
         @include border-radius(2px);
         border: 1px solid #B0CBDD;
         background-color: #E1EEF7;
-        margin: 0 4px;
+        margin: 3px 4px;
         padding: 2px 4px 3px;
         font-size: 11px;
         .react-select__multi-value__label {
             font-size: 100%;
             padding: 0;
         }
-    }    
-
-    .react-select__multi-value__remove {
-      padding-right: 0;
-      svg {
-        color: #545454;
-      }
-
-      &:hover {
-        background: none;
-        color: #333;
-      }
-    }
+    }   
 
     .comment .form-control {
         font-size: 14px;
@@ -319,11 +307,13 @@
         width: 230px;
         display: inline-block;
         margin-right: 16px;
+        vertical-align: top;
     }
 
     .project {
         display: inline-block;
         width: calc(100% - 230px - 16px);
+        vertical-align: top;
     }
 
     .form-performance.edit .form-group .project {

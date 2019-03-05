@@ -31,6 +31,22 @@ form.form-performance {
         }
     }
 
+    .react-select__value-container {
+      padding: 0 6px;
+    } 
+
+    .react-select__multi-value__remove {
+      padding-right: 0;
+      svg {
+        color: #545454;
+      }
+
+      &:hover {
+        background: none;
+        color: #333;
+      }
+    }
+
     &.edit .record {
         .project {
             padding-left: 16px;

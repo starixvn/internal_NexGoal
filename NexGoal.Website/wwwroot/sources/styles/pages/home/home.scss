@@ -43,15 +43,13 @@
         width: 260px;
         display: inline-block;
         margin-right: 16px;
+        vertical-align: top;
     }
 
     .project {
         display: inline-block;
-        width: calc(100% - 260px - 16px);
-
-        .react-select__value-container {
-            padding: 0 6px;
-        }
+        width: calc(100% - 260px - 16px);       
+        vertical-align: top; 
     }
 
     .comment .form-filter {

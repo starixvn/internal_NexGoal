@@ -160,11 +160,13 @@
         width: 230px;
         display: inline-block;
         margin-right: 16px;
+        vertical-align: top;
     }
 
     .project {
         display: inline-block;
         width: calc(100% - 230px - 16px);
+        vertical-align: top;
     }
 
     .form-performance.edit .form-group .project {
