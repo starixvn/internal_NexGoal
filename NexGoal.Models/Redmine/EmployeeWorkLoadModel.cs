@@ -8,6 +8,6 @@
 
         public string NickName { get; set; }
 
-        public IList<ProjectWorkloadModel> Workloads { get; set; }
+        public IEnumerable<ProjectWorkloadModel> Workloads { get; set; }
     }
 }

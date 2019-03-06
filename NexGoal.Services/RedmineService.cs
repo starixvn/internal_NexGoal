@@ -5,7 +5,6 @@
     using System.Threading.Tasks;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Redmine;
-    using NexGoal.Models;
     using NexGoal.Models.Redmine;
 
     public class RedmineService : IRedmineService
@@ -49,21 +48,7 @@
         {
             var workloads = GroupWorkloadByTeam(rawWorkloads);
 
-            var teamWorkloads = new List<TeamWorkloadModel>();
-            foreach (var workload in workloads)
-            {
-                var fullProjects = GetAllProjects(workload);
-                var fullWorkloads = FillFullWorkload(workload, fullProjects);
-                var teamWorkload = new TeamWorkloadModel
-                {
-                    GroupId = workload.GroupId,
-                    GroupName = workload.GroupName,
-                    EmployeeWorkloads = fullWorkloads
-                };
-                teamWorkloads.Add(teamWorkload);
-            }
-
-            return teamWorkloads;
+            return workloads;
         }
 
         private IEnumerable<TeamWorkloadModel> GroupWorkloadByTeam(IEnumerable<MembersWorkloadEntityModel> workloadEntries)
@@ -81,47 +66,11 @@
                         ProjectId = p.Key.ProjectId,
                         Name = p.Key.ProjectName,
                         TotalHours = p.Sum(h => h.TotalHour)
-                    }).ToList()
+                    })
                 })
             });
 
             return teamWorkloads;
-        }
-
-        private IEnumerable<ProjectModel> GetAllProjects(TeamWorkloadModel teamWorkload)
-        {
-            return teamWorkload.EmployeeWorkloads.SelectMany(x => x.Workloads).Select(x => new ProjectModel
-            {
-                ProjectId = x.ProjectId,
-                Name = x.Name
-            }).GroupBy(x => x.ProjectId).Select(g => g.First());
-        }
-
-        private IEnumerable<EmployeeWorkloadModel> FillFullWorkload(TeamWorkloadModel teamWorkloads, IEnumerable<ProjectModel> projects)
-        {
-            IList<EmployeeWorkloadModel> data = new List<EmployeeWorkloadModel>();
-            foreach (var workload in teamWorkloads.EmployeeWorkloads)
-            {
-                var notExistProjects = projects.Where(p => !workload.Workloads.Any(w => w.ProjectId == p.ProjectId));
-                var oldWorkload = workload.Workloads;
-                if (notExistProjects.Any())
-                {
-                    foreach (var p in notExistProjects)
-                    {
-                        var newProject = new ProjectWorkloadModel
-                        {
-                            ProjectId = p.ProjectId,
-                            Name = p.Name,
-                            TotalHours = 0
-                        };
-                        oldWorkload.Add(newProject);
-                    }
-                }
-                workload.Workloads = oldWorkload.OrderBy(x => x.ProjectId).ToList();
-                data.Add(workload);
-            }
-
-            return data.ToList();
         }
     }
 }

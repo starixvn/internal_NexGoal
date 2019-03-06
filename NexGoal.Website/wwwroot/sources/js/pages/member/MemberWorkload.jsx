@@ -55,20 +55,24 @@ export default class MemberWorkload extends Component {
         };
     }
 
-    generateDataSets = (workloads) => {
-        let labels = workloads.map((member) => member.nickName);
-        let datasets = [];
-        let projects = workloads[0].workloads.map((project) => project.name);
+    generateDataSets = (employeeWorkloads) => {
+        let labels = [];
+        let dataset = {
+            label: 'workload',
+            backgroundColor: '#2748A5',
+            data: [],
+            workloadDetails: []
+        };
+        let datasets = [dataset];
 
-        for (var i = 0; i < projects.length; i++) {
-            let dataSet = {
-                label: projects[i],
-                data: workloads.map((member) => member.workloads[i].totalHours),
-                backgroundColor: "#2748A5"
-            };
-
-            datasets.push(dataSet);
-        }
+        employeeWorkloads.forEach((e) => {
+            labels.push(e.nickName);
+            dataset.data.push(e.workloads.reduce((total, workload) => total + workload.totalHours, 0));
+            dataset.workloadDetails.push(e.workloads.map(w => ({
+                project: w.name,
+                totalHours: w.totalHours
+            })));
+        });
 
         return {
             labels,
@@ -85,8 +89,7 @@ export default class MemberWorkload extends Component {
             callbacks: {
                 label: function (tooltipItem, data) {
                     var dataset = data.datasets[tooltipItem.datasetIndex];
-                    var currentValue = dataset.data[tooltipItem.index];
-                    return currentValue > 0 ? `${dataset.label}: ${currentValue}h` : ``;
+                    return dataset.workloadDetails[tooltipItem.index];
                 },
             },
             enabled: false,
@@ -115,19 +118,12 @@ export default class MemberWorkload extends Component {
                     tooltipEl.classList.add('no-transform');
                 }
 
-                function getBody(bodyItem) {
-                    return bodyItem.lines;
-                }
-
                 // Set Text
                 if (tooltipModel.body) {
-                    var bodyLines = tooltipModel.body.map(getBody);
-
+                    var bodyLines = tooltipModel.body.map(bodyItem => bodyItem.lines);
                     var innerHtml = '';
-                    bodyLines.forEach(function (body, i) {
-                        if (body.length > 0) {
-                            innerHtml += '<p>' + body + '</p>';
-                        }
+                    bodyLines.forEach(function (body) {
+                        body.forEach(b => innerHtml += '<p>' + `${b.project}: ${b.totalHours}h` + '</p>');
                     });
 
                     tooltipEl.innerHTML = innerHtml;
@@ -138,7 +134,7 @@ export default class MemberWorkload extends Component {
                 // Display, position, and set styles for font
                 tooltipEl.style.opacity = 1;
                 tooltipEl.style.position = 'absolute';
-                tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
+                tooltipEl.style.left = position.left + window.pageXOffset + 100 + 'px';
                 tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY + 'px';
                 tooltipEl.style.fontFamily = tooltipModel._bodyFontFamily;
                 tooltipEl.style.fontSize = tooltipModel.bodyFontSize + 'px';
@@ -152,7 +148,6 @@ export default class MemberWorkload extends Component {
                 gridLines: {
                     display: false
                 },
-                stacked: true,
                 barThickness: 20,
                 afterFit: function (scaleInstance) {
                     scaleInstance.width = 80;
@@ -162,7 +157,6 @@ export default class MemberWorkload extends Component {
                 ticks: {
                     beginAtZero: true
                 },
-                stacked: true
             }]
         },
         legend: {
