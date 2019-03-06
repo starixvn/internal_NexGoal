@@ -1,10 +1,10 @@
-﻿namespace NexGoal.Services
+﻿namespace NexGoal.Core
 {
     using System.Text;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Options;
     using NexGoal.Core.Models;
-    using NexGoal.Services.Interfaces;
+    using NexGoal.Core.Services.Interfaces;
     using RestSharp;
 
     public class ChatbotService : IChatbotService
@@ -18,7 +18,7 @@
             this.configuration = configuration;
         }
 
-        public async Task SendMessage(string conversationId, string message)
+        public async Task SendMessageAsync(string conversationId, string message)
         {
             if (!string.IsNullOrWhiteSpace(conversationId))
             {

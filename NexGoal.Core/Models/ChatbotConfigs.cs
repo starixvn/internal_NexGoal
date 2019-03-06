@@ -4,7 +4,7 @@
 
     public class ChatbotConfigs
     {
-        public Uri BotServiceUrl { get; set; }
+        public Uri BotServiceUrl { get; set; } = new Uri("https://nexbot.tk/api/");
 
         public string MicrosoftAppId { get; set; } = "1fca3d04-4799-4544-8744-89367a838238";
 

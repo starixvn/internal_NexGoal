@@ -4,6 +4,7 @@
     using Microsoft.Extensions.Options;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Core.Services.Interfaces;
     using NSubstitute;
 
     public static class Helpers
@@ -15,6 +16,7 @@
         public static ICryptoService FakeCryptoService() => Substitute.For<ICryptoService>();
 
         public static IHostingEnvironment FakeHostingEnvironment() => Substitute.For<IHostingEnvironment>();
+        public static IChatbotService FakeChatbotService() => Substitute.For<IChatbotService>();
 
         public static IOptionsSnapshot<AppSettings> FakeOptionsSnapshot()
         {

@@ -20,5 +20,7 @@
         public bool ReceiveNotification { get; set; }
 
         public bool ReceiveEmail { get; set; }
+
+        public bool ReceiveSkypeMessage { get; set; }
     }
 }

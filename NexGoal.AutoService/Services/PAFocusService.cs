@@ -5,6 +5,7 @@
     using System.IO;
     using System.Linq;
     using Microsoft.AspNetCore.Hosting;
+    using System.Threading.Tasks;
     using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.PAFocus;
@@ -15,6 +16,8 @@
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Core.Services.Interfaces;
+    using NexGoal.Core.SkypeMessages;
     using NexGoal.Resources;
 
     public class PAFocusService : IPAFocusService
@@ -26,17 +29,20 @@
         private readonly IOptionsSnapshot<AppSettings> configuration;
         private readonly IBaseService baseService;
         private readonly IBaseMailService mailService;
+        private readonly IChatbotService chatbotService;
 
         public PAFocusService(
             IHostingEnvironment hostingEnvironment,
             IOptionsSnapshot<AppSettings> configuration,
             IBaseService baseService,
-            IBaseMailService mailService)
+            IBaseMailService mailService,
+            IChatbotService chatbotService)
         {
             this.hostingEnvironment = hostingEnvironment;
             this.configuration = configuration;
             this.baseService = baseService;
             this.mailService = mailService;
+            this.chatbotService = chatbotService;
         }
 
         public CommandResult Generate()
@@ -121,6 +127,37 @@
                 };
 
                 baseService.ExecuteNonQueryAsync(criteria).Wait();
+            }
+        }
+
+        public async Task SendSkypeMessage()
+        {
+            Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = GetSettingToSendNotification(ReceiveNotificationType.SkypeMessage);
+            var message = string.Empty;
+
+            foreach (PeriodModel period in tuple.Item1)
+            {
+                IEnumerable<ProcessSettingModel> settings = tuple.Item2.Where(x => x.PeriodId == period.PeriodId);
+
+                foreach (ProcessSettingModel focusSetting in settings)
+                {
+                    switch (focusSetting.NotificationMode)
+                    {
+                        case MailMode.Start:
+                            message = PAFocusTemplates.StartToEvaluator(focusSetting.Nickname, period.Name, configuration.Value.ApplicationDomain);
+                            await chatbotService.SendMessageAsync(focusSetting.ConversationId, message).ConfigureAwait(false);
+                            break;
+
+                        case MailMode.Remind:
+                            string endDate = mailService.FormatStartDate(period.FocusEndDate);
+                            message = PAFocusTemplates.RemindToEvaluator(focusSetting.Nickname, period.Name, endDate, configuration.Value.ApplicationDomain);
+                            await chatbotService.SendMessageAsync(focusSetting.ConversationId, message).ConfigureAwait(false);
+                            break;
+
+                        default:
+                            continue;
+                    }
+                }
             }
         }
 

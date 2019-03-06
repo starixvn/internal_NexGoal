@@ -270,4 +270,13 @@
   <data name="UpdatePermissionSuccessfully" xml:space="preserve">
     <value>Permission has been successfully updated!</value>
   </data>
+  <data name="SkypeMessage_PerformanceRecord_ProbationRemindHR" xml:space="preserve">
+    <value>Please follow up on the progress and make a reminder for related people (Evaluator and Reviewer) to create a Performance Record (with a detailed comment, selected grade, and a `Probation` tag) for the member(s)</value>
+  </data>
+  <data name="SkypeTemplate_PA_RemindStartEvaluationToSelf" xml:space="preserve">
+    <value>For a better evaluation result, you are recommended to create a neat &amp; clean Performance Record for yourself (with a detailed comment and also selected grade).</value>
+  </data>
+  <data name="SkypeTemplate_PA_RemindStartEvaluationToSupervisor" xml:space="preserve">
+    <value>For a better evaluation result, you are recommended to create a neat &amp; clean Performance Record for yourself and your members (with a detailed comment and also selected grade).</value>
+  </data>
 </root>

@@ -6,6 +6,7 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Models;
+    using NexGoal.Services.Interfaces;
     using NSubstitute;
 
     public static class Helpers
@@ -30,6 +31,8 @@
         public static ICommonService FakeCommonService() => Substitute.For<ICommonService>();
 
         public static IHostingEnvironment FakeHostingEnvironment() => Substitute.For<IHostingEnvironment>();
+
+        public static ISkypeNotiService FakeSkypeNotiService() => Substitute.For<ISkypeNotiService>();
 
         public static IOptionsSnapshot<AppSettings> FakeOptionsSnapshot()
         {

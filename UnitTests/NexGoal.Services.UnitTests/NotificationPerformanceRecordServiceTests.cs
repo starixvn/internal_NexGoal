@@ -11,6 +11,7 @@
     using NexGoal.Criteria.PerformanceRecord;
     using NexGoal.Models.Common;
     using NexGoal.Models.PerformanceRecord.Notification;
+    using NexGoal.Services.Interfaces;
     using NSubstitute;
     using Xunit;
 
@@ -21,6 +22,7 @@
         private IBaseService baseService;
         private ICommonService commonService;
         private IBaseMailService mailService;
+        private ISkypeNotiService skypeNotiService;
 
         #region SendMailAsync
 
@@ -85,13 +87,15 @@
             baseService = Helpers.FakeBaseService();
             commonService = Helpers.FakeCommonService();
             mailService = Helpers.FakeBaseMailService();
+            skypeNotiService = Helpers.FakeSkypeNotiService();
 
             return new NotificationPerformanceRecordService(
                 hostingEnvironment,
                 configuration,
                 baseService,
                 commonService,
-                mailService);
+                mailService,
+                skypeNotiService);
         }
 
         #endregion Helpers

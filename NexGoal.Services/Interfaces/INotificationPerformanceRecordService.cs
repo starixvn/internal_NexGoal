@@ -8,5 +8,7 @@
         Task SendMailAsync(string performanceRecordIds, int actorId, ActionOnPerformanceRecord action);
 
         Task SendNotificationAsync(string performanceRecordIds, int actorId, ActionOnPerformanceRecord action);
+
+        Task SendSkypeMessageAsync(string performanceRecordIds, int actorId, ActionOnPerformanceRecord action);
     }
 }

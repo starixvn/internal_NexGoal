@@ -5,6 +5,7 @@
     using System.IO;
     using System.Linq;
     using Microsoft.AspNetCore.Hosting;
+    using System.Threading.Tasks;
     using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.Probation;
@@ -14,6 +15,8 @@
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Core.Services.Interfaces;
+    using NexGoal.Core.SkypeMessages;
     using NexGoal.Resources;
 
     public class ProbationService : IProbationService
@@ -26,17 +29,20 @@
         private readonly IOptionsSnapshot<AppSettings> configuration;
         private readonly IBaseService baseService;
         private readonly IBaseMailService mailService;
+        private readonly IChatbotService chatbotService;
 
         public ProbationService(
             IHostingEnvironment hostingEnvironment,
             IOptionsSnapshot<AppSettings> configuration,
             IBaseService baseService,
-            IBaseMailService mailService)
+            IBaseMailService mailService,
+            IChatbotService chatbotService)
         {
             this.hostingEnvironment = hostingEnvironment;
             this.configuration = configuration;
             this.baseService = baseService;
             this.mailService = mailService;
+            this.chatbotService = chatbotService;
         }
 
         public void SendMail()
@@ -107,6 +113,36 @@
                 };
 
                 baseService.ExecuteNonQueryAsync(criteria).Wait();
+            }
+        }
+
+        public async Task SendSkypeMessage()
+        {
+            IEnumerable<ProcessSettingModel> settings = GetSettingToSendNotification(ReceiveNotificationType.SkypeMessage);
+            var message = string.Empty;
+            foreach (ProcessSettingModel setting in settings)
+            {
+                switch (setting.ProcessId)
+                {
+                    case PerformanceProcess.HumanResource:
+                        message = ProbationTemplates.RemindHR(setting.Nickname, mailService.FormatEndDate(setting.EndDate));
+                        await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
+                        break;
+
+                    case PerformanceProcess.Self:
+                        message = ProbationTemplates.RemindMember(setting.Nickname, mailService.FormatEndDate(setting.EndDate), configuration.Value.ApplicationDomain);
+                        await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
+                        break;
+
+                    case PerformanceProcess.Evaluator:
+                    case PerformanceProcess.Reviewer:
+                        message = ProbationTemplates.RemindEvaluator(setting.Nickname, mailService.FormatEndDate(setting.EndDate), configuration.Value.ApplicationDomain);
+                        await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
+                        break;
+
+                    default:
+                        continue;
+                }
             }
         }
 

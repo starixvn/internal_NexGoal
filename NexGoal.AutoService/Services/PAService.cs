@@ -5,6 +5,7 @@
     using System.IO;
     using System.Linq;
     using Microsoft.AspNetCore.Hosting;
+    using System.Threading.Tasks;
     using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.PA;
@@ -16,6 +17,8 @@
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Core.Services.Interfaces;
+    using NexGoal.Core.SkypeMessages;
     using NexGoal.Resources;
 
     public class PAService : IPAService
@@ -31,19 +34,22 @@
         private readonly IBaseService baseService;
         private readonly IBaseMailService mailService;
         private readonly ICryptoService cryptoService;
+        private readonly IChatbotService chatbotService;
 
         public PAService(
             IHostingEnvironment hostingEnvironment,
             IOptionsSnapshot<AppSettings> configuration,
             IBaseService baseService,
             IBaseMailService mailService,
-            ICryptoService cryptoService)
+            ICryptoService cryptoService,
+            IChatbotService chatbotService)
         {
             this.hostingEnvironment = hostingEnvironment;
             this.configuration = configuration;
             this.baseService = baseService;
             this.mailService = mailService;
             this.cryptoService = cryptoService;
+            this.chatbotService = chatbotService;
         }
 
         public CommandResult EditGrade()
@@ -137,6 +143,54 @@
                                 period.Name,
                                 configuration.Value.ApplicationDomain);
                             SendEmail(subjectEndEvaluationMail, body, setting);
+                            break;
+
+                        default:
+                            continue;
+                    }
+                }
+            }
+        }
+
+        public async Task SendSkypeMessage()
+        {
+            Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = GetSettingToSendNotification(ReceiveNotificationType.SkypeMessage);
+
+            foreach (PeriodModel period in tuple.Item1)
+            {
+                IEnumerable<ProcessSettingModel> settings = tuple.Item2.Where(x => x.PeriodId == period.PeriodId);
+                var message = string.Empty;
+
+                foreach (ProcessSettingModel setting in settings)
+                {
+                    switch (setting.NotificationMode)
+                    {
+                        case MailMode.RemindStartEvaluation:
+                            string startDate = mailService.FormatStartDate(period.StartDate);
+                            message = setting.ProcessId == PerformanceProcess.Self ?
+                                        PATemplates.RemindStartEvaluationToSelf(setting.Nickname, period.Name, startDate, configuration.Value.ApplicationDomain) :
+                                        PATemplates.RemindStartEvaluationToSupervisor(setting.Nickname, period.Name, startDate, configuration.Value.ApplicationDomain);
+
+                            await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
+                            break;
+
+                        case MailMode.Start:
+                            message = PATemplates.Start(setting.Nickname, period.Name, configuration.Value.ApplicationDomain);
+                            await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
+
+                            break;
+
+                        case MailMode.Remind:
+                            string endDate = mailService.FormatStartDate(setting.EndDate);
+                            message = PATemplates.Remind(setting.Nickname, period.Name, endDate, configuration.Value.ApplicationDomain);
+                            await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
+
+                            break;
+
+                        case MailMode.EndEvaluation:
+                            message = PATemplates.EndEvaluation(setting.Nickname, period.Name, configuration.Value.ApplicationDomain);
+                            await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
+
                             break;
 
                         default:

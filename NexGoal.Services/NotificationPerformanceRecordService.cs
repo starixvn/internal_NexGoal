@@ -16,6 +16,7 @@
     using NexGoal.Models.Notification;
     using NexGoal.Models.PerformanceRecord.Notification;
     using NexGoal.Resources;
+    using NexGoal.Services.Interfaces;
 
     public class NotificationPerformanceRecordService : INotificationPerformanceRecordService
     {
@@ -28,19 +29,22 @@
         private readonly IBaseService baseService;
         private readonly ICommonService commonService;
         private readonly IBaseMailService mailService;
+        private readonly ISkypeNotiService skypeNotiService;
 
         public NotificationPerformanceRecordService(
             IHostingEnvironment hostingEnvironment,
             IOptionsSnapshot<AppSettings> configuration,
             IBaseService baseService,
             ICommonService commonService,
-            IBaseMailService mailService)
+            IBaseMailService mailService,
+            ISkypeNotiService skypeNotiService)
         {
             this.hostingEnvironment = hostingEnvironment;
             this.configuration = configuration;
             this.baseService = baseService;
             this.commonService = commonService;
             this.mailService = mailService;
+            this.skypeNotiService = skypeNotiService;
         }
 
         public async Task SendMailAsync(string performanceRecordIds, int actorId, ActionOnPerformanceRecord action)
@@ -140,6 +144,40 @@
                 };
 
                 await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            }
+        }
+
+        public async Task SendSkypeMessageAsync(string performanceRecordIds, int actorId, ActionOnPerformanceRecord action)
+        {
+            IEnumerable<int> recordIds = performanceRecordIds.Split(",").Select(x => int.Parse(x));
+            Tuple<IEnumerable<EmployeeDto>, IEnumerable<ProcessSettingDto>> tuple =
+                await GetSettingToSendNotificationAsync(performanceRecordIds, actorId, ReceiveNotificationType.Email).ConfigureAwait(false);
+            Employee actor = await commonService.GetEmployeeByIdAsync(actorId).ConfigureAwait(false);
+
+            foreach (int recordId in recordIds)
+            {
+                IEnumerable<ProcessSettingDto> receivers = tuple.Item2.Where(x => x.PerformanceRecordId == recordId);
+                if (receivers.Any(x => x.NotificationMode == PerformanceRecordMailMode.MemberToSupervisor))
+                {
+                    var conversations = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.MemberToSupervisor).OrderBy(x => x.Priority);
+
+                    await skypeNotiService.SendMessageMemberToSupervisor(actor, conversations, action).ConfigureAwait(false);
+                }
+
+                if (receivers.Any(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToMember))
+                {
+                    var conversations = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToMember);
+
+                    await skypeNotiService.SendMessageSupervisorToMember(actor, conversations, action).ConfigureAwait(false);
+                }
+
+                if (receivers.Any(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToSupervisor))
+                {
+                    EmployeeDto employee = tuple.Item1.First(y => y.PerformanceRecordId == recordId);
+                    var conversations = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToSupervisor);
+
+                    await skypeNotiService.SendMessageSupervisorToSupervisor(actor, conversations, employee, action).ConfigureAwait(false);
+                }
             }
         }
 

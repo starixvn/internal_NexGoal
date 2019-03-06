@@ -5,6 +5,7 @@
     using System.IO;
     using System.Linq;
     using Microsoft.AspNetCore.Hosting;
+    using System.Threading.Tasks;
     using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.Nomination;
@@ -14,6 +15,8 @@
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Core.Services.Interfaces;
+    using NexGoal.Core.SkypeMessages;
     using NexGoal.Resources;
 
     public class NominationService : INominationService
@@ -25,17 +28,20 @@
         private readonly IOptionsSnapshot<AppSettings> configuration;
         private readonly IBaseService baseService;
         private readonly IBaseMailService mailService;
+        private readonly IChatbotService chatbotService;
 
         public NominationService(
             IHostingEnvironment hostingEnvironment,
             IOptionsSnapshot<AppSettings> configuration,
             IBaseService baseService,
-            IBaseMailService mailService)
+            IBaseMailService mailService,
+            IChatbotService chatbotService)
         {
             this.hostingEnvironment = hostingEnvironment;
             this.configuration = configuration;
             this.baseService = baseService;
             this.mailService = mailService;
+            this.chatbotService = chatbotService;
         }
 
         public void SendMail()
@@ -108,6 +114,36 @@
                 };
 
                 baseService.ExecuteNonQueryAsync(criteria).Wait();
+            }
+        }
+
+        public async Task SendSkypeMessage()
+        {
+            Tuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>> tuple = GetSettingToSendNotification(ReceiveNotificationType.SkypeMessage);
+
+            foreach (NominationPeriodModel period in tuple.Item1)
+            {
+                IEnumerable<ProcessSettingModel> settings = tuple.Item2.Where(x => x.NominationPeriodId == period.NominationPeriodId);
+                string message = string.Empty;
+                foreach (ProcessSettingModel setting in settings)
+                {
+                    switch (setting.NotificationMode)
+                    {
+                        case MailMode.Start:
+                            message = NominationTemplates.StartToNominator(setting.Nickname, period.Title, configuration.Value.ApplicationDomain);
+                            await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
+                            break;
+
+                        case MailMode.Remind:
+                            string endDate = mailService.FormatEndDate(period.EndDateForNominator);
+                            message = NominationTemplates.RemindToNominator(setting.Nickname, period.Title, endDate, configuration.Value.ApplicationDomain);
+                            await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
+                            break;
+
+                        default:
+                            continue;
+                    }
+                }
             }
         }
 

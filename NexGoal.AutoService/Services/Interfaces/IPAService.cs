@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.AutoService.Services
 {
+    using System.Threading.Tasks;
     using NexGoal.Core.Models;
 
     public interface IPAService
@@ -13,5 +14,7 @@
         void SendMail();
 
         void SendNotification();
+
+        Task SendSkypeMessage()
     }
 }

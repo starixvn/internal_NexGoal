@@ -3,6 +3,7 @@
     public enum ReceiveNotificationType
     {
         Email = 1,
-        Notification
+        Notification = 2,
+        SkypeMessage = 3
     }
 }

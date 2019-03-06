@@ -33,8 +33,8 @@
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IPMSettingService, PMSettingService>();
             services.AddScoped<IMasterReportService, MasterReportService>();
-            services.AddScoped<IChatbotService, ChatbotService>();
             services.AddScoped<IViewRenderService, ViewRenderService>();
+            services.AddScoped<ISkypeNotiService, SkypeNotiService>();
         }
     }
 }

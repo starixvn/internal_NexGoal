@@ -47,8 +47,8 @@ export default class NotificationSetting extends Component {
         }).then(response => {
             let result = response.data;
             if (result.isSuccessful) {
-                this.props.onCloseModal();
                 toast.success(getResource('UpdatedSuccessfully'));
+                this.props.onCloseModal();
             } else {
                 toast.error(result.message);
             }
@@ -72,6 +72,7 @@ export default class NotificationSetting extends Component {
                                 <th>{getResource('Type')}</th>
                                 <th>{getResource('Notification')}</th>
                                 <th>{getResource('Email')}</th>
+                                <th>{getResource('SkypeMessage')}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -95,6 +96,14 @@ export default class NotificationSetting extends Component {
                                                     onClick={(e) => this.handleChange(e, setting.type, "receiveEmail")}
                                                 />
                                                 <label htmlFor={`chb-${setting.type}-email`} />
+                                            </td>
+                                            <td className="text-center">
+                                                <input type="checkbox" className="checkbox-custom"
+                                                    id={`chb-${setting.type}-skype`}
+                                                    checked={setting.receiveSkypeMessage}
+                                                    onClick={(e) => this.handleChange(e, setting.type, "receiveSkypeMessage")}
+                                                />
+                                                <label htmlFor={`chb-${setting.type}-skype`} />
                                             </td>
                                         </tr>
                                     );

@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.AutoService.Services
 {
     using System;
+    using System.Threading.Tasks;
     using Fanex.Logging;
 
     public class AppService : IAppService
@@ -43,6 +44,7 @@
             {
                 probationService.SendMail();
                 probationService.SendNotification();
+                Task.Run(() => probationService.SendSkypeMessage());
             }
             catch (Exception ex)
             {
@@ -73,6 +75,7 @@
                 paService.EditWhenEvaluationFinished();
                 paService.SendMail();
                 paService.SendNotification();
+                Task.Run(() => paService.SendSkypeMessage());
             }
             catch (Exception ex)
             {
@@ -87,6 +90,7 @@
                 focusService.Generate();
                 focusService.SendMail();
                 focusService.SendNotification();
+                Task.Run(() => focusService.SendSkypeMessage());
             }
             catch (Exception ex)
             {
@@ -101,6 +105,7 @@
                 nominationService.SendMail();
                 nominationService.SendNotification();
                 nominationService.EditWhenFinished();
+                Task.Run(() => nominationService.SendSkypeMessage());
             }
             catch (Exception ex)
             {

@@ -5,6 +5,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using NexGoal.Core.Repositories;
     using NexGoal.Core.Services;
+    using NexGoal.Core.Services.Interfaces;
 
     public static class CoreDIExtensions
     {
@@ -12,6 +13,7 @@
         {
             services.AddTransient<IDynamicRepository, DynamicRepository>();
             services.AddTransient<IBaseRepository, BaseRepository>();
+            services.AddTransient<IChatbotService, ChatbotService>();
             services.AddTransient<IBaseService, BaseService>();
             services.AddTransient<IBaseMailService, BaseMailService>();
             services.AddSingleton<ICryptoService, CryptoService>();

@@ -205,6 +205,7 @@
             {
                 await notificationService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false);
                 await notificationService.SendNotificationAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false);
+                await notificationService.SendSkypeMessageAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false);
             }
 
             return commandResult;
@@ -251,11 +252,13 @@
                 {
                     await notificationService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false);
                     await notificationService.SendNotificationAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false);
+                    await notificationService.SendSkypeMessageAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false);
                 }
                 else
                 {
                     await notificationService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Edit).ConfigureAwait(false);
                     await notificationService.SendNotificationAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Edit).ConfigureAwait(false);
+                    await notificationService.SendSkypeMessageAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Edit).ConfigureAwait(false);
                 }
             }
 

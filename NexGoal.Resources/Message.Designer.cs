@@ -484,6 +484,33 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please follow up on the progress and make a reminder for related people (Evaluator and Reviewer) to create a Performance Record (with a detailed comment, selected grade, and a `Probation` tag) for the member(s).
+        /// </summary>
+        public static string SkypeMessage_PerformanceRecord_ProbationRemindHR {
+            get {
+                return ResourceManager.GetString("SkypeMessage_PerformanceRecord_ProbationRemindHR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For a better evaluation result, you are recommended to create a neat &amp; clean Performance Record for yourself (with a detailed comment and also selected grade)..
+        /// </summary>
+        public static string SkypeTemplate_PA_RemindStartEvaluationToSelf {
+            get {
+                return ResourceManager.GetString("SkypeTemplate_PA_RemindStartEvaluationToSelf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For a better evaluation result, you are recommended to create a neat &amp; clean Performance Record for yourself and your members (with a detailed comment and also selected grade)..
+        /// </summary>
+        public static string SkypeTemplate_PA_RemindStartEvaluationToSupervisor {
+            get {
+                return ResourceManager.GetString("SkypeTemplate_PA_RemindStartEvaluationToSupervisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start Date must be before End Date.
         /// </summary>
         public static string StartDateBeforeEndDate {

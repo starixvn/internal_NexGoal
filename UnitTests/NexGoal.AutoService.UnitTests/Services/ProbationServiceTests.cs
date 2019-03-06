@@ -11,6 +11,7 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Core.Services.Interfaces;
     using NSubstitute;
     using Xunit;
 
@@ -19,6 +20,7 @@
         private IOptionsSnapshot<AppSettings> configuration;
         private IBaseService baseService;
         private IBaseMailService mailService;
+        private IChatbotService chatbotService;
 
         #region SendMail
 
@@ -118,8 +120,9 @@
             configuration = Helpers.FakeOptionsSnapshot();
             baseService = Helpers.FakeBaseService();
             mailService = Helpers.FakeBaseMailService();
+            chatbotService = Helpers.FakeChatbotService();
 
-            return new ProbationService(hostingEnvironment, configuration, baseService, mailService);
+            return new ProbationService(hostingEnvironment, configuration, baseService, mailService, chatbotService);
         }
 
         #endregion Helpers
