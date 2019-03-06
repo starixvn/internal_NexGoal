@@ -12,6 +12,7 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Core.Services.Interfaces;
     using NSubstitute;
     using Xunit;
 
@@ -21,6 +22,7 @@
         private IBaseService baseService;
         private IBaseMailService mailService;
         private ICryptoService cryptoService;
+        private IChatbotService chatbotService;
 
         [Fact]
         public void EditWhenEvaluationFinished_WhenCalled_ReturnAsExpectedCommandResult()
@@ -215,8 +217,9 @@
             baseService = Helpers.FakeBaseService();
             mailService = Helpers.FakeBaseMailService();
             cryptoService = Helpers.FakeCryptoService();
+            chatbotService = Helpers.FakeChatbotService();
 
-            return new PAService(hostingEnvironment, configuration, baseService, mailService, cryptoService);
+            return new PAService(hostingEnvironment, configuration, baseService, mailService, cryptoService, chatbotService);
         }
 
         #endregion Helpers

@@ -11,6 +11,6 @@
 
         CommandResult EditWhenFinished();
 
-        Task SendSkypeMessage()
+        Task SendSkypeMessage();
     }
 }

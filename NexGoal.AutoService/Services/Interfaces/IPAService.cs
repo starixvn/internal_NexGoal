@@ -15,6 +15,6 @@
 
         void SendNotification();
 
-        Task SendSkypeMessage()
+        Task SendSkypeMessage();
     }
 }
