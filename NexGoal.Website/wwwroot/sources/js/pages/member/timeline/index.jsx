@@ -185,9 +185,9 @@ export default class Timeline extends Component {
         let timelineWidth = this.timelineEl.current ? this.timelineEl.current.offsetWidth : 0;
 
         if (windowWidth > 1600) {
-            timelineWidth -= 112;
+            timelineWidth -= 122;
         } else {
-            timelineWidth -= 102;
+            timelineWidth -= 112;
         }
 
         return timelineWidth;

@@ -72,11 +72,11 @@
 
 .member-performance {
     display: grid;
-    grid-template-columns: 70px 1fr;
+    grid-template-columns: 80px 1fr;
     align-content: center;
 
     @media screen and (min-width: 1601px) {
-        grid-template-columns: 80px 1fr;
+        grid-template-columns: 90px 1fr;
     }
 
     .employee-info {

@@ -30,7 +30,7 @@ export default class Timeline extends Component {
     }
 
     calculateNodePosition = (totalNodes, index) => {
-        let nodeWidth = (this.props.timelineWidth - 6) / totalNodes;
+        let nodeWidth = (this.props.timelineWidth - 10) / totalNodes;
         let startAt = (nodeWidth - 57) / 2;
 
         return index * nodeWidth + startAt;
