@@ -28,6 +28,7 @@
     using NexGoal.Core.Models;
     using NexGoal.Services.Extensions;
     using NexGoal.Web.Core.Extensions;
+    using NexGoal.Web.Core.Filters;
     using NexGoal.Web.Core.Middlewares;
     using Sentry;
 
@@ -128,7 +129,10 @@
             app.UseSession();
             app.UseMiddleware<AuthenticationMiddleware>();
             app.UseHangfireServer();
-            app.UseHangfireDashboard("/admin/hangfire");
+            app.UseHangfireDashboard("/admin/hangfire", new DashboardOptions
+            {
+                Authorization = new[] { new HangfireAuthorizationFilter() }
+            });
 
             app.UseMvc(routes =>
             {
@@ -138,7 +142,7 @@
             });
 
             // recurring jobs
-            recurringJobs.AddOrUpdate("NexGoal.AutoService", Job.FromExpression<IAppService>(x => x.Run()), "5 0 * * *"); // 00:05 AM
+            recurringJobs.AddOrUpdate("NexGoal.AutoService", Job.FromExpression<IAppService>(x => x.Run()), "5 0 * * *", TimeZoneInfo.Local); // 00:05 AM
         }
     }
 }
