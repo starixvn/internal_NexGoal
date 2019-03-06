@@ -190,7 +190,7 @@ export default class App extends Component {
 
     handleClickTimelineNode = performanceRecordId => {
         if (!this.state.displayedPerformanceRecords.some(r => r.performanceRecordId === performanceRecordId)) {
-            let index = this.state.performanceRecords.findIndex(function (element) {
+            let index = this.state.performanceRecords.findIndex(function(element) {
                 return element.performanceRecordId === performanceRecordId;
             });
 
@@ -212,7 +212,6 @@ export default class App extends Component {
     handleCreatePerformanceRecordSuccess = (performanceRecordIds) => {
         axios(resolveClientUrl(`Performance/GetByIds/${performanceRecordIds}`))
             .then((response) => {
-
                 let performanceRecords = this.state.performanceRecords.slice();
                 if (this.state.personalTimeline.pageIndex === 0) {
                     this.handleTimelinePageChange(0);
@@ -410,11 +409,13 @@ export default class App extends Component {
                 <div className="row">
                     <div className="my-page member-detail main-layout">
                         <div className="general-info">
-                            <EmployeeInfo employee={this.memberInfo} />
-                            <PerformanceAppraisalResult
-                                performanceAppraisals={performanceAppraisals}
-                                title={`${this.memberInfo.nickName}'s Performance Appraisal`}
-                            />
+                            <CustomScrollbars>
+                                <EmployeeInfo employee={this.memberInfo} />
+                                <PerformanceAppraisalResult
+                                    performanceAppraisals={performanceAppraisals}
+                                    title={`${this.memberInfo.nickName}'s Performance Appraisal`}
+                                />
+                            </CustomScrollbars>
                         </div>
                         <div className="main-content">
                             <div className="fixed-section">
@@ -475,15 +476,18 @@ export default class App extends Component {
                             </Tabs>
                         </div>
                         <div className="work-info">
-                            {
-                                nominations.length > 0 &&
-                                <NominationResult nominations={nominations} />
-                            }
-                            {
-                                this.state.periods.length > 0 &&
-                                <WorkLoad periods={this.state.periods} memberId={this.memberInfo.id} />
-                            }
-                            <HrmSummary memberId={this.memberInfo.id} />
+                            <CustomScrollbars>
+                                {
+                                    nominations.length > 0 &&
+                                    <NominationResult nominations={nominations} />
+                                }
+                                {
+                                    this.state.periods.length > 0 &&
+                                    <WorkLoad periods={this.state.periods} memberId={this.memberInfo.id} />
+                                }
+                                <HrmSummary memberId={this.memberInfo.id} />
+                            </CustomScrollbars>
+
                         </div>
 
                     </div>
