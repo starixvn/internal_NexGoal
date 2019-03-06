@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Hangfire;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
@@ -20,19 +21,22 @@
         private readonly ICommonService commonService;
         private readonly INotificationPerformanceRecordService notificationService;
         private readonly IPerformanceRecordRepository performanceRecordRepository;
+        private readonly IBackgroundJobClient backgroundJob;
 
         public PerformanceRecordService(
             IBaseService baseService,
             ICryptoService cryptoService,
             ICommonService commonService,
             INotificationPerformanceRecordService notificationService,
-            IPerformanceRecordRepository performanceRecordRepository)
+            IPerformanceRecordRepository performanceRecordRepository,
+            IBackgroundJobClient backgroundJob)
         {
             this.baseService = baseService;
             this.cryptoService = cryptoService;
             this.commonService = commonService;
             this.notificationService = notificationService;
             this.performanceRecordRepository = performanceRecordRepository;
+            this.backgroundJob = backgroundJob;
         }
 
         public async Task<IEnumerable<PerformanceRecord>> GetPerformanceRecordByEmployeeAsync(int employeeId)
@@ -203,9 +207,17 @@
 
             if (commandResult.IsSuccessful)
             {
-                await notificationService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false);
-                await notificationService.SendNotificationAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false);
-                await notificationService.SendSkypeMessageAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false);
+                backgroundJob.Enqueue(() => notificationService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false));
+                backgroundJob.Enqueue(() => notificationService.SendNotificationAsync(
+                    criteria.PerformanceRecordIds,
+                    performanceRecord.CreatorId,
+                    ActionOnPerformanceRecord.Create)
+                    .ConfigureAwait(false));
+                backgroundJob.Enqueue(() => notificationService.SendSkypeMessageAsync(
+                    criteria.PerformanceRecordIds,
+                    performanceRecord.CreatorId,
+                    ActionOnPerformanceRecord.Create)
+                    .ConfigureAwait(false));
             }
 
             return commandResult;
@@ -250,15 +262,27 @@
             {
                 if (performanceRecord.IsFromDraft)
                 {
-                    await notificationService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false);
-                    await notificationService.SendNotificationAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false);
-                    await notificationService.SendSkypeMessageAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false);
+                    backgroundJob.Enqueue(() => notificationService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false));
+                    backgroundJob.Enqueue(() => notificationService.SendNotificationAsync(criteria.PerformanceRecordIds,
+                        performanceRecord.CreatorId,
+                        ActionOnPerformanceRecord.Create)
+                        .ConfigureAwait(false));
+                    backgroundJob.Enqueue(() => notificationService.SendSkypeMessageAsync(criteria.PerformanceRecordIds,
+                        performanceRecord.CreatorId,
+                        ActionOnPerformanceRecord.Create)
+                        .ConfigureAwait(false));
                 }
                 else
                 {
-                    await notificationService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Edit).ConfigureAwait(false);
-                    await notificationService.SendNotificationAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Edit).ConfigureAwait(false);
-                    await notificationService.SendSkypeMessageAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Edit).ConfigureAwait(false);
+                    backgroundJob.Enqueue(() => notificationService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Edit).ConfigureAwait(false));
+                    backgroundJob.Enqueue(() => notificationService.SendNotificationAsync(criteria.PerformanceRecordIds,
+                        performanceRecord.CreatorId,
+                        ActionOnPerformanceRecord.Edit)
+                        .ConfigureAwait(false));
+                    backgroundJob.Enqueue(() => notificationService.SendSkypeMessageAsync(criteria.PerformanceRecordIds,
+                        performanceRecord.CreatorId,
+                        ActionOnPerformanceRecord.Edit)
+                        .ConfigureAwait(false));
                 }
             }
 
