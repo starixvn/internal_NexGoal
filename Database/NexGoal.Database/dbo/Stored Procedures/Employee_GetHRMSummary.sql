@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Employee_GetHRMSummary] @EmployeeId INT
+﻿
+CREATE PROCEDURE [dbo].[Employee_GetHRMSummary] @EmployeeId INT
 AS
 /*
 Created: 20180926@Oliver.Dang
@@ -8,20 +9,21 @@ DB: bodb_NexGoal
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @FromDate DATETIME
-		,@ToDate DATETIME
+	DECLARE @FromDate DATE
+		,@ToDate DATE
 		,@toeic INT
 		,@ToeicPolicy SMAllINT
-		,@examDate DATETIME
+		,@examDate DATE
 		,@incident INT
 		,@missingCheckInCheckOut INT
+		,@Today DATE = GETDATE()
 
 	SELECT TOP 1
 		@FromDate = DisciplineStartDate
 		,@ToDate = DisciplineEndDate
 	FROM dbo.Period WITH (NOLOCK)
 	WHERE IsActive = 1
-		AND DisciplineStartDate <= GETDATE()
+		AND DisciplineStartDate <= @Today
 	ORDER BY DisciplineStartDate DESC
 
 	CREATE TABLE #EmployeeAttendance (
@@ -223,7 +225,7 @@ BEGIN
 						)
 					THEN 2
 				ELSE 0
-				END) AS UnplanAnnualLeave
+				END) AS UnplannedAnnualLeave
 		,(
 			CAST(ROUND(SUM(CASE 
 							WHEN et.Absence IS NOT NULL
@@ -236,7 +238,7 @@ BEGIN
 								AND c.LeaveDay < 1
 								THEN 0.5
 							ELSE 0
-							END) / (DATEDIFF(month, @FromDate, @ToDate) + 1), 2) AS NUMERIC(36, 2))
+							END) / (DATEDIFF(month, @FromDate, @Today) + 1), 2) AS NUMERIC(36, 2))
 			) AS AverageWorkingDays
 		,(
 			SELECT SUM(st.[Hours])

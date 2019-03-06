@@ -8,6 +8,7 @@ DB: bodb_NexGoal
 Original:
 
 Revisions:
+Oliver.Dang revised, get skype message settings
 Param's Explanation:
 */
 BEGIN
@@ -30,6 +31,7 @@ BEGIN
 		-- receive type
 		,@ReceiveMail TINYINT = 1
 		,@ReceiveNotification TINYINT = 2
+		,@ReceiveSkypeMessage TINYINT = 3
 
 	CREATE TABLE #tblProcessSetting (
 		ProcessId TINYINT
@@ -185,8 +187,10 @@ BEGIN
 		,FullName
 		,Email
 		,EndDate
+		,skype.ConversationId
 	FROM #tblProcessSetting AS tbl WITH (NOLOCK)
 		LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
+		LEFT JOIN dbo.EmployeeSkypeConversation AS skype WITH (NOLOCK) ON tbl.EvaluatorId = skype.EmployeeId
 	WHERE ISNULL(setting.TypeId, @NotificationType) = @NotificationType
 		AND (
 			(
@@ -196,6 +200,10 @@ BEGIN
 			OR (
 				@ReceiveType = @ReceiveNotification
 				AND ISNULL(setting.ReceiveNotification, 1) = 1
+				)
+			OR (
+				@ReceiveType = @ReceiveSkypeMessage
+				AND ISNULL(setting.ReceiveSkypeMessage, 1) = 1
 				)
 			)
 

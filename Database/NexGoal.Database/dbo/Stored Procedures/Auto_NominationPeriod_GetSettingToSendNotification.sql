@@ -20,6 +20,7 @@ BEGIN
 		-- receive type
 		,@ReceiveMail TINYINT = 1
 		,@ReceiveNotification TINYINT = 2
+		,@ReceiveSkypeMessage TINYINT = 3
 
 	CREATE TABLE #tblProcessSetting (
 		NominationPeriodId INT
@@ -89,8 +90,10 @@ BEGIN
 		,Nickname
 		,FullName
 		,Email
+		,skype.ConversationId
 	FROM #tblProcessSetting AS tbl WITH (NOLOCK)
 		LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.NominatorId = setting.EmployeeId
+		LEFT JOIN dbo.EmployeeSkypeConversation AS skype WITH (NOLOCK) ON setting.EmployeeId = skype.EmployeeId
 	WHERE ISNULL(setting.TypeId, @NotificationType) = @NotificationType
 		AND (
 			(
@@ -100,6 +103,10 @@ BEGIN
 			OR (
 				@ReceiveType = @ReceiveNotification
 				AND ISNULL(setting.ReceiveNotification, 1) = 1
+				)
+			OR (
+				@ReceiveType = @ReceiveSkypeMessage
+				AND ISNULL(setting.ReceiveSkypeMessage, 1) = 1
 				)
 			)
 

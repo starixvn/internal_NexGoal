@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Notification_GetSettingByEmployee] @EmployeeId INT
+﻿
+CREATE PROCEDURE [dbo].[Notification_GetSettingByEmployee] @EmployeeId INT
 AS
 /*
 Created: 20181227@Oliver.Dang
@@ -36,6 +37,7 @@ BEGIN
 		,r.[Description]
 		,ISNULL(n.ReceiveNotification, 1) AS ReceiveNotification
 		,ISNULL(n.ReceiveEmail, 1) AS ReceiveEmail
+		,ISNULL(n.ReceiveSkypeMessage,1) AS ReceiveSkypeMessage
 	FROM dbo.RefResource AS r WITH (NOLOCK)
 	LEFT JOIN dbo.NotificationSetting AS n WITH (NOLOCK) ON r.ResourceId = n.TypeId
 		AND n.EmployeeId = @EmployeeId

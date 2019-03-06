@@ -27,6 +27,7 @@ BEGIN
 		-- receive type
 		,@ReceiveMail TINYINT = 1
 		,@ReceiveNotification TINYINT = 2
+		,@ReceiveSkypeMessage TINYINT = 3
 
 	CREATE TABLE #tblProcessSetting (
 		PeriodId INT
@@ -251,8 +252,10 @@ BEGIN
 		,Email
 		,StartDate
 		,EndDate
+		,skype.ConversationId
 	FROM #tblProcessSetting AS tbl WITH (NOLOCK)
 		LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
+		LEFT JOIN dbo.EmployeeSkypeConversation AS skype WITH (NOLOCK) ON setting.EmployeeId = skype.EmployeeId
 	WHERE ISNULL(setting.TypeId, @NotificationType) = @NotificationType
 		AND (
 			(

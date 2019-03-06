@@ -1,5 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Notification_UpdateSetting] 
-	@EmployeeId INT
+﻿
+CREATE PROCEDURE [dbo].[Notification_UpdateSetting] @EmployeeId INT
 	,@Value VARCHAR(MAX)
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(200) = '' OUTPUT
@@ -35,6 +35,7 @@ BEGIN
 						,EmployeeId AS '@e'
 						,ReceiveNotification AS '@n'
 						,ReceiveEmail AS '@m'
+						,ReceiveSkypeMessage AS '@s'
 					FROM dbo.NotificationSetting WITH (NOLOCK)
 					WHERE EmployeeId = @EmployeeId
 					FOR XML PATH('z')
@@ -49,6 +50,7 @@ BEGIN
 		TypeId TINYINT
 		,ReceiveNotification BIT
 		,ReceiveEmail BIT
+		,ReceiveSkypeMessage BIT
 		)
 
 	EXEC sp_xml_preparedocument @idoc OUTPUT
@@ -58,31 +60,44 @@ BEGIN
 		TypeId
 		,ReceiveNotification
 		,ReceiveEmail
+		,ReceiveSkypeMessage
 		)
 	SELECT TypeId
 		,ReceiveNotification
 		,ReceiveEmail
-	FROM OPENXML(@idoc, '/Root/Row', 1) WITH (TypeId TINYINT, ReceiveNotification BIT, ReceiveEmail BIT) AS data
-	
+		,ReceiveSkypeMessage
+	FROM OPENXML(@idoc, '/Root/Row', 1) WITH (
+			TypeId TINYINT
+			,ReceiveNotification BIT
+			,ReceiveEmail BIT
+			,ReceiveSkypeMessage BIT
+			) AS data
+
 	-- update policy for function of role
 	UPDATE ns
 	SET ns.ReceiveNotification = tbl.ReceiveNotification
 		,ns.ReceiveEmail = tbl.ReceiveEmail
-	FROM dbo.NotificationSetting AS ns WITH (ROWLOCK, UPDLOCK)
-		INNER JOIN #tblNotificationSetting AS tbl WITH (NOLOCK) ON ns.TypeId = tbl.TypeId
+		,ns.ReceiveSkypeMessage = tbl.ReceiveSkypeMessage
+	FROM dbo.NotificationSetting AS ns WITH (
+			ROWLOCK
+			,UPDLOCK
+			)
+	INNER JOIN #tblNotificationSetting AS tbl WITH (NOLOCK) ON ns.TypeId = tbl.TypeId
 	WHERE ns.EmployeeId = @EmployeeId
 
 	-- insert new policy for function of role
-	INSERT INTO dbo.NotificationSetting(
+	INSERT INTO dbo.NotificationSetting (
 		TypeId
 		,EmployeeId
 		,ReceiveNotification
 		,ReceiveEmail
+		,ReceiveSkypeMessage
 		)
 	SELECT tbl.TypeId
 		,@EmployeeId
 		,tbl.ReceiveNotification
 		,tbl.ReceiveEmail
+		,tbl.ReceiveSkypeMessage
 	FROM #tblNotificationSetting AS tbl WITH (NOLOCK)
 	WHERE NOT EXISTS (
 			SELECT 1
@@ -99,6 +114,7 @@ BEGIN
 						,EmployeeId AS '@e'
 						,ReceiveNotification AS '@n'
 						,ReceiveEmail AS '@m'
+						,ReceiveSkypeMessage AS '@s'
 					FROM dbo.NotificationSetting WITH (NOLOCK)
 					WHERE EmployeeId = @EmployeeId
 					FOR XML PATH('z')
