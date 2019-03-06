@@ -29,7 +29,12 @@ var resource_en_US = {
     'CreatedSuccessfully': 'Created successfully!',
     'Creator': 'Creator',
     'CurrentObjectives': 'Current Objectives',
-    'DefaultAnnouncement': 'Welcome to the newly redesigned NexGoal. We really hope you like the new look and helpful sections on here.',
+    'DefaultAnnouncement': `Hi All,
+Welcome to the redesigned NexGoal.Kindly be informed our plan as below:
+1. Mar 6: Soft launch.
+2. Mar 6 - end of Mar 17: Trial period.We would appreciate any feedback you can provide regarding the new system.
+3. Mar 18: Clear data & go - live officially.All data since this date will be used for your performance review.
+Thanks`,
     'Delete': 'Delete',
     'DeletedSuccessfully': 'Deleted successfully!',
     'Description': 'Description',

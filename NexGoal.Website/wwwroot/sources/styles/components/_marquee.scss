@@ -10,24 +10,26 @@
     cursor: pointer;
     overflow: hidden;
     white-space: nowrap;
+
     @for $i from 1 through 6 {
         .annoucement-#{$i} {
-            @include css3-prefix('animation', 'marquee #{$i * 15}s linear infinite');
+            @include css3-prefix('animation', 'marquee #{$i * 25}s linear infinite');
             display: inline-block;
             padding-left: 100%;
-    
+
             &:hover {
                 animation-play-state: paused;
             }
         }
     }
-    
 }
-.announcement-item:before{
+
+.announcement-item:before {
     content: '\26AC';
     color: #4F9E00;
     margin-right: 4px;
 }
+
 @keyframes marquee {
     0% {
         @include transform(translate(0, 0));

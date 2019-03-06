@@ -95,7 +95,7 @@ export default class MyPage extends Component {
                 this.setState({
                     performanceRecords: performanceRecordResponse.data,
                     periods: periodResponse.data,
-                    announcements: announcementsResponse.data,
+                    announcements: announcementsResponse.data.length > 0 ? announcementsResponse.data : [getResource('DefaultAnnouncement')],
                     personalTimeline: {
                         records: personalTimelineResponse.data.performanceRecords,
                         pageIndex: 0,
@@ -360,7 +360,7 @@ export default class MyPage extends Component {
 
     handleClickTimelineNode = performanceRecordId => {
         if (!this.state.displayedPerformanceRecords.some(r => r.performanceRecordId === performanceRecordId)) {
-            let index = this.state.performanceRecords.findIndex(function (element) {
+            let index = this.state.performanceRecords.findIndex(function(element) {
                 return element.performanceRecordId === performanceRecordId;
             });
 

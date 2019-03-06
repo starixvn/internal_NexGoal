@@ -108,7 +108,7 @@ export default class App extends Component {
                     performanceRecords: memberPerformanceResponse.data,
                     displayedPerformanceRecords: displayedPerformanceRecords,
                     hasMore: displayedPerformanceRecords.length < memberPerformanceResponse.data.length,
-                    announcements: announcementsResponse.data
+                    announcements: announcementsResponse.data.length > 0 ? announcementsResponse.data : [getResource('DefaultAnnouncement')]
                 }, () => this.checkUrlParams());
             }).catch(axiosError);
     }
@@ -164,7 +164,7 @@ export default class App extends Component {
 
     handleClickTimelineNode = (performanceRecordId) => {
         if (!this.state.displayedPerformanceRecords.some(r => r.performanceRecordId === performanceRecordId)) {
-            let index = this.state.performanceRecords.findIndex(function (element) {
+            let index = this.state.performanceRecords.findIndex(function(element) {
                 return element.performanceRecordId === performanceRecordId;
             });
 

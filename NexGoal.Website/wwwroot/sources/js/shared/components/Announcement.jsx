@@ -3,7 +3,7 @@ import { Button, Modal } from 'react-bootstrap';
 import getResource from '../../resourceHelper';
 
 export default function Announcement(props) {
-    let content = props.announcements.length > 0 ? props.announcements.map((e, i) => <li key={i}>{e}</li>) : <li>{getResource('DefaultAnnouncement')}</li>;
+    let content = props.announcements.map((e, i) => <li key={i}><p>{e}</p></li>);
 
     return (
         <Modal keyboard={false} backdrop="static"

@@ -1,15 +1,22 @@
 .announcement-modal.modal-dialog {
     width: 750px;
+
     .modal-body {
         ul {
             list-style: none;
             padding-left: 0;
             font-size: 14px;
+
             li {
                 padding-left: 16px;
                 position: relative;
                 margin-bottom: 12px;
+
+                p {
+                    white-space: pre-wrap;
+                }
             }
+
             li:before {
                 content: '\26AC';
                 color: #4F9E00;

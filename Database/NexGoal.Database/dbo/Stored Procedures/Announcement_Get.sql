@@ -175,21 +175,6 @@ BEGIN
 		END
 	END
 
-	IF NOT EXISTS (
-			SELECT 1
-			FROM #tblAnnouncement WITH (NOLOCK)
-			)
-	BEGIN
-		INSERT INTO #tblAnnouncement (
-			[Message]
-			,StartDate
-			)
-		VALUES (
-			'Welcome to the newly redesigned NexGoal. We really hope you like the new look and helpful sections on here.'
-			,GETDATE()
-			)
-	END
-
 	SELECT [Message]
 	FROM #tblAnnouncement WITH (NOLOCK)
 	ORDER BY StartDate DESC
