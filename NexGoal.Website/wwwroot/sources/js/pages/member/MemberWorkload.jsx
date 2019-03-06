@@ -220,7 +220,7 @@ export default class MemberWorkload extends Component {
 
         return (
             <div className="workload box">
-                <div className="title">
+                <div className="title clearfix">
                     <h5>{getResource('Workload')}</h5>
                     <Milestone
                         options={periodOptions}

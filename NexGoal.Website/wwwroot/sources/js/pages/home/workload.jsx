@@ -176,7 +176,7 @@ export default class WorkLoad extends PureComponent {
         const periodOptions = this.props.periods.map(period => { return { name: period.name, value: period.periodId }; });
         return (
             <div className="workload box">
-                <div className="title">
+                <div className="title clearfix">
                     <h5>{getResource('Workload')}</h5>
                     <Milestone
                         options={periodOptions}
