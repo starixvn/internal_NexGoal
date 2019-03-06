@@ -159,6 +159,7 @@ BEGIN
 				)
 			OR (
 				@EmployeeId IS NOT NULL
+				AND @PeriodId IS NULL
 				AND (
 					(
 						record.TypeId = @SystemPA
