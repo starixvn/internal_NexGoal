@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Hangfire;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
@@ -22,6 +23,7 @@
         private ICommonService commonService;
         private INotificationPerformanceRecordService notificationService;
         private IPerformanceRecordRepository performanceRecordRepository;
+        private IBackgroundJobClient backgroundJob;
 
         [Fact]
         public async Task GetPerformanceRecordByEmployeeAsync_WhenCalled_ReturnAsExpectedPerformanceRecords()
@@ -507,8 +509,9 @@
             commonService = Helpers.FakeCommonService();
             notificationService = Substitute.For<INotificationPerformanceRecordService>();
             performanceRecordRepository = Substitute.For<IPerformanceRecordRepository>();
+            backgroundJob = Substitute.For<IBackgroundJobClient>();
 
-            var service = new PerformanceRecordService(baseService, cryptoService, commonService, notificationService, performanceRecordRepository);
+            var service = new PerformanceRecordService(baseService, cryptoService, commonService, notificationService, performanceRecordRepository, backgroundJob);
 
             return service;
         }
