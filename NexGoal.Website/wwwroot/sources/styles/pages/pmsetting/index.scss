@@ -61,7 +61,17 @@
         }
 
         .icon-delete {
+          display: inline-block;
           color: #DE5144;
+          width: 25px;
+          height: 25px;
+          border-radius: 50%;
+          text-align: center;
+          line-height: 25px;
+
+          &:hover {
+            background: rgba(0,0,0,.1);
+          }
         }
     }
 }

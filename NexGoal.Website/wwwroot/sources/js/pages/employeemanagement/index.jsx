@@ -156,11 +156,13 @@ export default class EmployeeManagement extends Component {
             },
             {
                 dataField: 'fullName',
-                text: `${getResource('FullName')}`
+                text: `${getResource('FullName')}`,
+                headerStyle: { width: '250px' }
             },
             {
                 dataField: 'groupName',
-                text: `${getResource('Team')}`
+                text: `${getResource('Team')}`,
+                headerStyle: { width: '250px' }
             },
             {
                 dataField: 'jobTitle',

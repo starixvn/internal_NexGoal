@@ -28,8 +28,9 @@
         color: #545454;
         transition: background-color .15s ease-in;
         &:hover, &:focus, &:active {
-             background: lighten(#324476, 10%);;
+             background: lighten(#324476, 10%);
              color: #fff;
+             border-color: lighten(#324476, 10%);
         }
     }
 
