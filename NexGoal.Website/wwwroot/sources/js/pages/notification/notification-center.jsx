@@ -12,6 +12,8 @@ import WorkLoad from '../home/workload';
 import HrmSummary from '../home/hrm/HRMSummary';
 import Announcement from '../../shared/components/Announcement';
 import NotificationBoard from './notification-board';
+import getResource from '../../resourceHelper';
+import CustomScrollbars from '../../shared/components/CustomScrollbars';
 
 export default class NotificationCenter extends Component {
     constructor(props) {
@@ -51,7 +53,7 @@ export default class NotificationCenter extends Component {
                 const notiData = notificationResponse.data;
                 this.setState({
                     periods: periodResponse.data,
-                    announcements: announcementsResponse.data,
+                    announcements: announcementsResponse.data.length > 0 ? announcementsResponse.data : [getResource('DefaultAnnouncement')],
                     nominations: nominationResponse.data,
                     performanceAppraisals: performanceAppraisalsResponse.data,
                     notifications: notiData.notifications,
@@ -247,8 +249,10 @@ export default class NotificationCenter extends Component {
                 <ToastLayout />
                 <div className="my-page main-layout">
                     <div className="general-info">
-                        <EmployeeInfo employee={currentUserInfo} />
-                        <PerformanceAppraisalResult performanceAppraisals={this.state.performanceAppraisals} />
+                        <CustomScrollbars>
+                            <EmployeeInfo employee={currentUserInfo} />
+                            <PerformanceAppraisalResult performanceAppraisals={this.state.performanceAppraisals} />
+                        </CustomScrollbars>
                     </div>
                     <div className="main-content">
                         <div className="fixed-section">
@@ -263,17 +267,19 @@ export default class NotificationCenter extends Component {
                         </div>
                     </div>
                     <div className="work-info">
-                        <div className="work-info-content">
-                            {
-                                this.state.nominations.length > 0 &&
-                                <NominationResult nominations={this.state.nominations} />
-                            }
-                            {
-                                this.state.periods.length > 0 &&
-                                <WorkLoad periods={this.state.periods} />
-                            }
-                            <HrmSummary />
-                        </div>
+                        <CustomScrollbars>
+                            <div className="work-info-content">
+                                {
+                                    this.state.nominations.length > 0 &&
+                                    <NominationResult nominations={this.state.nominations} />
+                                }
+                                {
+                                    this.state.periods.length > 0 &&
+                                    <WorkLoad periods={this.state.periods} />
+                                }
+                                <HrmSummary />
+                            </div>
+                        </CustomScrollbars>
                     </div>
                 </div>
                 <Announcement showModal={this.state.showAnnouncementModal}
