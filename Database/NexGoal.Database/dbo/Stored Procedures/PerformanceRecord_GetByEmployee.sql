@@ -1,6 +1,4 @@
 ﻿
-
-
 CREATE PROCEDURE [dbo].[PerformanceRecord_GetByEmployee] @EmployeeId INT
 AS
 /*
@@ -42,7 +40,8 @@ BEGIN
 		,PeriodId INT
 		,PeriodName NVARCHAR(300)
 		)
-	INSERT INTO #tblPerformanceRecord(
+
+	INSERT INTO #tblPerformanceRecord (
 		PerformanceRecordId
 		,GradeId
 		,Comment
@@ -54,36 +53,39 @@ BEGIN
 		,TypeId
 		,EmployeeId
 		,CreatorId
-		,NominationPeriodId 
+		,NominationPeriodId
 		,NominationStatusId
 		,[Quarter]
-		,[Year] 
-		,PeriodId 
+		,[Year]
+		,PeriodId
 		,PeriodName
-	)
+		)
 	-- draft performance record
 	SELECT record.DraftPerformanceRecordId AS PerformanceRecordId
-			,record.GradeId
-			,record.Comment
-			,1 AS IsDraft
-			,record.ProjectIds
-			,record.CreatedDate
-			,record.ModifiedDate
-			,record.RoleId
-			,record.TypeId
-			,emp.EmployeeId
-			,record.CreatorId
-			,NULL AS NominationPeriodId
-			,NULL AS NominationStatusId
-			,NULL AS [Quarter]
-			,NULL AS [Year]
-			,NULL AS PeriodId
-			,NULL AS PeriodName
-		FROM dbo.DraftPerformanceRecord AS record WITH (NOLOCK)
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON (CASE WHEN record.EmployeeIds NOT LIKE '%[^0-9]%' THEN CAST(record.EmployeeIds AS INT) ELSE -1 END) = emp.EmployeeId
-			AND emp.EmployeeId = @EmployeeId
+		,record.GradeId
+		,record.Comment
+		,1 AS IsDraft
+		,record.ProjectIds
+		,record.CreatedDate
+		,record.ModifiedDate
+		,record.RoleId
+		,record.TypeId
+		,emp.EmployeeId
+		,record.CreatorId
+		,NULL AS NominationPeriodId
+		,NULL AS NominationStatusId
+		,NULL AS [Quarter]
+		,NULL AS [Year]
+		,NULL AS PeriodId
+		,NULL AS PeriodName
+	FROM dbo.DraftPerformanceRecord AS record WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON (CASE 
+			WHEN record.EmployeeIds NOT LIKE '%[^0-9]%' THEN CAST(record.EmployeeIds AS INT)
+			ELSE - 1 END
+			) = emp.EmployeeId
+		AND emp.EmployeeId = @EmployeeId
 		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
-		WHERE record.CreatorId = @EmployeeId
+	WHERE record.CreatorId = @EmployeeId
 	
 	UNION
 	-- performance record
@@ -106,10 +108,10 @@ BEGIN
 		,NULL AS PeriodName
 	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeId = emp.EmployeeId
-			AND emp.EmployeeId = @EmployeeId
+		AND emp.EmployeeId = @EmployeeId
 		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 	WHERE record.TypeId = @Checkin
-
+	
 	UNION
 	-- system PA
 	SELECT record.PerformanceRecordId
@@ -128,18 +130,18 @@ BEGIN
 		,NULL AS [Quarter]
 		,NULL AS [Year]
 		,p.PeriodId AS PeriodId
-		,p.Name AS PeriodName
+		,p.[Name] AS PeriodName
 	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeId = emp.EmployeeId
-			AND emp.EmployeeId = @EmployeeId
+		AND emp.EmployeeId = @EmployeeId
+		INNER JOIN dbo.PARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
+		AND pa.StatusId = @PAClosed
+		AND emp.EmployeeId = pa.EmployeeId
+		INNER JOIN dbo.Period AS p WITH (NOLOCK) ON pa.PeriodId = p.PeriodId
+		AND p.IsActive = 1
 		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
-		LEFT JOIN dbo.PARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
-			AND pa.StatusId = @PAClosed
-			AND emp.EmployeeId = pa.EmployeeId
-		LEFT JOIN dbo.Period AS p WITH (NOLOCK) ON pa.PeriodId = p.PeriodId
 	WHERE record.TypeId = @SystemPA
-		AND pa.PARecordId IS NOT NULL
-
+	
 	UNION
 	-- nomination result
 	SELECT record.PerformanceRecordId
@@ -161,17 +163,16 @@ BEGIN
 		,NULL AS PeriodName
 	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeId = emp.EmployeeId
-			AND emp.EmployeeId = @EmployeeId
+		AND emp.EmployeeId = @EmployeeId
 		LEFT JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
 		LEFT JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
-			AND period.EndDateForCommittee IS NOT NULL 
-			AND period.EndDateForCommittee < @Today
+		AND period.EndDateForCommittee IS NOT NULL
+		AND period.EndDateForCommittee < @Today
 	WHERE record.TypeId = @SystemNomination
-			AND nomination.NominationId IS NOT NULL
-			AND period.EOQYId IS NOT NULL
+		AND nomination.NominationId IS NOT NULL
+		AND period.EOQYId IS NOT NULL
 
-	SELECT
-		PerformanceRecordId
+	SELECT PerformanceRecordId
 		,GradeId
 		,Comment
 		,IsDraft
@@ -190,8 +191,8 @@ BEGIN
 		,cre.FullName
 		,NominationPeriodId
 		,[Quarter]
-		,[Year] 
-		,PeriodId 
+		,[Year]
+		,PeriodId
 		,PeriodName AS [Name]
 	FROM #tblPerformanceRecord AS record
 		LEFT JOIN dbo.Employee AS e WITH (NOLOCK) ON record.EmployeeId = e.EmployeeId
@@ -204,43 +205,10 @@ BEGIN
 
 	SELECT record.PerformanceRecordId
 		,prj.ProjectId
-		,prj.[Name] 
+		,prj.[Name]
 	FROM #tblPerformanceRecord AS record
 		OUTER APPLY [dbo].[func_SplitString](record.ProjectIds, ',') a
 		INNER JOIN dbo.Project AS prj WITH (NOLOCK) ON a.val = prj.ProjectId
-
-	--SELECT record.PerformanceRecordId
-	--	,GradeId
-	--	,Comment
-	--	,IsDraft
-	--	,ProjectIds
-	--	,record.CreatedDate
-	--	,record.ModifiedDate
-	--	,RoleId
-	--	,EmployeeIds
-		
-	--	,NominationStatusId
-	--	,TypeId
-	--	,CreatorId
-	--	,cre.NickName
-	--	,cre.FullName
-	--	,record.PeriodId
-	--	,p.Name AS PeriodName
-	--	,NominationPeriodId
-	--	,period.[Quarter]
-	--	,period.[Year]
-	--FROM #tblPerformanceRecord AS record WITH (NOLOCK)
-	--	LEFT JOIN dbo.Employee AS cre WITH (NOLOCK) ON record.CreatorId = cre.EmployeeId
-	--	LEFT JOIN dbo.Period AS p ON record.PeriodId = p.PeriodId
-	--	LEFT JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
-	--	LEFT JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
-	--		AND period.EndDateForCommittee IS NOT NULL 
-	--		AND period.EndDateForCommittee < @Today
-	--ORDER BY CASE 
-	--		WHEN IsDraft = 1 THEN 1
-	--		ELSE 2
-	--		END
-	--	,CreatedDate DESC
 
 	DROP TABLE #tblPerformanceRecord
 END

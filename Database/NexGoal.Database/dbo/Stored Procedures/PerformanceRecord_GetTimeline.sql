@@ -55,8 +55,8 @@ BEGIN
 		,record.RoleId
 		,record.CreatedDate
 		,nomination.EOQYId AS NominationPeriodId
-		,period.[Quarter]
-		,period.[Year]
+		,nominationperiod.[Quarter]
+		,nominationperiod.[Year]
 		,nomination.StatusId AS NominationStatusId
 		,record.TypeId
 	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
@@ -64,20 +64,23 @@ BEGIN
 		LEFT JOIN dbo.PARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
 		AND pa.StatusId = @PAClosed
 		AND record.EmployeeId = pa.EmployeeId
+		LEFT JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+		AND period.IsActive = 1
 		LEFT JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
 		AND nomination.NomineeId = @EmployeeId
-		LEFT JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
-		AND period.EndDateForCommittee < @Today
+		LEFT JOIN dbo.EOQY AS nominationperiod WITH (NOLOCK) ON nomination.EOQYId = nominationperiod.EOQYId
+		AND nominationperiod.EndDateForCommittee < @Today
 	WHERE record.EmployeeId = @EmployeeId
 		AND (
 			record.TypeId = @Checkin
 			OR (
 				record.TypeId = @SystemPA
 				AND pa.PARecordId IS NOT NULL
+				AND period.PeriodId IS NOT NULL
 				)
 			OR (
 				record.TypeId = @SystemNomination
-				AND period.EOQYId IS NOT NULL
+				AND nominationperiod.EOQYId IS NOT NULL
 				)
 			)
 

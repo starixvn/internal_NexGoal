@@ -1,6 +1,4 @@
 ﻿
-
-
 CREATE PROCEDURE [dbo].[PerformanceRecord_GetMemberPerformanceByMemberId] @ActorId INT
 	,@EmployeeId INT
 AS
@@ -78,10 +76,10 @@ BEGIN
 		,CreatorId
 		,TypeId
 		,NominationStatusId
-		,NominationPeriodId 
+		,NominationPeriodId
 		,[Quarter]
-		,[Year] 
-		,PeriodId 
+		,[Year]
+		,PeriodId
 		,PeriodName
 		)
 	SELECT data.PerformanceRecordId
@@ -147,7 +145,7 @@ BEGIN
 			,NULL AS [Quarter]
 			,NULL AS [Year]
 			,p.PeriodId
-			,p.Name AS PeriodName
+			,p.[Name] AS PeriodName
 		FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeId = emp.EmployeeId
 			AND emp.[Enabled] = 1
@@ -157,13 +155,15 @@ BEGIN
 			AND emp.EmployeeId = pa.EmployeeId
 			AND pa.StatusId = @PAClosed
 			LEFT JOIN dbo.Period AS p WITH (NOLOCK) ON pa.PeriodId = p.PeriodId
-		WHERE 
-			record.EmployeeId = @EmployeeId 
+			AND p.IsActive = 1
+		WHERE record.EmployeeId = @EmployeeId
 			AND (
 				record.TypeId = @Checkin
-				OR 
-				(record.TypeId = @SystemPA AND pa.PerformanceRecordId IS NOT NULL)
-
+				OR (
+					record.TypeId = @SystemPA
+					AND pa.PerformanceRecordId IS NOT NULL
+					AND p.PeriodId IS NOT NULL
+					)
 				)
 			AND (
 				@IsHost = 1
@@ -205,8 +205,7 @@ BEGIN
 			AND record.CreatorId = - 1
 		) AS data
 
-	SELECT PerformanceRecordId
-		PerformanceRecordId
+	SELECT PerformanceRecordId PerformanceRecordId
 		,GradeId
 		,Comment
 		,IsDraft
@@ -223,7 +222,7 @@ BEGIN
 		,[Quarter]
 		,[Year]
 		,PeriodId
-		,PeriodName AS Name
+		,PeriodName AS [Name]
 	FROM #tblPerformanceRecord AS record
 		LEFT JOIN dbo.Employee AS cre WITH (NOLOCK) ON record.CreatorId = cre.EmployeeId
 	ORDER BY CASE 
@@ -243,7 +242,7 @@ BEGIN
 
 	SELECT record.PerformanceRecordId
 		,prj.ProjectId
-		,prj.[Name] 
+		,prj.[Name]
 	FROM #tblPerformanceRecord AS record
 		OUTER APPLY [dbo].[func_SplitString](record.ProjectIds, ',') a
 		INNER JOIN dbo.Project AS prj WITH (NOLOCK) ON a.val = prj.ProjectId

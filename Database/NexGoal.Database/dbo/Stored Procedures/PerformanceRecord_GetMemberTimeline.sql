@@ -127,8 +127,8 @@ BEGIN
 		,record.CreatedDate
 		,nomination.StatusId AS NominationStatusId
 		,nomination.EOQYId AS NominationPeriodId
-		,period.[Quarter]
-		,period.[Year]
+		,nominationperiod.[Quarter]
+		,nominationperiod.[Year]
 	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeId = emp.EmployeeId
 		INNER JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
@@ -137,10 +137,12 @@ BEGIN
 		LEFT JOIN dbo.PARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
 		AND pa.StatusId = @PAClosed
 		AND emp.EmployeeId = pa.EmployeeId
+		LEFT JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+		AND period.IsActive = 1
 		LEFT JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
 		AND nomination.NomineeId = @EmployeeId
-		LEFT JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
-		AND period.EndDateForCommittee < @Today
+		LEFT JOIN dbo.EOQY AS nominationperiod WITH (NOLOCK) ON nomination.EOQYId = nominationperiod.EOQYId
+		AND nominationperiod.EndDateForCommittee < @Today
 	WHERE (
 			(
 				record.TypeId = @Checkin
@@ -161,12 +163,13 @@ BEGIN
 					(
 						record.TypeId = @SystemPA
 						AND pa.PARecordId IS NOT NULL
+						AND period.PeriodId IS NOT NULL
 						AND member.IsHost = 1
 						)
 					OR (
 						record.TypeId = @SystemNomination
 						AND nomination.NominationId IS NOT NULL
-						AND period.EOQYId IS NOT NULL
+						AND nominationperiod.EOQYId IS NOT NULL
 						)
 					)
 				)
@@ -225,11 +228,8 @@ BEGIN
 		FROM #tblPerformanceRecord WITH (NOLOCK)
 		GROUP BY EmployeeId
 		) AS record ON emp.EmployeeId = record.EmployeeId
-	INNER JOIN dbo.func_GetSortedEmployee(@ActorId) AS ee ON emp.EmployeeId = ee.EmployeeId
+		INNER JOIN dbo.func_GetSortedEmployee(@ActorId) AS ee ON emp.EmployeeId = ee.EmployeeId
 	ORDER BY ee.RankIndex
-	--ORDER BY member.[Priority]
-	--	,gr.[Name]
-	--	,emp.NickName
 
 	IF @EmployeeId IS NULL
 	BEGIN
