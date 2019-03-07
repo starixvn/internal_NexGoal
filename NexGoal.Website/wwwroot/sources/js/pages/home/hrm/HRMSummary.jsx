@@ -84,7 +84,6 @@ export default class HRM extends Component {
     render() {
         const hrm = this.state.hrmDetail;
         const memberId = this.props.memberId ? this.props.memberId : null;
-        console.log(hrm);
         return (
             <div className="hrm-summary box">
                 <h5>{getResource('Hrm')}</h5>
