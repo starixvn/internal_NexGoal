@@ -28,6 +28,10 @@
 
     .checkbox {
         left: -12px;
+
+        label {
+          min-height: auto;
+        }
     }
 
     .description-group {

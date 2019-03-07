@@ -16,12 +16,13 @@
     // Box.
     & + label:before {
       content: '';
-      display: inline-block;
-      vertical-align: text-top;
+      display: inline-block;      
       width: 16px;
       height: 16px;
       background: white;
       border: 2px solid #C4C4C4;
+      border-radius: 2px;
+      vertical-align: text-top;
     }
   
     // Box hover

@@ -1,32 +1,36 @@
+@mixin solidButton($background) {
+  background: $background;
+  border: 1px solid $background;
+  transition: all .2s ease-in;
+
+  &:hover, &:focus, &:active {
+    color: #fff; 
+    background: lighten($background, 10%);
+    border-color: lighten($background, 10%);
+  }
+}
+
 .btn {
     @include border-radius(3px);
     font-size: $font-size;
-    color: #fff;
-    //height: 30px;
-    //line-height: 30px;
-    padding: 5px 15px;
-    border: none;
+    color: #fff;    
+    padding: 5px 15px;    
     min-width: 86px;
 
-    &:hover, &:focus, &:active {
-        border-color: unset;
+    &:hover, &:focus, &:active {        
         outline: none;
     }
 
     &.btn-primary {
-        background: #324476;
-        border-color: unset;
-        transition: background-color .2s ease-in;
-        &:hover, &:focus, &:active {
-            background: lighten(#324476, 10%);
-        }
+      @include solidButton(#324476);        
     }
 
-    &.btn-cancel {
+    &.btn-cancel {        
         background: #fff;
         border: 1px solid #545454;
         color: #545454;
-        transition: background-color .15s ease-in;
+        transition: all .15s ease-in;
+
         &:hover, &:focus, &:active {
              background: lighten(#324476, 10%);
              color: #fff;
@@ -35,23 +39,11 @@
     }
 
     &.btn-add {
-        background-color: #14862e;
-        color: #fff;
-        transition: background-color .2s ease-in;
-
-        &:hover, &:focus, &:active {
-            background-color: rgba(#14862e, 0.8);
-        }
+        @include solidButton(#14862e);        
     }
 
     &.btn-excel {
-        background: #549f3b;
-        transition: background-color .2s ease-in;
-
-        &:hover, &:focus, &:active {
-            background: #61b844;
-            color: #fff;
-        }
+        @include solidButton(#549f3b);        
     }
 
     .fa {
