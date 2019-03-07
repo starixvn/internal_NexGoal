@@ -44,7 +44,7 @@ BEGIN
 	INNER JOIN [dbo].EmployeeCalendar AS C WITH (NOLOCK) ON c.EmpId = a.EmpId
 		AND c.WorkDate = AttendanceDate
 	WHERE AttendanceDate BETWEEN @FromDate
-			AND @ToDate
+			AND @Today
 		AND a.EmpId = @EmployeeId
 		AND InFixed IS NULL
 		AND IsOffDay = 0
@@ -88,7 +88,7 @@ BEGIN
 	INNER JOIN [dbo].EmployeeCalendar AS C WITH (NOLOCK) ON c.EmpId = a.EmpId
 		AND c.WorkDate = AttendanceDate
 	WHERE AttendanceDate BETWEEN @FromDate
-			AND DATEADD(day, -1, @ToDate)
+			AND DATEADD(day, -1, @Today)
 		AND a.EmpId = @EmployeeId
 		AND OutFixed IS NULL
 		AND IsOffDay = 0
