@@ -72,13 +72,7 @@ namespace NexGoal.Core.Services
                 {
                     await mailclient.SendAsync(message).ConfigureAwait(false);
 
-                    string logmessage = string.Format(
-                        CultureInfo.InvariantCulture,
-                        "MailTo: {0}\n\rCc: {1}\n\rSubject: {2}",
-                        email.ReceiverEmail,
-                        string.Join(",", email.Cc.Where(x => IsValidEmail(x)).Select(x => x)),
-                        email.Subject);
-                    logger.LogInformation(logmessage);
+                    WriteLogSendEmail(email);
                 }
                 catch (AuthenticationException ex)
                 {
@@ -132,6 +126,18 @@ namespace NexGoal.Core.Services
 
             var regex = new Regex(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
             return regex.IsMatch(email);
+        }
+
+        private void WriteLogSendEmail(MailModel email)
+        {
+            string message = string.Format(
+                        CultureInfo.InvariantCulture,
+                        "MailTo: {0}\n\rCc: {1}\n\rSubject: {2}",
+                        email.ReceiverEmail,
+                        string.Join(",", email.Cc.Where(x => IsValidEmail(x)).Select(x => x)),
+                        email.Subject);
+
+            logger.LogInformation(message);
         }
     }
 }
