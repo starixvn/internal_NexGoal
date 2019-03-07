@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Auth;
     using NexGoal.Models.Auth;
@@ -105,6 +106,25 @@
         }
 
         #endregion GetMenuByEmployeeIdAsync
+
+        [Fact]
+        public async Task WriteLogLoginAsync_WhenCalled_ReturnAsExpected()
+        {
+            // Arrange
+            var criteria = new WriteLogLoginCriteria();
+            var model = new LogLogin();
+            var service = GetAuthService();
+            baseService.ExecuteNonQueryAsync(Arg.Do<WriteLogLoginCriteria>(x => criteria = x)).Returns(new CommandResult());
+
+            // Act
+            await service.WriteLogLoginAsync(model);
+
+            // Assert
+            Assert.Equal(model.Username, criteria.Username);
+            Assert.Equal(model.IP, criteria.IP);
+            Assert.Equal(model.MachineName, criteria.MachineName);
+            Assert.Equal(model.Platform, criteria.Platform);
+        }
 
         #region Helpers
 

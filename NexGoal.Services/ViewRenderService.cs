@@ -9,7 +9,6 @@
     using Microsoft.AspNetCore.Mvc.ModelBinding;
     using Microsoft.AspNetCore.Mvc.Razor;
     using Microsoft.AspNetCore.Mvc.Rendering;
-    using Microsoft.AspNetCore.Mvc.ViewEngines;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.AspNetCore.Routing;
     using NexGoal.Services.Interfaces;
@@ -33,7 +32,11 @@
         {
             var actionContext = GetActionContext();
             var viewResult = razorViewEngine.FindView(actionContext, viewName, false);
-            HandleErrorWhenNotFoundView(viewResult, viewName);
+
+            if (!viewResult.Success)
+            {
+                throw new InvalidOperationException($"{viewName} does not match any available view");
+            }
 
             using (var sw = new StringWriter())
             {
@@ -56,20 +59,13 @@
             }
         }
 
-        private static void HandleErrorWhenNotFoundView(ViewEngineResult viewResult, string viewName)
-        {
-            if (viewResult.View == null)
-            {
-                throw new ArgumentNullException($"{viewName} does not match any available view");
-            }
-        }
-
         private ActionContext GetActionContext()
         {
             var httpContext = new DefaultHttpContext
             {
                 RequestServices = serviceProvider
             };
+
             return new ActionContext(httpContext, new RouteData(), new ActionDescriptor());
         }
     }
