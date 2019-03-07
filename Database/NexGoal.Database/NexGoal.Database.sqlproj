@@ -267,7 +267,6 @@
     <Build Include="dbo\Tables\LogUserLogin.sql" />
     <Build Include="dbo\Stored Procedures\LogUserLogin_Insert.sql" />
     <Build Include="dbo\Views\EmployeeSkypeConversation.sql" />
-    <Build Include="dbo\Stored Procedures\PerformanceRecord_GetSettingToSendNotification_xtest.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">
