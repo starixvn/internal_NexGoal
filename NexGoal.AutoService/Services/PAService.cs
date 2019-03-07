@@ -193,7 +193,7 @@
                             message = string.Format(Message.SkypeMessageTemplate_PA_RemindForReviewer,
                                 setting.Nickname,
                                 period.Name,
-                                mailService.FormatStartDate(setting.EndDate),
+                                mailService.FormatEndDate(setting.EndDate),
                                 configuration.Value.ApplicationDomain);
                             await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
 
