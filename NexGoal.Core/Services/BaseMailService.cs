@@ -1,13 +1,14 @@
 namespace NexGoal.Core.Services
 {
     using System;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
-    using Fanex.Logging;
     using MailKit.Net.Smtp;
     using MailKit.Security;
+    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using MimeKit;
     using NexGoal.Core.Constants;
@@ -16,13 +17,16 @@ namespace NexGoal.Core.Services
     public class BaseMailService : IBaseMailService
     {
         private readonly IOptionsSnapshot<MailConfigs> configuration;
+        private readonly Fanex.Logging.ILogger fanexlogger;
         private readonly ILogger logger;
 
         public BaseMailService(
             IOptionsSnapshot<MailConfigs> configuration,
-            ILogger logger)
+            Fanex.Logging.ILogger fanexlogger,
+            ILogger<BaseMailService> logger)
         {
             this.configuration = configuration;
+            this.fanexlogger = fanexlogger;
             this.logger = logger;
         }
 
@@ -67,22 +71,30 @@ namespace NexGoal.Core.Services
                 try
                 {
                     await mailclient.SendAsync(message).ConfigureAwait(false);
+
+                    string logmessage = string.Format(
+                        CultureInfo.InvariantCulture,
+                        "MailTo: {0}\n\rCc: {1}\n\rSubject: {2}",
+                        email.ReceiverEmail,
+                        string.Join(",", email.Cc.Where(x => IsValidEmail(x)).Select(x => x)),
+                        email.Subject);
+                    logger.LogInformation(logmessage);
                 }
                 catch (AuthenticationException ex)
                 {
-                    logger.Error(ex.Message, ex);
+                    fanexlogger.Error(ex.Message, ex);
                 }
                 catch (SmtpCommandException ex)
                 {
-                    logger.Error(ex.Message, ex);
+                    fanexlogger.Error(ex.Message, ex);
                 }
                 catch (SmtpProtocolException ex)
                 {
-                    logger.Error(ex.Message, ex);
+                    fanexlogger.Error(ex.Message, ex);
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex.Message, ex);
+                    fanexlogger.Error(ex.Message, ex);
                 }
 
                 await mailclient.DisconnectAsync(true).ConfigureAwait(false);

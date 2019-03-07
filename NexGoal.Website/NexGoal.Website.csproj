@@ -64,6 +64,10 @@
     <Folder Include="wwwroot\sources\js\pages\home\__tests__\__snapshots__\" />
   </ItemGroup>
 
+  <Target Name="CreateLogsFolder" AfterTargets="Publish">
+    <MakeDir Directories="$(PublishDir)Logs" Condition="!Exists('$(PublishDir)Logs')" />
+  </Target>
+
   <ProjectExtensions>
     <VisualStudio>
       <UserProperties wwwroot_4package_1json__JSONSchema="http://json.schemastore.org/modernizrrc" />
