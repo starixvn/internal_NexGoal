@@ -38,10 +38,10 @@
             // Arrange
             var employeeId = 1;
             var accessor = Substitute.For<IHttpContextAccessor>();
-            accessor.HttpContext = new DefaultHttpContext
+            accessor.HttpContext.Returns(new DefaultHttpContext
             {
                 Session = new MockSession()
-            };
+            });
             sessionService = GetSessionService(accessor);
             sessionService.EmployeeId = employeeId;
 
@@ -147,7 +147,7 @@
             };
 
             // Act
-            var actual = sessionService.HasPermissionOnFunction("test", Arg.Any<Policy>());
+            var actual = sessionService.HasPermissionOnFunction("test", Policy.Read);
 
             // Assert
             Assert.False(actual);
