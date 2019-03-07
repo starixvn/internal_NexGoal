@@ -66,8 +66,10 @@
 
         private ActionContext GetActionContext()
         {
-            var httpContext = new DefaultHttpContext();
-            httpContext.RequestServices = serviceProvider;
+            var httpContext = new DefaultHttpContext
+            {
+                RequestServices = serviceProvider
+            };
             return new ActionContext(httpContext, new RouteData(), new ActionDescriptor());
         }
     }

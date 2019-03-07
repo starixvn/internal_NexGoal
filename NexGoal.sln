@@ -57,7 +57,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.AutoService.UnitTes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Criteria.UnitTests", "Nexgoal.Criteria.UnitTests\NexGoal.Criteria.UnitTests.csproj", "{E8DECE7F-8D72-4B50-ADDF-67BE6883C1FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexGoal.AutoService", "NexGoal.AutoService\NexGoal.AutoService.csproj", "{DC13365E-E949-46BD-9BE0-6F7947D0B0F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.AutoService", "NexGoal.AutoService\NexGoal.AutoService.csproj", "{DC13365E-E949-46BD-9BE0-6F7947D0B0F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
