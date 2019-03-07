@@ -12,14 +12,13 @@ BEGIN
 	DECLARE @FromDate DATE
 		,@ToDate DATE
 		,@toeic INT
-		,@ToeicPolicy SMAllINT
+		,@ToeicPolicy SMALLINT
 		,@examDate DATE
 		,@incident INT
 		,@missingCheckInCheckOut INT
 		,@Today DATE = GETDATE()
 
-	SELECT TOP 1
-		@FromDate = DisciplineStartDate
+	SELECT TOP 1 @FromDate = DisciplineStartDate
 		,@ToDate = DisciplineEndDate
 	FROM dbo.Period WITH (NOLOCK)
 	WHERE IsActive = 1
@@ -227,18 +226,18 @@ BEGIN
 				ELSE 0
 				END) AS UnplannedAnnualLeave
 		,(
-			CAST(ROUND(SUM(CASE 
-							WHEN et.Absence IS NOT NULL
-								AND et.Absence = 0
-								AND c.IsLeaveDay = 0
-								THEN 1
-							WHEN et.Absence IS NOT NULL
-								AND et.Absence = 0
-								AND c.IsLeaveDay = 1
-								AND c.LeaveDay < 1
-								THEN 0.5
-							ELSE 0
-							END) / (DATEDIFF(month, @FromDate, @Today) + 1), 2) AS NUMERIC(36, 2))
+			CAST(ROUND((SELECT SUM(CASE 
+						WHEN c.IsHoliday <> 1
+							AND IsOffDay <> 1
+							THEN 1
+						WHEN IsLeaveDay = 1
+							THEN LeaveDay
+						ELSE 0
+						END)
+			FROM [NexHRM].[dbo].[EmployeeCalendar] AS c WITH (NOLOCK)
+			WHERE EmpId = 105
+				AND WorkDate BETWEEN @FromDate
+					AND @ToDate) / (DATEDIFF(month, @FromDate, @ToDate) + 1), 2) AS NUMERIC(36,2))
 			) AS AverageWorkingDays
 		,(
 			SELECT SUM(st.[Hours])
