@@ -270,6 +270,10 @@
       <DefaultValue>NexGoal.Database</DefaultValue>
       <Value>$(SqlCmdVar__1)</Value>
     </SqlCmdVariable>
+    <SqlCmdVariable Include="NexBot">
+      <DefaultValue>NexBot.Database</DefaultValue>
+      <Value>$(SqlCmdVar__4)</Value>
+    </SqlCmdVariable>
     <SqlCmdVariable Include="NexHRM">
       <DefaultValue>NexHRM</DefaultValue>
       <Value>$(SqlCmdVar__2)</Value>
@@ -306,6 +310,13 @@
       <Private>True</Private>
       <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
       <DatabaseSqlCmdVariable>NexHRM</DatabaseSqlCmdVariable>
+    </ProjectReference>
+    <ProjectReference Include="..\NexBot.Database\NexBot.Database.sqlproj">
+      <Name>NexBot.Database</Name>
+      <Project>{19ad86f5-294d-40a2-a095-1e9db34ee12d}</Project>
+      <Private>True</Private>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <DatabaseSqlCmdVariable>NexBot</DatabaseSqlCmdVariable>
     </ProjectReference>
   </ItemGroup>
 </Project>
