@@ -9,7 +9,8 @@ Task: Get seting to send notification.
 DB: bodb_NexGoal
 Original:
 
-Revisions:
+Revisions: Oliver.Dang
+Add ReceiveType by skype chat bot
 Param's Explanation:
 
 */
@@ -27,6 +28,7 @@ BEGIN
 		-- receive type
 		,@ReceiveMail TINYINT = 1
 		,@ReceiveNotification TINYINT = 2
+		,@ReceiveSkypeMessage TINYINT = 3
 		-- process
 		,@SelfProcessId TINYINT = 2
 		,@PMProcessId TINYINT = 3
@@ -48,6 +50,7 @@ BEGIN
 		,Nickname NVARCHAR(20)
 		,FullName NVARCHAR(50)
 		,Email VARCHAR(50)
+		,ConversationId VARCHAR(MAX)
 		)
 
 	SELECT TOP 1 @PeriodId = PeriodId
@@ -261,6 +264,7 @@ BEGIN
 		,tbl.Nickname
 		,tbl.FullName
 		,tbl.Email
+		,skype.ConversationId AS ConversationId 
 	FROM #tblResult AS tbl WITH (NOLOCK)
 		INNER JOIN (
 		SELECT PerformanceRecordId
@@ -273,6 +277,7 @@ BEGIN
 		AND data.EvaluatorId = data.EvaluatorId
 		AND tbl.[Priority] = data.[Priority]
 		LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
+		LEFT JOIN dbo.EmployeeSkypeConversation AS skype WITH (NOLOCK) ON tbl.EvaluatorId = skype.EmployeeId
 	WHERE ISNULL(setting.TypeId, @NotificationType) = @NotificationType
 		AND (
 			(
@@ -283,6 +288,10 @@ BEGIN
 				@ReceiveType = @ReceiveNotification
 				AND ISNULL(setting.ReceiveNotification, 1) = 1
 				)
+			OR (
+				@ReceiveType = @ReceiveSkypeMessage
+				AND ISNULL(setting.ReceiveSkypeMessage, 1) = 1
+			)
 			)
 	ORDER BY tbl.PerformanceRecordId
 		,tbl.ProcessId
