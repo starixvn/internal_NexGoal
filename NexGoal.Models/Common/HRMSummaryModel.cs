@@ -22,7 +22,7 @@
 
         public int UnpaidLeave { get; set; }
 
-        public int UnplanedAnnualLeave { get; set; }
+        public int UnplannedAnnualLeave { get; set; }
 
         public float TotalSpentTime { get; set; }
 

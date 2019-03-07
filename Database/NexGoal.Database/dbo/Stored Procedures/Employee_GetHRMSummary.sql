@@ -226,18 +226,21 @@ BEGIN
 				ELSE 0
 				END) AS UnplannedAnnualLeave
 		,(
-			CAST(ROUND((SELECT SUM(CASE 
-						WHEN c.IsHoliday <> 1
-							AND IsOffDay <> 1
-							THEN 1
-						WHEN IsLeaveDay = 1
-							THEN LeaveDay
-						ELSE 0
-						END)
-			FROM [NexHRM].[dbo].[EmployeeCalendar] AS c WITH (NOLOCK)
-			WHERE EmpId = 105
-				AND WorkDate BETWEEN @FromDate
-					AND @ToDate) / (DATEDIFF(month, @FromDate, @ToDate) + 1), 2) AS NUMERIC(36,2))
+			CAST(ROUND((
+						SELECT SUM(CASE 
+									WHEN calendar.IsHoliday <> 1
+										AND calendar.IsOffDay <> 1
+										AND calendar.IsLeaveDay <> 1
+										THEN 1
+									WHEN calendar.IsLeaveDay = 1
+										THEN calendar.LeaveDay
+									ELSE 0
+									END)
+						FROM [NexHRM].[dbo].[EmployeeCalendar] AS calendar WITH (NOLOCK)
+						WHERE EmpId = @EmployeeId
+							AND WorkDate BETWEEN @FromDate
+								AND @ToDate
+						) / (DATEDIFF(month, @FromDate, @ToDate) + 1), 2) AS NUMERIC(36, 2))
 			) AS AverageWorkingDays
 		,(
 			SELECT SUM(st.[Hours])
