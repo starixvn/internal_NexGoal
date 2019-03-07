@@ -263,7 +263,7 @@ BEGIN
 		,tbl.Nickname
 		,tbl.FullName
 		,tbl.Email
-		,ISNULL(skype.ConversationId, '29:1x8ZHW8AYKxY_l9hSuzyUXua6QDubVB81T4AvkyYCxYQ') AS ConversationId -- must change on official
+		,skype.ConversationId AS ConversationId 
 	FROM #tblResult AS tbl WITH (NOLOCK)
 		INNER JOIN (
 		SELECT PerformanceRecordId

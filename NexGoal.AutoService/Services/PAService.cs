@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using Microsoft.AspNetCore.Hosting;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.PA;
@@ -18,7 +18,6 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Core.Services.Interfaces;
-    using NexGoal.Core.SkypeMessages;
     using NexGoal.Resources;
 
     public class PAService : IPAService
@@ -166,29 +165,45 @@
                     switch (setting.NotificationMode)
                     {
                         case MailMode.RemindStartEvaluation:
-                            string startDate = mailService.FormatStartDate(period.StartDate);
                             message = setting.ProcessId == PerformanceProcess.Self ?
-                                        PATemplates.RemindStartEvaluationToSelf(setting.Nickname, period.Name, startDate, configuration.Value.ApplicationDomain) :
-                                        PATemplates.RemindStartEvaluationToSupervisor(setting.Nickname, period.Name, startDate, configuration.Value.ApplicationDomain);
+                                        string.Format(Message.SkypeMessageTemplate_PA_RemindStartEvaluationToSelf,
+                                        setting.Nickname,
+                                        period.Name,
+                                        mailService.FormatStartDate(period.StartDate),
+                                        configuration.Value.ApplicationDomain) :
+                                        string.Format(Message.SkypeMessageTemplate_PA_RemindStartEvaluationToSupervisor,
+                                        setting.Nickname,
+                                        period.Name,
+                                        mailService.FormatStartDate(period.StartDate),
+                                        configuration.Value.ApplicationDomain);
 
                             await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
                             break;
 
                         case MailMode.Start:
-                            message = PATemplates.Start(setting.Nickname, period.Name, configuration.Value.ApplicationDomain);
+                            message = string.Format(Message.SkypeMessageTemplate_PA_StartForReviewer,
+                                setting.Nickname,
+                                period.Name,
+                                configuration.Value.ApplicationDomain);
                             await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
 
                             break;
 
                         case MailMode.Remind:
-                            string endDate = mailService.FormatStartDate(setting.EndDate);
-                            message = PATemplates.Remind(setting.Nickname, period.Name, endDate, configuration.Value.ApplicationDomain);
+                            message = string.Format(Message.SkypeMessageTemplate_PA_RemindForReviewer,
+                                setting.Nickname,
+                                period.Name,
+                                mailService.FormatStartDate(setting.EndDate),
+                                configuration.Value.ApplicationDomain);
                             await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
 
                             break;
 
                         case MailMode.EndEvaluation:
-                            message = PATemplates.EndEvaluation(setting.Nickname, period.Name, configuration.Value.ApplicationDomain);
+                            message = string.Format(Message.SkypeMessageTemplate_PA_EndEvaluation,
+                                setting.Nickname,
+                                period.Name,
+                                configuration.Value.ApplicationDomain);
                             await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
 
                             break;

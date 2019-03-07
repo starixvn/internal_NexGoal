@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using Microsoft.AspNetCore.Hosting;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.Nomination;
@@ -16,7 +16,6 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Core.Services.Interfaces;
-    using NexGoal.Core.SkypeMessages;
     using NexGoal.Resources;
 
     public class NominationService : INominationService
@@ -130,13 +129,19 @@
                     switch (setting.NotificationMode)
                     {
                         case MailMode.Start:
-                            message = NominationTemplates.StartToNominator(setting.Nickname, period.Title, configuration.Value.ApplicationDomain);
+                            message = string.Format(Message.SkypeMessageTemplate_Nomination_StartForNominator,
+                                setting.Nickname,
+                                period.Title,
+                                configuration.Value.ApplicationDomain);
                             await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
                             break;
 
                         case MailMode.Remind:
-                            string endDate = mailService.FormatEndDate(period.EndDateForNominator);
-                            message = NominationTemplates.RemindToNominator(setting.Nickname, period.Title, endDate, configuration.Value.ApplicationDomain);
+                            message = string.Format(Message.SkypeMessageTemplate_Nomination_RemindToNominator,
+                                setting.Nickname,
+                                period.Title,
+                                mailService.FormatEndDate(period.EndDateForNominator),
+                                configuration.Value.ApplicationDomain);
                             await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
                             break;
 

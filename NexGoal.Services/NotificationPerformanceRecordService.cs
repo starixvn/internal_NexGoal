@@ -151,7 +151,8 @@
         {
             IEnumerable<int> recordIds = performanceRecordIds.Split(",").Select(x => int.Parse(x));
             Tuple<IEnumerable<EmployeeDto>, IEnumerable<ProcessSettingDto>> tuple =
-                await GetSettingToSendNotificationAsync(performanceRecordIds, actorId, ReceiveNotificationType.Email).ConfigureAwait(false);
+                await GetSettingToSendNotificationAsync(performanceRecordIds, actorId, ReceiveNotificationType.SkypeMessage)
+                    .ConfigureAwait(false);
             Employee actor = await commonService.GetEmployeeByIdAsync(actorId).ConfigureAwait(false);
 
             foreach (int recordId in recordIds)

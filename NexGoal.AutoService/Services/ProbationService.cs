@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using Microsoft.AspNetCore.Hosting;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.Probation;
@@ -16,7 +16,6 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Core.Services.Interfaces;
-    using NexGoal.Core.SkypeMessages;
     using NexGoal.Resources;
 
     public class ProbationService : IProbationService
@@ -125,18 +124,26 @@
                 switch (setting.ProcessId)
                 {
                     case PerformanceProcess.HumanResource:
-                        message = ProbationTemplates.RemindHR(setting.Nickname, mailService.FormatEndDate(setting.EndDate));
+                        message = string.Format(Message.SkypeMessageTemplate_Probation_RemindHR,
+                            setting.Nickname,
+                            mailService.FormatEndDate(setting.EndDate));
                         await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
                         break;
 
                     case PerformanceProcess.Self:
-                        message = ProbationTemplates.RemindMember(setting.Nickname, mailService.FormatEndDate(setting.EndDate), configuration.Value.ApplicationDomain);
+                        message = string.Format(Message.SkypeMessageTemplate_Probation_RemindMember,
+                            setting.Nickname,
+                            mailService.FormatEndDate(setting.EndDate),
+                            configuration.Value.ApplicationDomain);
                         await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
                         break;
 
                     case PerformanceProcess.Evaluator:
                     case PerformanceProcess.Reviewer:
-                        message = ProbationTemplates.RemindEvaluator(setting.Nickname, mailService.FormatEndDate(setting.EndDate), configuration.Value.ApplicationDomain);
+                        message = string.Format(Message.SkypeMessageTemplate_Probation_RemindEvaluator,
+                            setting.Nickname,
+                            mailService.FormatEndDate(setting.EndDate),
+                            configuration.Value.ApplicationDomain);
                         await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
                         break;
 

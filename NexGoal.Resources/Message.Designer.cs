@@ -484,29 +484,238 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please follow up on the progress and make a reminder for related people (Evaluator and Reviewer) to create a Performance Record (with a detailed comment, selected grade, and a `Probation` tag) for the member(s).
+        ///   Looks up a localized string similar to Dear, *{0}*
+        ///The Nomination *{1}* process is going to be closed on **{2}**.
+        ///Please log in to *{3}* to make a vote for your nominee(s).
+        ///Thank you,
+        ///NexGoal..
         /// </summary>
-        public static string SkypeMessage_PerformanceRecord_ProbationRemindHR {
+        public static string SkypeMessageTemplate_Nomination_RemindToNominator {
             get {
-                return ResourceManager.GetString("SkypeMessage_PerformanceRecord_ProbationRemindHR", resourceCulture);
+                return ResourceManager.GetString("SkypeMessageTemplate_Nomination_RemindToNominator", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to For a better evaluation result, you are recommended to create a neat &amp; clean Performance Record for yourself (with a detailed comment and also selected grade)..
+        ///   Looks up a localized string similar to Dear, *{0}*
+        ///The Nomination *{1}* process is in progress.
+        ///Please log in to *{2}* to make a vote for your nominee(s).
+        ///Thank you,
+        ///NexGoal..
         /// </summary>
-        public static string SkypeTemplate_PA_RemindStartEvaluationToSelf {
+        public static string SkypeMessageTemplate_Nomination_StartForNominator {
             get {
-                return ResourceManager.GetString("SkypeTemplate_PA_RemindStartEvaluationToSelf", resourceCulture);
+                return ResourceManager.GetString("SkypeMessageTemplate_Nomination_StartForNominator", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to For a better evaluation result, you are recommended to create a neat &amp; clean Performance Record for yourself and your members (with a detailed comment and also selected grade)..
+        ///   Looks up a localized string similar to Dear, *{0}*
+        ///The Performance Appraisal for the *{1}* is now complete.
+        ///Please log in to *{3}* to view your final result.
+        ///Thank you,
+        ///NexGoal..
         /// </summary>
-        public static string SkypeTemplate_PA_RemindStartEvaluationToSupervisor {
+        public static string SkypeMessageTemplate_PA_EndEvaluation {
             get {
-                return ResourceManager.GetString("SkypeTemplate_PA_RemindStartEvaluationToSupervisor", resourceCulture);
+                return ResourceManager.GetString("SkypeMessageTemplate_PA_EndEvaluation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dear, *{0}*
+        ///The Performance Appraisal for the *{1}* is going to be closed on **{2}**.
+        ///Please log in to *{3}* to revise and submit the PA result for your members.
+        ///Thank you,
+        ///NexGoal..
+        /// </summary>
+        public static string SkypeMessageTemplate_PA_RemindForReviewer {
+            get {
+                return ResourceManager.GetString("SkypeMessageTemplate_PA_RemindForReviewer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dear, *{0}*
+        ///The Performance Appraisal for the *{1}* will begin on **{2}**.
+        ///For a better evaluation result, you are recommended to create a neat &amp; clean Performance Record for yourself (with a detailed comment and also selected grade).
+        ///Please log in to *{3}* to create a Performance Record.
+        ///Thank you,
+        ///NexGoal.
+        /// </summary>
+        public static string SkypeMessageTemplate_PA_RemindStartEvaluationToSelf {
+            get {
+                return ResourceManager.GetString("SkypeMessageTemplate_PA_RemindStartEvaluationToSelf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dear, *{0}*
+        ///The Performance Appraisal for the *{1}* will begin on **{2}**.
+        ///For a better evaluation result, you are recommended to create a neat &amp; clean Performance Record for yourself (with a detailed comment and also selected grade).
+        ///Please log in to *{3}* to create a Performance Record.
+        ///Thank you,
+        ///NexGoal..
+        /// </summary>
+        public static string SkypeMessageTemplate_PA_RemindStartEvaluationToSupervisor {
+            get {
+                return ResourceManager.GetString("SkypeMessageTemplate_PA_RemindStartEvaluationToSupervisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dear, *{0}*
+        ///The Performance Appraisal for the *{1}* is in progress.
+        ///Please log in to *{2}* to revise and submit the PA result for your members.
+        ///Thank you,
+        ///NexGoal..
+        /// </summary>
+        public static string SkypeMessageTemplate_PA_StartForReviewer {
+            get {
+                return ResourceManager.GetString("SkypeMessageTemplate_PA_StartForReviewer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dear, *{0}*
+        ///The PA Focus for the *{1}* is going to be closed on **{2}**.
+        ///Please log in to *{3}* to review the objectives for your team members.
+        ///Thank you,
+        ///NexGoal..
+        /// </summary>
+        public static string SkypeMessageTemplate_PAFocus_RemindToEvaluator {
+            get {
+                return ResourceManager.GetString("SkypeMessageTemplate_PAFocus_RemindToEvaluator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dear, *{0}*
+        ///The PA Focus for the *{1}* is in progress.
+        ///Please log in to *{2}* to set the objectives for your team members.
+        ///Thank you,
+        ///NexGoal..
+        /// </summary>
+        public static string SkypeMessageTemplate_PAFocus_StartToEvaluator {
+            get {
+                return ResourceManager.GetString("SkypeMessageTemplate_PAFocus_StartToEvaluator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dear, *{0}*
+        ///*{1}* has created a Performance Record for him/herself.
+        ///Please log in to *{2}* to view the details.
+        ///Thank you,
+        ///NexGoal.
+        /// </summary>
+        public static string SkypeMessageTemplate_PR_CreateMemberToSuperVisor {
+            get {
+                return ResourceManager.GetString("SkypeMessageTemplate_PR_CreateMemberToSuperVisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dear, *{0}*
+        ///*{1}* has created a Performance Record for you.
+        ///Please log in to *{2}* to view the details.
+        ///Thank you,
+        ///NexGoal..
+        /// </summary>
+        public static string SkypeMessageTemplate_PR_CreateSupervisorToMember {
+            get {
+                return ResourceManager.GetString("SkypeMessageTemplate_PR_CreateSupervisorToMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dear, *{0}*
+        ///*{1}* has created a Performance Record for *{2}*.
+        ///Please log in to *{3}* to view the details.
+        ///Thank you,
+        ///NexGoal..
+        /// </summary>
+        public static string SkypeMessageTemplate_PR_CreateSupervisorToSupervisor {
+            get {
+                return ResourceManager.GetString("SkypeMessageTemplate_PR_CreateSupervisorToSupervisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dear, *{0}*
+        ///*{1}* has edited his/her Performance Record.
+        ///Please log in to *{2}* to view the details.
+        ///Thank you,
+        ///NexGoal..
+        /// </summary>
+        public static string SkypeMessageTemplate_PR_EditMemberToSupervisor {
+            get {
+                return ResourceManager.GetString("SkypeMessageTemplate_PR_EditMemberToSupervisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dear, *{0}*
+        ///*{1}* has edited his/her Performance Record for you.
+        ///Please log in to *{2}* to view the details.
+        ///Thank you,
+        ///NexGoal..
+        /// </summary>
+        public static string SkypeMessageTemplate_PR_EditSupervisorToMember {
+            get {
+                return ResourceManager.GetString("SkypeMessageTemplate_PR_EditSupervisorToMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dear, *{0}*
+        ///*{1}* has edited his/her Performance Record for *{2}*.
+        ///Please log in to *{3}* to view the details.
+        ///Thank you,
+        ///NexGoal..
+        /// </summary>
+        public static string SkypeMessageTemplate_PR_EditSupervisorToSupervisor {
+            get {
+                return ResourceManager.GetString("SkypeMessageTemplate_PR_EditSupervisorToSupervisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dear, *{0}*.
+        ///The Probation process is going to be closed on **{1}**.
+        ///Please log in to *{2}* to create a Performance Record (with a detailed comment, selected grade, and a `Probation` tag) for your member(s).
+        ///Thank you,
+        ///NexGoal..
+        /// </summary>
+        public static string SkypeMessageTemplate_Probation_RemindEvaluator {
+            get {
+                return ResourceManager.GetString("SkypeMessageTemplate_Probation_RemindEvaluator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dear, *{0}*.
+        ///The Probation process is going to be closed on **{1}**.
+        ///Please follow up on the progress and make a reminder for related people (Evaluator and Reviewer) to create a Performance Record (with a detailed comment, selected grade, and a `Probation` tag) for the member(s).
+        ///Thank you,
+        ///NexGoal..
+        /// </summary>
+        public static string SkypeMessageTemplate_Probation_RemindHR {
+            get {
+                return ResourceManager.GetString("SkypeMessageTemplate_Probation_RemindHR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dear, *{0}*.
+        ///The Probation process is going to be closed on **{1}**.
+        ///Please log in to *{2}* to create a Performance Record (with a detailed comment, selected grade, and a `Probation` tag) for yourself.
+        ///Thank you,
+        ///NexGoal..
+        /// </summary>
+        public static string SkypeMessageTemplate_Probation_RemindMember {
+            get {
+                return ResourceManager.GetString("SkypeMessageTemplate_Probation_RemindMember", resourceCulture);
             }
         }
         

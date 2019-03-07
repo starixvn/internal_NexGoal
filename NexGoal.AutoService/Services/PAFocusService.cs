@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using Microsoft.AspNetCore.Hosting;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.PAFocus;
@@ -17,7 +17,6 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Core.Services.Interfaces;
-    using NexGoal.Core.SkypeMessages;
     using NexGoal.Resources;
 
     public class PAFocusService : IPAFocusService
@@ -144,13 +143,19 @@
                     switch (focusSetting.NotificationMode)
                     {
                         case MailMode.Start:
-                            message = PAFocusTemplates.StartToEvaluator(focusSetting.Nickname, period.Name, configuration.Value.ApplicationDomain);
+                            message = string.Format(Message.SkypeMessageTemplate_PAFocus_StartToEvaluator,
+                                focusSetting.Nickname,
+                                period.Name,
+                                configuration.Value.ApplicationDomain);
                             await chatbotService.SendMessageAsync(focusSetting.ConversationId, message).ConfigureAwait(false);
                             break;
 
                         case MailMode.Remind:
-                            string endDate = mailService.FormatStartDate(period.FocusEndDate);
-                            message = PAFocusTemplates.RemindToEvaluator(focusSetting.Nickname, period.Name, endDate, configuration.Value.ApplicationDomain);
+                            message = string.Format(Message.SkypeMessageTemplate_PAFocus_RemindToEvaluator,
+                                focusSetting.Nickname,
+                                period.Name,
+                                mailService.FormatStartDate(period.FocusEndDate),
+                                configuration.Value.ApplicationDomain);
                             await chatbotService.SendMessageAsync(focusSetting.ConversationId, message).ConfigureAwait(false);
                             break;
 
