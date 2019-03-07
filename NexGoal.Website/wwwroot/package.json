@@ -13,7 +13,8 @@
     "start": "node_modules/.bin/webpack-dev-server --config webpack.config.dev.js --hot --inline --progress",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage --coverageDirectory=output/coverage/jest"
+    "test:coverage": "jest --coverage --coverageDirectory=output/coverage/jest",
+    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --watch --runInBand"
   },
   "author": "",
   "dependencies": {

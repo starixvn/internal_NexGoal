@@ -32,7 +32,8 @@ export default class EditSelfPerformance extends Component {
         this.state = {
             performanceRecord: {},
             initialPerformanceRecord: {},
-            errors: {}
+            errors: {},
+            isSubmitting: false
         };
     }
 
@@ -96,6 +97,7 @@ export default class EditSelfPerformance extends Component {
     }
 
     validateForm = () => {
+        console.log(1);
         let errors = {}, isValid = true;
 
         if (!this.state.performanceRecord.comment || this.state.performanceRecord.comment.trim() === '') {
@@ -110,8 +112,9 @@ export default class EditSelfPerformance extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-
         if (this.validateForm()) {
+            this.setState({ isSubmitting: true });
+
             let record = this.state.performanceRecord;
             let performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -149,7 +152,7 @@ export default class EditSelfPerformance extends Component {
                         toast.error(data.message);
                     }
                 }
-            }).catch(axiosError);
+            }).catch(axiosError).then(() => this.setState({ isSubmitting: false }));
         }
     }
 
@@ -157,6 +160,8 @@ export default class EditSelfPerformance extends Component {
         event.preventDefault();
 
         if (this.validateForm()) {
+            this.setState({ isSubmitting: true });
+
             let record = this.state.performanceRecord;
             let performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -193,7 +198,7 @@ export default class EditSelfPerformance extends Component {
                         toast.error(data.message);
                     }
                 }
-            }).catch(axiosError);
+            }).catch(axiosError).then(() => this.setState({ isSubmitting: false }));
         }
     }
 
@@ -261,9 +266,9 @@ export default class EditSelfPerformance extends Component {
                     <Button className="btn-cancel" onClick={this.props.onCloseModal}>{getResource('Cancel')}</Button>
                     {
                         performanceRecord.isDraft &&
-                        <Button type="submit" className="btn-cancel" name="saveAsDraft" onClick={this.handleSaveAsDraft}>{getResource('SaveAsDraft')}</Button>
+                        <Button type="submit" className="btn-cancel" name="saveAsDraft" onClick={this.handleSaveAsDraft} disabled={this.state.isSubmitting}>{getResource('SaveAsDraft')}</Button>
                     }
-                    <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit}>{getResource('Publish')}</Button>
+                    <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit} disabled={this.state.isSubmitting}>{getResource('Publish')}</Button>
                 </Modal.Footer>
             </Modal>
         );
