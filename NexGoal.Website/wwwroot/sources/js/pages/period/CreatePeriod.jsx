@@ -78,7 +78,7 @@ export default class CreatePeriod extends Component {
         return errors;
     }
 
-    onSubmit = (values, { setErrors }) => {
+    onSubmit = (values, { setErrors, setSubmitting }) => {
         axios({
             url: resolveClientUrl(`period/Create`),
             method: 'post',
@@ -118,7 +118,7 @@ export default class CreatePeriod extends Component {
                     toast.error(data.message);
                 }
             }
-        }).catch(axiosError);
+        }).catch(axiosError).then(() => setSubmitting(false));
     }
 
     renderForm = ({
@@ -127,7 +127,8 @@ export default class CreatePeriod extends Component {
         touched,
         handleChange,
         handleSubmit,
-        setFieldValue }) => {
+        setFieldValue,
+        isSubmitting }) => {
         var onChangeRaw = (e) => {
             let date = moment(Date(e.target.value));
             if (date.isValid()) {
@@ -258,7 +259,7 @@ export default class CreatePeriod extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="btn btn-cancel" onClick={this.props.closeModal}>{getResource('Cancel')}</Button>
-                    <Button type="submit" className="btn btn-primary">{getResource('Submit')}</Button>
+                    <Button type="submit" className="btn btn-primary" disabled={isSubmitting}>{getResource('Submit')}</Button>
                 </Modal.Footer>
             </Form>
         );
