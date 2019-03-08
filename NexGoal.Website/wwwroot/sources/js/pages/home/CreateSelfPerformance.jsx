@@ -46,7 +46,8 @@ export default class CreateSelfPerformance extends Component {
                 projects: props.currentUser.isProbation ? [ProbationTag] : [],
                 statusId: null
             },
-            errors: {}
+            errors: {},
+            isSubmitting: false
         };
 
         this.textareaEditor = React.createRef();
@@ -121,9 +122,13 @@ export default class CreateSelfPerformance extends Component {
     }
 
     handleSubmit = (event) => {
-        event.preventDefault();
+        if (this.state.isSubmitting)
+            return;
 
+        event.preventDefault();
         if (this.validateForm()) {
+            this.setState({ isSubmitting: true });
+
             let performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 gradeId: this.state.performanceRecord.grade ? this.state.performanceRecord.grade.value : null,
@@ -159,14 +164,19 @@ export default class CreateSelfPerformance extends Component {
                         toast.error(data.message);
                     }
                 }
-            }).catch(axiosError);
+            }).catch(axiosError).then(() => this.setState({ isSubmitting: false }));
         }
     }
 
     handleSaveAsDraft = (event) => {
+        if (this.state.isSubmitting)
+            return;
+
         event.preventDefault();
 
         if (this.validateForm()) {
+            this.setState({ isSubmitting: true });
+
             let performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 gradeId: this.state.performanceRecord.grade ? this.state.performanceRecord.grade.value : null,
@@ -202,7 +212,7 @@ export default class CreateSelfPerformance extends Component {
                         toast.error(data.message);
                     }
                 }
-            }).catch(axiosError);
+            }).catch(axiosError).then(() => this.setState({ isSubmitting: false }));
         }
     }
 
@@ -283,8 +293,8 @@ export default class CreateSelfPerformance extends Component {
 
                             <FormGroup className="text-right">
                                 <Button className="btn-cancel" onClick={this.handleCancel}>{getResource('Cancel')}</Button>
-                                <Button className="btn-cancel" type="submit" name="saveAsDraft" onClick={this.handleSaveAsDraft}>{getResource('SaveAsDraft')}</Button>
-                                <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit}>{getResource('Publish')}</Button>
+                                <Button className="btn-cancel" type="submit" name="saveAsDraft" onClick={this.handleSaveAsDraft} disabled={this.state.isSubmitting}>{getResource('SaveAsDraft')}</Button>
+                                <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit} disabled={this.state.isSubmitting}>{getResource('Publish')}</Button>
                             </FormGroup>
                         </form>
                     }
