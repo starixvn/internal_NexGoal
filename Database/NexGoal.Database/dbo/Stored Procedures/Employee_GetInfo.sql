@@ -16,17 +16,11 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @Today DATE = GETDATE()
-		,@ProbationDuration SMALLINT
-		,@TotalMembers INT
+	DECLARE @TotalMembers INT
 	-- process
 	DECLARE @PMProcessId TINYINT = 3
 		,@EvaluatorProcessId TINYINT = 4
 		,@ReviewerProcessId TINYINT = 5
-
-	SELECT TOP 1 @ProbationDuration = CAST(Value AS SMALLINT)
-	FROM dbo.RefResource WITH (NOLOCK)
-	WHERE RefName = 'ProbationDuration'
 
 	SELECT @TotalMembers = COUNT(1)
 	FROM dbo.func_GetMember(@EmployeeId)
@@ -40,11 +34,7 @@ BEGIN
 		,gr.Code AS GroupCode
 		,gr.[Name] AS GroupName
 		,job.[Name] AS JobTitle
-		,(CASE 
-			WHEN @Today BETWEEN emp.JoinedDate
-					AND DATEADD(DAY, @ProbationDuration, emp.JoinedDate) THEN 1
-			ELSE 0 END
-			) AS IsProbation
+		,dbo.fnc_CheckIsProbation(emp.EmployeeId) AS IsProbation
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		AND gr.IsDeleted = 0
