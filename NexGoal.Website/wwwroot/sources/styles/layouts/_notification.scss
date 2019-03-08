@@ -17,19 +17,19 @@
 }
 
 .header-notification {
-  position: relative;
+    position: relative;
 
-  .noti-number {
-    position: absolute;
-    font-size: 10px;
-    border: none;
-    padding: 0 3px;
-    background-color: red;
-    border-radius: 3px;    
-    text-align: center;
-    top: 8px;
-    left: 27px;
-  }
+    .noti-number {
+        position: absolute;
+        font-size: 10px;
+        border: none;
+        padding: 0 3px;
+        background-color: red;
+        border-radius: 3px;
+        text-align: center;
+        top: 8px;
+        left: 27px;
+    }
 }
 
 .icon-bell {
@@ -37,9 +37,11 @@
     transition: background-color .5s;
     padding: 8px;
     border-radius: 18px;
+
     &:hover {
         background-color: rgba(255, 255, 255, 0.2);
     }
+
     .noti-number {
         font-size: 10px;
         border: none;
@@ -119,7 +121,7 @@
                 cursor: pointer;
                 font-weight: bold;
                 background-color: #E0F3FF;
-            }           
+            }
 
             .avatar {
                 @include border-radius(50%);
@@ -129,15 +131,24 @@
                 width: 32px;
             }
         }
+
         .description {
             flex: auto;
             padding-left: 12px;
+
             a {
                 color: #474747;
                 transition: color 0.5s ease;
+
                 &:hover {
                     color: #0072C7;
                 }
+            }
+
+            .created-date {
+                font-weight: unset;
+                font-size: 9px;
+                color: #777;
             }
         }
     }

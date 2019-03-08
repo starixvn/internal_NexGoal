@@ -1,4 +1,5 @@
 ﻿import React from 'react';
+import moment from 'moment';
 
 const _rootUrl = document.getElementById('RootURL').value ? document.getElementById('RootURL').value : '/';
 
@@ -132,4 +133,13 @@ export function compareArray(a, b, compareOnProp) {
         return false;
 
     return true;
+}
+
+export function formatDateFromNow(date) {
+    return moment(date).calendar(null, {
+        sameDay: '[Today at] HH:mm',
+        lastDay: '[Yesterday at] HH:mm',
+        lastWeek: '[Last] dddd [at] HH:mm',
+        sameElse: 'DD MMM YYYY [at] HH:mm'
+    });
 }

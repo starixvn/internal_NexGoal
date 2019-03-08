@@ -1,9 +1,10 @@
 ﻿import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import InfiniteScroll from 'react-infinite-scroller';
-
+import moment from 'moment';
 import getResource from '../../../resourceHelper';
 import { NotificationStatus } from '../../../constants';
+import { formatDateFromNow } from '../../../common-functions';
 import NotificationSetting from './NotificationSetting';
 import CustomScrollbars from '../CustomScrollbars';
 
@@ -91,6 +92,9 @@ export default class Notification extends Component {
                                                     <a onClick={() => this.props.onChangeStatus(item.notificationId, item.statusId, true)}>
                                                         {item.content}
                                                     </a>
+                                                    <div className="created-date">
+                                                        {formatDateFromNow(item.createdDate)}
+                                                    </div>
                                                 </div>
                                             </div>
                                         );
