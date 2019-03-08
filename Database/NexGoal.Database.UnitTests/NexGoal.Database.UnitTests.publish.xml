@@ -2,20 +2,22 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
-    <TargetDatabaseName>bodb_NexGoal_Tests</TargetDatabaseName>
+    <TargetDatabaseName>NexGoal.Database.UnitTests</TargetDatabaseName>
     <DeployScriptFileName>NexGoal.Database.UnitTests.sql</DeployScriptFileName>
-    <TargetConnectionString>Data Source=10.18.200.114;Persist Security Info=False;User ID=internalteam;Password=@357$abc^FFZ%;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True</TargetConnectionString>
     <ProfileVersionNumber>1</ProfileVersionNumber>
   </PropertyGroup>
   <ItemGroup>
-    <SqlCmdVariable Include="bodb_NexGoal">
+    <SqlCmdVariable Include="NexBot">
+      <Value>NexBot.Database</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="NexGoal">
       <Value>NexGoal.Database</Value>
     </SqlCmdVariable>
     <SqlCmdVariable Include="NexHRM">
-      <Value>NexHRM</Value>
+      <Value>NexHR.Database</Value>
     </SqlCmdVariable>
     <SqlCmdVariable Include="Redmine">
-      <Value>RedmineNexcel</Value>
+      <Value>Redmine.Database</Value>
     </SqlCmdVariable>
   </ItemGroup>
 </Project>

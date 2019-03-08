@@ -266,21 +266,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <SqlCmdVariable Include="bodb_NexGoal">
-      <DefaultValue>NexGoal.Database</DefaultValue>
-      <Value>$(SqlCmdVar__1)</Value>
-    </SqlCmdVariable>
     <SqlCmdVariable Include="NexBot">
       <DefaultValue>NexBot.Database</DefaultValue>
-      <Value>$(SqlCmdVar__4)</Value>
+      <Value>$(SqlCmdVar__1)</Value>
     </SqlCmdVariable>
-    <SqlCmdVariable Include="NexHRM">
-      <DefaultValue>NexHRM</DefaultValue>
+    <SqlCmdVariable Include="NexGoal">
+      <DefaultValue>NexGoal.Database</DefaultValue>
       <Value>$(SqlCmdVar__2)</Value>
     </SqlCmdVariable>
-    <SqlCmdVariable Include="Redmine">
-      <DefaultValue>RedmineNexcel</DefaultValue>
+    <SqlCmdVariable Include="NexHRM">
+      <DefaultValue>NexHR.Database</DefaultValue>
       <Value>$(SqlCmdVar__3)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="Redmine">
+      <DefaultValue>Redmine.Database</DefaultValue>
+      <Value>$(SqlCmdVar__4)</Value>
     </SqlCmdVariable>
   </ItemGroup>
   <ItemGroup>
@@ -291,18 +291,19 @@
     </ArtifactReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NexBot.Database\NexBot.Database.sqlproj">
+      <Name>NexBot.Database</Name>
+      <Project>{19ad86f5-294d-40a2-a095-1e9db34ee12d}</Project>
+      <Private>True</Private>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <DatabaseSqlCmdVariable>NexBot</DatabaseSqlCmdVariable>
+    </ProjectReference>
     <ProjectReference Include="..\NexGoal.Database\NexGoal.Database.sqlproj">
       <Name>NexGoal.Database</Name>
       <Project>{c3cfd4d0-261f-4a80-aca5-c578f4cb6fcb}</Project>
       <Private>True</Private>
       <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
-    </ProjectReference>
-    <ProjectReference Include="..\Redmine.Database\Redmine.Database.sqlproj">
-      <Name>Redmine.Database</Name>
-      <Project>{624d83f2-17cd-4cb2-bc14-c849d1762006}</Project>
-      <Private>True</Private>
-      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
-      <DatabaseSqlCmdVariable>Redmine</DatabaseSqlCmdVariable>
+      <DatabaseSqlCmdVariable>NexGoal</DatabaseSqlCmdVariable>
     </ProjectReference>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">
       <Name>NexHR.Database</Name>
@@ -311,12 +312,12 @@
       <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
       <DatabaseSqlCmdVariable>NexHRM</DatabaseSqlCmdVariable>
     </ProjectReference>
-    <ProjectReference Include="..\NexBot.Database\NexBot.Database.sqlproj">
-      <Name>NexBot.Database</Name>
-      <Project>{19ad86f5-294d-40a2-a095-1e9db34ee12d}</Project>
+    <ProjectReference Include="..\Redmine.Database\Redmine.Database.sqlproj">
+      <Name>Redmine.Database</Name>
+      <Project>{624d83f2-17cd-4cb2-bc14-c849d1762006}</Project>
       <Private>True</Private>
       <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
-      <DatabaseSqlCmdVariable>NexBot</DatabaseSqlCmdVariable>
+      <DatabaseSqlCmdVariable>Redmine</DatabaseSqlCmdVariable>
     </ProjectReference>
   </ItemGroup>
 </Project>
