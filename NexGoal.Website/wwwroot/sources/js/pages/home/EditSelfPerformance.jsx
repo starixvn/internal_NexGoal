@@ -111,10 +111,10 @@ export default class EditSelfPerformance extends Component {
     }
 
     handleSubmit = (event) => {
+        event.preventDefault();
+
         if (this.state.isSubmitting)
             return;
-
-        event.preventDefault();
 
         if (this.validateForm()) {
             this.setState({ isSubmitting: true });
@@ -161,10 +161,10 @@ export default class EditSelfPerformance extends Component {
     }
 
     handleSaveAsDraft = (event) => {
+        event.preventDefault();
+
         if (this.state.isSubmitting)
             return;
-
-        event.preventDefault();
 
         if (this.validateForm()) {
             this.setState({ isSubmitting: true });

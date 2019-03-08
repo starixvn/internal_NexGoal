@@ -70,7 +70,8 @@ export default class CreateSelfPerformance extends Component {
             || JSON.stringify(this.props.projectOptions) !== JSON.stringify(nextProps.projectOptions)
             || JSON.stringify(this.state.performanceRecord) !== JSON.stringify(nextState.performanceRecord)
             || JSON.stringify(this.state.errors) !== JSON.stringify(nextState.errors)
-            || this.state.isOpenForm !== nextState.isOpenForm) {
+            || this.state.isOpenForm !== nextState.isOpenForm
+            || this.state.isSubmitting !== nextState.isSubmitting) {
             return true;
         }
 
@@ -122,10 +123,11 @@ export default class CreateSelfPerformance extends Component {
     }
 
     handleSubmit = (event) => {
+        event.preventDefault();
+
         if (this.state.isSubmitting)
             return;
 
-        event.preventDefault();
         if (this.validateForm()) {
             this.setState({ isSubmitting: true });
 
@@ -169,10 +171,10 @@ export default class CreateSelfPerformance extends Component {
     }
 
     handleSaveAsDraft = (event) => {
+        event.preventDefault();
+
         if (this.state.isSubmitting)
             return;
-
-        event.preventDefault();
 
         if (this.validateForm()) {
             this.setState({ isSubmitting: true });

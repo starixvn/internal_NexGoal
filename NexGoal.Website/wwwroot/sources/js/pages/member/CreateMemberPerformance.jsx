@@ -57,7 +57,8 @@ export default class CreateMemberPerformance extends Component {
                 statusId: null
             },
             currentDate: moment(),
-            errors: {}
+            errors: {},
+            isSubmitting: false
         };
 
         this.textareaEditor = React.createRef();
@@ -83,7 +84,8 @@ export default class CreateMemberPerformance extends Component {
             || this.props.isMultiple !== nextProps.isMultiple
             || JSON.stringify(this.state.performanceRecord) !== JSON.stringify(nextState.performanceRecord)
             || JSON.stringify(this.state.errors) !== JSON.stringify(nextState.errors)
-            || this.state.isOpenForm !== nextState.isOpenForm) {
+            || this.state.isOpenForm !== nextState.isOpenForm
+            || this.state.isSubmitting !== nextState.isSubmitting) {
             return true;
         }
 
@@ -169,7 +171,12 @@ export default class CreateMemberPerformance extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
+        if (this.state.isSubmitting)
+            return;
+
         if (this.validateForm()) {
+            this.setState({ isSubmitting: true });
+
             let record = this.state.performanceRecord;
             let employeeIds = this.props.isMultiple
                 ? record.employees.map((employee) => { return employee.value; }).join(',') : this.props.selectedMemberInfo.id;
@@ -208,14 +215,18 @@ export default class CreateMemberPerformance extends Component {
                         toast.error(data.message);
                     }
                 }
-            }).catch(axiosError);
+            }).catch(axiosError).then(() => this.setState({ isSubmitting: false }));
         }
     }
 
     handleSaveAsDraft = (event) => {
         event.preventDefault();
 
+        if (this.state.isSubmitting)
+            return;
+
         if (this.validateForm()) {
+            this.setState({ isSubmitting: true });
             let record = this.state.performanceRecord;
             let employeeIds = this.props.isMultiple ? record.employees.map((employee) => { return employee.value; }).join(',') :
                 this.props.selectedMemberInfo.id;
@@ -254,7 +265,7 @@ export default class CreateMemberPerformance extends Component {
                         toast.error(data.message);
                     }
                 }
-            }).catch(axiosError);
+            }).catch(axiosError).then(() => this.setState({ isSubmitting: true }));
         }
     }
 
@@ -349,8 +360,8 @@ export default class CreateMemberPerformance extends Component {
 
                             <FormGroup className="text-right">
                                 <Button className="btn-cancel" onClick={this.handleCancel}>{getResource('Cancel')}</Button>
-                                <Button className="btn-cancel" type="submit" name="saveAsDraft" onClick={this.handleSaveAsDraft}>{getResource('SaveAsDraft')}</Button>
-                                <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit}>{getResource('Publish')}</Button>
+                                <Button className="btn-cancel" type="submit" name="saveAsDraft" onClick={this.handleSaveAsDraft} disabled={this.state.isSubmitting}>{getResource('SaveAsDraft')}</Button>
+                                <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit} disabled={this.state.isSubmitting}>{getResource('Publish')}</Button>
                             </FormGroup>
                         </form>
                     }

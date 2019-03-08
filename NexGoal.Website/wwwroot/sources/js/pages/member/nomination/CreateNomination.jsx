@@ -82,7 +82,7 @@ export default class CreateNomination extends Component {
         return errors;
     }
 
-    handleSubmit = (values, { setErrors }) => {
+    handleSubmit = (values, { setErrors, setSubmitting }) => {
         axios({
             url: resolveClientUrl(`MemberNomination/Create`),
             method: 'post',
@@ -115,7 +115,7 @@ export default class CreateNomination extends Component {
                     toast.error(data.message);
                 }
             }
-        }).catch(axiosError);
+        }).catch(axiosError).then(() => setSubmitting(false));
     }
 
     renderForm = ({
@@ -125,10 +125,11 @@ export default class CreateNomination extends Component {
         handleChange,
         handleSubmit,
         setFieldValue,
-        dirty
+        dirty,
+        isSubmitting
     }) => {
         let onPeriodChange = (value) => {
-            let period = this.props.nominationPeriods.find(x => x.nominationPeriodId === value.value);
+            let period = this.props.nominationPeriodOptions.find(x => x.value === value.value);
             let questions = '';
             if (period.quarter) {
                 questions = this.state.eoqQuestions.map(e => `${e.resourceId}. ${e.value}`).join("\r\n\r\n");
@@ -139,9 +140,6 @@ export default class CreateNomination extends Component {
             setFieldValue('period', value);
             setFieldValue('comment', questions);
         };
-        let nominationPeriodOptions = this.props.nominationPeriods.map(period => {
-            return { value: period.nominationPeriodId, label: period.title };
-        });
 
         return (
             <form onSubmit={handleSubmit} className="form-filter form-performance create">
@@ -152,7 +150,7 @@ export default class CreateNomination extends Component {
                             classNamePrefix="react-select"
                             className={`react-select-container ${touched.period && errors.period && 'input-validation-error'}`}
                             value={values.period} onChange={onPeriodChange}
-                            options={nominationPeriodOptions}
+                            options={this.props.nominationPeriodOptions}
                         />
                     </div>
                     {
@@ -179,7 +177,7 @@ export default class CreateNomination extends Component {
                 </FormGroup>
                 <FormGroup>
                     <Button className="btn-cancel" onClick={this.handleCloseForm}>{getResource('Cancel')}</Button>
-                    <Button className="btn-primary" type="submit">{getResource('Publish')}</Button>
+                    <Button className="btn-primary" type="submit" disabled={isSubmitting}>{getResource('Publish')}</Button>
                 </FormGroup>
             </form>
         );

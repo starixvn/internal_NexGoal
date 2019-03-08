@@ -23,6 +23,7 @@ export default class Nomination extends Component {
 
         this.employeeOptions = [];
         this.nominationPeriods = [];
+        this.nominationPeriodOptions = [];
     }
 
     componentDidMount() {
@@ -48,7 +49,12 @@ export default class Nomination extends Component {
             this.employeeOptions = employeeResponse.data.map(member => {
                 return { value: member.employeeId, label: `${member.nickName} (${member.fullName})` };
             });
+
             this.nominationPeriods = nominationPeriodResponse.data;
+
+            this.nominationPeriodOptions = nominationPeriodResponse.data.map(period => {
+                return { value: period.nominationPeriodId, label: period.title, quarter: period.quarter };
+            });
 
             this.setState({
                 nominations: nominationResponse.data
@@ -157,17 +163,17 @@ export default class Nomination extends Component {
 
     render() {
         let employeeOptions = this.employeeOptions;
-        let nominationPeriods = this.nominationPeriods;
+        let nominationPeriodOptions = this.nominationPeriodOptions;
 
         return (
             <div className="record-list">
                 <CustomScrollbars>
                     {
-                        nominationPeriods.length > 0 &&
+                        nominationPeriodOptions.length > 0 &&
                         <CreateNomination
                             currentUser={this.props.currentUser}
                             employeeOptions={employeeOptions}
-                            nominationPeriods={nominationPeriods}
+                            nominationPeriodOptions={nominationPeriodOptions}
                             isEmployeeSelectable={!this.props.isMemberDetails}
                             nomineeId={this.props.nomineeId}
                             onCreateSuccess={this.handleCreateNominationSuccess}
@@ -181,7 +187,7 @@ export default class Nomination extends Component {
                     <EditNomination showModal={this.state.showEditModal}
                         currentUser={this.props.currentUser}
                         performanceRecord={this.state.editedNomination}
-                        nominationPeriods={nominationPeriods}
+                        nominationPeriodOptions={nominationPeriodOptions}
                         employeeOptions={employeeOptions}
                         onCloseModal={this.closeEditModal}
                         onEditSuccess={this.handleEditNominationSuccess}

@@ -101,19 +101,17 @@ export default class EditNomination extends Component {
         }).catch(axiosError);
     }
 
-    handleSubmitForm = () => {
-        this.refs.form.submitForm();
-    }
-
     renderForm = ({
         values,
         errors,
         touched,
         handleChange,
         handleSubmit,
-        setFieldValue }) => {
+        setFieldValue,
+        isSubmitting
+    }) => {
         let onPeriodChange = (value) => {
-            let period = this.props.nominationPeriods.find(x => x.nominationPeriodId === value.value);
+            let period = this.props.nominationPeriodOptions.find(x => x.value === value.value);
             let questions = '';
             if (period.quarter) {
                 questions = this.state.eoqQuestions.map(e => `${e.resourceId}. ${e.value}`).join("\r\n\r\n");
@@ -124,70 +122,12 @@ export default class EditNomination extends Component {
             setFieldValue('period', value);
             setFieldValue('comment', questions);
         };
-        let nominationPeriodOptions = this.props.nominationPeriods.map(period => {
-            return { value: period.nominationPeriodId, label: period.title };
-        });
 
-        return (
-            <form onSubmit={handleSubmit} className="form-filter form-performance edit">
-                <FormGroup>
-                    <div className="nomination-period">
-                        <ControlLabel>{getResource('NominationPeriod')}</ControlLabel>
-                        <Select name="period"
-                            classNamePrefix="react-select"
-                            className={`react-select-container ${touched.period && errors.period && 'input-validation-error'}`}
-                            value={values.period} onChange={onPeriodChange}
-                            options={nominationPeriodOptions}
-                        />
-                    </div>
-                    <div className="employee">
-                        <ControlLabel>{getResource('Employee')}</ControlLabel>
-                        {
-                            this.props.isEmployeeSelectable ?
-                                <Select name="employee"
-                                    classNamePrefix="react-select"
-                                    className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`}
-                                    value={values.employee} onChange={value => setFieldValue('employee', value)}
-                                    options={this.props.employeeOptions}
-                                />
-                                :
-                                values.employee.label
-                        }
-                    </div>
-                </FormGroup>
-                <FormGroup>
-                    <ControlLabel>{getResource('Comment')}</ControlLabel>
-                    <TextareaFullscreenEditor
-                        className={`form-control comment-field ${touched.comment && errors.comment && 'input-validation-error'}`}
-                        name="comment"
-                        value={values.comment}
-                        onChange={handleChange}
-                    />
-                </FormGroup>
-            </form>
-        );
-    }
-
-    render() {
         let currentUser = this.props.currentUser;
-        let initialObj = {
-            period: {
-                label: this.props.performanceRecord.nominationPeriod.title,
-                value: this.props.performanceRecord.nominationPeriod.nominationPeriodId
-            },
-            employee: this.props.employeeOptions.find(e => e.value === this.props.performanceRecord.employees[0].employeeId),
-            comment: this.props.performanceRecord.comment
-        };
         let createdDate = moment(this.props.performanceRecord.createdDate);
 
         return (
-            <Modal keyboard={false} backdrop="static"
-                show={this.props.showModal} onHide={this.props.onCloseModal}
-                dialogClassName="custom-modal modal-md form-performance edit"
-            >
-                <Modal.Header>
-                    <Modal.Title>{getResource('EditNomination')}</Modal.Title>
-                </Modal.Header>
+            <form onSubmit={handleSubmit} className="form-filter form-performance edit">
                 <Modal.Body>
                     <div className="record record-your-mind">
                         <div className="avatar-user">
@@ -198,20 +138,77 @@ export default class EditNomination extends Component {
                             </div>
                         </div>
                         <div className="comment">
-                            <Formik
-                                initialValues={initialObj}
-                                validate={this.validateForm}
-                                onSubmit={this.handleSubmit}
-                                render={this.renderForm}
-                                ref="form"
-                            />
+                            <FormGroup>
+                                <div className="nomination-period">
+                                    <ControlLabel>{getResource('NominationPeriod')}</ControlLabel>
+                                    <Select name="period"
+                                        classNamePrefix="react-select"
+                                        className={`react-select-container ${touched.period && errors.period && 'input-validation-error'}`}
+                                        value={values.period} onChange={onPeriodChange}
+                                        options={this.props.nominationPeriodOptions}
+                                    />
+                                </div>
+                                <div className="employee">
+                                    <ControlLabel>{getResource('Employee')}</ControlLabel>
+                                    {
+                                        this.props.isEmployeeSelectable ?
+                                            <Select name="employee"
+                                                classNamePrefix="react-select"
+                                                className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`}
+                                                value={values.employee} onChange={value => setFieldValue('employee', value)}
+                                                options={this.props.employeeOptions}
+                                            />
+                                            :
+                                            values.employee.label
+                                    }
+                                </div>
+                            </FormGroup>
+                            <FormGroup>
+                                <ControlLabel>{getResource('Comment')}</ControlLabel>
+                                <TextareaFullscreenEditor
+                                    className={`form-control comment-field ${touched.comment && errors.comment && 'input-validation-error'}`}
+                                    name="comment"
+                                    value={values.comment}
+                                    onChange={handleChange}
+                                />
+                            </FormGroup>
                         </div>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="btn-cancel" onClick={this.props.onCloseModal}>{getResource('Cancel')}</Button>
-                    <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmitForm}>{getResource('Publish')}</Button>
+                    <Button type="submit" bsStyle="primary" name="save" disabled={isSubmitting}>{getResource('Publish')}</Button>
                 </Modal.Footer>
+            </form>
+        );
+    }
+
+    render() {
+        let initialObj = {
+            period: {
+                label: this.props.performanceRecord.nominationPeriod.title,
+                value: this.props.performanceRecord.nominationPeriod.nominationPeriodId
+            },
+            employee: this.props.employeeOptions.find(e => e.value === this.props.performanceRecord.employees[0].employeeId),
+            comment: this.props.performanceRecord.comment
+        };
+
+        return (
+            <Modal keyboard={false} backdrop="static"
+                show={this.props.showModal} onHide={this.props.onCloseModal}
+                dialogClassName="custom-modal modal-md form-performance edit"
+            >
+                <Modal.Header>
+                    <Modal.Title>{getResource('EditNomination')}</Modal.Title>
+                </Modal.Header>
+                <Formik
+                    initialValues={initialObj}
+                    validate={this.validateForm}
+                    onSubmit={this.handleSubmit}
+                    render={this.renderForm}
+                    ref="form"
+                />
+
             </Modal>
         );
     }
