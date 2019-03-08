@@ -111,7 +111,7 @@
         box-sizing: content-box;
 
         .noti-item {
-            padding: 10px;
+            padding: 8px 10px;
             margin-bottom: 4px;
             border-radius: 3px;
             display: flex;
@@ -145,7 +145,7 @@
                 }
             }
 
-            .created-date {
+            .created-date {                
                 font-weight: unset;
                 font-size: 10px;
                 color: #777;
