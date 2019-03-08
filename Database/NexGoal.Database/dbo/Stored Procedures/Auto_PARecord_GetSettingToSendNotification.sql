@@ -66,14 +66,16 @@ BEGIN
 			,emp.FullName
 			,emp.Email
 		FROM dbo.Employee AS emp WITH (NOLOCK)
-			INNER JOIN dbo.EmployeeFlowSetting AS efs WITH (NOLOCK) ON emp.EmployeeId = efs.EvaluatorId
+		INNER JOIN dbo.EmployeeFlowSetting AS efs WITH (NOLOCK) ON emp.EmployeeId = efs.EvaluatorId
 			AND efs.ProcessId > @SelfProcessId
-			,dbo.Period AS period WITH (NOLOCK)
+			,dbo.Period AS period
+		WITH (NOLOCK)
 		WHERE emp.[Enabled] = 1
 			AND emp.IsDeleted = 0
 			AND DATEADD(DAY, - 7, period.StartDate) = @Today
 		
 		UNION
+		
 		SELECT period.PeriodId
 			,gfs.ProcessId
 			,gfs.EvaluatorId
@@ -81,16 +83,18 @@ BEGIN
 			,emp.FullName
 			,emp.Email
 		FROM dbo.GroupFlowSetting AS gfs WITH (NOLOCK)
-			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON gfs.EvaluatorId = emp.EmployeeId
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON gfs.EvaluatorId = emp.EmployeeId
 			AND emp.[Enabled] = 1
 			AND emp.IsDeleted = 0
-			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON gfs.GroupId = gr.GroupId
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON gfs.GroupId = gr.GroupId
 			AND gr.IsDeleted = 0
-			,dbo.Period AS period WITH (NOLOCK)
+			,dbo.Period AS period
+		WITH (NOLOCK)
 		WHERE gfs.ProcessId > @SelfProcessId
 			AND DATEADD(DAY, - 7, period.StartDate) = @Today
 		
 		UNION
+		
 		SELECT period.PeriodId
 			,@PMProcessId AS ProcessId
 			,emp.EmployeeId AS EvaluatorId
@@ -131,8 +135,9 @@ BEGIN
 		,emp.FullName
 		,emp.Email
 	FROM dbo.Employee AS emp WITH (NOLOCK)
-		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		,dbo.Period AS period WITH (NOLOCK)
+	INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		,dbo.Period AS period
+	WITH (NOLOCK)
 	WHERE emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
 		AND DATEADD(DAY, - 7, period.StartDate) = @Today
@@ -169,9 +174,12 @@ BEGIN
 		)
 	SELECT DISTINCT period.PeriodId
 		,NULL AS PerformanceRecordId
-		,(CASE 
-			WHEN process.StartDate = @Today THEN @StartMode
-			ELSE @RemindMode END
+		,(
+			CASE 
+				WHEN process.StartDate = @Today
+					THEN @StartMode
+				ELSE @RemindMode
+				END
 			) AS NotificationMode
 		,process.ProcessId
 		,process.EvaluatorId
@@ -181,11 +189,11 @@ BEGIN
 		,process.StartDate
 		,process.EndDate
 	FROM dbo.Period AS period WITH (NOLOCK)
-		INNER JOIN dbo.PARecord AS pa WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
-		INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
+	INNER JOIN dbo.PARecord AS pa WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+	INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
 		AND process.ProcessId = @ReviewerProcessId
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON process.EvaluatorId = emp.EmployeeId
-		INNER JOIN dbo.PeriodProcessSetting AS ps WITH (NOLOCK) ON period.PeriodId = ps.PeriodId
+	INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON process.EvaluatorId = emp.EmployeeId
+	INNER JOIN dbo.PeriodProcessSetting AS ps WITH (NOLOCK) ON period.PeriodId = ps.PeriodId
 		AND ps.ProcessId = @ReviewerProcessId
 	WHERE period.IsActive = 1
 		AND (
@@ -194,6 +202,7 @@ BEGIN
 			)
 	
 	UNION
+	
 	SELECT DISTINCT period.PeriodId
 		,pa.PerformanceRecordId
 		,@EndEvaluationMode AS NotificationMode
@@ -205,11 +214,14 @@ BEGIN
 		,NULL AS StartDate
 		,NULL AS EndDate
 	FROM dbo.Period AS period WITH (NOLOCK)
-		INNER JOIN dbo.PARecord AS pa WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
-		AND pa.StatusId IN (@InProgress, @Closed)
-		INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
+	INNER JOIN dbo.PARecord AS pa WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+		AND pa.StatusId IN (
+			@InProgress
+			,@Closed
+			)
+	INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
 		AND process.ProcessId = @ReviewerProcessId
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
+	INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
 	WHERE period.IsActive = 1
 		AND period.EndDate < @Today
 		AND process.EndDate < @Today
@@ -227,7 +239,7 @@ BEGIN
 		AND EXISTS (
 			SELECT 1
 			FROM #tblProcessSetting AS tbl WITH (NOLOCK)
-				LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
+			LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
 			WHERE period.PeriodId = tbl.PeriodId
 				AND ISNULL(setting.TypeId, @NotificationType) = @NotificationType
 				AND (
@@ -238,6 +250,10 @@ BEGIN
 					OR (
 						@ReceiveType = @ReceiveNotification
 						AND ISNULL(setting.ReceiveNotification, 1) = 1
+						)
+					OR (
+						@ReceiveType = @ReceiveSkypeMessage
+						AND ISNULL(setting.ReceiveSkypeMessage, 1) = 1
 						)
 					)
 			)
@@ -254,8 +270,8 @@ BEGIN
 		,EndDate
 		,skype.ConversationId
 	FROM #tblProcessSetting AS tbl WITH (NOLOCK)
-		LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
-		LEFT JOIN dbo.EmployeeSkypeConversation AS skype WITH (NOLOCK) ON setting.EmployeeId = skype.EmployeeId
+	LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
+	LEFT JOIN dbo.EmployeeSkypeConversation AS skype WITH (NOLOCK) ON tbl.EvaluatorId = skype.EmployeeId
 	WHERE ISNULL(setting.TypeId, @NotificationType) = @NotificationType
 		AND (
 			(
@@ -265,6 +281,10 @@ BEGIN
 			OR (
 				@ReceiveType = @ReceiveNotification
 				AND ISNULL(setting.ReceiveNotification, 1) = 1
+				)
+			OR (
+				@ReceiveType = @ReceiveSkypeMessage
+				AND ISNULL(setting.ReceiveSkypeMessage, 1) = 1
 				)
 			)
 

@@ -512,7 +512,7 @@ namespace NexGoal.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Dear, *{0}*
         ///The Performance Appraisal for the *{1}* is now complete.
-        ///Please log in to *{3}* to view your final result.
+        ///Please log in to *{2}* to view your final result.
         ///Thank you,
         ///NexGoal..
         /// </summary>
