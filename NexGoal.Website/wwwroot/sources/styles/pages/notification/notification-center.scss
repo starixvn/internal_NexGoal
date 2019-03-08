@@ -85,12 +85,20 @@
             .description {
                 flex: auto;
                 padding-left: 12px;
+
                 a {
                     color: #474747;
                     transition: color 0.5s ease;
+
                     &:hover {
                         color: #0072C7;
                     }
+                }
+
+                .created-date {
+                    font-weight: unset;
+                    font-size: 10px;
+                    color: #777;
                 }
             }
 
