@@ -35,8 +35,8 @@ export default class EditMemberPerformance extends Component {
         projectOptions: [],
         isDraft: false,
         isShowModal: false,
-        onCloseModal: function () { },
-        onSubmitSuccess: function () { }
+        onCloseModal: function() { },
+        onSubmitSuccess: function() { }
     };
 
     constructor(props) {
@@ -45,7 +45,8 @@ export default class EditMemberPerformance extends Component {
         this.state = {
             performanceRecord: {},
             initialPerformanceRecord: {},
-            errors: {}
+            errors: {},
+            isSubmitting: false
         };
     }
 
@@ -156,7 +157,12 @@ export default class EditMemberPerformance extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
+        if (this.state.isSubmitting)
+            return;
+
         if (this.validateForm()) {
+            this.setSubmitting(true);
+
             let record = this.state.performanceRecord;
 
             let performanceRecord = stringify({
@@ -181,7 +187,7 @@ export default class EditMemberPerformance extends Component {
                 let data = response.data;
 
                 if (data.isSuccessful) {
-                    toast.success(getResource('CreatedSuccessfully'));
+                    toast.success(getResource('UpdatedSuccessfully'));
 
                     this.props.onSubmitSuccess(data.objectIds);
                 } else {
@@ -196,14 +202,19 @@ export default class EditMemberPerformance extends Component {
                         toast.error(data.message);
                     }
                 }
-            }).catch(axiosError);
+            }).catch(axiosError).then(() => this.setSubmitting(false));
         }
     }
 
     handleSaveAsDraft = (event) => {
         event.preventDefault();
 
+        if (this.state.isSubmitting)
+            return;
+
         if (this.validateForm()) {
+            this.setSubmitting(true);
+
             let record = this.state.performanceRecord;
 
             let performanceRecord = stringify({
@@ -227,7 +238,7 @@ export default class EditMemberPerformance extends Component {
                 let data = response.data;
 
                 if (data.isSuccessful) {
-                    toast.success(getResource('CreatedSuccessfully'));
+                    toast.success(getResource('UpdatedSuccessfully'));
 
                     this.props.onSubmitDraftSuccess(record.performanceRecordId);
                 } else {
@@ -242,9 +253,11 @@ export default class EditMemberPerformance extends Component {
                         toast.error(data.message);
                     }
                 }
-            }).catch(axiosError);
+            }).catch(axiosError).then(() => this.setSubmitting(false));
         }
     }
+
+    setSubmitting = (isSubmitting) => this.setState({ isSubmitting })
 
     render() {
         let performanceRecord = this.state.performanceRecord;
@@ -328,9 +341,9 @@ export default class EditMemberPerformance extends Component {
                     <Button className="btn-cancel" onClick={this.props.onCloseModal}>{getResource('Cancel')}</Button>
                     {
                         performanceRecord.isDraft &&
-                        <Button type="submit" className="btn-cancel" name="saveAsDraft" onClick={this.handleSaveAsDraft}>{getResource('SaveAsDraft')}</Button>
+                        <Button type="submit" className="btn-cancel" name="saveAsDraft" onClick={this.handleSaveAsDraft} disabled={this.state.isSubmitting}>{getResource('SaveAsDraft')}</Button>
                     }
-                    <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit}>{getResource('Publish')}</Button>
+                    <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit} disabled={this.state.isSubmitting}>{getResource('Publish')}</Button>
                 </Modal.Footer>
             </Modal>
         );

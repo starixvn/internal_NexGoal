@@ -26,7 +26,7 @@ export default class CreateSelfPerformance extends Component {
         currentUser: { nickName: '', avatar: '' },
         performanceGradeOptions: [],
         projectOptions: [],
-        onSubmitSuccess: function () { }
+        onSubmitSuccess: function() { }
     };
 
     constructor(props) {
@@ -129,7 +129,7 @@ export default class CreateSelfPerformance extends Component {
             return;
 
         if (this.validateForm()) {
-            this.setState({ isSubmitting: true });
+            this.setSubmitting(true);
 
             let performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -166,7 +166,7 @@ export default class CreateSelfPerformance extends Component {
                         toast.error(data.message);
                     }
                 }
-            }).catch(axiosError).then(() => this.setState({ isSubmitting: false }));
+            }).catch(axiosError).then(() => this.setSubmitting(false));
         }
     }
 
@@ -177,7 +177,7 @@ export default class CreateSelfPerformance extends Component {
             return;
 
         if (this.validateForm()) {
-            this.setState({ isSubmitting: true });
+            this.setSubmitting(true);
 
             let performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -214,7 +214,7 @@ export default class CreateSelfPerformance extends Component {
                         toast.error(data.message);
                     }
                 }
-            }).catch(axiosError).then(() => this.setState({ isSubmitting: false }));
+            }).catch(axiosError).then(() => this.setSubmitting(false));
         }
     }
 
@@ -230,6 +230,8 @@ export default class CreateSelfPerformance extends Component {
             errors: {}
         });
     }
+
+    setSubmitting = (isSubmitting) => this.setState({ isSubmitting })
 
     render() {
         let performanceRecord = this.state.performanceRecord;

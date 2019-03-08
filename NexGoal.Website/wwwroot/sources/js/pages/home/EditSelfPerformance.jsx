@@ -117,7 +117,7 @@ export default class EditSelfPerformance extends Component {
             return;
 
         if (this.validateForm()) {
-            this.setState({ isSubmitting: true });
+            this.setSubmitting(true);
 
             let record = this.state.performanceRecord;
             let performanceRecord = stringify({
@@ -156,7 +156,7 @@ export default class EditSelfPerformance extends Component {
                         toast.error(data.message);
                     }
                 }
-            }).catch(axiosError).then(() => this.setState({ isSubmitting: false }));
+            }).catch(axiosError).then(() => this.setSubmitting(false));
         }
     }
 
@@ -167,7 +167,7 @@ export default class EditSelfPerformance extends Component {
             return;
 
         if (this.validateForm()) {
-            this.setState({ isSubmitting: true });
+            this.setSubmitting(true);
 
             let record = this.state.performanceRecord;
             let performanceRecord = stringify({
@@ -205,9 +205,11 @@ export default class EditSelfPerformance extends Component {
                         toast.error(data.message);
                     }
                 }
-            }).catch(axiosError).then(() => this.setState({ isSubmitting: false }));
+            }).catch(axiosError).then(() => this.setSubmitting(false));
         }
     }
+
+    setSubmitting = (isSubmitting) => this.setState({ isSubmitting })
 
     render() {
         let performanceGradeOptions = this.props.performanceGradeOptions;

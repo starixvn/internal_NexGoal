@@ -33,8 +33,8 @@ export default class CreateMemberPerformance extends Component {
         projectOptions: [],
         selectedMemberInfo: null,
         isMultiple: true,
-        onSubmitSuccess: function () { },
-        onSubmitDraftSuccess: function () { }
+        onSubmitSuccess: function() { },
+        onSubmitDraftSuccess: function() { }
     };
 
     constructor(props) {
@@ -175,7 +175,7 @@ export default class CreateMemberPerformance extends Component {
             return;
 
         if (this.validateForm()) {
-            this.setState({ isSubmitting: true });
+            this.setSubmitting(true);
 
             let record = this.state.performanceRecord;
             let employeeIds = this.props.isMultiple
@@ -215,7 +215,7 @@ export default class CreateMemberPerformance extends Component {
                         toast.error(data.message);
                     }
                 }
-            }).catch(axiosError).then(() => this.setState({ isSubmitting: false }));
+            }).catch(axiosError).then(() => this.setSubmitting(false));
         }
     }
 
@@ -226,7 +226,7 @@ export default class CreateMemberPerformance extends Component {
             return;
 
         if (this.validateForm()) {
-            this.setState({ isSubmitting: true });
+            this.setSubmitting(true);
             let record = this.state.performanceRecord;
             let employeeIds = this.props.isMultiple ? record.employees.map((employee) => { return employee.value; }).join(',') :
                 this.props.selectedMemberInfo.id;
@@ -265,7 +265,7 @@ export default class CreateMemberPerformance extends Component {
                         toast.error(data.message);
                     }
                 }
-            }).catch(axiosError).then(() => this.setState({ isSubmitting: true }));
+            }).catch(axiosError).then(() => this.setSubmitting(false));
         }
     }
 
@@ -282,6 +282,8 @@ export default class CreateMemberPerformance extends Component {
             errors: {}
         });
     }
+
+    setSubmitting = (isSubmitting) => this.setState({ isSubmitting })
 
     render() {
         let performanceRecord = this.state.performanceRecord;

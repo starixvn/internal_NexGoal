@@ -45,7 +45,6 @@ export default class EditNomination extends Component {
     }
 
     onLeavingPageEventListener = event => {
-        debugger;
         if (this.refs.form) {
             var isDirty = this.refs.form.getFormikComputedProps().dirty;
             if (isDirty) {
@@ -65,7 +64,7 @@ export default class EditNomination extends Component {
         return errors;
     }
 
-    handleSubmit = (values, { setErrors }) => {
+    handleSubmit = (values, { setErrors, setSubmitting }) => {
         axios({
             url: resolveClientUrl(`MemberNomination/Edit`),
             method: 'post',
@@ -98,7 +97,7 @@ export default class EditNomination extends Component {
                     toast.error(data.message);
                 }
             }
-        }).catch(axiosError);
+        }).catch(axiosError).then(() => setSubmitting(false));
     }
 
     renderForm = ({
