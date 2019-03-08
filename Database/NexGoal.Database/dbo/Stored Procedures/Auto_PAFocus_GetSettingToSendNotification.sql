@@ -98,8 +98,10 @@ BEGIN
 		,Nickname
 		,FullName
 		,Email
+		,skype.ConversationId
 	FROM #tblProcessSetting AS tbl WITH (NOLOCK)
 	LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
+	LEFT JOIN dbo.EmployeeSkypeConversation AS skype WITH (NOLOCK) ON tbl.EvaluatorId = skype.EmployeeId
 	WHERE ISNULL(setting.TypeId, @NotificationType) = @NotificationType
 		AND (
 			(
