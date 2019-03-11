@@ -6,6 +6,7 @@ import { NotificationStatus } from '../../../constants';
 import { calendar } from '../../../common-functions';
 import NotificationSetting from './NotificationSetting';
 import CustomScrollbars from '../CustomScrollbars';
+import ToastLayout from '../../layouts/ToastLayout';
 
 export default class Notification extends Component {
     constructor(props) {
@@ -61,6 +62,7 @@ export default class Notification extends Component {
         const notifications = this.props.notifications;
         return (
             <Fragment>
+                <ToastLayout />
                 <div className="noti-header">
                     <span className="title">{getResource('Notification')}</span>
                     <span className="noti-function">
