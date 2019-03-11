@@ -2,8 +2,9 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
-    <TargetDatabaseName>NexGoal.Database.UnitTests</TargetDatabaseName>
+    <TargetDatabaseName>bodb_NexGoal_Tests</TargetDatabaseName>
     <DeployScriptFileName>NexGoal.Database.UnitTests.sql</DeployScriptFileName>
+    <TargetConnectionString>Data Source=10.18.200.114;Integrated Security=True;Persist Security Info=False;User ID=internalteam;Password=@357$abc^FFZ%;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True</TargetConnectionString>
     <ProfileVersionNumber>1</ProfileVersionNumber>
   </PropertyGroup>
   <ItemGroup>
