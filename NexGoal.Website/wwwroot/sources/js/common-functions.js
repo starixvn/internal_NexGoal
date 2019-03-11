@@ -135,7 +135,7 @@ export function compareArray(a, b, compareOnProp) {
     return true;
 }
 
-export function formatDateFromNow(date) {
+export function calendar(date) {
     return moment(date).calendar(null, {
         sameDay: '[Today at] HH:mm',
         lastDay: '[Yesterday at] HH:mm',

@@ -40,7 +40,7 @@ describe('Sticky Block', () => {
 
         const component = shallow(
             <StickyBlock threshold={200}>
-            </StickyBlock>,
+            </StickyBlock>
         );
 
         expect(spy).toHaveBeenCalled();

@@ -1,7 +1,7 @@
 ﻿import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { getNominationClassName, getRoleClassName, resolveClientUrl } from '../../common-functions';
+import { getNominationClassName, getRoleClassName, resolveClientUrl, calendar } from '../../common-functions';
 import { DateFormat, NominationStatuses, PerformanceRecordType } from '../../constants';
 import getResource from '../../resourceHelper';
 
@@ -87,8 +87,8 @@ export default class PerformanceRecord extends Component {
         let grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : getResource('N/A');
         let projects = record.projects && record.projects.length > 0 ?
             record.projects.map(project => <span key={project.projectId} className="tag">{project.name}</span>) : getResource('N/A');
-        let createdDate = record.createdDate ? moment(record.createdDate).format(DateFormat) : '';
-        let modifiedDate = record.modifiedDate ? moment(record.modifiedDate).format(DateFormat) : '';
+        let createdDate = record.createdDate ? calendar(record.createdDate) : '';
+        let modifiedDate = record.modifiedDate ? calendar(record.modifiedDate) : '';
 
         return (
             <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${record.performanceRecordId}`}>
@@ -151,7 +151,7 @@ export default class PerformanceRecord extends Component {
         let grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : getResource('N/A');
         let projects = record.projects && record.projects.length > 0 ?
             record.projects.map(project => <span key={project.projectId} className="tag">{project.name}</span>) : getResource('N/A');
-        let createdDate = record.createdDate ? moment(record.createdDate).format(DateFormat) : '';
+        let createdDate = record.createdDate ? calendar(record.createdDate) : '';
 
         return (
             <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-draft-${record.performanceRecordId}`}>
@@ -211,8 +211,8 @@ export default class PerformanceRecord extends Component {
         let record = this.props.data;
         let employees = record.employees;
         let creator = record.creator;
-        let createdDate = record.createdDate ? moment(record.createdDate).format(DateFormat) : '';
-        let modifiedDate = record.modifiedDate ? moment(record.modifiedDate).format(DateFormat) : '';
+        let createdDate = record.createdDate ? calendar(record.createdDate) : '';
+        let modifiedDate = record.modifiedDate ? calendar(record.modifiedDate) : '';
         let status = NominationStatuses.find(x => x.value === record.nominationStatusId);
         let endDateForNominator = moment(record.nominationPeriod.endDateForNominator);
         let currentDate = moment();
@@ -274,7 +274,7 @@ export default class PerformanceRecord extends Component {
     renderSystemPerformanceAppraisal = () => {
         let record = this.props.data;
         let grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : getResource('N/A');
-        let createdDate = record.createdDate ? moment(record.createdDate).format(DateFormat) : '';
+        let createdDate = record.createdDate ? calendar(record.createdDate) : '';
 
         return (
             <div className={`record record-system ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${record.performanceRecordId}`}>
@@ -298,7 +298,7 @@ export default class PerformanceRecord extends Component {
         let record = this.props.data;
         let nominationStatusId = record.nominationStatusId;
         let nominationStatus = NominationStatuses.find(x => x.value === nominationStatusId);
-        let createdDate = record.createdDate ? moment(record.createdDate).format(DateFormat) : '';
+        let createdDate = record.createdDate ? calendar(record.createdDate) : '';
         let nominationPeriod = record.nominationPeriod ? record.nominationPeriod.title : '';
         let employees = record.employees.map(employee => { return employee.nickName; }).join(', ');
         let content = '';

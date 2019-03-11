@@ -2,7 +2,7 @@
 import InfiniteScroll from 'react-infinite-scroller';
 import CustomScrollbars from '../../shared/components/CustomScrollbars';
 import { NotificationStatus } from '../../constants';
-import { formatDateFromNow } from '../../common-functions';
+import { calendar } from '../../common-functions';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import NotificationSetting from '../../shared/components/notification/NotificationSetting';
@@ -70,7 +70,7 @@ export default class NotificationBoard extends Component {
                                                     <a onClick={() => this.props.onChangeStatus(item.notificationId, item.statusId, true)}>                     {item.content}
                                                     </a>
                                                     <div className="created-date">
-                                                        {formatDateFromNow(item.createdDate)}
+                                                        {calendar(item.createdDate)}
                                                     </div>
                                                 </div>
                                             </div>
