@@ -239,6 +239,26 @@ namespace NexGoal.Services.UnitTests
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public async Task GetProjectByEmployeeIdAsync_WhenCalled_ReturnAsExpectedProjects()
+        {
+            // Arrange
+            var projects = new List<ProjectModel>
+            {
+                new ProjectModel { ProjectId = 1, Name = "NexGoal" }
+            };
+            var criteria = new GetProjectByEmployeeIdCriteria();
+            var service = GetCommonService();
+            baseService.GetDataAsync<ProjectModel>(Arg.Do<GetProjectByEmployeeIdCriteria>(x => criteria = x)).Returns(projects);
+
+            // Act
+            var actual = await service.GetProjectByEmployeeIdAsync(1);
+
+            // Assert
+            Assert.Equal(projects, actual);
+            Assert.Equal(1, criteria.EmployeeId);
+        }
+
         #region Helpers
 
         private List<ReferenceResourceModel> GetRefResourcesForTest()

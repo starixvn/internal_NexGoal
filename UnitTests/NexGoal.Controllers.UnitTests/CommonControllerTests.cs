@@ -163,7 +163,7 @@
                 new ProjectModel { ProjectId = 1, Name = "NexGoal" }
             };
             var controller = GetCommonController();
-            commonService.GetProjectsAsync().Returns(projects);
+            commonService.GetProjectByEmployeeIdAsync(sessionService.EmployeeId).Returns(projects);
 
             // Act
             var actual = await controller.GetProjects();

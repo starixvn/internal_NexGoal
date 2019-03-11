@@ -85,7 +85,7 @@
         [HttpGet]
         public async Task<JsonResult> GetProjects()
         {
-            IEnumerable<ProjectModel> projects = await commonService.GetProjectsAsync().ConfigureAwait(false);
+            IEnumerable<ProjectModel> projects = await commonService.GetProjectByEmployeeIdAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(projects);
         }

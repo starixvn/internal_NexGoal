@@ -268,6 +268,7 @@
     <Build Include="dbo\Stored Procedures\LogUserLogin_Insert.sql" />
     <Build Include="dbo\Views\EmployeeSkypeConversation.sql" />
     <Build Include="dbo\Functions\fnc_CheckIsProbation.sql" />
+    <Build Include="dbo\Stored Procedures\Project_GetByEmployeeId.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">

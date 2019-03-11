@@ -152,5 +152,16 @@
         {
             return await baseService.GetDataAsync<PeriodBaseModel>(new GetPeriodForReportCriteria()).ConfigureAwait(false);
         }
+
+        public async Task<IEnumerable<ProjectModel>> GetProjectByEmployeeIdAsync(int employeeId)
+        {
+            var criteria = new GetProjectByEmployeeIdCriteria
+            {
+                EmployeeId = employeeId
+            };
+            var projects = await baseService.GetDataAsync<ProjectModel>(criteria).ConfigureAwait(false);
+
+            return projects.OrderBy(x => x.Name);
+        }
     }
 }
