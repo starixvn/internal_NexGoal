@@ -20,7 +20,7 @@
 
         public async Task SendMessageAsync(string conversationId, string message)
         {
-            if (!string.IsNullOrWhiteSpace(conversationId))
+            if (!string.IsNullOrWhiteSpace(conversationId) && configuration.Value.Enable)
             {
                 var token = await GetToken().ConfigureAwait(false);
                 await ForwardToBot(message, conversationId, token).ConfigureAwait(false);

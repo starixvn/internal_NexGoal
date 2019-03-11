@@ -32,7 +32,7 @@ namespace NexGoal.Core.Services
 
         public async Task SendMailAsync(MailModel email)
         {
-            if (email == null || !IsValidEmail(email.ReceiverEmail))
+            if (email == null || !IsValidEmail(email.ReceiverEmail) || !configuration.Value.Enable)
             {
                 return;
             }

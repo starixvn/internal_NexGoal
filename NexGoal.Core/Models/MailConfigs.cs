@@ -4,6 +4,7 @@ namespace NexGoal.Core.Models
 
     public class MailConfigs
     {
+        public bool Enable { get; set; }
         public string SmtpServer { get; set; }
         public int SmtpPort { get; set; }
         public bool EnableSsl { get; set; }
