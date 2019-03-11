@@ -52,21 +52,21 @@
             return Json(paRecords);
         }
 
-        public async Task<IActionResult> ExportPAReport(GetPARecordMultiPeriodParam model)
+        public async Task<IActionResult> ExportExcel(GetPARecordMultiPeriodParam model)
         {
             model.ActorId = sessionService.EmployeeId;
-            byte[] fileContent = await exportService.ExportExcel(model).ConfigureAwait(false);
+            byte[] fileContent = await exportService.ExportExcelAsync(model).ConfigureAwait(false);
             var fileName = "PA Report";
 
             return File(fileContent, MimeType.XLSX, fileName);
         }
 
-        public async Task<IActionResult> PADetailPDF(int id)
+        public async Task<IActionResult> ExportPdf(int id)
         {
             var paDetails = await reportService.GetPAReportDetailAsync(sessionService.EmployeeId, id).ConfigureAwait(false);
             if (paDetails.PARecord != null)
             {
-                var tuple = await exportService.ExportPADetailPDF(paDetails).ConfigureAwait(false);
+                var tuple = await exportService.ExportPdfAsync(paDetails).ConfigureAwait(false);
                 return File(tuple.Item2, MimeType.PDF, tuple.Item1);
             }
 

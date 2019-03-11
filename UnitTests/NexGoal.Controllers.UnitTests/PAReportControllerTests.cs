@@ -14,7 +14,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class ReportControllerTests
+    public class PAReportControllerTests
     {
         private ISessionService sessionService;
         private IPAReportService reportService;
@@ -65,15 +65,14 @@
                 GroupIds = "1,2",
                 EmployeeIds = "1,2,3,4"
             };
-            var records = FakeDataListPA();
 
             var controller = GetReportController();
 
             byte[] bytes = Convert.FromBase64String("text");
-            exportService.ExportExcel(Arg.Any<GetPARecordMultiPeriodParam>()).Returns(bytes);
+            exportService.ExportExcelAsync(Arg.Any<GetPARecordMultiPeriodParam>()).Returns(bytes);
 
             // Act
-            var actual = await controller.ExportPAReport(param);
+            var actual = await controller.ExportExcel(param);
 
             // Assert
             var fileResult = Assert.IsType<FileContentResult>(actual);

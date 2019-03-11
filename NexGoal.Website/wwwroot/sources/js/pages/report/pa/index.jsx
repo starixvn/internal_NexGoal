@@ -130,7 +130,7 @@ export default class App extends Component {
         const filter = this.state.filter;
 
         axios({
-            url: resolveClientUrl('PAReport/ExportPAReport'),
+            url: resolveClientUrl('PAReport/ExportExcel'),
             params: {
                 periodIds: filter.periods.map((period) => { return period.value; }).join(','),
                 groupIds: filter.groups.map(group => { return group.value; }).join(','),

@@ -22,7 +22,7 @@
     public class ExportPAReportService : IExportPAReportService
     {
         private const string ExcelTemplatePath = @"ExcelTemplates\\PAReport.xlsx";
-        private const string PADetailView = "PAReport/PADetail";
+        private const string PADetailView = "PAReport/Pdf";
         private const string PDFStylePath = @"dist\\styles\\paDetail-pdf.css";
         private const string RevisedIcon = "✔";
         private const int TotalColumns = 10;
@@ -44,7 +44,7 @@
             this.converter = converter;
         }
 
-        public async Task<byte[]> ExportExcel(GetPARecordMultiPeriodParam param)
+        public async Task<byte[]> ExportExcelAsync(GetPARecordMultiPeriodParam param)
         {
             var paRecords = await reportService.GetPAReportAsync(param).ConfigureAwait(false);
             var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.WebRootPath, ExcelTemplatePath));
@@ -274,7 +274,7 @@
             }
         }
 
-        public async Task<Tuple<string, byte[]>> ExportPADetailPDF(PAReportDetail reportDetail)
+        public async Task<Tuple<string, byte[]>> ExportPdfAsync(PAReportDetail reportDetail)
         {
             var pdf = await GetPdfSetting(reportDetail).ConfigureAwait(false);
             var fileName = $"{reportDetail.Employee.NickName}_PA_{reportDetail.PARecord.Period.Name}.pdf";

@@ -7,8 +7,8 @@
 
     public interface IExportPAReportService
     {
-        Task<byte[]> ExportExcel(GetPARecordMultiPeriodParam param);
+        Task<byte[]> ExportExcelAsync(GetPARecordMultiPeriodParam param);
 
-        Task<Tuple<string, byte[]>> ExportPADetailPDF(PAReportDetail reportDetail);
+        Task<Tuple<string, byte[]>> ExportPdfAsync(PAReportDetail reportDetail);
     }
 }
