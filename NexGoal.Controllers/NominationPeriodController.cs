@@ -15,9 +15,8 @@
     using NexGoal.Web.Core.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.NominationPeriod, Policy = Policy.Read)]
-    public class NominationPeriodController : Controller
+    public class NominationPeriodController : BaseController
     {
-        private readonly ISessionService sessionService;
         private readonly INominationPeriodService nominationPeriodService;
 
         public enum NavTabs
@@ -28,9 +27,8 @@
 
         public NominationPeriodController(
             ISessionService sessionService,
-            INominationPeriodService nominationPeriodService)
+            INominationPeriodService nominationPeriodService) : base(sessionService)
         {
-            this.sessionService = sessionService;
             this.nominationPeriodService = nominationPeriodService;
         }
 

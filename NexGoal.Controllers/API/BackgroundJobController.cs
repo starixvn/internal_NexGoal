@@ -1,10 +1,16 @@
-﻿namespace NexGoal.AutoService.Services
+﻿namespace NexGoal.Controllers.API
 {
     using System;
     using System.Threading.Tasks;
     using Fanex.Logging;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using NexGoal.AutoService.Services;
 
-    public class AppService : IAppService
+    [Route("api/[controller]")]
+    [ApiController]
+    [AllowAnonymous]
+    public class BackgroundJobController : ControllerBase
     {
         private readonly ILogger logger;
         private readonly IPeriodService periodService;
@@ -13,7 +19,7 @@
         private readonly INominationService nominationService;
         private readonly IProbationService probationService;
 
-        public AppService(
+        public BackgroundJobController(
             ILogger logger,
             IPeriodService periodService,
             IPAService paService,
@@ -29,13 +35,15 @@
             this.probationService = probationService;
         }
 
-        public void Run()
+        public ActionResult Run()
         {
             RunProbation();
             RunPeriod();
             RunPA();
             RunPAFocus();
             RunNomination();
+
+            return Ok("Successfully!");
         }
 
         private void RunProbation()

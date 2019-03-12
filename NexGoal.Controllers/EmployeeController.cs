@@ -13,17 +13,15 @@
     using NexGoal.Web.Core.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.RoleAssignment, Policy = Policy.Read)]
-    public class EmployeeController : Controller
+    public class EmployeeController : BaseController
     {
         private readonly IEmployeeService employeeService;
-        private readonly ISessionService sessionService;
 
         public EmployeeController(
             IEmployeeService employeeService,
-            ISessionService sessionService)
+            ISessionService sessionService) : base(sessionService)
         {
             this.employeeService = employeeService;
-            this.sessionService = sessionService;
         }
 
         public IActionResult Index()

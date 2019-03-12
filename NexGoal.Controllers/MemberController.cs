@@ -17,10 +17,9 @@
     using NexGoal.Web.Core.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.MemberPage, Policy = Policy.Host)]
-    public class MemberController : Controller
+    public class MemberController : BaseController
     {
         private readonly ICommonService commonService;
-        private readonly ISessionService sessionService;
         private readonly IEmployeeService employeeService;
         private readonly IPARecordService paRecordService;
         private readonly INominationPeriodService nominationPeriodService;
@@ -34,9 +33,8 @@
             IPARecordService paRecordService,
             INominationPeriodService nominationPeriodService,
             IEmployeeNominationService nominationService,
-            IRedmineService redmineService)
+            IRedmineService redmineService) : base(sessionService)
         {
-            this.sessionService = sessionService;
             this.commonService = commonService;
             this.employeeService = employeeService;
             this.paRecordService = paRecordService;

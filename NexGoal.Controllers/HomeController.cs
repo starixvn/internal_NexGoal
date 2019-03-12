@@ -9,9 +9,8 @@
     using NexGoal.Services;
     using NexGoal.Web.Core.Services;
 
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        private readonly ISessionService sessionService;
         private readonly IEmployeeNominationService nominationService;
         private readonly IPARecordService paRecordService;
         private readonly IRedmineService redmineService;
@@ -20,9 +19,8 @@
             ISessionService sessionService,
             IEmployeeNominationService nominationService,
             IPARecordService paRecordService,
-            IRedmineService redmineService)
+            IRedmineService redmineService) : base(sessionService)
         {
-            this.sessionService = sessionService;
             this.nominationService = nominationService;
             this.paRecordService = paRecordService;
             this.redmineService = redmineService;

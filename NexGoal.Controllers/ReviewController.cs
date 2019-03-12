@@ -14,16 +14,14 @@
     using NexGoal.Web.Core.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.MemberPage, Policy = Policy.Host)]
-    public class ReviewController : Controller
+    public class ReviewController : BaseController
     {
-        private readonly ISessionService sessionService;
         private readonly IPARecordService paRecordService;
 
         public ReviewController(
             ISessionService sessionService,
-            IPARecordService paRecordService)
+            IPARecordService paRecordService) : base(sessionService)
         {
-            this.sessionService = sessionService;
             this.paRecordService = paRecordService;
         }
 

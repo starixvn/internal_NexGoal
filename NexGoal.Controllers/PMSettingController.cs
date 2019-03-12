@@ -13,15 +13,15 @@
     using NexGoal.Web.Core.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.PMAssignment, Policy = Policy.Host)]
-    public class PMSettingController : Controller
+    public class PMSettingController : BaseController
     {
         private readonly IPMSettingService pmSettingService;
-        private readonly ISessionService sessionService;
 
-        public PMSettingController(IPMSettingService pmSettingService, ISessionService sessionService)
+        public PMSettingController(
+            IPMSettingService pmSettingService,
+            ISessionService sessionService) : base(sessionService)
         {
             this.pmSettingService = pmSettingService;
-            this.sessionService = sessionService;
         }
 
         [HttpGet]

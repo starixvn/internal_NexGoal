@@ -14,16 +14,14 @@
     using NexGoal.Web.Core.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.NominationPeriod, Policy = Policy.Read)]
-    public class EOYController : Controller
+    public class EOYController : BaseController
     {
-        private readonly ISessionService sessionService;
         private readonly IEOYService eoyService;
 
         public EOYController(
             ISessionService sessionService,
-            IEOYService eoyService)
+            IEOYService eoyService) : base(sessionService)
         {
-            this.sessionService = sessionService;
             this.eoyService = eoyService;
         }
 

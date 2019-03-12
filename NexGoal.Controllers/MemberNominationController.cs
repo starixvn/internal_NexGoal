@@ -15,17 +15,15 @@
     using NexGoal.Web.Core.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.MemberPage, Policy = Policy.Host)]
-    public class MemberNominationController : Controller
+    public class MemberNominationController : BaseController
     {
         private readonly IEmployeeNominationService employeeNominationService;
-        private readonly ISessionService sessionService;
 
         public MemberNominationController(
             IEmployeeNominationService employeeNominationService,
-            ISessionService sessionService)
+            ISessionService sessionService) : base(sessionService)
         {
             this.employeeNominationService = employeeNominationService;
-            this.sessionService = sessionService;
         }
 
         [HttpGet]

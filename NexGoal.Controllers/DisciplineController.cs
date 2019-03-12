@@ -14,17 +14,15 @@
     using NexGoal.Web.Core.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.Discipline, Policy = Policy.Read)]
-    public class DisciplineController : Controller
+    public class DisciplineController : BaseController
     {
         private readonly IDisciplineService disciplineService;
-        private readonly ISessionService sessionService;
 
         public DisciplineController(
             IDisciplineService disciplineService,
-            ISessionService sessionService)
+            ISessionService sessionService) : base(sessionService)
         {
             this.disciplineService = disciplineService;
-            this.sessionService = sessionService;
         }
 
         [HttpGet]

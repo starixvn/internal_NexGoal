@@ -12,9 +12,8 @@
     using NexGoal.Services;
     using NexGoal.Web.Core.Services;
 
-    public class CommonController : Controller
+    public class CommonController : BaseController
     {
-        private readonly ISessionService sessionService;
         private readonly ICommonService commonService;
         private readonly IEmployeeService employeeService;
         private readonly IDisciplineService disciplineService;
@@ -23,9 +22,8 @@
             ISessionService sessionService,
             ICommonService commonService,
             IEmployeeService employeeService,
-            IDisciplineService disciplineService)
+            IDisciplineService disciplineService) : base(sessionService)
         {
-            this.sessionService = sessionService;
             this.commonService = commonService;
             this.employeeService = employeeService;
             this.disciplineService = disciplineService;

@@ -9,16 +9,14 @@
     using NexGoal.Web.Core.Filters;
     using NexGoal.Web.Core.Services;
 
-    public class FlowController : Controller
+    public class FlowController : BaseController
     {
-        private readonly ISessionService sessionService;
         private readonly ICommonService commonService;
 
         public FlowController(
             ISessionService sessionService,
-            ICommonService commonService)
+            ICommonService commonService) : base(sessionService)
         {
-            this.sessionService = sessionService;
             this.commonService = commonService;
         }
 

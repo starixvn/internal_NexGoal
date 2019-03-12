@@ -10,7 +10,6 @@
     using Fanex.Logging;
     using Fanex.Logging.Sentry;
     using Hangfire;
-    using Hangfire.Common;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -22,13 +21,11 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Extensions;
-    using NexGoal.AutoService.Services;
     using NexGoal.Core;
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using NexGoal.Services.Extensions;
     using NexGoal.Web.Core.Extensions;
-    using NexGoal.Web.Core.Filters;
     using NexGoal.Web.Core.Middlewares;
     using Sentry;
 
@@ -110,7 +107,7 @@
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public static void Configure(IApplicationBuilder app, IHostingEnvironment env, IRecurringJobManager recurringJobs)
+        public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -129,10 +126,6 @@
             app.UseSession();
             app.UseMiddleware<AuthenticationMiddleware>();
             app.UseHangfireServer();
-            app.UseHangfireDashboard("/admin/hangfire", new DashboardOptions
-            {
-                Authorization = new[] { new HangfireAuthorizationFilter() }
-            });
 
             app.UseMvc(routes =>
             {
@@ -140,9 +133,6 @@
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            // recurring jobs
-            recurringJobs.AddOrUpdate("NexGoal.AutoService", Job.FromExpression<IAppService>(x => x.Run()), "5 0 * * *", TimeZoneInfo.Local); // 00:05 AM
         }
     }
 }

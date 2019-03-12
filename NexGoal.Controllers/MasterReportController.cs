@@ -9,15 +9,15 @@
     using NexGoal.Web.Core.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.MasterReport, Policy = Policy.Read)]
-    public class MasterReportController : Controller
+    public class MasterReportController : BaseController
     {
         private readonly IMasterReportService masterReportService;
-        private readonly ISessionService sessionService;
 
-        public MasterReportController(IMasterReportService masterReportService, ISessionService sessionService)
+        public MasterReportController(
+            IMasterReportService masterReportService,
+            ISessionService sessionService) : base(sessionService)
         {
             this.masterReportService = masterReportService;
-            this.sessionService = sessionService;
         }
 
         [HttpGet]

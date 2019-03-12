@@ -14,19 +14,16 @@
     using NexGoal.Web.Core.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.PAReport, Policy = Policy.Read)]
-    public class PAReportController : Controller
+    public class PAReportController : BaseController
     {
-        private readonly ISessionService sessionService;
         private readonly IPAReportService reportService;
         private readonly IExportPAReportService exportService;
 
         public PAReportController(
             ISessionService sessionService,
             IPAReportService reportService,
-            IExportPAReportService exportService
-            )
+            IExportPAReportService exportService) : base(sessionService)
         {
-            this.sessionService = sessionService;
             this.reportService = reportService;
             this.exportService = exportService;
         }

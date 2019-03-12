@@ -11,16 +11,14 @@
     using NexGoal.Services;
     using NexGoal.Web.Core.Services;
 
-    public class MyPerformanceController : Controller
+    public class MyPerformanceController : BaseController
     {
-        private readonly ISessionService sessionService;
         private readonly IPerformanceRecordService performanceService;
 
         public MyPerformanceController(
             ISessionService sessionService,
-            IPerformanceRecordService performanceService)
+            IPerformanceRecordService performanceService) : base(sessionService)
         {
-            this.sessionService = sessionService;
             this.performanceService = performanceService;
         }
 

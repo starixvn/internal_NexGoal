@@ -15,18 +15,16 @@
     using NexGoal.Web.Core.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.RolePermission, Policy = Policy.Read)]
-    public class RoleController : Controller
+    public class RoleController : BaseController
     {
-        private readonly ISessionService sessionService;
         private readonly ICommonService commonService;
         private readonly IFunctionService functionService;
 
         public RoleController(
             ISessionService sessionService,
             ICommonService commonService,
-            IFunctionService functionService)
+            IFunctionService functionService) : base(sessionService)
         {
-            this.sessionService = sessionService;
             this.commonService = commonService;
             this.functionService = functionService;
         }

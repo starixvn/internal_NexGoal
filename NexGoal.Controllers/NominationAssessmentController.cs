@@ -12,16 +12,14 @@
     using NexGoal.Web.Core.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.NominationSelection, Policy = Policy.Read)]
-    public class NominationAssessmentController : Controller
+    public class NominationAssessmentController : BaseController
     {
-        private readonly ISessionService sessionService;
         private readonly IEmployeeNominationService employeeNominationService;
 
         public NominationAssessmentController(
             ISessionService sessionService,
-            IEmployeeNominationService employeeNominationService)
+            IEmployeeNominationService employeeNominationService) : base(sessionService)
         {
-            this.sessionService = sessionService;
             this.employeeNominationService = employeeNominationService;
         }
 

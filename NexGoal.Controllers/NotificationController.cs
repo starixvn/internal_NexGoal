@@ -8,15 +8,14 @@
     using NexGoal.Services.Interfaces;
     using NexGoal.Web.Core.Services;
 
-    public class NotificationController : Controller
+    public class NotificationController : BaseController
     {
         private readonly INotificationService notificationService;
-        private readonly ISessionService sessionService;
 
-        public NotificationController(ISessionService sessionService,
-            INotificationService notificationService)
+        public NotificationController(
+            ISessionService sessionService,
+            INotificationService notificationService) : base(sessionService)
         {
-            this.sessionService = sessionService;
             this.notificationService = notificationService;
         }
 

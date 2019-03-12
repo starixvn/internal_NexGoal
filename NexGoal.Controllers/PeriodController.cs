@@ -15,16 +15,14 @@
     using NexGoal.Web.Core.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Read)]
-    public class PeriodController : Controller
+    public class PeriodController : BaseController
     {
         private readonly IPeriodService periodService;
-        private readonly ISessionService sessionService;
 
         public PeriodController(
             ISessionService sessionService,
-            IPeriodService periodService)
+            IPeriodService periodService) : base(sessionService)
         {
-            this.sessionService = sessionService;
             this.periodService = periodService;
         }
 

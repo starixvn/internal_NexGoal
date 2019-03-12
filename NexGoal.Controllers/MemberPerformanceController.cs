@@ -13,16 +13,14 @@
     using NexGoal.Web.Core.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.MemberPage, Policy = Policy.Host)]
-    public class MemberPerformanceController : Controller
+    public class MemberPerformanceController : BaseController
     {
-        private readonly ISessionService sessionService;
         private readonly IPerformanceRecordService performanceService;
 
         public MemberPerformanceController(
             ISessionService sessionService,
-            IPerformanceRecordService performanceService)
+            IPerformanceRecordService performanceService) : base(sessionService)
         {
-            this.sessionService = sessionService;
             this.performanceService = performanceService;
         }
 

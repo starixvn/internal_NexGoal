@@ -16,9 +16,8 @@
     using NexGoal.Web.Core.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.PAFocus, Policy = Policy.Read)]
-    public class PAFocusController : Controller
+    public class PAFocusController : BaseController
     {
-        private readonly ISessionService sessionService;
         private readonly ICommonService commonService;
         private readonly IPAFocusService focusService;
         private readonly IExportPAFocusService exportExcelService;
@@ -27,9 +26,8 @@
             ISessionService sessionService,
             ICommonService commonService,
             IPAFocusService focusService,
-            IExportPAFocusService exportExcelService)
+            IExportPAFocusService exportExcelService) : base(sessionService)
         {
-            this.sessionService = sessionService;
             this.commonService = commonService;
             this.focusService = focusService;
             this.exportExcelService = exportExcelService;

@@ -8,16 +8,14 @@
     using NexGoal.Services;
     using NexGoal.Web.Core.Services;
 
-    public class PAController : Controller
+    public class PAController : BaseController
     {
-        private readonly ISessionService sessionService;
         private readonly IPARecordService paRecordService;
 
         public PAController(
             ISessionService sessionService,
-            IPARecordService paRecordService)
+            IPARecordService paRecordService) : base(sessionService)
         {
-            this.sessionService = sessionService;
             this.paRecordService = paRecordService;
         }
 

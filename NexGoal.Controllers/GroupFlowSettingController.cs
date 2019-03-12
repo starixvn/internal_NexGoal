@@ -12,16 +12,14 @@
     using NexGoal.Web.Core.Filters;
     using NexGoal.Web.Core.Services;
 
-    public class GroupFlowSettingController : Controller
+    public class GroupFlowSettingController : BaseController
     {
-        private readonly ISessionService sessionService;
         private readonly IGroupFlowSettingService flowSettingService;
 
         public GroupFlowSettingController(
             ISessionService sessionService,
-            IGroupFlowSettingService flowSettingService)
+            IGroupFlowSettingService flowSettingService) : base(sessionService)
         {
-            this.sessionService = sessionService;
             this.flowSettingService = flowSettingService;
         }
 
