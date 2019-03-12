@@ -50,7 +50,7 @@ BEGIN
 		,Nickname NVARCHAR(20)
 		,FullName NVARCHAR(50)
 		,Email VARCHAR(50)
-		,ConversationId VARCHAR(MAX)
+		,ConversationId VARCHAR(255)
 		)
 
 	SELECT TOP 1 @PeriodId = PeriodId
@@ -82,6 +82,7 @@ BEGIN
 		,Nickname
 		,FullName
 		,Email
+		,ConversationId
 		)
 	SELECT tbl.PerformanceRecordId
 		,@SupervisorToMember AS NotificationMode
@@ -91,6 +92,7 @@ BEGIN
 		,emp.NickName
 		,emp.FullName
 		,emp.Email
+		,emp.ConversationId
 	FROM #tblPerformanceRecordIds AS tbl WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON tbl.EmployeeId = emp.EmployeeId
 	WHERE tbl.EmployeeId <> @ActorId
@@ -105,6 +107,7 @@ BEGIN
 		,Nickname
 		,FullName
 		,Email
+		,ConversationId
 		)
 	SELECT record.PerformanceRecordId
 		,(CASE record.RoleId
@@ -120,6 +123,7 @@ BEGIN
 		,evaluator.NickName
 		,evaluator.FullName
 		,evaluator.Email
+		,evaluator.ConversationId
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
 		INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
 		AND process.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
@@ -145,6 +149,7 @@ BEGIN
 		,Nickname
 		,FullName
 		,Email
+		,ConversationId
 		)
 	SELECT record.PerformanceRecordId
 		,(CASE record.RoleId
@@ -160,6 +165,7 @@ BEGIN
 		,evaluator.NickName
 		,evaluator.FullName
 		,evaluator.Email
+		,evaluator.ConversationId
 	FROM dbo.EmployeeFlowSetting AS efs WITH (NOLOCK)
 		INNER JOIN #tblPerformanceRecordIds AS record WITH (NOLOCK) ON efs.EmployeeId = record.EmployeeId
 		INNER JOIN dbo.Employee AS evaluator WITH (NOLOCK) ON efs.EvaluatorId = evaluator.EmployeeId
@@ -185,6 +191,7 @@ BEGIN
 		,Nickname
 		,FullName
 		,Email
+		,ConversationId
 		)
 	SELECT record.PerformanceRecordId
 		,(CASE record.RoleId
@@ -200,6 +207,7 @@ BEGIN
 		,evaluator.NickName
 		,evaluator.FullName
 		,evaluator.Email
+		,evaluator.ConversationId
 	FROM dbo.GroupFlowSetting AS gfs WITH (NOLOCK)
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON gfs.GroupId = gr.GroupId
 		AND gr.IsDeleted = 0
@@ -229,6 +237,7 @@ BEGIN
 		,Nickname
 		,FullName
 		,Email
+		,ConversationId
 		)
 	SELECT record.PerformanceRecordId
 		,@MemberToSupervisor AS NotificationMode
@@ -238,6 +247,7 @@ BEGIN
 		,emp.NickName
 		,emp.FullName
 		,emp.Email
+		,emp.ConversationId
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		,#tblPerformanceRecordIds AS record WITH (NOLOCK)
 	WHERE emp.EmployeeId <> @ActorId
@@ -264,7 +274,7 @@ BEGIN
 		,tbl.Nickname
 		,tbl.FullName
 		,tbl.Email
-		,skype.ConversationId AS ConversationId 
+		,tbl.ConversationId
 	FROM #tblResult AS tbl WITH (NOLOCK)
 		INNER JOIN (
 		SELECT PerformanceRecordId
@@ -277,7 +287,6 @@ BEGIN
 		AND data.EvaluatorId = data.EvaluatorId
 		AND tbl.[Priority] = data.[Priority]
 		LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
-		LEFT JOIN dbo.EmployeeSkypeConversation AS skype WITH (NOLOCK) ON tbl.EvaluatorId = skype.EmployeeId
 	WHERE ISNULL(setting.TypeId, @NotificationType) = @NotificationType
 		AND (
 			(
@@ -291,7 +300,7 @@ BEGIN
 			OR (
 				@ReceiveType = @ReceiveSkypeMessage
 				AND ISNULL(setting.ReceiveSkypeMessage, 1) = 1
-			)
+				)
 			)
 	ORDER BY tbl.PerformanceRecordId
 		,tbl.ProcessId

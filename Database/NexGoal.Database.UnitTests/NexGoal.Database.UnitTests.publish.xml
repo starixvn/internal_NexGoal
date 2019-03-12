@@ -8,9 +8,6 @@
     <ProfileVersionNumber>1</ProfileVersionNumber>
   </PropertyGroup>
   <ItemGroup>
-    <SqlCmdVariable Include="NexBot">
-      <Value>NexBot.Database</Value>
-    </SqlCmdVariable>
     <SqlCmdVariable Include="NexGoal">
       <Value>NexGoal.Database</Value>
     </SqlCmdVariable>

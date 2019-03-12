@@ -39,6 +39,7 @@ BEGIN
 		,Nickname NVARCHAR(20)
 		,FullName NVARCHAR(50)
 		,Email VARCHAR(50)
+		,ConversationId VARCHAR(255)
 		,EndDate DATE
 		)
 
@@ -55,6 +56,7 @@ BEGIN
 		,Nickname
 		,FullName
 		,Email
+		,ConversationId
 		,EndDate
 		)
 	SELECT @SelfProcessId
@@ -62,6 +64,7 @@ BEGIN
 		,NickName
 		,FullName
 		,Email
+		,ConversationId
 		,DATEADD(MONTH, @ProbationDuration, JoinedDate) AS EndDate
 	FROM dbo.Employee WITH (NOLOCK)
 	WHERE [Enabled] = 1
@@ -74,6 +77,7 @@ BEGIN
 		,Nickname
 		,FullName
 		,Email
+		,ConversationId
 		,EndDate
 		)
 	SELECT @HRProcessId
@@ -81,6 +85,7 @@ BEGIN
 		,hr.NickName
 		,hr.FullName
 		,hr.Email
+		,hr.ConversationId
 		,DATEADD(MONTH, @ProbationDuration, member.JoinedDate) AS EndDate
 	FROM dbo.Employee AS hr WITH (NOLOCK)
 		,dbo.Employee AS member WITH (NOLOCK)
@@ -102,6 +107,7 @@ BEGIN
 		,Nickname
 		,FullName
 		,Email
+		,ConversationId
 		,EndDate
 		)
 	SELECT @EvaluatorProcessId
@@ -109,6 +115,7 @@ BEGIN
 		,evaluator.NickName
 		,evaluator.FullName
 		,evaluator.Email
+		,evaluator.ConversationId
 		,DATEADD(MONTH, @ProbationDuration, member.JoinedDate)
 	FROM dbo.EmployeeFlowSetting AS efs WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS evaluator WITH (NOLOCK) ON efs.EvaluatorId = evaluator.EmployeeId
@@ -132,6 +139,7 @@ BEGIN
 		,Nickname
 		,FullName
 		,Email
+		,ConversationId
 		,EndDate
 		)
 	SELECT @EvaluatorProcessId
@@ -139,6 +147,7 @@ BEGIN
 		,evaluator.NickName
 		,evaluator.FullName
 		,evaluator.Email
+		,evaluator.ConversationId
 		,DATEADD(MONTH, @ProbationDuration, member.JoinedDate)
 	FROM dbo.GroupFlowSetting AS gfs WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS evaluator WITH (NOLOCK) ON gfs.EvaluatorId = evaluator.EmployeeId
@@ -171,6 +180,7 @@ BEGIN
 			,Nickname
 			,FullName
 			,Email
+			,ConversationId
 			,EndDate
 			,RowNumber = ROW_NUMBER() OVER (
 				PARTITION BY ProcessId, EvaluatorId, EndDate ORDER BY Nickname DESC
@@ -187,10 +197,9 @@ BEGIN
 		,FullName
 		,Email
 		,EndDate
-		,skype.ConversationId
+		,ConversationId
 	FROM #tblProcessSetting AS tbl WITH (NOLOCK)
 		LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
-		LEFT JOIN dbo.EmployeeSkypeConversation AS skype WITH (NOLOCK) ON tbl.EvaluatorId = skype.EmployeeId
 	WHERE ISNULL(setting.TypeId, @NotificationType) = @NotificationType
 		AND (
 			(

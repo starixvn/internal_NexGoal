@@ -103,5 +103,6 @@
     <Build Include="dbo\Tables\LeaveConversion.sql" />
     <Build Include="dbo\Tables\Shift.sql" />
     <Build Include="dbo\Tables\ExtensionNumbers.sql" />
+    <Build Include="dbo\Tables\EmployeeConversation.sql" />
   </ItemGroup>
 </Project>

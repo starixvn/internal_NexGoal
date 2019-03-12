@@ -30,6 +30,7 @@ BEGIN
 		,Nickname NVARCHAR(20)
 		,FullName NVARCHAR(50)
 		,Email VARCHAR(50)
+		,ConversationId VARCHAR(255)
 		)
 
 	INSERT INTO #tblProcessSetting (
@@ -39,24 +40,23 @@ BEGIN
 		,Nickname
 		,FullName
 		,Email
+		,ConversationId
 		)
 	SELECT DISTINCT period.PeriodId
-		,(
-			CASE 
-				WHEN period.FocusStartDate = @Today
-					THEN @StartMode
-				ELSE @RemindMode
-				END
+		,(CASE 
+			WHEN period.FocusStartDate = @Today THEN @StartMode
+			ELSE @RemindMode END
 			) AS NotificationMode
 		,process.EvaluatorId
 		,emp.NickName
 		,emp.FullName
 		,emp.Email
+		,emp.ConversationId
 	FROM dbo.Period AS period WITH (NOLOCK)
-	INNER JOIN dbo.PARecord AS pa WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
-	INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
+		INNER JOIN dbo.PARecord AS pa WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+		INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
 		AND process.ProcessId = @EvaluatorProcessId
-	INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON process.EvaluatorId = emp.EmployeeId
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON process.EvaluatorId = emp.EmployeeId
 		AND emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
 	WHERE (
@@ -73,7 +73,7 @@ BEGIN
 	WHERE EXISTS (
 			SELECT 1
 			FROM #tblProcessSetting AS tbl WITH (NOLOCK)
-			LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
+				LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
 			WHERE period.PeriodId = tbl.PeriodId
 				AND ISNULL(setting.TypeId, @NotificationType) = @NotificationType
 				AND (
@@ -98,10 +98,9 @@ BEGIN
 		,Nickname
 		,FullName
 		,Email
-		,skype.ConversationId
+		,ConversationId
 	FROM #tblProcessSetting AS tbl WITH (NOLOCK)
-	LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
-	LEFT JOIN dbo.EmployeeSkypeConversation AS skype WITH (NOLOCK) ON tbl.EvaluatorId = skype.EmployeeId
+		LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
 	WHERE ISNULL(setting.TypeId, @NotificationType) = @NotificationType
 		AND (
 			(

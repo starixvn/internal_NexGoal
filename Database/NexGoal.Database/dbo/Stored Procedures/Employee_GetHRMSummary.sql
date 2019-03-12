@@ -236,7 +236,7 @@ BEGIN
 										THEN calendar.LeaveDay
 									ELSE 0
 									END)
-						FROM [NexHRM].[dbo].[EmployeeCalendar] AS calendar WITH (NOLOCK)
+						FROM [dbo].[EmployeeCalendar] AS calendar WITH (NOLOCK)
 						WHERE EmpId = @EmployeeId
 							AND WorkDate BETWEEN @FromDate
 								AND @ToDate

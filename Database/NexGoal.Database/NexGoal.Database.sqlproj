@@ -266,7 +266,6 @@
     <Build Include="dbo\Functions\func_GetSortedEmployee.sql" />
     <Build Include="dbo\Tables\LogUserLogin.sql" />
     <Build Include="dbo\Stored Procedures\LogUserLogin_Insert.sql" />
-    <Build Include="dbo\Views\EmployeeSkypeConversation.sql" />
     <Build Include="dbo\Functions\fnc_CheckIsProbation.sql" />
     <Build Include="dbo\Stored Procedures\Project_GetByEmployeeId.sql" />
   </ItemGroup>
@@ -284,13 +283,6 @@
       <Private>True</Private>
       <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
       <DatabaseSqlCmdVariable>Redmine</DatabaseSqlCmdVariable>
-    </ProjectReference>
-    <ProjectReference Include="..\NexBot.Database\NexBot.Database.sqlproj">
-      <Name>NexBot.Database</Name>
-      <Project>{19ad86f5-294d-40a2-a095-1e9db34ee12d}</Project>
-      <Private>True</Private>
-      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
-      <DatabaseSqlCmdVariable>NexBot</DatabaseSqlCmdVariable>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
