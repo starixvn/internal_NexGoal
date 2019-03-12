@@ -6,7 +6,7 @@ BEGIN
 		DROP TABLE [GetPMSettingsTests].[actual]
 	END
 
-	IF OBJECT_ID('GetPMSettingsTests].expected') IS NOT NULL
+	IF OBJECT_ID('[GetPMSettingsTests].expected') IS NOT NULL
 	BEGIN
 		DROP TABLE [GetPMSettingsTests].[expected]
 	END
