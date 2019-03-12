@@ -75,6 +75,8 @@
     <Folder Include="NominationPeriodTests\EOQ_Get" />
     <Folder Include="NominationPeriodTests\EOQ_GetById" />
     <Folder Include="NominationPeriodTests\EOQ_Insert" />
+    <Folder Include="PMSettingTests" />
+    <Folder Include="PMSettingTests\PMSetting_Get" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="tSQLt\Tables\Private_RenamedObjectLog.sql" />
@@ -250,6 +252,9 @@
     <Build Include="NominationPeriodTests\EOQ_Insert\test inserts a new quarter period.sql" />
     <Build Include="NominationPeriodTests\EOQ_Insert\test copy latest setting.sql" />
     <Build Include="NominationPeriodTests\EOQ_Insert\test inserts entry to LogDetail table.sql" />
+    <Build Include="PMSettingTests\PMSetting_Get\GetPMSettingsTests.sql" />
+    <Build Include="PMSettingTests\PMSetting_Get\test returns all PM Settings of a selected employee.sql" />
+    <Build Include="PMSettingTests\PMSetting_Get\test returns all PM Settings.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assemblies\tSQLtCLR.dll" />
