@@ -32,7 +32,7 @@
         {
             if (connectionString == null)
             {
-                throw new ArgumentNullException("connectionString", NotFoundConnectionString);
+                throw new ArgumentNullException(nameof(connectionString), NotFoundConnectionString);
             }
 
             var connectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
@@ -59,7 +59,7 @@
         {
             if (encryptedPassword == null)
             {
-                throw new ArgumentNullException("encryptedPassword", InvalidPassword);
+                throw new ArgumentNullException(nameof(encryptedPassword), InvalidPassword);
             }
 
             var plainPassword = cryptoService.Decrypt(encryptedPassword);

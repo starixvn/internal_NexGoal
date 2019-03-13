@@ -17,7 +17,7 @@
         private IAuthService authService;
 
         [Fact]
-        public async Task Invoke_Authorized_ReturnAsExpected()
+        public async Task InvokeAsync_Authorized_ReturnAsExpected()
         {
             // Arrange
             var httpContext = new DefaultHttpContext
@@ -28,14 +28,14 @@
             var middleware = GetAuthenticationMiddleware();
 
             // Act
-            await middleware.Invoke(httpContext);
+            await middleware.InvokeAsync(httpContext);
 
             // Assert
             await authService.DidNotReceive().GetEmployeeByDomainUsernameAsync(Arg.Any<string>());
         }
 
         [Fact]
-        public async Task Invoke_Unauthorized_ReturnAsExpected()
+        public async Task InvokeAsync_Unauthorized_ReturnAsExpected()
         {
             // Arrange
             var employee = new EmployeeSession
@@ -64,7 +64,7 @@
             authService.GetMenuByEmployeeIdAsync(employee.EmployeeId).Returns(menus);
 
             // Act
-            await middleware.Invoke(httpContext);
+            await middleware.InvokeAsync(httpContext);
 
             // Assert
             Assert.Equal(employee.EmployeeId, httpContext.Session.GetInt32(SessionKey.InternalEmployeeId));

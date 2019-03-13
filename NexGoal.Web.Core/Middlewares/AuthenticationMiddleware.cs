@@ -20,7 +20,7 @@
             this.authService = authService;
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task InvokeAsync(HttpContext context)
         {
             var currentSession = new SessionService(context.Session);
 

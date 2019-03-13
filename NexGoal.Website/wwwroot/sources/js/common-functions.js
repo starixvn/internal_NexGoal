@@ -3,13 +3,11 @@ import moment from 'moment';
 
 const _rootUrl = document.getElementById('RootURL').value ? document.getElementById('RootURL').value : '/';
 
-export const resolveClientUrl = (relativePath) => {
-    return _rootUrl + relativePath;
-};
+export const resolveClientUrl = relativePath => _rootUrl + relativePath;
 
-export const axiosError = (error) => {
+export const axiosError = error => {
     if (error.response) {
-        var url;
+        let url;
 
         switch (error.response.status) {
             case 401:
@@ -43,7 +41,7 @@ export const getCurrentUserInfo = () => {
     };
 };
 
-export const getRoleClassName = (roleId) => {
+export const getRoleClassName = roleId => {
     let className = '';
 
     switch (roleId) {
@@ -74,7 +72,7 @@ export const getRoleClassName = (roleId) => {
     return className;
 };
 
-export const getNominationClassName = (statusId) => {
+export const getNominationClassName = statusId => {
     let className = '';
 
     switch (statusId) {
@@ -103,8 +101,6 @@ export const getPAGradeClassName = (originalGradeId = null, gradeId = null) => {
         gradeClass = 'icon-increase-arrow';
     } else if (gradeId < originalGradeId) {
         gradeClass = 'icon-descrease-arrow';
-    } else {
-        gradeClass = '';
     }
 
     return gradeClass;
@@ -112,25 +108,26 @@ export const getPAGradeClassName = (originalGradeId = null, gradeId = null) => {
 
 export const calculateTimelineNode = () => {
     const width = window.innerWidth;
-    if (width > 1600) return 8;
-    if (width > 1500 && width <= 1600) return 7;
-    if (width >= 1440 && width <= 1500) return 6;
-    if (width >= 1366 && width <= 1440) return 5;
-    if (width > 1280 && width < 1366) return 4;
+    if (width > 1600) { return 8; }
+    if (width > 1500 && width <= 1600) { return 7; }
+    if (width >= 1440 && width <= 1500) { return 6; }
+    if (width >= 1366 && width <= 1440) { return 5; }
+    if (width > 1280 && width < 1366) { return 4; }
+
     return 3;
 };
 
 export const noDataIndication = () => <span className="empty-result">No record found</span>;
 
 export function compareArray(a, b, compareOnProp) {
-    if (a === b)
-        return true;
+    if (a === b) { return true; }
 
-    if (a.length !== b.length) return false;
+    if (a.length !== b.length) { return false; }
 
     if (a.some(a => !b.some(b => b[compareOnProp] === a[compareOnProp]))
-        || b.some(b => !a.some(a => a[compareOnProp] === b[compareOnProp])))
+        || b.some(b => !a.some(a => a[compareOnProp] === b[compareOnProp]))) {
         return false;
+    }
 
     return true;
 }

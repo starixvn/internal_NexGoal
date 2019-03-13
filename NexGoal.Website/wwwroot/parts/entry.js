@@ -28,9 +28,9 @@ module.exports = {
         [`${styleDistPath}/paDetail-pdf`]: `${styleSourcePath}/pages/report/pa-detail-pdf.scss`,
 
         //
-        [`${jsDistPath}/main`]: "./sources/js/main.js",
-        [`${jsDistPath}/search-member`]: "./sources/js/SearchMember.jsx",
-        [`${jsDistPath}/notification`]: "./sources/js/NotificationBell.jsx",
+        [`${jsDistPath}/main`]: './sources/js/main.js',
+        [`${jsDistPath}/search-member`]: './sources/js/SearchMember.jsx',
+        [`${jsDistPath}/notification`]: './sources/js/NotificationBell.jsx',
         [`${jsDistPath}/notification-center`]: `${jsSourcePath}/notification/index.jsx`,
         [`${jsDistPath}/home`]: `${jsSourcePath}/home/index.jsx`,
         [`${jsDistPath}/assignpermission`]: `${jsSourcePath}/role/index.jsx`,
@@ -49,6 +49,6 @@ module.exports = {
         [`${jsDistPath}/nomination-report`]: `${jsSourcePath}/report/nomination/index.jsx`,
         [`${jsDistPath}/pa-report`]: `${jsSourcePath}/report/pa/index.jsx`,
         [`${jsDistPath}/pm-setting`]: `${jsSourcePath}/pmsetting/index.jsx`,
-        [`${jsDistPath}/master-report`]: `${jsSourcePath}/report/master/index.jsx`,
+        [`${jsDistPath}/master-report`]: `${jsSourcePath}/report/master/index.jsx`
     }
 };

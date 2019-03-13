@@ -14,6 +14,7 @@
 <html>
 <head>
     <title>PA Report</title>
+    <link rel="shortcut icon" type="image/ico" href="~/favicon.ico" />
     <link rel="stylesheet" type="text/css" href="~/dist/styles/paDetail-pdf.css" />
 </head>
 <body>
@@ -23,14 +24,26 @@
             <div class="title">@ViewLang.InformationProfile</div>
             <div class="content info">
                 <div class="section">
-                    <div class="item"><span class="key">Staff code:</span><span class="value">@Model.Employee.Code</span></div>
-                    <div class="item"><span class="key">Nickname:</span><span class="value">@Model.Employee.NickName</span></div>
-                    <div class="item"><span class="key">Job title:</span><span class="value">@Model.Employee.JobTitle</span></div>
+                    <div class="item">
+                        <span class="key">Staff code:</span><span class="value">@Model.Employee.Code</span>
+                    </div>
+                    <div class="item">
+                        <span class="key">Nickname:</span><span class="value">@Model.Employee.NickName</span>
+                    </div>
+                    <div class="item">
+                        <span class="key">Job title:</span><span class="value">@Model.Employee.JobTitle</span>
+                    </div>
                 </div>
                 <div class="section">
-                    <div class="item"><span class="key">Full name:</span><span class="value">@Model.Employee.FullName</span></div>
-                    <div class="item"><span class="key">@ViewLang.Team:</span><span class="value">@Model.Employee.GroupName</span></div>
-                    <div class="item"><span class="key">Joined date:</span><span class="value">@Model.Employee.JoinedDate.ToString("dd MMM yyyy")</span></div>
+                    <div class="item">
+                        <span class="key">Full name:</span><span class="value">@Model.Employee.FullName</span>
+                    </div>
+                    <div class="item">
+                        <span class="key">@ViewLang.Team:</span><span class="value">@Model.Employee.GroupName</span>
+                    </div>
+                    <div class="item">
+                        <span class="key">Joined date:</span><span class="value">@Model.Employee.JoinedDate.ToString("dd MMM yyyy")</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -196,7 +209,8 @@
                         <div class="sub-content">
                             <div class="list-pci">
                                 @{
-                                    var pmProcesses = Model.PARecord.Processes.Where(p => p.ProcessId == (int)PerformanceProcess.ProjectManager && p.PerformanceRecord != null);
+                                    var pmProcesses = Model.PARecord.Processes
+                                        .Where(p => p.ProcessId == (int)PerformanceProcess.ProjectManager && p.PerformanceRecord != null);
 
                                     if (pmProcesses.Any())
                                     {

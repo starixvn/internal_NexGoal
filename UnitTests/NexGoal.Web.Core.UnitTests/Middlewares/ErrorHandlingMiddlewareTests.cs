@@ -13,7 +13,7 @@
     public class ErrorHandlingMiddlewareTests
     {
         [Fact]
-        public async Task Invoke_DefaultException_RedirectToInternalError()
+        public async Task InvokeAsync_DefaultException_RedirectToInternalError()
         {
             // Arrange
             var context = new DefaultHttpContext();
@@ -23,7 +23,7 @@
             var middleware = new ErrorHandlingMiddleware(next, logger);
 
             // Act
-            await middleware.Invoke(context);
+            await middleware.InvokeAsync(context);
 
             // Assert
             Assert.Equal((int)HttpStatusCode.Found, context.Response.StatusCode);
@@ -34,7 +34,7 @@
         [InlineData("post")]
         [InlineData("put")]
         [InlineData("delete")]
-        public async Task Invoke_ExceptionAndIsAjaxRequest_ReturnStatus500InternalServerError(string method)
+        public async Task InvokeAsync_ExceptionAndIsAjaxRequest_ReturnStatus500InternalServerError(string method)
         {
             // Arrange
             var context = new DefaultHttpContext();
@@ -46,14 +46,14 @@
             var middleware = new ErrorHandlingMiddleware(next, logger);
 
             // Act
-            await middleware.Invoke(context);
+            await middleware.InvokeAsync(context);
 
             // Assert
             Assert.Equal((int)HttpStatusCode.InternalServerError, context.Response.StatusCode);
         }
 
         [Fact]
-        public async Task Invoke_RequestSucceeded_ReturnAsExpected()
+        public async Task InvokeAsync_RequestSucceeded_ReturnAsExpected()
         {
             // Arrange
             var context = new DefaultHttpContext();
@@ -62,7 +62,7 @@
             var middleware = new ErrorHandlingMiddleware(next, logger);
 
             // Act
-            await middleware.Invoke(context);
+            await middleware.InvokeAsync(context);
 
             // Assert
             Assert.Equal((int)HttpStatusCode.OK, context.Response.StatusCode);
