@@ -41,7 +41,7 @@
             this.hostingEnvironment = hostingEnvironment;
         }
 
-        private async Task<IEnumerable<MasterReportModel>> GetRecords(int periodId, string groupIds, string employeeIds, int employeeId)
+        private async Task<IEnumerable<MasterReportModel>> GetRecordsAsync(int periodId, string groupIds, string employeeIds, int employeeId)
         {
             var result = await baseService.FetchMultipleAsync<MasterReportModel, AwardModel, AssessmentModel>(new GetRecordsCriteria
             {
@@ -94,7 +94,7 @@
         public async Task<byte[]> ExportAsync(int periodId, string groupIds, string employeeIds, int employeeId)
         {
             var period = await baseService.GetDataEntityAsync<PeriodBaseModel>(new GetPeriodCriteria { PeriodId = periodId }).ConfigureAwait(false);
-            var records = await GetRecords(periodId, groupIds, employeeIds, employeeId).ConfigureAwait(false);
+            var records = await GetRecordsAsync(periodId, groupIds, employeeIds, employeeId).ConfigureAwait(false);
             var groupedRecord = records
                 .GroupBy(x => new { x.GroupId, x.GroupName }, (key, elements) => new { Key = key, Records = elements });
 
@@ -112,7 +112,9 @@
                 periodCell.Style.Font.Bold = true;
                 periodCell.Style.Font.Color.SetColor(Color.White);
                 periodCell.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                periodCell.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(82, 94, 134));
+
+                var periodBackgroundColor = Color.FromArgb(82, 94, 134);
+                periodCell.Style.Fill.BackgroundColor.SetColor(periodBackgroundColor);
 
                 var currentRow = 5;
                 foreach (var group in groupedRecord)
@@ -122,7 +124,9 @@
                     groupCell.Style.HorizontalAlignment = ExcelHorizontalAlignment.General;
                     groupCell.Style.Font.Bold = true;
                     groupCell.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    groupCell.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(197, 197, 197));
+
+                    var groupBackgroundColor = Color.FromArgb(197, 197, 197);
+                    groupCell.Style.Fill.BackgroundColor.SetColor(groupBackgroundColor);
                     groupCell.Value = group.Key.GroupName;
                     currentRow++;
 
@@ -156,7 +160,8 @@
             jobTitleCell.Merge = merge;
             jobTitleCell.Value = record.JobTitle;
 
-            WriteToeic(worksheet.Cells[currentRow, 4, toRow, 4], record, merge);
+            var toeicCell = worksheet.Cells[currentRow, 4, toRow, 4];
+            WriteToeic(toeicCell, record, merge);
 
             var selfCell = worksheet.Cells[currentRow, 5, toRow, 5];
             selfCell.Merge = merge;
@@ -223,12 +228,14 @@
         private static void WriteToeic(ExcelRange toeiceCell, MasterReportModel record, bool merge)
         {
             toeiceCell.Merge = merge;
+            var qualifiedToeicBackground = Color.FromArgb(0, 176, 80);
+            var failedToeicBackground = Color.FromArgb(255, 0, 0);
 
             if (record.Toeic.HasValue)
             {
                 if (record.ToeicPolicy != 0)
                 {
-                    toeiceCell.Style.Font.Color.SetColor(record.ToeicPolicy > 0 ? Color.FromArgb(0, 176, 80) : Color.FromArgb(255, 0, 0));
+                    toeiceCell.Style.Font.Color.SetColor(record.ToeicPolicy > 0 ? qualifiedToeicBackground : failedToeicBackground);
                 }
 
                 toeiceCell.Value = record.Toeic;
@@ -244,12 +251,16 @@
             switch (statusId)
             {
                 case NominationStatus.Shortlisted:
-                    return Color.FromArgb(229, 97, 0);
+                    var shortlistedColor = Color.FromArgb(229, 97, 0);
+                    return shortlistedColor;
 
                 case NominationStatus.Winner:
-                    return Color.FromArgb(20, 130, 213);
+                    var winnerColor = Color.FromArgb(20, 130, 213);
+                    return winnerColor;
 
-                default: return Color.FromArgb(79, 158, 0);
+                default:
+                    var nominatedColor = Color.FromArgb(79, 158, 0);
+                    return nominatedColor;
             }
         }
 
@@ -258,16 +269,19 @@
             var backgroundColor = Color.Empty;
             var textColor = Color.Empty;
 
+            const int minPoint = 4;
+            const int minHighlightedPoint = 8;
+
             var hasReadyPromotionSelect = bool.TryParse(record.IsReadyPromotion, out bool isReadyPromotion);
 
-            if ((record.ContributionId + record.BonusGivenId) > 8 && hasReadyPromotionSelect)
+            if ((record.ContributionId + record.BonusGivenId) > minHighlightedPoint && hasReadyPromotionSelect)
             {
                 backgroundColor = isReadyPromotion ? Color.FromArgb(89, 176, 59) : Color.FromArgb(104, 169, 189);
                 textColor = Color.White;
             }
             else
             {
-                if ((record.ContributionId + record.BonusGivenId) < 4)
+                if ((record.ContributionId + record.BonusGivenId) < minPoint)
                 {
                     backgroundColor = Color.FromArgb(255, 95, 95);
                     textColor = Color.White;
