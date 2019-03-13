@@ -125,7 +125,6 @@
             app.UseAuthentication();
             app.UseSession();
             app.UseMiddleware<AuthenticationMiddleware>();
-            app.UseHangfireServer();
 
             app.UseMvc(routes =>
             {
