@@ -93,13 +93,13 @@ export const getNominationClassName = statusId => {
 };
 
 export const getPAGradeClassName = (originalGradeId = null, gradeId = null) => {
-    originalGradeId = originalGradeId === null ? 1 : originalGradeId;
-    gradeId = gradeId === null ? 1 : gradeId;
+    const originalGrade = originalGradeId === null ? 1 : originalGradeId;
+    const currentGrade = gradeId === null ? 1 : gradeId;
 
     let gradeClass = '';
-    if (gradeId > originalGradeId) {
+    if (currentGrade > originalGrade) {
         gradeClass = 'icon-increase-arrow';
-    } else if (gradeId < originalGradeId) {
+    } else if (currentGrade < originalGrade) {
         gradeClass = 'icon-descrease-arrow';
     }
 

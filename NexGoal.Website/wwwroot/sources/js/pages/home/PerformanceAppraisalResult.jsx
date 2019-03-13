@@ -13,7 +13,7 @@ export default class PerformanceAppraisalResult extends Component {
 
     groupPerformanceAppraisals = (performanceAppraisals) => {
         performanceAppraisals.forEach(record => record.year = moment(record.period.startDate).year());
-        performanceAppraisals = performanceAppraisals.reduce(function (groups, item) {
+        let pAs = performanceAppraisals.reduce(function (groups, item) {
             const val = item['year'];
             groups[val] = groups[val] || [];
             groups[val].push(item);
@@ -21,14 +21,14 @@ export default class PerformanceAppraisalResult extends Component {
             return groups;
         }, []);
 
-        performanceAppraisals = Object.keys(performanceAppraisals).map(key => {
+        let performanceAppraisalResults = Object.keys(pAs).map(key => {
             return {
                 year: key,
-                records: performanceAppraisals[key]
+                records: pAs[key]
             };
         });
 
-        return performanceAppraisals;
+        return performanceAppraisalResults;
     };
 
     render() {

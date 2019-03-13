@@ -141,7 +141,6 @@ export default class EditMemberPA extends Component {
             createdDate: paRecord.modifiedDate ? paRecord.modifiedDate : null,
             comment: paRecord.comment,
             grade: paRecord.grade
-
         };
         return (
             <div className="record record-your-mind">
@@ -223,11 +222,11 @@ export default class EditMemberPA extends Component {
                 <Modal.Footer>
                     <Button className="btn-cancel" onClick={this.props.onCloseModal}>
                         {
-                            parseInt(paRecord.paStatus) !== PAStatus.Closed ? getResource('Cancel') : getResource('Close')
+                            parseInt(paRecord.paStatus, 10) !== PAStatus.Closed ? getResource('Cancel') : getResource('Close')
                         }
                     </Button>
                     {
-                        parseInt(paRecord.paStatus) !== PAStatus.Closed &&
+                        parseInt(paRecord.paStatus, 10) !== PAStatus.Closed &&
                         <Button type="submit" bsStyle="primary" name="save"
                             onClick={this.handleSubmit}
                         >

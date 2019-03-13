@@ -13,7 +13,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>PA Report</title>
+
     <link rel="shortcut icon" type="image/ico" href="~/favicon.ico" />
     <link rel="stylesheet" type="text/css" href="~/dist/styles/paDetail-pdf.css" />
 </head>
@@ -57,14 +57,14 @@
                             <thead>
                                 <tr>
                                     <th class="col-80">@ViewLang.Month</th>
-                                    <th class="col-120">Missing<br />Check In/Out</th>
+                                    <th class="col-120">@ViewLang.Missing<br />@ViewLang.CheckInOut</th>
                                     <th>@ViewLang.LateIn</th>
                                     <th>@ViewLang.EarlyOut</th>
                                     <th>@ViewLang.UnpaidLeave</th>
                                     <th class="col-120">@ViewLang.UnplannedAnnualLeave</th>
-                                    <th class="col-120">Average<br />Working Hours</th>
+                                    <th class="col-120">@ViewLang.Average<br />@ViewLang.WorkingHours</th>
                                     <th>@ViewLang.Overtime</th>
-                                    <th class="col-100">Toeic</th>
+                                    <th class="col-100">@ViewLang.Toeic</th>
                                 </tr>
                             </thead>
                             <tbody>

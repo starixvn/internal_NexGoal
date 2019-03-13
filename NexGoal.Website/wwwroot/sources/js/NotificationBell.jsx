@@ -5,6 +5,7 @@ import axios from 'axios';
 import { axiosError, resolveClientUrl } from './common-functions';
 import Notification from './shared/components/notification/Notification';
 import { NotificationActionType, NotificationStatus } from './constants';
+import { toast } from 'react-toastify';
 
 export default class NotificationBell extends Component {
     constructor(props) {
@@ -13,7 +14,7 @@ export default class NotificationBell extends Component {
         this.state = {
             isShowNoti: false,
             notifications: [],
-            unreadNoti: parseInt(document.getElementById("employeeInfo-unreadNoti").innerText),
+            unreadNoti: parseInt(document.getElementById("employeeInfo-unreadNoti").innerText, 10),
             totalItems: 0,
             pageIndex: 0,
             hasMore: true
@@ -79,7 +80,7 @@ export default class NotificationBell extends Component {
         let notiTrigger = document.getElementById('trigger-notification-bell');
         if (notiTrigger) {
             notiTrigger.addEventListener('click', () => {
-                let notificationId = parseInt(notiTrigger.getAttribute("notificationId"));
+                let notificationId = parseInt(notiTrigger.getAttribute("notificationId"), 10);
                 if (!notificationId) {
                     this.markAsReadSuccess();
                 } else {

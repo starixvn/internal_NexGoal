@@ -79,6 +79,24 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Average.
+        /// </summary>
+        public static string Average {
+            get {
+                return ResourceManager.GetString("Average", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check In/Out.
+        /// </summary>
+        public static string CheckInOut {
+            get {
+                return ResourceManager.GetString("CheckInOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Performance Check-in.
         /// </summary>
         public static string CreatePerformanceCheckin {
@@ -255,6 +273,15 @@ namespace NexGoal.Resources {
         public static string MemberPage {
             get {
                 return ResourceManager.GetString("MemberPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing.
+        /// </summary>
+        public static string Missing {
+            get {
+                return ResourceManager.GetString("Missing", resourceCulture);
             }
         }
         
@@ -511,6 +538,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Toeic.
+        /// </summary>
+        public static string Toeic {
+            get {
+                return ResourceManager.GetString("Toeic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total.
         /// </summary>
         public static string Total {
@@ -534,6 +570,15 @@ namespace NexGoal.Resources {
         public static string UnplannedAnnualLeave {
             get {
                 return ResourceManager.GetString("UnplannedAnnualLeave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working Hours.
+        /// </summary>
+        public static string WorkingHours {
+            get {
+                return ResourceManager.GetString("WorkingHours", resourceCulture);
             }
         }
     }

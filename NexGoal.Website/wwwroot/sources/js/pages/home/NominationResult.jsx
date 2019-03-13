@@ -23,7 +23,7 @@ export default class NominationResult extends Component {
     }
 
     groupNominationByStatusId = (nominations) => {
-        nominations = nominations.reduce(function (groups, item) {
+        let nominationReduces = nominations.reduce(function (groups, item) {
             const val = item['statusId'];
             groups[val] = groups[val] || [];
             groups[val].push(item.period);
@@ -31,17 +31,17 @@ export default class NominationResult extends Component {
             return groups;
         }, []);
 
-        nominations = Object.keys(nominations).map(key => {
-            let statusId = parseInt(key);
+        let nominationReults = Object.keys(nominationReduces).map(key => {
+            let statusId = parseInt(key, 10);
 
             return {
                 statusId: statusId,
                 statusText: NominationStatuses.find(x => x.value === statusId).text,
-                periods: nominations[key]
+                periods: nominationReduces[key]
             };
         });
 
-        return nominations;
+        return nominationReults;
     }
 
     render() {

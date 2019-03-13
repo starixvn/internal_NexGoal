@@ -58,7 +58,7 @@ export default class HRM extends Component {
         }
 
         const expireDate = moment(hrmDetail.toeicExamDate).add(3, 'years').format(DateFormat);
-        const showExpireDate = parseInt(hrmDetail.toeicScore) < 900 ? `(exp ${expireDate})` : '';
+        const showExpireDate = parseInt(hrmDetail.toeicScore, 10) < 900 ? `(exp ${expireDate})` : '';
 
         if (hrmDetail.toeicScore > 0) {
             return (

@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import { stringify } from 'qs';
 
 import { axiosError, calculateTimelineNode, getCurrentUserInfo, resolveClientUrl } from '../../common-functions';
-import { PerformanceRecordStatus } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import ConfirmationModal from '../../shared/components/ConfirmationModal';
@@ -118,8 +117,8 @@ export default class MyPage extends Component {
         let params = queryString.parse(location.search);
 
         if (params) {
-            if (params.recordId && parseInt(params.recordId)) {
-                this.handleClickTimelineNode(parseInt(params.recordId));
+            if (params.recordId && parseInt(params.recordId, 10)) {
+                this.handleClickTimelineNode(parseInt(params.recordId, 10));
             } else if (params.action && params.action === 'newrecord') {
                 this.createPerformanceCheckinWrapperRef.current.handleOpenForm();
             }
@@ -360,7 +359,7 @@ export default class MyPage extends Component {
 
     handleClickTimelineNode = performanceRecordId => {
         if (!this.state.displayedPerformanceRecords.some(r => r.performanceRecordId === performanceRecordId)) {
-            let index = this.state.performanceRecords.findIndex(function(element) {
+            let index = this.state.performanceRecords.findIndex(function (element) {
                 return element.performanceRecordId === performanceRecordId;
             });
 

@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 import { stringify } from 'qs';
 
 import { axiosError, calculateTimelineNode, getCurrentUserInfo, resolveClientUrl } from '../../common-functions';
-import { PerformanceRecordStatus } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import ConfirmationModal from '../../shared/components/ConfirmationModal';
@@ -63,7 +62,7 @@ export default class App extends Component {
             roleId: 0
         };
         this.memberInfo = {
-            id: parseInt(document.getElementById('MemberId').value),
+            id: parseInt(document.getElementById('MemberId').value, 10),
             nickName: document.getElementById('member-nickName').value,
             fullName: document.getElementById('member-fullName').value,
             jobTitle: document.getElementById('member-jobTitle').value,
@@ -190,7 +189,7 @@ export default class App extends Component {
 
     handleClickTimelineNode = performanceRecordId => {
         if (!this.state.displayedPerformanceRecords.some(r => r.performanceRecordId === performanceRecordId)) {
-            let index = this.state.performanceRecords.findIndex(function(element) {
+            let index = this.state.performanceRecords.findIndex(function (element) {
                 return element.performanceRecordId === performanceRecordId;
             });
 

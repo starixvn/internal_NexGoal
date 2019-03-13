@@ -12,13 +12,13 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="pull-left left-bar">
         <a class="navbar-brand" asp-controller="home" asp-action="index">
-            <img src="~/sources/styles/images/nexgoal.svg" />
+            <img src="~/sources/styles/images/nexgoal.svg" alt="nexgoal.svg" />
         </a>
     </div>
     <div class="pull-left nav-hamberger" id="js-navHamburger">
-      <div class="toggle-btn" id="js-btnToggleMenu">
-        <span class="lines"></span>
-      </div>
+        <div class="toggle-btn" id="js-btnToggleMenu">
+            <span class="lines"></span>
+        </div>
         @if (Model != null && Model.MenuItems.Any())
         {
             <ul class="nav navbar-nav">
@@ -66,7 +66,7 @@
     <span id="employeeInfo-jobTitle">@employee.JobTitle</span>
     <span id="employeeInfo-jobTitle">@employee.JobTitle</span>
     <span id="employeeInfo-unreadNoti">@Model.UnreadNotification</span>
-    <img id="employeeInfo-avatar" src="@employee.Avatar" />
+    <img id="employeeInfo-avatar" src="@employee.Avatar" alt="employee-avatar" />
     <input type="checkbox" id="employeeInfo-isProbation" @(employee.IsProbation ? "checked" : string.Empty) />
     <input type="checkbox" id="employeeInfo-isHasMember" @(Model.IsHasMember ? "checked" : string.Empty) />
 </div>
