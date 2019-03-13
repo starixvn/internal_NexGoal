@@ -97,7 +97,6 @@ export default class EditSelfPerformance extends Component {
     }
 
     validateForm = () => {
-        console.log(1);
         let errors = {}, isValid = true;
 
         if (!this.state.performanceRecord.comment || this.state.performanceRecord.comment.trim() === '') {

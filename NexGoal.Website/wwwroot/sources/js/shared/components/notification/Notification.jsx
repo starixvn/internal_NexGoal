@@ -85,7 +85,7 @@ export default class Notification extends Component {
                                     notifications.map(item => {
                                         const notiStatus = item.statusId === NotificationStatus.Unread ? 'unread' : '';
                                         return (
-                                            <div className={`noti-item ${notiStatus} noti-${item.notificationId}`}
+                                            <div key={item.notificationId} className={`noti-item ${notiStatus} noti-${item.notificationId}`}
                                                 onClick={() => this.props.onChangeStatus(item.notificationId, item.statusId, false)}
                                             >
                                                 <img className="avatar" src={item.creatorAvatar} />
