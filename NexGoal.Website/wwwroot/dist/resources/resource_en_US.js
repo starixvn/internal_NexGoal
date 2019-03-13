@@ -1,4 +1,4 @@
-let resource_en_US = {
+var resource_en_US = {
     'AccomplishedCurrentObjectives': 'Accomplished Current Objectives',
     'Achievements': 'Achievements',
     'Action': 'Action',
