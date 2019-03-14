@@ -86,7 +86,7 @@
                                 mailService.ReadTextFile(remindMailPath),
                                 focusSetting.Nickname,
                                 period.Name,
-                                mailService.FormatStartDate(period.FocusEndDate),
+                                mailService.FormatEndDate(period.FocusEndDate),
                                 configuration.Value.ApplicationDomain);
                             SendEmail(subjectRemindMail, body, focusSetting.Email);
                             break;
@@ -153,7 +153,7 @@
                             message = string.Format(Message.SkypeMessageTemplate_PAFocus_RemindToEvaluator,
                                 focusSetting.Nickname,
                                 period.Name,
-                                mailService.FormatStartDate(period.FocusEndDate),
+                                mailService.FormatEndDate(period.FocusEndDate),
                                 configuration.Value.ApplicationDomain);
                             await chatbotService.SendMessageAsync(focusSetting.ConversationId, message).ConfigureAwait(false);
                             break;
