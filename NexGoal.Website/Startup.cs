@@ -74,11 +74,9 @@
 
             services.Configure<IISOptions>(options =>
             {
-                options.AutomaticAuthentication = false;
+                options.AutomaticAuthentication = true;
             });
             services.AddAuthentication(IISDefaults.AuthenticationScheme);
-
-            services.AddMemoryCache();
 
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
             services.AddResponseCompression(options =>
@@ -88,18 +86,19 @@
                 options.EnableForHttps = true;
             });
 
+            services.AddMemoryCache();
+
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
-
-            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
             services.AddSession();
 
             // DI
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             services.ResolveCoreDI();
             services.ResolveServiceDI();
             services.ResolveWebCoreDI();
@@ -122,7 +121,6 @@
             app.UseResponseCompression();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseAuthentication();
             app.UseSession();
             app.UseMiddleware<AuthenticationMiddleware>();
 

@@ -20,11 +20,14 @@ namespace NexGoal.Web.Core.Filters
                 throw new ArgumentNullException(nameof(context));
             }
 
-            var currentSession = new SessionService(context.HttpContext.Session);
-
-            if (currentSession.EmployeeId <= 0 || !currentSession.HasPermissionOnFunction(FunctionKey, Policy))
+            if (context.HttpContext.User.Identity.IsAuthenticated)
             {
-                context.Result = new RedirectToActionResult("AccessDenied", "Error", null);
+                var currentSession = new SessionService(context.HttpContext.Session);
+
+                if (currentSession.EmployeeId <= 0 || !currentSession.HasPermissionOnFunction(FunctionKey, Policy))
+                {
+                    context.Result = new RedirectToActionResult("AccessDenied", "Error", null);
+                }
             }
         }
     }
