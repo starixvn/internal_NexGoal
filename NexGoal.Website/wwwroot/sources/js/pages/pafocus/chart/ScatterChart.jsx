@@ -64,8 +64,8 @@ export default class ScatterChart extends Component {
         let step = 0;
         let number = this.findNumberExist(member);
         let threshold = this.calculateThreshold(number);
-        let contribution = member.contribution ? parseInt(member.contribution) : null;
-        let bonusGiven = member.bonusGiven ? parseInt(member.bonusGiven) : null;
+        let contribution = member.contribution ? parseInt(member.contribution, 10) : null;
+        let bonusGiven = member.bonusGiven ? parseInt(member.bonusGiven, 10) : null;
 
         while (isExisted) {
             isExisted = this.checkExistPoint(bonusGiven, contribution);

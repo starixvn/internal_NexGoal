@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
 import axios from 'axios';
-
+import { toast } from 'react-toastify';
 import { axiosError, getCurrentUserInfo, resolveClientUrl } from '../../common-functions';
 import { NotificationActionType, NotificationStatus } from '../../constants';
 import ToastLayout from '../../shared/layouts/ToastLayout';
@@ -99,7 +99,7 @@ export default class NotificationCenter extends Component {
         let notiTrigger = document.getElementById('trigger-notification-center');
         if (notiTrigger) {
             notiTrigger.addEventListener('click', () => {
-                let notificationId = parseInt(notiTrigger.getAttribute("notificationId"));
+                let notificationId = parseInt(notiTrigger.getAttribute("notificationId"), 10);
                 if (!notificationId) {
                     this.markAsReadSuccess();
                 } else {

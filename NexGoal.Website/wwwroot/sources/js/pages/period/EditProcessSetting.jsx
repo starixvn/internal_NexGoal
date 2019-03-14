@@ -33,7 +33,7 @@ export default class EditProcessSetting extends Component {
 
     handleRemindDayChange = e => {
         var element = e.target;
-        var processId = parseInt(element.dataset.processid);
+        var processId = parseInt(element.dataset.processid, 10);
 
         var settings = this.state.settings.slice(0);
         var process = settings.find(e => e.processId === processId);

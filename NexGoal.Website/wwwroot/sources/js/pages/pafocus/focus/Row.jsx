@@ -30,8 +30,8 @@ export default class Row extends Component {
     getCssClass = () => {
         let pafocus = this.props.data;
         let className = '';
-        let contribution = pafocus.contribution ? parseInt(pafocus.contribution) : 0;
-        let bonusGiven = pafocus.bonusGiven ? parseInt(pafocus.bonusGiven) : 0;
+        let contribution = pafocus.contribution ? parseInt(pafocus.contribution, 10) : 0;
+        let bonusGiven = pafocus.bonusGiven ? parseInt(pafocus.bonusGiven, 10) : 0;
         let isReadyPromotion = pafocus.isReadyPromotion ? pafocus.isReadyPromotion === 'true' : false;
 
         if (contribution + bonusGiven > 8) {

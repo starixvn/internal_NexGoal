@@ -13,8 +13,8 @@ export default class App extends Component {
         super(props);
 
         this.state = {
-            activeKey: parseInt(document.getElementById('ActiveTab').value),
-            isFirstLoad: parseInt(document.getElementById('ActiveTab').value) === 2
+            activeKey: parseInt(document.getElementById('ActiveTab').value, 10),
+            isFirstLoad: parseInt(document.getElementById('ActiveTab').value, 10) === 2
         };
     }
 
