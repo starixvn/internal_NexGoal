@@ -13,7 +13,7 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @today DATE = DATEADD(DAY, -1, GETDATE())
+	DECLARE @today DATE = GETDATE()
 
 	SELECT PeriodId
 	FROM dbo.Period WITH (NOLOCK)
