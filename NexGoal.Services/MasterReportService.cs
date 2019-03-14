@@ -184,13 +184,15 @@
             paCell.Merge = merge;
             WritePA(paCell, record);
 
+            const int defaultWorkingHoursPerDay = 8;
+
             var actualWDCell = worksheet.Cells[currentRow, 10, toRow, 10];
             actualWDCell.Merge = merge;
-            actualWDCell.Value = Math.Round(record.TotalSpentTime * 100 / (record.ActualWorkingDay * 8));
+            actualWDCell.Value = Math.Round(record.TotalSpentTime * 100 / (record.ActualWorkingDay * defaultWorkingHoursPerDay));
 
             var workingDayCell = worksheet.Cells[currentRow, 11, toRow, 11];
             workingDayCell.Merge = merge;
-            workingDayCell.Value = Math.Round(record.TotalSpentTime * 100 / (record.WorkingDay * 8));
+            workingDayCell.Value = Math.Round(record.TotalSpentTime * 100 / (record.WorkingDay * defaultWorkingHoursPerDay));
 
             var avgPMGradeWithoutNACell = worksheet.Cells[currentRow, 12, toRow, 12];
             avgPMGradeWithoutNACell.Merge = merge;
@@ -214,7 +216,8 @@
             var rowPosition = currentRow;
             foreach (var award in record.Awards)
             {
-                worksheet.Cells[rowPosition, 19].Value = award.Title;
+                var awardTitleCell = worksheet.Cells[rowPosition, 19];
+                awardTitleCell.Value = award.Title;
                 var statusCell = worksheet.Cells[rowPosition, 20];
                 statusCell.Value = award.Status;
                 statusCell.Style.Font.Color.SetColor(GetNominationStatusFontColor(award.StatusId));
@@ -276,7 +279,10 @@
 
             if ((record.ContributionId + record.BonusGivenId) > minHighlightedPoint && hasReadyPromotionSelect)
             {
-                backgroundColor = isReadyPromotion ? Color.FromArgb(89, 176, 59) : Color.FromArgb(104, 169, 189);
+                var readyPromotionColor = Color.FromArgb(89, 176, 59);
+                var notReadyPromotionColor = Color.FromArgb(104, 169, 189);
+
+                backgroundColor = isReadyPromotion ? readyPromotionColor : notReadyPromotionColor;
                 textColor = Color.White;
             }
             else
