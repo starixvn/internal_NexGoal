@@ -8,7 +8,6 @@
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Notification;
     using NexGoal.Models.Notification;
-    using NexGoal.Services.Interfaces;
 
     public class NotificationService : INotificationService
     {

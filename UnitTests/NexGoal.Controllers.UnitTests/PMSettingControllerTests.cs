@@ -56,7 +56,7 @@
             // Arrange
             var commandResult = new CommandResult();
             var controller = GetContronller();
-            pmSettingService.AddMembers(2, "3", sessionService.EmployeeId).Returns(commandResult);
+            pmSettingService.AddMemberAsync(2, "3", sessionService.EmployeeId).Returns(commandResult);
 
             // Act
             var result = await controller.AddMembers(2, "3");
@@ -73,7 +73,7 @@
             // Arrange
             var commandResult = new CommandResult();
             var controller = GetContronller();
-            pmSettingService.RemoveMember(2, 3, sessionService.EmployeeId).Returns(commandResult);
+            pmSettingService.RemoveMemberAsync(2, 3, sessionService.EmployeeId).Returns(commandResult);
 
             // Act
             var result = await controller.RemoveMember(2, 3);

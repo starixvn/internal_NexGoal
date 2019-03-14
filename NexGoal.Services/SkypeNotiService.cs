@@ -5,11 +5,10 @@
     using Microsoft.Extensions.Options;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
-    using NexGoal.Core.Services.Interfaces;
+    using NexGoal.Core.Services;
     using NexGoal.Models.Common;
     using NexGoal.Models.PerformanceRecord.Notification;
     using NexGoal.Resources;
-    using NexGoal.Services.Interfaces;
 
     public class SkypeNotiService : ISkypeNotiService
     {
@@ -24,7 +23,7 @@
             this.chatbotService = chatbotService;
         }
 
-        public async Task SendMessageMemberToSupervisor(Employee actor,
+        public async Task SendMessageMemberToSupervisorAsync(Employee actor,
             IEnumerable<ProcessSettingDto> recievers,
             ActionOnPerformanceRecord action)
         {
@@ -38,7 +37,7 @@
             }
         }
 
-        public async Task SendMessageSupervisorToMember(Employee actor,
+        public async Task SendMessageSupervisorToMemberAsync(Employee actor,
             IEnumerable<ProcessSettingDto> recievers,
             ActionOnPerformanceRecord action)
         {
@@ -52,7 +51,7 @@
             }
         }
 
-        public async Task SendMessageSupervisorToSupervisor(Employee actor,
+        public async Task SendMessageSupervisorToSupervisorAsync(Employee actor,
             IEnumerable<ProcessSettingDto> recievers,
             EmployeeDto employee,
             ActionOnPerformanceRecord action)

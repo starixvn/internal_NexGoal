@@ -1,4 +1,4 @@
-﻿namespace NexGoal.Services.Interfaces
+﻿namespace NexGoal.Services
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -8,15 +8,15 @@
 
     public interface ISkypeNotiService
     {
-        Task SendMessageMemberToSupervisor(Employee actor,
+        Task SendMessageMemberToSupervisorAsync(Employee actor,
             IEnumerable<ProcessSettingDto> recievers,
             ActionOnPerformanceRecord action);
 
-        Task SendMessageSupervisorToMember(Employee actor,
+        Task SendMessageSupervisorToMemberAsync(Employee actor,
             IEnumerable<ProcessSettingDto> recievers,
             ActionOnPerformanceRecord action);
 
-        Task SendMessageSupervisorToSupervisor(Employee actor,
+        Task SendMessageSupervisorToSupervisorAsync(Employee actor,
             IEnumerable<ProcessSettingDto> recievers,
             EmployeeDto employee,
             ActionOnPerformanceRecord action);

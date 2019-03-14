@@ -15,7 +15,6 @@
     using NexGoal.Models.PerformanceRecord;
     using NexGoal.Models.Report;
     using NexGoal.Resources;
-    using NexGoal.Services.Interfaces;
     using OfficeOpenXml;
     using OfficeOpenXml.Style;
 

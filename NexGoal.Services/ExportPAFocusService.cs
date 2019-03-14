@@ -107,8 +107,8 @@
             int currentRow)
         {
             TemplateRowIndex templateRowIndex;
-            var minStone = 3;
-            var maxStone = 9;
+            const int minStone = 3;
+            const int maxStone = 9;
             int.TryParse(paFocus.BonusGiven, out int bonusGiven);
             int.TryParse(paFocus.Contribution, out int contribution);
             var condition = bonusGiven + contribution;

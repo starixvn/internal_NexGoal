@@ -9,7 +9,6 @@
     using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
     using NexGoal.Services;
-    using NexGoal.Services.Interfaces;
     using NexGoal.Web.Core.Filters;
     using NexGoal.Web.Core.Services;
 
@@ -35,7 +34,7 @@
 
         public async Task<JsonResult> GetGroupAndMember()
         {
-            Tuple<IEnumerable<Group>, IEnumerable<Employee>> tuple = await reportService.GetGroupAndMember(sessionService.EmployeeId).ConfigureAwait(false);
+            Tuple<IEnumerable<Group>, IEnumerable<Employee>> tuple = await reportService.GetGroupAndMemberAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(new { Groups = tuple.Item1, Members = tuple.Item2 });
         }
@@ -53,7 +52,7 @@
         {
             model.ActorId = sessionService.EmployeeId;
             byte[] fileContent = await exportService.ExportExcelAsync(model).ConfigureAwait(false);
-            var fileName = "PA Report";
+            const string fileName = "PA Report";
 
             return File(fileContent, MimeType.XLSX, fileName);
         }

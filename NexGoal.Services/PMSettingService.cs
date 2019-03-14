@@ -17,7 +17,7 @@
             this.baseService = baseService;
         }
 
-        public async Task<IEnumerable<MemberModel>> GetSettingAsync(string projectManagerIds, int? employeeId)
+        public async Task<IEnumerable<MemberModel>> GetSettingAsync(string projectManagerIds, int? employeeId = null)
         {
             var criteria = new GetPMSettingCriteria
             {
@@ -28,7 +28,7 @@
             return await baseService.GetDataAsync<MemberModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> AddMembers(int projectManagerId, string memberIds, int actorId)
+        public async Task<CommandResult> AddMemberAsync(int projectManagerId, string memberIds, int actorId)
         {
             var criteria = new AddMemberCriteria
             {
@@ -40,7 +40,7 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> RemoveMember(int projectManagerId, int memberId, int actorId)
+        public async Task<CommandResult> RemoveMemberAsync(int projectManagerId, int memberId, int actorId)
         {
             var criteria = new RemoveMemberCriteria
             {

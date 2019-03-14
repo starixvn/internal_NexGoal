@@ -1,10 +1,9 @@
-﻿namespace NexGoal.Core
+﻿namespace NexGoal.Core.Services
 {
     using System.Text;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Options;
     using NexGoal.Core.Models;
-    using NexGoal.Core.Services.Interfaces;
     using RestSharp;
 
     public class ChatbotService : IChatbotService
@@ -22,12 +21,12 @@
         {
             if (!string.IsNullOrWhiteSpace(conversationId) && configuration.Value.Enable)
             {
-                var token = await GetToken().ConfigureAwait(false);
-                await ForwardToBot(message, conversationId, token).ConfigureAwait(false);
+                ChatbotToken token = await GetTokenAsync().ConfigureAwait(false);
+                await ForwardToBotAsync(message, conversationId, token).ConfigureAwait(false);
             }
         }
 
-        private async Task ForwardToBot(string message, string conversationId, ChatbotToken token)
+        private async Task ForwardToBotAsync(string message, string conversationId, ChatbotToken token)
         {
             webClient.BaseUrl = configuration.Value.BotServiceUrl;
 
@@ -40,7 +39,7 @@
             await webClient.ExecutePostTaskAsync(request).ConfigureAwait(false);
         }
 
-        private async Task<ChatbotToken> GetToken()
+        private async Task<ChatbotToken> GetTokenAsync()
         {
             webClient.BaseUrl = configuration.Value.TokenUrl;
 

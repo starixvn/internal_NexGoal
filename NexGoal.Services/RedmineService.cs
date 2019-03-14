@@ -16,7 +16,7 @@
             this.baseService = baseService;
         }
 
-        public async Task<IEnumerable<TeamWorkloadModel>> GetTeamWorkload(int EmployeeId, int periodId)
+        public async Task<IEnumerable<TeamWorkloadModel>> GetTeamWorkloadAsync(int EmployeeId, int periodId)
         {
             var criteria = new GetTeamWorkloadCriteria
             {

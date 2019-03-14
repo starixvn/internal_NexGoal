@@ -19,68 +19,85 @@
         [Fact]
         public async Task GetSettingAsync_ValidData_ReturnExpectedResult()
         {
-            var service = GetPMSettingService();
-            baseService.GetDataAsync<MemberModel>(Arg.Any<GetPMSettingCriteria>()).Returns(new List<MemberModel>
+            // Arrange
+            var members = new List<MemberModel>
             {
                 new MemberModel
                 {
                     EmployeeId = 1,
                     ProjectManagerId = 2
                 }
-            });
+            };
+            var criteria = new GetPMSettingCriteria();
+            var service = GetPMSettingService();
+            baseService.GetDataAsync<MemberModel>(Arg.Do<GetPMSettingCriteria>(x => criteria = x)).Returns(members);
 
-            var result = await service.GetSettingAsync("2", null);
+            // Act
+            var actual = await service.GetSettingAsync("2", null);
 
-            Assert.NotEmpty(result);
+            // Assert
+            Assert.Equal(members, actual);
+            Assert.Equal("2", criteria.ProjectManagerIds);
+            Assert.Null(criteria.EmployeeId);
         }
 
         [Fact]
-        public async Task AddMembers_ValidData_ReturnExpectedCommandResult()
+        public async Task AddMemberAsync_WhenCalled_ReturnExpectedCommandResult()
         {
+            // Arrange
+            var commandResult = new CommandResult();
+            var criteria = new AddMemberCriteria();
             var service = GetPMSettingService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<AddMemberCriteria>()).Returns(
-                new CommandResult
-                {
-                    Code = 0
-                }
-            );
+            baseService.ExecuteNonQueryAsync(Arg.Do<AddMemberCriteria>(x => criteria = x)).Returns(commandResult);
 
-            var result = await service.AddMembers(1, "2,3,4", 5);
+            // Act
+            var actual = await service.AddMemberAsync(1, "2,3,4", 5);
 
-            Assert.True(result.IsSuccessful);
+            // Assert
+            Assert.Equal(commandResult, actual);
+            Assert.Equal(1, criteria.ProjectManagerId);
+            Assert.Equal("2,3,4", criteria.MemberIds);
+            Assert.Equal(5, criteria.ActorId);
         }
 
         [Fact]
-        public async Task RemoveMember_ValidData_ReturnExpectedCommandResult()
+        public async Task RemoveMemberAsync_ValidData_ReturnExpectedCommandResult()
         {
+            // Arrange
+            var commandResult = new CommandResult();
+            var criteria = new RemoveMemberCriteria();
             var service = GetPMSettingService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<RemoveMemberCriteria>()).Returns(
-                new CommandResult
-                {
-                    Code = 0
-                }
-            );
+            baseService.ExecuteNonQueryAsync(Arg.Do<RemoveMemberCriteria>(x => criteria = x)).Returns(commandResult);
 
-            var result = await service.RemoveMember(1, 2, 5);
+            // Act
+            var actual = await service.RemoveMemberAsync(1, 2, 5);
 
-            Assert.True(result.IsSuccessful);
+            // Assert
+            Assert.Equal(commandResult, actual);
+            Assert.Equal(1, criteria.ProjectManagerId);
+            Assert.Equal(2, criteria.MemberId);
+            Assert.Equal(5, criteria.ActorId);
         }
 
         [Fact]
         public async Task GetProjectManagerAsync_WhenCalled_ReturnExpectedResult()
         {
-            var service = GetPMSettingService();
-            baseService.GetDataAsync<Employee>(Arg.Any<GetProjectManagersCriteria>()).Returns(new List<Employee>
+            // Arrange
+            var projectManagers = new List<Employee>
             {
                 new Employee
                 {
                     EmployeeId = 1
                 }
-            });
+            };
+            var service = GetPMSettingService();
+            baseService.GetDataAsync<Employee>(Arg.Any<GetProjectManagersCriteria>()).Returns(projectManagers);
 
-            var result = await service.GetProjectManagerAsync();
+            // Act
+            var actual = await service.GetProjectManagerAsync();
 
-            Assert.NotEmpty(result);
+            // Assert
+            Assert.Equal(projectManagers, actual);
         }
 
         private PMSettingService GetPMSettingService()

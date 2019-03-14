@@ -30,7 +30,7 @@
         public async Task GetCurrentNominationPeriodForComittee_WhenCalled_ReturnExpecetedJsonResult()
         {
             var controller = GetNominationAssessmentController();
-            employeeNominationService.GetCurrentNominationPeriodForComittee(sessionService.EmployeeId, true).Returns(
+            employeeNominationService.GetCurrentNominationPeriodForComitteeAsync(sessionService.EmployeeId, true).Returns(
                 new NominationPeriodModel { NominationPeriodId = 1, Year = 2019, Quarter = 1 }
             );
 

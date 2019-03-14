@@ -17,7 +17,6 @@
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
-    using NexGoal.Core.Services.Interfaces;
     using NexGoal.Resources;
 
     public class PAService : IPAService

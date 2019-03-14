@@ -16,7 +16,6 @@
     using NexGoal.Models.Notification;
     using NexGoal.Models.PerformanceRecord.Notification;
     using NexGoal.Resources;
-    using NexGoal.Services.Interfaces;
 
     public class NotificationPerformanceRecordService : INotificationPerformanceRecordService
     {
@@ -162,14 +161,14 @@
                 {
                     var conversations = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.MemberToSupervisor).OrderBy(x => x.Priority);
 
-                    await skypeNotiService.SendMessageMemberToSupervisor(actor, conversations, action).ConfigureAwait(false);
+                    await skypeNotiService.SendMessageMemberToSupervisorAsync(actor, conversations, action).ConfigureAwait(false);
                 }
 
                 if (receivers.Any(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToMember))
                 {
                     var conversations = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToMember);
 
-                    await skypeNotiService.SendMessageSupervisorToMember(actor, conversations, action).ConfigureAwait(false);
+                    await skypeNotiService.SendMessageSupervisorToMemberAsync(actor, conversations, action).ConfigureAwait(false);
                 }
 
                 if (receivers.Any(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToSupervisor))
@@ -177,7 +176,7 @@
                     EmployeeDto employee = tuple.Item1.First(y => y.PerformanceRecordId == recordId);
                     var conversations = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToSupervisor);
 
-                    await skypeNotiService.SendMessageSupervisorToSupervisor(actor, conversations, employee, action).ConfigureAwait(false);
+                    await skypeNotiService.SendMessageSupervisorToSupervisorAsync(actor, conversations, employee, action).ConfigureAwait(false);
                 }
             }
         }

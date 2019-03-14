@@ -9,7 +9,7 @@
 
     public interface IPAReportService
     {
-        Task<Tuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupAndMember(int actorId);
+        Task<Tuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupAndMemberAsync(int actorId);
 
         Task<IEnumerable<PARecordGroupByPeriod>> GetPAReportAsync(GetPARecordMultiPeriodParam param);
 

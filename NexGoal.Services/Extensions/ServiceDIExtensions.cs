@@ -2,7 +2,7 @@
 {
     using Microsoft.Extensions.DependencyInjection;
     using NexGoal.Repositories.Extensions;
-    using NexGoal.Services.Interfaces;
+    using NexGoal.Services;
 
     public static class ServiceDIExtensions
     {

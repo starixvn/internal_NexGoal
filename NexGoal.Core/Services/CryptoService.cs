@@ -70,7 +70,7 @@ namespace NexGoal.Core.Services
 
         private X509Certificate2 InitCertificate()
         {
-            var flags = X509KeyStorageFlags.Exportable;
+            const X509KeyStorageFlags flags = X509KeyStorageFlags.Exportable;
 
             return new X509Certificate2(configuration.CurrentValue.CertFilePath, configuration.CurrentValue.PasswordToSignCertFile, flags);
         }

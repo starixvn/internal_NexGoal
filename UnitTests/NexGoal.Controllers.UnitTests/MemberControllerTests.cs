@@ -153,7 +153,7 @@
                 new TeamWorkloadModel { GroupId = 1, GroupName = "Nexus" }
             };
             var controller = GetMemberController();
-            redmineService.GetTeamWorkload(sessionService.EmployeeId, 1).Returns(expected);
+            redmineService.GetTeamWorkloadAsync(sessionService.EmployeeId, 1).Returns(expected);
 
             // Act
             var result = await controller.GetMembersWorkload(1);

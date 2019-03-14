@@ -5,7 +5,6 @@
     using Microsoft.Extensions.DependencyInjection;
     using NexGoal.Core.Repositories;
     using NexGoal.Core.Services;
-    using NexGoal.Core.Services.Interfaces;
 
     public static class CoreDIExtensions
     {

@@ -99,7 +99,7 @@
         [HttpGet]
         public async Task<JsonResult> GetAllPeriods()
         {
-            IEnumerable<PeriodBaseModel> periods = await commonService.GetAllPeriods().ConfigureAwait(false);
+            IEnumerable<PeriodBaseModel> periods = await commonService.GetAllPeriodAsync().ConfigureAwait(false);
 
             return Json(periods);
         }
@@ -132,7 +132,7 @@
         public async Task<JsonResult> GetHRMSummary(int? memberId = null)
         {
             var employeeId = memberId ?? sessionService.EmployeeId;
-            var HRMSummay = await commonService.GetHRMSummary(employeeId).ConfigureAwait(false);
+            var HRMSummay = await commonService.GetHRMSummaryAsync(employeeId).ConfigureAwait(false);
 
             return Json(HRMSummay);
         }

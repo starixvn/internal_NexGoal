@@ -41,7 +41,7 @@
         [HttpPost]
         public async Task<IActionResult> AddMembers(int projectManagerId, string memberIds)
         {
-            CommandResult commandResult = await pmSettingService.AddMembers(projectManagerId, memberIds, sessionService.EmployeeId).ConfigureAwait(false);
+            CommandResult commandResult = await pmSettingService.AddMemberAsync(projectManagerId, memberIds, sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(commandResult);
         }
@@ -49,7 +49,7 @@
         [HttpPost]
         public async Task<IActionResult> RemoveMember(int projectManagerId, int memberId)
         {
-            CommandResult commandResult = await pmSettingService.RemoveMember(projectManagerId, memberId, sessionService.EmployeeId).ConfigureAwait(false);
+            CommandResult commandResult = await pmSettingService.RemoveMemberAsync(projectManagerId, memberId, sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(commandResult);
         }

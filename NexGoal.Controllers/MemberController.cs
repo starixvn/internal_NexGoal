@@ -91,7 +91,7 @@
 
         public async Task<JsonResult> GetMembersWorkload(int periodId)
         {
-            IEnumerable<TeamWorkloadModel> teamWorkloads = await redmineService.GetTeamWorkload(sessionService.EmployeeId, periodId).ConfigureAwait(false);
+            IEnumerable<TeamWorkloadModel> teamWorkloads = await redmineService.GetTeamWorkloadAsync(sessionService.EmployeeId, periodId).ConfigureAwait(false);
 
             return Json(teamWorkloads);
         }

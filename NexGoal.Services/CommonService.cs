@@ -112,7 +112,7 @@
             return performanceGrades;
         }
 
-        public async Task<IEnumerable<PeriodBaseModel>> GetAllPeriods()
+        public async Task<IEnumerable<PeriodBaseModel>> GetAllPeriodAsync()
         {
             var criteria = new GetAllPeriodsCriteria();
 
@@ -126,7 +126,7 @@
             return await baseService.GetDataEntityAsync<PeriodBaseModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<HRMSummaryModel> GetHRMSummary(int employeeId)
+        public async Task<HRMSummaryModel> GetHRMSummaryAsync(int employeeId)
         {
             var criteria = new GetHRMSummaryCriteria
             {

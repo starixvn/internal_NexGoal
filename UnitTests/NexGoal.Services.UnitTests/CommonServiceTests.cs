@@ -109,7 +109,7 @@ namespace NexGoal.Services.UnitTests
         }
 
         [Fact]
-        public async Task GetHRMSummary_WhenCalled_ReturnExpectedResult()
+        public async Task GetHRMSummaryAsync_WhenCalled_ReturnExpectedResult()
         {
             var expected = new HRMSummaryModel { UnpaidLeave = 1 };
 
@@ -117,7 +117,7 @@ namespace NexGoal.Services.UnitTests
 
             baseService.GetDataEntityAsync<HRMSummaryModel>(Arg.Any<GetHRMSummaryCriteria>()).Returns(expected);
 
-            var actual = await service.GetHRMSummary(363);
+            var actual = await service.GetHRMSummaryAsync(363);
 
             Assert.Equal(expected, actual);
         }
@@ -174,7 +174,7 @@ namespace NexGoal.Services.UnitTests
         }
 
         [Fact]
-        public async Task GetAllPeriods_WhenCalled_ReturnAsExpectedPeriods()
+        public async Task GetAllPeriodAsync_WhenCalled_ReturnAsExpectedPeriods()
         {
             // Arrange
             var periods = new List<PeriodBaseModel>
@@ -185,7 +185,7 @@ namespace NexGoal.Services.UnitTests
             baseService.GetDataAsync<PeriodBaseModel>(Arg.Any<GetAllPeriodsCriteria>()).Returns(periods);
 
             // Act
-            var actual = await service.GetAllPeriods();
+            var actual = await service.GetAllPeriodAsync();
 
             // Assert
             Assert.Equal(periods, actual);

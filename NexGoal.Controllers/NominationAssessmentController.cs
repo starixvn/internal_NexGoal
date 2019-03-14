@@ -32,7 +32,7 @@
         [HttpGet]
         public async Task<JsonResult> GetCurrentNominationPeriodForComittee(bool isQuarter)
         {
-            NominationPeriodModel result = await employeeNominationService.GetCurrentNominationPeriodForComittee(sessionService.EmployeeId, isQuarter).ConfigureAwait(false);
+            NominationPeriodModel result = await employeeNominationService.GetCurrentNominationPeriodForComitteeAsync(sessionService.EmployeeId, isQuarter).ConfigureAwait(false);
 
             return Json(result);
         }

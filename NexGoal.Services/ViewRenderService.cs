@@ -11,7 +11,6 @@
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.AspNetCore.Routing;
-    using NexGoal.Services.Interfaces;
 
     public class ViewRenderService : IViewRenderService
     {

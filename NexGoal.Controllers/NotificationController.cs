@@ -5,7 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Models;
     using NexGoal.Models.Notification;
-    using NexGoal.Services.Interfaces;
+    using NexGoal.Services;
     using NexGoal.Web.Core.Services;
 
     public class NotificationController : BaseController

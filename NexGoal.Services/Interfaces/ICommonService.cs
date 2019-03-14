@@ -25,11 +25,11 @@
 
         Task<IEnumerable<PerformanceGrade>> GetPerformanceGradeAsync();
 
-        Task<IEnumerable<PeriodBaseModel>> GetAllPeriods();
+        Task<IEnumerable<PeriodBaseModel>> GetAllPeriodAsync();
 
         Task<PeriodBaseModel> GetCurrentPerformancePeriodAsync();
 
-        Task<HRMSummaryModel> GetHRMSummary(int employeeId);
+        Task<HRMSummaryModel> GetHRMSummaryAsync(int employeeId);
 
         Task<IEnumerable<string>> GetAnnouncementAsync(int employeeId);
 

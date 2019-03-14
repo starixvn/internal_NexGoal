@@ -11,7 +11,6 @@
     using NexGoal.Criteria.PerformanceRecord;
     using NexGoal.Models.Common;
     using NexGoal.Models.PerformanceRecord.Notification;
-    using NexGoal.Services.Interfaces;
     using NSubstitute;
     using Xunit;
 

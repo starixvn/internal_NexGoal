@@ -11,7 +11,6 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
-    using NexGoal.Core.Services.Interfaces;
     using NSubstitute;
     using Xunit;
 

@@ -92,7 +92,7 @@
                 Incident = 0
             };
 
-            commonService.GetHRMSummary(363).Returns(expectResult);
+            commonService.GetHRMSummaryAsync(363).Returns(expectResult);
 
             var result = await controller.GetHRMSummary();
 
@@ -203,7 +203,7 @@
                 new PeriodBaseModel { PeriodId = 1, Name = "1h-2018" }
             };
             var controller = GetCommonController();
-            commonService.GetAllPeriods().Returns(periods);
+            commonService.GetAllPeriodAsync().Returns(periods);
 
             // Act
             var actual = await controller.GetAllPeriods();

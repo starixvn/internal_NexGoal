@@ -6,7 +6,6 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Models;
-    using NexGoal.Services.Interfaces;
     using NSubstitute;
 
     public static class Helpers

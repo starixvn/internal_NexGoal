@@ -37,7 +37,7 @@
             this.commonService = commonService;
         }
 
-        public async Task<Tuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupAndMember(int actorId)
+        public async Task<Tuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupAndMemberAsync(int actorId)
         {
             var criteria = new GetGroupAndMemberForReportCriteria
             {

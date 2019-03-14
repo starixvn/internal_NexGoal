@@ -1,4 +1,4 @@
-﻿namespace NexGoal.Core.Services.Interfaces
+﻿namespace NexGoal.Core.Services
 {
     using System.Threading.Tasks;
 

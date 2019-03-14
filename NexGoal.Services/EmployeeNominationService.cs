@@ -80,7 +80,7 @@
             return await baseService.GetDataAsync<NominationPeriodModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<NominationPeriodModel> GetCurrentNominationPeriodForComittee(int committeeId, bool isQuarter)
+        public async Task<NominationPeriodModel> GetCurrentNominationPeriodForComitteeAsync(int committeeId, bool isQuarter)
         {
             var criteria = new GetNominationPeriodsForComitteeCriteria
             {

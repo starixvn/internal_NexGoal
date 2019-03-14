@@ -247,7 +247,7 @@
         }
 
         [Fact]
-        public async Task GetCurrentNominationPeriodForComittee_ValidData_ReturnExpectedResult()
+        public async Task GetCurrentNominationPeriodForComitteeAsync_ValidData_ReturnExpectedResult()
         {
             var service = GetService();
 
@@ -260,7 +260,7 @@
             baseService.GetDataEntityAsync<NominationPeriodModel>(Arg.Any<GetNominationPeriodsForComitteeCriteria>())
                 .Returns(model);
 
-            var result = await service.GetCurrentNominationPeriodForComittee(1, true);
+            var result = await service.GetCurrentNominationPeriodForComitteeAsync(1, true);
             Assert.NotNull(result);
             Assert.True(model.Quarter.HasValue);
             Assert.Equal(model.NominationPeriodId, result.NominationPeriodId);
