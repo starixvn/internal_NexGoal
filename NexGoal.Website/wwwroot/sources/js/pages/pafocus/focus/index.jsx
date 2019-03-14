@@ -125,11 +125,12 @@ export default class PAFocus extends Component {
     }
 
     getPAFocus = (filter) => {
+        const periodId = filter.period ? filter.period.value : null;
         const groupIds = filter.groups.map((group) => { return group.value; }).join(',');
 
         axios(resolveClientUrl('pafocus/getPAFocus'), {
             params: {
-                periodId: filter.period.value,
+                periodId: periodId,
                 groupIds: groupIds,
                 employeeId: filter.employee ? filter.employee.value : ''
             }
