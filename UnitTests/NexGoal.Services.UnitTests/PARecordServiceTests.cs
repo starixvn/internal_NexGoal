@@ -10,6 +10,7 @@
     using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
+    using NexGoal.Models.PerformanceRecord;
     using NexGoal.Repositories;
     using NSubstitute;
     using Xunit;
@@ -140,6 +141,63 @@
         #endregion GetMemberPerformanceAppraisalResultAsync
 
         [Fact]
+        public async Task GetPARecordByIdAsync_WhenCalled_ReturnExpectedResult()
+        {
+            var expected = new PARecordModel
+            {
+                PARecordId = 1,
+                Processes = new List<PAProcessModel>()
+            };
+
+            var service = GetPARecordService();
+            paRepository.GetPARecordByIdAsync(Arg.Any<GetPARecordByIdCriteria>()).Returns(expected);
+
+            var actual = await service.GetPARecordByIdAsync(1, 363);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task GetPARecordByReviewerAsync_WhenCalled_ReturnExpectedResult()
+        {
+            var gradeId = "1";
+            var performanceAppraisals = new List<PARecordModel>
+            {
+                new PARecordModel
+                {
+                    PARecordId = 1,
+                    Employee = new Employee { GroupName = "Nexus"},
+                    GradeId = "cipher text",
+                    Processes = GetPAProcess()
+                }
+            };
+
+            var expected = new List<PARecordGroupModel>
+            {
+                new PARecordGroupModel
+                {
+                    GroupName = "Nexus",
+                    PerformanceAppraisals = performanceAppraisals
+                }
+            };
+
+            var param = new GetPARecordParam
+            {
+                ActorId = 363,
+                PeriodId = 1
+            };
+
+            var service = GetPARecordService();
+
+            paRepository.GetPARecordByReviewerAsync(Arg.Any<GetPARecordByReviewerCriteria>()).Returns(performanceAppraisals);
+            commonService.GetPerformanceGradeAsync().Returns(Helpers.GetPerformanceGrades());
+            cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
+            var actual = await service.GetPARecordByReviewerAsync(param);
+
+            Assert.Equal(expected.FirstOrDefault().GroupName, actual.FirstOrDefault().GroupName);
+        }
+
+        [Fact]
         public async Task EditPARecordByReviewerAsync_WhenCalled_ReturnAsExpectedCommandResult()
         {
             // Arrange
@@ -197,6 +255,38 @@
         }
 
         #region Helpers
+
+        private IEnumerable<PAProcessModel> GetPAProcess()
+        {
+            var performanceRecord = new PerformanceRecord
+            {
+                PerformanceRecordId = 1,
+                GradeId = "cipher text",
+                Comment = "comment",
+                Creator = new Employee
+                {
+                    EmployeeId = 1,
+                    NickName = "quinn"
+                },
+                Employees = new List<Employee>
+                    {
+                        new Employee
+                        {
+                            EmployeeId = 2,
+                            NickName = "tim"
+                        }
+                    }
+            };
+            var paProcess = new List<PAProcessModel>
+            {
+                new PAProcessModel
+                {
+                    PARecordId = 1,
+                    PerformanceRecord = performanceRecord
+                }
+            };
+            return paProcess;
+        }
 
         private PARecordService GetPARecordService()
         {

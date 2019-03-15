@@ -275,14 +275,14 @@
 
         public async Task<Tuple<string, byte[]>> ExportPdfAsync(PAReportDetail reportDetail)
         {
-            var pdf = await GetPdfSetting(reportDetail).ConfigureAwait(false);
+            var pdf = await GetPdfSettingAsync(reportDetail).ConfigureAwait(false);
             var fileName = $"{reportDetail.Employee.NickName}_PA_{reportDetail.PARecord.Period.Name}.pdf";
             var file = converter.Convert(pdf);
 
             return new Tuple<string, byte[]>(fileName, file);
         }
 
-        private async Task<HtmlToPdfDocument> GetPdfSetting(PAReportDetail reportDetail)
+        private async Task<HtmlToPdfDocument> GetPdfSettingAsync(PAReportDetail reportDetail)
         {
             string htmlString = await viewRenderService.RenderToStringAsync(PADetailView, reportDetail).ConfigureAwait(false);
 
