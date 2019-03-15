@@ -334,7 +334,7 @@
                 int.TryParse(x.GradeId, out int gradeId);
                 var conversion = performanceGrades.FirstOrDefault(g => g.GradeId == gradeId);
 
-                return conversion != null ? conversion.Point : 0f;
+                return conversion != null ? conversion.Point : 3f;
             });
 
             return points.Any() ? points.Average() : 0f;

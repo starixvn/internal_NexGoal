@@ -12,7 +12,7 @@ export default class MemberWorkload extends Component {
         super(props);
 
         this.state = {
-            workloads: [],
+            workloads: null,
             selectedGroups: this.props.groupOptions,
             periodId: this.props.periods[0].periodId
         };
@@ -239,7 +239,7 @@ export default class MemberWorkload extends Component {
                     </div>
                 }
                 <div id="chart-wrapper" >
-                    {
+                    {this.state.workloads &&
                         this.renderTeamWorkload()
                     }
                 </div>

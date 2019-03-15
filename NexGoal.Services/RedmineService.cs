@@ -61,7 +61,7 @@
                 {
                     EmployeeId = x.Key.EmployeeId,
                     NickName = x.Key.NickName,
-                    Workloads = x.GroupBy(p => new { p.ProjectId, p.ProjectName }).Select(p => new ProjectWorkloadModel
+                    Workloads = x.Where(p => p.ProjectId > 0).GroupBy(p => new { p.ProjectId, p.ProjectName }).Select(p => new ProjectWorkloadModel
                     {
                         ProjectId = p.Key.ProjectId,
                         Name = p.Key.ProjectName,

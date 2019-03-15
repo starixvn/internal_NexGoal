@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[Redmine_GetTeamWorkLoad] @EmployeeId INT
+﻿CREATE PROCEDURE [dbo].[Redmine_GetTeamWorkLoad] @EmployeeId INT
 	,@PeriodId INT
 AS
 /*
@@ -24,20 +23,11 @@ BEGIN
 		WHERE p.PeriodId = @PeriodId
 	END
 
-	SELECT p.EmployeeId
-		,MIN(p.[Priority]) AS [Priority]
-	INTO #member
-	FROM (
-		SELECT m.EmployeeId
-			,(CASE 
-				WHEN ProcessId = @EvaluatorProcessId THEN 1
-				WHEN ProcessId = @ReviewerProcessId THEN 2
-				ELSE 3 END
-				) AS [Priority]
-		FROM dbo.func_GetMember(@EmployeeId) m
-		WHERE m.ProcessId IS NOT NULL
-		) p
-	GROUP BY p.EmployeeId
+	SELECT ee.RankIndex
+		,ee.EmployeeId
+	INTO #sortedemployee
+	FROM dbo.func_GetSortedEmployee(@EmployeeId) AS ee
+		INNER JOIN dbo.func_GetMember(@EmployeeId) AS m ON ee.EmployeeId = m.EmployeeId
 
 	SELECT g.GroupId
 		,g.[Name] AS GroupName
@@ -48,15 +38,14 @@ BEGIN
 		,pst.[Hours] AS TotalHour
 	FROM [dbo].Employee AS e WITH (NOLOCK)
 		INNER JOIN [dbo].[Group] AS g WITH (NOLOCK) ON e.GroupId = g.GroupId
-		INNER JOIN #member AS m ON m.EmployeeId = e.EmployeeId
+		INNER JOIN #sortedemployee AS ee ON e.EmployeeId = ee.EmployeeId
 		LEFT JOIN dbo.ProjectSpentTime AS pst WITH (NOLOCK) ON e.EmployeeId = pst.EmployeeId
 			AND pst.SpentOn BETWEEN @fromDate AND @toDate
-			
 		LEFT JOIN dbo.Project AS p WITH (NOLOCK) ON pst.ProjectId = p.ProjectId
-		INNER JOIN dbo.func_GetSortedEmployee(@EmployeeId) AS ee ON e.EmployeeId = ee.EmployeeId
 	WHERE e.IsDeleted = 0
 		AND e.[Enabled] = 1
 	ORDER BY ee.RankIndex
 
-	DROP TABLE #member
+	DROP TABLE #sortedemployee
 END
+
