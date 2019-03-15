@@ -102,10 +102,7 @@ export default class PerformanceRecord extends Component {
                                 <span className="icon-checkin" />
                                 <span className="role-member">{employees.map(employee => { return employee.nickName; }).join(', ')}</span>
                             </Fragment>
-                        }
-                        <div>
-                            <span className="submit-date">{createdDate}</span>
-                        </div>
+                        }                        
                     </div>
                     {
                         (modifiedDate || record.isHost) &&
@@ -122,6 +119,9 @@ export default class PerformanceRecord extends Component {
                             </div>
                         </div>
                     }
+                </div>
+                <div className="date-time">
+                    <span className="submit-date">{createdDate}</span>
                 </div>
                 <div className="comment" >
                     <p className={this.state.isExpanded ? "collapsed" : "expanded"} ref={(element) => this.element = element}>{record.comment}</p>
@@ -165,13 +165,7 @@ export default class PerformanceRecord extends Component {
                                 <span className="icon-checkin" />
                                 <span className="role-member">{employees.map(employee => { return employee.nickName; }).join(', ')}</span>
                             </Fragment>
-                        }
-                        <div>
-                            <span className="submit-date">{createdDate}</span>
-                            {
-                                <span className="draft">draft</span>
-                            }
-                        </div>
+                        }                        
                     </div>
                     {
                         <div className="date">
@@ -185,6 +179,12 @@ export default class PerformanceRecord extends Component {
                             </div>
                         </div>
                     }
+                </div>
+                <div className="date-time">
+                    {
+                        <span className="draft">draft</span>
+                    }
+                    <span className="submit-date">{createdDate}</span>
                 </div>
                 <div className="comment" >
                     <p className={this.state.isExpanded ? "collapsed" : "expanded"} ref={(element) => this.element = element}>{record.comment}</p>
@@ -229,10 +229,7 @@ export default class PerformanceRecord extends Component {
                                 <span className="icon-nomination" />
                                 <span className="role-member">{employees.map(employee => { return employee.nickName; }).join(', ')}</span>
                             </Fragment>
-                        }
-                        <div>
-                            <span className="submit-date">{createdDate}</span>
-                        </div>
+                        }                        
 
                     </div>
                     <div className="date">
@@ -258,6 +255,9 @@ export default class PerformanceRecord extends Component {
                         </div>
                     </div>
                 </div>
+                <div className="date-time">
+                    <span className="submit-date">{createdDate}</span>
+                </div>
 
                 <div className="comment" >
                     <p className={this.state.isExpanded ? "collapsed" : "expanded"} ref={(element) => this.element = element}>{record.comment}</p>
@@ -282,10 +282,11 @@ export default class PerformanceRecord extends Component {
                     <div className="avatar nexgoal-system"><img src={resolveClientUrl('dist/avatars/icon-nexgoal.svg')} alt="avatar" /></div>
                     <div className="person-info">
                         <span className={getRoleClassName(record.roleId)}>NexGoal - {record.period ? record.period.name : ''}</span>
-                        <div>
-                            <span className="submit-date">{createdDate}</span>
-                        </div>
+                        
                     </div>
+                </div>
+                <div className="date-time">
+                    <span className="submit-date">{createdDate}</span>
                 </div>
                 <div className="grade">
                     {`${getResource('Grade')}:`} <div className="grade-detail">{grade}</div>
