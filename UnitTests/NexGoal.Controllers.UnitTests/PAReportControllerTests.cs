@@ -18,6 +18,7 @@
         private ISessionService sessionService;
         private IPAReportService reportService;
         private IExportPAReportService exportService;
+        private IPARecordService paRecordService;
 
         [Fact]
         public void Index_WhenCalled_ReturnExpectView()
@@ -118,7 +119,8 @@
             sessionService = Helpers.FakeSessionService();
             reportService = Substitute.For<IPAReportService>();
             exportService = Substitute.For<IExportPAReportService>();
-            var controller = new PAReportController(sessionService, reportService, exportService);
+            paRecordService = Substitute.For<IPARecordService>();
+            var controller = new PAReportController(sessionService, reportService, exportService, paRecordService);
 
             return controller;
         }

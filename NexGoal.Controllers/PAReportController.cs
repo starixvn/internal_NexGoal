@@ -17,14 +17,17 @@
     {
         private readonly IPAReportService reportService;
         private readonly IExportPAReportService exportService;
+        private readonly IPARecordService paService;
 
         public PAReportController(
             ISessionService sessionService,
             IPAReportService reportService,
-            IExportPAReportService exportService) : base(sessionService)
+            IExportPAReportService exportService,
+            IPARecordService paService) : base(sessionService)
         {
             this.reportService = reportService;
             this.exportService = exportService;
+            this.paService = paService;
         }
 
         public IActionResult Index()
@@ -59,7 +62,15 @@
 
         public async Task<IActionResult> ExportPdf(int id)
         {
+            Policy permission = await paService.GetPermissionOnPerformanceAppraisalAsync(sessionService.EmployeeId, id).ConfigureAwait(false);
+
+            if (permission == Policy.None)
+            {
+                return RedirectToAction("AccessDenied", "Error");
+            }
+
             var paDetails = await reportService.GetPAReportDetailAsync(sessionService.EmployeeId, id).ConfigureAwait(false);
+
             if (paDetails.PARecord != null)
             {
                 var tuple = await exportService.ExportPdfAsync(paDetails).ConfigureAwait(false);

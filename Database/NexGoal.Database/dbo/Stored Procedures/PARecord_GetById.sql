@@ -24,34 +24,7 @@ BEGIN
 		
 		,@HRRoleId TINYINT = 2
 		,@ManagementRoleId TINYINT = 3
-		,@CheckPermission BIT = 0
 
-	-- Check permission for actor
-	SET @CheckPermission = CASE 
-			WHEN EXISTS (
-					SELECT 1
-					FROM dbo.PARecord AS pa WITH (NOLOCK)
-					INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
-						AND process.EvaluatorId = @ActorId
-					WHERE pa.PARecordId = @PARecordId
-						AND process.ProcessId NOT IN (
-							@HRProcessId
-							,@PMProcessId
-							)
-					)
-				OR EXISTS (
-					SELECT 1
-					FROM dbo.Employee AS emp WITH (NOLOCK)
-					INNER JOIN dbo.EmployeeRole AS er WITH (NOLOCK) ON er.EmployeeId = emp.EmployeeId
-						AND er.RoleId IN (
-							@HRRoleId
-							,@ManagementRoleId
-							)
-					WHERE emp.EmployeeId = @ActorId
-					)
-				THEN 1
-			ELSE 0
-			END
 
 	SELECT pa.PARecordId
 		,pa.ModifiedDate
@@ -80,7 +53,6 @@ BEGIN
 	INNER JOIN dbo.PAProcess AS reviewer WITH (NOLOCK) ON pa.PARecordId = reviewer.PARecordId
 		AND reviewer.ProcessId = @ReviewerProcessId
 	WHERE pa.PARecordId = @PARecordId
-		AND @CheckPermission <> 0
 
 	SELECT process.PARecordId
 		,process.ProcessId
@@ -105,5 +77,4 @@ BEGIN
 	LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 	WHERE process.PARecordId = @PARecordId
 		AND process.ProcessId NOT IN (@HRProcessId)
-		AND @CheckPermission <> 0
 END
