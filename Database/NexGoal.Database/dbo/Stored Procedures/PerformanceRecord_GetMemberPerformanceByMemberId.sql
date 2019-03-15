@@ -245,7 +245,7 @@ BEGIN
 		,prj.[Name]
 	FROM #tblPerformanceRecord AS record
 		OUTER APPLY [dbo].[func_SplitString](record.ProjectIds, ',') a
-		INNER JOIN dbo.Project AS prj WITH (NOLOCK) ON a.val = prj.ProjectId
+		INNER JOIN dbo.ProjectTag AS prj WITH (NOLOCK) ON a.val = prj.ProjectId
 
 	DROP TABLE #tblPerformanceRecord
 END

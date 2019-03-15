@@ -35,6 +35,6 @@
 
         Task<IEnumerable<PeriodBaseModel>> GetPeriodForReportAsync();
 
-        Task<IEnumerable<ProjectModel>> GetProjectByEmployeeIdAsync(int employeeId);
+        Task<IEnumerable<ProjectModel>> GetProjectTagByEmployeeIdAsync(int employeeId);
     }
 }

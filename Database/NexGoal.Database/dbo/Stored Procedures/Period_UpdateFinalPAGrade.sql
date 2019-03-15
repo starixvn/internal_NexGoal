@@ -20,6 +20,8 @@ BEGIN
 
 	DECLARE @PARecordId INT
 		,@PerformanceRecordId INT
+		,@PAInProgress TINYINT = 3
+		,@PAClosed TINYINT = 4
 		,@idoc INT
 
 	CREATE TABLE #tblPARecord (
@@ -62,7 +64,8 @@ BEGIN
 	DELETE tbl
 	FROM #tblPARecord AS tbl
 		INNER JOIN dbo.PARecord AS pa WITH (NOLOCK) ON tbl.PARecordId = pa.PARecordId
-		AND pa.PerformanceRecordId IS NOT NULL
+	WHERE pa.PerformanceRecordId IS NOT NULL
+		OR pa.StatusId = @PAInProgress
 
 	WHILE EXISTS (
 			SELECT 1

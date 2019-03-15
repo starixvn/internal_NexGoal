@@ -1,6 +1,4 @@
 ﻿
-
-
 CREATE PROCEDURE [dbo].[PerformanceRecord_GetByIds] @PerformanceRecordIds VARCHAR(MAX)
 	,@CreatorId INT
 AS
@@ -24,8 +22,7 @@ BEGIN
 	FROM dbo.func_SplitString(@PerformanceRecordIds, ',')
 	WHERE ISNUMERIC(val) = 1
 
-	SELECT
-		record.PerformanceRecordId
+	SELECT record.PerformanceRecordId
 		,GradeId
 		,Comment
 		,0 AS IsDraft
@@ -49,29 +46,11 @@ BEGIN
 
 	SELECT record.PerformanceRecordId
 		,prj.ProjectId
-		,prj.[Name] 
+		,prj.[Name]
 	FROM #tblPerformanceRecordIds AS per
 		INNER JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON per.PerformanceRecordId = record.PerformanceRecordId
 		OUTER APPLY [dbo].[func_SplitString](record.ProjectIds, ',') a
-		INNER JOIN dbo.Project AS prj WITH (NOLOCK) ON a.val = prj.ProjectId
-
-
-	--SELECT record.PerformanceRecordId
-	--	,record.GradeId
-	--	,record.Comment
-	--	,record.ProjectIds
-	--	,record.CreatedDate
-	--	,record.ModifiedDate
-	--	,record.EmployeeId
-	--	,record.CreatorId
-	--	,record.TypeId
-	--	,record.RoleId
-	--FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
-	--	INNER JOIN #tblPerformanceRecordIds AS tbl WITH (NOLOCK) ON record.PerformanceRecordId = tbl.PerformanceRecordId
-	--	INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
-	--WHERE record.CreatorId = @CreatorId
-	--	AND record.TypeId = 1
-	--ORDER BY record.CreatedDate
+		INNER JOIN dbo.ProjectTag AS prj WITH (NOLOCK) ON a.val = prj.ProjectId
 
 	DROP TABLE #tblPerformanceRecordIds
 END

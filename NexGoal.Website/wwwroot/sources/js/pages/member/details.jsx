@@ -79,7 +79,7 @@ export default class App extends Component {
         const promises = [
             axios(resolveClientUrl('common/GetAllPeriods')),
             axios(resolveClientUrl('Common/GetPerformanceGrades')),
-            axios(resolveClientUrl('Common/GetProjects')),
+            axios(resolveClientUrl('Common/GetProjectTags')),
             axios(resolveClientUrl('member/GetRoleAccordingToMember'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/GetMemberNominationResult'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/GetMemberPerformanceAppraisalResult'), { params: { memberId: memberId } }),

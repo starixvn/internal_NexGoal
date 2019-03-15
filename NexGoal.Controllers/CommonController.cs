@@ -81,9 +81,9 @@
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetProjects()
+        public async Task<JsonResult> GetProjectTags()
         {
-            IEnumerable<ProjectModel> projects = await commonService.GetProjectByEmployeeIdAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<ProjectModel> projects = await commonService.GetProjectTagByEmployeeIdAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(projects);
         }

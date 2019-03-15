@@ -92,7 +92,7 @@
   </Function>
   <Function Name="Project">
     <Setting Key="Project_GetAll" SpName="Project_GetAll" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="Project_GetByEmployeeId" SpName="Project_GetByEmployeeId" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="ProjectTag_GetByEmployeeId" SpName="ProjectTag_GetByEmployeeId" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Performanace Record">
     <Setting Key="PerformanceRecord_GetByEmployee" SpName="PerformanceRecord_GetByEmployee" DbName="bodb_NexGoal" Plain="0" />

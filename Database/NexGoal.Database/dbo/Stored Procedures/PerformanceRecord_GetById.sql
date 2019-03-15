@@ -1,6 +1,4 @@
 ﻿
-
-
 CREATE PROCEDURE [dbo].[PerformanceRecord_GetById] @PerformanceRecordId INT
 	,@CreatorId INT
 AS
@@ -17,8 +15,7 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT
-		PerformanceRecordId
+	SELECT PerformanceRecordId
 		,GradeId
 		,Comment
 		,0 AS IsDraft
@@ -43,10 +40,10 @@ BEGIN
 
 	SELECT record.PerformanceRecordId
 		,prj.ProjectId
-		,prj.[Name] 
+		,prj.[Name]
 	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
 		OUTER APPLY [dbo].[func_SplitString](record.ProjectIds, ',') a
-		INNER JOIN dbo.Project AS prj WITH (NOLOCK) ON a.val = prj.ProjectId
+		INNER JOIN dbo.ProjectTag AS prj WITH (NOLOCK) ON a.val = prj.ProjectId
 	WHERE record.PerformanceRecordId = @PerformanceRecordId
 		AND record.CreatorId = @CreatorId
 		AND record.TypeId = 1

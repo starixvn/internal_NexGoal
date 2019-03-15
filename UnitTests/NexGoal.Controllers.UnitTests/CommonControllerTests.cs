@@ -155,7 +155,7 @@
         }
 
         [Fact]
-        public async Task GetProjects_WhenCalled_ReturnAsExpectedProjects()
+        public async Task GetProjectTags_WhenCalled_ReturnAsExpectedProjects()
         {
             // Arrange
             var projects = new List<ProjectModel>
@@ -163,10 +163,10 @@
                 new ProjectModel { ProjectId = 1, Name = "NexGoal" }
             };
             var controller = GetCommonController();
-            commonService.GetProjectByEmployeeIdAsync(sessionService.EmployeeId).Returns(projects);
+            commonService.GetProjectTagByEmployeeIdAsync(sessionService.EmployeeId).Returns(projects);
 
             // Act
-            var actual = await controller.GetProjects();
+            var actual = await controller.GetProjectTags();
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);

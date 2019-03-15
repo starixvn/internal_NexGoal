@@ -153,9 +153,9 @@
             return await baseService.GetDataAsync<PeriodBaseModel>(new GetPeriodForReportCriteria()).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<ProjectModel>> GetProjectByEmployeeIdAsync(int employeeId)
+        public async Task<IEnumerable<ProjectModel>> GetProjectTagByEmployeeIdAsync(int employeeId)
         {
-            var criteria = new GetProjectByEmployeeIdCriteria
+            var criteria = new GetProjectTagByEmployeeIdCriteria
             {
                 EmployeeId = employeeId
             };

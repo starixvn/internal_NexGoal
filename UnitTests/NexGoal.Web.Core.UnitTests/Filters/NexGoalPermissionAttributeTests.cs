@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
+    using System.Security.Claims;
+    using System.Security.Principal;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -32,9 +34,11 @@
         public void OnAuthorization_EmployeeIdIsInvalid_ExpectedRedirectToAccessDenied()
         {
             // Arrange
+            var principal = new GenericPrincipal(new GenericIdentity("User"), null);
             var httpContext = new DefaultHttpContext
             {
-                Session = new MockSession()
+                Session = new MockSession(),
+                User = principal
             };
             var actionContext = new ActionContext(httpContext, new RouteData(), new ActionDescriptor());
             var authContext = new AuthorizationFilterContext(actionContext, Enumerable.Empty<IFilterMetadata>().ToList());

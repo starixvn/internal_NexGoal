@@ -63,7 +63,7 @@ export default class MyPage extends Component {
     componentDidMount() {
         const promises = [
             axios(resolveClientUrl('Common/GetPerformanceGrades')),
-            axios(resolveClientUrl('Common/GetProjects')),
+            axios(resolveClientUrl('Common/GetProjectTags')),
             axios(resolveClientUrl('Self/Performance')),
             axios(resolveClientUrl('Common/GetAllPeriods')),
             axios(resolveClientUrl('home/GetNominationResult')),

@@ -240,19 +240,19 @@ namespace NexGoal.Services.UnitTests
         }
 
         [Fact]
-        public async Task GetProjectByEmployeeIdAsync_WhenCalled_ReturnAsExpectedProjects()
+        public async Task GetProjectTagByEmployeeIdAsync_WhenCalled_ReturnAsExpectedProjects()
         {
             // Arrange
             var projects = new List<ProjectModel>
             {
                 new ProjectModel { ProjectId = 1, Name = "NexGoal" }
             };
-            var criteria = new GetProjectByEmployeeIdCriteria();
+            var criteria = new GetProjectTagByEmployeeIdCriteria();
             var service = GetCommonService();
-            baseService.GetDataAsync<ProjectModel>(Arg.Do<GetProjectByEmployeeIdCriteria>(x => criteria = x)).Returns(projects);
+            baseService.GetDataAsync<ProjectModel>(Arg.Do<GetProjectTagByEmployeeIdCriteria>(x => criteria = x)).Returns(projects);
 
             // Act
-            var actual = await service.GetProjectByEmployeeIdAsync(1);
+            var actual = await service.GetProjectTagByEmployeeIdAsync(1);
 
             // Assert
             Assert.Equal(projects, actual);

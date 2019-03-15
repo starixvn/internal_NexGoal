@@ -1,6 +1,4 @@
 ﻿
-
-
 CREATE PROCEDURE [dbo].[PerformanceRecord_GetMemberPerformance] @ActorId INT
 AS
 /*
@@ -20,7 +18,6 @@ BEGIN
 		,@EvaluatorProcessId TINYINT = 4
 		,@ReviewerProcessId TINYINT = 5
 		,@Checkin TINYINT = 1
-
 
 	CREATE TABLE #tblMember (
 		EmployeeId INT
@@ -85,26 +82,25 @@ BEGIN
 	FROM dbo.DraftPerformanceRecord AS record WITH (NOLOCK)
 	WHERE record.EmployeeIds <> CAST(record.CreatorId AS VARCHAR(20))
 		AND record.CreatorId = @ActorId
-		
+	
 	UNION
 	SELECT record.PerformanceRecordId
-			,record.GradeId
-			,record.Comment
-			,0 AS IsDraft
-			,record.ProjectIds
-			,record.CreatedDate
-			,record.ModifiedDate
-			,record.RoleId
-			,CAST(record.EmployeeId AS VARCHAR(20))
-			,record.CreatorId
-			,record.TypeId
+		,record.GradeId
+		,record.Comment
+		,0 AS IsDraft
+		,record.ProjectIds
+		,record.CreatedDate
+		,record.ModifiedDate
+		,record.RoleId
+		,CAST(record.EmployeeId AS VARCHAR(20))
+		,record.CreatorId
+		,record.TypeId
 	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeId = emp.EmployeeId
 		AND emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
 		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 		INNER JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
-		
 	WHERE record.TypeId = @Checkin
 		AND (
 			member.IsHost = 1
@@ -117,8 +113,7 @@ BEGIN
 				)
 			)
 
-	SELECT
-		PerformanceRecordId
+	SELECT PerformanceRecordId
 		,GradeId
 		,Comment
 		,IsDraft
@@ -149,10 +144,10 @@ BEGIN
 
 	SELECT record.PerformanceRecordId
 		,prj.ProjectId
-		,prj.[Name] 
+		,prj.[Name]
 	FROM #tblPerformanceRecord AS record
 		OUTER APPLY [dbo].[func_SplitString](record.ProjectIds, ',') a
-		INNER JOIN dbo.Project AS prj WITH (NOLOCK) ON a.val = prj.ProjectId
+		INNER JOIN dbo.ProjectTag AS prj WITH (NOLOCK) ON a.val = prj.ProjectId
 
 	DROP TABLE #tblMember
 
