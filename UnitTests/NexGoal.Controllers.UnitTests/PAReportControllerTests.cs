@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
     using NexGoal.Models.Report;
@@ -56,6 +57,30 @@
         }
 
         [Fact]
+        public async Task GetGroupAndMember_WhenCalled_ReturnList()
+        {
+            var groups = new List<Group> { new Group { GroupId = 1, Code = "NEX", Name = "Nexus" } };
+            var employees = new List<Employee> { new Employee { NickName = "Oliver", EmployeeId = 363 } };
+            var values = new Tuple<IEnumerable<Group>, IEnumerable<Employee>>(groups, employees);
+
+            var expected = new
+            {
+                Groups = groups,
+                Members = employees
+            };
+
+            var controller = GetReportController();
+            reportService.GetGroupAndMemberAsync(sessionService.EmployeeId).Returns(values);
+
+            // Act
+            var actual = await controller.GetGroupAndMember();
+
+            // Assert
+            var result = Assert.IsType<JsonResult>(actual);
+            Assert.Equal(expected.ToString(), result.Value.ToString());
+        }
+
+        [Fact]
         public async Task ExportPAReport_WhenCalled_ReturnAsExpectedFile()
         {
             // Arrange
@@ -78,6 +103,74 @@
             var fileResult = Assert.IsType<FileContentResult>(actual);
             Assert.Equal(bytes, fileResult.FileContents);
             Assert.Equal(MimeType.XLSX, fileResult.ContentType);
+        }
+
+        [Fact]
+        public async Task ExportPdf_WhenCalled_DonotHavePermission()
+        {
+            var paRecordId = 1;
+
+            var controller = GetReportController();
+
+            paRecordService.GetPermissionOnPerformanceAppraisalAsync(sessionService.EmployeeId, paRecordId).Returns(Policy.None);
+
+            // Act
+            var actual = await controller.ExportPdf(paRecordId);
+
+            var result = Assert.IsType<RedirectToActionResult>(actual);
+            Assert.Equal("Error", result.ControllerName);
+            Assert.Equal("AccessDenied", result.ActionName);
+        }
+
+        [Fact]
+        public async Task ExportPdf_WhenCalled_ExportFilePDF()
+        {
+            var paRecordId = 1;
+            var paDetails = new PAReportDetail
+            {
+                Employee = new Employee { NickName = "Oliver" },
+                PARecord = new PARecordModel
+                {
+                    Employee = new Employee { NickName = "Oliver" }
+                }
+            };
+            byte[] bytes = Convert.FromBase64String("text");
+            var controller = GetReportController();
+
+            paRecordService.GetPermissionOnPerformanceAppraisalAsync(sessionService.EmployeeId, paRecordId).Returns(Policy.Host);
+            reportService.GetPAReportDetailAsync(sessionService.EmployeeId, paRecordId).Returns(paDetails);
+
+            exportService.ExportPdfAsync(paDetails).Returns(new Tuple<string, byte[]>("PA Detail", bytes));
+            // Act
+            var actual = await controller.ExportPdf(paRecordId);
+
+            var result = Assert.IsType<FileContentResult>(actual);
+            Assert.Equal(bytes, result.FileContents);
+            Assert.Equal("PA Detail", result.FileDownloadName);
+            Assert.Equal(MimeType.PDF, result.ContentType);
+        }
+
+        [Fact]
+        public async Task ExportPdf_WhenCalled_NoRecordFound()
+        {
+            var paRecordId = 1;
+            var paDetails = new PAReportDetail
+            {
+                Employee = new Employee { NickName = "Oliver" }
+            };
+            byte[] bytes = Convert.FromBase64String("text");
+            var controller = GetReportController();
+
+            paRecordService.GetPermissionOnPerformanceAppraisalAsync(sessionService.EmployeeId, paRecordId).Returns(Policy.Host);
+            reportService.GetPAReportDetailAsync(sessionService.EmployeeId, paRecordId).Returns(paDetails);
+
+            exportService.ExportPdfAsync(paDetails).Returns(new Tuple<string, byte[]>("PA Detail", bytes));
+            // Act
+            var actual = await controller.ExportPdf(paRecordId);
+
+            var result = Assert.IsType<RedirectToActionResult>(actual);
+            Assert.Equal("Error", result.ControllerName);
+            Assert.Equal("PageNotFound", result.ActionName);
         }
 
         #region Helpers
