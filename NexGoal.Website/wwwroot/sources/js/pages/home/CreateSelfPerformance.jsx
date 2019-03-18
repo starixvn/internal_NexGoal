@@ -26,7 +26,7 @@ export default class CreateSelfPerformance extends Component {
         currentUser: { nickName: '', avatar: '' },
         performanceGradeOptions: [],
         projectOptions: [],
-        onSubmitSuccess: function() { }
+        onSubmitSuccess: function () { }
     };
 
     constructor(props) {
@@ -256,7 +256,7 @@ export default class CreateSelfPerformance extends Component {
                         !isOpenForm &&
                         <input className="form-control"
                             style={{ height: 50 }}
-                            placeholder="Any achievement you proud of?"
+                            placeholder="Any achievements you are proud of?"
                             onClick={this.handleOpenForm}
                         />
                     }
