@@ -105,7 +105,7 @@ export default class MyPage extends Component {
                     performanceAppraisals: performanceAppraisalsResponse.data,
                     displayedPerformanceRecords: displayedPerformanceRecords,
                     hasMore: displayedPerformanceRecords.length < performanceRecordResponse.data.length
-                }, () => this.checkUrlParams());
+                });
             }).catch(axiosError);
     }
 
@@ -375,7 +375,9 @@ export default class MyPage extends Component {
             }
         } else {
             this.setState({ performanceRecordIdHighlighted: performanceRecordId },
-                () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
+                () => {
+                    document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' });
+                });
         }
     }
 
@@ -445,7 +447,7 @@ export default class MyPage extends Component {
                                 }
                                 {
                                     this.state.periods.length > 0 &&
-                                    <WorkLoad periods={this.state.periods} />
+                                    <WorkLoad periods={this.state.periods} afterInitChart={this.checkUrlParams} />
                                 }
                                 <HrmSummary />
                             </div>

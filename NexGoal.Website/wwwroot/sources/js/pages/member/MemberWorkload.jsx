@@ -16,6 +16,10 @@ export default class MemberWorkload extends Component {
             selectedGroups: this.props.groupOptions,
             periodId: this.props.periods[0].periodId
         };
+
+        if (this.props.groupOptions.length === 1) {
+            this.chartOptions.afterInit = this.props.afterInitChart;
+        }
     }
 
     componentDidMount() {
@@ -30,7 +34,7 @@ export default class MemberWorkload extends Component {
         }).then(response => {
             let workloads = response.data.map(this.generateWorkload);
 
-            this.setState({ workloads: workloads });
+            this.setState({ workloads: workloads }, () => this.chartOptions.afterInit = null);
         }).catch(axiosError);
     }
 
@@ -85,6 +89,15 @@ export default class MemberWorkload extends Component {
     })
 
     chartOptions = {
+        animation: {
+            duration: 500,
+            onComplete: function () {
+                if (this.options.afterInit) {
+                    this.options.afterInit();
+                    this.options.afterInit = null;
+                }
+            }
+        },
         tooltips: {
             callbacks: {
                 label: function (tooltipItem, data) {

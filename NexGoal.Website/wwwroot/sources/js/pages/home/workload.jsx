@@ -13,8 +13,10 @@ export default class WorkLoad extends PureComponent {
 
         this.state = {
             chartData: null,
-            periodId: this.props.periods[0].periodId
+            periodId: this.props.periods[0].periodId,
         };
+
+        this.chartOptions.afterInit = this.props.afterInitChart;
     }
 
     componentDidMount() {
@@ -41,7 +43,8 @@ export default class WorkLoad extends PureComponent {
             }
         }).then(response => this.setState({
             chartData: this.getChartData(response.data)
-        })).catch(axiosError);
+        }, () => this.chartOptions.afterInit = null
+        )).catch(axiosError);
     }
 
     getChartData = workload => {
@@ -81,6 +84,15 @@ export default class WorkLoad extends PureComponent {
     }
 
     chartOptions = {
+        animation: {
+            duration: 500,
+            onComplete: function () {
+                if (this.options.afterInit) {
+                    this.options.afterInit();
+                    this.options.afterInit = null;
+                }
+            }
+        },
         cutoutPercentage: 60,
         tooltips: {
             callbacks: {

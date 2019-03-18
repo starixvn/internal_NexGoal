@@ -108,7 +108,7 @@ export default class App extends Component {
                     displayedPerformanceRecords: displayedPerformanceRecords,
                     hasMore: displayedPerformanceRecords.length < memberPerformanceResponse.data.length,
                     announcements: announcementsResponse.data.length > 0 ? announcementsResponse.data : [getResource('DefaultAnnouncement')]
-                }, () => this.checkUrlParams());
+                });
             }).catch(axiosError);
     }
 
@@ -462,7 +462,7 @@ export default class App extends Component {
                                     <NominationResult />
                                     {
                                         this.periods.length > 0 &&
-                                        <MemberWorkload groupOptions={this.myGroupOptions} periods={this.periods} />
+                                        <MemberWorkload groupOptions={this.myGroupOptions} periods={this.periods} afterInitChart={this.checkUrlParams} />
                                     }
                                 </div>
                             </CustomScrollbars >
