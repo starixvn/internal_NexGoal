@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 
 export default function Marquee(props) {
-    var duration = props.messages.reduce((total, current) => total + current.length, 0) * 0.3;
+    var duration = props.messages.reduce((total, current) => total + current.length, 0) / 5;
 
     var style = {
         '-webkit-animation': `marquee ${duration}s linear infinite`,
@@ -22,7 +22,6 @@ export default function Marquee(props) {
                         </span>
                     )
                 }
-
             </span>
         </div>
     );
