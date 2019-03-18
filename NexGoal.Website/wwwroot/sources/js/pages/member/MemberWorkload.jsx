@@ -17,9 +17,7 @@ export default class MemberWorkload extends Component {
             periodId: this.props.periods[0].periodId
         };
 
-        if (this.props.groupOptions.length === 1) {
-            this.chartOptions.afterInit = this.props.afterInitChart;
-        }
+        this.chartOptions.afterInit = this.props.afterInitChart;
     }
 
     componentDidMount() {
