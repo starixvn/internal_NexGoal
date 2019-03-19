@@ -1,4 +1,4 @@
-var resource_en_US = {
+window.resource_en_US = {
     'AccomplishedCurrentObjectives': 'Accomplished Current Objectives',
     'Achievements': 'Achievements',
     'Action': 'Action',
