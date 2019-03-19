@@ -26,9 +26,7 @@
 
             var workloads = await baseService.GetDataAsync<MembersWorkloadEntityModel>(criteria).ConfigureAwait(false);
 
-            IEnumerable<TeamWorkloadModel> teamWorkloads = GenerateTeamWorkload(workloads);
-
-            return teamWorkloads;
+            return GenerateTeamWorkload(workloads);
         }
 
         public async Task<IEnumerable<ProjectWorkloadModel>> GetWorkloadAsync(int employeeId, int periodId)
@@ -40,26 +38,25 @@
             };
 
             var workloads = await baseService.GetDataAsync<ProjectWorkloadModel>(criteria).ConfigureAwait(false);
-            var result = workloads.GroupBy(x => x.Name).Select(y => new ProjectWorkloadModel
+
+            return GenerateWorkload(workloads);
+        }
+
+        private IEnumerable<ProjectWorkloadModel> GenerateWorkload(IEnumerable<ProjectWorkloadModel> projectWorkloads)
+        {
+            var workloads = projectWorkloads.GroupBy(x => x.Name).Select(y => new ProjectWorkloadModel
             {
                 ProjectId = y.Min(pid => pid.ProjectId),
                 Name = y.Key,
                 TotalHours = y.Sum(t => t.TotalHours)
             });
 
-            return result.OrderByDescending(x => x.TotalHours);
+            return workloads.OrderByDescending(x => x.TotalHours);
         }
 
         private IEnumerable<TeamWorkloadModel> GenerateTeamWorkload(IEnumerable<MembersWorkloadEntityModel> rawWorkloads)
         {
-            IEnumerable<TeamWorkloadModel> workloads = GroupWorkloadByTeam(rawWorkloads);
-
-            return workloads;
-        }
-
-        private IEnumerable<TeamWorkloadModel> GroupWorkloadByTeam(IEnumerable<MembersWorkloadEntityModel> workloadEntries)
-        {
-            var teamWorkloads = workloadEntries.GroupBy(w => new { w.GroupId, w.GroupName }).Select(i => new TeamWorkloadModel
+            var teamWorkloads = rawWorkloads.GroupBy(w => new { w.GroupId, w.GroupName }).Select(i => new TeamWorkloadModel
             {
                 GroupId = i.Key.GroupId,
                 GroupName = i.Key.GroupName,
