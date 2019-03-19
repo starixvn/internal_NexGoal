@@ -17,7 +17,8 @@ BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
 
-	DECLARE @PAInProgress TINYINT = 3
+	DECLARE @CreatedDate DATETIME = GETDATE()
+		,@PAInProgress TINYINT = 3
 		,@PAClosed TINYINT = 4
 		,@PARecordId INT
 		,@PerformanceRecordId INT
@@ -59,6 +60,7 @@ BEGIN
 
 	UPDATE record
 	SET record.GradeId = pa.GradeId
+		,record.CreatedDate = @CreatedDate
 	FROM dbo.PerformanceRecord AS record WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN dbo.PARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
 		AND pa.StatusId = @PAClosed
@@ -96,7 +98,7 @@ BEGIN
 		SELECT EmployeeId
 			,- 1
 			,GradeId
-			,GETDATE()
+			,@CreatedDate
 			,4 -- system PA
 			,255
 		FROM dbo.PARecord WITH (NOLOCK)

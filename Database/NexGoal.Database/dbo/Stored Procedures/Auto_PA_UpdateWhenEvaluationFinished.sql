@@ -73,12 +73,6 @@ BEGIN
 
 	UPDATE record
 	SET record.GradeId = pa.GradeId
-	FROM dbo.PerformanceRecord AS record WITH (ROWLOCK, UPDLOCK)
-		INNER JOIN dbo.PARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
-	WHERE record.GradeId IS NULL
-
-	UPDATE record
-	SET record.GradeId = pa.GradeId
 		,record.CreatedDate = @CreatedDate
 	FROM dbo.PerformanceRecord AS record WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN #tblPARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
