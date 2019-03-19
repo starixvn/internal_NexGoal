@@ -127,7 +127,7 @@ export default class App extends Component {
                     performanceAppraisals: performanceAppraisalResponse.data,
                     displayedPerformanceRecords: displayedPerformanceRecords,
                     performanceRecords: performanceRecordResponse.data,
-                    announcements: announcementResponse.data,
+                    announcements: announcementResponse.data.length > 0 ? announcementResponse.data : [getResource('DefaultAnnouncement')],
                     hasMore: displayedPerformanceRecords.length < performanceRecordResponse.data.length
                 });
             }).catch(axiosError);
