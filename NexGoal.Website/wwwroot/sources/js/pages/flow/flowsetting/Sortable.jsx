@@ -31,7 +31,7 @@ class Sortable extends Component {
     }
 
     renderItems() {
-        return this.props.data.map((item, i) =>
+        return this.props.data.map((item) =>
             <li key={`evaluator${item.evaluatorId}`} className="alert alert-info">
                 {this.props.enable &&
                     <a className="fa fa-times" onClick={(e) => this.handleOnRemoveClick(e, item.evaluatorId)} />

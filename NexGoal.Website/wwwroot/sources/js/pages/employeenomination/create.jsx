@@ -9,7 +9,6 @@ import { stringify } from 'qs';
 import { Formik } from 'formik';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
-import { PerformanceRecordStatus } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
@@ -20,14 +19,8 @@ export default class Create extends Component {
 
         this.state = {
             employeeOptions: [],
-            nominationPeriodOptions: [],
+            nominationPeriodOptions: []
         };
-    }
-
-    initialObj = {
-        period: null,
-        employee: null,
-        comment: ''
     }
 
     componentDidMount() {
@@ -138,6 +131,12 @@ export default class Create extends Component {
     }
 
     render() {
+        const initialObj = {
+            period: null,
+            employee: null,
+            comment: ''
+        };
+
         return (
             <Fragment>
                 <ToastLayout />
@@ -146,7 +145,7 @@ export default class Create extends Component {
                         <li className="current">Create new nomination</li>
                     </Breadcrumb>
                     <div className="col-sm-6">
-                        <Formik initialValues={this.initialObj} validate={this.validateForm} onSubmit={this.handleSubmit} render={this.renderForm} />
+                        <Formik initialValues={initialObj} validate={this.validateForm} onSubmit={this.handleSubmit} render={this.renderForm} />
                     </div>
                 </div>
             </Fragment>

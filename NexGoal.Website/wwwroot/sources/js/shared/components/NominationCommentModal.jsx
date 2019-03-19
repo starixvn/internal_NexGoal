@@ -31,7 +31,6 @@ export default class NominationCommentModal extends PureComponent {
             return (
                 <Modal show={this.props.showModal} onHide={this.props.onCloseModal}
                     dialogClassName="custom-modal modal-lg nomination-comment-modal"
-                    keyboard={false} backdrop="static"
                 >
                     <Modal.Header>
                         <Modal.Title>

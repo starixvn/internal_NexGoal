@@ -48,7 +48,8 @@ class EmployeeFlowSetting extends Component {
                                             employeeFlowSetting.reviewer ?
                                                 `${employeeFlowSetting.reviewer.nickName} (${employeeFlowSetting.reviewer.fullName})`
                                                 : ''
-                                        }</td>
+                                        }
+                                    </td>
                                 </tr>
                             );
                         })

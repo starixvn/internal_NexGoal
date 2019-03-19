@@ -6,7 +6,7 @@ export default function Announcement(props) {
     let content = props.announcements.map((e, i) => <li key={i}><p>{e}</p></li>);
 
     return (
-        <Modal keyboard={false} backdrop="static"
+        <Modal
             show={props.showModal} onHide={props.onCloseModal}
             dialogClassName="custom-modal announcement-modal"
         >

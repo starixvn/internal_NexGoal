@@ -24,7 +24,7 @@ export default class PADetail extends Component {
         const title = getResource('PerformanceAppraisal') + " OF " + this.props.employee.nickName;
 
         return (
-            <Modal keyboard={false} backdrop="static"
+            <Modal
                 show={this.props.isShowModal} onHide={this.props.onCloseModal}
                 dialogClassName="custom-modal modal-md form-performance edit performance-appraisal"
             >

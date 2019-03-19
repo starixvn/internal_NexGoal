@@ -6,8 +6,9 @@ class GroupFlowSetting extends Component {
     render() {
         let groupFlowSettings = this.props.groupFlowSettings;
         const tableWidth = {
-          width: '800px'
-        }
+            width: '800px'
+        };
+
         return (
             <table className="table table-bordered table-striped" style={tableWidth}>
                 <thead>
@@ -44,7 +45,8 @@ class GroupFlowSetting extends Component {
                                             groupFlowSetting.reviewer ?
                                                 `${groupFlowSetting.reviewer.nickName} (${groupFlowSetting.reviewer.fullName})`
                                                 : ''
-                                        }</td>
+                                        }
+                                    </td>
                                 </tr>
                             );
                         })
