@@ -16,12 +16,10 @@ BEGIN
 		,@EvaluatorProcessId TINYINT = 4
 		,@ReviewerProcessId TINYINT = 5
 
-	BEGIN
-		SELECT @fromDate = p.DisciplineStartDate
-			,@toDate = p.DisciplineEndDate
-		FROM dbo.Period p WITH (NOLOCK)
-		WHERE p.PeriodId = @PeriodId
-	END
+	SELECT @fromDate = DisciplineStartDate
+		,@toDate = DATEADD(DAY, DATEDIFF(DAY, 0, DisciplineEndDate), '23:59:59')
+	FROM dbo.Period WITH (NOLOCK)
+	WHERE PeriodId = @PeriodId
 
 	SELECT ee.RankIndex
 		,ee.EmployeeId
@@ -40,7 +38,8 @@ BEGIN
 		INNER JOIN [dbo].[Group] AS g WITH (NOLOCK) ON e.GroupId = g.GroupId
 		INNER JOIN #sortedemployee AS ee ON e.EmployeeId = ee.EmployeeId
 		LEFT JOIN dbo.ProjectSpentTime AS pst WITH (NOLOCK) ON e.EmployeeId = pst.EmployeeId
-			AND pst.SpentOn BETWEEN @fromDate AND @toDate
+		AND pst.SpentOn BETWEEN @fromDate
+			AND @toDate
 		LEFT JOIN dbo.Project AS p WITH (NOLOCK) ON pst.ProjectId = p.ProjectId
 	WHERE e.IsDeleted = 0
 		AND e.[Enabled] = 1

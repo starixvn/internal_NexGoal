@@ -30,10 +30,10 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-		SELECT @fromDate = p.DisciplineStartDate
-			,@toDate = p.DisciplineEndDate
-		FROM dbo.Period AS p WITH (NOLOCK)
-		WHERE p.PeriodId = @PeriodId
+		SELECT @fromDate = DisciplineStartDate
+			,@toDate = DATEADD(DAY, DATEDIFF(DAY, 0, DisciplineEndDate), '23:59:59')
+		FROM dbo.Period WITH (NOLOCK)
+		WHERE PeriodId = @PeriodId
 	END
 
 	IF EXISTS (
@@ -47,8 +47,8 @@ BEGIN
 			,p.[Name]
 			,SUM(s.[Hours]) AS TotalHours
 		FROM dbo.func_GetMember(@EmployeeId) AS e
-		INNER JOIN dbo.ProjectSpentTime AS s WITH (NOLOCK) ON e.EmployeeId = s.EmployeeId
-		INNER JOIN dbo.Project AS p WITH (NOLOCK) ON p.ProjectId = s.ProjectId
+			INNER JOIN dbo.ProjectSpentTime AS s WITH (NOLOCK) ON e.EmployeeId = s.EmployeeId
+			INNER JOIN dbo.Project AS p WITH (NOLOCK) ON p.ProjectId = s.ProjectId
 		WHERE s.SpentOn BETWEEN @fromDate
 				AND @toDate
 			AND e.ProcessId = @EvaluatorProcessId
@@ -66,8 +66,8 @@ BEGIN
 			,p.[Name]
 			,SUM(s.[Hours]) AS TotalHours
 		FROM dbo.func_GetMember(@EmployeeId) AS e
-		INNER JOIN dbo.ProjectSpentTime AS s WITH (NOLOCK) ON e.EmployeeId = s.EmployeeId
-		INNER JOIN dbo.Project AS p WITH (NOLOCK) ON p.ProjectId = s.ProjectId
+			INNER JOIN dbo.ProjectSpentTime AS s WITH (NOLOCK) ON e.EmployeeId = s.EmployeeId
+			INNER JOIN dbo.Project AS p WITH (NOLOCK) ON p.ProjectId = s.ProjectId
 		WHERE s.SpentOn BETWEEN @fromDate
 				AND @toDate
 			AND e.ProcessId = @ReviewerProcessId
@@ -85,8 +85,8 @@ BEGIN
 			,p.[Name]
 			,SUM(s.[Hours]) AS TotalHours
 		FROM dbo.func_GetMember(@EmployeeId) AS e
-		INNER JOIN dbo.ProjectSpentTime AS s WITH (NOLOCK) ON e.EmployeeId = s.EmployeeId
-		INNER JOIN dbo.Project AS p WITH (NOLOCK) ON p.ProjectId = s.ProjectId
+			INNER JOIN dbo.ProjectSpentTime AS s WITH (NOLOCK) ON e.EmployeeId = s.EmployeeId
+			INNER JOIN dbo.Project AS p WITH (NOLOCK) ON p.ProjectId = s.ProjectId
 		WHERE s.SpentOn BETWEEN @fromDate
 				AND @toDate
 			AND e.ProcessId = @PMProcessId
@@ -99,7 +99,7 @@ BEGIN
 			,p.[Name]
 			,SUM(pst.[Hours]) AS TotalHours
 		FROM dbo.ProjectSpentTime AS pst WITH (NOLOCK)
-		INNER JOIN dbo.Project AS p WITH (NOLOCK) ON pst.ProjectId = p.ProjectId
+			INNER JOIN dbo.Project AS p WITH (NOLOCK) ON pst.ProjectId = p.ProjectId
 		WHERE pst.EmployeeId = @EmployeeId
 			AND pst.SpentOn BETWEEN @fromDate
 				AND @toDate
