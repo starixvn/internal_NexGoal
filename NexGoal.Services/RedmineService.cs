@@ -26,7 +26,7 @@
 
             var workloads = await baseService.GetDataAsync<MembersWorkloadEntityModel>(criteria).ConfigureAwait(false);
 
-            var teamWorkloads = GenerateTeamWorkload(workloads);
+            IEnumerable<TeamWorkloadModel> teamWorkloads = GenerateTeamWorkload(workloads);
 
             return teamWorkloads;
         }
@@ -39,14 +39,20 @@
                 PeriodId = periodId
             };
 
-            var workload = await baseService.GetDataAsync<ProjectWorkloadModel>(criteria).ConfigureAwait(false);
+            var workloads = await baseService.GetDataAsync<ProjectWorkloadModel>(criteria).ConfigureAwait(false);
+            var result = workloads.GroupBy(x => x.Name).Select(y => new ProjectWorkloadModel
+            {
+                ProjectId = y.Min(pid => pid.ProjectId),
+                Name = y.Key,
+                TotalHours = y.Sum(t => t.TotalHours)
+            });
 
-            return workload.OrderByDescending(x => x.TotalHours);
+            return result.OrderByDescending(x => x.TotalHours);
         }
 
         private IEnumerable<TeamWorkloadModel> GenerateTeamWorkload(IEnumerable<MembersWorkloadEntityModel> rawWorkloads)
         {
-            var workloads = GroupWorkloadByTeam(rawWorkloads);
+            IEnumerable<TeamWorkloadModel> workloads = GroupWorkloadByTeam(rawWorkloads);
 
             return workloads;
         }
@@ -61,10 +67,10 @@
                 {
                     EmployeeId = x.Key.EmployeeId,
                     NickName = x.Key.NickName,
-                    Workloads = x.Where(p => p.ProjectId > 0).GroupBy(p => new { p.ProjectId, p.ProjectName }).Select(p => new ProjectWorkloadModel
+                    Workloads = x.Where(p => p.ProjectId > 0).GroupBy(p => p.ProjectName).Select(p => new ProjectWorkloadModel
                     {
-                        ProjectId = p.Key.ProjectId,
-                        Name = p.Key.ProjectName,
+                        ProjectId = p.Min(pid => pid.ProjectId),
+                        Name = p.Key,
                         TotalHours = p.Sum(h => h.TotalHour)
                     })
                 })
