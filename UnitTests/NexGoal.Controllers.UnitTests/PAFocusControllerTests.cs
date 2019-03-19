@@ -183,7 +183,7 @@
             var controller = GetPAFocusController();
             focusService.GetPeriodAsync().Returns(periods);
             focusService.GetPAFocusAsync(param).Returns(paFocuses);
-            exportExcelService.Export(periods.First(), paFocuses).Returns(bytes);
+            exportExcelService.ExportAsync(periods.First(), paFocuses).Returns(bytes);
 
             // Act
             var actual = await controller.ExportToExcel(param);

@@ -14,7 +14,7 @@ export default class NotificationBell extends Component {
         this.state = {
             isShowNoti: false,
             notifications: [],
-            unreadNoti: parseInt(document.getElementById("employeeInfo-unreadNoti").innerText, 10),
+            unreadNoti: parseInt(document.getElementById('employeeInfo-unreadNoti').innerText, 10),
             totalItems: 0,
             pageIndex: 0,
             hasMore: true
@@ -46,7 +46,7 @@ export default class NotificationBell extends Component {
         this.removeEventListener();
     }
 
-    getNotifications = (callback) => {
+    getNotifications = callback => {
         axios.get(resolveClientUrl('Notification/GetNotification'), {
             params: {
                 pageIndex: this.state.pageIndex,
@@ -56,6 +56,7 @@ export default class NotificationBell extends Component {
             const data = response.data;
             let notifications = this.state.notifications;
             notifications.push(...data.notifications);
+
             this.setState({
                 notifications: notifications,
                 unreadNoti: data.unreadNoti,
@@ -68,10 +69,10 @@ export default class NotificationBell extends Component {
         }).catch(axiosError);
     }
 
-    triggerNotificationCenter = (notificationId) => {
+    triggerNotificationCenter = notificationId => {
         let notiCenterTrigger = document.getElementById('trigger-notification-center');
         if (notiCenterTrigger) {
-            notiCenterTrigger.setAttribute("notificationId", notificationId);
+            notiCenterTrigger.setAttribute('notificationId', notificationId);
             notiCenterTrigger.click();
         }
     }
@@ -80,7 +81,7 @@ export default class NotificationBell extends Component {
         let notiTrigger = document.getElementById('trigger-notification-bell');
         if (notiTrigger) {
             notiTrigger.addEventListener('click', () => {
-                let notificationId = parseInt(notiTrigger.getAttribute("notificationId"), 10);
+                let notificationId = parseInt(notiTrigger.getAttribute('notificationId'), 10);
                 if (!notificationId) {
                     this.markAsReadSuccess();
                 } else {
@@ -97,7 +98,7 @@ export default class NotificationBell extends Component {
         }
     }
 
-    handleRedirectToAction = (notificationId) => {
+    handleRedirectToAction = notificationId => {
         let notifications = this.state.notifications.slice();
         let notiIndex = notifications.findIndex(noti => noti.notificationId === notificationId);
         if (notiIndex !== -1) {
@@ -156,7 +157,7 @@ export default class NotificationBell extends Component {
         this.triggerNotificationCenter();
     }
 
-    handleClickOutside = (event) => {
+    handleClickOutside = event => {
         const notiSettings = document.getElementById('notification-settings');
         if (this.wrapperRef && !this.wrapperRef.contains(event.target)
             && (notiSettings === null || !notiSettings.contains(event.target))) {

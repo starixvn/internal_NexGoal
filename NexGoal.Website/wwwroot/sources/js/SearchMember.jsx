@@ -37,7 +37,7 @@ export default class SearchMember extends Component {
             }).catch(axiosError);
     }
 
-    handleClickOutside = (event) => {
+    handleClickOutside = event => {
         if (this.wrapperRef && !this.wrapperRef.contains(event.target) && this.state.showSearchbox && !this.inputRef.value) {
             this.setState({
                 showSearchbox: false,
@@ -46,8 +46,8 @@ export default class SearchMember extends Component {
         }
     }
 
-    handleChange = (e) => {
-        let value = e.target.value.toLowerCase();
+    handleChange = event => {
+        const value = event.target.value.toLowerCase();
 
         if (value.length > 1) {
             let options = this.members.slice()
@@ -79,15 +79,15 @@ export default class SearchMember extends Component {
         }
     }
 
-    handleSelect = (e) => {
-        let memberId = e.target.attributes['memberid'].value;
+    handleSelect = event => {
+        const memberId = event.target.attributes['memberid'].value;
         if (memberId) {
             window.location = resolveClientUrl(`member/details/${memberId}`);
         }
     }
 
     render() {
-        let memberOptions = this.state.memberOptions;
+        const memberOptions = this.state.memberOptions;
 
         return (
             <Fragment>

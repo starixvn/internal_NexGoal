@@ -28,7 +28,7 @@ export default class Table extends Component {
     }
 
     handleEditStatus = (event, discipline) => {
-        let isActive = event.target.checked;
+        const isActive = event.target.checked;
 
         axios({
             url: resolveClientUrl('discipline/editstatus'),
@@ -43,7 +43,7 @@ export default class Table extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            var data = response.data;
+            let data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('UpdatedSuccessfully'));
@@ -55,17 +55,15 @@ export default class Table extends Component {
     }
 
     render() {
-        let isHost = this.props.isHost;
-        let columns = [
+        const isHost = this.props.isHost;
+        const columns = [
             {
                 dataField: 'rowNum',
                 isDummyField: true,
                 text: `${getResource('SymbolCount')}`,
                 classes: 'text-center',
                 headerStyle: { width: '50px' },
-                formatter: (cell, row, rowIndex) => {
-                    return rowIndex + 1;
-                }
+                formatter: (cell, row, rowIndex) => rowIndex + 1
             },
             {
                 dataField: 'employee.nickName',
@@ -89,16 +87,12 @@ export default class Table extends Component {
                 text: `${getResource('IssueDate')}`,
                 classes: 'text-center',
                 headerStyle: { width: '120px' },
-                formatter: (cell, row) => {
-                    return `${moment(row.effectiveDate).format('DD MMM, YYYY')}`;
-                }
+                formatter: (cell, row) => `${moment(row.effectiveDate).format('DD MMM, YYYY')}`
             },
             {
                 dataField: 'creator.nickName',
                 text: `${getResource('Creator')}`,
-                formatter: (cell, row) => {
-                    return `${row.creator.nickName} (${row.creator.fullName})`;
-                }
+                formatter: (cell, row) => `${row.creator.nickName} (${row.creator.fullName})`
             },
             {
                 dataField: 'isActive',
@@ -107,10 +101,25 @@ export default class Table extends Component {
                 headerStyle: { width: '80px' },
                 formatter: (cell, row, rowIndex) => {
                     if (isHost) {
-                        return <div className="checkbox"><input type='checkbox' id={'chb-active-' + rowIndex} defaultChecked={row.isActive} onChange={event => this.handleEditStatus(event, row)} className="checkbox-custom" /><label htmlFor={'chb-active-' + rowIndex}></label></div>;
+                        return (
+                            <div className="checkbox">
+                                <input type='checkbox' id={'chb-active-' + rowIndex}
+                                    defaultChecked={row.isActive}
+                                    onChange={event => this.handleEditStatus(event, row)} className="checkbox-custom"
+                                />
+                                <label htmlFor={'chb-active-' + rowIndex} />
+                            </div>
+                        );
                     }
 
-                    return <div className="checkbox"><input type='checkbox' id={'chb-active-' + rowIndex} checked={row.isActive} readOnly className="checkbox-custom"/><label htmlFor={'chb-active-' + rowIndex}></label></div>;
+                    return (
+                        <div className="checkbox">
+                            <input type='checkbox' id={'chb-active-' + rowIndex}
+                                checked={row.isActive} readOnly className="checkbox-custom"
+                            />
+                            <label htmlFor={'chb-active-' + rowIndex} />
+                        </div>
+                    );
                 }
             },
             {

@@ -85,7 +85,7 @@ export default class Discipline extends Component {
         this.getDisciplines(this.state.filter);
     }
 
-    getEmployees = (groupIds) => {
+    getEmployees = groupIds => {
         axios(resolveClientUrl('common/GetEmployees'), { params: { groupIds: groupIds } })
             .then(response => {
                 let employeeOptions = response.data.map(item => {
@@ -108,7 +108,7 @@ export default class Discipline extends Component {
             }).catch(axiosError);
     }
 
-    getDisciplines = (filter) => {
+    getDisciplines = filter => {
         axios(resolveClientUrl('Discipline/GetDisciplines'), {
             params: {
                 fromDate: filter.from.format('YYYY-MM-DD'),
@@ -136,7 +136,7 @@ export default class Discipline extends Component {
         this.getDisciplines(this.state.filter);
     }
 
-    handleClickEdit = (discipline) => {
+    handleClickEdit = discipline => {
         discipline.effectiveDate = moment(discipline.effectiveDate);
 
         this.setState({
@@ -156,7 +156,7 @@ export default class Discipline extends Component {
         });
     }
 
-    handleEditSuccess = (discipline) => {
+    handleEditSuccess = discipline => {
         let disciplines = this.state.disciplines.slice();
         let index = disciplines.findIndex(e => e.disciplineId === discipline.disciplineId);
         if (index >= 0) {

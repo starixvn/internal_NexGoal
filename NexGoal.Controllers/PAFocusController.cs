@@ -104,7 +104,7 @@
             PeriodBaseModel period = periods.First(x => x.PeriodId == param.PeriodId);
             var fileName = string.Format("PA Focus of {0}.xlsx", period != null ? period.Name : string.Empty);
 
-            byte[] fileContent = exportExcelService.Export(period, paFocuses);
+            byte[] fileContent = await exportExcelService.ExportAsync(period, paFocuses).ConfigureAwait(false);
 
             return File(fileContent, MimeType.XLSX, fileName);
         }

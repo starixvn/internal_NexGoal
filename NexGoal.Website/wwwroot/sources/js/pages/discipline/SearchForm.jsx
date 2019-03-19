@@ -4,39 +4,38 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import Select from 'react-select';
 
-import { StatusOptions } from '../../constants';
+import { DateFormat, StatusOptions } from '../../constants';
 import getResource from '../../resourceHelper';
-import { DateFormat } from '../../constants';
 
 class SearchForm extends Component {
-    onFromDateChange = (date) => {
+    onFromDateChange = date => {
         this.props.onChange('from', date);
     }
 
-    onToDateChange = (date) => {
+    onToDateChange = date => {
         this.props.onChange('to', date);
     }
 
-    onChangeRaw = (event) => {
+    onChangeRaw = event => {
         let date = moment(event.target.value);
         if (date.isValid()) {
             this.props.onChange(event.target.name, date);
         }
     }
 
-    handleStatusChange = (selectedOption) => {
+    handleStatusChange = selectedOption => {
         this.props.onChange('isActive', selectedOption);
     }
 
-    handleGroupChange = (selectedOptions) => {
+    handleGroupChange = selectedOptions => {
         this.props.onChange('group', selectedOptions);
     }
 
-    handleEmployeeChange = (selectedOption) => {
+    handleEmployeeChange = selectedOption => {
         this.props.onChange('employee', selectedOption);
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = event => {
         event.preventDefault();
         this.props.onSubmit();
     }

@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Modal, Button, FormGroup, ControlLabel, Col, Form } from 'react-bootstrap';
+import { Modal, Button, FormGroup, Form } from 'react-bootstrap';
 import axios from 'axios';
 import moment from 'moment';
 import { stringify } from 'qs';
@@ -88,41 +88,41 @@ export default class Create extends Component {
                         </ul>
                     }
                     <div className="line-group">
-                      <FormGroup>
-                        <label className="control-label required-label">{getResource('Employee')}</label>
-                        <div className="control-content">
-                            <Select name="employee"
-                                className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`}
-                                classNamePrefix="react-select"
-                                isDisabled={values.disciplineId > 0} isClearable
-                                options={this.props.employeeOptions}
-                                value={values.employee}
-                                onChange={value => setFieldValue('employee', value)}
-                            />
-                        </div>
-                      </FormGroup>
-                      <FormGroup>
-                        <label className="required-label control-label">{getResource('IssueDate')}</label>
-                        <div className="control-content">
-                            <DatePicker className={`form-control  ${touched.effectiveDate && errors.effectiveDate && 'input-validation-error'}`}
-                                dateFormat={DateFormat} selected={values.effectiveDate}
-                                onChange={value => setFieldValue('effectiveDate', value)}
-                                onChangeRaw={this.onChangeRaw}
-                                name="effectiveDate" autoComplete="off"
-                            />
-                        </div>
-                    </FormGroup>
-                    <FormGroup className="description-group">
-                        <label className="required-label control-label">{getResource('Content')}</label>
-                        <div className="control-content">
-                            <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
-                                name="description" rows="10"
-                                onChange={handleChange}
-                                value={values.description}
-                            />
-                        </div>
-                    </FormGroup>
-                    </div>  
+                        <FormGroup>
+                            <label className="control-label required-label">{getResource('Employee')}</label>
+                            <div className="control-content">
+                                <Select name="employee"
+                                    className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`}
+                                    classNamePrefix="react-select"
+                                    isDisabled={values.disciplineId > 0} isClearable
+                                    options={this.props.employeeOptions}
+                                    value={values.employee}
+                                    onChange={value => setFieldValue('employee', value)}
+                                />
+                            </div>
+                        </FormGroup>
+                        <FormGroup>
+                            <label className="required-label control-label">{getResource('IssueDate')}</label>
+                            <div className="control-content">
+                                <DatePicker className={`form-control  ${touched.effectiveDate && errors.effectiveDate && 'input-validation-error'}`}
+                                    dateFormat={DateFormat} selected={values.effectiveDate}
+                                    onChange={value => setFieldValue('effectiveDate', value)}
+                                    onChangeRaw={this.onChangeRaw}
+                                    name="effectiveDate" autoComplete="off"
+                                />
+                            </div>
+                        </FormGroup>
+                        <FormGroup className="description-group">
+                            <label className="required-label control-label">{getResource('Content')}</label>
+                            <div className="control-content">
+                                <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
+                                    name="description" rows="10"
+                                    onChange={handleChange}
+                                    value={values.description}
+                                />
+                            </div>
+                        </FormGroup>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="btn btn-cancel" onClick={this.props.onClose}>{getResource('Cancel')}</Button>
@@ -133,7 +133,7 @@ export default class Create extends Component {
     }
 
     render() {
-        let discipline = {
+        const discipline = {
             employee: null,
             effectiveDate: moment(),
             description: ''

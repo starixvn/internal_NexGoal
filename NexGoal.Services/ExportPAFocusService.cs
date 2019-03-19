@@ -4,6 +4,7 @@
     using System.Drawing;
     using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
     using NexGoal.Core.Constants;
     using NexGoal.Models;
@@ -37,10 +38,10 @@
             this.commonService = commonService;
         }
 
-        public byte[] Export(PeriodBaseModel period, IEnumerable<PAFocusModel> paFocuses)
+        public async Task<byte[]> ExportAsync(PeriodBaseModel period, IEnumerable<PAFocusModel> paFocuses)
         {
             string[] refNames = { ReferenceResource.FocusEvaluationLevel };
-            IEnumerable<ReferenceResourceModel> referenceResources = commonService.GetReferenceResourcesByNamesAsync(refNames).Result;
+            IEnumerable<ReferenceResourceModel> referenceResources = await commonService.GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
             var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.WebRootPath, ExcelTemplatePath));
 
             using (var templatePackage = new ExcelPackage(fileInfo))
