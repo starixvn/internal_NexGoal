@@ -20,41 +20,49 @@ BEGIN
 		,@Year SMALLINT = DATEPART(YEAR, GETDATE())
 		,@Name NVARCHAR(200)
 		,@SemiTargetTypeId TINYINT = 2
-
-	SET @Name = '1H ' + CAST(@Year AS VARCHAR(5)) + ' - Auto'
+	DECLARE @StartDate DATE
+		,@EndDate DATE
+		,@DisciplineStartDate DATE
+		,@DisciplineEndDate DATE
+		,@FocusStartDate DATE
+		,@FocusEndDate DATE
 
 	IF @Month BETWEEN 6
 			AND 11
 	BEGIN
 		SET @Name = '2H ' + CAST(@Year AS VARCHAR(5)) + ' - Auto'
+		SET @StartDate = CAST(@Year AS VARCHAR(5)) + '-11-01'
+		SET @DisciplineStartDate = CAST(@Year AS VARCHAR(5)) + '-06-01'
 	END
+	ELSE
+	BEGIN
+		SET @Name = '1H ' + CAST(@Year AS VARCHAR(5)) + ' - Auto'
+
+		IF @Month = 12
+		BEGIN
+			SET @StartDate = CAST((@Year + 1) AS VARCHAR(5)) + '-05-01'
+			SET @DisciplineStartDate = CAST(@Year AS VARCHAR(5)) + '-12-01'
+		END
+		ELSE
+		BEGIN
+			SET @StartDate = CAST(@Year AS VARCHAR(5)) + '-05-01'
+			SET @DisciplineStartDate = CAST((@Year - 1) AS VARCHAR(5)) + '-12-01'
+		END
+	END
+
+	SET @EndDate = DATEADD(DAY, - 1, DATEADD(MONTH, 1, @StartDate))
+	SET @DisciplineEndDate = @EndDate
+	SET @FocusStartDate = @StartDate
+	SET @FocusEndDate = DATEADD(DAY, 7, @FocusStartDate)
 
 	IF NOT EXISTS (
 			SELECT 1
 			FROM dbo.Period WITH (NOLOCK)
-			WHERE DisciplineEndDate > @Today
+			WHERE @Today BETWEEN DisciplineStartDate
+					AND DisciplineEndDate
 				AND TargetTypeId = @SemiTargetTypeId
 			)
 	BEGIN
-		DECLARE @StartDate DATE
-			,@EndDate DATE
-			,@DisciplineStartDate DATE
-			,@DisciplineEndDate DATE
-			,@FocusStartDate DATE
-			,@FocusEndDate DATE
-
-		SELECT @DisciplineEndDate = MAX(DisciplineEndDate)
-		FROM dbo.Period WITH (NOLOCK)
-		WHERE TargetTypeId = @SemiTargetTypeId
-		
-		SET @DisciplineEndDate = ISNULL(@DisciplineEndDate, @Today)
-		SET @StartDate = DATEADD(DAY, 1 - DAY(DATEADD(MONTH, 6, @DisciplineEndDate)), DATEADD(MONTH, 6, @DisciplineEndDate))
-		SET @EndDate = DATEADD(DAY, - 1, DATEADD(MONTH, 1, @StartDate))
-		SET @DisciplineStartDate = DATEADD(DAY, 1, @DisciplineEndDate)
-		SET @DisciplineEndDate = @EndDate
-		SET @FocusStartDate = DATEADD(DAY, - 7, @EndDate)
-		SET @FocusEndDate = @EndDate
-
 		INSERT INTO dbo.Period (
 			[Name]
 			,TargetTypeId

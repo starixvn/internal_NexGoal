@@ -13,7 +13,7 @@ export default class WorkLoad extends PureComponent {
 
         this.state = {
             chartData: null,
-            periodId: this.props.periods[0].periodId,
+            periodId: this.props.periods[0].periodId
         };
 
         this.chartOptions.afterInit = this.props.afterInitChart;
