@@ -63,10 +63,6 @@
     <ProjectReference Include="..\NexGoal.Models\NexGoal.Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\sources\js\pages\home\__tests__\__snapshots__\" />
-  </ItemGroup>
-
   <Target Name="CreateLogsFolder" AfterTargets="Publish">
     <MakeDir Directories="$(PublishDir)Logs" Condition="!Exists('$(PublishDir)Logs')" />
   </Target>
