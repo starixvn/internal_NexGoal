@@ -170,7 +170,7 @@
     <Rule Id="S3169" Action="Warning" />
     <Rule Id="S3172" Action="Warning" />
     <Rule Id="S3215" Action="Warning" />
-    <Rule Id="S3216" Action="Warning" />
+    <Rule Id="S3216" Action="None" />
     <Rule Id="S3217" Action="Warning" />
     <Rule Id="S3218" Action="Warning" />
     <Rule Id="S3220" Action="Warning" />
@@ -328,7 +328,7 @@
     <Rule Id="S4225" Action="Warning" />
     <Rule Id="S4226" Action="Warning" />
     <Rule Id="S4260" Action="Warning" />
-    <Rule Id="S4261" Action="Warning" />
+    <Rule Id="S4261" Action="None" />
     <Rule Id="S4275" Action="Warning" />
     <Rule Id="S4277" Action="Warning" />
     <Rule Id="S4426" Action="Warning" />
