@@ -11,7 +11,7 @@
     "build:all:dev": "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js && node node_modules/webpack/bin/webpack.js --config webpack.config.js",
     "build:all:pro": "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env=production && node node_modules/webpack/bin/webpack.js --config webpack.config.js --env=production",
     "start": "node_modules/.bin/webpack-dev-server --config webpack.config.dev.js --hot --inline --progress",
-    "test": "jest",
+    "test": "jest --no-cache",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --coverageDirectory=output/coverage/jest",
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --watch --runInBand --no-cache"
