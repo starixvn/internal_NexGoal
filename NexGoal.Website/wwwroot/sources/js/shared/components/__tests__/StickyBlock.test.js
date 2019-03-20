@@ -18,7 +18,7 @@ describe('Sticky Block', () => {
         const component = shallow(
             <StickyBlock threshold={200}>
                 {children}
-            </StickyBlock>,
+            </StickyBlock>
         );
 
         expect(component.contains(children)).toBeTruthy();
@@ -26,9 +26,7 @@ describe('Sticky Block', () => {
 
     test('Default is hidden', () => {
         const component = shallow(
-            <StickyBlock threshold={200}>
-
-            </StickyBlock>,
+            <StickyBlock threshold={200} />
         );
 
         expect(component.state().showStickyHeader).toBeFalsy();
@@ -49,8 +47,7 @@ describe('Sticky Block', () => {
 
     test('trigger handleToggleSticky', () => {
         const component = shallow(
-            <StickyBlock threshold={200}>
-            </StickyBlock>,
+            <StickyBlock threshold={200} />
         );
 
         global.scrollY = 300;
@@ -64,8 +61,7 @@ describe('Sticky Block', () => {
         const removeEventListenerSpy = jest.spyOn(global, 'removeEventListener');
 
         const component = shallow(
-            <StickyBlock threshold={200}>
-            </StickyBlock>,
+            <StickyBlock threshold={200} />
         );
 
         component.unmount();

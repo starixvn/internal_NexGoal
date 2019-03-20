@@ -1,9 +1,9 @@
 ﻿import React from "react";
-import HRMSummary from '../HRMSummary';
+import HRMSummary from '../hrm/HRMSummary';
 import EmployeeInfo from '../EmployeeInfo';
 import renderer from 'react-test-renderer';
 import PerformanceAppraisalResult from '../PerformanceAppraisalResult';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 
 describe("Test render correctly ", () => {
     it('render hrm detail correctly', () => {

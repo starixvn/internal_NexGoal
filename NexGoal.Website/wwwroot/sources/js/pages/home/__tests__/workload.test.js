@@ -41,46 +41,13 @@ describe('Personal workload component', () => {
         });
     });
 
-    describe('State should be changed when click next, prev period', () => {
-        it('Click prev period, current period index descrease', () => {
-            let component = shallow(<WorkLoad periods={periods} />);
-            component.setState({
-                currentPeriodIndex: 2
-            });
-            component.instance().onPrevPeriod();
-            expect(component.state().currentPeriodIndex).toBe(1);
-            expect(mockAxios.get).toHaveBeenCalledTimes(2);
+    it('State should be changed when click next, prev period', () => {
+        let component = shallow(<WorkLoad periods={periods} />);
+        component.setState({
+            periodId: 1
         });
-
-        it('Click next period, current period index increase', () => {
-            let component = shallow(<WorkLoad periods={periods} />);
-            component.setState({
-                currentPeriodIndex: 1
-            });
-            component.instance().onNextPeriod();
-            expect(component.state().currentPeriodIndex).toBe(2);
-            expect(mockAxios.get).toHaveBeenCalledTimes(2);
-        });
-
-        it('Click prev period, period index not exist, currentPeriodIndex should not changed', () => {
-            let component = shallow(<WorkLoad periods={periods} />);
-            component.setState({
-                currentPeriodIndex: 0
-            });
-            component.instance().onPrevPeriod();
-            expect(component.state().currentPeriodIndex).toBe(0);
-
-            expect(mockAxios.get).toHaveBeenCalledTimes(1);
-        });
-
-        it('Click next period, period index not exist, currentPeriodIndex should not changed', () => {
-            let component = shallow(<WorkLoad periods={periods} />);
-            component.setState({
-                currentPeriodIndex: 2
-            });
-            component.instance().onNextPeriod();
-            expect(component.state().currentPeriodIndex).toBe(2);
-            expect(mockAxios.get).toHaveBeenCalledTimes(1);
-        });
+        component.instance().onPeriodChange(2);
+        expect(component.state().periodId).toBe(2);
+        expect(mockAxios.get).toHaveBeenCalledTimes(2);
     });
 });
