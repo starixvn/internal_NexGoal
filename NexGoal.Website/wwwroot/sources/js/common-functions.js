@@ -130,7 +130,7 @@ export const compareArray = function (a, b, compareOnProp) {
     }
 
     return true;
-}
+};
 
 export const calendar = function (date) {
     return moment(date).calendar(null, {
@@ -139,4 +139,4 @@ export const calendar = function (date) {
         lastWeek: '[Last] dddd [at] HH:mm',
         sameElse: 'DD MMM YYYY [at] HH:mm'
     });
-}
+};
