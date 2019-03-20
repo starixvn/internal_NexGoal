@@ -175,7 +175,7 @@ export default class CreateNomination extends Component {
                         onChange={handleChange}
                     />
                 </FormGroup>
-                <FormGroup>
+                <FormGroup className="text-right">
                     <Button className="btn-cancel" onClick={this.handleCloseForm}>{getResource('Cancel')}</Button>
                     <Button className="btn-primary" type="submit" disabled={isSubmitting}>{getResource('Publish')}</Button>
                 </FormGroup>
