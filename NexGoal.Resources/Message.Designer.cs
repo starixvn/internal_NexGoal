@@ -376,7 +376,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Nomination process for the {0} is IN PROGRESS, please submit the vote for your nominee..
+        ///   Looks up a localized string similar to The Nomination process for the {0} is IN PROGRESS and will end on {1}, please submit the vote for your nominee..
         /// </summary>
         public static string NotificationTemplate_Nomination_Start {
             get {
@@ -421,7 +421,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Performance Appraisal for the {0} is IN PROGRESS, please revise and submit the PA for your members..
+        ///   Looks up a localized string similar to The Performance Appraisal for the {0} is IN PROGRESS and will end on {1}, please revise and submit the PA for your members..
         /// </summary>
         public static string NotificationTemplate_PA_StartToReviewer {
             get {
@@ -439,7 +439,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The PA Focus for the {0} is IN PROGRESS, please set the objectives for your members..
+        ///   Looks up a localized string similar to The PA Focus for the {0} is IN PROGRESS and will end on {1}, please set the objectives for your members..
         /// </summary>
         public static string NotificationTemplate_PAFocus_Start {
             get {
@@ -498,8 +498,8 @@ namespace NexGoal.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to Dear, *{0}*
-        ///The Nomination *{1}* process is in progress.
-        ///Please log in to *{2}* to make a vote for your nominee(s).
+        ///The Nomination *{1}* process is in progress and will end on {2}.
+        ///Please log in to *{3}* to make a vote for your nominee(s).
         ///Thank you,
         ///NexGoal..
         /// </summary>
@@ -565,8 +565,8 @@ namespace NexGoal.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to Dear, *{0}*
-        ///The Performance Appraisal for the *{1}* is in progress.
-        ///Please log in to *{2}* to revise and submit the PA result for your members.
+        ///The Performance Appraisal for the *{1}* is in progress and will end on {2}.
+        ///Please log in to *{3}* to revise and submit the PA result for your members.
         ///Thank you,
         ///NexGoal..
         /// </summary>
@@ -591,8 +591,8 @@ namespace NexGoal.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to Dear, *{0}*
-        ///The PA Focus for the *{1}* is in progress.
-        ///Please log in to *{2}* to set the objectives for your team members.
+        ///The PA Focus for the *{1}* is in progress and will end on {2}.
+        ///Please log in to *{3}* to set the objectives for your team members.
         ///Thank you,
         ///NexGoal..
         /// </summary>

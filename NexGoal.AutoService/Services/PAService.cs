@@ -120,6 +120,7 @@
                                 mailService.ReadTextFile(startToReviewerPath),
                                 setting.Nickname,
                                 period.Name,
+                                mailService.FormatStartDate(setting.EndDate),
                                 configuration.Value.ApplicationDomain);
                             SendEmail(subjectStartMail, body, setting);
                             break;
@@ -183,6 +184,7 @@
                             message = string.Format(Message.SkypeMessageTemplate_PA_StartForReviewer,
                                 setting.Nickname,
                                 period.Name,
+                                mailService.FormatEndDate(setting.EndDate),
                                 configuration.Value.ApplicationDomain);
                             await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
 
@@ -245,7 +247,10 @@
                             notifications.Add(new NotificationModel
                             {
                                 EmployeeId = setting.EvaluatorId,
-                                Content = string.Format(Message.NotificationTemplate_PA_StartToReviewer, period.Name),
+                                Content = string.Format(
+                                    Message.NotificationTemplate_PA_StartToReviewer,
+                                    period.Name,
+                                    mailService.FormatEndDate(setting.EndDate)),
                                 StatusId = (int)NotificationStatus.Unread,
                                 ActionTypeId = (int)NotificationActionType.MemberPageWithActivePerformanceAppraisalTab
                             });

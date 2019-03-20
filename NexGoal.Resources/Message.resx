@@ -223,13 +223,13 @@
     <value>The Nomination process for the {0} is going to be CLOSED on {1}, please submit the vote for your nominee.</value>
   </data>
   <data name="NotificationTemplate_Nomination_Start" xml:space="preserve">
-    <value>The Nomination process for the {0} is IN PROGRESS, please submit the vote for your nominee.</value>
+    <value>The Nomination process for the {0} is IN PROGRESS and will end on {1}, please submit the vote for your nominee.</value>
   </data>
   <data name="NotificationTemplate_PAFocus_Remind" xml:space="preserve">
     <value>The PA Focus for the {0} is going to be CLOSED on {1}, please review the objectives for all of your members.</value>
   </data>
   <data name="NotificationTemplate_PAFocus_Start" xml:space="preserve">
-    <value>The PA Focus for the {0} is IN PROGRESS, please set the objectives for your members.</value>
+    <value>The PA Focus for the {0} is IN PROGRESS and will end on {1}, please set the objectives for your members.</value>
   </data>
   <data name="NotificationTemplate_PA_EndEvaluation" xml:space="preserve">
     <value>The Performance Appraisal for the {0} is COMPLETE!</value>
@@ -244,7 +244,7 @@
     <value>The Performance Appraisal for the {0} is going to be CLOSED on {1}, please make sure to revise and submit the PA for all of your members.</value>
   </data>
   <data name="NotificationTemplate_PA_StartToReviewer" xml:space="preserve">
-    <value>The Performance Appraisal for the {0} is IN PROGRESS, please revise and submit the PA for your members.</value>
+    <value>The Performance Appraisal for the {0} is IN PROGRESS and will end on {1}, please revise and submit the PA for your members.</value>
   </data>
   <data name="NotificationTemplate_Probation_RemindToEvaluator" xml:space="preserve">
     <value>The Probation process is going to be CLOSED on {0}, please create a Performance Record (with a detailed comment, selected grade, and a "Probation" tag) for your member(s).</value>
@@ -351,8 +351,8 @@ NexGoal.</value>
   </data>
   <data name="SkypeMessageTemplate_PA_StartForReviewer" xml:space="preserve">
     <value>Dear, *{0}*
-The Performance Appraisal for the *{1}* is in progress.
-Please log in to *{2}* to revise and submit the PA result for your members.
+The Performance Appraisal for the *{1}* is in progress and will end on {2}.
+Please log in to *{3}* to revise and submit the PA result for your members.
 Thank you,
 NexGoal.</value>
   </data>
@@ -372,8 +372,8 @@ NexGoal.</value>
   </data>
   <data name="SkypeMessageTemplate_PAFocus_StartToEvaluator" xml:space="preserve">
     <value>Dear, *{0}*
-The PA Focus for the *{1}* is in progress.
-Please log in to *{2}* to set the objectives for your team members.
+The PA Focus for the *{1}* is in progress and will end on {2}.
+Please log in to *{3}* to set the objectives for your team members.
 Thank you,
 NexGoal.</value>
   </data>
@@ -386,8 +386,8 @@ NexGoal.</value>
   </data>
   <data name="SkypeMessageTemplate_Nomination_StartForNominator" xml:space="preserve">
     <value>Dear, *{0}*
-The Nomination *{1}* process is in progress.
-Please log in to *{2}* to make a vote for your nominee(s).
+The Nomination *{1}* process is in progress and will end on {2}.
+Please log in to *{3}* to make a vote for your nominee(s).
 Thank you,
 NexGoal.</value>
   </data>

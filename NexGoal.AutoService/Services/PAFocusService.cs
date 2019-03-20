@@ -77,6 +77,7 @@
                                 mailService.ReadTextFile(startMailPath),
                                 focusSetting.Nickname,
                                 period.Name,
+                                mailService.FormatEndDate(period.FocusEndDate),
                                 configuration.Value.ApplicationDomain);
                             SendEmail(subjectStartMail, body, focusSetting.Email);
                             break;
@@ -110,7 +111,7 @@
                 {
                     EmployeeId = x.EvaluatorId,
                     Content = x.NotificationMode == MailMode.Start
-                    ? string.Format(Message.NotificationTemplate_PAFocus_Start, period.Name)
+                    ? string.Format(Message.NotificationTemplate_PAFocus_Start, period.Name, mailService.FormatEndDate(period.FocusEndDate))
                     : string.Format(Message.NotificationTemplate_PAFocus_Remind, period.Name, mailService.FormatEndDate(period.FocusEndDate)),
                     StatusId = (int)NotificationStatus.Unread,
                     ActionTypeId = (int)NotificationActionType.PAFocus
@@ -145,6 +146,7 @@
                             message = string.Format(Message.SkypeMessageTemplate_PAFocus_StartToEvaluator,
                                 focusSetting.Nickname,
                                 period.Name,
+                                mailService.FormatEndDate(period.FocusEndDate),
                                 configuration.Value.ApplicationDomain);
                             await chatbotService.SendMessageAsync(focusSetting.ConversationId, message).ConfigureAwait(false);
                             break;
