@@ -146,7 +146,7 @@
                 new ProcessSettingModel { PeriodId = 2, EvaluatorId = 285, Nickname = "tim", Email = "tim.trinh@nexcel.vn", NotificationMode = MailMode.Remind }
             };
             var notificationXml = "<Row EmployeeId=\"285\"" +
-                " Content=\"The PA Focus for the 1h 2018 is IN PROGRESS, please set the objectives for your members.\"" +
+                " Content=\"The PA Focus for the 1h 2018 is IN PROGRESS and will end on 20 Dec 2018, please set the objectives for your members.\"" +
                 " StatusId=\"0\" ActionTypeId=\"7\" RecordId=\"\" />";
             var notification1Xml = "<Row EmployeeId=\"285\"" +
                 " Content=\"The PA Focus for the 2h 2018 is going to be CLOSED on 20 Dec 2018, please review the objectives for all of your members.\"" +

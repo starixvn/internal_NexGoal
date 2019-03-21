@@ -164,7 +164,7 @@
             {
                 new ProcessSettingModel { PeriodId = 1, ProcessId = PerformanceProcess.Self, EvaluatorId = 285, Nickname = "tim", NotificationMode = MailMode.RemindStartEvaluation },
                 new ProcessSettingModel { PeriodId = 1, ProcessId = PerformanceProcess.Evaluator, EvaluatorId = 125, Nickname = "quinn", NotificationMode = MailMode.RemindStartEvaluation },
-                new ProcessSettingModel { PeriodId = 1, EvaluatorId = 285, Nickname = "tim", NotificationMode = MailMode.Start },
+                new ProcessSettingModel { PeriodId = 1, EvaluatorId = 285, Nickname = "tim", NotificationMode = MailMode.Start, EndDate = endDate },
                 new ProcessSettingModel { PeriodId = 1, EvaluatorId = 285, Nickname = "tim", NotificationMode = MailMode.Remind, EndDate = endDate },
                 new ProcessSettingModel { PeriodId = 1, EvaluatorId = 285, Nickname = "tim", NotificationMode = MailMode.EndEvaluation, PerformanceRecordId = 1 }
             };
@@ -175,7 +175,7 @@
                 " Content=\"The Performance Appraisal for the 2h 2018 will begin on 20 Dec 2018, you are recommended to create a neat &amp; clean Performance Record for yourself and your members (with a detailed comment &amp; selected grade) for a better evaluation result.\"" +
                 " StatusId=\"0\" ActionTypeId=\"1\" RecordId=\"\" />";
             var notification2Xml = "<Row EmployeeId=\"285\"" +
-                " Content=\"The Performance Appraisal for the 2h 2018 is IN PROGRESS, please revise and submit the PA for your members.\"" +
+                " Content=\"The Performance Appraisal for the 2h 2018 is IN PROGRESS and will end on 31 Dec 2018, please revise and submit the PA for your members.\"" +
                 " StatusId=\"0\" ActionTypeId=\"6\" RecordId=\"\" />";
             var notification3Xml = "<Row EmployeeId=\"285\"" +
                 " Content=\"The Performance Appraisal for the 2h 2018 is going to be CLOSED on 31 Dec 2018, please make sure to revise and submit the PA for all of your members.\"" +
