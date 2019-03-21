@@ -43,7 +43,7 @@ export default class EmployeeManagement extends Component {
 
         Promise.all(promises)
             .then(([groupResponse, roleResponse]) => {
-                let groupOptions = groupResponse.data.map((group) => {
+                let groupOptions = groupResponse.data.map(group => {
                     return {
                         value: group.groupId,
                         label: group.name
@@ -51,7 +51,7 @@ export default class EmployeeManagement extends Component {
                 });
                 groupOptions.unshift({ value: '', label: '-- All --' });
 
-                let roleOptions = roleResponse.data.map((option) => {
+                let roleOptions = roleResponse.data.map(option => {
                     return { value: option.resourceId, label: option.value };
                 });
 
@@ -79,8 +79,8 @@ export default class EmployeeManagement extends Component {
         this.getEmployees(this.state.filter);
     }
 
-    getEmployees = (filter) => {
-        let roleIds = filter.roles.map((role) => { return role.value; }).join(',');
+    getEmployees = filter => {
+        let roleIds = filter.roles.map(role => { return role.value; }).join(',');
 
         axios.get(resolveClientUrl('employee/GetEmployees'), {
             params: {
@@ -97,12 +97,13 @@ export default class EmployeeManagement extends Component {
     getEmployeeById = (id, callback) => {
         axios.get(resolveClientUrl(`employee/GetEmployeeById?employeeId=${id}`))
             .then(response => {
-                if (typeof (callback) === 'function')
+                if (typeof (callback) === 'function') {
                     callback(response.data);
+                }
             }).catch(axiosError);
     }
 
-    editEmployee = (employee) => {
+    editEmployee = employee => {
         this.employeeSelected = employee;
         this.showModal();
     }
@@ -115,13 +116,13 @@ export default class EmployeeManagement extends Component {
         this.setState({ showModal: true });
     }
 
-    handleEditEmployeeRolesSuccess = (data) => {
+    handleEditEmployeeRolesSuccess = data => {
         if (data.isSuccessful) {
             toast.success(getResource('UpdatedSuccessfully'));
 
             this.getEmployeeById(this.employeeSelected.employeeId, (updatedEmployee) => {
-                var data = this.state.data.slice();
-                var index = data.findIndex((e) => e.employeeId === this.employeeSelected.employeeId);
+                let data = this.state.data.slice();
+                const index = data.findIndex(e => e.employeeId === this.employeeSelected.employeeId);
                 data[index] = { ...data[index], ...updatedEmployee };
 
                 this.setState({ data: data, showModal: false });
@@ -139,9 +140,7 @@ export default class EmployeeManagement extends Component {
                 text: `${getResource('SymbolCount')}`,
                 classes: 'text-center',
                 headerStyle: { width: '50px' },
-                formatter: (cell, row, rowIndex) => {
-                    return rowIndex + 1;
-                }
+                formatter: (cell, row, rowIndex) => rowIndex + 1
             },
             {
                 dataField: 'code',
@@ -240,4 +239,4 @@ export default class EmployeeManagement extends Component {
     }
 }
 
-ReactDOM.render(<EmployeeManagement />, document.getElementById("employee-wrapper"));
+ReactDOM.render(<EmployeeManagement />, document.getElementById('employee-wrapper'));

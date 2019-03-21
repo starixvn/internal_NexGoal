@@ -99,11 +99,10 @@ export default class NotificationBell extends Component {
     }
 
     handleRedirectToAction = notificationId => {
-        let notifications = this.state.notifications.slice();
-        let notiIndex = notifications.findIndex(noti => noti.notificationId === notificationId);
+        const notifications = this.state.notifications.slice();
+        const notiIndex = notifications.findIndex(noti => noti.notificationId === notificationId);
         if (notiIndex !== -1) {
-            let actionTypeId = notifications[notiIndex].actionTypeId;
-            let recordId = notifications[notiIndex].recordId;
+            const { actionTypeId, recordId } = notifications[notiIndex];
             let url = '';
             switch (actionTypeId) {
                 case NotificationActionType.MyPageWithCreatePerformanceCheckin:

@@ -7,10 +7,10 @@ import { toast } from 'react-toastify';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 import moment from 'moment';
-import isEqual from "react-fast-compare";
+import isEqual from 'react-fast-compare';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
-import { DateFormat, PerformanceRecordStatus, ProbationTag } from '../../constants';
+import { DateFormat, ProbationTag } from '../../constants';
 import getResource from '../../resourceHelper';
 import TextareaFullscreenEditor from '../../shared/components/textarea-fullscreen/index';
 
@@ -57,13 +57,6 @@ export default class CreateSelfPerformance extends Component {
         window.addEventListener('beforeunload', this.onLeavingPageEventListener);
     }
 
-    onLeavingPageEventListener = event => {
-        if (!isEqual(this.state.performanceRecord, this.state.initialPerformanceRecord)) {
-            event.returnValue = ' ';
-            return ' ';
-        }
-    }
-
     shouldComponentUpdate(nextProps, nextState) {
         if (JSON.stringify(this.props.currentUser) !== JSON.stringify(nextProps.currentUser)
             || JSON.stringify(this.props.performanceGradeOptions) !== JSON.stringify(nextProps.performanceGradeOptions)
@@ -78,19 +71,26 @@ export default class CreateSelfPerformance extends Component {
         return false;
     }
 
+    onLeavingPageEventListener = event => {
+        if (!isEqual(this.state.performanceRecord, this.state.initialPerformanceRecord)) {
+            event.returnValue = ' ';
+            return ' ';
+        }
+    }
+
     handleOpenForm = () => {
         this.setState({ isOpenForm: true }, () => {
             this.textareaEditor.current.textareaEditor.current.focus();
         });
     }
 
-    handleGradeChange = (selectedOption) => {
+    handleGradeChange = selectedOption => {
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { grade: selectedOption })
         });
     }
 
-    handleCommentChange = (event) => {
+    handleCommentChange = event => {
         let errors = {};
 
         if (!event.target.value) {
@@ -103,7 +103,7 @@ export default class CreateSelfPerformance extends Component {
         });
     }
 
-    handleProjectChange = (selectedOptions) => {
+    handleProjectChange = selectedOptions => {
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { projects: selectedOptions })
         });
@@ -122,7 +122,7 @@ export default class CreateSelfPerformance extends Component {
         return isValid;
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = event => {
         event.preventDefault();
 
         if (this.state.isSubmitting)
@@ -135,7 +135,7 @@ export default class CreateSelfPerformance extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 gradeId: this.state.performanceRecord.grade ? this.state.performanceRecord.grade.value : null,
                 comment: this.state.performanceRecord.comment.trim(),
-                projectIds: this.state.performanceRecord.projects.map((project) => { return project.value; }).join(',')
+                projectIds: this.state.performanceRecord.projects.map(project => project.value).join(',')
             });
 
             axios({
@@ -170,7 +170,7 @@ export default class CreateSelfPerformance extends Component {
         }
     }
 
-    handleSaveAsDraft = (event) => {
+    handleSaveAsDraft = event => {
         event.preventDefault();
 
         if (this.state.isSubmitting)
@@ -183,7 +183,7 @@ export default class CreateSelfPerformance extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 gradeId: this.state.performanceRecord.grade ? this.state.performanceRecord.grade.value : null,
                 comment: this.state.performanceRecord.comment.trim(),
-                projectIds: this.state.performanceRecord.projects.map((project) => { return project.value; }).join(',')
+                projectIds: this.state.performanceRecord.projects.map(project => project.value).join(',')
             });
 
             axios({
@@ -231,16 +231,12 @@ export default class CreateSelfPerformance extends Component {
         });
     }
 
-    setSubmitting = (isSubmitting) => this.setState({ isSubmitting })
+    setSubmitting = isSubmitting => this.setState({ isSubmitting })
 
     render() {
-        let performanceRecord = this.state.performanceRecord;
-        let isOpenForm = this.state.isOpenForm;
-        let performanceGradeOptions = this.props.performanceGradeOptions;
-        let projectOptions = this.props.projectOptions;
-        let errors = this.state.errors;
-        let currentUser = this.props.currentUser;
-        let currentDate = moment();
+        const { performanceRecord, isOpenForm, errors } = this.state;
+        const { performanceGradeOptions, projectOptions, currentUser } = this.props;
+        const currentDate = moment();
 
         return (
             <div className="record record-your-mind">

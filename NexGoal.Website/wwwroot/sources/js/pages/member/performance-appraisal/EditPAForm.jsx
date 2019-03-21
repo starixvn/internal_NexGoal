@@ -52,13 +52,13 @@ export default class EditMemberPA extends Component {
         }).catch(axiosError);
     }
 
-    handleGradeChange = (selectedOption) => {
+    handleGradeChange = selectedOption => {
         this.setState({
             paRecord: Object.assign({}, this.state.paRecord, { grade: selectedOption })
         });
     }
 
-    handleCommentChange = (event) => {
+    handleCommentChange = event => {
         let errors = { ...this.state.errors };
         delete errors['comment'];
         if (!event.target.value) {
@@ -90,7 +90,7 @@ export default class EditMemberPA extends Component {
         return isValid;
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = event => {
         event.preventDefault();
 
         if (this.validateForm() && this.state.paRecord.paStatus === PAStatus.InProgress) {
@@ -133,7 +133,7 @@ export default class EditMemberPA extends Component {
         }
     }
 
-    renderViewPA = (paRecord) => {
+    renderViewPA = paRecord => {
         const data = {
             typeId: 1,
             roleId: PerformanceProcess.Reviewer,
@@ -149,7 +149,7 @@ export default class EditMemberPA extends Component {
         );
     }
 
-    renderEditPA = (paRecord) => {
+    renderEditPA = paRecord => {
         let errors = this.state.errors;
         const currentUserInfo = this.state.currentUserInfo;
 
@@ -201,7 +201,7 @@ export default class EditMemberPA extends Component {
         let title = this.state.paRecord.paStatus === PAStatus.Closed ?
             getResource('PerformanceAppraisal') :
             getResource('EditPerformanceAppraisal');
-        title += " OF " + this.state.employee.nickName;
+        title += ' OF ' + this.state.employee.nickName;
         return (
             <Modal keyboard={false} backdrop="static"
                 show={this.props.isShowModal} onHide={this.props.onCloseModal}

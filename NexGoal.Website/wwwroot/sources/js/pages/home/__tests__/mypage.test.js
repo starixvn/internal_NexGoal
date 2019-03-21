@@ -1,7 +1,5 @@
-﻿import React from "react";
-import { shallow, render } from "enzyme";
+﻿import React from 'react';
 import renderer from 'react-test-renderer';
-import mockAxios from "axios";
 import Mypage from '../MyPage';
 
 jest.mock('axios');

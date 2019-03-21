@@ -1,4 +1,4 @@
-﻿import React, { Component } from "react";
+﻿import React, { Component } from 'react';
 import { calculateTimelineNode } from '../../../common-functions';
 import TimelineNode from './TimelineNode';
 
@@ -14,7 +14,7 @@ export default class PersonalTimeline extends Component {
     }
 
     componentDidMount() {
-        window.addEventListener("resize", this.updateDimensions);
+        window.addEventListener('resize', this.updateDimensions);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -28,7 +28,7 @@ export default class PersonalTimeline extends Component {
     }
 
     componentWillUnmount() {
-        window.removeEventListener("resize", this.updateDimensions);
+        window.removeEventListener('resize', this.updateDimensions);
     }
 
     updateDimensions = () => {

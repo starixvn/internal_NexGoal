@@ -26,7 +26,7 @@ class EmployeeFlowSetting extends Component {
         };
     }
 
-    getFlowSetting = (employeeId) => {
+    getFlowSetting = employeeId => {
         axios(resolveClientUrl(`EmployeeFlowSetting/GetById?employeeId=${employeeId}`))
             .then(response => {
                 const data = response.data;
@@ -46,7 +46,7 @@ class EmployeeFlowSetting extends Component {
             }).catch(axiosError);
     }
 
-    handleOnEmployeeSelected = (employeeId) => {
+    handleOnEmployeeSelected = employeeId => {
         this.getFlowSetting(employeeId);
     }
 
@@ -211,9 +211,8 @@ class EmployeeFlowSetting extends Component {
     }
 
     render() {
-        let employeeSelected = this.state.employeeSelected;
-        let isHost = this.props.isHost;
-        let groupOptions = this.props.groupOptions;
+        const employeeSelected = this.state.employeeSelected;
+        const { isHost, groupOptions } = this.props;
 
         return (
             <div className="employee-flow">

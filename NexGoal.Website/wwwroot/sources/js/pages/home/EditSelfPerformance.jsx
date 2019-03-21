@@ -7,10 +7,10 @@ import { toast } from 'react-toastify';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 import moment from 'moment';
-import isEqual from "react-fast-compare";
+import isEqual from 'react-fast-compare';
 
 import { axiosError, resolveClientUrl, compareArray } from '../../common-functions';
-import { DateFormat, PerformanceRecordStatus } from '../../constants';
+import { DateFormat } from '../../constants';
 import getResource from '../../resourceHelper';
 import TextareaFullscreenEditor from '../../shared/components/textarea-fullscreen/index';
 
@@ -40,7 +40,7 @@ export default class EditSelfPerformance extends Component {
     componentDidMount() {
         let url = this.props.isDraft ? `Performance/GetDraftById/${this.props.performanceRecordId}` : `Performance/GetById/${this.props.performanceRecordId}`;
         axios(resolveClientUrl(url))
-            .then((response) => {
+            .then(response => {
                 let performanceRecord = response.data;
                 performanceRecord.grade = performanceRecord.grade ? {
                     value: performanceRecord.grade.gradeId,
@@ -61,8 +61,7 @@ export default class EditSelfPerformance extends Component {
     }
 
     onLeavingPageEventListener = event => {
-        let performanceRecord = this.state.performanceRecord;
-        let initialPerformanceRecord = this.state.initialPerformanceRecord;
+        let { performanceRecord, initialPerformanceRecord } = this.state;
 
         if (!isEqual(performanceRecord.grade, initialPerformanceRecord.grade) || performanceRecord.comment !== initialPerformanceRecord.comment
             || !compareArray(performanceRecord.projects, initialPerformanceRecord.projects, 'value')) {
@@ -71,13 +70,13 @@ export default class EditSelfPerformance extends Component {
         }
     }
 
-    handleGradeChange = (selectedOption) => {
+    handleGradeChange = selectedOption => {
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { grade: selectedOption })
         });
     }
 
-    handleCommentChange = (event) => {
+    handleCommentChange = event => {
         let errors = {};
 
         if (!event.target.value) {
@@ -90,7 +89,7 @@ export default class EditSelfPerformance extends Component {
         });
     }
 
-    handleProjectChange = (selectedOptions) => {
+    handleProjectChange = selectedOptions => {
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { projects: selectedOptions })
         });
@@ -109,7 +108,7 @@ export default class EditSelfPerformance extends Component {
         return isValid;
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = event => {
         event.preventDefault();
 
         if (this.state.isSubmitting)
@@ -125,7 +124,7 @@ export default class EditSelfPerformance extends Component {
                 gradeId: record.grade ? record.grade.value : null,
                 comment: record.comment.trim(),
                 isFromDraft: record.isDraft,
-                projectIds: record.projects.map((project) => { return project.value; }).join(',')
+                projectIds: record.projects.map(project => project.value).join(',')
             });
 
             axios({
@@ -159,7 +158,7 @@ export default class EditSelfPerformance extends Component {
         }
     }
 
-    handleSaveAsDraft = (event) => {
+    handleSaveAsDraft = event => {
         event.preventDefault();
 
         if (this.state.isSubmitting)
@@ -174,7 +173,7 @@ export default class EditSelfPerformance extends Component {
                 performanceRecordId: record.performanceRecordId,
                 gradeId: record.grade ? record.grade.value : null,
                 comment: record.comment.trim(),
-                projectIds: record.projects.map((project) => { return project.value; }).join(',')
+                projectIds: record.projects.map(project => project.value).join(',')
             });
 
             axios({
@@ -208,14 +207,11 @@ export default class EditSelfPerformance extends Component {
         }
     }
 
-    setSubmitting = (isSubmitting) => this.setState({ isSubmitting })
+    setSubmitting = isSubmitting => this.setState({ isSubmitting })
 
     render() {
-        let performanceGradeOptions = this.props.performanceGradeOptions;
-        let projectOptions = this.props.projectOptions;
-        let currentUser = this.props.currentUser;
-        let performanceRecord = this.state.performanceRecord;
-        let errors = this.state.errors;
+        const { performanceGradeOptions, projectOptions, currentUser } = this.props;
+        const { performanceRecord, errors } = this.state;
 
         return (
             <Modal keyboard={false} backdrop="static"
@@ -274,9 +270,17 @@ export default class EditSelfPerformance extends Component {
                     <Button className="btn-cancel" onClick={this.props.onCloseModal}>{getResource('Cancel')}</Button>
                     {
                         performanceRecord.isDraft &&
-                        <Button type="submit" className="btn-cancel" name="saveAsDraft" onClick={this.handleSaveAsDraft} disabled={this.state.isSubmitting}>{getResource('SaveAsDraft')}</Button>
+                        <Button type="submit" className="btn-cancel" name="saveAsDraft"
+                            onClick={this.handleSaveAsDraft} disabled={this.state.isSubmitting}
+                        >
+                            {getResource('SaveAsDraft')}
+                        </Button>
                     }
-                    <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit} disabled={this.state.isSubmitting}>{getResource('Publish')}</Button>
+                    <Button type="submit" bsStyle="primary" name="save"
+                        onClick={this.handleSubmit} disabled={this.state.isSubmitting}
+                    >
+                        {getResource('Publish')}
+                    </Button>
                 </Modal.Footer>
             </Modal>
         );

@@ -50,7 +50,7 @@ export default class WorkLoad extends PureComponent {
     getChartData = workload => {
         if (workload.length > 5) {
             let labels = workload.slice(0, 5).map(e => e.name);
-            labels.push("Others");
+            labels.push('Others');
             let data = workload.slice(0, 5).map(e => e.totalHours);
 
             let othersValue = workload.slice(5, workload.length).reduce(function (total, current) {
@@ -77,7 +77,7 @@ export default class WorkLoad extends PureComponent {
         };
     }
 
-    onPeriodChange = (periodId) => {
+    onPeriodChange = periodId => {
         this.setState({
             periodId: periodId
         }, this.getWorkload);

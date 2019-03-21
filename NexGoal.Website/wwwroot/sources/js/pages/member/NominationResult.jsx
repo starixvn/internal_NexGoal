@@ -42,7 +42,7 @@ export default class NominationResult extends Component {
         return false;
     }
 
-    getMemberNominations = (year) => {
+    getMemberNominations = year => {
         axios.get(resolveClientUrl('member/GetMemberNominationResult'), { params: { year: year } })
             .then(response => {
                 this.setState({
@@ -51,7 +51,7 @@ export default class NominationResult extends Component {
             }).catch(axiosError);
     }
 
-    onYearChange = (year) => {
+    onYearChange = year => {
         this.setState({
             year: year
         }, () => this.getMemberNominations(this.state.year));

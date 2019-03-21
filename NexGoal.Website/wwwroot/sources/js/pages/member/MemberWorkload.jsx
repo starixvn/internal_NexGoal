@@ -36,13 +36,13 @@ export default class MemberWorkload extends Component {
         }).catch(axiosError);
     }
 
-    onPeriodChange = (periodId) => {
+    onPeriodChange = periodId => {
         this.setState({
             periodId: periodId
         }, this.getMembersWorkloads);
     }
 
-    generateWorkload = (groupWorkload) => {
+    generateWorkload = groupWorkload => {
         var totalHours = 0;
         groupWorkload.employeeWorkloads.forEach(e => {
             totalHours += e.workloads.reduce((total, current) => total + current.totalHours, 0);
@@ -57,7 +57,7 @@ export default class MemberWorkload extends Component {
         };
     }
 
-    generateDataSets = (employeeWorkloads) => {
+    generateDataSets = employeeWorkloads => {
         let labels = [];
         let dataset = {
             label: 'workload',
@@ -67,10 +67,10 @@ export default class MemberWorkload extends Component {
         };
         let datasets = [dataset];
 
-        employeeWorkloads.forEach((e) => {
-            labels.push(e.nickName);
-            dataset.data.push(e.workloads.reduce((total, workload) => total + workload.totalHours, 0));
-            dataset.workloadDetails.push(e.workloads.map(w => ({
+        employeeWorkloads.forEach(employee => {
+            labels.push(employee.nickName);
+            dataset.data.push(employee.workloads.reduce((total, workload) => total + workload.totalHours, 0));
+            dataset.workloadDetails.push(employee.workloads.map(w => ({
                 project: w.name,
                 totalHours: w.totalHours
             })));
@@ -82,7 +82,7 @@ export default class MemberWorkload extends Component {
         };
     }
 
-    handleGroupChange = (selectedOptions) => this.setState({
+    handleGroupChange = selectedOptions => this.setState({
         selectedGroups: selectedOptions
     })
 
@@ -101,7 +101,7 @@ export default class MemberWorkload extends Component {
                 label: function (tooltipItem, data) {
                     var dataset = data.datasets[tooltipItem.datasetIndex];
                     return dataset.workloadDetails[tooltipItem.index];
-                },
+                }
             },
             enabled: false,
             custom: function (tooltipModel) {
@@ -167,7 +167,7 @@ export default class MemberWorkload extends Component {
             xAxes: [{
                 ticks: {
                     beginAtZero: true
-                },
+                }
             }]
         },
         legend: {

@@ -1,11 +1,11 @@
-﻿import React from "react";
-import { shallow, mount } from "enzyme";
+﻿import React from 'react';
+import { shallow, mount } from 'enzyme';
 import EditSelfPerformance from '../EditSelfPerformance';
 import renderer from 'react-test-renderer';
 import Select from 'react-select';
 import TextareaFullscreenEditor from '../../../shared/components/textarea-fullscreen';
 import { Button } from 'react-bootstrap';
-import mockAxios from "axios";
+import mockAxios from 'axios';
 
 jest.mock('axios');
 jest.mock('moment', () => () => ({ format: () => '2018–05–11T12:00:00+00:00' }));
@@ -16,16 +16,16 @@ const gradeOptions = [];
 
 const props = { currentUser, projectOptions, gradeOptions };
 const record = {
-    comment: "aaa",
-    createdDate: "2018-10-31T08:38:17.77",
-    creator: { employeeId: 363, code: "02469", nickName: "Oliver", fullName: "Đặng Hoàng Hải", groupCode: "NEX" },
+    comment: 'aaa',
+    createdDate: '2018-10-31T08:38:17.77',
+    creator: { employeeId: 363, code: '02469', nickName: 'Oliver', fullName: 'Đặng Hoàng Hải', groupCode: 'NEX' },
     employees: [],
-    grade: { value: 4, label: "NI+" },
+    grade: { value: 4, label: 'NI+' },
     isHost: true,
-    modifiedDate: "2018-10-31T08:39:41.26",
+    modifiedDate: '2018-10-31T08:39:41.26',
     performanceRecordId: 91,
     roleId: 0,
-    projects: [{ value: 11, label: "NAP - Special Delete" }],
+    projects: [{ value: 11, label: 'NAP - Special Delete' }],
     statusId: 3
 };
 
@@ -74,7 +74,7 @@ describe('Event tests', () => {
     it('when change form call the right method', () => {
         const wrapper = shallow(<EditSelfPerformance {...props} />);
         wrapper.setState({ isOpenForm: true });
-        let event = { target: { value: "spy" } };
+        let event = { target: { value: 'spy' } };
         const spyGradeChange = jest.spyOn(wrapper.instance(), 'handleGradeChange');
         wrapper.instance().forceUpdate();
         wrapper.find(Select).first().simulate('change', event);
@@ -109,9 +109,9 @@ describe('Event tests', () => {
         wrapper.setState({ performanceRecord: record });
         const spyValidateForm = jest.spyOn(wrapper.instance(), 'validateForm');
         spyValidateForm.mockReturnValue(true);
-        spyOn(document, "getElementsByName").and.callFake(function () {
+        spyOn(document, 'getElementsByName').and.callFake(function () {
             return [{
-                value: "abc test"
+                value: 'abc test'
             }];
         });
         wrapper.instance().forceUpdate();
@@ -130,9 +130,9 @@ describe('Event tests', () => {
         wrapper.setState({ performanceRecord: record });
         const spyValidateForm = jest.spyOn(wrapper.instance(), 'validateForm');
         spyValidateForm.mockReturnValue(false);
-        spyOn(document, "getElementsByName").and.callFake(function () {
+        spyOn(document, 'getElementsByName').and.callFake(function () {
             return [{
-                value: "abc test"
+                value: 'abc test'
             }];
         });
         wrapper.instance().forceUpdate();

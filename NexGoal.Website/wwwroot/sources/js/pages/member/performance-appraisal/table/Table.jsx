@@ -52,7 +52,7 @@ class Table extends Component {
         }).catch(axiosError);
     }
 
-    onClickEditPA = (paRecordId) => {
+    onClickEditPA = paRecordId => {
         this.setState({
             isShowEditModal: true,
             paRecordId: paRecordId
@@ -71,7 +71,7 @@ class Table extends Component {
         this.props.renderPA();
     }
 
-    renderRow = (data) => {
+    renderRow = data => {
         return (
             data.map(group => {
                 return (
@@ -88,7 +88,7 @@ class Table extends Component {
     };
 
     render() {
-        let content = "";
+        let content = '';
 
         if (this.props.data) {
             content = this.props.data.length > 0 ? this.renderRow(this.props.data)

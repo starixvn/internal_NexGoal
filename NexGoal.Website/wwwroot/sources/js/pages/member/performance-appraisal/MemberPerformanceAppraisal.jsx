@@ -49,7 +49,7 @@ export default class MemberPerformanceAppraisal extends Component {
     onQuickEditSuccess = (paRecordId, isRevised) => {
         let paString = JSON.stringify(this.state.performanceAppraisals);
         let groupPAs = JSON.parse(paString);
-        for (var i = 0; i < groupPAs.length; i++) {
+        for (let i = 0; i < groupPAs.length; i++) {
             let paIndex = groupPAs[i].performanceAppraisals.findIndex(pa => pa.paRecordId === paRecordId);
             if (paIndex !== -1) {
                 groupPAs[i].performanceAppraisals[paIndex].isRevised = !isRevised;
@@ -66,7 +66,7 @@ export default class MemberPerformanceAppraisal extends Component {
         axios.get(resolveClientUrl('Review/GetPARecords'), {
             params: {
                 periodId: filter.period.value,
-                groupIds: filter.groups.map(group => { return group.value; }).join(','),
+                groupIds: filter.groups.map(group => group.value).join(','),
                 isRevised: filter.status.value
             }
         }).then(response => {

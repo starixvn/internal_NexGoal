@@ -1,4 +1,4 @@
-﻿import React, { Component, Fragment } from "react";
+﻿import React, { Component, Fragment } from 'react';
 import getResource from '../../../resourceHelper';
 import { getRoleClassName } from '../../../common-functions';
 
@@ -17,8 +17,7 @@ export default class TimelineNode extends Component {
     }
 
     render() {
-        const data = this.props.data;
-        const position = this.props.position;
+        const { data, position } = this.props;
 
         return (
             <Fragment>

@@ -3,7 +3,7 @@ import moment from 'moment';
 import getResource from '../../resourceHelper';
 
 export default class PerformanceAppraisalResult extends Component {
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate(nextProps) {
         if (JSON.stringify(this.props.performanceAppraisals) !== JSON.stringify(nextProps.performanceAppraisals)) {
             return true;
         }
@@ -11,7 +11,7 @@ export default class PerformanceAppraisalResult extends Component {
         return false;
     }
 
-    groupPerformanceAppraisals = (performanceAppraisals) => {
+    groupPerformanceAppraisals = performanceAppraisals => {
         performanceAppraisals.forEach(record => record.year = moment(record.period.startDate).year());
         let pAs = performanceAppraisals.reduce(function (groups, item) {
             const val = item['year'];

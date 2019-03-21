@@ -7,10 +7,10 @@ import { toast } from 'react-toastify';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 import moment from 'moment';
-import isEqual from "react-fast-compare";
+import isEqual from 'react-fast-compare';
 
 import { axiosError, getRoleClassName, resolveClientUrl, compareArray } from '../../common-functions';
-import { DateFormat, PerformanceRecordStatus, ProbationTag } from '../../constants';
+import { DateFormat, ProbationTag } from '../../constants';
 import getResource from '../../resourceHelper';
 import TextareaFullscreenEditor from '../../shared/components/textarea-fullscreen/index';
 
@@ -53,7 +53,7 @@ export default class EditMemberPerformance extends Component {
     componentDidMount() {
         let url = this.props.isDraft ? `Performance/GetDraftById/${this.props.performanceRecordId}` : `Performance/GetById/${this.props.performanceRecordId}`;
         axios(resolveClientUrl(url))
-            .then((response) => {
+            .then(response => {
                 let performanceRecord = response.data;
                 performanceRecord.grade = performanceRecord.grade ? this.props.performanceGradeOptions.find(x => x.value === performanceRecord.grade.gradeId) : null;
 
@@ -75,10 +75,10 @@ export default class EditMemberPerformance extends Component {
     }
 
     onLeavingPageEventListener = event => {
-        let performanceRecord = this.state.performanceRecord;
-        let initialPerformanceRecord = this.state.initialPerformanceRecord;
+        let { performanceRecord, initialPerformanceRecord } = this.state;
 
-        if (!isEqual(performanceRecord.grade, initialPerformanceRecord.grade) || performanceRecord.comment !== initialPerformanceRecord.comment
+        if (!isEqual(performanceRecord.grade, initialPerformanceRecord.grade)
+            || performanceRecord.comment !== initialPerformanceRecord.comment
             || !compareArray(performanceRecord.projects, initialPerformanceRecord.projects, 'value')
             || (initialPerformanceRecord.isDraft && !compareArray(performanceRecord.employees, initialPerformanceRecord.employees, 'value'))) {
             event.returnValue = ' ';
@@ -86,7 +86,7 @@ export default class EditMemberPerformance extends Component {
         }
     }
 
-    handleEmployeeChange = (selectedOptions) => {
+    handleEmployeeChange = selectedOptions => {
         let projects = [...this.state.performanceRecord.projects];
         let index = projects.length > 0 ? projects.findIndex(item => item.value === ProbationTag.value) : -1;
         let errors = { ...this.state.errors };
@@ -110,13 +110,13 @@ export default class EditMemberPerformance extends Component {
         });
     }
 
-    handleGradeChange = (selectedOption) => {
+    handleGradeChange = selectedOption => {
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { grade: selectedOption })
         });
     }
 
-    handleCommentChange = (event) => {
+    handleCommentChange = event => {
         let errors = { ...this.state.errors };
         delete errors['comment'];
         if (!event.target.value) {
@@ -129,7 +129,7 @@ export default class EditMemberPerformance extends Component {
         });
     }
 
-    handleProjectChange = (selectedOptions) => {
+    handleProjectChange = selectedOptions => {
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { projects: selectedOptions })
         });
@@ -154,7 +154,7 @@ export default class EditMemberPerformance extends Component {
         return isValid;
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = event => {
         event.preventDefault();
 
         if (this.state.isSubmitting)
@@ -168,11 +168,11 @@ export default class EditMemberPerformance extends Component {
             let performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 performanceRecordId: record.performanceRecordId,
-                employeeIds: record.employees.map((employee) => { return employee.value; }).join(','),
+                employeeIds: record.employees.map(employee => employee.value).join(','),
                 gradeId: record.grade ? record.grade.value : null,
                 comment: record.comment.trim(),
                 isFromDraft: record.isDraft,
-                projectIds: record.projects.map((project) => { return project.value; }).join(',')
+                projectIds: record.projects.map(project => project.value).join(',')
             });
 
             axios({
@@ -206,7 +206,7 @@ export default class EditMemberPerformance extends Component {
         }
     }
 
-    handleSaveAsDraft = (event) => {
+    handleSaveAsDraft = event => {
         event.preventDefault();
 
         if (this.state.isSubmitting)
@@ -220,10 +220,10 @@ export default class EditMemberPerformance extends Component {
             let performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 performanceRecordId: record.performanceRecordId,
-                employeeIds: record.employees.map((employee) => { return employee.value; }).join(','),
+                employeeIds: record.employees.map(employee => employee.value).join(','),
                 gradeId: record.grade ? record.grade.value : null,
                 comment: record.comment.trim(),
-                projectIds: record.projects.map((project) => { return project.value; }).join(',')
+                projectIds: record.projects.map(project => project.value).join(',')
             });
 
             axios({
@@ -257,15 +257,11 @@ export default class EditMemberPerformance extends Component {
         }
     }
 
-    setSubmitting = (isSubmitting) => this.setState({ isSubmitting })
+    setSubmitting = isSubmitting => this.setState({ isSubmitting })
 
     render() {
-        let performanceRecord = this.state.performanceRecord;
-        let memberOptions = this.props.memberOptions;
-        let performanceGradeOptions = this.props.performanceGradeOptions;
-        let projectOptions = this.props.projectOptions;
-        let errors = this.state.errors;
-        let currentUser = this.props.currentUser;
+        const { performanceRecord, errors } = this.state;
+        const { memberOptions, performanceGradeOptions, projectOptions, currentUser } = this.props;
 
         return (
             <Modal keyboard={false} backdrop="static"
@@ -341,9 +337,17 @@ export default class EditMemberPerformance extends Component {
                     <Button className="btn-cancel" onClick={this.props.onCloseModal}>{getResource('Cancel')}</Button>
                     {
                         performanceRecord.isDraft &&
-                        <Button type="submit" className="btn-cancel" name="saveAsDraft" onClick={this.handleSaveAsDraft} disabled={this.state.isSubmitting}>{getResource('SaveAsDraft')}</Button>
+                        <Button type="submit" className="btn-cancel" name="saveAsDraft"
+                            onClick={this.handleSaveAsDraft} disabled={this.state.isSubmitting}
+                        >
+                            {getResource('SaveAsDraft')}
+                        </Button>
                     }
-                    <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit} disabled={this.state.isSubmitting}>{getResource('Publish')}</Button>
+                    <Button type="submit" bsStyle="primary" name="save"
+                        onClick={this.handleSubmit} disabled={this.state.isSubmitting}
+                    >
+                        {getResource('Publish')}
+                    </Button>
                 </Modal.Footer>
             </Modal>
         );

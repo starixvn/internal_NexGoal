@@ -1,15 +1,15 @@
-﻿import React from "react";
+﻿import React from 'react';
 import HRMSummary from '../hrm/HRMSummary';
 import EmployeeInfo from '../EmployeeInfo';
 import renderer from 'react-test-renderer';
 import PerformanceAppraisalResult from '../PerformanceAppraisalResult';
 import { shallow } from 'enzyme';
 
-describe("Test render correctly ", () => {
+describe('Test render correctly ', () => {
     it('render hrm detail correctly', () => {
         const hrmDetail = {
             toeicScore: 0,
-            toeicExamDate: "0001-01-01T00:00:00",
+            toeicExamDate: '0001-01-01T00:00:00',
             missingCheckInCheckOut: 3,
             incident: 0,
             totalLateInEarlyOut: 3
@@ -36,13 +36,13 @@ describe("Test render correctly ", () => {
     describe('Test for performance appraisal', () => {
         const data = [{
             employeeId: 10,
-            gradeId: "",
+            gradeId: '',
             paRecordId: 5,
             period: {
                 periodId: 6,
-                name: "1h 2018",
-                startDate: "2018-08-30T00:00:00",
-                endDate: "2018-09-11T00:00:00",
+                name: '1h 2018',
+                startDate: '2018-08-30T00:00:00',
+                endDate: '2018-09-11T00:00:00',
                 focusStartDate: null
             },
             periodId: 6,

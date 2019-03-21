@@ -47,7 +47,7 @@ export default class HRM extends Component {
         });
     }
 
-    renderToeicScore = (hrmDetail) => {
+    renderToeicScore = hrmDetail => {
         let toeicClass = '';
         if (hrmDetail.toeicPolicy > 0) {
             toeicClass = 'toeic-passed';
@@ -73,7 +73,7 @@ export default class HRM extends Component {
         }
     };
 
-    renderDiscipline = (incident) => {
+    renderDiscipline = incident => {
         if (incident > 0) {
             return <a onClick={this.onShowModal}>{incident}</a>;
         }

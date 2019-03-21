@@ -22,7 +22,7 @@ export default class NominationResult extends Component {
         return false;
     }
 
-    groupNominationByStatusId = (nominations) => {
+    groupNominationByStatusId = nominations => {
         let nominationReduces = nominations.reduce(function (groups, item) {
             const val = item['statusId'];
             groups[val] = groups[val] || [];

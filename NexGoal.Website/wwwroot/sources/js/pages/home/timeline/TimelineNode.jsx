@@ -1,4 +1,4 @@
-﻿import React, { Component, Fragment } from "react";
+﻿import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import getResource from '../../../resourceHelper';
 import { getRoleClassName, getNominationClassName } from '../../../common-functions';
@@ -33,8 +33,7 @@ export default class TimelineNode extends Component {
     }
 
     render() {
-        const data = this.props.data;
-        const position = this.props.position;
+        const { data, position } = this.props;
 
         if (data.typeId === PerformanceRecordType.SystemNomination) {
             return this.renderSystemNomination(data, position);

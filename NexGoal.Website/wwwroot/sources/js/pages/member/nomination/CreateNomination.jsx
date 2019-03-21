@@ -125,16 +125,15 @@ export default class CreateNomination extends Component {
         handleChange,
         handleSubmit,
         setFieldValue,
-        dirty,
         isSubmitting
     }) => {
-        let onPeriodChange = (value) => {
+        let onPeriodChange = value => {
             let period = this.props.nominationPeriodOptions.find(x => x.value === value.value);
             let questions = '';
             if (period.quarter) {
-                questions = this.state.eoqQuestions.map(e => `${e.resourceId}. ${e.value}`).join("\r\n\r\n");
+                questions = this.state.eoqQuestions.map(e => `${e.resourceId}. ${e.value}`).join('\r\n\r\n');
             } else {
-                questions = this.state.eoyQuestions.map(e => `${e.resourceId}. ${e.value}`).join("\r\n\r\n");
+                questions = this.state.eoyQuestions.map(e => `${e.resourceId}. ${e.value}`).join('\r\n\r\n');
             }
 
             setFieldValue('period', value);

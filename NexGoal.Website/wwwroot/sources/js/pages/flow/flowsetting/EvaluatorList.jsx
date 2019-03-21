@@ -22,7 +22,7 @@ class EvaluatorList extends Component {
         this.getEmployees(this.state.groupSelected.value);
     }
 
-    getEmployees = (groupId) => {
+    getEmployees = groupId => {
         axios(resolveClientUrl(`Common/GetEmployees?groupIds=${groupId}`))
             .then(response => {
                 const data = response.data;
@@ -34,7 +34,7 @@ class EvaluatorList extends Component {
             }).catch(axiosError);
     }
 
-    handleOnGroupChange = (selectedOption) => {
+    handleOnGroupChange = selectedOption => {
         this.setState({
             groupSelected: selectedOption,
             keyword: ''
@@ -43,12 +43,12 @@ class EvaluatorList extends Component {
         this.getEmployees(selectedOption.value);
     }
 
-    handleOnKeywordChange = (event) => {
+    handleOnKeywordChange = event => {
         let employees;
         if (event.target.value && event.target.value.trim().length > 1) {
             const value = event.target.value.trim().toLowerCase();
 
-            employees = this.state.employees.slice().filter((employee) =>
+            employees = this.state.employees.slice().filter(employee =>
                 employee.nickName.toLowerCase().indexOf(value) >= 0
                 || employee.fullName.toLowerCase().indexOf(value) >= 0
             );
@@ -63,8 +63,8 @@ class EvaluatorList extends Component {
     }
 
     render() {
-        let groupOptions = this.props.groupOptions;
-        let employees = this.state.filteredEmployees;
+        const groupOptions = this.props.groupOptions;
+        const employees = this.state.filteredEmployees;
 
         return (
             <div className="evaluator-list">
@@ -83,7 +83,7 @@ class EvaluatorList extends Component {
                     </div>
                     <ul>
                         {
-                            employees.map((employee) => {
+                            employees.map(employee => {
                                 return (
                                     <Draggable key={'employee-' + employee.employeeId} enable={this.props.isHost}
                                         id={employee.employeeId}

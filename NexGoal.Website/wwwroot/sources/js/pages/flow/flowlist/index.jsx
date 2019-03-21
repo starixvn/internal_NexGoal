@@ -23,7 +23,7 @@ class FlowList extends Component {
         this.getGroupFlowSetting();
     }
 
-    handleOnSelect = (key) => {
+    handleOnSelect = key => {
         this.setState({ activeKey: key });
 
         switch (key) {

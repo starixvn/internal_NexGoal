@@ -79,13 +79,13 @@ export default class MyPage extends Component {
 
         Promise.all(promises)
             .then(([gradeResponse, projectResponse, performanceRecordResponse, periodResponse, nominationResponse, performanceAppraisalsResponse, personalTimelineResponse, announcementsResponse]) => {
-                this.performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
+                this.performanceGradeOptions = gradeResponse.data.map(performanceGrade => {
                     return {
                         value: performanceGrade.gradeId,
                         label: `(${performanceGrade.name}) ${performanceGrade.description}`
                     };
                 });
-                this.projectOptions = projectResponse.data.map((project) => {
+                this.projectOptions = projectResponse.data.map(project => {
                     return { value: project.projectId, label: project.name };
                 });
 
@@ -132,7 +132,7 @@ export default class MyPage extends Component {
                 pageIndex: pageIndex,
                 pageSize: size
             }
-        }).then((response) => {
+        }).then(response => {
             this.setState({
                 personalTimeline: {
                     records: response.data.performanceRecords,
@@ -144,9 +144,9 @@ export default class MyPage extends Component {
         }).catch(axiosError);
     };
 
-    handleCreatePerformanceRecordSuccess = (performanceRecordIds) => {
+    handleCreatePerformanceRecordSuccess = performanceRecordIds => {
         axios(resolveClientUrl(`Performance/GetByIds/${performanceRecordIds}`))
-            .then((response) => {
+            .then(response => {
                 let performanceRecords = this.state.performanceRecords.slice();
 
                 if (this.state.personalTimeline.pageIndex === 0) {
@@ -156,7 +156,7 @@ export default class MyPage extends Component {
                 if (performanceRecords.length === 0) {
                     performanceRecords.unshift(...response.data);
                 } else {
-                    let lastIndex = performanceRecords.map(record => { return record.isDraft; }).lastIndexOf(true);
+                    let lastIndex = performanceRecords.map(record => record.isDraft).lastIndexOf(true);
                     lastIndex = lastIndex >= 0 ? lastIndex + 1 : 0;
 
                     performanceRecords.splice(lastIndex, 0, ...response.data);
@@ -173,9 +173,9 @@ export default class MyPage extends Component {
             }).catch(axiosError);
     }
 
-    handleCreateDraftPerformanceRecordSuccess = (performanceRecordId) => {
+    handleCreateDraftPerformanceRecordSuccess = performanceRecordId => {
         axios(resolveClientUrl(`Performance/GetDraftById/${performanceRecordId}`))
-            .then((response) => {
+            .then(response => {
                 let performanceRecords = this.state.performanceRecords.slice();
 
                 performanceRecords.unshift(response.data);
@@ -191,7 +191,7 @@ export default class MyPage extends Component {
             }).catch(axiosError);
     }
 
-    handleClickEditPerformanceRecord = (performanceRecordId) => {
+    handleClickEditPerformanceRecord = performanceRecordId => {
         this.setState({
             editPerformanceRecord: {
                 isShowModal: true,
@@ -201,7 +201,7 @@ export default class MyPage extends Component {
         });
     }
 
-    handleClickEditDraftPerformanceRecord = (performanceRecordId) => {
+    handleClickEditDraftPerformanceRecord = performanceRecordId => {
         this.setState({
             editPerformanceRecord: {
                 isShowModal: true,
@@ -220,9 +220,9 @@ export default class MyPage extends Component {
         });
     }
 
-    handleEditPerformanceRecordSuccess = (performanceRecordIds) => {
+    handleEditPerformanceRecordSuccess = performanceRecordIds => {
         axios(resolveClientUrl(`Performance/GetByIds/${performanceRecordIds}`))
-            .then((response) => {
+            .then(response => {
                 let performanceRecords = this.state.performanceRecords.slice();
                 let currentRecordIndex = performanceRecords.findIndex(record => record.performanceRecordId === this.state.editPerformanceRecord.performanceRecordId);
                 let currentRecord = performanceRecords[currentRecordIndex];
@@ -230,7 +230,7 @@ export default class MyPage extends Component {
                 if (currentRecord.isDraft) {
                     performanceRecords.splice(currentRecordIndex, 1);
 
-                    let lastIndex = performanceRecords.map(record => { return record.isDraft; }).lastIndexOf(true);
+                    let lastIndex = performanceRecords.map(record => record.isDraft).lastIndexOf(true);
                     lastIndex = lastIndex >= 0 ? lastIndex + 1 : 0;
 
                     performanceRecords.splice(lastIndex, 0, ...response.data);
@@ -253,9 +253,9 @@ export default class MyPage extends Component {
             }).catch(axiosError);
     }
 
-    handleEditDraftPerformanceRecordSuccess = (performanceRecordId) => {
+    handleEditDraftPerformanceRecordSuccess = performanceRecordId => {
         axios(resolveClientUrl(`Performance/GetDraftById/${performanceRecordId}`))
-            .then((response) => {
+            .then(response => {
                 let performanceRecords = this.state.performanceRecords.slice();
                 let currentRecordIndex = performanceRecords.findIndex(record => record.performanceRecordId === this.state.editPerformanceRecord.performanceRecordId);
 
@@ -274,7 +274,7 @@ export default class MyPage extends Component {
             }).catch(axiosError);
     }
 
-    handleClickDeletePerformanceRecord = (performanceRecordId) => {
+    handleClickDeletePerformanceRecord = performanceRecordId => {
         this.setState({
             deletePerformanceRecord: {
                 isShowModal: true,
@@ -345,7 +345,7 @@ export default class MyPage extends Component {
         });
     }
 
-    renderPerformanceRecord = (performanceRecord) => {
+    renderPerformanceRecord = performanceRecord => {
         return (
             <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
                 data={performanceRecord}
@@ -417,7 +417,8 @@ export default class MyPage extends Component {
                                     onSubmitSuccess={this.handleCreatePerformanceRecordSuccess}
                                     onSubmitDraftSuccess={this.handleCreateDraftPerformanceRecordSuccess}
                                 />
-                                {performanceRecords.length > 0 &&
+                                {
+                                    performanceRecords.length > 0 &&
                                     <InfiniteScroll initialLoad={false}
                                         pageStart={1}
                                         loadMore={this.loadMorePerformanceRecord}

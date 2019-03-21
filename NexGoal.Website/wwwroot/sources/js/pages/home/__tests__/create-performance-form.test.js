@@ -1,11 +1,11 @@
-﻿import React from "react";
-import { shallow, render } from "enzyme";
+﻿import React from 'react';
+import { shallow } from 'enzyme';
 import CreateSelfPerformance from '../CreateSelfPerformance';
 import renderer from 'react-test-renderer';
 import Select from 'react-select';
 import TextareaFullscreenEditor from '../../../shared/components/textarea-fullscreen';
 import { Button } from 'react-bootstrap';
-import mockAxios from "axios";
+import mockAxios from 'axios';
 
 jest.mock('axios');
 jest.mock('moment', () => () => ({ format: () => '2018–05–11T12:00:00+00:00' }));
@@ -24,14 +24,14 @@ describe('Render', () => {
     it('render correctly when open form', () => {
         const wrapper = shallow(<CreateSelfPerformance {...props} />);
         wrapper.setState({ isOpenForm: true });
-        expect(wrapper.find(".form-filter")).toHaveLength(1);
+        expect(wrapper.find('.form-filter')).toHaveLength(1);
         expect(wrapper.find(Select)).toHaveLength(2);
     });
 
     it('Do not show form when isOpenForm is false', () => {
         const wrapper = shallow(<CreateSelfPerformance {...props} />);
         wrapper.setState({ isOpenForm: false });
-        expect(wrapper.find(".form-filter")).toHaveLength(0);
+        expect(wrapper.find('.form-filter')).toHaveLength(0);
         expect(wrapper.find('input')).toHaveLength(1);
     });
 });
@@ -54,7 +54,7 @@ describe('Event tests', () => {
     it('when change form call the right method', () => {
         const wrapper = shallow(<CreateSelfPerformance {...props} />);
         wrapper.setState({ isOpenForm: true });
-        let event = { target: { value: "spy" } };
+        let event = { target: { value: 'spy' } };
         const spyGradeChange = jest.spyOn(wrapper.instance(), 'handleGradeChange');
         wrapper.instance().forceUpdate();
         wrapper.find(Select).first().simulate('change', event);
@@ -90,9 +90,9 @@ describe('Event tests', () => {
         wrapper.setState({ isOpenForm: true });
         const spyValidateForm = jest.spyOn(wrapper.instance(), 'validateForm');
         spyValidateForm.mockReturnValue(true);
-        spyOn(document, "getElementsByName").and.callFake(function () {
+        spyOn(document, 'getElementsByName').and.callFake(function () {
             return [{
-                value: "abc test"
+                value: 'abc test'
             }];
         });
         wrapper.instance().forceUpdate();
@@ -111,9 +111,9 @@ describe('Event tests', () => {
         wrapper.setState({ isOpenForm: true });
         const spyValidateForm = jest.spyOn(wrapper.instance(), 'validateForm');
         spyValidateForm.mockReturnValue(false);
-        spyOn(document, "getElementsByName").and.callFake(function () {
+        spyOn(document, 'getElementsByName').and.callFake(function () {
             return [{
-                value: "abc test"
+                value: 'abc test'
             }];
         });
         wrapper.instance().forceUpdate();

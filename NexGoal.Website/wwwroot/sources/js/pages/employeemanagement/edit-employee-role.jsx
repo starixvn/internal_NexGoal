@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Modal, Button, Form, FormGroup, ControlLabel, Checkbox, Col } from 'react-bootstrap';
+import { Modal, Button, Form, FormGroup } from 'react-bootstrap';
 import axios from 'axios';
 import { stringify } from 'qs';
 
@@ -27,13 +27,13 @@ export default class EditEmployeeRole extends Component {
             }).catch(axiosError);
     }
 
-    handleEditEmployeeRoles = (e) => {
-        e.preventDefault();
+    handleEditEmployeeRoles = event => {
+        event.preventDefault();
 
         var selectedIds = [];
-        Array.from(e.target.querySelectorAll('input')).map(e => {
-            if (e.checked) {
-                selectedIds.push(e.value);
+        Array.from(event.target.querySelectorAll('input')).map(checkbox => {
+            if (checkbox.checked) {
+                selectedIds.push(checkbox.value);
             }
         });
 

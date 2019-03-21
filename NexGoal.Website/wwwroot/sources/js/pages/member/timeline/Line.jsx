@@ -3,7 +3,7 @@
 import Node from './Node';
 import { resolveClientUrl } from '../../../common-functions';
 
-export default class Timeline extends Component {
+export default class Line extends Component {
     shouldComponentUpdate(nextProps) {
         if (this.props.timelineWidth !== nextProps.timelineWidth
             || JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)) {

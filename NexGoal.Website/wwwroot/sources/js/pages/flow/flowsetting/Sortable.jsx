@@ -12,7 +12,7 @@ class Sortable extends Component {
             },
             receive: (event, ui) => this.props.onReceive(event, ui),
             deactivate: (event, ui) => this.props.onDeactivate(event, ui),
-            items: "tr:not(.unsortable), li:not(.unsortable)"
+            items: 'tr:not(.unsortable), li:not(.unsortable)'
         });
     }
 
@@ -31,10 +31,10 @@ class Sortable extends Component {
     }
 
     renderItems() {
-        return this.props.data.map((item) =>
+        return this.props.data.map(item =>
             <li key={`evaluator${item.evaluatorId}`} className="alert alert-info">
                 {this.props.enable &&
-                    <a className="fa fa-times" onClick={(e) => this.handleOnRemoveClick(e, item.evaluatorId)} />
+                    <a className="fa fa-times" onClick={event => this.handleOnRemoveClick(event, item.evaluatorId)} />
                 }
                 <img src={item.avatar} />
                 <p>{`${item.nickName} (${item.fullName})`}</p>

@@ -26,7 +26,7 @@ class EmployeeFlowFilter extends Component {
         this.getEmployeeSetting(groupId);
     }
 
-    getEmployeeUnsetting = (groupId) => {
+    getEmployeeUnsetting = groupId => {
         axios(resolveClientUrl(`EmployeeFlowSetting/GetEmployeeUnsetting?groupId=${groupId}`))
             .then(response => {
                 const data = response.data;
@@ -38,7 +38,7 @@ class EmployeeFlowFilter extends Component {
             }).catch(axiosError);
     }
 
-    getEmployeeSetting = (groupId) => {
+    getEmployeeSetting = groupId => {
         axios(resolveClientUrl(`EmployeeFlowSetting/GetEmployeeHaveSetting?groupId=${groupId}`))
             .then(response => {
                 const data = response.data;
@@ -49,7 +49,7 @@ class EmployeeFlowFilter extends Component {
             }).catch(axiosError);
     }
 
-    handleOnGroupChange = (selectedOption) => {
+    handleOnGroupChange = selectedOption => {
         this.setState({
             groupSelected: selectedOption,
             keyword: ''
@@ -59,12 +59,12 @@ class EmployeeFlowFilter extends Component {
         this.getEmployeeSetting(selectedOption.value);
     }
 
-    handleOnKeywordChange = (event) => {
+    handleOnKeywordChange = event => {
         let employees;
         if (event.target.value && event.target.value.trim().length > 1) {
             const value = event.target.value.trim().toLowerCase();
 
-            employees = this.state.employeeUnsettings.slice().filter((employee) =>
+            employees = this.state.employeeUnsettings.slice().filter(employee =>
                 employee.nickName.toLowerCase().indexOf(value) >= 0
                 || employee.fullName.toLowerCase().indexOf(value) >= 0
             );
@@ -78,11 +78,11 @@ class EmployeeFlowFilter extends Component {
         });
     }
 
-    handleOnEmployeeUnsettingChange = (event) => {
+    handleOnEmployeeUnsettingChange = event => {
         this.setState({ employeeUnsettingSelected: event.target.value });
     }
 
-    handleOnEmployeeSettingChange = (event) => {
+    handleOnEmployeeSettingChange = event => {
         this.setState({ employeeSettingSelected: event.target.value });
 
         this.props.onEmployeeSelected(event.target.value);
@@ -126,11 +126,9 @@ class EmployeeFlowFilter extends Component {
     }
 
     render() {
-        let isHost = this.props.isHost;
-        let hasSetting = this.props.hasSetting;
-        let groupOptions = this.props.groupOptions;
-        let employees = this.state.filteredEmployees;
-        let employeeSettings = this.state.employeeSettings;
+        const { isHost, hasSetting, groupOptions } = this.props;
+        const employees = this.state.filteredEmployees;
+        const employeeSettings = this.state.employeeSettings;
 
         return (
             <div className="filter">
@@ -148,7 +146,7 @@ class EmployeeFlowFilter extends Component {
                 <div className="employee-setting">
                     <select className="form-control" size="10" onChange={this.handleOnEmployeeUnsettingChange}>
                         {
-                            employees.map((employee) =>
+                            employees.map(employee =>
                                 <option key={employee.employeeId} value={employee.employeeId}>
                                     {`${employee.nickName} (${employee.fullName})`}
                                 </option>
@@ -167,7 +165,7 @@ class EmployeeFlowFilter extends Component {
                     </div>
                     <select className="form-control" size="10" onChange={this.handleOnEmployeeSettingChange}>
                         {
-                            employeeSettings.map((employee) =>
+                            employeeSettings.map(employee =>
                                 <option key={employee.employeeId} value={employee.employeeId}>
                                     {`${employee.nickName} (${employee.fullName})`}
                                 </option>

@@ -1,8 +1,8 @@
-﻿import React from "react";
-import { shallow, mount } from "enzyme";
-import WorkLoad from "../workload";
+﻿import React from 'react';
+import { shallow, mount } from 'enzyme';
+import WorkLoad from '../workload';
 import renderer from 'react-test-renderer';
-import mockAxios from "axios";
+import mockAxios from 'axios';
 
 jest.mock('axios');
 

@@ -48,7 +48,7 @@ export default class Discipline extends Component {
 
         Promise.all(promises)
             .then(([groupResponse, employeeResponse]) => {
-                let groupOptions = groupResponse.data.map((group) => {
+                let groupOptions = groupResponse.data.map(group => {
                     return {
                         value: group.groupId,
                         label: group.name
@@ -224,4 +224,4 @@ export default class Discipline extends Component {
     }
 }
 
-ReactDOM.render(<Discipline />, document.getElementById("discipline-wrapper"));
+ReactDOM.render(<Discipline />, document.getElementById('discipline-wrapper'));

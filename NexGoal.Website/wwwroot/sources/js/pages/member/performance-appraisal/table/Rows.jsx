@@ -24,11 +24,9 @@ class Rows extends Component {
         return <span className={`bold ${toeicClass}`}>{toeic ? toeic : getResource('N/A')}</span>;
     }
 
-    parseIntGradeId = (gradeId) => {
-        return gradeId !== null ? gradeId : 0;
-    }
+    parseIntGradeId = gradeId => gradeId !== null ? gradeId : 0
 
-    renderNotAvailableGrade = (paRecordId) => {
+    renderNotAvailableGrade = paRecordId => {
         const tooltip = (
             <Tooltip className="focus-note" id={`notAvailable-${paRecordId}`}>
                 <p>{notAvailableGradeTooltip}</p>
@@ -45,7 +43,7 @@ class Rows extends Component {
         this.props.onQuickEditPA(paRecordId, isRevised);
     }
 
-    countDuplicateGrades = (grades) => {
+    countDuplicateGrades = grades => {
         grades.sort();
         let displayGrades = [];
         let currentGrade = null;
@@ -71,7 +69,7 @@ class Rows extends Component {
         return displayGrades.length > 0 ? displayGrades.join(', ') : '';
     }
 
-    renderSelfGrade = (paProcesses) => {
+    renderSelfGrade = paProcesses => {
         const processes = paProcesses.filter(process => process.processId === PerformanceProcess.Self);
         let grade = '';
         if (processes[0].performanceRecord) {
@@ -99,7 +97,7 @@ class Rows extends Component {
                                 <p key={index}>
                                     {
                                         `${process.evaluator.nickName}: ${process.performanceRecord.grade
-                                            ? process.performanceRecord.grade.name : getResource("N/A")} `
+                                            ? process.performanceRecord.grade.name : getResource('N/A')} `
                                     }
                                 </p>
                             );
@@ -132,7 +130,7 @@ class Rows extends Component {
         return grade;
     }
 
-    renderPAGrade = (record) => {
+    renderPAGrade = record => {
         let gradeId = record.grade ? record.grade.gradeId : null;
         let originalGradeId = record.originalGrade ? record.originalGrade.gradeId : null;
 
@@ -175,7 +173,7 @@ class Rows extends Component {
         return status;
     }
 
-    renderReviewerGrade = (paProcesses) => {
+    renderReviewerGrade = paProcesses => {
         const processes = paProcesses.filter(process => process.processId === PerformanceProcess.Reviewer);
         let grade = '';
         if (processes[0].performanceRecord) {
@@ -185,7 +183,7 @@ class Rows extends Component {
         return <span>{grade}</span>;
     }
 
-    renderNickName = (record) => {
+    renderNickName = record => {
         let displayNickname = <span>{record.employee.nickName}</span>;
         if (record.statusId !== PAStatus.InProgress) {
             displayNickname = <a onClick={() => this.handleClick(record.paRecordId)}>{record.employee.nickName}</a>;
@@ -193,7 +191,7 @@ class Rows extends Component {
         return displayNickname;
     }
 
-    handleClick = (paRecordId) => {
+    handleClick = paRecordId => {
         this.props.onClickEditPA(paRecordId);
     }
 

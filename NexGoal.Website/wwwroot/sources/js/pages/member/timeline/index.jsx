@@ -69,7 +69,7 @@ export default class Timeline extends Component {
     updateDimensions = () => {
         let pageSize = this.calculatePageSize();
 
-        this.setState((prevState, prevProps) => {
+        this.setState((prevState) => {
             if (prevState.pageSize !== pageSize) {
                 this.getMemberPerformanceTimeline(pageSize);
 
@@ -80,7 +80,7 @@ export default class Timeline extends Component {
         });
     }
 
-    getMemberPerformanceTimeline = (pageSize) => {
+    getMemberPerformanceTimeline = pageSize => {
         if (this.props.currentPerformancePeriod) {
             axios(resolveClientUrl('Member/Performance/Timeline'), {
                 params: {
@@ -88,7 +88,7 @@ export default class Timeline extends Component {
                     pageIndex: 0,
                     pageSize: pageSize
                 }
-            }).then((response) => {
+            }).then(response => {
                 response.data.map(memberPerformance => {
                     memberPerformance.pageIndex = 0;
                     memberPerformance.nextDisabled = memberPerformance.pageIndex === 0;
@@ -120,7 +120,7 @@ export default class Timeline extends Component {
                     pageIndex: pageIndex,
                     pageSize: this.state.pageSize
                 }
-            }).then((response) => {
+            }).then(response => {
                 response.data[0].pageIndex = pageIndex;
                 response.data[0].nextDisabled = pageIndex === 0;
                 response.data[0].prevDisabled = (pageIndex + 1) * this.state.pageSize >= response.data[0].totalItems;
@@ -134,11 +134,11 @@ export default class Timeline extends Component {
         }
     }
 
-    handleGroupChange = (selectedOptions) => {
+    handleGroupChange = selectedOptions => {
         this.updateFilter('groups', selectedOptions);
     }
 
-    groupMemberPerformances = (records) => {
+    groupMemberPerformances = records => {
         let memberPerformances = records ? records.slice() : [];
 
         memberPerformances = memberPerformances.reduce(function (groups, item) {
@@ -180,7 +180,7 @@ export default class Timeline extends Component {
         return <div className="group-name">{groupName}</div>;
     }
 
-    canculateTimelineWidth = () => {
+    calculateTimelineWidth = () => {
         let windowWidth = window.innerWidth;
         let timelineWidth = this.timelineEl.current ? this.timelineEl.current.offsetWidth : 0;
 
@@ -194,10 +194,9 @@ export default class Timeline extends Component {
     }
 
     render() {
-        let groupOptions = this.props.groupOptions;
-        let currentPerformancePeriod = this.props.currentPerformancePeriod;
+        let { groupOptions, currentPerformancePeriod } = this.props;
         let groupPerformances = this.groupMemberPerformances(this.state.memberPerformances);
-        let timelineWidth = this.canculateTimelineWidth();
+        let timelineWidth = this.calculateTimelineWidth();
 
         return (
             <Fragment>
@@ -215,7 +214,7 @@ export default class Timeline extends Component {
                 }
                 <div className="member-timeline" ref={this.timelineEl}>
                     {
-                        groupPerformances.map((groupPerformance) => {
+                        groupPerformances.map(groupPerformance => {
                             return (
                                 <Fragment key={`groupPerformance${groupPerformance.groupId}`}>
                                     {this.renderGroupName(groupPerformance.groupId, groupPerformance.groupName)}
@@ -224,7 +223,7 @@ export default class Timeline extends Component {
                                         aria-expanded="false"
                                     >
                                         {
-                                            groupPerformance.records.map((memberPerformance) => {
+                                            groupPerformance.records.map(memberPerformance => {
                                                 return (
                                                     <Line key={`memberTimeline${memberPerformance.employeeId}`}
                                                         data={memberPerformance}

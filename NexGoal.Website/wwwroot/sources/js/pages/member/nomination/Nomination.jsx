@@ -150,7 +150,7 @@ export default class Nomination extends Component {
 
     closeDeleteModal = () => this.setState({ showDeleteModal: false, deletedRecordId: null });
 
-    renderPerformanceRecord = (performanceRecord) => {
+    renderPerformanceRecord = performanceRecord => {
         return (
             <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
                 pageType={this.props.pageType}
@@ -162,18 +162,15 @@ export default class Nomination extends Component {
     }
 
     render() {
-        let employeeOptions = this.employeeOptions;
-        let nominationPeriodOptions = this.nominationPeriodOptions;
-
         return (
             <div className="record-list">
                 <CustomScrollbars>
                     {
-                        nominationPeriodOptions.length > 0 &&
+                        this.nominationPeriodOptions.length > 0 &&
                         <CreateNomination
                             currentUser={this.props.currentUser}
-                            employeeOptions={employeeOptions}
-                            nominationPeriodOptions={nominationPeriodOptions}
+                            employeeOptions={this.employeeOptions}
+                            nominationPeriodOptions={this.nominationPeriodOptions}
                             isEmployeeSelectable={!this.props.isMemberDetails}
                             nomineeId={this.props.nomineeId}
                             onCreateSuccess={this.handleCreateNominationSuccess}
@@ -187,8 +184,8 @@ export default class Nomination extends Component {
                     <EditNomination showModal={this.state.showEditModal}
                         currentUser={this.props.currentUser}
                         performanceRecord={this.state.editedNomination}
-                        nominationPeriodOptions={nominationPeriodOptions}
-                        employeeOptions={employeeOptions}
+                        nominationPeriodOptions={this.nominationPeriodOptions}
+                        employeeOptions={this.employeeOptions}
                         onCloseModal={this.closeEditModal}
                         onEditSuccess={this.handleEditNominationSuccess}
                         isEmployeeSelectable={!this.props.isMemberDetails}

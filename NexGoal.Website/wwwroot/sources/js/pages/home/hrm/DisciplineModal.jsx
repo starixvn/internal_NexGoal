@@ -26,7 +26,7 @@ export default class Discipline extends Component {
             })).catch(axiosError);
     }
 
-    renderDisciplines = (disciplines) => {
+    renderDisciplines = disciplines => {
         if (disciplines.length > 0) {
             return (
                 disciplines.map((discipline, index) => {

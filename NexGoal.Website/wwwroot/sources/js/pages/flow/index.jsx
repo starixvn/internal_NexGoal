@@ -28,7 +28,7 @@ export default class App extends Component {
     componentDidMount() {
         axios(resolveClientUrl('Common/GetGroups'))
             .then(response => {
-                this.groupOptions = response.data.map((group) => {
+                this.groupOptions = response.data.map(group => {
                     return { value: group.groupId, label: group.name };
                 });
                 this.groupOptions.unshift({ value: '', label: '-- All --' });

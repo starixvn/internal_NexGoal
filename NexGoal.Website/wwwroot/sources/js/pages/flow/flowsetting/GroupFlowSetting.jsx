@@ -36,7 +36,7 @@ class GroupFlowSetting extends Component {
             }).catch(axiosError);
     }
 
-    getFlowSetting = (groupId) => {
+    getFlowSetting = groupId => {
         axios(resolveClientUrl(`GroupFlowSetting/GetById?groupId=${groupId}`))
             .then(response => {
                 const data = response.data;
@@ -49,7 +49,7 @@ class GroupFlowSetting extends Component {
             }).catch(axiosError);
     }
 
-    handleGroupChange = (selectedOption) => {
+    handleGroupChange = selectedOption => {
         this.setState({
             groupSelected: selectedOption
         });
@@ -232,11 +232,8 @@ class GroupFlowSetting extends Component {
     }
 
     render() {
-        let isHost = this.props.isHost;
-        let groupOptions = this.props.groupOptions;
-        let groupSetting = this.state.groupSettings.map((group) => {
-            return group.name;
-        }).join(', ');
+        const { isHost, groupOptions } = this.props;
+        const groupSetting = this.state.groupSettings.map(group => group.name).join(', ');
 
         return (
             <div className="row group-flow">

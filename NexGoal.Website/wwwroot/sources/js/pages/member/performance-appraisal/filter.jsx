@@ -7,19 +7,19 @@ import getResource from '../../../resourceHelper';
 import { PAEditOptions } from '../../../constants';
 
 export default class Filter extends Component {
-    handlePeriodChange = (selectedOption) => {
+    handlePeriodChange = selectedOption => {
         this.props.onFilterChange('period', selectedOption);
     }
 
-    handleGroupChange = (selectedOption) => {
+    handleGroupChange = selectedOption => {
         this.props.onFilterChange('groups', selectedOption);
     }
 
-    handleStatusChange = (selectedOption) => {
+    handleStatusChange = selectedOption => {
         this.props.onFilterChange('status', selectedOption);
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = event => {
         event.preventDefault();
         this.props.onSubmit();
     }
