@@ -44,8 +44,7 @@ class Table extends Component {
     }
 
     render() {
-        const isHost = this.props.isHost;
-        const nominators = this.props.nominators;
+        const { isHost, nominators } = this.props;
         const columns = [
             {
                 dataField: 'rowNum',
@@ -53,9 +52,7 @@ class Table extends Component {
                 text: `${getResource('SymbolCount')}`,
                 classes: 'text-center',
                 headerStyle: { width: '50px' },
-                formatter: (cell, row, rowIndex) => {
-                    return rowIndex + 1;
-                }
+                formatter: (cell, row, rowIndex) => rowIndex + 1
             },
             { dataField: 'nickName', text: `${getResource('NickName')}`, headerStyle: { width: '120px' } },
             { dataField: 'fullName', text: `${getResource('FullName')}` },
@@ -72,7 +69,7 @@ class Table extends Component {
                             <div className="checkbox">
                                 <input type='checkbox' name="Committee" className="checkbox-custom" id={'chb-committee' + rowIndex}
                                     defaultChecked={row.isCommittee}
-                                    onChange={(e) => this.handleCheckboxChange(e, row)}
+                                    onChange={event => this.handleCheckboxChange(event, row)}
                                 />
                                 <label htmlFor={'chb-committee' + rowIndex} />
                             </div>
@@ -93,7 +90,7 @@ class Table extends Component {
                             <div className="checkbox">
                                 <input type='checkbox' name="Nominator" id={'chb-nominator' + rowIndex}
                                     defaultChecked={row.isNominator}
-                                    onChange={(e) => this.handleCheckboxChange(e, row)} className="checkbox-custom"
+                                    onChange={event => this.handleCheckboxChange(event, row)} className="checkbox-custom"
                                 />
                                 <label htmlFor={'chb-nominator' + rowIndex} /></div>
                         );

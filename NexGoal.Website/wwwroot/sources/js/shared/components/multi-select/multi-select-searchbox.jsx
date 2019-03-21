@@ -45,7 +45,7 @@ export default class MultiSelectSearchbox extends Component {
         document.removeEventListener('mousedown', this.handleClickOutside);
     }
 
-    handleClickOutside = (event) => {
+    handleClickOutside = event => {
         if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
             this.setState({
                 isOpen: false
@@ -57,7 +57,7 @@ export default class MultiSelectSearchbox extends Component {
         this.setState(state => ({ isOpen: !state.isOpen }));
     }
 
-    handleChange = (value) => {
+    handleChange = value => {
         this.props.onChange(value);
     }
 
@@ -90,7 +90,7 @@ export default class MultiSelectSearchbox extends Component {
                         placeholder="Search..."
                         components={{ MenuList, Option, DropdownIndicator, IndicatorSeparator: null }}
                         onChange={this.handleChange}
-                        styles={{ multiValue: (base) => ({ ...base, backgroundColor: 'none', border: 'unset' }) }}
+                        styles={{ multiValue: base => ({ ...base, backgroundColor: 'none', border: 'unset' }) }}
                     />
                 }
             </div>

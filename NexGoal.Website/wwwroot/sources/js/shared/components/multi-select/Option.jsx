@@ -1,11 +1,11 @@
 ﻿import React from 'react';
 import { components } from 'react-select';
 
-const Option = (props) => {
+const Option = props => {
     return (
         <components.Option {...props}>
           <div className="checkbox">
-            <input className="checkbox-custom" type="checkbox" checked={props.isSelected} onChange={(event) => { }} />
+            <input className="checkbox-custom" type="checkbox" checked={props.isSelected} onChange={() => { }} />
             <label>{props.data.label}</label>
           </div>
         </components.Option>

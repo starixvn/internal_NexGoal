@@ -21,7 +21,7 @@ export default class Row extends Component {
         );
     }
 
-    handleOnChange = (event) => {
+    handleOnChange = event => {
         this.props.onCheckboxChange(this.props.function, event.target.name, event.target.checked);
     }
 
@@ -29,7 +29,7 @@ export default class Row extends Component {
         const functionObj = this.props.function;
 
         return (
-            <tr className={!functionObj.parentId ? "row-special" : ""}>
+            <tr className={!functionObj.parentId ? 'row-special' : ''}>
                 {this.renderCellFunctionName(functionObj)}
 
                 <td className="text-center">
@@ -39,9 +39,9 @@ export default class Row extends Component {
                             <input type="checkbox" name="funcRead" className="checkbox-custom"
                                 disabled={!this.props.isHost}
                                 checked={functionObj.policy > Policy.None}
-                                onChange={this.handleOnChange} id={"chb-read-" + functionObj.functionId}
+                                onChange={this.handleOnChange} id={`chb-read-${functionObj.functionId}`}
                             />
-                            <label htmlFor={"chb-read-" + functionObj.functionId} />
+                            <label htmlFor={`chb-read-${functionObj.functionId}`} />
                         </div>
                     }
                 </td>
@@ -52,9 +52,9 @@ export default class Row extends Component {
                             <input type="checkbox" name="funcHost" className="checkbox-custom"
                                 disabled={!this.props.isHost}
                                 checked={functionObj.policy === Policy.Host}
-                                onChange={this.handleOnChange} id={"chb-host-" + functionObj.functionId}
+                                onChange={this.handleOnChange} id={`chb-host-${functionObj.functionId}`}
                             />
-                            <label htmlFor={"chb-host-" + functionObj.functionId} />
+                            <label htmlFor={`chb-host-${functionObj.functionId}`} />
                         </div>
                     }
                 </td>

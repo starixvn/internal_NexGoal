@@ -39,7 +39,7 @@ export default class EOQReport extends Component {
 
         Promise.all(promises)
             .then(([groupResponse, employeeResponse, nominationPeriodResponse]) => {
-                this.groupOptions = groupResponse.data.map((group) => {
+                this.groupOptions = groupResponse.data.map(group => {
                     return {
                         value: group.groupId,
                         label: group.name
@@ -57,7 +57,7 @@ export default class EOQReport extends Component {
                     value: x.nominationPeriodId,
                     label: x.title,
                     startDateForNominator: x.startDateForNominator,
-                    endDateForCommittee: x.endDateForCommittee,
+                    endDateForCommittee: x.endDateForCommittee
                 }));
 
                 let filter = {
@@ -75,7 +75,7 @@ export default class EOQReport extends Component {
             }).catch(axiosError);
     }
 
-    getNominations = (filter) => {
+    getNominations = filter => {
         axios.get(resolveClientUrl('NominationReport/GetNominations'), {
             params: {
                 nominationPeriodIds: filter.periods.map(e => e.value).toString(),

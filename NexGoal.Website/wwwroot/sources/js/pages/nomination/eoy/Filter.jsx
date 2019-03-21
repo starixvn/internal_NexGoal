@@ -6,24 +6,17 @@ import { statusOptions } from '../common';
 import getResource from '../../../resourceHelper';
 
 class Filter extends Component {
-    constructor(props) {
-        super(props);
-
-        this.handleStatusChange = this.handleStatusChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleStatusChange(selectedOption) {
+    handleStatusChange = selectedOption => {
         this.props.handleStatusChange(selectedOption.value);
     }
 
-    handleSubmit(event) {
+    handleSubmit = event => {
         event.preventDefault();
         this.props.handleFilterSubmit();
     }
 
     render() {
-        const statusSelected = statusOptions.find((option) => { return option.value === this.props.statusId.toString(); });
+        const statusSelected = statusOptions.find(option => option.value === this.props.statusId.toString());
 
         return (
             <Form inline className="form-filter" onSubmit={this.handleSubmit}>

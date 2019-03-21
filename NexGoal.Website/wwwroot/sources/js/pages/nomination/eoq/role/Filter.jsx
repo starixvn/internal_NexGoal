@@ -16,23 +16,23 @@ class Filter extends Component {
         return false;
     }
 
-    onKeywordChange = (event) => {
+    onKeywordChange = event => {
         this.props.onChange('keyword', event.target.value);
     }
 
-    handleGroupChange = (selectedOptions) => {
+    handleGroupChange = selectedOptions => {
         this.props.onChange('groups', selectedOptions);
     }
 
-    handleRoleChange = (selectedOption) => {
+    handleRoleChange = selectedOption => {
         this.props.onChange('role', selectedOption);
     }
 
-    handleCheckboxChange = (event) => {
+    handleCheckboxChange = event => {
         this.props.onChange('isShowAll', event.target.checked);
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = event => {
         event.preventDefault();
         this.props.onSubmit();
     }

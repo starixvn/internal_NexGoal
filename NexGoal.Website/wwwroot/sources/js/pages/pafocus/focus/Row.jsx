@@ -43,7 +43,7 @@ export default class Row extends Component {
         return className;
     }
 
-    getFocusEvaluationLevel = (value) => {
+    getFocusEvaluationLevel = value => {
         let index = this.props.focusEvaluationLevelOptions.findIndex(item => item.value.toString() === value);
 
         if (index >= 0) {
@@ -145,7 +145,7 @@ export default class Row extends Component {
         );
     }
 
-    renderContentObjective = (objective) => {
+    renderContentObjective = objective => {
         return (
             <Fragment>
                 {
@@ -158,7 +158,7 @@ export default class Row extends Component {
         );
     }
 
-    renderActionObjective = (propName) => {
+    renderActionObjective = propName => {
         let pafocus = this.props.data;
 
         return (
@@ -194,19 +194,19 @@ export default class Row extends Component {
         return <span>{grade ? grade.name : 'N/A'}<span className={gradeClass} /></span>;
     }
 
-    handleOnChange = (event) => {
+    handleOnChange = event => {
         let pafocus = this.props.data;
 
         this.props.onChange(pafocus.employee.groupCode, pafocus.paFocusId, event.target.name, event.target.value);
     }
 
-    handleChangeObjective = (objective) => {
+    handleChangeObjective = objective => {
         let pafocus = this.props.data;
 
         this.props.onChange(pafocus.employee.groupCode, pafocus.paFocusId, objective.name, objective.value);
     }
 
-    handleShowObjectiveModal = (event) => {
+    handleShowObjectiveModal = event => {
         let targetName = event.target.name;
         let value = this.props.data[targetName] ? this.props.data[targetName] : '';
 

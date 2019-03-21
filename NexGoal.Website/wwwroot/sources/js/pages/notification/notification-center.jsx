@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+
 import { axiosError, getCurrentUserInfo, resolveClientUrl } from '../../common-functions';
 import { NotificationActionType, NotificationStatus } from '../../constants';
 import ToastLayout from '../../shared/layouts/ToastLayout';
@@ -79,6 +80,7 @@ export default class NotificationCenter extends Component {
             const data = response.data;
             let notifications = this.state.notifications;
             notifications.push(...data.notifications);
+
             this.setState({
                 notifications: notifications,
                 unreadNoti: data.unreadNoti,
@@ -87,10 +89,10 @@ export default class NotificationCenter extends Component {
         }).catch(axiosError);
     }
 
-    triggerNotificationBell = (notificationId) => {
-        let notiBell = document.getElementById("trigger-notification-bell");
+    triggerNotificationBell = notificationId => {
+        let notiBell = document.getElementById('trigger-notification-bell');
         if (notiBell) {
-            notiBell.setAttribute("notificationId", notificationId);
+            notiBell.setAttribute('notificationId', notificationId);
             notiBell.click();
         }
     }
@@ -99,7 +101,7 @@ export default class NotificationCenter extends Component {
         let notiTrigger = document.getElementById('trigger-notification-center');
         if (notiTrigger) {
             notiTrigger.addEventListener('click', () => {
-                let notificationId = parseInt(notiTrigger.getAttribute("notificationId"), 10);
+                let notificationId = parseInt(notiTrigger.getAttribute('notificationId'), 10);
                 if (!notificationId) {
                     this.markAsReadSuccess();
                 } else {
@@ -128,12 +130,11 @@ export default class NotificationCenter extends Component {
         }
     }
 
-    handleRedirectToAction = (notificationId) => {
+    handleRedirectToAction = notificationId => {
         let notifications = this.state.notifications.slice();
         let notiIndex = notifications.findIndex(noti => noti.notificationId === notificationId);
         if (notiIndex !== -1) {
-            let actionTypeId = notifications[notiIndex].actionTypeId;
-            let recordId = notifications[notiIndex].recordId;
+            let { actionTypeId, recordId } = notifications[notiIndex];
             let url = '';
             switch (actionTypeId) {
                 case NotificationActionType.MyPageWithCreatePerformanceCheckin:
@@ -199,7 +200,7 @@ export default class NotificationCenter extends Component {
         }
     }
 
-    handleChangeStatusSuccess = (notificationId) => {
+    handleChangeStatusSuccess = notificationId => {
         let notifications = this.state.notifications.slice();
         let index = notifications.findIndex(x => x.notificationId === notificationId);
 

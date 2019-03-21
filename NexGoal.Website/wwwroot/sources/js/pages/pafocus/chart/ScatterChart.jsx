@@ -21,7 +21,7 @@ export default class ScatterChart extends Component {
     };
     points = [];
 
-    getFocusEvaluationLevel = (value) => {
+    getFocusEvaluationLevel = value => {
         let index = this.props.focusEvaluationLevelOptions.findIndex(item => item.value.toString() === value);
 
         if (index >= 0) {
@@ -33,7 +33,7 @@ export default class ScatterChart extends Component {
 
     checkExistPoint = (x, y) => {
         var isExisted = false;
-        this.points.forEach((point) => {
+        this.points.forEach(point => {
             if (point.x === x && point.y === y) {
                 isExisted = true;
             }
@@ -42,10 +42,10 @@ export default class ScatterChart extends Component {
         return isExisted;
     }
 
-    findNumberExist = (point) => {
+    findNumberExist = point => {
         let number = 0;
-        this.props.pafocuses.forEach((pafocus) => {
-            pafocus.members.forEach((member) => {
+        this.props.pafocuses.forEach(pafocus => {
+            pafocus.members.forEach(member => {
                 if (point.bonusGiven === member.bonusGiven && point.contribution === member.contribution) {
                     number++;
                 }
@@ -55,11 +55,9 @@ export default class ScatterChart extends Component {
         return number;
     }
 
-    calculateThreshold = (number) => {
-        return 1 / number;
-    }
+    calculateThreshold = number => 1 / number
 
-    findUniquePoint = (member) => {
+    findUniquePoint = member => {
         let isExisted = true;
         let step = 0;
         let number = this.findNumberExist(member);
@@ -94,11 +92,11 @@ export default class ScatterChart extends Component {
         };
     }
 
-    renderReadyPromotion = (value) => {
+    renderReadyPromotion = value => {
         let text = value === null ? '-' : value === 'true' ? 'Yes' : 'No';
         let html = text;
         if (value === 'true') {
-            html = '<span style="color:#F0931F">' + text + '</span>';
+            html = `<span style='color:#F0931F'>${text}</span>`;
         }
 
         return html;
@@ -109,8 +107,8 @@ export default class ScatterChart extends Component {
         let data = [];
         let colors = [];
 
-        this.props.pafocuses.forEach((pafocus) => {
-            pafocus.members.forEach((member) => {
+        this.props.pafocuses.forEach(pafocus => {
+            pafocus.members.forEach(member => {
                 if (member.bonusGiven !== null && member.bonusGiven !== '') {
                     let color = '#56bde4';
                     if (member.isReadyPromotion === 'true') {

@@ -16,15 +16,15 @@ class Filter extends Component {
         return false;
     }
 
-    handleYearChange = (selectedOption) => {
+    handleYearChange = selectedOption => {
         this.props.handleYearChange(selectedOption.value);
     }
 
-    handleStatusChange = (selectedOption) => {
+    handleStatusChange = selectedOption => {
         this.props.handleStatusChange(selectedOption.value);
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = event => {
         event.preventDefault();
         this.props.handleFilterSubmit();
     }
@@ -34,9 +34,9 @@ class Filter extends Component {
             return { value: year.toString(), label: year };
         });
         yearOptions.unshift({ value: '', label: '-- All --' });
-        const yearSelected = yearOptions.find((option) => { return option.value === this.props.year.toString(); });
+        const yearSelected = yearOptions.find(option => option.value === this.props.year.toString());
 
-        const statusSelected = statusOptions.find((option) => { return option.value === this.props.statusId.toString(); });
+        const statusSelected = statusOptions.find(option => option.value === this.props.statusId.toString());
 
         return (
             <Form inline className="form-filter" onSubmit={this.handleSubmit}>

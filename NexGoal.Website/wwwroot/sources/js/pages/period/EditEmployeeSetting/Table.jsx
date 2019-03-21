@@ -41,9 +41,7 @@ export default class Table extends Component {
             text: `${getResource('SymbolCount')}`,
             classes: 'text-center',
             headerStyle: { width: '50px' },
-            formatter: (cell, row, rowIndex) => {
-                return rowIndex + 1;
-            }
+            formatter: (cell, row, rowIndex) => rowIndex + 1
         },
         {
             dataField: 'employee.groupName',
@@ -52,9 +50,7 @@ export default class Table extends Component {
         {
             dataField: 'nickName',
             text: `${getResource('Employee')}`,
-            formatter: (cell, row, rowIndex, colIndex) => {
-                return `${row.employee.nickName} (${row.employee.fullName})`;
-            }
+            formatter: (cell, row) => `${row.employee.nickName} (${row.employee.fullName})`
         },
         {
             dataField: 'evaluator',
@@ -232,7 +228,7 @@ export default class Table extends Component {
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 paRecordId: this.state.selectedSettingToUpdateStatus.paRecordId,
-                isExcluded: !(this.state.selectedSettingToUpdateStatus.statusId === PAStatus.Rejected)
+                isExcluded: this.state.selectedSettingToUpdateStatus.statusId !== PAStatus.Rejected
             }),
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
@@ -253,7 +249,7 @@ export default class Table extends Component {
 
     closeEditModal = () => this.setState({ showEditModal: false })
 
-    editSettingStatusConfirmation = (setting) => this.setState({ showConfirmationModal: true, selectedSettingToUpdateStatus: setting })
+    editSettingStatusConfirmation = setting => this.setState({ showConfirmationModal: true, selectedSettingToUpdateStatus: setting })
 
     onEditSuccess = () => {
         this.setState({ showEditModal: false });
@@ -321,7 +317,7 @@ export default class Table extends Component {
                                             selectionHeaderRenderer: ({ indeterminate, mode, checked }) => (
                                                 <div className="checkbox">
                                                     <input type={mode} className="checkbox-custom"
-                                                        ref={(input) => {
+                                                        ref={input => {
                                                             if (input) input.indeterminate = indeterminate;
                                                         }}
                                                         checked={checked}

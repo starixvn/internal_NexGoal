@@ -24,7 +24,7 @@ export default class EOQ extends Component {
         this.getAllEOQ();
     }
 
-    getYears() {
+    getYears = () => {
         axios.get(resolveClientUrl('EOQ/GetYears'))
             .then(response => {
                 let data = response.data;
@@ -36,7 +36,7 @@ export default class EOQ extends Component {
             }).catch(axiosError);
     }
 
-    getAllEOQ() {
+    getAllEOQ = () => {
         axios.get(resolveClientUrl(`EOQ/GetAll?year=${this.state.year}&statusId=${this.state.statusId}`))
             .then(response => {
                 let data = response.data;
@@ -45,11 +45,11 @@ export default class EOQ extends Component {
             }).catch(axiosError);
     }
 
-    handleYearChange = (year) => {
+    handleYearChange = year => {
         this.setState({ year });
     }
 
-    handleStatusChange = (statusId) => {
+    handleStatusChange = statusId => {
         this.setState({ statusId });
     }
 

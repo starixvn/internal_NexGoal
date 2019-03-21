@@ -32,7 +32,7 @@ export default class Chart extends Component {
 
         Promise.all(promises)
             .then(([periodResponse, groupResponse, levelResponse]) => {
-                const periodOptions = periodResponse.data.map((period) => {
+                const periodOptions = periodResponse.data.map(period => {
                     return {
                         value: period.periodId,
                         label: period.name,
@@ -41,7 +41,7 @@ export default class Chart extends Component {
                     };
                 });
 
-                const groupOptions = groupResponse.data.map((group) => {
+                const groupOptions = groupResponse.data.map(group => {
                     return { value: group.groupId, label: group.name };
                 });
 
@@ -65,9 +65,9 @@ export default class Chart extends Component {
         });
     }
 
-    getPAFocus = (filter) => {
+    getPAFocus = filter => {
         const periodId = filter.period ? filter.period.value : null;
-        const groupIds = filter.groups.map((group) => { return group.value; }).join(',');
+        const groupIds = filter.groups.map(group => group.value).join(',');
 
         axios(resolveClientUrl('pafocus/getPAFocus'), {
             params: {

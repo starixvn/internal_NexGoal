@@ -40,7 +40,7 @@ export default class PAFocus extends Component {
 
         Promise.all(promises)
             .then(([periodResponse, groupResponse, levelResponse]) => {
-                const periodOptions = periodResponse.data.map((period) => {
+                const periodOptions = periodResponse.data.map(period => {
                     return {
                         value: period.periodId,
                         label: period.name,
@@ -49,7 +49,7 @@ export default class PAFocus extends Component {
                     };
                 });
 
-                const groupOptions = groupResponse.data.map((group) => {
+                const groupOptions = groupResponse.data.map(group => {
                     return { value: group.groupId, label: group.name };
                 });
 
@@ -58,7 +58,7 @@ export default class PAFocus extends Component {
                     groups: groupOptions
                 });
 
-                const groupIds = groupOptions && groupOptions.length > 0 ? groupOptions.map(group => { return group.value; }).join(',') : null;
+                const groupIds = groupOptions && groupOptions.length > 0 ? groupOptions.map(group => group.value).join(',') : null;
                 this.getMembers(groupIds);
                 this.getPAFocus(filter);
 
@@ -75,7 +75,7 @@ export default class PAFocus extends Component {
         window.removeEventListener('beforeunload', this.warnUnsavedData);
     }
 
-    warnUnsavedData = (event) => {
+    warnUnsavedData = event => {
         if (this.state.isSubmittingForm) {
             return undefined;
         }
@@ -88,7 +88,7 @@ export default class PAFocus extends Component {
         return confirmationMessage;
     }
 
-    getMembers = (groupIds) => {
+    getMembers = groupIds => {
         axios(resolveClientUrl('pafocus/getMember'), {
             params: {
                 groupIds: groupIds
@@ -117,16 +117,16 @@ export default class PAFocus extends Component {
             filter: Object.assign({}, this.state.filter, { [name]: value })
         }, () => {
             if (name === 'groups') {
-                const groupIds = value && value.length > 0 ? value.map(group => { return group.value; }).join(',') : null;
+                const groupIds = value && value.length > 0 ? value.map(group => group.value).join(',') : null;
 
                 this.getMembers(groupIds);
             }
         });
     }
 
-    getPAFocus = (filter) => {
+    getPAFocus = filter => {
         const periodId = filter.period ? filter.period.value : null;
-        const groupIds = filter.groups.map((group) => { return group.value; }).join(',');
+        const groupIds = filter.groups.map(group => group.value).join(',');
 
         axios(resolveClientUrl('pafocus/getPAFocus'), {
             params: {
@@ -152,14 +152,14 @@ export default class PAFocus extends Component {
 
     handleExportToExcel = () => {
         let filter = this.state.filter;
-        let groupIds = filter.groups.map((group) => { return group.value; }).join(',');
+        let groupIds = filter.groups.map(group => group.value).join(',');
         let employeeId = filter.employee ? filter.employee.value : '';
 
         axios({
             url: resolveClientUrl('pafocus/ExportToExcel') + `?periodId=${filter.period.value}&groupIds=${groupIds}&employeeId=${employeeId}`,
             method: 'get',
             responseType: 'blob'
-        }).then((response) => {
+        }).then(response => {
             let url = window.URL.createObjectURL(new Blob([response.data]));
             let link = document.createElement('a');
             link.href = url;
@@ -189,8 +189,8 @@ export default class PAFocus extends Component {
     handleSubmit = () => {
         let pafocuses = [];
 
-        this.state.pafocuses.forEach((pafocus) => {
-            pafocus.members.forEach((member) => {
+        this.state.pafocuses.forEach(pafocus => {
+            pafocus.members.forEach(member => {
                 if (member.isHost) {
                     pafocuses.push({
                         paFocusId: member.paFocusId,

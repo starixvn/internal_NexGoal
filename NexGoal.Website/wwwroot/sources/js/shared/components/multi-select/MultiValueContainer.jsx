@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import { components } from 'react-select';
 
-const MultiValueContainer = (props) => {
+const MultiValueContainer = props => {
     let selectedItems = props.selectProps.value;
     let totalItems = props.selectProps.value.length;
     let currentItem = props.data;

@@ -13,7 +13,7 @@ export default class PAProcessTab extends Component {
         };
     }
 
-    renderRecordByProcess = (processId) => {
+    renderRecordByProcess = processId => {
         let paProcesses = this.props.processes.filter(p => p.performanceRecord && p.processId === processId);
         if (paProcesses.length > 0) {
             return paProcesses.map((process, index) => {
@@ -29,7 +29,7 @@ export default class PAProcessTab extends Component {
         return <span>{getResource('NoRecordFound')}</span>;
     };
 
-    handleSelectTab = (key) => {
+    handleSelectTab = key => {
         this.setState({ activeTabKey: key });
     }
 
@@ -37,16 +37,16 @@ export default class PAProcessTab extends Component {
         return (
             <div>
                 <Tabs id="tabs" activeKey={this.state.activeTabKey} onSelect={this.handleSelectTab} animation={false}>
-                    <Tab eventKey={1} title={getResource("Self")}>
+                    <Tab eventKey={1} title={getResource('Self')}>
                         {this.state.activeTabKey === 1 && this.renderRecordByProcess(PerformanceProcess.Self)}
                     </Tab>
-                    <Tab eventKey={2} title={getResource("ProjectManager")}>
+                    <Tab eventKey={2} title={getResource('ProjectManager')}>
                         {this.state.activeTabKey === 2 && this.renderRecordByProcess(PerformanceProcess.ProjectManager)}
                     </Tab>
-                    <Tab eventKey={3} title={getResource("Evaluator")}>
+                    <Tab eventKey={3} title={getResource('Evaluator')}>
                         {this.state.activeTabKey === 3 && this.renderRecordByProcess(PerformanceProcess.Evaluator)}
                     </Tab>
-                    <Tab eventKey={4} title={getResource("Reviewer")}>
+                    <Tab eventKey={4} title={getResource('Reviewer')}>
                         {this.state.activeTabKey === 4 && this.renderRecordByProcess(PerformanceProcess.Reviewer)}
                     </Tab>
                 </Tabs>

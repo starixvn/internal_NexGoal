@@ -16,23 +16,21 @@ export default class SearchForm extends Component {
         return false;
     }
 
-    handlePeriodChange = (selectedOption) => {
+    handlePeriodChange = selectedOption => {
         this.props.onChange('period', selectedOption);
     }
 
-    handleGroupChange = (selectedOptions) => {
+    handleGroupChange = selectedOptions => {
         this.props.onChange('groups', selectedOptions);
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = event => {
         event.preventDefault();
         this.props.onSubmit();
     }
 
     render() {
-        const filter = this.props.filter;
-        const periodOptions = this.props.periodOptions;
-        const groupOptions = this.props.groupOptions;
+        const { filter, periodOptions, groupOptions } = this.props;
 
         return (
             <Form inline className="form-filter" onSubmit={this.handleSubmit}>

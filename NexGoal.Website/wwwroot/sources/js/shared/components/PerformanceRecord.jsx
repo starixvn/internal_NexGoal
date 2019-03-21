@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { getNominationClassName, getRoleClassName, resolveClientUrl, calendar } from '../../common-functions';
-import { DateFormat, NominationStatuses, PerformanceRecordType } from '../../constants';
+import { NominationStatuses, PerformanceRecordType } from '../../constants';
 import getResource from '../../resourceHelper';
 
 const PageType = {
@@ -82,8 +82,7 @@ export default class PerformanceRecord extends Component {
 
     renderPerformanceCheckin = () => {
         let record = this.props.data;
-        let employees = record.employees;
-        let creator = record.creator;
+        let { employees, creator } = record;
         let grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : getResource('N/A');
         let projects = record.projects && record.projects.length > 0 ?
             record.projects.map(project => <span key={project.projectId} className="tag">{project.name}</span>) : getResource('N/A');
@@ -100,9 +99,9 @@ export default class PerformanceRecord extends Component {
                             employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
                             <Fragment>
                                 <span className="icon-checkin" />
-                                <span className="role-member">{employees.map(employee => { return employee.nickName; }).join(', ')}</span>
+                                <span className="role-member">{employees.map(employee => employee.nickName).join(', ')}</span>
                             </Fragment>
-                        }                        
+                        }
                     </div>
                     {
                         (modifiedDate || record.isHost) &&
@@ -124,10 +123,10 @@ export default class PerformanceRecord extends Component {
                     <span className="submit-date">{createdDate}</span>
                 </div>
                 <div className="comment" >
-                    <p className={this.state.isExpanded ? "collapsed" : "expanded"} ref={(element) => this.element = element}>{record.comment}</p>
+                    <p className={this.state.isExpanded ? 'collapsed' : 'expanded'} ref={element => this.element = element}>{record.comment}</p>
                     {
                         this.state.showCollapseExpandButton ?
-                            <span className={this.state.isExpanded ? "see-more" : "see-less"} onClick={this.collapseExpandComment} />
+                            <span className={this.state.isExpanded ? 'see-more' : 'see-less'} onClick={this.collapseExpandComment} />
                             : null
                     }
                 </div>
@@ -146,8 +145,7 @@ export default class PerformanceRecord extends Component {
 
     renderDraftPerformanceCheckin = () => {
         let record = this.props.data;
-        let employees = record.employees;
-        let creator = record.creator;
+        let { employees, creator } = record;
         let grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : getResource('N/A');
         let projects = record.projects && record.projects.length > 0 ?
             record.projects.map(project => <span key={project.projectId} className="tag">{project.name}</span>) : getResource('N/A');
@@ -163,9 +161,9 @@ export default class PerformanceRecord extends Component {
                             employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
                             <Fragment>
                                 <span className="icon-checkin" />
-                                <span className="role-member">{employees.map(employee => { return employee.nickName; }).join(', ')}</span>
+                                <span className="role-member">{employees.map(employee => employee.nickName).join(', ')}</span>
                             </Fragment>
-                        }                        
+                        }
                     </div>
                     {
                         <div className="date">
@@ -187,10 +185,10 @@ export default class PerformanceRecord extends Component {
                     <span className="submit-date">{createdDate}</span>
                 </div>
                 <div className="comment" >
-                    <p className={this.state.isExpanded ? "collapsed" : "expanded"} ref={(element) => this.element = element}>{record.comment}</p>
+                    <p className={this.state.isExpanded ? 'collapsed' : 'expanded'} ref={element => this.element = element}>{record.comment}</p>
                     {
                         this.state.showCollapseExpandButton ?
-                            <span className={this.state.isExpanded ? "see-more" : "see-less"} onClick={this.collapseExpandComment} />
+                            <span className={this.state.isExpanded ? 'see-more' : 'see-less'} onClick={this.collapseExpandComment} />
                             : null
                     }
                 </div>
@@ -209,8 +207,7 @@ export default class PerformanceRecord extends Component {
 
     renderNomination = () => {
         let record = this.props.data;
-        let employees = record.employees;
-        let creator = record.creator;
+        let { employees, creator } = record;
         let createdDate = record.createdDate ? calendar(record.createdDate) : '';
         let modifiedDate = record.modifiedDate ? calendar(record.modifiedDate) : '';
         let status = NominationStatuses.find(x => x.value === record.nominationStatusId);
@@ -227,9 +224,9 @@ export default class PerformanceRecord extends Component {
                             employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
                             <Fragment>
                                 <span className="icon-nomination" />
-                                <span className="role-member">{employees.map(employee => { return employee.nickName; }).join(', ')}</span>
+                                <span className="role-member">{employees.map(employee => employee.nickName).join(', ')}</span>
                             </Fragment>
-                        }                        
+                        }
 
                     </div>
                     <div className="date">
@@ -260,10 +257,10 @@ export default class PerformanceRecord extends Component {
                 </div>
 
                 <div className="comment" >
-                    <p className={this.state.isExpanded ? "collapsed" : "expanded"} ref={(element) => this.element = element}>{record.comment}</p>
+                    <p className={this.state.isExpanded ? 'collapsed' : 'expanded'} ref={element => this.element = element}>{record.comment}</p>
                     {
                         this.state.showCollapseExpandButton ?
-                            <span className={this.state.isExpanded ? "see-more" : "see-less"} onClick={this.collapseExpandComment} />
+                            <span className={this.state.isExpanded ? 'see-more' : 'see-less'} onClick={this.collapseExpandComment} />
                             : null
                     }
                 </div>
@@ -282,7 +279,7 @@ export default class PerformanceRecord extends Component {
                     <div className="avatar nexgoal-system"><img src={resolveClientUrl('dist/avatars/icon-nexgoal.svg')} alt="avatar" /></div>
                     <div className="person-info">
                         <span className={getRoleClassName(record.roleId)}>NexGoal - {record.period ? record.period.name : ''}</span>
-                        
+
                     </div>
                 </div>
                 <div className="date-time">
@@ -301,7 +298,7 @@ export default class PerformanceRecord extends Component {
         let nominationStatus = NominationStatuses.find(x => x.value === nominationStatusId);
         let createdDate = record.createdDate ? calendar(record.createdDate) : '';
         let nominationPeriod = record.nominationPeriod ? record.nominationPeriod.title : '';
-        let employees = record.employees.map(employee => { return employee.nickName; }).join(', ');
+        let employees = record.employees.map(employee => employee.nickName).join(', ');
         let content = '';
 
         switch (nominationStatusId) {

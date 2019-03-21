@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Button, FormGroup, ControlLabel, Checkbox, Col, Form } from 'react-bootstrap';
+import { Button, FormGroup, ControlLabel, Col, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { stringify } from 'qs';
 import DatePicker from 'react-datepicker';

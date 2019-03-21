@@ -19,9 +19,7 @@ export default class Table extends Component {
         return false;
     }
 
-    parseIntGradeId = (gradeId) => {
-        return gradeId !== null ? gradeId : 0;
-    }
+    parseIntGradeId = gradeId => gradeId !== null ? gradeId : 0
 
     renderToeic = (toeicPolicy, toeic) => {
         let toeicClass = '';
@@ -30,11 +28,9 @@ export default class Table extends Component {
         return <span className={`bold ${toeicClass}`}>{toeic ? toeic : getResource('N/A')}</span>;
     }
 
-    renderGroupRecords = (groups) => {
+    renderGroupRecords = groups => {
         if (groups) {
-            return groups.map((group, index) => {
-                return this.renderGroupPA(group, index);
-            });
+            return groups.map((group, index) => this.renderGroupPA(group, index));
         } else {
             return (
                 <tr>
@@ -44,7 +40,7 @@ export default class Table extends Component {
         }
     }
 
-    renderRows = (periodRecords) => {
+    renderRows = periodRecords => {
         if (!periodRecords.length) {
             return (
                 <tr>
@@ -93,7 +89,7 @@ export default class Table extends Component {
         );
     }
 
-    renderPAGrade = (record) => {
+    renderPAGrade = record => {
         const paGrade = record.grade ? record.grade.name : getResource('N/A');
         let gradeId = record.grade ? record.grade.gradeId : null;
         let originalGradeId = record.originalGrade ? record.originalGrade.gradeId : null;
@@ -102,7 +98,7 @@ export default class Table extends Component {
         return <span>{paGrade}{revisedIcon}</span>;
     }
 
-    renderPARecordInfo = (paRecords) => {
+    renderPARecordInfo = paRecords => {
         return (
             paRecords.map((record, index) => {
                 return (
@@ -135,11 +131,11 @@ export default class Table extends Component {
         );
     }
 
-    showPADetails = (paRecordId) => {
+    showPADetails = paRecordId => {
         this.props.showPaDetail(paRecordId);
     }
 
-    countDuplicateGrades = (grades) => {
+    countDuplicateGrades = grades => {
         grades.sort();
         let displayGrades = [];
         let currentGrade = null;
@@ -180,7 +176,7 @@ export default class Table extends Component {
                             <p key={index}>
                                 {
                                     `${process.evaluator.nickName}: ${process.performanceRecord.grade
-                                        ? process.performanceRecord.grade.name : getResource("N/A")} `
+                                        ? process.performanceRecord.grade.name : getResource('N/A')} `
                                 }
                             </p>
                         );
@@ -208,7 +204,7 @@ export default class Table extends Component {
         }
     }
 
-    renderGrade = (process) => {
+    renderGrade = process => {
         if (process.performanceRecord) {
             return process.performanceRecord.grade ? process.performanceRecord.grade.name : getResource('N/A');
         }
@@ -217,7 +213,7 @@ export default class Table extends Component {
     }
 
     render() {
-        let content = "";
+        let content = '';
         if (this.props.periodRecords) {
             content = this.props.periodRecords.length > 0 ? this.renderRows(this.props.periodRecords)
                 : <tr><td className="text-center" colSpan={this.totalColums}>{noDataIndication()}</td></tr>;

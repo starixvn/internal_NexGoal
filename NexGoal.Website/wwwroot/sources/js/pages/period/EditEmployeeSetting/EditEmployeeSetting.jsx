@@ -34,7 +34,7 @@ export default class EditEmployeeSetting extends Component {
     componentDidMount = () => {
         Promise.all([this.getPerformanceStatusesAxios(), this.getGroupsAxios(), this.getEmployeesAxios(), this.getEmployeeSettingsAxios()])
             .then(axios.spread((perfRes, groupRes, employeeRes, settingRes) => {
-                let groups = groupRes.data.map((group) => {
+                let groups = groupRes.data.map(group => {
                     return { value: group.groupId, label: group.name };
                 });
 
@@ -76,7 +76,7 @@ export default class EditEmployeeSetting extends Component {
             }
         });
 
-    getEmployeeSetting = (paRecordId) => {
+    getEmployeeSetting = paRecordId => {
         axios(resolveClientUrl('Period/GetEmployeeSettingById'), {
             params: {
                 paRecordId: paRecordId

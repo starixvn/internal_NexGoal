@@ -208,4 +208,4 @@ export default class PMSetting extends Component {
     }
 }
 
-ReactDOM.render(<PMSetting />, document.getElementById("pm-setting-wrapper"));
+ReactDOM.render(<PMSetting />, document.getElementById('pm-setting-wrapper'));

@@ -40,7 +40,7 @@ export default class EvaluationPeriod extends Component {
         this.getPeriods();
     }
 
-    handleDeletePeriod = (periodId) => {
+    handleDeletePeriod = periodId => {
         let periods = this.state.periods.slice();
         periods = periods.filter(e => e.periodId !== periodId);
         this.setState({ periods: periods });
@@ -88,4 +88,4 @@ export default class EvaluationPeriod extends Component {
     }
 }
 
-ReactDOM.render(<EvaluationPeriod />, document.getElementById("period-wrapper"));
+ReactDOM.render(<EvaluationPeriod />, document.getElementById('period-wrapper'));

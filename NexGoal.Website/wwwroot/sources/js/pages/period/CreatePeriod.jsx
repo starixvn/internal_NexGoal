@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Modal, Button, FormGroup, ControlLabel, Checkbox, Col, Form } from 'react-bootstrap';
+import { Modal, Button, FormGroup, ControlLabel, Col, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { stringify } from 'qs';
 import DatePicker from 'react-datepicker';
@@ -129,10 +129,10 @@ export default class CreatePeriod extends Component {
         handleSubmit,
         setFieldValue,
         isSubmitting }) => {
-        var onChangeRaw = (e) => {
-            let date = moment(Date(e.target.value));
+        let onChangeRaw = event => {
+            let date = moment(Date(event.target.value));
             if (date.isValid()) {
-                setFieldValue(e.target.name, date);
+                setFieldValue(event.target.name, date);
             }
         };
 

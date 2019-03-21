@@ -15,7 +15,7 @@ export default class Row extends Component {
 
     handleRemoveMember = member => this.props.onRemoveMember(member)
 
-    renderMember = (member) => {
+    renderMember = member => {
         return (
             <tr className={this.state.expand ? '' : 'hidden'} key={member.employeeId}>
                 <td>{member.nickName} ({member.fullName})</td>

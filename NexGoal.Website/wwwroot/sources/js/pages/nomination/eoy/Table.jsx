@@ -25,7 +25,7 @@ class Table extends Component {
 
     handleCloseCreateModal = () => this.setState({ showCreateModal: false });
 
-    handleShowDeleteModal = (eoySelected) => {
+    handleShowDeleteModal = eoySelected => {
         this.setState({
             showDeleteModal: true,
             eoySelected: eoySelected
@@ -66,8 +66,7 @@ class Table extends Component {
     }
 
     render() {
-        const isHost = this.props.isHost;
-        const eoys = this.props.eoys;
+        const { isHost, eoys } = this.props;
 
         return (
             <Fragment>

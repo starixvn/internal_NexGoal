@@ -31,7 +31,7 @@ export default class RoleManagement extends Component {
     componentDidMount() {
         axios(resolveClientUrl('Common/GetGroups'))
             .then(response => {
-                const groupOptions = response.data.map((group) => {
+                const groupOptions = response.data.map(group => {
                     return { value: group.groupId, label: group.name };
                 });
 
@@ -46,8 +46,8 @@ export default class RoleManagement extends Component {
             }).catch(axiosError);
     }
 
-    getRoleSetting = (filter) => {
-        const groupIds = this.state.filter.groups.map((group) => { return group.value; }).join(',');
+    getRoleSetting = filter => {
+        const groupIds = this.state.filter.groups.map(group => group.value).join(',');
 
         axios.get(resolveClientUrl('nominationPeriod/GetRoleSetting'), {
             params: {
@@ -62,7 +62,7 @@ export default class RoleManagement extends Component {
         }).catch(axiosError);
     }
 
-    editNominatorSetting = (nominator) => {
+    editNominatorSetting = nominator => {
         const setting = stringify({
             __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
             nominationPeriodId: this.eoyId,

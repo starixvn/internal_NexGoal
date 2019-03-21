@@ -1,10 +1,9 @@
 ﻿import React, { Component } from 'react';
-import { Modal, Button, FormGroup, ControlLabel, Col, Form } from 'react-bootstrap';
+import { Modal, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { stringify } from 'qs';
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
-import { isEmpty } from 'lodash';
 import Select from 'react-select';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
@@ -16,7 +15,7 @@ export default class AddMember extends Component {
     }
 
     initialObj = {
-        members: [],
+        members: []
     }
 
     validateForm = values => {
@@ -29,7 +28,7 @@ export default class AddMember extends Component {
         return errors;
     }
 
-    onSubmit = (values, { setErrors }) => {
+    onSubmit = (values) => {
         axios({
             url: resolveClientUrl(`PMSetting/AddMembers`),
             method: 'post',

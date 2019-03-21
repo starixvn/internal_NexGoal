@@ -29,7 +29,7 @@ export default class App extends Component {
         this.getAssignPermissions(null);
     }
 
-    getAssignPermissions = (roleId) => {
+    getAssignPermissions = roleId => {
         axios.get(resolveClientUrl(`Role/AssignPermission?roleId=${roleId}`))
             .then(response => {
                 let data = response.data;
@@ -43,13 +43,12 @@ export default class App extends Component {
             }).catch(axiosError);
     }
 
-    handleOnRoleChange = (roleId) => {
+    handleOnRoleChange = roleId => {
         this.getAssignPermissions(roleId);
     }
 
     handleOnCheckboxChange = (functionObj, target, isChecked) => {
-        let functionId = functionObj.functionId;
-        let parentId = functionObj.parentId;
+        let { functionId, parentId } = functionObj;
         let functions = this.state.functions.slice();
         let totalItems = functions.length;
 
@@ -64,7 +63,7 @@ export default class App extends Component {
 
         if (parentId) {
             let childs = functions.filter(f => f.parentId === parentId);
-            let policy = Math.max.apply(Math, childs.map(f => { return f.policy; }));
+            let policy = Math.max.apply(Math, childs.map(f => f.policy));
 
             for (index = 0; index < totalItems; index++) {
                 if (functions[index].functionId === parentId) {
@@ -89,7 +88,7 @@ export default class App extends Component {
         this.setState({ functions: functions });
     }
 
-    handleOnSubmit = (event) => {
+    handleOnSubmit = event => {
         event.preventDefault();
 
         let roleId = this.state.roleSelected;

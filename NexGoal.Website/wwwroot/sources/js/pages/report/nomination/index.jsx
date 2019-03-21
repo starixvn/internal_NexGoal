@@ -54,4 +54,4 @@ export default class NominationReport extends Component {
     }
 }
 
-ReactDOM.render(<NominationReport />, document.getElementById("nomination-report-wrapper"));
+ReactDOM.render(<NominationReport />, document.getElementById('nomination-report-wrapper'));

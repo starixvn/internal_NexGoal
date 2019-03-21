@@ -18,7 +18,7 @@ export default class Table extends Component {
         this.props.onUpdateStatus(nominationId, status.value);
     }
 
-    renderData = (data) => {
+    renderData = data => {
         return (
             <Fragment key={data.nominationPeriodId}>
                 <tr className="group-row">
@@ -64,7 +64,7 @@ export default class Table extends Component {
     }
 
     render() {
-        let content = "";
+        let content = '';
 
         if (this.props.tableData) {
             content = this.props.tableData.length > 0 ? this.props.tableData.map(this.renderData)

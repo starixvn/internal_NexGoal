@@ -29,9 +29,7 @@ export default class Table extends Component {
             text: `${getResource('SymbolCount')}`,
             classes: 'text-center',
             headerStyle: { width: '50px' },
-            formatter: (cell, row, rowIndex) => {
-                return <Fragment>{rowIndex + 1}</Fragment>;
-            }
+            formatter: (cell, row, rowIndex) => rowIndex + 1
         },
         {
             dataField: 'name',
@@ -42,18 +40,14 @@ export default class Table extends Component {
             text: `${getResource('StartDate')}`,
             classes: 'text-center',
             headerStyle: { width: '120px' },
-            formatter: (cell, row) => {
-                return row.startDate ? moment(row.startDate).format('DD MMM, YYYY') : '';
-            }
+            formatter: (cell, row) => row.startDate ? moment(row.startDate).format('DD MMM, YYYY') : ''
         },
         {
             dataField: 'endDate',
             text: `${getResource('EndDate')}`,
             classes: 'text-center',
             headerStyle: { width: '120px' },
-            formatter: (cell, row) => {
-                return row.endDate ? moment(row.endDate).format('DD MMM, YYYY') : '';
-            }
+            formatter: (cell, row) => row.endDate ? moment(row.endDate).format('DD MMM, YYYY') : ''
         },
         {
             dataField: 'totalEmployees',
@@ -71,12 +65,24 @@ export default class Table extends Component {
             classes: 'text-center',
             headerStyle: { width: '80px' },
             isDummyField: true,
-            formatter: (cell, row, rowIndex, colIndex) => {
+            formatter: (cell, row, rowIndex) => {
                 if (this.props.isHost) {
-                    return <div className="checkbox"><input id={'chb-active-' + rowIndex} type='checkbox' defaultChecked={row.isActive} onChange={(e) => this.editPeriodStatus(e, row)} className="checkbox-custom"/><label htmlFor={'chb-active-' + rowIndex} /></div>;
+                    return (
+                        <div className="checkbox">
+                            <input id={'chb-active-' + rowIndex} type='checkbox' defaultChecked={row.isActive}
+                                onChange={event => this.editPeriodStatus(event, row)} className="checkbox-custom"
+                            />
+                            <label htmlFor={'chb-active-' + rowIndex} />
+                        </div>
+                    );
                 }
 
-                return <div className="checkbox"><input type='checkbox' id={'chb-active-' + rowIndex} checked={row.isActive} readOnly className="checkbox-custom"/><label htmlFor={'chb-active-' + rowIndex} /></div>;
+                return (
+                    <div className="checkbox">
+                        <input type='checkbox' id={'chb-active-' + rowIndex} checked={row.isActive} readOnly className="checkbox-custom" />
+                        <label htmlFor={'chb-active-' + rowIndex} />
+                    </div>
+                );
             }
         },
         {

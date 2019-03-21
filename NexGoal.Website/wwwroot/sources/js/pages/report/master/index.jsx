@@ -34,7 +34,7 @@ export default class MasterReport extends Component {
 
         Promise.all(promises)
             .then(([groupResponse, employeeResponse, periodResponse]) => {
-                let groupOptions = groupResponse.data.map((group) => {
+                let groupOptions = groupResponse.data.map(group => {
                     return {
                         value: group.groupId,
                         label: group.name
@@ -115,4 +115,4 @@ export default class MasterReport extends Component {
     }
 }
 
-ReactDOM.render(<MasterReport />, document.getElementById("master-report-wrapper"));
+ReactDOM.render(<MasterReport />, document.getElementById('master-report-wrapper'));

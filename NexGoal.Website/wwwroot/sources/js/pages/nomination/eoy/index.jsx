@@ -21,7 +21,7 @@ export default class EOY extends Component {
         this.getAllEOY();
     }
 
-    getAllEOY() {
+    getAllEOY = () => {
         axios.get(resolveClientUrl(`EOY/GetAll?statusId=${this.state.statusId}`))
             .then(response => {
                 let data = response.data;
@@ -30,7 +30,7 @@ export default class EOY extends Component {
             }).catch(axiosError);
     }
 
-    handleStatusChange = (statusId) => {
+    handleStatusChange = statusId => {
         this.setState({ statusId });
     }
 

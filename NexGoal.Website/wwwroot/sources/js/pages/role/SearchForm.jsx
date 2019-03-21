@@ -14,16 +14,16 @@ class SearchForm extends Component {
         return false;
     }
 
-    handleOnChange = (selectedOption) => {
+    handleOnChange = selectedOption => {
         this.props.onRoleChange(selectedOption.value);
     }
 
     render() {
         const selectedOpt = this.props.roleSelected;
-        const roleOptions = this.props.roleOptions.map((option) => {
+        const roleOptions = this.props.roleOptions.map(option => {
             return { value: option.value, label: option.text };
         });
-        const selectedOption = roleOptions.find((option) => { return option.value === selectedOpt.toString(); });
+        const selectedOption = roleOptions.find(option => option.value === selectedOpt.toString());
 
         return (
             <Form inline className="form-filter">

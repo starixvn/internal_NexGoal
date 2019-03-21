@@ -38,7 +38,7 @@ class Settings extends Component {
         this.getEOQById();
     }
 
-    getEOQById() {
+    getEOQById = () => {
         let eoqId = document.getElementById('EOQId').value;
         axios.get(resolveClientUrl(`EOQ/GetById/${eoqId}`))
             .then(response => {
@@ -108,7 +108,7 @@ class Settings extends Component {
         handleSubmit,
         setFieldValue }) => {
         const isHost = this.isHost;
-        const quarterSelected = quarterOptions.find((option) => { return option.value === values.quarter; });
+        const quarterSelected = quarterOptions.find(option => option.value === values.quarter);
         const yearOptions = [
             { value: values.year, label: values.year }
         ];

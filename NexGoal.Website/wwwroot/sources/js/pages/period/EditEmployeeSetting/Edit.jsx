@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Modal, Button, FormGroup, ControlLabel, Col, Form } from 'react-bootstrap';
+import { Modal, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { stringify } from 'qs';
 import DatePicker from 'react-datepicker';
@@ -17,7 +17,7 @@ export default class Edit extends Component {
     validateForm = values => {
         let errors = {};
         if (!values.processes.some(p => p.isSelected)) {
-            errors.noSelect = "Please select at least a process";
+            errors.noSelect = 'Please select at least a process';
         }
 
         return errors;
@@ -74,10 +74,10 @@ export default class Edit extends Component {
         handleChange,
         handleSubmit,
         setFieldValue }) => {
-        var onChangeRaw = (e) => {
-            let date = moment(e.target.value);
+        let onChangeRaw = event => {
+            let date = moment(event.target.value);
             if (date.isValid()) {
-                setFieldValue(e.target.name, date);
+                setFieldValue(event.target.name, date);
             }
         };
         const employees = this.props.settings.map(e => e.employee.nickName).join(', ');

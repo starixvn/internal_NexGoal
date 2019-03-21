@@ -10,23 +10,23 @@ export default class Filter extends Component {
         super(props);
     }
 
-    handlePeriodChange = (selectedOption) => {
+    handlePeriodChange = selectedOption => {
         this.props.onFilterChange('periods', selectedOption);
     }
 
-    handleGroupChange = (selectedOption) => {
+    handleGroupChange = selectedOption => {
         this.props.onFilterChange('groups', selectedOption);
     }
 
-    handleEmployeeChange = (selectedOption) => {
+    handleEmployeeChange = selectedOption => {
         this.props.onFilterChange('employees', selectedOption);
     }
 
-    handleIsRevisedChange = (selectedOption) => {
+    handleIsRevisedChange = selectedOption => {
         this.props.onFilterChange('isRevised', selectedOption);
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = event => {
         event.preventDefault();
         this.props.onSubmit();
     }

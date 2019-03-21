@@ -1,5 +1,5 @@
-const { environment } = require("./parts/constant");
-const config = require("./webpack.config");
+const { environment } = require('./parts/constant');
+const config = require('./webpack.config');
 
 const devConfig = config(environment.development)[0];
 devConfig.devServer = {

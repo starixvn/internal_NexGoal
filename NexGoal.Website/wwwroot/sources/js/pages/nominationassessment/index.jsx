@@ -27,7 +27,7 @@ export default class NominationAssessment extends Component {
         });
     }
 
-    handleSelectTab = (key) => {
+    handleSelectTab = key => {
         if (key === 2 && !this.state.loadEOYTab) {
             this.setState({ activeTabKey: key, loadEOYTab: true });
         } else {
@@ -74,4 +74,4 @@ export default class NominationAssessment extends Component {
     }
 }
 
-ReactDOM.render(<NominationAssessment />, document.getElementById("nomination-assessment-wrapper"));
+ReactDOM.render(<NominationAssessment />, document.getElementById('nomination-assessment-wrapper'));

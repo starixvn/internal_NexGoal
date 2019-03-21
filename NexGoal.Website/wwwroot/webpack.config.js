@@ -1,31 +1,31 @@
-const path = require("path");
-const webpack = require("webpack");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const merge = require("webpack-merge");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
+const path = require('path');
+const webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const merge = require('webpack-merge');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-let pathsToClean = ["dist/js/*.*", "dist/styles/*.*"];
+let pathsToClean = ['dist/js/*.*', 'dist/styles/*.*'];
 
 let cleanOptions = {
-    root: path.resolve(__dirname, "."),
+    root: path.resolve(__dirname, '.'),
     verbose: true,
     dry: false
 };
 
-const { environment, projectPath } = require("./parts/constant");
-const entry = require("./parts/entry");
+const { environment, projectPath } = require('./parts/constant');
+const entry = require('./parts/entry');
 
 module.exports = env => {
     env = environment[env] || environment.development;
-    const isDevBuild = !(env === environment.production);
+    const isDevBuild = env !== environment.production;
 
     const sharedConfig = () => ({
         mode: env,
         stats: { modules: false },
-        resolve: { extensions: [".js", ".jsx"] },
+        resolve: { extensions: ['.js', '.jsx'] },
         output: {
-            filename: "[name].js",
+            filename: '[name].js',
             chunkFilename: 'js/[name].[chunkhash].js',
             publicPath: `/dist/`
         },
@@ -33,7 +33,7 @@ module.exports = env => {
             rules: [
                 {
                     test: /\.(js|jsx)$/,
-                    use: "babel-loader",
+                    use: 'babel-loader',
                     exclude: /(node_modules|bower_components)/
                 },
                 {
@@ -51,12 +51,12 @@ module.exports = env => {
                     test: /\.(png|jpg|jpeg|gif)$/,
                     use: [
                         {
-                            loader: "url-loader",
+                            loader: 'url-loader',
                             options: {
                                 limit: 8192,
-                                name: "[name].[ext]",
-                                outputPath: "styles/images/",
-                                publicPath: "images/"
+                                name: '[name].[ext]',
+                                outputPath: 'styles/images/',
+                                publicPath: 'images/'
                             }
                         }
                     ]
@@ -74,10 +74,10 @@ module.exports = env => {
                 {
                     test: /\.s?[ac]ss$/,
                     use: [
-                        "style-loader",
+                        'style-loader',
                         MiniCssExtractPlugin.loader,
-                        "css-loader",
-                        "sass-loader"
+                        'css-loader',
+                        'sass-loader'
                     ]
                 }
             ]
@@ -85,10 +85,10 @@ module.exports = env => {
         output: { path: clientBundleOutputDir },
         plugins: [
             new webpack.DefinePlugin({
-                "process.env.NODE_ENV": isDevBuild ? '"development"' : '"production"'
+                'process.env.NODE_ENV': isDevBuild ? '"development"' : '"production"'
             }),
             new MiniCssExtractPlugin({
-                filename: "[name].css"
+                filename: '[name].css'
             }),
             new webpack.DllReferencePlugin({
                 context: __dirname,
@@ -102,7 +102,7 @@ module.exports = env => {
         ].concat(
             isDevBuild ? [] : [new CleanWebpackPlugin(pathsToClean, cleanOptions), new OptimizeCSSAssetsPlugin()]
         ),
-        devtool: "source-map"
+        devtool: 'source-map'
     });
 
     return [clientBundleConfig];

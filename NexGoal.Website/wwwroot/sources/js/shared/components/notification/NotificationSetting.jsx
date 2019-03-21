@@ -77,7 +77,7 @@ export default class NotificationSetting extends Component {
                         </thead>
                         <tbody>
                             {
-                                this.state.notificationSettings.map((setting) => {
+                                this.state.notificationSettings.map(setting => {
                                     return (
                                         <tr>
                                             <td>{setting.description}</td>

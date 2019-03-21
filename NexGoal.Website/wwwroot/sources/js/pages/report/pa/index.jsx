@@ -38,20 +38,20 @@ export default class App extends Component {
 
         Promise.all(promises)
             .then(([periodResponse, groupAndMemberResponse]) => {
-                this.periodOptions = periodResponse.data.map((period) => {
+                this.periodOptions = periodResponse.data.map(period => {
                     return {
                         label: period.name,
                         value: period.periodId
                     };
                 });
 
-                this.groupOptions = groupAndMemberResponse.data.groups.map((group) => {
+                this.groupOptions = groupAndMemberResponse.data.groups.map(group => {
                     return {
                         label: group.name,
                         value: group.groupId
                     };
                 });
-                this.employees = groupAndMemberResponse.data.members.map((employee) => {
+                this.employees = groupAndMemberResponse.data.members.map(employee => {
                     return {
                         label: `${employee.nickName} (${employee.fullName})`,
                         value: employee.employeeId,
@@ -81,7 +81,7 @@ export default class App extends Component {
         });
     }
 
-    onGroupChange = (selectedGroups) => {
+    onGroupChange = selectedGroups => {
         let employees = [...this.employees];
         let employeeOptions = employees.filter(employee => selectedGroups.includes(employee.groupId));
         let filter = this.state.filter;
@@ -92,7 +92,7 @@ export default class App extends Component {
         });
     }
 
-    handleClickViewPADetail = (paRecordId) => {
+    handleClickViewPADetail = paRecordId => {
         axios(resolveClientUrl(`PA/GetById/${paRecordId}`)).then(response => {
             if (response.data) {
                 let pa = response.data;
@@ -132,13 +132,13 @@ export default class App extends Component {
         axios({
             url: resolveClientUrl('PAReport/ExportExcel'),
             params: {
-                periodIds: filter.periods.map((period) => { return period.value; }).join(','),
-                groupIds: filter.groups.map(group => { return group.value; }).join(','),
-                employeeIds: filter.employees.map(employee => { return employee.value; }).join(',')
+                periodIds: filter.periods.map(period => period.value).join(','),
+                groupIds: filter.groups.map(group => group.value).join(','),
+                employeeIds: filter.employees.map(employee => employee.value).join(',')
             },
             method: 'get',
             responseType: 'blob'
-        }).then((response) => {
+        }).then(response => {
             let url = window.URL.createObjectURL(new Blob([response.data]));
             let link = document.createElement('a');
             link.href = url;
@@ -152,9 +152,9 @@ export default class App extends Component {
         const filter = this.state.filter;
         axios.get(resolveClientUrl('PAReport/GetPARecords'), {
             params: {
-                periodIds: filter.periods.map((period) => { return period.value; }).join(','),
-                groupIds: filter.groups.map(group => { return group.value; }).join(','),
-                employeeIds: filter.employees.map(employee => { return employee.value; }).join(','),
+                periodIds: filter.periods.map(period => period.value).join(','),
+                groupIds: filter.groups.map(group => group.value).join(','),
+                employeeIds: filter.employees.map(employee => employee.value).join(','),
                 isRevised: filter.isRevised ? filter.isRevised.value : null
             }
         }).then(response => {

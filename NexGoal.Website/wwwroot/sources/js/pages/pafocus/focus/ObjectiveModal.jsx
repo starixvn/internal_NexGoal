@@ -14,12 +14,12 @@ export default class ObjectiveModal extends Component {
         onSubmit: PropTypes.func
     };
 
-    handleSubmit = (values) => {
+    handleSubmit = values => {
         this.props.onClose();
         this.props.onSubmit(values);
     }
 
-    validateForm(values) {
+    validateForm = values => {
         let errors = {};
 
         if (!values.value) {
