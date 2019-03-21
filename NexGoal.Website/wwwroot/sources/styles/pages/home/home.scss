@@ -2,7 +2,7 @@
 @import "../../abstracts/mixins";
 @import "../../base/scaffolding";
 @import "../../components/form";
-@import "../../components/marquee";
+@import "../../components/carousel";
 @import "../../components/modal";
 @import "../../components/toast";
 @import "../../components/tables";
@@ -48,8 +48,8 @@
 
     .project {
         display: inline-block;
-        width: calc(100% - 260px - 16px);       
-        vertical-align: top; 
+        width: calc(100% - 260px - 16px);
+        vertical-align: top;
     }
 
     .comment .form-filter {

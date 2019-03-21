@@ -1,0 +1,112 @@
+﻿.warning {
+    color: #05499C;
+    background-color: #FFEEBF;
+    border: 1px solid #DFC681;
+    padding: 4px 8px;
+    margin: 16px 16px 12px;
+}
+
+.carousel.vertical {
+    cursor: pointer;
+
+    .carousel-inner {
+        .item {
+            @include css3-prefix('transition', 'top 1s ease-in-out ');
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            left: 0;
+
+            &:before {
+                content: '\26AC';
+                color: #4F9E00;
+                margin-right: 4px;
+            }
+        }
+    }
+}
+
+@media all and (transform-3d), (-webkit-transform-3d) {
+    .carousel.vertical {
+        .carousel-inner {
+            .item {
+                @include css3-transition-transform('1s ease-in-out');
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                left: 0;
+
+                &.active {
+                    top: 0;
+                    @include transform(translate3d(0, 0, 0));
+
+                    &.left {
+                        top: 0;
+                        @include transform(translate3d(0, -100%, 0));
+                    }
+
+                    &.right {
+                        top: 0;
+                        @include transform(translate3d(0, 100%, 0));
+                    }
+                }
+
+                &.next {
+                    top: 0;
+                    @include transform(translate3d(0, 100%, 0));
+
+                    &.left {
+                        top: 0;
+                        @include transform(translate3d(0, 0, 0));
+                    }
+                }
+
+                &.prev {
+                    top: 0;
+                    @include transform(translate3d(0, -100%, 0));
+
+                    &.right {
+                        top: 0;
+                        @include transform(translate3d(0, 0, 0));
+                    }
+                }
+            }
+        }
+    }
+}
+
+.carousel.vertical {
+    .carousel-inner {
+        .active {
+            top: 0;
+
+            &.left {
+                left: 0;
+                top: -100%;
+            }
+
+            &.right {
+                left: 0;
+                top: 100%;
+            }
+        }
+
+        .next {
+            left: 0;
+            top: 100%;
+
+            &.left {
+                top: 0;
+                color: inherit;
+            }
+        }
+
+        .prev {
+            top: -100%;
+
+            &.right {
+                top: 0;
+            }
+        }
+    }
+}

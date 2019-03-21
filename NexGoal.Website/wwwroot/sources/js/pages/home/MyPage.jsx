@@ -20,7 +20,7 @@ import PerformanceAppraisalResult from './PerformanceAppraisalResult';
 import PersonalTimeline from './timeline/PersonalTimeline';
 import EmployeeInfo from './EmployeeInfo';
 import Announcement from '../../shared/components/Announcement';
-import Marquee from '../../shared/components/Marquee';
+import Carousel from '../../shared/components/Carousel';
 const queryString = require('query-string');
 
 export default class MyPage extends Component {
@@ -401,7 +401,7 @@ export default class MyPage extends Component {
                     </div>
                     <div className="main-content">
                         <div className="fixed-section">
-                            <Marquee messages={this.state.announcements} onClick={this.handleOpenAnnouncementModal} />
+                            <Carousel messages={this.state.announcements} onClick={this.handleOpenAnnouncementModal} />
                             <PersonalTimeline
                                 data={this.state.personalTimeline}
                                 onNodeClick={this.handleClickTimelineNode}

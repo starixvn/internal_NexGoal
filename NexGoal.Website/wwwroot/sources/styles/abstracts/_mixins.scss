@@ -11,6 +11,15 @@
     #{$property}: #{$value};
 }
 
+@mixin css3-transition-transform($value) {
+    -webkit-transition: -webkit-transform #{$value};
+    -khtml-transition: -khtml-transform #{$value};
+    -moz-transition: -moz-transform #{$value};
+    -ms-transition: -ms-transform #{$value};
+    -o-transition: -o-transform #{$value};
+    transition: transform #{$value};
+}
+
 // Box Shadow
 
 @mixin box-shadow($x: 2px, $y: 2px, $blur: 5px, $color: rgba(0,0,0,.4), $inset: "") {
