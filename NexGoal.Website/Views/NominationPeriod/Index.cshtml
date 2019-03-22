@@ -7,7 +7,7 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/dist/styles/nomination-period.css" />
+    <link rel="stylesheet" href="~/dist/styles/nomination-period.css" asp-append-version="true" />
 }
 
 <input type="checkbox" hidden id="IsHost" @(Model.IsHost ? "checked" : string.Empty) />
@@ -16,5 +16,5 @@
 <div id="nomination-wrapper"></div>
 
 @section Scripts{
-    <script src="~/dist/js/nomination-period.js"></script>
+    <script src="~/dist/js/nomination-period.js" asp-append-version="true"></script>
 }

@@ -6,7 +6,7 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/dist/styles/member-details.css" />
+    <link rel="stylesheet" href="~/dist/styles/member-details.css" asp-append-version="true" />
 }
 
 <input type="hidden" id="MemberId" value="@Model.EmployeeId" />
@@ -19,5 +19,5 @@
 <div id="member-wrapper"></div>
 
 @section Scripts{
-    <script type="text/javascript" src="~/dist/js/member-details.js"></script>
+    <script type="text/javascript" src="~/dist/js/member-details.js" asp-append-version="true"></script>
 }

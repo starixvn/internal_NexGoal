@@ -6,7 +6,7 @@
     <title>@ViewData["Title"]</title>
     <link rel="shortcut icon" type="image/ico" href="~/favicon.ico" />
 
-    <link href="~/dist/styles/main.css" rel="stylesheet" />
+    <link href="~/dist/styles/main.css" rel="stylesheet" asp-append-version="true" />
 
     @RenderSection("Styles", false)
 </head>
@@ -26,10 +26,10 @@
     @Html.Hidden("RootURL", Url.Content("~/"))
 
     <script src="~/dist/resources/resource_en_US.js" asp-append-version="true"></script>
-    <script src="~/dist/vendors/react.js" asp-append-version="false"></script>
+    <script src="~/dist/vendors/react.js" asp-append-version="true"></script>
     <script src="~/dist/js/main.js" asp-append-version="true"></script>
-    <script src="~/dist/js/search-member.js"></script>
-    <script src="~/dist/js/notification.js"></script>
+    <script src="~/dist/js/search-member.js" asp-append-version="true"></script>
+    <script src="~/dist/js/notification.js" asp-append-version="true"></script>
 
     <environment exclude="Development">
         @Html.Raw(Fanex.Logging.LogManager.RenderJavascriptLogger())
