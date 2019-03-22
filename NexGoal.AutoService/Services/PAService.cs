@@ -120,7 +120,7 @@
                                 mailService.ReadTextFile(startToReviewerPath),
                                 setting.Nickname,
                                 period.Name,
-                                mailService.FormatStartDate(setting.EndDate),
+                                mailService.FormatEndDate(setting.EndDate),
                                 configuration.Value.ApplicationDomain);
                             SendEmail(subjectStartMail, body, setting);
                             break;
@@ -130,7 +130,7 @@
                                 mailService.ReadTextFile(remindToReviewerPath),
                                 setting.Nickname,
                                 period.Name,
-                                mailService.FormatStartDate(setting.EndDate),
+                                mailService.FormatEndDate(setting.EndDate),
                                 configuration.Value.ApplicationDomain);
                             SendEmail(subjectRemindMail, body, setting);
                             break;
