@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Milestone /> renders correctly 1`] = `
+<div
+  className="milestone"
+>
+  <span
+    className="icon-chevron-left arrow-left disabled"
+    disabled={true}
+    onClick={[Function]}
+  />
+  <span
+    className="icon-chevron-right arrow-right disabled"
+    disabled={true}
+    onClick={[Function]}
+  />
+</div>
+`;

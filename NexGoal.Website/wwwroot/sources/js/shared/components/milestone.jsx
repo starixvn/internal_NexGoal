@@ -1,8 +1,20 @@
-﻿import React, { Component } from 'react';
+﻿import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 
 export default class Milestone extends Component {
+    static propTypes = {
+        options: PropTypes.arrayOf(PropTypes.object),
+        onChange: PropTypes.func
+    };
+
+    static defaultProps = {
+        options: [],
+        onChange: function () { }
+    };
+
     constructor(props) {
         super(props);
+
         this.state = {
             currentIndex: 0,
             maxIndex: props.options.length - 1,
@@ -55,13 +67,17 @@ export default class Milestone extends Component {
         const options = this.props.options;
         const nextDisabled = this.state.nextDisabled ? 'disabled' : '';
         const prevDisabled = this.state.prevDisabled ? 'disabled' : '';
+
         return (
             <div className="milestone">
                 <span className={`icon-chevron-left arrow-left ${prevDisabled}`}
                     disabled={this.state.prevDisabled}
                     onClick={this.onClickPrev}
                 />
-                {options[this.state.currentIndex].name}
+                {
+                    options.length > 0 &&
+                    <Fragment>{options[this.state.currentIndex].name}</Fragment>
+                }
                 <span className={`icon-chevron-right arrow-right ${nextDisabled}`}
                     disabled={this.state.nextDisabled}
                     onClick={this.onClickNext}
