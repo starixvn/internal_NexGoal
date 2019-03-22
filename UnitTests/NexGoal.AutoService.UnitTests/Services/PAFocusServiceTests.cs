@@ -158,7 +158,7 @@
             var service = GetPAFocusService();
             baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(tuple);
             baseService.ExecuteNonQueryAsync(Arg.Do<CreateNotificationCriteria>(x => criteria = x));
-            mailService.FormatEndDate(endDate).Returns("20 Dec 2018");
+            mailService.FormatDate(endDate).Returns("20 Dec 2018");
 
             // Act
             service.SendNotification();

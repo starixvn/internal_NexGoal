@@ -42,7 +42,7 @@
             baseService.GetDataAsync<ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(settings);
             mailService.ReadTextFile(Arg.Any<string>()).Returns(mailMody);
             mailService.SendMailAsync(Arg.Do<MailModel>(x => mailModel = x));
-            mailService.FormatEndDate(endDate).Returns("20 Dec 2018");
+            mailService.FormatDate(endDate).Returns("20 Dec 2018");
 
             // Act
             service.SendMail();
@@ -97,7 +97,7 @@
             var service = GetProbationService();
             baseService.GetDataAsync<ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(settings);
             baseService.ExecuteNonQueryAsync(Arg.Do<CreateNotificationCriteria>(x => criteria = x));
-            mailService.FormatEndDate(endDate).Returns("20 Dec 2018");
+            mailService.FormatDate(endDate).Returns("20 Dec 2018");
 
             // Act
             service.SendNotification();

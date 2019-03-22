@@ -110,7 +110,7 @@
                                     : remindStartEvaluationToSupervisorPath),
                                 setting.Nickname,
                                 period.Name,
-                                mailService.FormatStartDate(period.StartDate),
+                                mailService.FormatDate(period.StartDate),
                                 configuration.Value.ApplicationDomain);
                             SendEmail(subjectRemindStartEvaluationMail, body, setting);
                             break;
@@ -120,7 +120,7 @@
                                 mailService.ReadTextFile(startToReviewerPath),
                                 setting.Nickname,
                                 period.Name,
-                                mailService.FormatEndDate(setting.EndDate),
+                                mailService.FormatDate(setting.EndDate),
                                 configuration.Value.ApplicationDomain);
                             SendEmail(subjectStartMail, body, setting);
                             break;
@@ -130,7 +130,7 @@
                                 mailService.ReadTextFile(remindToReviewerPath),
                                 setting.Nickname,
                                 period.Name,
-                                mailService.FormatEndDate(setting.EndDate),
+                                mailService.FormatDate(setting.EndDate),
                                 configuration.Value.ApplicationDomain);
                             SendEmail(subjectRemindMail, body, setting);
                             break;
@@ -169,12 +169,12 @@
                                         string.Format(Message.SkypeMessageTemplate_PA_RemindStartEvaluationToSelf,
                                         setting.Nickname,
                                         period.Name,
-                                        mailService.FormatStartDate(period.StartDate),
+                                        mailService.FormatDate(period.StartDate),
                                         configuration.Value.ApplicationDomain) :
                                         string.Format(Message.SkypeMessageTemplate_PA_RemindStartEvaluationToSupervisor,
                                         setting.Nickname,
                                         period.Name,
-                                        mailService.FormatStartDate(period.StartDate),
+                                        mailService.FormatDate(period.StartDate),
                                         configuration.Value.ApplicationDomain);
 
                             await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
@@ -184,7 +184,7 @@
                             message = string.Format(Message.SkypeMessageTemplate_PA_StartForReviewer,
                                 setting.Nickname,
                                 period.Name,
-                                mailService.FormatEndDate(setting.EndDate),
+                                mailService.FormatDate(setting.EndDate),
                                 configuration.Value.ApplicationDomain);
                             await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
 
@@ -194,7 +194,7 @@
                             message = string.Format(Message.SkypeMessageTemplate_PA_RemindForReviewer,
                                 setting.Nickname,
                                 period.Name,
-                                mailService.FormatEndDate(setting.EndDate),
+                                mailService.FormatDate(setting.EndDate),
                                 configuration.Value.ApplicationDomain);
                             await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
 
@@ -237,7 +237,7 @@
                                         ? Message.NotificationTemplate_PA_RemindStartEvaluationToMember
                                         : Message.NotificationTemplate_PA_RemindStartEvaluationToSupervisor,
                                     period.Name,
-                                    mailService.FormatStartDate(period.StartDate)),
+                                    mailService.FormatDate(period.StartDate)),
                                 StatusId = (int)NotificationStatus.Unread,
                                 ActionTypeId = (int)NotificationActionType.MyPageWithCreatePerformanceCheckin
                             });
@@ -250,7 +250,7 @@
                                 Content = string.Format(
                                     Message.NotificationTemplate_PA_StartToReviewer,
                                     period.Name,
-                                    mailService.FormatEndDate(setting.EndDate)),
+                                    mailService.FormatDate(setting.EndDate)),
                                 StatusId = (int)NotificationStatus.Unread,
                                 ActionTypeId = (int)NotificationActionType.MemberPageWithActivePerformanceAppraisalTab
                             });
@@ -262,7 +262,7 @@
                                 EmployeeId = setting.EvaluatorId,
                                 Content = string.Format(Message.NotificationTemplate_PA_RemindToReviewer,
                                     period.Name,
-                                    mailService.FormatEndDate(setting.EndDate)),
+                                    mailService.FormatDate(setting.EndDate)),
                                 StatusId = (int)NotificationStatus.Unread,
                                 ActionTypeId = (int)NotificationActionType.MemberPageWithActivePerformanceAppraisalTab
                             });

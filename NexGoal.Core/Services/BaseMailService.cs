@@ -103,18 +103,9 @@ namespace NexGoal.Core.Services
             }
         }
 
-        public string FormatStartDate(DateTime startDate)
+        public string FormatDate(DateTime date)
         {
-            var result = new DateTime(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0, 0, startDate.Kind);
-
-            return result.ToString(Constants.DateTimeFormat);
-        }
-
-        public string FormatEndDate(DateTime endDate)
-        {
-            var result = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 0, 0, endDate.Kind);
-
-            return result.ToString(Constants.DateTimeFormat);
+            return date.ToString(Constants.DateFormat);
         }
 
         private static bool IsValidEmail(string email)

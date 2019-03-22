@@ -118,8 +118,8 @@
             baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(tuple);
             mailService.ReadTextFile(Arg.Any<string>()).Returns(mailMody);
             mailService.SendMailAsync(Arg.Do<MailModel>(x => mailModel = x));
-            mailService.FormatStartDate(startDate).Returns("20 Dec 2018");
-            mailService.FormatEndDate(endDate).Returns("31 Dec 2018");
+            mailService.FormatDate(startDate).Returns("20 Dec 2018");
+            mailService.FormatDate(endDate).Returns("31 Dec 2018");
 
             // Act
             service.SendMail();
@@ -190,8 +190,8 @@
             var service = GetPAService();
             baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(tuple);
             baseService.ExecuteNonQueryAsync(Arg.Do<CreateNotificationCriteria>(x => criteria = x));
-            mailService.FormatStartDate(startDate).Returns("20 Dec 2018");
-            mailService.FormatEndDate(endDate).Returns("31 Dec 2018");
+            mailService.FormatDate(startDate).Returns("20 Dec 2018");
+            mailService.FormatDate(endDate).Returns("31 Dec 2018");
 
             // Act
             service.SendNotification();

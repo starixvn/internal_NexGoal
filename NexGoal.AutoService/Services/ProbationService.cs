@@ -61,7 +61,7 @@
                         body = string.Format(
                             mailService.ReadTextFile(remindToHRPath),
                             setting.Nickname,
-                            mailService.FormatEndDate(setting.EndDate));
+                            mailService.FormatDate(setting.EndDate));
                         SendEmail(subjectRemindMail, body, setting.Email);
                         break;
 
@@ -69,7 +69,7 @@
                         body = string.Format(
                             mailService.ReadTextFile(remindToMemberPath),
                             setting.Nickname,
-                            mailService.FormatEndDate(setting.EndDate),
+                            mailService.FormatDate(setting.EndDate),
                             configuration.Value.ApplicationDomain);
                         SendEmail(subjectRemindMail, body, setting.Email);
                         break;
@@ -79,7 +79,7 @@
                         body = string.Format(
                             mailService.ReadTextFile(remindToEvaluatorPath),
                             setting.Nickname,
-                            mailService.FormatEndDate(setting.EndDate),
+                            mailService.FormatDate(setting.EndDate),
                             configuration.Value.ApplicationDomain);
                         SendEmail(subjectRemindMail, body, setting.Email);
                         break;
@@ -125,14 +125,14 @@
                     case PerformanceProcess.HumanResource:
                         message = string.Format(Message.SkypeMessageTemplate_Probation_RemindHR,
                             setting.Nickname,
-                            mailService.FormatEndDate(setting.EndDate));
+                            mailService.FormatDate(setting.EndDate));
                         await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
                         break;
 
                     case PerformanceProcess.Self:
                         message = string.Format(Message.SkypeMessageTemplate_Probation_RemindMember,
                             setting.Nickname,
-                            mailService.FormatEndDate(setting.EndDate),
+                            mailService.FormatDate(setting.EndDate),
                             configuration.Value.ApplicationDomain);
                         await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
                         break;
@@ -141,7 +141,7 @@
                     case PerformanceProcess.Reviewer:
                         message = string.Format(Message.SkypeMessageTemplate_Probation_RemindEvaluator,
                             setting.Nickname,
-                            mailService.FormatEndDate(setting.EndDate),
+                            mailService.FormatDate(setting.EndDate),
                             configuration.Value.ApplicationDomain);
                         await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
                         break;
@@ -181,16 +181,16 @@
             switch (processId)
             {
                 case PerformanceProcess.HumanResource:
-                    content = string.Format(Message.NotificationTemplate_Probation_RemindToHR, mailService.FormatEndDate(endDate));
+                    content = string.Format(Message.NotificationTemplate_Probation_RemindToHR, mailService.FormatDate(endDate));
                     break;
 
                 case PerformanceProcess.Evaluator:
                 case PerformanceProcess.Reviewer:
-                    content = string.Format(Message.NotificationTemplate_Probation_RemindToEvaluator, mailService.FormatEndDate(endDate));
+                    content = string.Format(Message.NotificationTemplate_Probation_RemindToEvaluator, mailService.FormatDate(endDate));
                     break;
 
                 default:
-                    content = string.Format(Message.NotificationTemplate_Probation_RemindToMember, mailService.FormatEndDate(endDate));
+                    content = string.Format(Message.NotificationTemplate_Probation_RemindToMember, mailService.FormatDate(endDate));
                     break;
             }
 

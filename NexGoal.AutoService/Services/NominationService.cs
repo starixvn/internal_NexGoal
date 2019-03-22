@@ -64,7 +64,7 @@
                                 mailService.ReadTextFile(startMailPath),
                                 setting.Nickname,
                                 period.Title,
-                                mailService.FormatEndDate(period.EndDateForNominator),
+                                mailService.FormatDate(period.EndDateForNominator),
                                 configuration.Value.ApplicationDomain);
                             SendEmail(subjectStartMail, body, setting.Email);
                             break;
@@ -74,7 +74,7 @@
                                 mailService.ReadTextFile(remindMailPath),
                                 setting.Nickname,
                                 period.Title,
-                                mailService.FormatEndDate(period.EndDateForNominator),
+                                mailService.FormatDate(period.EndDateForNominator),
                                 configuration.Value.ApplicationDomain);
                             SendEmail(subjectRemindMail, body, setting.Email);
                             break;
@@ -98,8 +98,8 @@
                 {
                     EmployeeId = x.NominatorId,
                     Content = x.NotificationMode == MailMode.Start
-                    ? string.Format(Message.NotificationTemplate_Nomination_Start, period.Title, mailService.FormatEndDate(period.EndDateForNominator))
-                    : string.Format(Message.NotificationTemplate_Nomination_Remind, period.Title, mailService.FormatEndDate(period.EndDateForNominator)),
+                    ? string.Format(Message.NotificationTemplate_Nomination_Start, period.Title, mailService.FormatDate(period.EndDateForNominator))
+                    : string.Format(Message.NotificationTemplate_Nomination_Remind, period.Title, mailService.FormatDate(period.EndDateForNominator)),
                     StatusId = (int)NotificationStatus.Unread,
                     ActionTypeId = (int)NotificationActionType.MemberPageWithActiveNominationTab
                 }));
@@ -132,7 +132,7 @@
                             message = string.Format(Message.SkypeMessageTemplate_Nomination_StartForNominator,
                                 setting.Nickname,
                                 period.Title,
-                                mailService.FormatEndDate(period.EndDateForNominator),
+                                mailService.FormatDate(period.EndDateForNominator),
                                 configuration.Value.ApplicationDomain);
                             await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
                             break;
@@ -141,7 +141,7 @@
                             message = string.Format(Message.SkypeMessageTemplate_Nomination_RemindToNominator,
                                 setting.Nickname,
                                 period.Title,
-                                mailService.FormatEndDate(period.EndDateForNominator),
+                                mailService.FormatDate(period.EndDateForNominator),
                                 configuration.Value.ApplicationDomain);
                             await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
                             break;

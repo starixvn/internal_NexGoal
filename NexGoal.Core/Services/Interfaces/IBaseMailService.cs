@@ -10,8 +10,6 @@ namespace NexGoal.Core.Services
 
         string ReadTextFile(string filePath);
 
-        string FormatStartDate(DateTime startDate);
-
-        string FormatEndDate(DateTime endDate);
+        string FormatDate(DateTime date);
     }
 }
