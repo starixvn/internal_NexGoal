@@ -1,9 +1,55 @@
 ﻿.warning {
     color: #05499C;
-    background-color: #FFEEBF;
-    border: 1px solid #DFC681;
+    background-color: #fff;
+    border: 1px solid #CEE2F0;
     padding: 4px 8px;
     margin: 16px 16px 12px;
+    color: #2E67AA;
+}
+
+.btn-pause {
+    position: relative;
+    background: #fff; /* button (background) color */
+    border: none;
+    outline: none;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: 9px;
+        left: 9px;
+        height: 12px;
+        border-width: 0 0 0 12px;
+        border-style: solid;
+        border-color: transparent transparent transparent #2E67AA; /* icon color */
+        transition: .218s ease;
+        box-sizing: content-box;
+    }
+
+    &:after {
+        content: "";
+        position: absolute;
+        background: inherit;
+        width: 4px;
+        height: 12px;
+        top: 9px;
+        left: 13px;
+        transition: .218s ease;
+    }
+
+    &:hover {
+        &:before {
+            height: 0;
+            border-width: 6px 0 6px 12px;
+        }
+
+        &:after {
+            width: 0;
+        }
+    }
 }
 
 .carousel.vertical {
