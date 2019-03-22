@@ -58,6 +58,7 @@
 
 .carousel.vertical {
     cursor: pointer;
+    width: calc(100% - 45px);
 
     .carousel-inner {
         .item {

@@ -71,7 +71,7 @@
             background-color: #8a9197;
             object-fit: cover;
             object-position: 0 20%;
-            float: left;
+            //float: left;
             margin-right: 8px;
 
             &[class*="icon-status"] {
@@ -131,8 +131,10 @@
             align-self: center;
 
             [class^="role-"] {
+                display: inline-block;
                 font-weight: 700;
                 font-size: 15px;
+                vertical-align: middle;
 
                 @media screen and (min-width: 1280px) {
                     font-size: 16px;
@@ -152,10 +154,15 @@
 
             .icon-checkin {
                 margin: 0 4px 0 8px;
+                display: inline-block;
+                font-size: 14px;
+                vertical-align: middle;
             }
 
             .icon-nomination {
                 margin: 0 8px;
+                display: inline-block;
+                vertical-align: middle;
 
                 &:before {
                     color: #2270CE;
@@ -223,13 +230,20 @@
 
             .icon-edit, .icon-delete {
                 display: inline-block;
-                width: 25px;
-                height: 25px;
-                line-height: 25px;
+                width: 30px;
+                height: 30px;
+                font-size: 15px;
+                line-height: 30px;
                 text-align: center;
                 color: #545454;
                 border-radius: 50%;
                 transition: .2s ease all;
+
+                &:hover {
+                    &:before {
+                        color: #fff;
+                    }
+                }
             }
 
             .icon-edit {
@@ -239,22 +253,14 @@
                 }
 
                 &:hover {
-
-                    &:before {
-                        color: #0789D1;
-                    }
-
-                    background: rgba(7, 138, 209, 0.13);
+                    background: #0789D1;
                 }
             }
 
 
             .icon-delete {
-                font-size: 13px;
-
                 &:hover {
-                    color: #DE5144;
-                    background: rgba(#DE5144, 0.13);
+                    background: #DE5144;
                 }
             }
 
