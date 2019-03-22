@@ -80,7 +80,7 @@ export default class EmployeeManagement extends Component {
     }
 
     getEmployees = filter => {
-        let roleIds = filter.roles.map(role => { return role.value; }).join(',');
+        let roleIds = filter.roles.map(role =>  role.value).join(',');
 
         axios.get(resolveClientUrl('employee/GetEmployees'), {
             params: {

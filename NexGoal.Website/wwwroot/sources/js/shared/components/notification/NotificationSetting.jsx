@@ -85,7 +85,7 @@ export default class NotificationSetting extends Component {
                                                 <input type="checkbox" className="checkbox-custom"
                                                     id={`chb-${setting.type}-noti`}
                                                     checked={setting.receiveNotification}
-                                                    onClick={(e) => this.handleChange(e, setting.type, "receiveNotification")}
+                                                    onClick={event => this.handleChange(event, setting.type, 'receiveNotification')}
                                                 />
                                                 <label htmlFor={`chb-${setting.type}-noti`} />
                                             </td>
@@ -93,7 +93,7 @@ export default class NotificationSetting extends Component {
                                                 <input type="checkbox" className="checkbox-custom"
                                                     id={`chb-${setting.type}-email`}
                                                     checked={setting.receiveEmail}
-                                                    onClick={(e) => this.handleChange(e, setting.type, "receiveEmail")}
+                                                    onClick={event => this.handleChange(event, setting.type, 'receiveEmail')}
                                                 />
                                                 <label htmlFor={`chb-${setting.type}-email`} />
                                             </td>
@@ -101,7 +101,7 @@ export default class NotificationSetting extends Component {
                                                 <input type="checkbox" className="checkbox-custom"
                                                     id={`chb-${setting.type}-skype`}
                                                     checked={setting.receiveSkypeMessage}
-                                                    onClick={(e) => this.handleChange(e, setting.type, "receiveSkypeMessage")}
+                                                    onClick={event => this.handleChange(event, setting.type, 'receiveSkypeMessage')}
                                                 />
                                                 <label htmlFor={`chb-${setting.type}-skype`} />
                                             </td>

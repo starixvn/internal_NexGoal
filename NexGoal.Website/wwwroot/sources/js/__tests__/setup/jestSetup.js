@@ -11,7 +11,7 @@ document.getElementById = id => {
         input = document.createElement('input', {
             value: 'test',
             innerText: 'test',
-            attribute: () => { return 'image src'; }
+            attribute: () => 'image src'
         });
     }
     return input;

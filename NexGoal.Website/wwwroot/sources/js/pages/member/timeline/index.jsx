@@ -69,7 +69,7 @@ export default class Timeline extends Component {
     updateDimensions = () => {
         let pageSize = this.calculatePageSize();
 
-        this.setState((prevState) => {
+        this.setState(prevState => {
             if (prevState.pageSize !== pageSize) {
                 this.getMemberPerformanceTimeline(pageSize);
 

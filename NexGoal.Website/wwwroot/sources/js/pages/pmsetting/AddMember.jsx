@@ -28,7 +28,7 @@ export default class AddMember extends Component {
         return errors;
     }
 
-    onSubmit = (values) => {
+    onSubmit = values => {
         axios({
             url: resolveClientUrl(`PMSetting/AddMembers`),
             method: 'post',

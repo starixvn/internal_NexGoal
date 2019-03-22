@@ -1,19 +1,15 @@
 ﻿import React, { Component } from 'react';
-import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
+import { Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import Select from 'react-select';
 
 import getResource from '../../resourceHelper';
 
 export default class SearchForm extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    handleStatusChange = (selectedOption) => {
+    handleStatusChange = selectedOption => {
         this.props.onFilterChange('status', selectedOption);
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = event => {
         event.preventDefault();
         this.props.onFilterSubmit();
     }

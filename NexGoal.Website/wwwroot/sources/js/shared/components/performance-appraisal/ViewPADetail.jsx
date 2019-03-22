@@ -21,7 +21,7 @@ export default class PADetail extends Component {
             comment: pa.comment,
             grade: pa.grade
         };
-        const title = getResource('PerformanceAppraisal') + " OF " + this.props.employee.nickName;
+        const title = getResource('PerformanceAppraisal') + ' OF ' + this.props.employee.nickName;
 
         return (
             <Modal

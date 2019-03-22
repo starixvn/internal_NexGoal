@@ -1,4 +1,4 @@
-﻿import React, { PureComponent, Fragment } from 'react';
+﻿import React, { PureComponent } from 'react';
 import moment from 'moment';
 
 import getResource from '../../resourceHelper';

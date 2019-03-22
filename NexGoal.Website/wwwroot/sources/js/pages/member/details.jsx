@@ -283,7 +283,7 @@ export default class App extends Component {
 
     handleEditPerformanceRecordSuccess = performanceRecordIds => {
         axios(resolveClientUrl(`Performance/GetByIds/${performanceRecordIds}`))
-            .then((response) => {
+            .then(response => {
                 let performanceRecords = this.state.performanceRecords.slice();
                 let currentRecordIndex = performanceRecords.findIndex(record => record.performanceRecordId === this.state.editPerformanceRecord.performanceRecordId);
                 let currentRecord = performanceRecords[currentRecordIndex];

@@ -46,7 +46,7 @@ export default class TextareaFullscreenEditor extends Component {
         });
     }
 
-    handleOnChange = (event) => {
+    handleOnChange = event => {
         this.props.onChange(event);
     }
 
