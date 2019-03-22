@@ -1,8 +1,10 @@
-﻿.warning {
+﻿.marquee-block {
+    display: flex;
+    align-items: center;
     color: #05499C;
     background-color: #fff;
     border: 1px solid #CEE2F0;
-    padding: 4px 8px;
+    border-radius: 2px;
     margin: 16px 16px 12px;
     color: #2E67AA;
 }
@@ -13,7 +15,9 @@
     border: none;
     outline: none;
     height: 30px;
-    width: 30px;
+    width: 31px;
+    border-right: 1px solid #CEE2F0;
+    margin-right: 5px;
     cursor: pointer;
 
     &:before {
@@ -25,7 +29,7 @@
         border-width: 0 0 0 12px;
         border-style: solid;
         border-color: transparent transparent transparent #2E67AA; /* icon color */
-        transition: .218s ease;
+        //transition: .218s ease;
         box-sizing: content-box;
     }
 
@@ -40,7 +44,7 @@
         transition: .218s ease;
     }
 
-    &:hover {
+    &.play {
         &:before {
             height: 0;
             border-width: 6px 0 6px 12px;
