@@ -162,6 +162,7 @@ export default class PerformanceRecord extends Component {
                             employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
                             <Fragment>
                                 <span className="icon-checkin" />
+                                {employees.length === 1 && <img src={employees[0].avatar} alt="avatar" className="avatar" />}
                                 <span className="role-member">{employees.map(employee => employee.nickName).join(', ')}</span>
                             </Fragment>
                         }
@@ -225,6 +226,7 @@ export default class PerformanceRecord extends Component {
                             employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
                             <Fragment>
                                 <span className="icon-nomination" />
+                                <img src={employees[0].avatar} alt="avatar" className="avatar" />
                                 <span className="role-member">{employees.map(employee => employee.nickName).join(', ')}</span>
                             </Fragment>
                         }

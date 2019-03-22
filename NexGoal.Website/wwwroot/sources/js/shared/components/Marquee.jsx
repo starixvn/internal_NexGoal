@@ -1,28 +1,52 @@
-﻿import React from 'react';
+﻿import React, { PureComponent } from 'react';
+import memoize from "memoize-one";
 
-export default function Marquee(props) {
-    var duration = props.messages.reduce((total, current) => total + current.length, 0) / 5;
-
-    var style = {
-        '-webkit-animation': `marquee ${duration}s linear infinite`,
-        '-khtml-animation': `marquee ${duration}s linear infinite`,
-        '-moz-animation': `marquee ${duration}s linear infinite`,
-        '-ms-animation': `marquee ${duration}s linear infinite`,
-        '-o-animation': `marquee ${duration}s linear infinite`,
-        'animation': `marquee ${duration}s linear infinite`
+export default class Marquee extends PureComponent {
+    constructor(props) {
+        super(props);
+        this.state = {
+            run: true,
+        }
     }
 
-    return (
-        <div className="warning marquee" onClick={props.onClick} >
-            <span className="annoucement" style={style}>
-                {
-                    props.messages.map((annoucement, index) =>
-                        <span key={`annoucement${index}`} className="announcement-item">
-                            {annoucement}
-                        </span>
-                    )
-                }
-            </span>
-        </div>
+    toggleRun = () => this.setState(prevState => ({ run: !prevState.run }));
+
+    renderMessage = (message, index) =>
+        <span key={`message{index}`} className="announcement-item">
+            {message}
+        </span>
+
+    getStyle = memoize(
+        (messages, run) => {
+            let duration = messages.reduce((total, current) => total + current.length, 0) / 5;
+            let animation = `marquee ${duration}s linear infinite ${run ? 'running' : 'paused'}`;
+
+            return {
+                '-webkit-animation': animation,
+                '-khtml-animation': animation,
+                '-moz-animation': animation,
+                '-ms-animation': animation,
+                '-o-animation': animation,
+                'animation': animation
+            }
+        }
     );
+
+    render() {
+        var style = this.getStyle(this.props.messages, this.state.run);
+
+        return (
+            <div className="marquee-block">
+                <div className={`btn-pause ${!this.state.run && 'play'}`} onClick={this.toggleRun}></div>
+                <div className="marquee" onClick={this.props.onClick} >
+                    <span className="annoucement" style={style}>
+                        {
+                            this.props.messages.map(this.renderMessage)
+                        }
+                    </span>
+                </div>
+            </div>
+
+        );
+    }
 }
