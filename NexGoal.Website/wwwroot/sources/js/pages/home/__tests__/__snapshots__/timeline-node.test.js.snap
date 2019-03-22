@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render correctly 1`] = `
+Array [
+  <p
+    className="timeline-grade role-default"
+    onClick={[Function]}
+    style={
+      Object {
+        "right": 80,
+      }
+    }
+  >
+    
+  </p>,
+  <div
+    className="timeline-info role-default"
+    onClick={[Function]}
+    style={
+      Object {
+        "right": 58,
+      }
+    }
+  >
+    <p
+      className="name role-default"
+    >
+      Michael
+    </p>
+    <p
+      className="create-date"
+    >
+      Invalid date
+    </p>
+  </div>,
+]
+`;

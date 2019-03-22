@@ -36,4 +36,3 @@ packages/
 node_modules
 *.jfm
 output
-__snapshots__/

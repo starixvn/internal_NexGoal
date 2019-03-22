@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import Breadcrumb from '../Breadcrumb';
 
 describe('<Breadcrumb />', () => {
-    test('render', () => {
+    test('renders correctly', () => {
         const wrapper = renderer.create(
             <Breadcrumb />,
         );

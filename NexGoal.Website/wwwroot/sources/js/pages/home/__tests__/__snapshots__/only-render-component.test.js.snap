@@ -1,0 +1,154 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test render correctly  Render EmployeeInfo correctly with props 1`] = `
+<div
+  className="user-info box"
+>
+  <img
+    alt="avatar"
+    className="avatar"
+    src="oliver"
+  />
+  <div>
+    <div
+      className="nick-name role-member"
+    >
+      Oliver
+    </div>
+    <div
+      className="user-name"
+    >
+      Đặng Hoàng Hải
+    </div>
+    <div
+      className="role role-PM"
+    >
+      Software Engineer
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Test render correctly  Test for performance appraisal Component will render correctly 1`] = `
+<div
+  className="my-pa box"
+>
+  <h5>
+    MyPerformanceAppraisal
+  </h5>
+  <div
+    className="my-pa-year"
+  >
+    <div
+      className="year"
+    >
+      2018
+    </div>
+    <div
+      className="term"
+    >
+      <div>
+        1h 2018
+      </div>
+      <div
+        className="grade"
+      >
+        
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Test render correctly  render hrm detail correctly 1`] = `
+<div
+  className="hrm-summary box"
+>
+  <h5>
+    Hrm
+  </h5>
+  <ul
+    className="hrm-info"
+  >
+    <li>
+      Toeic
+      <span
+        className="bold"
+      >
+        : 
+        <span
+          className=""
+        >
+          N/A
+        </span>
+      </span>
+    </li>
+    <li>
+      AverageWorkDays
+      <span
+        className="bold"
+      >
+        : 
+      </span>
+    </li>
+    <li>
+      AverageSpentTime
+      <span
+        className="bold"
+      >
+        : 
+      </span>
+    </li>
+    <li>
+      MissingCheckInOut
+      <span
+        className="bold"
+      >
+        : 
+      </span>
+    </li>
+    <li>
+      LateInEarlyOut
+      <span
+        className="bold"
+      >
+        : 
+      </span>
+    </li>
+    <li>
+      UnpaidLeave
+      <span
+        className="bold"
+      >
+        : 
+      </span>
+    </li>
+    <li>
+      UnplannedLeave
+      <span
+        className="bold"
+      >
+        : 
+      </span>
+    </li>
+    <li>
+      SickLeave
+      <span
+        className="bold"
+      >
+        : 
+      </span>
+    </li>
+    <li>
+      Discipline
+      <span
+        className="bold"
+      >
+        : 
+      </span>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`Test render correctly  render hrm detail correctly 2`] = `null`;

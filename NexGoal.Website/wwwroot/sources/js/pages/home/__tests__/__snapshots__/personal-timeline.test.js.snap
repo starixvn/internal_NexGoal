@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test timeline component renders correctly renders without crashing 1`] = `
+<div
+  className="timeline"
+>
+  <div
+    className="xaxes"
+  />
+  <p
+    className="timeline-grade role-default"
+    onClick={[Function]}
+    style={
+      Object {
+        "right": 20,
+      }
+    }
+  >
+    
+  </p>
+  <div
+    className="timeline-info role-default"
+    onClick={[Function]}
+    style={
+      Object {
+        "right": -2,
+      }
+    }
+  >
+    <p
+      className="name role-default"
+    >
+      Michael
+    </p>
+    <p
+      className="create-date"
+    >
+      Invalid date
+    </p>
+  </div>
+  <span
+    className="button-icon icon-chevron-left previous disabled"
+    onClick={[Function]}
+  />
+  <span
+    className="button-icon icon-chevron-right next "
+    onClick={[Function]}
+  />
+</div>
+`;

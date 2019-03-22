@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Personal workload component Component render correctly renderUI correctly 1`] = `
+<div
+  className="workload box"
+>
+  <div
+    className="title clearfix"
+  >
+    <h5>
+      Workload
+    </h5>
+    <div
+      className="milestone"
+    >
+      <span
+        className="icon-chevron-left arrow-left "
+        disabled={false}
+        onClick={[Function]}
+      />
+      <span
+        className="icon-chevron-right arrow-right disabled"
+        disabled={true}
+        onClick={[Function]}
+      />
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "position": "relative",
+      }
+    }
+  >
+    <span>
+      NoRecordFound
+    </span>
+  </div>
+  <div
+    className="legend-container"
+    id="legend-container"
+  />
+</div>
+`;
