@@ -6,9 +6,9 @@ import getResource from '../../resourceHelper';
 export default class PerformanceGradeInfo extends PureComponent {
     renderGradeInfo = (grade) =>
         <tr key={grade.gradeId}>
-            <td>{grade.name}</td>
+            <td className="text-center">{grade.name}</td>
             <td>{grade.description}</td>
-            <td><p>{grade.explanation}</p></td>
+            <td><p className="grade-explanation">{grade.explanation}</p></td>
         </tr>
 
     render() {
@@ -25,8 +25,8 @@ export default class PerformanceGradeInfo extends PureComponent {
                     <table className="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>{getResource('Grade')}</th>
-                                <th>{getResource('GradeName')}</th>
+                                <th className="text-center">{getResource('Grade')}</th>
+                                <th width="170">{getResource('GradeName')}</th>
                                 <th>{getResource('Explanation')}</th>
                             </tr>
                         </thead>

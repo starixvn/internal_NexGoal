@@ -253,7 +253,7 @@ export default class EditSelfPerformance extends Component {
                                 />
                             </div>
                             <div className="grade">
-                                <ControlLabel>{getResource('Grade')}  <a onClick={this.handleOpenGradeInfo}><i className="fa fa-info"></i></a></ControlLabel>
+                                <ControlLabel>{getResource('Grade')}  <a className="grade-info" onClick={this.handleOpenGradeInfo}></a></ControlLabel>
                                 <Select name="grade" className="react-select-container grade-field" classNamePrefix="react-select"
                                     placeholder="Select Grade"
                                     value={performanceRecord.grade}

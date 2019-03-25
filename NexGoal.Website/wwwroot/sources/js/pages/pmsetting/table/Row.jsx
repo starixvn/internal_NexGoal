@@ -29,7 +29,7 @@ export default class Row extends Component {
 
     render() {
         let data = this.props.data;
-        let styleCenter = {
+        const styleCenter = {
           verticalAlign: 'middle'
         };
 

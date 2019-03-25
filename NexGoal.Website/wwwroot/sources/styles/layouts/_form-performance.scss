@@ -32,19 +32,20 @@ form.form-performance {
     }
 
     .react-select__value-container {
-      padding: 0 6px;
-    } 
+        padding: 0 6px;
+    }
 
     .react-select__multi-value__remove {
-      padding-right: 0;
-      svg {
-        color: #545454;
-      }
+        padding-right: 0;
 
-      &:hover {
-        background: none;
-        color: #333;
-      }
+        svg {
+            color: #545454;
+        }
+
+        &:hover {
+            background: none;
+            color: #333;
+        }
     }
 
     &.edit .record {
@@ -54,6 +55,7 @@ form.form-performance {
 
         .comment {
             padding-bottom: 0;
+
             .textarea-fullscreen-wrapper .textarea-fullscreen-editor.expanded {
                 width: 100vw;
                 height: 100vh;
@@ -72,4 +74,25 @@ form.form-performance {
     &.create .form-group {
         margin-bottom: 12px;
     }
+
+    .grade-info {
+        display: inline-block;
+        width: 18px;
+        height: 16px;
+        font-family: 'NexGoalIcon' !important;
+        text-align: center;
+
+        &:before {
+            position: relative;
+            top: 2px;
+            content: "\E936";
+            color: #545454;
+            font-size: 13px;
+        }
+    }
+}
+
+.grade-explanation {
+    white-space: pre-line;
+    margin-bottom: 0;
 }
