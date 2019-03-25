@@ -72,6 +72,7 @@ export default class App extends Component {
         this.infiniteScrollRef = React.createRef();
         this.timelineItemPerPage = calculateTimelineNode();
         this.itemPerPage = 10;
+        this.performanceGradeInfos = [];
     }
 
     componentDidMount() {
@@ -98,6 +99,8 @@ export default class App extends Component {
             .then(([periodResponse, gradeResponse, projectResponse, roleResponse,
                 nominationResponse, performanceAppraisalResponse, performanceRecordResponse, timelineResponse, announcementResponse]) => {
                 let displayedPerformanceRecords = performanceRecordResponse.data.slice(0, this.itemPerPage);
+
+                this.performanceGradeInfos = gradeResponse.data;
 
                 const performanceGradeOptions = gradeResponse.data.map(performanceGrade => {
                     return {
@@ -439,6 +442,7 @@ export default class App extends Component {
                                                 onSubmitSuccess={this.handleCreatePerformanceRecordSuccess}
                                                 onSubmitDraftSuccess={this.handleCreateDraftPerformanceRecordSuccess}
                                                 isMultiple={false}
+                                                performanceGradeInfos={this.performanceGradeInfos}
                                             />
                                             {
                                                 performanceRecords.length > 0 &&
@@ -503,6 +507,7 @@ export default class App extends Component {
                         onSubmitSuccess={this.handleEditPerformanceRecordSuccess}
                         onSubmitDraftSuccess={this.handleEditDraftPerformanceRecordSuccess}
                         isDisabledAddMember
+                        performanceGradeInfos={this.performanceGradeInfos}
                     />
                 }
                 {
