@@ -22,12 +22,12 @@ export default class Marquee extends PureComponent {
             let animation = `marquee ${duration}s linear infinite ${run ? 'running' : 'paused'}`;
 
             return {
-                '-webkit-animation': animation,
-                '-khtml-animation': animation,
-                '-moz-animation': animation,
-                '-ms-animation': animation,
-                '-o-animation': animation,
-                'animation': animation
+                WebkitAnimation: animation,
+                KhtmlAnimation: animation,
+                MozAnimation: animation,
+                msAnimation: animation,
+                OAnimation: animation,
+                animation: animation
             }
         }
     );

@@ -18,5 +18,6 @@ BEGIN
 		,[Name]
 		,[Description]
 		,Point
+		,Explanation
 	FROM dbo.PerformanceGrade WITH (NOLOCK)
 END

@@ -63,6 +63,7 @@ export default class App extends Component {
         this.performanceGradeOptions = [];
         this.projectOptions = [];
         this.periods = [];
+        this.performanceGradeInfos = [];
     }
 
     componentDidMount() {
@@ -79,6 +80,8 @@ export default class App extends Component {
 
         Promise.all(promises)
             .then(([periodResponse, gradeResponse, projectResponse, memberResponse, myGroupResponse, currentPerformancePeriodResponse, memberPerformanceResponse, announcementsResponse]) => {
+                this.performanceGradeInfos = gradeResponse.data;
+
                 this.performanceGradeOptions = gradeResponse.data.map(performanceGrade => {
                     return {
                         value: performanceGrade.gradeId,
@@ -415,6 +418,7 @@ export default class App extends Component {
                                                 onSubmitSuccess={this.handleCreatePerformanceRecordSuccess}
                                                 onSubmitDraftSuccess={this.handleCreateDraftPerformanceRecordSuccess}
                                                 isMultiple
+                                                performanceGradeInfos={this.performanceGradeInfos}
                                             />
                                             <InfiniteScroll
                                                 pageStart={1}
@@ -482,6 +486,7 @@ export default class App extends Component {
                         onCloseModal={this.handleCancelEditPerformanceRecord}
                         onSubmitSuccess={this.handleEditPerformanceRecordSuccess}
                         onSubmitDraftSuccess={this.handleEditDraftPerformanceRecordSuccess}
+                        performanceGradeInfos={this.performanceGradeInfos}
                     />
                 }
                 {

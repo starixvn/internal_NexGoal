@@ -58,6 +58,7 @@ export default class MyPage extends Component {
         this.itemPerPage = 10;
         this.performanceGradeOptions = [];
         this.projectOptions = [];
+        this.performanceGradeInfos = [];
     }
 
     componentDidMount() {
@@ -79,6 +80,8 @@ export default class MyPage extends Component {
 
         Promise.all(promises)
             .then(([gradeResponse, projectResponse, performanceRecordResponse, periodResponse, nominationResponse, performanceAppraisalsResponse, personalTimelineResponse, announcementsResponse]) => {
+                this.performanceGradeInfos = gradeResponse.data;
+
                 this.performanceGradeOptions = gradeResponse.data.map(performanceGrade => {
                     return {
                         value: performanceGrade.gradeId,
@@ -416,6 +419,7 @@ export default class MyPage extends Component {
                                     projectOptions={this.projectOptions}
                                     onSubmitSuccess={this.handleCreatePerformanceRecordSuccess}
                                     onSubmitDraftSuccess={this.handleCreateDraftPerformanceRecordSuccess}
+                                    performanceGradeInfos={this.performanceGradeInfos}
                                 />
                                 {
                                     performanceRecords.length > 0 &&
@@ -468,6 +472,8 @@ export default class MyPage extends Component {
                         onCloseModal={this.handleCancelEditPerformanceRecord}
                         onSubmitSuccess={this.handleEditPerformanceRecordSuccess}
                         onSubmitDraftSuccess={this.handleEditDraftPerformanceRecordSuccess}
+                        performanceGradeInfos={this.performanceGradeInfos}
+
                     />
                 }
                 {

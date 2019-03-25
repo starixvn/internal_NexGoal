@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Button, ControlLabel, Modal, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
@@ -13,6 +13,7 @@ import { axiosError, getRoleClassName, resolveClientUrl, compareArray } from '..
 import { DateFormat, ProbationTag } from '../../constants';
 import getResource from '../../resourceHelper';
 import TextareaFullscreenEditor from '../../shared/components/textarea-fullscreen/index';
+import PerformanceGradeInfo from '../../shared/components/PerformanceGradeInfo';
 
 export default class EditMemberPerformance extends Component {
     static propTypes = {
@@ -35,8 +36,8 @@ export default class EditMemberPerformance extends Component {
         projectOptions: [],
         isDraft: false,
         isShowModal: false,
-        onCloseModal: function() { },
-        onSubmitSuccess: function() { }
+        onCloseModal: function () { },
+        onSubmitSuccess: function () { }
     };
 
     constructor(props) {
@@ -46,7 +47,8 @@ export default class EditMemberPerformance extends Component {
             performanceRecord: {},
             initialPerformanceRecord: {},
             errors: {},
-            isSubmitting: false
+            isSubmitting: false,
+            showGradeInfo: false
         };
     }
 
@@ -257,6 +259,10 @@ export default class EditMemberPerformance extends Component {
         }
     }
 
+    handleOpenGradeInfo = () => this.setState({ showGradeInfo: true })
+
+    handleCloseGradeInfo = () => this.setState({ showGradeInfo: false })
+
     setSubmitting = isSubmitting => this.setState({ isSubmitting })
 
     render() {
@@ -264,92 +270,96 @@ export default class EditMemberPerformance extends Component {
         const { memberOptions, performanceGradeOptions, projectOptions, currentUser } = this.props;
 
         return (
-            <Modal keyboard={false} backdrop="static"
-                show={this.props.isShowModal} onHide={this.props.onCloseModal}
-                dialogClassName="custom-modal modal-md form-performance edit "
-            >
-                <Modal.Header>
-                    <Modal.Title>{getResource('EditPerformanceCheckin')}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <div className="record record-your-mind">
-                        <div className="avatar-user">
-                            <img src={currentUser.avatar} className="avatar" />
-                            <div className="person-info">
-                                <span className={getRoleClassName(performanceRecord.roleId)}>{currentUser.nickName}</span>
-                                <div>
-                                    <span className="submit-date">{moment().format(DateFormat)}</span>
-                                    {
-                                        performanceRecord.isDraft &&
-                                        <span className="draft">draft</span>
-                                    }
+            <Fragment>
+                <Modal keyboard={false} backdrop="static"
+                    show={this.props.isShowModal} onHide={this.props.onCloseModal}
+                    dialogClassName="custom-modal modal-md form-performance edit "
+                >
+                    <Modal.Header>
+                        <Modal.Title>{getResource('EditPerformanceCheckin')}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="record record-your-mind">
+                            <div className="avatar-user">
+                                <img src={currentUser.avatar} className="avatar" />
+                                <div className="person-info">
+                                    <span className={getRoleClassName(performanceRecord.roleId)}>{currentUser.nickName}</span>
+                                    <div>
+                                        <span className="submit-date">{moment().format(DateFormat)}</span>
+                                        {
+                                            performanceRecord.isDraft &&
+                                            <span className="draft">draft</span>
+                                        }
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="comment">
-                            <form className="form-filter form-performance edit">
-                                <FormGroup>
-                                    <ControlLabel>{getResource('Member')}</ControlLabel>
-                                    <Select name="employees" isMulti closeMenuOnSelect={false} classNamePrefix="react-select"
-                                        className={`react-select-container employee-field ${!isEmpty(errors) && errors.employee ? 'input-validation-error' : ''}`}
-                                        placeholder="Select Employees"
-                                        value={performanceRecord.employees} options={memberOptions}
-                                        onChange={this.handleEmployeeChange} isClearable
-                                        isDisabled={this.props.isDisabledAddMember || !performanceRecord.isDraft}
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <ControlLabel>{getResource('Comment')}</ControlLabel>
-                                    <TextareaFullscreenEditor
-                                        className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
-                                        name="comment"
-                                        value={performanceRecord.comment}
-                                        onChange={this.handleCommentChange}
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <div className="grade">
-                                        <ControlLabel>{getResource('Grade')}</ControlLabel>
-                                        <Select name="grade" className="react-select-container grade-field" classNamePrefix="react-select"
-                                            placeholder="Select Grade"
-                                            value={performanceRecord.grade}
-                                            options={performanceGradeOptions}
-                                            isSearchable={false}
-                                            isClearable
-                                            onChange={this.handleGradeChange}
+                            <div className="comment">
+                                <form className="form-filter form-performance edit">
+                                    <FormGroup>
+                                        <ControlLabel>{getResource('Member')}</ControlLabel>
+                                        <Select name="employees" isMulti closeMenuOnSelect={false} classNamePrefix="react-select"
+                                            className={`react-select-container employee-field ${!isEmpty(errors) && errors.employee ? 'input-validation-error' : ''}`}
+                                            placeholder="Select Employees"
+                                            value={performanceRecord.employees} options={memberOptions}
+                                            onChange={this.handleEmployeeChange} isClearable
+                                            isDisabled={this.props.isDisabledAddMember || !performanceRecord.isDraft}
                                         />
-                                    </div>
-                                    <div className="project">
-                                        <ControlLabel>{getResource('ProjectTag')}</ControlLabel>
-                                        <Select name="projects" isMulti closeMenuOnSelect={false} placeholder="Projects"
-                                            className="react-select-container project-field" classNamePrefix="react-select"
-                                            value={performanceRecord.projects}
-                                            options={projectOptions}
-                                            onChange={this.handleProjectChange}
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <ControlLabel>{getResource('Comment')}</ControlLabel>
+                                        <TextareaFullscreenEditor
+                                            className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
+                                            name="comment"
+                                            value={performanceRecord.comment}
+                                            onChange={this.handleCommentChange}
                                         />
-                                    </div>
-                                </FormGroup>
-                            </form>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <div className="grade">
+                                            <ControlLabel>{getResource('Grade')} <a onClick={this.handleOpenGradeInfo}><i className="fa fa-info"></i></a></ControlLabel>
+                                            <Select name="grade" className="react-select-container grade-field" classNamePrefix="react-select"
+                                                placeholder="Select Grade"
+                                                value={performanceRecord.grade}
+                                                options={performanceGradeOptions}
+                                                isSearchable={false}
+                                                isClearable
+                                                onChange={this.handleGradeChange}
+                                            />
+                                        </div>
+                                        <div className="project">
+                                            <ControlLabel>{getResource('ProjectTag')}</ControlLabel>
+                                            <Select name="projects" isMulti closeMenuOnSelect={false} placeholder="Projects"
+                                                className="react-select-container project-field" classNamePrefix="react-select"
+                                                value={performanceRecord.projects}
+                                                options={projectOptions}
+                                                onChange={this.handleProjectChange}
+                                            />
+                                        </div>
+                                    </FormGroup>
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button className="btn-cancel" onClick={this.props.onCloseModal}>{getResource('Cancel')}</Button>
-                    {
-                        performanceRecord.isDraft &&
-                        <Button type="submit" className="btn-cancel" name="saveAsDraft"
-                            onClick={this.handleSaveAsDraft} disabled={this.state.isSubmitting}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button className="btn-cancel" onClick={this.props.onCloseModal}>{getResource('Cancel')}</Button>
+                        {
+                            performanceRecord.isDraft &&
+                            <Button type="submit" className="btn-cancel" name="saveAsDraft"
+                                onClick={this.handleSaveAsDraft} disabled={this.state.isSubmitting}
+                            >
+                                {getResource('SaveAsDraft')}
+                            </Button>
+                        }
+                        <Button type="submit" bsStyle="primary" name="save"
+                            onClick={this.handleSubmit} disabled={this.state.isSubmitting}
                         >
-                            {getResource('SaveAsDraft')}
+                            {getResource('Publish')}
                         </Button>
-                    }
-                    <Button type="submit" bsStyle="primary" name="save"
-                        onClick={this.handleSubmit} disabled={this.state.isSubmitting}
-                    >
-                        {getResource('Publish')}
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+                    </Modal.Footer>
+                </Modal>
+                <PerformanceGradeInfo showModal={this.state.showGradeInfo} performanceGradeInfos={this.props.performanceGradeInfos} onCloseModal={this.handleCloseGradeInfo} />
+            </Fragment>
+
         );
     }
 }

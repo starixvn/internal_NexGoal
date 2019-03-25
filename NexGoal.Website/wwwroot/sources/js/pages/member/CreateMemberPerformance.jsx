@@ -13,6 +13,7 @@ import { axiosError, getRoleClassName, resolveClientUrl } from '../../common-fun
 import { DateFormat, ProbationTag } from '../../constants';
 import getResource from '../../resourceHelper';
 import TextareaFullscreenEditor from '../../shared/components/textarea-fullscreen/index';
+import PerformanceGradeInfo from '../../shared/components/PerformanceGradeInfo';
 
 export default class CreateMemberPerformance extends Component {
     static propTypes = {
@@ -33,8 +34,8 @@ export default class CreateMemberPerformance extends Component {
         projectOptions: [],
         selectedMemberInfo: null,
         isMultiple: true,
-        onSubmitSuccess: function() { },
-        onSubmitDraftSuccess: function() { }
+        onSubmitSuccess: function () { },
+        onSubmitDraftSuccess: function () { }
     };
 
     constructor(props) {
@@ -58,7 +59,8 @@ export default class CreateMemberPerformance extends Component {
             },
             currentDate: moment(),
             errors: {},
-            isSubmitting: false
+            isSubmitting: false,
+            showGradeInfo: false
         };
 
         this.textareaEditor = React.createRef();
@@ -78,7 +80,8 @@ export default class CreateMemberPerformance extends Component {
             || JSON.stringify(this.state.performanceRecord) !== JSON.stringify(nextState.performanceRecord)
             || JSON.stringify(this.state.errors) !== JSON.stringify(nextState.errors)
             || this.state.isOpenForm !== nextState.isOpenForm
-            || this.state.isSubmitting !== nextState.isSubmitting) {
+            || this.state.isSubmitting !== nextState.isSubmitting
+            || this.state.showGradeInfo !== nextState.showGradeInfo) {
             return true;
         }
 
@@ -283,6 +286,10 @@ export default class CreateMemberPerformance extends Component {
         });
     }
 
+    handleOpenGradeInfo = () => this.setState({ showGradeInfo: true })
+
+    handleCloseGradeInfo = () => this.setState({ showGradeInfo: false })
+
     setSubmitting = isSubmitting => this.setState({ isSubmitting })
 
     render() {
@@ -334,7 +341,7 @@ export default class CreateMemberPerformance extends Component {
                             </FormGroup>
                             <FormGroup>
                                 <div className="grade">
-                                    <ControlLabel>{getResource('Grade')}</ControlLabel>
+                                    <ControlLabel>{getResource('Grade')} <a onClick={this.handleOpenGradeInfo}><i className="fa fa-info"></i></a></ControlLabel>
                                     <Select name="grade" className="react-select-container grade-field" classNamePrefix="react-select"
                                         placeholder="Select Grade"
                                         value={performanceRecord.grade}
@@ -371,6 +378,8 @@ export default class CreateMemberPerformance extends Component {
                         </form>
                     }
                 </div>
+                <PerformanceGradeInfo showModal={this.state.showGradeInfo} performanceGradeInfos={this.props.performanceGradeInfos} onCloseModal={this.handleCloseGradeInfo} />
+
             </div>
         );
     }
