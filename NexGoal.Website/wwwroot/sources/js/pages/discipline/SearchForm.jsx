@@ -17,7 +17,7 @@ class SearchForm extends Component {
     }
 
     onChangeRaw = event => {
-        let date = moment(event.target.value);
+        const date = moment(event.target.value);
         if (date.isValid()) {
             this.props.onChange(event.target.name, date);
         }

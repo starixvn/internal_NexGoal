@@ -112,7 +112,7 @@ class EmployeeFlowFilter extends Component {
         let employeeUnsettings = this.state.employeeUnsettings.slice();
         let employeeSettings = this.state.employeeSettings.slice();
 
-        let index = employeeSettings.findIndex(employee => employee.employeeId.toString() === this.state.employeeSettingSelected);
+        const index = employeeSettings.findIndex(employee => employee.employeeId.toString() === this.state.employeeSettingSelected);
         employeeUnsettings.push(employeeSettings[index]);
         employeeSettings.splice(index, 1);
 

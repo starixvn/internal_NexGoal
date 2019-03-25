@@ -56,7 +56,7 @@ export default class Discipline extends Component {
                 });
                 groupOptions.unshift({ value: '', label: '-- All --' });
 
-                let employeeOptions = employeeResponse.data.map(item => {
+                const employeeOptions = employeeResponse.data.map(item => {
                     return {
                         value: item.employeeId,
                         label: `${item.nickName} (${item.fullName})`
@@ -88,7 +88,7 @@ export default class Discipline extends Component {
     getEmployees = groupIds => {
         axios(resolveClientUrl('common/GetEmployees'), { params: { groupIds: groupIds } })
             .then(response => {
-                let employeeOptions = response.data.map(item => {
+                const employeeOptions = response.data.map(item => {
                     return {
                         value: item.employeeId,
                         label: `${item.nickName} (${item.fullName})`
@@ -158,7 +158,7 @@ export default class Discipline extends Component {
 
     handleEditSuccess = discipline => {
         let disciplines = this.state.disciplines.slice();
-        let index = disciplines.findIndex(e => e.disciplineId === discipline.disciplineId);
+        const index = disciplines.findIndex(e => e.disciplineId === discipline.disciplineId);
         if (index >= 0) {
             disciplines[index] = discipline;
             this.setState({ disciplines: disciplines });
@@ -169,7 +169,7 @@ export default class Discipline extends Component {
 
     handleEditStatus = (disciplineId, isActive) => {
         let disciplines = this.state.disciplines.slice();
-        let index = disciplines.findIndex(e => e.disciplineId === disciplineId);
+        const index = disciplines.findIndex(e => e.disciplineId === disciplineId);
         if (index >= 0) {
             disciplines[index].isActive = isActive;
         }

@@ -4,7 +4,7 @@ import getResource from '../../../resourceHelper';
 
 class EmployeeFlowSetting extends Component {
     render() {
-        let employeeFlowSettings = this.props.employeeFlowSettings;
+        const employeeFlowSettings = this.props.employeeFlowSettings;
 
         return (
             <table className="table table-bordered table-striped">

@@ -50,7 +50,7 @@ export default class SearchMember extends Component {
         const value = event.target.value.toLowerCase();
 
         if (value.length > 1) {
-            let options = this.members.slice()
+            const options = this.members.slice()
                 .filter(member => member.nickName.toLowerCase().indexOf(value) >= 0 || member.fullName.toLowerCase().indexOf(value) >= 0)
                 .map(member => {
                     return {

@@ -71,7 +71,7 @@ class GroupFlowSetting extends Component {
                 break;
         }
 
-        let index = items.findIndex(item => item.evaluatorId === employeeId);
+        const index = items.findIndex(item => item.evaluatorId === employeeId);
         if (index < 0) {
             if ((sender === 'evaluators' || sender === 'reviewers') && items.length > 0) {
                 toast.error('Evaluator or Reviewer is single setting!');
@@ -79,7 +79,7 @@ class GroupFlowSetting extends Component {
                 axios(resolveClientUrl(`Flow/GetEmployeeById?employeeId=${employeeId}`))
                     .then(response => {
                         const data = response.data;
-                        let item = {
+                        const item = {
                             processId: processId,
                             evaluatorId: data.employeeId,
                             nickName: data.nickName,
@@ -108,8 +108,8 @@ class GroupFlowSetting extends Component {
     }
 
     handleOnDeactivate = (event, ui) => {
-        let fromIndex = this.state.evaluatorSelected ? -1 : ui.item.startPos;
-        let toIndex = ui.item.parent('ul.sortable').children().index(ui.item);
+        const fromIndex = this.state.evaluatorSelected ? -1 : ui.item.startPos;
+        const toIndex = ui.item.parent('ul.sortable').children().index(ui.item);
 
         if (toIndex >= 0) {
             if (fromIndex >= 0) {
@@ -124,7 +124,7 @@ class GroupFlowSetting extends Component {
 
     handleOnRemoveItem = (sender, evaluatorId) => {
         let items = this.state[sender].slice();
-        let index = items.findIndex(item => item.evaluatorId === evaluatorId);
+        const index = items.findIndex(item => item.evaluatorId === evaluatorId);
         items.splice(index, 1);
         this.setState({ [sender]: items });
     }
@@ -161,7 +161,7 @@ class GroupFlowSetting extends Component {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }).then(response => {
-                let data = response.data;
+                const data = response.data;
 
                 if (data.isSuccessful) {
                     toast.success(getResource('UpdatedSuccessfully'));
@@ -208,7 +208,7 @@ class GroupFlowSetting extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('DeletedSuccessfully'));
@@ -216,7 +216,7 @@ class GroupFlowSetting extends Component {
                 this.handleOnCloseModal();
 
                 let groupSettings = this.state.groupSettings.slice();
-                let index = groupSettings.findIndex(group => group.groupId === this.state.groupSelected.value);
+                const index = groupSettings.findIndex(group => group.groupId === this.state.groupSelected.value);
                 groupSettings.splice(index, 1);
 
                 this.setState({

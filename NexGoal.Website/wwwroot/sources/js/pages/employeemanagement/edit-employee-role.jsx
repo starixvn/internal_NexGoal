@@ -30,14 +30,14 @@ export default class EditEmployeeRole extends Component {
     handleEditEmployeeRoles = event => {
         event.preventDefault();
 
-        var selectedIds = [];
+        let selectedIds = [];
         Array.from(event.target.querySelectorAll('input')).map(checkbox => {
             if (checkbox.checked) {
                 selectedIds.push(checkbox.value);
             }
         });
 
-        let employeeRole = stringify({
+        const employeeRole = stringify({
             __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
             employeeId: this.props.employee.employeeId,
             selectedRoleIds: selectedIds.toString()

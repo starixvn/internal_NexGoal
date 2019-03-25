@@ -81,7 +81,7 @@ export default class NotificationBell extends Component {
         let notiTrigger = document.getElementById('trigger-notification-bell');
         if (notiTrigger) {
             notiTrigger.addEventListener('click', () => {
-                let notificationId = parseInt(notiTrigger.getAttribute('notificationId'), 10);
+                const notificationId = parseInt(notiTrigger.getAttribute('notificationId'), 10);
                 if (!notificationId) {
                     this.markAsReadSuccess();
                 } else {
@@ -194,7 +194,7 @@ export default class NotificationBell extends Component {
 
     handleChangeStatusSuccess = (notificationId, isTriggerNotiCenter) => {
         let notifications = this.state.notifications.slice();
-        let index = notifications.findIndex(x => x.notificationId === notificationId);
+        const index = notifications.findIndex(x => x.notificationId === notificationId);
 
         if (index >= 0) {
             notifications[index].statusId = NotificationStatus.Read;
@@ -219,7 +219,7 @@ export default class NotificationBell extends Component {
                     notificationId: notificationId
                 }
             }).then(response => {
-                let data = response.data;
+                const data = response.data;
                 if (data.isSuccessful) {
                     if (isRedirect) {
                         this.handleRedirectToAction(notificationId);
@@ -239,7 +239,7 @@ export default class NotificationBell extends Component {
         if (this.state.unreadNoti > 0) {
             axios.get(resolveClientUrl('Notification/MarkAsRead'))
                 .then(response => {
-                    let data = response.data;
+                    const data = response.data;
                     if (data.isSuccessful) {
                         this.markAsReadSuccess();
                     } else {

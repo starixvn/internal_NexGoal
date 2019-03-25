@@ -51,11 +51,11 @@ export default class EmployeeManagement extends Component {
                 });
                 groupOptions.unshift({ value: '', label: '-- All --' });
 
-                let roleOptions = roleResponse.data.map(option => {
+                const roleOptions = roleResponse.data.map(option => {
                     return { value: option.resourceId, label: option.value };
                 });
 
-                let filter = Object.assign({}, this.state.filter, { roles: roleOptions });
+                const filter = Object.assign({}, this.state.filter, { roles: roleOptions });
 
                 this.setState({
                     filter: filter,
@@ -80,7 +80,7 @@ export default class EmployeeManagement extends Component {
     }
 
     getEmployees = filter => {
-        let roleIds = filter.roles.map(role =>  role.value).join(',');
+        const roleIds = filter.roles.map(role =>  role.value).join(',');
 
         axios.get(resolveClientUrl('employee/GetEmployees'), {
             params: {
@@ -121,11 +121,11 @@ export default class EmployeeManagement extends Component {
             toast.success(getResource('UpdatedSuccessfully'));
 
             this.getEmployeeById(this.employeeSelected.employeeId, (updatedEmployee) => {
-                let data = this.state.data.slice();
-                const index = data.findIndex(e => e.employeeId === this.employeeSelected.employeeId);
-                data[index] = { ...data[index], ...updatedEmployee };
+                let employees = this.state.data.slice();
+                const index = employees.findIndex(e => e.employeeId === this.employeeSelected.employeeId);
+                employees[index] = { ...employees[index], ...updatedEmployee };
 
-                this.setState({ data: data, showModal: false });
+                this.setState({ data: employees, showModal: false });
             });
         } else {
             toast.error(data.message);

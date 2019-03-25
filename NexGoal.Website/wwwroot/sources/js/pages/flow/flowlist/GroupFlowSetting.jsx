@@ -4,7 +4,7 @@ import getResource from '../../../resourceHelper';
 
 class GroupFlowSetting extends Component {
     render() {
-        let groupFlowSettings = this.props.groupFlowSettings;
+        const groupFlowSettings = this.props.groupFlowSettings;
         const tableWidth = {
             width: '800px'
         };
