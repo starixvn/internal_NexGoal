@@ -251,15 +251,19 @@ export default class Table extends Component {
                             <th className="job-title" rowSpan="2">{getResource('JobTitle')}</th>
                             <th className="toeic" rowSpan="2">{getResource('Toeic')}</th>
                             <th colSpan="4">{getResource('PerformanceRecord')}</th>
-                            <th className="pa-final" rowSpan="2">
+                            <th width="10%" rowSpan="2">
                                 {getResource('PAFinal')}
-                                <i className="icon-info"></i>
-                                <div className="description">
-                                    <i className="arrow"></i>
-                                    <p>PA Final = Evaluator’s grade + Toeic Policy</p>
-                                    <p>If the Evaluator's grade is N/A or Null (empty):</p>
-                                    <ul><li>In Progress PA period -> PA Final = N/A </li>
-                                        <li>Closed PA period -> PA Final = U (Unsatisfactory)</li></ul>
+                                <div className="pa-final">                                
+                                    <i className="icon-info"></i>
+                                    <div className="description">
+                                        <i className="arrow"></i>
+                                        <p>PA Final = Evaluator’s grade + Toeic Policy</p>
+                                        <p>If the Evaluator's grade is N/A or Null (empty):</p>
+                                        <ul>
+                                            <li>In Progress PA period: PA Final = N/A </li>
+                                            <li>Closed PA period: PA Final = U (Unsatisfactory)</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </th>
                             <th className="revised" rowSpan="2">{getResource('Revised')}</th>
