@@ -454,6 +454,7 @@ export default class App extends Component {
                                                 periodOptions={periodOptions}
                                                 gradeOptions={this.performanceGradeOptions}
                                                 groupOptions={this.myGroupOptions}
+                                                performanceGradeInfos={this.performanceGradeInfos}
                                             />
                                         }
                                     </Tab>

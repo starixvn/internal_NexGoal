@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React, { Component, Fragment } from 'react';
 import { Button, ControlLabel, Modal, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 import { camelCase, isEmpty } from 'lodash';
@@ -13,6 +13,7 @@ import { axiosError, getCurrentUserInfo, resolveClientUrl } from '../../../commo
 import { PAStatus, DateFormat, PerformanceProcess } from '../../../constants';
 import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 import PAProcessTab from '../../../shared/components/performance-appraisal/PAProcessTab';
+import PerformanceGradeInfo from '../../../shared/components/PerformanceGradeInfo';
 
 export default class EditMemberPA extends Component {
     constructor(props) {
@@ -28,7 +29,8 @@ export default class EditMemberPA extends Component {
             paProcesses: [],
             currentUserInfo: getCurrentUserInfo(),
             currentDate: moment(),
-            errors: {}
+            errors: {},
+            showGradeInfo: false
         };
     }
 
@@ -39,7 +41,7 @@ export default class EditMemberPA extends Component {
                 this.setState({
                     paRecord: {
                         paRecordId: pa.paRecordId,
-                        grade: pa.grade ? this.props.gradeOptions.find(o => o.value === pa.grade.gradeId) : pa.grade,
+                        grade: pa.grade && pa.statusId !== PAStatus.Closed ? this.props.gradeOptions.find(o => o.value === pa.grade.gradeId) : pa.grade,
                         comment: pa.comment,
                         creator: pa.processes.filter(process => process.processId === PerformanceProcess.Reviewer)[0].evaluator,
                         modifiedDate: pa.modifiedDate,
@@ -149,6 +151,10 @@ export default class EditMemberPA extends Component {
         );
     }
 
+    handleOpenGradeInfo = () => this.setState({ showGradeInfo: true })
+
+    handleCloseGradeInfo = () => this.setState({ showGradeInfo: false })
+
     renderEditPA = paRecord => {
         let errors = this.state.errors;
         const currentUserInfo = this.state.currentUserInfo;
@@ -176,7 +182,7 @@ export default class EditMemberPA extends Component {
                         </FormGroup>
                         <FormGroup>
                             <div className="grade">
-                                <ControlLabel>{getResource('Grade')}</ControlLabel>
+                                <ControlLabel>{getResource('Grade')} <a className="grade-info" onClick={this.handleOpenGradeInfo} /></ControlLabel>
                                 <Select name="grade" classNamePrefix="react-select"
                                     className={`react-select-container grade-field ${!isEmpty(errors) && errors.grade ? 'input-validation-error' : ''}`}
                                     placeholder="Select Grade"
@@ -203,38 +209,41 @@ export default class EditMemberPA extends Component {
             getResource('EditPerformanceAppraisal');
         title += ' OF ' + this.state.employee.nickName;
         return (
-            <Modal keyboard={false} backdrop="static"
-                show={this.props.isShowModal} onHide={this.props.onCloseModal}
-                dialogClassName="custom-modal modal-md form-performance edit performance-appraisal"
-            >
-                <Modal.Header>
-                    <Modal.Title>{title}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <CustomScrollbars>
-                        {
-                            paRecord.paStatus === PAStatus.Closed ? this.renderViewPA(paRecord) : this.renderEditPA(paRecord)
-                        }
-                        <PAProcessTab processes={this.state.paProcesses} employees={employees} />
-                    </CustomScrollbars>
+            <Fragment>
+                <Modal keyboard={false} backdrop="static"
+                    show={this.props.isShowModal} onHide={this.props.onCloseModal}
+                    dialogClassName="custom-modal modal-md form-performance edit performance-appraisal"
+                >
+                    <Modal.Header>
+                        <Modal.Title>{title}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <CustomScrollbars>
+                            {
+                                paRecord.paStatus === PAStatus.Closed ? this.renderViewPA(paRecord) : this.renderEditPA(paRecord)
+                            }
+                            <PAProcessTab processes={this.state.paProcesses} employees={employees} />
+                        </CustomScrollbars>
 
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button className="btn-cancel" onClick={this.props.onCloseModal}>
-                        {
-                            parseInt(paRecord.paStatus, 10) !== PAStatus.Closed ? getResource('Cancel') : getResource('Close')
-                        }
-                    </Button>
-                    {
-                        parseInt(paRecord.paStatus, 10) !== PAStatus.Closed &&
-                        <Button type="submit" bsStyle="primary" name="save"
-                            onClick={this.handleSubmit}
-                        >
-                            {getResource('Submit')}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button className="btn-cancel" onClick={this.props.onCloseModal}>
+                            {
+                                parseInt(paRecord.paStatus, 10) !== PAStatus.Closed ? getResource('Cancel') : getResource('Close')
+                            }
                         </Button>
-                    }
-                </Modal.Footer>
-            </Modal>
+                        {
+                            parseInt(paRecord.paStatus, 10) !== PAStatus.Closed &&
+                            <Button type="submit" bsStyle="primary" name="save"
+                                onClick={this.handleSubmit}
+                            >
+                                {getResource('Submit')}
+                            </Button>
+                        }
+                    </Modal.Footer>
+                </Modal>
+                <PerformanceGradeInfo showModal={this.state.showGradeInfo} performanceGradeInfos={this.props.performanceGradeInfos} onCloseModal={this.handleCloseGradeInfo} />
+            </Fragment>
         );
     }
 }

@@ -91,6 +91,7 @@ export default class MemberPerformanceAppraisal extends Component {
                     gradeOptions={this.props.gradeOptions}
                     renderPA={this.getPerformanceAppraisals}
                     onRevisedSuccess={this.onQuickEditSuccess}
+                    performanceGradeInfos={this.props.performanceGradeInfos}
                 />
             </div>
         );

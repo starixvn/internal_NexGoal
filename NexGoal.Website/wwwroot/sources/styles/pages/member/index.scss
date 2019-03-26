@@ -40,13 +40,13 @@
             padding-bottom: 4px;
         }
 
-        .react-select-container {          
-          width: 250px;         
-  
-          @media only screen and (max-width: 1299px) {
-              width: 100%;
-          }
-      }
+        .react-select-container {
+            width: 250px;
+
+            @media only screen and (max-width: 1299px) {
+                width: 100%;
+            }
+        }
     }
 }
 
@@ -55,6 +55,7 @@
         font-weight: bold;
         font-size: 14px;
         margin: 20px 0 10px;
+
         &:first-child {
             margin-top: 0;
         }
@@ -180,21 +181,20 @@
         top: 3px;
 
         &:before, &:after {
-          content: '';
-          display: block;
-          position: absolute;
-          left: 2px;
-          top: 5px;
-          width: 8px;
-          height: 2px;
-          background: #545454;
-          transition: .2s ease all;
+            content: '';
+            display: block;
+            position: absolute;
+            left: 2px;
+            top: 5px;
+            width: 8px;
+            height: 2px;
+            background: #545454;
+            transition: .2s ease all;
         }
     }
 
     .collapsed {
-        .icon-minus:before {            
-            
+        .icon-minus:before {
             //content: '\e914';
             transform: rotate(90deg);
         }
@@ -223,7 +223,6 @@
 
         @media screen and (min-width: 1601px) {
             width: 60px;
-
         }
 
         &.role-default {
@@ -279,11 +278,12 @@
         margin: 3px 4px;
         padding: 2px 4px 3px;
         font-size: 11px;
+
         .react-select__multi-value__label {
             font-size: 100%;
             padding: 0;
         }
-    }   
+    }
 
     .comment .form-control {
         font-size: 14px;
@@ -332,7 +332,6 @@
 
 .workload {
     //padding: 8px 12px;
-
     h5 {
         display: inline-block;
     }
@@ -340,7 +339,7 @@
     position: relative;
 
     .team {
-       margin-bottom: 4px;
+        margin-bottom: 4px;
     }
 
     .react-select-container {
@@ -356,6 +355,7 @@
             width: 100%;
         }
     }
+
     #chart-wrapper {
         margin-top: 10px;
     }

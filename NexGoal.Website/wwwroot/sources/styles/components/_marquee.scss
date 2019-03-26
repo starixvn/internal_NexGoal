@@ -11,14 +11,16 @@
 
 .btn-pause {
     position: relative;
-    background: #fff; /* button (background) color */
+    // background: #fff; /* button (background) color */
     border: none;
     outline: none;
     height: 30px;
     width: 31px;
-    border-right: 1px solid #CEE2F0;
+    // border-right: 1px solid #CEE2F0;
     margin-right: 5px;
     cursor: pointer;
+    background: #ffeebf;
+    border-right: 1px solid #DFC681;
 
     &:before {
         content: "";
@@ -58,8 +60,6 @@
 
 .member-page {
     .btn-pause {
-        background: #ffeebf;
-        border-right-color: #DFC681;
     }
 }
 

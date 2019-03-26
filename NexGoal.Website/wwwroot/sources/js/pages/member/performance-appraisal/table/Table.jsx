@@ -126,6 +126,7 @@ class Table extends Component {
                         gradeOptions={this.props.gradeOptions}
                         onCloseModal={this.onCloseModal}
                         onSubmitSuccess={this.onEditSucess}
+                        performanceGradeInfos={this.props.performanceGradeInfos}
                     />
                 }
             </Fragment>
