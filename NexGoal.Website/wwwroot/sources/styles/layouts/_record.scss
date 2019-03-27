@@ -27,6 +27,14 @@
         &[class*="status"] {
             grid-template-rows: 50px 1fr 0;
             box-shadow: none;
+
+            .avatar-user {
+                grid-template-columns: 40px 1fr 100px;
+            }
+
+            /*.person-info {
+                align-self: flex-start;
+            }*/            
         }
     }
 
@@ -91,6 +99,7 @@
             object-position: 0 20%;
             //float: left;
             margin-right: 8px;
+            align-self: center;
 
             &[class*="icon-status"] {
                 text-align: center;
