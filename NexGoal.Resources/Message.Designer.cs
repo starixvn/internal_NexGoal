@@ -484,7 +484,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dear, *{0}*
+        ///   Looks up a localized string similar to Dear *{0}*,
         ///The Nomination *{1}* process is going to be closed on **{2}**.
         ///Please log in to *{3}* to make a vote for your nominee(s).
         ///Thank you,
@@ -497,7 +497,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dear, *{0}*
+        ///   Looks up a localized string similar to Dear *{0}*,
         ///The Nomination *{1}* process is in progress and will end on {2}.
         ///Please log in to *{3}* to make a vote for your nominee(s).
         ///Thank you,
@@ -510,7 +510,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dear, *{0}*
+        ///   Looks up a localized string similar to Dear *{0}*,
         ///The Performance Appraisal for the *{1}* is now complete.
         ///Please log in to *{2}* to view your final result.
         ///Thank you,
@@ -523,7 +523,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dear, *{0}*
+        ///   Looks up a localized string similar to Dear *{0}*,
         ///The Performance Appraisal for the *{1}* is going to be closed on **{2}**.
         ///Please log in to *{3}* to revise and submit the PA result for your members.
         ///Thank you,
@@ -536,7 +536,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dear, *{0}*
+        ///   Looks up a localized string similar to Dear *{0}*,
         ///The Performance Appraisal for the *{1}* will begin on **{2}**.
         ///For a better evaluation result, you are recommended to create a neat &amp; clean Performance Record for yourself (with a detailed comment and also selected grade).
         ///Please log in to *{3}* to create a Performance Record.
@@ -550,7 +550,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dear, *{0}*
+        ///   Looks up a localized string similar to Dear *{0}*,
         ///The Performance Appraisal for the *{1}* will begin on **{2}**.
         ///For a better evaluation result, you are recommended to create a neat &amp; clean Performance Record for yourself (with a detailed comment and also selected grade).
         ///Please log in to *{3}* to create a Performance Record.
@@ -564,7 +564,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dear, *{0}*
+        ///   Looks up a localized string similar to Dear *{0}*,
         ///The Performance Appraisal for the *{1}* is in progress and will end on {2}.
         ///Please log in to *{3}* to revise and submit the PA result for your members.
         ///Thank you,
@@ -577,7 +577,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dear, *{0}*
+        ///   Looks up a localized string similar to Dear *{0}*,
         ///The PA Focus for the *{1}* is going to be closed on **{2}**.
         ///Please log in to *{3}* to review the objectives for your team members.
         ///Thank you,
@@ -590,7 +590,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dear, *{0}*
+        ///   Looks up a localized string similar to Dear *{0}*,
         ///The PA Focus for the *{1}* is in progress and will end on {2}.
         ///Please log in to *{3}* to set the objectives for your team members.
         ///Thank you,
@@ -603,7 +603,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dear, *{0}*
+        ///   Looks up a localized string similar to Dear *{0}*,
         ///*{1}* has created a Performance Record for him/herself.
         ///Please log in to *{2}* to view the details.
         ///Thank you,
@@ -616,7 +616,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dear, *{0}*
+        ///   Looks up a localized string similar to Dear *{0}*,
         ///*{1}* has created a Performance Record for you.
         ///Please log in to *{2}* to view the details.
         ///Thank you,
@@ -629,7 +629,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dear, *{0}*
+        ///   Looks up a localized string similar to Dear *{0}*,
         ///*{1}* has created a Performance Record for *{2}*.
         ///Please log in to *{3}* to view the details.
         ///Thank you,
@@ -642,7 +642,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dear, *{0}*
+        ///   Looks up a localized string similar to Dear *{0}*,
         ///*{1}* has edited his/her Performance Record.
         ///Please log in to *{2}* to view the details.
         ///Thank you,
@@ -655,7 +655,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dear, *{0}*
+        ///   Looks up a localized string similar to Dear *{0}*,
         ///*{1}* has edited his/her Performance Record for you.
         ///Please log in to *{2}* to view the details.
         ///Thank you,
@@ -668,7 +668,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dear, *{0}*
+        ///   Looks up a localized string similar to Dear *{0}*,
         ///*{1}* has edited his/her Performance Record for *{2}*.
         ///Please log in to *{3}* to view the details.
         ///Thank you,
@@ -681,7 +681,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dear, *{0}*.
+        ///   Looks up a localized string similar to Dear *{0}*,
         ///The Probation process is going to be closed on **{1}**.
         ///Please log in to *{2}* to create a Performance Record (with a detailed comment, selected grade, and a `Probation` tag) for your member(s).
         ///Thank you,
@@ -694,7 +694,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dear, *{0}*.
+        ///   Looks up a localized string similar to Dear *{0}*,
         ///The Probation process is going to be closed on **{1}**.
         ///Please follow up on the progress and make a reminder for related people (Evaluator and Reviewer) to create a Performance Record (with a detailed comment, selected grade, and a `Probation` tag) for the member(s).
         ///Thank you,
@@ -707,7 +707,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dear, *{0}*.
+        ///   Looks up a localized string similar to Dear *{0}*,
         ///The Probation process is going to be closed on **{1}**.
         ///Please log in to *{2}* to create a Performance Record (with a detailed comment, selected grade, and a `Probation` tag) for yourself.
         ///Thank you,

@@ -271,70 +271,70 @@
     <value>Permission has been successfully updated!</value>
   </data>
   <data name="SkypeMessageTemplate_PR_CreateMemberToSuperVisor" xml:space="preserve">
-    <value>Dear, *{0}*
+    <value>Dear *{0}*,
 *{1}* has created a Performance Record for him/herself.
 Please log in to *{2}* to view the details.
 Thank you,
 NexGoal</value>
   </data>
   <data name="SkypeMessageTemplate_PR_CreateSupervisorToMember" xml:space="preserve">
-    <value>Dear, *{0}*
+    <value>Dear *{0}*,
 *{1}* has created a Performance Record for you.
 Please log in to *{2}* to view the details.
 Thank you,
 NexGoal.</value>
   </data>
   <data name="SkypeMessageTemplate_PR_CreateSupervisorToSupervisor" xml:space="preserve">
-    <value>Dear, *{0}*
+    <value>Dear *{0}*,
 *{1}* has created a Performance Record for *{2}*.
 Please log in to *{3}* to view the details.
 Thank you,
 NexGoal.</value>
   </data>
   <data name="SkypeMessageTemplate_PR_EditSupervisorToSupervisor" xml:space="preserve">
-    <value>Dear, *{0}*
+    <value>Dear *{0}*,
 *{1}* has edited his/her Performance Record for *{2}*.
 Please log in to *{3}* to view the details.
 Thank you,
 NexGoal.</value>
   </data>
   <data name="SkypeMessageTemplate_PR_EditSupervisorToMember" xml:space="preserve">
-    <value>Dear, *{0}*
+    <value>Dear *{0}*,
 *{1}* has edited his/her Performance Record for you.
 Please log in to *{2}* to view the details.
 Thank you,
 NexGoal.</value>
   </data>
   <data name="SkypeMessageTemplate_PR_EditMemberToSupervisor" xml:space="preserve">
-    <value>Dear, *{0}*
+    <value>Dear *{0}*,
 *{1}* has edited his/her Performance Record.
 Please log in to *{2}* to view the details.
 Thank you,
 NexGoal.</value>
   </data>
   <data name="SkypeMessageTemplate_Probation_RemindHR" xml:space="preserve">
-    <value>Dear, *{0}*.
+    <value>Dear *{0}*,
 The Probation process is going to be closed on **{1}**.
 Please follow up on the progress and make a reminder for related people (Evaluator and Reviewer) to create a Performance Record (with a detailed comment, selected grade, and a `Probation` tag) for the member(s).
 Thank you,
 NexGoal.</value>
   </data>
   <data name="SkypeMessageTemplate_Probation_RemindEvaluator" xml:space="preserve">
-    <value>Dear, *{0}*.
+    <value>Dear *{0}*,
 The Probation process is going to be closed on **{1}**.
 Please log in to *{2}* to create a Performance Record (with a detailed comment, selected grade, and a `Probation` tag) for your member(s).
 Thank you,
 NexGoal.</value>
   </data>
   <data name="SkypeMessageTemplate_Probation_RemindMember" xml:space="preserve">
-    <value>Dear, *{0}*.
+    <value>Dear *{0}*,
 The Probation process is going to be closed on **{1}**.
 Please log in to *{2}* to create a Performance Record (with a detailed comment, selected grade, and a `Probation` tag) for yourself.
 Thank you,
 NexGoal.</value>
   </data>
   <data name="SkypeMessageTemplate_PA_RemindStartEvaluationToSelf" xml:space="preserve">
-    <value>Dear, *{0}*
+    <value>Dear *{0}*,
 The Performance Appraisal for the *{1}* will begin on **{2}**.
 For a better evaluation result, you are recommended to create a neat &amp; clean Performance Record for yourself (with a detailed comment and also selected grade).
 Please log in to *{3}* to create a Performance Record.
@@ -342,7 +342,7 @@ Thank you,
 NexGoal</value>
   </data>
   <data name="SkypeMessageTemplate_PA_RemindStartEvaluationToSupervisor" xml:space="preserve">
-    <value>Dear, *{0}*
+    <value>Dear *{0}*,
 The Performance Appraisal for the *{1}* will begin on **{2}**.
 For a better evaluation result, you are recommended to create a neat &amp; clean Performance Record for yourself (with a detailed comment and also selected grade).
 Please log in to *{3}* to create a Performance Record.
@@ -350,49 +350,49 @@ Thank you,
 NexGoal.</value>
   </data>
   <data name="SkypeMessageTemplate_PA_StartForReviewer" xml:space="preserve">
-    <value>Dear, *{0}*
+    <value>Dear *{0}*,
 The Performance Appraisal for the *{1}* is in progress and will end on {2}.
 Please log in to *{3}* to revise and submit the PA result for your members.
 Thank you,
 NexGoal.</value>
   </data>
   <data name="SkypeMessageTemplate_PA_RemindForReviewer" xml:space="preserve">
-    <value>Dear, *{0}*
+    <value>Dear *{0}*,
 The Performance Appraisal for the *{1}* is going to be closed on **{2}**.
 Please log in to *{3}* to revise and submit the PA result for your members.
 Thank you,
 NexGoal.</value>
   </data>
   <data name="SkypeMessageTemplate_PA_EndEvaluation" xml:space="preserve">
-    <value>Dear, *{0}*
+    <value>Dear *{0}*,
 The Performance Appraisal for the *{1}* is now complete.
 Please log in to *{2}* to view your final result.
 Thank you,
 NexGoal.</value>
   </data>
   <data name="SkypeMessageTemplate_PAFocus_StartToEvaluator" xml:space="preserve">
-    <value>Dear, *{0}*
+    <value>Dear *{0}*,
 The PA Focus for the *{1}* is in progress and will end on {2}.
 Please log in to *{3}* to set the objectives for your team members.
 Thank you,
 NexGoal.</value>
   </data>
   <data name="SkypeMessageTemplate_PAFocus_RemindToEvaluator" xml:space="preserve">
-    <value>Dear, *{0}*
+    <value>Dear *{0}*,
 The PA Focus for the *{1}* is going to be closed on **{2}**.
 Please log in to *{3}* to review the objectives for your team members.
 Thank you,
 NexGoal.</value>
   </data>
   <data name="SkypeMessageTemplate_Nomination_StartForNominator" xml:space="preserve">
-    <value>Dear, *{0}*
+    <value>Dear *{0}*,
 The Nomination *{1}* process is in progress and will end on {2}.
 Please log in to *{3}* to make a vote for your nominee(s).
 Thank you,
 NexGoal.</value>
   </data>
   <data name="SkypeMessageTemplate_Nomination_RemindToNominator" xml:space="preserve">
-    <value>Dear, *{0}*
+    <value>Dear *{0}*,
 The Nomination *{1}* process is going to be closed on **{2}**.
 Please log in to *{3}* to make a vote for your nominee(s).
 Thank you,
