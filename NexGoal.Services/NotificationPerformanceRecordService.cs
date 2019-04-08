@@ -212,7 +212,7 @@
                 mailService.ReadTextFile(filePath),
                 receiver.Nickname,
                 actor.NickName,
-                $"{configuration.Value.ApplicationDomain}?recordId={receiver.PerformanceRecordId}");
+                $"{configuration.Value.ApplicationDomain}/member/index?recordId={receiver.PerformanceRecordId}");
 
             var mailModel = new MailModel
             {
@@ -270,7 +270,7 @@
                 receiver.Nickname,
                 actor.NickName,
                 employee.Nickname,
-                $"{configuration.Value.ApplicationDomain}?recordId={receiver.PerformanceRecordId}");
+                $"{configuration.Value.ApplicationDomain}/member/index?recordId={receiver.PerformanceRecordId}");
 
             var mailModel = new MailModel
             {
