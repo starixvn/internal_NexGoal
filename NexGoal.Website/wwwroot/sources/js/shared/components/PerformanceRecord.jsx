@@ -122,6 +122,7 @@ export default class PerformanceRecord extends Component {
                 </div>
                 <div className="date-time">
                     <span className="submit-date">{createdDate}</span>
+                    <span className="icon-edit"></span>
                 </div>
                 <div className="comment" >
                     <p className={this.state.isExpanded ? 'collapsed' : 'expanded'} ref={element => this.element = element}>{record.comment}</p>
@@ -185,6 +186,7 @@ export default class PerformanceRecord extends Component {
                         <span className="draft">draft</span>
                     }
                     <span className="submit-date">{createdDate}</span>
+
                 </div>
                 <div className="comment" >
                     <p className={this.state.isExpanded ? 'collapsed' : 'expanded'} ref={element => this.element = element}>{record.comment}</p>
@@ -257,6 +259,7 @@ export default class PerformanceRecord extends Component {
                 </div>
                 <div className="date-time">
                     <span className="submit-date">{createdDate}</span>
+                    <span className="icon-edit"></span>
                 </div>
 
                 <div className="comment" >
@@ -282,12 +285,10 @@ export default class PerformanceRecord extends Component {
                     <div className="avatar nexgoal-system"><img src={resolveClientUrl('dist/avatars/icon-nexgoal.svg')} alt="avatar" /></div>
                     <div className="person-info">
                         <span className={getRoleClassName(record.roleId)}>NexGoal - {record.period ? record.period.name : ''}</span>
-
+                        <div className="submit-date">{createdDate}</div>
                     </div>
                 </div>
-                <div className="date-time">
-                    <span className="submit-date">{createdDate}</span>
-                </div>
+               
                 <div className="grade">
                     {`${getResource('Grade')}:`} <div className="grade-detail">{grade}</div>
                 </div>

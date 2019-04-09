@@ -27,11 +27,16 @@
 }
 
 .record-your-mind {
+    padding: 16px;
     grid-template-columns: 1fr;
     grid-template-rows: 40px 1fr;
 
+    .avatar-user {
+        padding: 0;
+    }
+
     .comment {
-        padding-bottom: 0;
+        padding: 0;
     }
 
     .comment .form-control {
@@ -44,12 +49,14 @@
         display: inline-block;
         margin-right: 16px;
         vertical-align: top;
+        padding: 0;
     }
 
     .project {
         display: inline-block;
         width: calc(100% - 260px - 16px);
         vertical-align: top;
+        padding: 0;
     }
 
     .comment .form-filter {
