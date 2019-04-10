@@ -105,13 +105,10 @@ export default class PerformanceRecord extends Component {
                         }
                     </div>
                     {
-                        (record.isHost) &&
+                        record.isHost &&
                         <div className="date">
                             <div className="edit-date">
-                                {
-                                    record.isHost &&
-                                    <a className="icon-edit" title={getResource('Edit')} onClick={this.handleEdit} />
-                                }
+                                <a className="icon-edit" title={getResource('Edit')} onClick={this.handleEdit} />
                             </div>
                         </div>
                     }
@@ -120,9 +117,9 @@ export default class PerformanceRecord extends Component {
                     <span className="submit-date">{createdDate}</span>
                     {modifiedDate &&
                         <div className="edited-date">
-                            <span className="icon-edited-date"></span>
+                            <span className="icon-edited-date" />
                             <span className="edited-tooltip">
-                                <i className="arrow"/>
+                                <i className="arrow" />
                                 Edited on {modifiedDate}
                             </span>
                         </div>
@@ -168,7 +165,7 @@ export default class PerformanceRecord extends Component {
                             <Fragment>
                                 <span className="icon-checkin" />
                                 {employees.length === 1 && <img src={employees[0].avatar} alt="avatar" className="avatar" />}
-                                {employees.length > 1 && <i className="avatar icon-draft-member"></i>}
+                                {employees.length > 1 && <i className="avatar icon-draft-member" />}
                                 <span className="role-member">{employees.map(employee => employee.nickName).join(', ')}</span>
                             </Fragment>
                         }
@@ -262,9 +259,9 @@ export default class PerformanceRecord extends Component {
                 <div className="date-time">
                     <span className="submit-date">{createdDate}</span>
                     {
-                        modifiedDate && endDateForNominator >= currentDate &&                        
+                        modifiedDate && endDateForNominator >= currentDate &&
                         <div className="edited-date">
-                            <span className="icon-edited-date"></span>
+                            <span className="icon-edited-date" />
                             <span className="edited-tooltip"><i className="arrow" />Edited on {modifiedDate}</span>
                         </div>
                     }
