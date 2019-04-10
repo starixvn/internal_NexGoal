@@ -105,13 +105,9 @@ export default class PerformanceRecord extends Component {
                         }
                     </div>
                     {
-                        (modifiedDate || record.isHost) &&
+                        (record.isHost) &&
                         <div className="date">
                             <div className="edit-date">
-                                {
-                                    modifiedDate &&
-                                    <Fragment><span>Edited on {modifiedDate}</span></Fragment>
-                                }
                                 {
                                     record.isHost &&
                                     <a className="icon-edit" title={getResource('Edit')} onClick={this.handleEdit} />
@@ -122,7 +118,7 @@ export default class PerformanceRecord extends Component {
                 </div>
                 <div className="date-time">
                     <span className="submit-date">{createdDate}</span>
-                    <span className="icon-edit"></span>
+                    {modifiedDate && <span className="icon-edit" title={`Edited on ${modifiedDate}`} />}
                 </div>
                 <div className="comment" >
                     <p className={this.state.isExpanded ? 'collapsed' : 'expanded'} ref={element => this.element = element}>{record.comment}</p>
@@ -164,6 +160,7 @@ export default class PerformanceRecord extends Component {
                             <Fragment>
                                 <span className="icon-checkin" />
                                 {employees.length === 1 && <img src={employees[0].avatar} alt="avatar" className="avatar" />}
+                                {employees.length > 1 && <img src="" alt="avatar" className="avatar" />}
                                 <span className="role-member">{employees.map(employee => employee.nickName).join(', ')}</span>
                             </Fragment>
                         }
@@ -238,10 +235,7 @@ export default class PerformanceRecord extends Component {
                         <div className="edit-date">
                             <div className="nomination-info">
                                 <div className="nomination-period">{record.nominationPeriod && record.nominationPeriod.title}</div>
-                                {
-                                    modifiedDate && endDateForNominator >= currentDate &&
-                                    <Fragment><span> Edited on {modifiedDate}</span></Fragment>
-                                }
+
                             </div>
                             {
                                 record.isHost &&
@@ -259,7 +253,10 @@ export default class PerformanceRecord extends Component {
                 </div>
                 <div className="date-time">
                     <span className="submit-date">{createdDate}</span>
-                    <span className="icon-edit"></span>
+                    {
+                        modifiedDate && endDateForNominator >= currentDate &&
+                        <span className="icon-edit" title={`Edited on ${modifiedDate}`} />
+                    }
                 </div>
 
                 <div className="comment" >
@@ -288,7 +285,7 @@ export default class PerformanceRecord extends Component {
                         <div className="submit-date">{createdDate}</div>
                     </div>
                 </div>
-               
+
                 <div className="grade">
                     {`${getResource('Grade')}:`} <div className="grade-detail">{grade}</div>
                 </div>
