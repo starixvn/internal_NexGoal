@@ -118,7 +118,15 @@ export default class PerformanceRecord extends Component {
                 </div>
                 <div className="date-time">
                     <span className="submit-date">{createdDate}</span>
-                    {modifiedDate && <span className="icon-edit" title={`Edited on ${modifiedDate}`} />}
+                    {modifiedDate &&
+                        <div className="edited-date">
+                            <span className="icon-edited-date"></span>
+                            <span className="edited-tooltip">
+                                <i className="arrow"/>
+                                Edited on {modifiedDate}
+                            </span>
+                        </div>
+                    }
                 </div>
                 <div className="comment" >
                     <p className={this.state.isExpanded ? 'collapsed' : 'expanded'} ref={element => this.element = element}>{record.comment}</p>
@@ -160,7 +168,7 @@ export default class PerformanceRecord extends Component {
                             <Fragment>
                                 <span className="icon-checkin" />
                                 {employees.length === 1 && <img src={employees[0].avatar} alt="avatar" className="avatar" />}
-                                {employees.length > 1 && <img src="" alt="avatar" className="avatar" />}
+                                {employees.length > 1 && <i className="avatar icon-draft-member"></i>}
                                 <span className="role-member">{employees.map(employee => employee.nickName).join(', ')}</span>
                             </Fragment>
                         }
@@ -254,8 +262,11 @@ export default class PerformanceRecord extends Component {
                 <div className="date-time">
                     <span className="submit-date">{createdDate}</span>
                     {
-                        modifiedDate && endDateForNominator >= currentDate &&
-                        <span className="icon-edit" title={`Edited on ${modifiedDate}`} />
+                        modifiedDate && endDateForNominator >= currentDate &&                        
+                        <div className="edited-date">
+                            <span className="icon-edited-date"></span>
+                            <span className="edited-tooltip"><i className="arrow" />Edited on {modifiedDate}</span>
+                        </div>
                     }
                 </div>
 
