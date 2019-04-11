@@ -121,7 +121,7 @@
                                 setting.Nickname,
                                 period.Name,
                                 mailService.FormatDate(setting.EndDate),
-                                configuration.Value.ApplicationDomain);
+                                $"{ configuration.Value.ApplicationDomain}/member?activeTab=3");
                             SendEmail(subjectStartMail, body, setting);
                             break;
 
@@ -131,7 +131,7 @@
                                 setting.Nickname,
                                 period.Name,
                                 mailService.FormatDate(setting.EndDate),
-                                configuration.Value.ApplicationDomain);
+                                $"{ configuration.Value.ApplicationDomain}/member?activeTab=3");
                             SendEmail(subjectRemindMail, body, setting);
                             break;
 

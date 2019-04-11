@@ -78,7 +78,7 @@
                                 focusSetting.Nickname,
                                 period.Name,
                                 mailService.FormatDate(period.FocusEndDate),
-                                configuration.Value.ApplicationDomain);
+                                $"{configuration.Value.ApplicationDomain}/pafocus");
                             SendEmail(subjectStartMail, body, focusSetting.Email);
                             break;
 
@@ -88,7 +88,7 @@
                                 focusSetting.Nickname,
                                 period.Name,
                                 mailService.FormatDate(period.FocusEndDate),
-                                configuration.Value.ApplicationDomain);
+                                $"{configuration.Value.ApplicationDomain}/pafocus");
                             SendEmail(subjectRemindMail, body, focusSetting.Email);
                             break;
 

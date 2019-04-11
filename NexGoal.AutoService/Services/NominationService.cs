@@ -65,7 +65,7 @@
                                 setting.Nickname,
                                 period.Title,
                                 mailService.FormatDate(period.EndDateForNominator),
-                                configuration.Value.ApplicationDomain);
+                                $"{configuration.Value.ApplicationDomain}/member?activeTab=2");
                             SendEmail(subjectStartMail, body, setting.Email);
                             break;
 
@@ -75,7 +75,7 @@
                                 setting.Nickname,
                                 period.Title,
                                 mailService.FormatDate(period.EndDateForNominator),
-                                configuration.Value.ApplicationDomain);
+                                $"{configuration.Value.ApplicationDomain}/member?activeTab=2");
                             SendEmail(subjectRemindMail, body, setting.Email);
                             break;
 
