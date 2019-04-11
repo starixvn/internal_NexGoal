@@ -165,9 +165,10 @@ export default class EditMemberPA extends Component {
                     <img src={currentUserInfo.avatar} className="avatar" />
                     <div className="person-info">
                         <span className="role-reviewer">{currentUserInfo.nickName}</span>
-                        <div className="submit-date">{this.state.currentDate.format(DateFormat)}</div>
+                        
                     </div>
                 </div>
+                <div className="date-time"><div className="submit-date">{this.state.currentDate.format(DateFormat)}</div></div>
                 <div className="comment">
                     <form className="form-filter form-performance edit">
                         <FormGroup>

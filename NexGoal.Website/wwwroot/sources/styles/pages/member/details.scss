@@ -111,8 +111,12 @@
     grid-template-columns: 1fr;
     grid-template-rows: 50px 1fr;
 
-    .avatar-user {
+    .avatar-user, .date-time {
         padding: 0;
+    }
+
+    .date-time {
+        border: 0;
     }
 
     .comment {

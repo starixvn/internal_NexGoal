@@ -133,8 +133,11 @@ export default class EditNomination extends Component {
                             <img src={currentUser.avatar} className="avatar" />
                             <div className="person-info">
                                 <span className="role-member">{currentUser.nickName}</span>
-                                <div className="submit-date">{createdDate.format(DateFormat)}</div>
+                                
                             </div>
+                        </div>
+                        <div className="date-time">
+                            <div className="submit-date">{createdDate.format(DateFormat)}</div>
                         </div>
                         <div className="comment">
                             <FormGroup>
