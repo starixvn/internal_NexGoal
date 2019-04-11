@@ -243,7 +243,6 @@ export default class CreateSelfPerformance extends Component {
     render() {
         const { performanceRecord, isOpenForm, errors } = this.state;
         const { performanceGradeOptions, projectOptions, currentUser } = this.props;
-        const currentDate = moment();
 
         return (
             <div className="record record-your-mind">
@@ -251,7 +250,6 @@ export default class CreateSelfPerformance extends Component {
                     <img src={currentUser.avatar} className="avatar" />
                     <div className="person-info">
                         <span className="role-member">{currentUser.nickName}</span>
-                        <div className="submit-date">{currentDate.format(DateFormat)}</div>
                     </div>
                 </div>
                 <div className="comment">

@@ -295,7 +295,6 @@ export default class CreateMemberPerformance extends Component {
     render() {
         const { performanceRecord, isOpenForm, errors } = this.state;
         const { memberOptions, performanceGradeOptions, projectOptions, currentUser } = this.props;
-        const currentDate = moment();
 
         return (
             <div className="record record-your-mind">
@@ -303,7 +302,6 @@ export default class CreateMemberPerformance extends Component {
                     <img src={currentUser.avatar} className="avatar" />
                     <div className="person-info">
                         <span className={getRoleClassName(currentUser.roleId)}>{currentUser.nickName}</span>
-                        <div className="submit-date">{currentDate.format(DateFormat)}</div>
                     </div>
                 </div>
                 <div className="comment">

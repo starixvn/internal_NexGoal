@@ -185,15 +185,12 @@ export default class CreateNomination extends Component {
     render() {
         let currentUser = this.props.currentUser;
 
-        let currentDate = moment();
-
         return (
             <div className="record record-your-mind">
                 <div className="avatar-user">
                     <img src={currentUser.avatar} className="avatar" />
                     <div className="person-info">
                         <span className="role-member">{currentUser.nickName}</span>
-                        <div className="submit-date">{currentDate.format(DateFormat)}</div>
                     </div>
                 </div>
                 <div className="comment">
