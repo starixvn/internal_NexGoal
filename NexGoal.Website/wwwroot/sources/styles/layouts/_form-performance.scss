@@ -21,6 +21,10 @@ form.form-performance {
         padding: 0;
         box-shadow: none;
         border: none;
+
+        .avatar-user, .comment, .grade, .date-time {
+            padding: 0;
+        }
     }
 
     .react-select-container {
