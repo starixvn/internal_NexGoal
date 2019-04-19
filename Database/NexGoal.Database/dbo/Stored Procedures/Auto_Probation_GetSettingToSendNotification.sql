@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[Auto_Probation_GetSettingToSendNotification] @ReceiveType TINYINT
+﻿CREATE PROCEDURE [dbo].[Auto_Probation_GetSettingToSendNotification] @ReceiveType TINYINT
 AS
 /*
 Created: 20190110@Tim.Trinh
@@ -41,10 +40,11 @@ BEGIN
 		,Email VARCHAR(50)
 		,ConversationId VARCHAR(255)
 		,EndDate DATE
+		,ProbationerNickname NVARCHAR(20)
 		)
 
 	SELECT @RemindDay = CAST(Value AS SMALLINT)
-		,@HRRemindDay = CAST(Value AS SMALLINT) + 2
+		,@HRRemindDay = 13
 		,@EvaluatorRemindDay = CAST(Value AS SMALLINT) - 2
 		,@ReviewerRemindDay = CAST(Value AS SMALLINT) - 4
 	FROM dbo.RefResource WITH (NOLOCK)
@@ -79,6 +79,7 @@ BEGIN
 		,Email
 		,ConversationId
 		,EndDate
+		,ProbationerNickname
 		)
 	SELECT @HRProcessId
 		,hr.EmployeeId
@@ -87,6 +88,7 @@ BEGIN
 		,hr.Email
 		,hr.ConversationId
 		,DATEADD(MONTH, @ProbationDuration, member.JoinedDate) AS EndDate
+		,member.NickName
 	FROM dbo.Employee AS hr WITH (NOLOCK)
 		,dbo.Employee AS member WITH (NOLOCK)
 	WHERE hr.[Enabled] = 1
@@ -109,6 +111,7 @@ BEGIN
 		,Email
 		,ConversationId
 		,EndDate
+		,ProbationerNickname
 		)
 	SELECT @EvaluatorProcessId
 		,efs.EvaluatorId
@@ -117,6 +120,7 @@ BEGIN
 		,evaluator.Email
 		,evaluator.ConversationId
 		,DATEADD(MONTH, @ProbationDuration, member.JoinedDate)
+		,member.NickName
 	FROM dbo.EmployeeFlowSetting AS efs WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS evaluator WITH (NOLOCK) ON efs.EvaluatorId = evaluator.EmployeeId
 		AND evaluator.[Enabled] = 1
@@ -141,6 +145,7 @@ BEGIN
 		,Email
 		,ConversationId
 		,EndDate
+		,ProbationerNickname
 		)
 	SELECT @EvaluatorProcessId
 		,gfs.EvaluatorId
@@ -149,6 +154,7 @@ BEGIN
 		,evaluator.Email
 		,evaluator.ConversationId
 		,DATEADD(MONTH, @ProbationDuration, member.JoinedDate)
+		,member.NickName
 	FROM dbo.GroupFlowSetting AS gfs WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS evaluator WITH (NOLOCK) ON gfs.EvaluatorId = evaluator.EmployeeId
 		AND evaluator.[Enabled] = 1
@@ -173,24 +179,6 @@ BEGIN
 			WHERE member.EmployeeId = efs.EmployeeId
 			);
 
-	WITH CTE
-	AS (
-		SELECT ProcessId
-			,EvaluatorId
-			,Nickname
-			,FullName
-			,Email
-			,ConversationId
-			,EndDate
-			,RowNumber = ROW_NUMBER() OVER (
-				PARTITION BY ProcessId, EvaluatorId, EndDate ORDER BY Nickname DESC
-				)
-		FROM #tblProcessSetting
-		)
-	DELETE
-	FROM CTE
-	WHERE RowNumber > 1
-
 	SELECT ProcessId
 		,EvaluatorId
 		,Nickname
@@ -198,6 +186,7 @@ BEGIN
 		,Email
 		,EndDate
 		,ConversationId
+		,ProbationerNickname
 	FROM #tblProcessSetting AS tbl WITH (NOLOCK)
 		LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
 	WHERE ISNULL(setting.TypeId, @NotificationType) = @NotificationType

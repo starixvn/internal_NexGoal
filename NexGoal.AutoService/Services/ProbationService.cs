@@ -45,7 +45,7 @@
 
         public void SendMail()
         {
-            IEnumerable<ProcessSettingModel> settings = GetSettingToSendNotification(ReceiveNotificationType.Email);
+            IEnumerable<ProbationProcessSettingModel> settings = GetSettingToSendNotification(ReceiveNotificationType.Email);
 
             var remindToHRPath = Path.Combine(hostingEnvironment.WebRootPath, RemindMailTemplateToHR);
             var remindToMemberPath = Path.Combine(hostingEnvironment.WebRootPath, RemindMailTemplateToMember);
@@ -53,7 +53,7 @@
             var subjectRemindMail = Message.EmailSubject_Probation_RemindToMember;
             var body = string.Empty;
 
-            foreach (ProcessSettingModel setting in settings)
+            foreach (ProbationProcessSettingModel setting in settings)
             {
                 switch (setting.ProcessId)
                 {
@@ -61,6 +61,7 @@
                         body = string.Format(
                             mailService.ReadTextFile(remindToHRPath),
                             setting.Nickname,
+                            setting.ProbationerNickname,
                             mailService.FormatDate(setting.EndDate));
                         SendEmail(subjectRemindMail, body, setting.Email);
                         break;
@@ -79,6 +80,7 @@
                         body = string.Format(
                             mailService.ReadTextFile(remindToEvaluatorPath),
                             setting.Nickname,
+                            setting.ProbationerNickname,
                             mailService.FormatDate(setting.EndDate),
                             configuration.Value.ApplicationDomain);
                         SendEmail(subjectRemindMail, body, setting.Email);
@@ -93,12 +95,12 @@
         public void SendNotification()
         {
             var notifications = new List<NotificationModel>();
-            IEnumerable<ProcessSettingModel> settings = GetSettingToSendNotification(ReceiveNotificationType.Notification);
+            IEnumerable<ProbationProcessSettingModel> settings = GetSettingToSendNotification(ReceiveNotificationType.Notification);
 
             notifications.AddRange(settings.Select(x => new NotificationModel
             {
                 EmployeeId = x.EvaluatorId,
-                Content = GetNotificationContent(x.ProcessId, x.EndDate),
+                Content = GetNotificationContent(x.ProcessId, x.EndDate, x.ProbationerNickname),
                 StatusId = (int)NotificationStatus.Unread,
                 ActionTypeId = GetActionType(x.ProcessId)
             }));
@@ -116,15 +118,16 @@
 
         public async Task SendSkypeMessage()
         {
-            IEnumerable<ProcessSettingModel> settings = GetSettingToSendNotification(ReceiveNotificationType.SkypeMessage);
+            IEnumerable<ProbationProcessSettingModel> settings = GetSettingToSendNotification(ReceiveNotificationType.SkypeMessage);
             var message = string.Empty;
-            foreach (ProcessSettingModel setting in settings)
+            foreach (ProbationProcessSettingModel setting in settings)
             {
                 switch (setting.ProcessId)
                 {
                     case PerformanceProcess.HumanResource:
                         message = string.Format(Message.SkypeMessageTemplate_Probation_RemindHR,
                             setting.Nickname,
+                            setting.ProbationerNickname,
                             mailService.FormatDate(setting.EndDate));
                         await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
                         break;
@@ -141,6 +144,7 @@
                     case PerformanceProcess.Reviewer:
                         message = string.Format(Message.SkypeMessageTemplate_Probation_RemindEvaluator,
                             setting.Nickname,
+                            setting.ProbationerNickname,
                             mailService.FormatDate(setting.EndDate),
                             configuration.Value.ApplicationDomain);
                         await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
@@ -152,14 +156,14 @@
             }
         }
 
-        private IEnumerable<ProcessSettingModel> GetSettingToSendNotification(ReceiveNotificationType receiveType)
+        private IEnumerable<ProbationProcessSettingModel> GetSettingToSendNotification(ReceiveNotificationType receiveType)
         {
             var criteria = new GetSettingToSendNotificationCriteria
             {
                 ReceiveType = (int)receiveType
             };
 
-            return baseService.GetDataAsync<ProcessSettingModel>(criteria).Result;
+            return baseService.GetDataAsync<ProbationProcessSettingModel>(criteria).Result;
         }
 
         private void SendEmail(string subject, string body, string receiverEmail)
@@ -174,19 +178,19 @@
             mailService.SendMailAsync(email).Wait();
         }
 
-        private string GetNotificationContent(PerformanceProcess processId, DateTime endDate)
+        private string GetNotificationContent(PerformanceProcess processId, DateTime endDate, string probationerNickname)
         {
             var content = string.Empty;
 
             switch (processId)
             {
                 case PerformanceProcess.HumanResource:
-                    content = string.Format(Message.NotificationTemplate_Probation_RemindToHR, mailService.FormatDate(endDate));
+                    content = string.Format(Message.NotificationTemplate_Probation_RemindToHR, probationerNickname, mailService.FormatDate(endDate));
                     break;
 
                 case PerformanceProcess.Evaluator:
                 case PerformanceProcess.Reviewer:
-                    content = string.Format(Message.NotificationTemplate_Probation_RemindToEvaluator, mailService.FormatDate(endDate));
+                    content = string.Format(Message.NotificationTemplate_Probation_RemindToEvaluator, probationerNickname, mailService.FormatDate(endDate));
                     break;
 
                 default:

@@ -448,7 +448,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Probation process is going to be CLOSED on {0}, please create a Performance Record (with a detailed comment, selected grade, and a &quot;Probation&quot; tag) for your member(s)..
+        ///   Looks up a localized string similar to The Probation process for {0} is going to be CLOSED on {1}, please create a Performance Record (with a detailed comment, selected grade, and a &quot;Probation&quot; tag) for your member(s)..
         /// </summary>
         public static string NotificationTemplate_Probation_RemindToEvaluator {
             get {
@@ -457,7 +457,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Probation process is going to be CLOSED on {0}, please follow up on the progress and make a reminder for related people (if needed)..
+        ///   Looks up a localized string similar to The Probation process for {0} is going to be CLOSED on {1}, please follow up on the progress and make a reminder for related people (if needed)..
         /// </summary>
         public static string NotificationTemplate_Probation_RemindToHR {
             get {
@@ -682,8 +682,8 @@ namespace NexGoal.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to Dear *{0}*,
-        ///The Probation process is going to be closed on **{1}**.
-        ///Please log in to *{2}* to create a Performance Record (with a detailed comment, selected grade, and a `Probation` tag) for your member(s).
+        ///The Probation process for *{1}* is going to be closed on **{2}**.
+        ///Please log in to *{3}* to create a Performance Record (with a detailed comment, selected grade, and a `Probation` tag) for your member(s).
         ///Thank you,
         ///NexGoal..
         /// </summary>
@@ -695,7 +695,7 @@ namespace NexGoal.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to Dear *{0}*,
-        ///The Probation process is going to be closed on **{1}**.
+        ///The Probation proces for *{1}* is going to be closed on **{2}**.
         ///Please follow up on the progress and make a reminder for related people (Evaluator and Reviewer) to create a Performance Record (with a detailed comment, selected grade, and a `Probation` tag) for the member(s).
         ///Thank you,
         ///NexGoal..
