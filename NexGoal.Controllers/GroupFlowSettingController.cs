@@ -32,6 +32,14 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
+        public async Task<IActionResult> GetGroups()
+        {
+            IEnumerable<GroupModel> groups = await flowSettingService.GetGroupsAsync().ConfigureAwait(false);
+
+            return Json(groups);
+        }
+
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
         public async Task<JsonResult> GetGroupFlowSetting()
         {
             IEnumerable<GroupFlowSettingModel> flowSettings = await flowSettingService.GetGroupFlowSettingAsync().ConfigureAwait(false);

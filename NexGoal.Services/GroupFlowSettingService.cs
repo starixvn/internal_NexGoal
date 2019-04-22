@@ -114,5 +114,12 @@
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
+
+        public async Task<IEnumerable<GroupModel>> GetGroupsAsync()
+        {
+            var criteria = new GetGroupsCriteria();
+
+            return await baseService.GetDataAsync<GroupModel>(criteria).ConfigureAwait(false);
+        }
     }
 }

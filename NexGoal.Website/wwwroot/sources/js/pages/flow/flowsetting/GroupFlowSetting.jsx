@@ -9,8 +9,7 @@ import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import { PerformanceProcess } from '../../../constants';
-import EvaluatorList from './EvaluatorList';
-import Sortable from './Sortable';
+import GroupList from './GroupList';
 
 class GroupFlowSetting extends Component {
     constructor(props) {
@@ -18,20 +17,34 @@ class GroupFlowSetting extends Component {
 
         this.state = {
             groupSettings: [],
-            evaluators: [],
-            reviewers: [],
+            evaluator: null,
+            reviewer: null,
             evaluatorSelected: null,
-            groupSelected: { value: '', label: '-- All --' },
+            selectedGroup: null,
             showDeleteButton: false,
             showDeleteModal: false
         };
+
+        this.employeeOptions = [];
     }
 
     componentDidMount() {
-        axios(resolveClientUrl('GroupFlowSetting/GetGroupHaveSetting'))
-            .then(response => {
+        const promises = [
+            axios(resolveClientUrl('common/GetEmployees')),
+            axios(resolveClientUrl('GroupFlowSetting/GetGroups'))
+        ];
+
+        Promise.all(promises)
+            .then(([employeeResponse, groupResponse]) => {
+                this.employeeOptions = employeeResponse.data.map(item => {
+                    return {
+                        value: item.employeeId,
+                        label: `${item.nickName} (${item.fullName})`
+                    };
+                });
+
                 this.setState({
-                    groupSettings: response.data
+                    groupSettings: groupResponse.data
                 });
             }).catch(axiosError);
     }
@@ -42,60 +55,61 @@ class GroupFlowSetting extends Component {
                 const data = response.data;
 
                 this.setState({
-                    evaluators: data.evaluator !== null ? [data.evaluator] : [],
-                    reviewers: data.reviewer !== null ? [data.reviewer] : [],
+                    evaluator: data.evaluator,
+                    reviewer: data.reviewer,
                     showDeleteButton: data.evaluator !== null || data.reviewer !== null
                 });
             }).catch(axiosError);
     }
 
-    handleGroupChange = selectedOption => {
+    handleSelectGroup = selectedGroup => {
         this.setState({
-            groupSelected: selectedOption
+            selectedGroup: selectedGroup
         });
 
-        this.getFlowSetting(selectedOption.value);
+        this.getFlowSetting(selectedGroup.groupId);
     }
 
-    handleAddItem = (toIndex, employeeId, sender) => {
-        let items = this.state[sender].slice();
-        let processId;
-
-        switch (sender) {
-            case 'evaluators':
-                processId = PerformanceProcess.Evaluator;
-                break;
-
-            case 'reviewers':
-                processId = PerformanceProcess.Reviewer;
-                break;
-        }
-
-        const index = items.findIndex(item => item.evaluatorId === employeeId);
-        if (index < 0) {
-            if ((sender === 'evaluators' || sender === 'reviewers') && items.length > 0) {
-                toast.error('Evaluator or Reviewer is single setting!');
-            } else {
-                axios(resolveClientUrl(`Flow/GetEmployeeById?employeeId=${employeeId}`))
-                    .then(response => {
-                        const data = response.data;
-                        const item = {
-                            processId: processId,
-                            evaluatorId: data.employeeId,
-                            nickName: data.nickName,
-                            fullName: data.fullName,
-                            code: data.code,
-                            avatar: data.avatar
-                        };
-
-                        items.splice(toIndex, 0, item);
-                        this.setState({ [sender]: items });
-                    }).catch(axiosError);
-            }
-        } else {
-            toast.error('This employee has already existed!');
-        }
+    getEmployee = (employeeId, callback) => {
+        axios(resolveClientUrl(`Flow/GetEmployeeById?employeeId=${employeeId}`))
+            .then(response => {
+                callback(response.data);
+            }).catch(axiosError);
     }
+
+    handleEvaluatorChange = selectedEvaluator => {
+        this.getEmployee(selectedEvaluator.value, employee => {
+            let evaluator = {
+                ...this.state.evaluator,
+                ...{
+                    processId: PerformanceProcess.Evaluator,
+                    evaluatorId: employee.employeeId,
+                    nickName: employee.nickName,
+                    fullName: employee.fullName,
+                    code: employee.code,
+                    avatar: employee.avatar
+                }
+            };
+            this.setState({ evaluator });
+        });
+    };
+
+    handleReviewerChange = selectedReviewer => {
+        this.getEmployee(selectedReviewer.value, employee => {
+            let reviewer = {
+                ...this.state.reviewer,
+                ...{
+                    processId: PerformanceProcess.Reviewer,
+                    evaluatorId: employee.employeeId,
+                    nickName: employee.nickName,
+                    fullName: employee.fullName,
+                    code: employee.code,
+                    avatar: employee.avatar
+                }
+            };
+            this.setState({ reviewer });
+        });
+    };
 
     handleSortItems = (fromIndex, toIndex, sender) => {
         let items = this.state[sender].slice();
@@ -130,21 +144,21 @@ class GroupFlowSetting extends Component {
     }
 
     handleSaveFlowSetting = () => {
-        if (this.state.evaluators.length === 0
-            || this.state.reviewers.length === 0) {
+        if (!this.state.evaluator
+            || !this.state.reviewer) {
             toast.error('Please setting flow for Evaluator and Reviewer.');
         } else {
             let settings = [];
 
             settings.push({
-                processId: this.state.evaluators[0].processId,
-                evaluatorId: this.state.evaluators[0].evaluatorId,
+                processId: this.state.evaluator.processId,
+                evaluatorId: this.state.evaluator.evaluatorId,
                 priority: 0
             });
 
             settings.push({
-                processId: this.state.reviewers[0].processId,
-                evaluatorId: this.state.reviewers[0].evaluatorId,
+                processId: this.state.reviewer.processId,
+                evaluatorId: this.state.reviewer.evaluatorId,
                 priority: 0
             });
 
@@ -153,7 +167,7 @@ class GroupFlowSetting extends Component {
                 method: 'POST',
                 data: stringify({
                     __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                    groupId: this.state.groupSelected.value,
+                    groupId: this.state.selectedGroup.groupId,
                     settings: settings
                 }),
                 headers: {
@@ -167,15 +181,14 @@ class GroupFlowSetting extends Component {
                     toast.success(getResource('UpdatedSuccessfully'));
 
                     let groupSettings = this.state.groupSettings.slice();
-                    let index = groupSettings.findIndex(group => group.groupId === this.state.groupSelected.value);
+                    let selectedGroup = groupSettings.find(g => g.groupId === this.state.selectedGroup.groupId);
 
-                    if (index === -1) {
-                        groupSettings.push({ groupId: this.state.groupSelected.value, name: this.state.groupSelected.label });
-
-                        this.setState({ groupSettings });
+                    if (!selectedGroup.hasSetting) {
+                        selectedGroup.hasSetting = true;
+                        this.setState({ showDeleteButton: true, groupSettings: groupSettings });
+                    } else {
+                        this.setState({ showDeleteButton: true });
                     }
-
-                    this.setState({ showDeleteButton: true });
                 } else {
                     toast.error(data.message);
                 }
@@ -201,7 +214,7 @@ class GroupFlowSetting extends Component {
             method: 'DELETE',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                groupId: this.state.groupSelected.value
+                groupId: this.state.selectedGroup.groupId
             }),
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
@@ -216,13 +229,13 @@ class GroupFlowSetting extends Component {
                 this.handleOnCloseModal();
 
                 let groupSettings = this.state.groupSettings.slice();
-                const index = groupSettings.findIndex(group => group.groupId === this.state.groupSelected.value);
-                groupSettings.splice(index, 1);
+                let selectedGroup = groupSettings.find(g => g.groupId === this.state.selectedGroup.groupId);
+                selectedGroup.hasSetting = false;
 
                 this.setState({
                     groupSettings: groupSettings,
-                    evaluators: [],
-                    reviewers: [],
+                    evaluator: null,
+                    reviewer: null,
                     showDeleteButton: false
                 });
             } else {
@@ -232,35 +245,18 @@ class GroupFlowSetting extends Component {
     }
 
     render() {
-        const { isHost, groupOptions } = this.props;
-        const groupSetting = this.state.groupSettings.map(group => group.name).join(', ');
+        const { isHost } = this.props;
 
         return (
             <div className="row group-flow">
                 <div className="col-sm-3">
-                    <EvaluatorList groupOptions={groupOptions} isHost={isHost} />
+                    <GroupList groups={this.state.groupSettings} onClick={this.handleSelectGroup} />
                 </div>
                 <div className="col-sm-9 flow-settings">
-                    <Form horizontal>
-                        <FormGroup>
-                            <label className="col-sm-3 control-label">Team have setting</label>
-                            <div className="col-sm-9 group-has-setting">{groupSetting}</div>
-                        </FormGroup>
-                        <FormGroup>
-                            <label className="col-sm-3 control-label">Apply to Team</label>
-                            <div className="col-sm-5">
-                                <Select className="react-select-container" classNamePrefix="react-select"
-                                    value={this.state.groupSelected} options={groupOptions}
-                                    isClearable={false}
-                                    onChange={this.handleGroupChange}
-                                />
-                            </div>
-                        </FormGroup>
-                    </Form>
                     <table className="table table-bordered">
                         <thead>
                             <tr>
-                                <th>{getResource('Self')}</th>
+                                <th>{getResource('Team')}</th>
                                 <th>{getResource('Evaluator')}</th>
                                 <th>{getResource('Reviewer')}</th>
                             </tr>
@@ -268,37 +264,44 @@ class GroupFlowSetting extends Component {
                         <tbody>
                             <tr>
                                 <td className="col-self">
-                                    {
-                                        this.state.groupSelected.value &&
-                                        <ul>
-                                            <li className="alert alert-info">
-                                                <img />
-                                                <p>Self</p>
-                                            </li>
-                                        </ul>
-                                    }
+
+                                    {this.state.selectedGroup && this.state.selectedGroup.name}
                                 </td>
                                 <td className="col-evaluator">
-                                    <Sortable id="evaluators" data={this.state.evaluators}
-                                        enable={isHost}
-                                        onReceive={this.handleOnReceive}
-                                        onDeactivate={this.handleOnDeactivate}
-                                        onRemove={this.handleOnRemoveItem}
-                                    />
+                                    {isHost && this.state.selectedGroup &&
+                                        < Select className="react-select-container" classNamePrefix="react-select"
+                                            value={null} options={this.employeeOptions}
+                                            isClearable={false} placeholder="Nickname or full name"
+                                            onChange={this.handleEvaluatorChange}
+                                        />
+                                    }
+                                    {this.state.evaluator &&
+                                        <div>
+                                            <img src={this.state.evaluator.avatar} />
+                                            {this.state.evaluator.nickName}
+                                        </div>}
                                 </td>
                                 <td className="col-reviewer">
-                                    <Sortable id="reviewers" data={this.state.reviewers}
-                                        enable={isHost}
-                                        onReceive={this.handleOnReceive}
-                                        onDeactivate={this.handleOnDeactivate}
-                                        onRemove={this.handleOnRemoveItem}
-                                    />
+                                    {isHost && this.state.selectedGroup &&
+                                        <Select className="react-select-container" classNamePrefix="react-select"
+                                            value={null} options={this.employeeOptions}
+                                            isClearable={false} placeholder="Nickname or full name"
+                                            onChange={this.handleReviewerChange}
+                                        />
+                                    }
+
+                                    {this.state.reviewer &&
+                                        <div>
+                                            <img src={this.state.reviewer.avatar} />
+                                            {this.state.reviewer.nickName}
+                                        </div>
+                                    }
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     {
-                        isHost && this.state.groupSelected.value &&
+                        isHost && this.state.selectedGroup &&
                         <Form inline>
                             <Button type="button" bsStyle="primary" onClick={this.handleSaveFlowSetting}>{getResource('Submit')}</Button>
                             {
@@ -318,7 +321,7 @@ class GroupFlowSetting extends Component {
                         onSubmit={this.handleDeleteFlowSetting}
                     />
                 }
-            </div>
+            </div >
         );
     }
 }
