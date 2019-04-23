@@ -270,6 +270,7 @@
     <Build Include="dbo\Stored Procedures\Project_GetByEmployeeId.sql" />
     <Build Include="dbo\Views\ProjectTag.sql" />
     <Build Include="dbo\Stored Procedures\ProjectTag_GetByEmployeeId.sql" />
+    <Build Include="dbo\Stored Procedures\GroupFlowSetting_GetGroups.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">
