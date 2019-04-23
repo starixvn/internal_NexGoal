@@ -80,7 +80,7 @@
     }
 }
 
-.evaluator-list, .flow-settings {
+.group-list, .flow-settings {
     ul {
         margin: 0;
         padding: 0;
@@ -88,7 +88,7 @@
     }
 }
 
-.evaluator-list {
+.group-list {
     max-width: 330px;
     flex-basis: 330px;
     margin-right: 15px;
@@ -97,7 +97,7 @@
     font-size: 14px;
 
     .header {
-        background-color: #324373;        
+        background-color: #324373;
         text-align: center;
         color: #fff;
         padding: 7px;
@@ -199,7 +199,6 @@
             //float: left;
             margin-right: 8px;
             //align-self: center;
-
             &.icon-draft-member {
                 display: inline-block;
                 vertical-align: middle;
@@ -236,7 +235,7 @@
 }
 
 .flowlist {
-  .nav-tabs {
-    margin-bottom: 10px;
-  }
+    .nav-tabs {
+        margin-bottom: 10px;
+    }
 }

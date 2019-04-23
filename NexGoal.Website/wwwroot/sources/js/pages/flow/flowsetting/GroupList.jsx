@@ -8,7 +8,7 @@ export default class GroupList extends Component {
 
     render() {
         return (
-            <div className="evaluator-list">
+            <div className="group-list">
                 <div className="header">Team List</div>
                 <div className="content">
                     {this.props.groups.map(this.renderGroups)}

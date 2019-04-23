@@ -20,7 +20,7 @@ class GroupFlowSetting extends Component {
             evaluator: null,
             reviewer: null,
             selectedGroup: null,
-            showDeleteButton: false,
+            enableDeleteButton: false,
             showDeleteModal: false
         };
 
@@ -56,7 +56,7 @@ class GroupFlowSetting extends Component {
                 this.setState({
                     evaluator: data.evaluator,
                     reviewer: data.reviewer,
-                    showDeleteButton: data.evaluator !== null || data.reviewer !== null
+                    enableDeleteButton: data.evaluator !== null || data.reviewer !== null
                 });
             }).catch(axiosError);
     }
@@ -152,9 +152,9 @@ class GroupFlowSetting extends Component {
 
                     if (!selectedGroup.hasSetting) {
                         selectedGroup.hasSetting = true;
-                        this.setState({ showDeleteButton: true, groupSettings: groupSettings });
+                        this.setState({ enableDeleteButton: true, groupSettings: groupSettings });
                     } else {
-                        this.setState({ showDeleteButton: true });
+                        this.setState({ enableDeleteButton: true });
                     }
                 } else {
                     toast.error(data.message);
@@ -203,7 +203,7 @@ class GroupFlowSetting extends Component {
                     groupSettings: groupSettings,
                     evaluator: null,
                     reviewer: null,
-                    showDeleteButton: false
+                    enableDeleteButton: false
                 });
             } else {
                 toast.error(data.message);
@@ -215,8 +215,8 @@ class GroupFlowSetting extends Component {
         const { isHost } = this.props;
 
         return (
-            <div className="row group-flow">                
-                <GroupList groups={this.state.groupSettings} onClick={this.handleSelectGroup} />                
+            <div className="row group-flow">
+                <GroupList groups={this.state.groupSettings} onClick={this.handleSelectGroup} />
                 <div className="flow-settings">
                     <table className="table table-bordered">
                         <thead>
@@ -228,15 +228,14 @@ class GroupFlowSetting extends Component {
                         </thead>
                         <tbody>
                             <tr>
-                                <td className="col-self">                                    
+                                <td className="col-self">
                                     {this.state.selectedGroup &&
                                         <div className="flow-item">
-                                        <i class="avatar icon-draft-member"></i>
-                                        <div className="personal-info">
-                                        <span className="txt-bold">{this.state.selectedGroup.name}</span></div>
-                                        <i class="icon-clear icon-window-close"></i>
+                                            <i className="avatar icon-draft-member" />
+                                            <div className="personal-info">
+                                                <span className="txt-bold">{this.state.selectedGroup.name}</span></div>
                                         </div>
-                                    }                                
+                                    }
                                 </td>
                                 <td className="col-evaluator">
                                     {isHost && this.state.selectedGroup &&
@@ -249,11 +248,10 @@ class GroupFlowSetting extends Component {
                                     {this.state.evaluator &&
                                         <div className="flow-item">
                                             <img className="avatar" src={this.state.evaluator.avatar} />
-                                        <div className="personal-info">
-                                            <span className="txt-bold">{this.state.evaluator.nickName}</span>
+                                            <div className="personal-info">
+                                                <span className="txt-bold">{this.state.evaluator.nickName}</span>
                                                 <p>{this.state.evaluator.fullName}</p>
                                             </div>
-                                            <i class="icon-clear icon-window-close"></i>
                                         </div>}
                                 </td>
                                 <td className="col-reviewer">
@@ -268,11 +266,10 @@ class GroupFlowSetting extends Component {
                                     {this.state.reviewer &&
                                         <div className="flow-item">
                                             <img className="avatar" src={this.state.reviewer.avatar} />
-                                        <div className="personal-info">
-                                            <span className="txt-bold">{this.state.reviewer.nickName}</span>
-                                                <p>{this.state.evaluator.fullName}</p>
+                                            <div className="personal-info">
+                                                <span className="txt-bold">{this.state.reviewer.nickName}</span>
+                                                <p>{this.state.reviewer.fullName}</p>
                                             </div>
-                                            <i class="icon-clear icon-window-close"></i>
                                         </div>
                                     }
                                 </td>
@@ -281,10 +278,10 @@ class GroupFlowSetting extends Component {
                     </table>
                     {
                         isHost && this.state.selectedGroup &&
-                        <Form inline>                            
+                        <Form inline>
                             {
-                                this.state.showDeleteButton &&
-                                <Button type="button" bsStyle="cancel" onClick={this.handleOnDeleteClick}>{getResource('Delete')}</Button>
+                                this.state.enableDeleteButton &&
+                                <Button type="button" className="btn btn-cancel" onClick={this.handleOnDeleteClick}>{getResource('Delete')}</Button>
                             }
                             <Button type="button" bsStyle="primary" onClick={this.handleSaveFlowSetting}>{getResource('Submit')}</Button>
                         </Form>
