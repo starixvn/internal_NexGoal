@@ -19,7 +19,6 @@ class GroupFlowSetting extends Component {
             groupSettings: [],
             evaluator: null,
             reviewer: null,
-            evaluatorSelected: null,
             selectedGroup: null,
             showDeleteButton: false,
             showDeleteModal: false
@@ -110,38 +109,6 @@ class GroupFlowSetting extends Component {
             this.setState({ reviewer });
         });
     };
-
-    handleSortItems = (fromIndex, toIndex, sender) => {
-        let items = this.state[sender].slice();
-        items.splice(toIndex, 0, items.splice(fromIndex, 1)[0]);
-        this.setState({ [sender]: items });
-    }
-
-    handleOnReceive = (event, ui) => {
-        this.setState({ evaluatorSelected: parseInt(ui.sender.attr('id'), 10) });
-    }
-
-    handleOnDeactivate = (event, ui) => {
-        const fromIndex = this.state.evaluatorSelected ? -1 : ui.item.startPos;
-        const toIndex = ui.item.parent('ul.sortable').children().index(ui.item);
-
-        if (toIndex >= 0) {
-            if (fromIndex >= 0) {
-                this.handleSortItems(fromIndex, toIndex, ui.sender.attr('id'));
-            } else {
-                this.handleAddItem(toIndex, this.state.evaluatorSelected, ui.sender.attr('id'));
-                ui.item.remove();
-                this.setState({ evaluatorSelected: null });
-            }
-        }
-    }
-
-    handleOnRemoveItem = (sender, evaluatorId) => {
-        let items = this.state[sender].slice();
-        const index = items.findIndex(item => item.evaluatorId === evaluatorId);
-        items.splice(index, 1);
-        this.setState({ [sender]: items });
-    }
 
     handleSaveFlowSetting = () => {
         if (!this.state.evaluator
