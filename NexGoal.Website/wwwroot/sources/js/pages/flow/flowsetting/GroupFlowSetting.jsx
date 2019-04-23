@@ -278,13 +278,10 @@ class GroupFlowSetting extends Component {
                     </table>
                     {
                         isHost && this.state.selectedGroup &&
-                        <Form inline>
-                            {
-                                this.state.enableDeleteButton &&
-                                <Button type="button" className="btn btn-cancel" onClick={this.handleOnDeleteClick}>{getResource('Delete')}</Button>
-                            }
+                        <div className="button-group" >
+                            <Button type="button" disabled={!this.state.enableDeleteButton} className="btn btn-cancel" onClick={this.handleOnDeleteClick}>{getResource('Delete')}</Button>
                             <Button type="button" bsStyle="primary" onClick={this.handleSaveFlowSetting}>{getResource('Submit')}</Button>
-                        </Form>
+                        </div>
                     }
                 </div>
                 {
