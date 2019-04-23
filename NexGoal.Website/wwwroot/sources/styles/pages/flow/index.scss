@@ -17,6 +17,11 @@
     margin-bottom: 10px;
 }
 
+.txt-bold {
+    font-size: 14px;
+    font-weight: bold;
+}
+
 .group-flow, .employee-flow {
     .text-search {
         position: relative;
@@ -137,7 +142,7 @@
 
     .table {
         thead th {
-            width: 300px;
+            width: 330px;
             height: 32px;
             padding: 6px;
 
@@ -150,8 +155,14 @@
             }
         }
 
-        tbody tr:hover td {
-            background: #fff !important;
+        tbody {
+            td {
+                padding: 16px;
+            }
+
+            tr:hover td {
+                background: #fff !important;
+            }
         }
     }
 
@@ -160,6 +171,66 @@
 
         .btn + .btn {
             margin-left: 16px;
+        }
+    }
+
+    .react-select-container {
+        margin-bottom: 15px;
+    }
+
+    .flow-item {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border-radius: 2px;
+        background: #E0EEF7;
+        border: 1px solid #B3DBF4;
+
+        .avatar {
+            @include box-shadow(0, 1px, 4px, rgba(0, 0, 0, 0.2));
+            @include border-radius(50%);
+            width: 36px;
+            height: 36px;
+            border: 1px solid #fff;
+            background-color: #D2D2D2;
+            object-fit: cover;
+            object-position: 0 20%;
+            //float: left;
+            margin-right: 8px;
+            //align-self: center;
+
+            &.icon-draft-member {
+                display: inline-block;
+                vertical-align: middle;
+                font-size: 20px;
+                line-height: 36px;
+                text-align: center;
+            }
+        }
+
+        p {
+            margin-bottom: 0;
+        }
+
+        .icon-clear {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 25px;
+            height: 25px;
+            line-height: 25px;
+            text-align: center;
+            font-size: 15px;
+            border-radius: 50%;
+            background: transparent;
+            cursor: pointer;
+            transition: .2s ease all;
+
+            &:hover {
+                background: rgba(0,0,0,.2);
+            }
         }
     }
 }
