@@ -35,9 +35,8 @@
 }
 
 .group-flow {
-    .evaluator-list {
-        margin-top: 12px;
-    }
+    display: flex;
+    padding: 15px;
 }
 
 .employee-flow {
@@ -85,30 +84,43 @@
 }
 
 .evaluator-list {
+    max-width: 330px;
+    flex-basis: 330px;
+    margin-right: 15px;
     border: 1px solid #c8c8c8;
     @include border-radius(2px);
+    font-size: 14px;
 
     .header {
-        background-color: #324373;
-        //font-size: 16px;
-        //text-transform: uppercase;
+        background-color: #324373;        
         text-align: center;
         color: #fff;
-        padding: 10px;
+        padding: 7px;
     }
 
     .content {
         padding: 10px;
 
-        ul {
-            max-height: 300px;
-            overflow: auto;
+        > div {
+            margin-bottom: 1px;
+            background: #2475D7;
+            color: #fff;
+            padding: 2px 9px;
+            cursor: pointer;
+        }
 
-            li {
-                background: #e1e1e1;
-                margin-bottom: 1px;
-                padding: 3px 5px;
-                cursor: pointer;
+        .has-setting {
+            position: relative;
+            background: #e2e2e2;
+            color: #474747;
+
+            &:after {
+                font-family: 'NexGoalIcon';
+                content: "\e939";
+                position: absolute;
+                right: 9px;
+                top: 3px;
+                color: #7d7d7d;
             }
         }
     }
@@ -123,60 +135,23 @@
         padding-top: 7px;
     }
 
-    table.table {
-        tbody {
-            tr {
-                td {
-                    width: 30%;
+    .table {
+        thead th {
+            width: 300px;
+            height: 32px;
+            padding: 6px;
 
-                    &.col-self {
-                        background: #d8e4bc;
-                    }
+            &.evaluator {
+                background: #C15C13;
+            }
 
-                    &.col-evaluator {
-                        background: #e8b8b7;
-                    }
-
-                    &.col-reviewer {
-                        background: #b1a0c7;
-                    }
-                }
-
-                &:hover {
-                    td {
-                        &.col-self {
-                            background: #d8e4bc;
-                        }
-
-                        &.col-evaluator {
-                            background: #e8b8b7;
-                        }
-
-                        &.col-reviewer {
-                            background: #b1a0c7;
-                        }
-                    }
-                }
+            &.reviewer {
+                background: #9A308C;
             }
         }
-    }
 
-    ul {
-        li {
-            position: relative;
-            text-align: center;
-
-            a {
-                position: absolute;
-                right: 6px;
-                top: 6px;
-            }
-
-            img {
-                width: 60px;
-                height: 60px;
-                margin-bottom: 10px;
-            }
+        tbody tr:hover td {
+            background: #fff !important;
         }
     }
 

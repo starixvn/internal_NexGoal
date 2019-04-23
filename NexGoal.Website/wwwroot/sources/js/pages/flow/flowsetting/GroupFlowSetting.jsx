@@ -215,17 +215,15 @@ class GroupFlowSetting extends Component {
         const { isHost } = this.props;
 
         return (
-            <div className="row group-flow">
-                <div className="col-sm-3">
-                    <GroupList groups={this.state.groupSettings} onClick={this.handleSelectGroup} />
-                </div>
-                <div className="col-sm-9 flow-settings">
+            <div className="row group-flow">                
+                <GroupList groups={this.state.groupSettings} onClick={this.handleSelectGroup} />                
+                <div className="flow-settings">
                     <table className="table table-bordered">
                         <thead>
                             <tr>
                                 <th>{getResource('Team')}</th>
-                                <th>{getResource('Evaluator')}</th>
-                                <th>{getResource('Reviewer')}</th>
+                                <th className="evaluator">{getResource('Evaluator')}</th>
+                                <th className="reviewer">{getResource('Reviewer')}</th>
                             </tr>
                         </thead>
                         <tbody>
