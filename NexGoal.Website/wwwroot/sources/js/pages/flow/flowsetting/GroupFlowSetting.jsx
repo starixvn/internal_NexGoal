@@ -23,25 +23,15 @@ class GroupFlowSetting extends Component {
             enableDeleteButton: false,
             showDeleteModal: false
         };
-
-        this.employeeOptions = [];
     }
 
     componentDidMount() {
         const promises = [
-            axios(resolveClientUrl('common/GetEmployees')),
             axios(resolveClientUrl('GroupFlowSetting/GetGroups'))
         ];
 
         Promise.all(promises)
-            .then(([employeeResponse, groupResponse]) => {
-                this.employeeOptions = employeeResponse.data.map(item => {
-                    return {
-                        value: item.employeeId,
-                        label: `${item.nickName} (${item.fullName})`
-                    };
-                });
-
+            .then(([groupResponse]) => {
                 this.setState({
                     groupSettings: groupResponse.data
                 });
@@ -239,8 +229,8 @@ class GroupFlowSetting extends Component {
                                 </td>
                                 <td className="col-evaluator">
                                     {isHost && this.state.selectedGroup &&
-                                        < Select className="react-select-container" classNamePrefix="react-select"
-                                            value={null} options={this.employeeOptions}
+                                        <Select className="react-select-container" classNamePrefix="react-select"
+                                            value={null} options={this.props.employeeOptions}
                                             isClearable={false} placeholder="Nickname or full name"
                                             onChange={this.handleEvaluatorChange}
                                         />
@@ -257,7 +247,7 @@ class GroupFlowSetting extends Component {
                                 <td className="col-reviewer">
                                     {isHost && this.state.selectedGroup &&
                                         <Select className="react-select-container" classNamePrefix="react-select"
-                                            value={null} options={this.employeeOptions}
+                                            value={null} options={this.props.employeeOptions}
                                             isClearable={false} placeholder="Nickname or full name"
                                             onChange={this.handleReviewerChange}
                                         />

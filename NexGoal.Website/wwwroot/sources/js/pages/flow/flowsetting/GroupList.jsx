@@ -1,7 +1,7 @@
 ﻿import React, { Component } from 'react';
 
 export default class GroupList extends Component {
-    renderGroups = group =>
+    renderGroup = group =>
         (<div key={group.groupId} className={group.hasSetting ? 'has-setting' : ''} onClick={this.props.onClick.bind(this, group)}>
             {group.name}
         </div>)
@@ -11,7 +11,7 @@ export default class GroupList extends Component {
             <div className="group-list">
                 <div className="header">Team List</div>
                 <div className="content">
-                    {this.props.groups.map(this.renderGroups)}
+                    {this.props.groups.map(this.renderGroup)}
                 </div>
             </div>
         );

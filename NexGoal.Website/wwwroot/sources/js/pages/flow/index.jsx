@@ -23,12 +23,26 @@ export default class App extends Component {
         };
 
         this.isHost = document.getElementById('IsHost').checked;
+        this.employeeOptions = [];
     }
 
     componentDidMount() {
-        axios(resolveClientUrl('Common/GetGroups'))
-            .then(response => {
-                this.groupOptions = response.data.map(group => {
+        var promises = [
+            axios(resolveClientUrl('common/GetEmployees')),
+            axios(resolveClientUrl('Common/GetGroups'))
+
+        ];
+
+        Promise.all(promises)
+            .then(([employeeResponse, groupResponse]) => {
+                this.employeeOptions = employeeResponse.data.map(item => {
+                    return {
+                        value: item.employeeId,
+                        label: `${item.nickName} (${item.fullName})`
+                    };
+                });
+
+                this.groupOptions = groupResponse.data.map(group => {
                     return { value: group.groupId, label: group.name };
                 });
                 this.groupOptions.unshift({ value: '', label: '-- All --' });
@@ -72,6 +86,8 @@ export default class App extends Component {
                                 <GroupFlowSetting
                                     isHost={this.isHost}
                                     groupOptions={this.groupOptions}
+                                    employeeOptions={this.employeeOptions}
+
                                 />
                             </Tab>
                             <Tab eventKey={2} title={getResource('Personal')}>
@@ -79,7 +95,7 @@ export default class App extends Component {
                                     this.state.isFirstLoadPersonalTab &&
                                     <EmployeeFlowSetting
                                         isHost={this.isHost}
-                                        groupOptions={this.groupOptions}
+                                        employeeOptions={this.employeeOptions}
                                     />
                                 }
                             </Tab>
