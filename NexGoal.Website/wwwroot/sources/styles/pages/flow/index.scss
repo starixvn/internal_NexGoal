@@ -131,6 +131,28 @@
     }
 }
 
+.employee-list {
+    .content {
+        padding-left: 0;
+        padding-right: 0;
+
+        > div {
+            background: #fff;
+            color: #474747;
+            padding-left: 22px;
+            padding-right: 22px;
+
+            &:hover {
+                background: #eee;
+            }
+        }
+
+        .selected {
+            background: #eee;
+        }
+    }
+} 
+
 .flow-settings {
     ul {
         min-height: 300px;
