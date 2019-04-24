@@ -103,7 +103,7 @@ class GroupFlowSetting extends Component {
     handleSaveFlowSetting = () => {
         if (!this.state.evaluator
             || !this.state.reviewer) {
-            toast.error('Please setting flow for Evaluator and Reviewer.');
+            toast.error('Please select Evaluator and Reviewer.');
         } else {
             let settings = [];
 

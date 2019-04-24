@@ -134,7 +134,7 @@ export default class EmployeeFlowSetting extends Component {
 
     handleSaveFlowSetting = () => {
         if (!this.state.evaluator || !this.state.reviewer || !this.state.member) {
-            toast.error('Please setting flow for Member, Evaluator and Reviewer.');
+            toast.error('Please select Member, Evaluator and Reviewer.');
         } else {
             let settings = [];
 
@@ -169,18 +169,25 @@ export default class EmployeeFlowSetting extends Component {
                     toast.success(getResource('UpdatedSuccessfully'));
 
                     if (this.state.selectedEmployeeId === null) {
-                        this.setState({
-                            selectedEmployeeId: this.state.member.employeeId
-                        });
-
                         this.getEmployeeHaveSetting();
                         this.getEmployeeNotHaveSetting();
                     }
+
+                    this.clear();
                 } else {
                     toast.error(data.message);
                 }
             }).catch(axiosError);
         }
+    }
+
+    clear = () => {
+        this.setState({
+            member: null,
+            evaluator: null,
+            reviewer: null,
+            selectedEmployeeId: null
+        });
     }
 
     handleDeleteSetting = () => {
@@ -190,12 +197,7 @@ export default class EmployeeFlowSetting extends Component {
     }
 
     handleCancel = () => {
-        this.setState({
-            member: null,
-            evaluator: null,
-            reviewer: null,
-            selectedEmployeeId: null
-        });
+        this.clear();
     }
 
     handleOnCloseModal = () => {
@@ -223,14 +225,7 @@ export default class EmployeeFlowSetting extends Component {
                 toast.success(getResource('DeletedSuccessfully'));
 
                 this.handleOnCloseModal();
-
-                this.setState({
-                    member: null,
-                    evaluator: null,
-                    reviewer: null,
-                    selectedEmployeeId: null
-                });
-
+                this.clear();
                 this.getEmployeeHaveSetting();
                 this.getEmployeeNotHaveSetting();
             } else {
@@ -241,6 +236,9 @@ export default class EmployeeFlowSetting extends Component {
 
     render() {
         const { isHost } = this.props;
+
+        let employeeOptions = this.state.member ?
+            this.props.employeeOptions.filter(e => e.value !== this.state.member.employeeId) : this.props.employeeOptions;
 
         return (
             <div className="row employee-flow">
@@ -273,14 +271,16 @@ export default class EmployeeFlowSetting extends Component {
                                         <div className="flow-item">
                                             <img className="avatar" src={this.state.member.avatar} />
                                             <div className="personal-info">
-                                                <span className="txt-bold">{this.state.member.nickName}</span></div>
+                                                <span className="txt-bold">{this.state.member.nickName}</span>
+                                                <p>{this.state.member.fullName}</p>
+                                            </div>
                                         </div>
                                     }
                                 </td>
                                 <td className="col-evaluator">
                                     {isHost &&
                                         < Select className="react-select-container" classNamePrefix="react-select"
-                                            value={null} options={this.props.employeeOptions}
+                                            value={null} options={employeeOptions}
                                             isClearable={false} placeholder="Nickname or full name"
                                             onChange={this.handleEvaluatorChange}
                                         />
@@ -297,7 +297,7 @@ export default class EmployeeFlowSetting extends Component {
                                 <td className="col-reviewer">
                                     {isHost &&
                                         <Select className="react-select-container" classNamePrefix="react-select"
-                                            value={null} options={this.props.employeeOptions}
+                                            value={null} options={employeeOptions}
                                             isClearable={false} placeholder="Nickname or full name"
                                             onChange={this.handleReviewerChange}
                                         />
@@ -320,8 +320,16 @@ export default class EmployeeFlowSetting extends Component {
                         isHost &&
                         <div className="button-group" >
                             <Button type="button" disabled={this.state.selectedEmployeeId === null} className="btn btn-cancel" onClick={this.handleDeleteSetting}>{getResource('Delete')}</Button>
-                            <Button type="button" disabled={this.state.selectedEmployeeId === null} className="btn btn-cancel" onClick={this.handleCancel}>{getResource('Cancel')}</Button>
-                            <Button type="button" bsStyle="primary" onClick={this.handleSaveFlowSetting}>{getResource('Submit')}</Button>
+                            <Button type="button" disabled={!this.state.member && !this.state.evaluator && !this.state.reviewer}
+                                className="btn btn-cancel" onClick={this.handleCancel}
+                            >
+                                {getResource('Cancel')}
+                            </Button>
+                            <Button type="button" bsStyle="primary" onClick={this.handleSaveFlowSetting}
+                                disabled={!this.state.member && !this.state.evaluator && !this.state.reviewer}
+                            >
+                                {getResource('Submit')}
+                            </Button>
                         </div>
                     }
                 </div>
