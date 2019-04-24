@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[Employee_GetHRMSummary] @EmployeeId INT
+﻿CREATE PROCEDURE [dbo].[Employee_GetHRMSummary] @EmployeeId INT
 AS
 /*
 Created: 20180926@Oliver.Dang
@@ -88,7 +87,7 @@ BEGIN
 	INNER JOIN [dbo].EmployeeCalendar AS C WITH (NOLOCK) ON c.EmpId = a.EmpId
 		AND c.WorkDate = AttendanceDate
 	WHERE AttendanceDate BETWEEN @FromDate
-			AND DATEADD(day, -1, @Today)
+			AND DATEADD(day, - 1, @Today)
 		AND a.EmpId = @EmployeeId
 		AND OutFixed IS NULL
 		AND IsOffDay = 0
@@ -176,51 +175,69 @@ BEGIN
 				END) AS TotalLateInEarlyOut
 		,SUM(CASE 
 				WHEN (
-						LeaveTypeId = 26
-						AND ISNULL(LeaveTypeId2, 0) <> 26
+						c.IsHoliday <> 1
+						AND c.IsOffDay <> 1
+						AND et.LeaveTypeId = 26
+						AND ISNULL(et.LeaveTypeId2, 0) <> 26
 						)
 					OR (
-						LeaveTypeId2 = 26
-						AND ISNULL(LeaveTypeId, 0) <> 26
+						c.IsHoliday <> 1
+						AND c.IsOffDay <> 1
+						AND et.LeaveTypeId2 = 26
+						AND ISNULL(et.LeaveTypeId, 0) <> 26
 						)
 					THEN 1
 				WHEN (
-						LeaveTypeId = 26
-						AND LeaveTypeId2 = 26
+						c.IsHoliday <> 1
+						AND c.IsOffDay <> 1
+						AND et.LeaveTypeId = 26
+						AND et.LeaveTypeId2 = 26
 						)
 					THEN 2
 				ELSE 0
 				END) AS UnpaidLeave
 		,SUM(CASE 
 				WHEN (
-						LeaveTypeId = 28
-						AND ISNULL(LeaveTypeId2, 0) <> 28
+						c.IsHoliday <> 1
+						AND c.IsOffDay <> 1
+						AND et.LeaveTypeId = 28
+						AND ISNULL(et.LeaveTypeId2, 0) <> 28
 						)
 					OR (
-						LeaveTypeId2 = 28
-						AND ISNULL(LeaveTypeId, 0) <> 28
+						c.IsHoliday <> 1
+						AND c.IsOffDay <> 1
+						AND et.LeaveTypeId2 = 28
+						AND ISNULL(et.LeaveTypeId, 0) <> 28
 						)
 					THEN 1
 				WHEN (
-						LeaveTypeId = 28
-						AND LeaveTypeId2 = 28
+						c.IsHoliday <> 1
+						AND c.IsOffDay <> 1
+						AND et.LeaveTypeId = 28
+						AND et.LeaveTypeId2 = 28
 						)
 					THEN 2
 				ELSE 0
 				END) AS SickLeave
 		,SUM(CASE 
 				WHEN (
-						LeaveTypeId = 30
-						AND ISNULL(LeaveTypeId2, 0) <> 30
+						c.IsHoliday <> 1
+						AND c.IsOffDay <> 1
+						AND et.LeaveTypeId = 30
+						AND ISNULL(et.LeaveTypeId2, 0) <> 30
 						)
 					OR (
-						LeaveTypeId2 = 30
+						c.IsHoliday <> 1
+						AND c.IsOffDay <> 1
+						AND et.LeaveTypeId2 = 30
 						AND ISNULL(LeaveTypeId, 0) <> 30
 						)
 					THEN 1
 				WHEN (
-						LeaveTypeId = 30
-						AND LeaveTypeId2 = 30
+						c.IsHoliday <> 1
+						AND c.IsOffDay <> 1
+						AND et.LeaveTypeId = 30
+						AND et.LeaveTypeId2 = 30
 						)
 					THEN 2
 				ELSE 0
