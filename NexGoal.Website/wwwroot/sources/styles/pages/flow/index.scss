@@ -151,7 +151,7 @@
             background: #eee;
         }
     }
-} 
+}
 
 .flow-settings {
     ul {
@@ -167,6 +167,10 @@
             width: 330px;
             height: 32px;
             padding: 6px;
+
+            &.member {
+                background: #4F9E00;
+            }
 
             &.evaluator {
                 background: #C15C13;

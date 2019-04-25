@@ -251,7 +251,7 @@ export default class EmployeeFlowSetting extends Component {
                     <table className="table table-bordered">
                         <thead>
                             <tr>
-                                <th>{getResource('Member')}</th>
+                                <th className="member">{getResource('Member')}</th>
                                 <th className="evaluator">{getResource('Evaluator')}</th>
                                 <th className="reviewer">{getResource('Reviewer')}</th>
                             </tr>
