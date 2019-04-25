@@ -109,7 +109,6 @@
                                     ? remindStartEvaluationToSelfPath
                                     : remindStartEvaluationToSupervisorPath),
                                 setting.Nickname,
-                                period.Name,
                                 mailService.FormatDate(period.StartDate),
                                 configuration.Value.ApplicationDomain);
                             await SendEmailAsync(subjectRemindStartEvaluationMail, body, setting);
@@ -168,12 +167,10 @@
                             message = setting.ProcessId == PerformanceProcess.Self ?
                                         string.Format(Message.SkypeMessageTemplate_PA_RemindStartEvaluationToSelf,
                                         setting.Nickname,
-                                        period.Name,
                                         mailService.FormatDate(period.StartDate),
                                         configuration.Value.ApplicationDomain) :
                                         string.Format(Message.SkypeMessageTemplate_PA_RemindStartEvaluationToSupervisor,
                                         setting.Nickname,
-                                        period.Name,
                                         mailService.FormatDate(period.StartDate),
                                         configuration.Value.ApplicationDomain);
 
@@ -236,7 +233,6 @@
                                     setting.ProcessId == PerformanceProcess.Self
                                         ? Message.NotificationTemplate_PA_RemindStartEvaluationToMember
                                         : Message.NotificationTemplate_PA_RemindStartEvaluationToSupervisor,
-                                    period.Name,
                                     mailService.FormatDate(period.StartDate)),
                                 StatusId = (int)NotificationStatus.Unread,
                                 ActionTypeId = (int)NotificationActionType.MyPageWithCreatePerformanceCheckin

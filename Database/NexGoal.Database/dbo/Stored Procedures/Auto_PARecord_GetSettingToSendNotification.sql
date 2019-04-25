@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[Auto_PARecord_GetSettingToSendNotification] @ReceiveType TINYINT
+﻿CREATE PROCEDURE [dbo].[Auto_PARecord_GetSettingToSendNotification] @ReceiveType TINYINT
 AS
 /*
 Created: 20190107@Tim.Trinh
@@ -144,7 +143,7 @@ BEGIN
 		,dbo.Period AS period WITH (NOLOCK)
 	WHERE emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
-		AND DATEADD(DAY, - 7, period.StartDate) = @Today
+		AND DATEADD(DAY, -21, period.StartDate) = @Today
 		AND (
 			EXISTS (
 				SELECT 1
