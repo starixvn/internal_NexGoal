@@ -138,8 +138,22 @@ export default class EmployeeFlowSetting extends Component {
             this.setState({ submit: true });
         }
 
-        if (!this.state.evaluator || !this.state.reviewer || !this.state.member) {
-            toast.error('Please select Member, Evaluator and Reviewer.');
+        let errorFields = [];
+
+        if (!this.state.member) {
+            errorFields.push('Member');
+        }
+
+        if (!this.state.evaluator) {
+            errorFields.push('Evaluator');
+        }
+
+        if (!this.state.reviewer) {
+            errorFields.push('Reviewer');
+        }
+
+        if (errorFields.length > 0) {
+            toast.error(`Please select ${errorFields.join(', ')}`);
         } else {
             let settings = [];
 

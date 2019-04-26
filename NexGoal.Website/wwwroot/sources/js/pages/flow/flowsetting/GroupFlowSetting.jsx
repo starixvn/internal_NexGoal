@@ -101,9 +101,18 @@ class GroupFlowSetting extends Component {
     };
 
     handleSaveFlowSetting = () => {
-        if (!this.state.evaluator
-            || !this.state.reviewer) {
-            toast.error('Please select Evaluator and Reviewer.');
+        let errorFields = [];
+
+        if (!this.state.evaluator) {
+            errorFields.push('Evaluator');
+        }
+
+        if (!this.state.reviewer) {
+            errorFields.push('Reviewer');
+        }
+
+        if (errorFields.length > 0) {
+            toast.error(`Please select ${errorFields.join(', ')}`);
         } else {
             let settings = [];
 
