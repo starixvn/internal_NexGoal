@@ -23,7 +23,8 @@ export default class EmployeeFlowSetting extends Component {
             showDeleteModal: false,
             configuredEmployees: [],
             unconfiguredEmployees: [],
-            unconfiguredEmployeeOptions: []
+            unconfiguredEmployeeOptions: [],
+            submit: false
         };
     }
 
@@ -133,6 +134,10 @@ export default class EmployeeFlowSetting extends Component {
     };
 
     handleSaveFlowSetting = () => {
+        if (!this.state.submit) {
+            this.setState({ submit: true });
+        }
+
         if (!this.state.evaluator || !this.state.reviewer || !this.state.member) {
             toast.error('Please select Member, Evaluator and Reviewer.');
         } else {
@@ -186,7 +191,8 @@ export default class EmployeeFlowSetting extends Component {
             member: null,
             evaluator: null,
             reviewer: null,
-            selectedEmployeeId: null
+            selectedEmployeeId: null,
+            submit: false
         });
     }
 
@@ -260,7 +266,8 @@ export default class EmployeeFlowSetting extends Component {
                             <tr>
                                 <td className="col-self">
                                     {isHost &&
-                                        <Select className="react-select-container" classNamePrefix="react-select"
+                                        <Select className={`react-select-container ${this.state.submit && !this.state.member && 'input-validation-error'}`}
+                                            classNamePrefix="react-select"
                                             value={null} options={this.state.unconfiguredEmployeeOptions}
                                             isClearable={false} placeholder="Nickname or full name"
                                             onChange={this.handleMemberChange}
@@ -279,7 +286,8 @@ export default class EmployeeFlowSetting extends Component {
                                 </td>
                                 <td className="col-evaluator">
                                     {isHost &&
-                                        < Select className="react-select-container" classNamePrefix="react-select"
+                                        <Select className={`react-select-container ${this.state.submit && !this.state.evaluator && 'input-validation-error'}`}
+                                            classNamePrefix="react-select"
                                             value={null} options={employeeOptions}
                                             isClearable={false} placeholder="Nickname or full name"
                                             onChange={this.handleEvaluatorChange}
@@ -296,7 +304,8 @@ export default class EmployeeFlowSetting extends Component {
                                 </td>
                                 <td className="col-reviewer">
                                     {isHost &&
-                                        <Select className="react-select-container" classNamePrefix="react-select"
+                                        <Select className={`react-select-container ${this.state.submit && !this.state.reviewer && 'input-validation-error'}`}
+                                            classNamePrefix="react-select"
                                             value={null} options={employeeOptions}
                                             isClearable={false} placeholder="Nickname or full name"
                                             onChange={this.handleReviewerChange}
