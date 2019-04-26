@@ -44,7 +44,7 @@ BEGIN
 		)
 
 	SELECT @RemindDay = CAST(Value AS SMALLINT)
-		,@HRRemindDay = 13
+		,@HRRemindDay = CAST(Value AS SMALLINT) + 2
 		,@EvaluatorRemindDay = CAST(Value AS SMALLINT) - 2
 		,@ReviewerRemindDay = CAST(Value AS SMALLINT) - 4
 	FROM dbo.RefResource WITH (NOLOCK)
