@@ -242,6 +242,7 @@ class GroupFlowSetting extends Component {
                                             value={null} options={this.props.employeeOptions}
                                             isClearable={false} placeholder="Nickname or full name"
                                             onChange={this.handleEvaluatorChange}
+                                            backspaceRemovesValue={false}
                                         />
                                     }
                                     {this.state.evaluator &&
@@ -259,6 +260,7 @@ class GroupFlowSetting extends Component {
                                             value={null} options={this.props.employeeOptions}
                                             isClearable={false} placeholder="Nickname or full name"
                                             onChange={this.handleReviewerChange}
+                                            backspaceRemovesValue={false}
                                         />
                                     }
 

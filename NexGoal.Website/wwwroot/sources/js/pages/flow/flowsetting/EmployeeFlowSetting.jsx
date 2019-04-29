@@ -286,6 +286,7 @@ export default class EmployeeFlowSetting extends Component {
                                             isClearable={false} placeholder="Nickname or full name"
                                             onChange={this.handleMemberChange}
                                             isDisabled={this.state.selectedEmployeeId !== null}
+                                            backspaceRemovesValue={false}
                                         />
                                     }
                                     {this.state.member &&
@@ -305,6 +306,7 @@ export default class EmployeeFlowSetting extends Component {
                                             value={null} options={employeeOptions}
                                             isClearable={false} placeholder="Nickname or full name"
                                             onChange={this.handleEvaluatorChange}
+                                            backspaceRemovesValue={false}
                                         />
                                     }
                                     {this.state.evaluator &&
@@ -323,6 +325,7 @@ export default class EmployeeFlowSetting extends Component {
                                             value={null} options={employeeOptions}
                                             isClearable={false} placeholder="Nickname or full name"
                                             onChange={this.handleReviewerChange}
+                                            backspaceRemovesValue={false}
                                         />
                                     }
 
