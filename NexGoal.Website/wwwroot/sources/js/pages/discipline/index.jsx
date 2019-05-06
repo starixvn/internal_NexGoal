@@ -48,7 +48,7 @@ export default class Discipline extends Component {
 
         Promise.all(promises)
             .then(([groupResponse, employeeResponse]) => {
-                let groupOptions = groupResponse.data.map(group => {
+                const groupOptions = groupResponse.data.map(group => {
                     return {
                         value: group.groupId,
                         label: group.name
@@ -56,12 +56,7 @@ export default class Discipline extends Component {
                 });
                 groupOptions.unshift({ value: '', label: '-- All --' });
 
-                const employeeOptions = employeeResponse.data.map(item => {
-                    return {
-                        value: item.employeeId,
-                        label: `${item.nickName} (${item.fullName})`
-                    };
-                });
+                const employeeOptions = this.getEmployeeOptions(employeeResponse.data);
 
                 this.groupOptions = groupOptions;
                 this.employeeOptions = employeeOptions;
@@ -70,6 +65,12 @@ export default class Discipline extends Component {
                 this.getDisciplines(this.state.filter);
             }).catch(axiosError);
     }
+
+    getEmployeeOptions = data => data.map(item => (
+        {
+            value: item.employeeId,
+            label: `${item.nickName} (${item.fullName})`
+        }))
 
     handleFilterChange = (name, value) => {
         this.setState({
@@ -88,12 +89,8 @@ export default class Discipline extends Component {
     getEmployees = groupIds => {
         axios(resolveClientUrl('common/GetEmployees'), { params: { groupIds: groupIds } })
             .then(response => {
-                const employeeOptions = response.data.map(item => {
-                    return {
-                        value: item.employeeId,
-                        label: `${item.nickName} (${item.fullName})`
-                    };
-                });
+                const employeeOptions = this.getEmployeeOptions(response.data);
+
                 let filter = this.state.filter;
 
                 if (employeeOptions.indexOf(filter.employee) < 0) {
@@ -157,7 +154,7 @@ export default class Discipline extends Component {
     }
 
     handleEditSuccess = discipline => {
-        let disciplines = this.state.disciplines.slice();
+        const disciplines = this.state.disciplines.slice();
         const index = disciplines.findIndex(e => e.disciplineId === discipline.disciplineId);
         if (index >= 0) {
             disciplines[index] = discipline;
@@ -168,7 +165,7 @@ export default class Discipline extends Component {
     }
 
     handleEditStatus = (disciplineId, isActive) => {
-        let disciplines = this.state.disciplines.slice();
+        const disciplines = this.state.disciplines.slice();
         const index = disciplines.findIndex(e => e.disciplineId === disciplineId);
         if (index >= 0) {
             disciplines[index].isActive = isActive;
