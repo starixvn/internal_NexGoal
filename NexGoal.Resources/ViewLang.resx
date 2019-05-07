@@ -291,4 +291,7 @@
   <data name="Toeic" xml:space="preserve">
     <value>Toeic</value>
   </data>
+  <data name="PRReport" xml:space="preserve">
+    <value>PR Report</value>
+  </data>
 </root>

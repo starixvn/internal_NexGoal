@@ -26,6 +26,7 @@ module.exports = {
         [`${styleDistPath}/pm-setting`]: `${styleSourcePath}/pages/pmsetting/index.scss`,
         [`${styleDistPath}/master-report`]: `${styleSourcePath}/pages/report/master.scss`,
         [`${styleDistPath}/paDetail-pdf`]: `${styleSourcePath}/pages/report/pa-detail-pdf.scss`,
+        [`${styleDistPath}/pr-tracking`]: `${styleSourcePath}/pages/report/pr-tracking.scss`,
 
         //
         [`${jsDistPath}/main`]: './sources/js/main.js',
@@ -49,6 +50,7 @@ module.exports = {
         [`${jsDistPath}/nomination-report`]: `${jsSourcePath}/report/nomination/index.jsx`,
         [`${jsDistPath}/pa-report`]: `${jsSourcePath}/report/pa/index.jsx`,
         [`${jsDistPath}/pm-setting`]: `${jsSourcePath}/pmsetting/index.jsx`,
-        [`${jsDistPath}/master-report`]: `${jsSourcePath}/report/master/index.jsx`
+        [`${jsDistPath}/master-report`]: `${jsSourcePath}/report/master/index.jsx`,
+        [`${jsDistPath}/pr-tracking`]: `${jsSourcePath}/report/pr-tracking/index.jsx`,
     }
 };

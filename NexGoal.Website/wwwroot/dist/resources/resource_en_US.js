@@ -121,6 +121,7 @@ window.resource_en_US = {
     'PMAssignment': 'PM Assignment',
     'ProjectManager': 'Project Manager',
     'ProjectTag': 'Project Tag',
+    'PRReport': 'Performance Record Report',
     'Publish': 'Publish',
     'Quarter': 'Quarter',
     'Read': 'Read',

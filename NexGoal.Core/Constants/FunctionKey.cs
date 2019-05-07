@@ -14,6 +14,7 @@
         public const string PAReport = "PAReport";
         public const string NominationReport = "NominationReport";
         public const string MasterReport = "MasterReport";
+        public const string PRTracking = "PRTracking";
 
         public const string RoleAssignment = "RoleAssignment";
         public const string RolePermission = "RolePermission";

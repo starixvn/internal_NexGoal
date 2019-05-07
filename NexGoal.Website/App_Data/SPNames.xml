@@ -186,4 +186,8 @@
   <Function name="Log Login">
     <Setting Key="LogUserLogin_Insert" SpName="LogUserLogin_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
+  <Function name="PR Tracking">
+    <Setting Key="PRTracking_Get" SpName="PRTracking_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PRTracking_GetGroupsAndMembers" SpName="PRTracking_GetGroupsAndMembers" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
 </Functions>

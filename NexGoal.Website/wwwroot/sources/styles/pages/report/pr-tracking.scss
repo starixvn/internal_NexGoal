@@ -1,0 +1,49 @@
+﻿@import "../../abstracts/mixins";
+@import "../../abstracts/variables";
+@import "../../components/buttons";
+@import "../../components/form-filter";
+@import "../../components/react-select";
+@import "../../components/form-inline";
+@import "../../components/form";
+@import "../../components/tables";
+@import "../../components/tooltip";
+@import "../../components/sticky-block";
+
+.pr-tracking-table {
+    margin-bottom: 24px;
+
+    .team-group-row > td {
+        background-color: #E9E9E9;
+        padding: 0 12px;
+        font-size: 14px;
+        color: #474747;
+    }
+
+    .order {
+        width: 5%;
+    }
+
+    .nick-name {
+        width: 15%;
+    }
+
+    .job-title {
+        width: 25%;
+    }
+
+    .self {
+        width: 10%;
+    }
+
+    .pm {
+        width: 15%;
+    }
+
+    .evaluator {
+        width: 15%;
+    }
+
+    .reviewer {
+        width: 15%;
+    }
+}

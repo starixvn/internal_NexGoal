@@ -403,6 +403,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PR Report.
+        /// </summary>
+        public static string PRReport {
+            get {
+                return ResourceManager.GetString("PRReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remark.
         /// </summary>
         public static string Remark {

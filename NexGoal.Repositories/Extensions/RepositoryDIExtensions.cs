@@ -14,6 +14,7 @@
             services.AddScoped<IPAReportRepository, PAReportRepository>();
             services.AddScoped<IPerformanceRecordRepository, PerformanceRecordRepository>();
             services.AddScoped<INominationReportRepository, NominationReportRepository>();
+            services.AddScoped<IPRTrackingRepository, PRTrackingRepository>();
         }
     }
 }
