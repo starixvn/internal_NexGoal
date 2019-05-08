@@ -271,6 +271,9 @@
     <Build Include="dbo\Views\ProjectTag.sql" />
     <Build Include="dbo\Stored Procedures\ProjectTag_GetByEmployeeId.sql" />
     <Build Include="dbo\Stored Procedures\GroupFlowSetting_GetGroups.sql" />
+    <Build Include="dbo\Stored Procedures\PRTracking_Get.sql" />
+    <Build Include="dbo\Stored Procedures\PRTracking_GetDetail.sql" />
+    <Build Include="dbo\Stored Procedures\PRTracking_GetGroupsAndMembers.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">
