@@ -12,5 +12,7 @@
         Task<Tuple<PeriodModel, IEnumerable<PRTrackingModel>>> GetAsync(int actorId, string employeeIds, bool noPR);
 
         Task<Tuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndMembersAsync(int actorId);
+
+        Task<IEnumerable<PRTrackingDetailModel>> GetDetailAsync(int employeeId, int processId);
     }
 }

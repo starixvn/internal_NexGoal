@@ -1,31 +1,19 @@
 ﻿import React, { Component, Fragment } from 'react';
 
 import getResource from '../../../resourceHelper';
-import { noDataIndication } from '../../../common-functions';
 import StickyBlock from '../../../shared/components/StickyBlock';
+import Row from './Row';
 
 export default class Table extends Component {
     constructor(props) {
         super(props);
     }
 
-    renderEmployee = (employee, index) => {
-        return (
-            <tr key={employee.employeeId}>
-                <td className="text-center">{index + 1}</td>
-                <td>{employee.nickName} ({employee.fullName})</td>
-                <td>{employee.jobTitle}</td>
-                <td className="text-center">{employee.selfPRs > 0 ? employee.selfPRs : '-'}</td>
-                <td className="text-center">{employee.pmpRs > 0 ? employee.pmpRs : '-'}</td>
-                <td className="text-center">{employee.evaluatorPRs > 0 ? employee.evaluatorPRs : '-'}</td>
-                <td className="text-center">{employee.reviewerPRs > 0 ? employee.reviewerPRs : '-'}</td>
-            </tr>
-        );
-    }
+    renderEmployee = (employee, index) => <Row key={employee.employeeId} employee={employee} index={index} />
 
     renderData = data => {
         return (
-            <Fragment key={data.nominationPeriodId}>
+            <Fragment key={data.groupId}>
                 <tr className="team-group-row">
                     <td colSpan={7}>{data.groupName}</td>
                 </tr>
@@ -44,7 +32,7 @@ export default class Table extends Component {
                     {this.props.tableData.map(this.renderData)}
                 </Fragment>);
         } else {
-            return '';
+            return <Fragment />;
         }
     }
 
@@ -89,7 +77,6 @@ export default class Table extends Component {
                     </tbody>
                 </table>
             </Fragment>
-
         );
     }
 }

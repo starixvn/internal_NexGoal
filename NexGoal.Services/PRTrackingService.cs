@@ -35,5 +35,14 @@
                 ActorId = actorId
             });
         }
+
+        public async Task<IEnumerable<PRTrackingDetailModel>> GetDetailAsync(int employeeId, int processId)
+        {
+            return await repository.GetDetailAsync(new GetPRTrackingDetailCriteria
+            {
+                EmployeeId = employeeId,
+                ProcessId = processId
+            });
+        }
     }
 }

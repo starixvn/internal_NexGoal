@@ -189,5 +189,6 @@
   <Function name="PR Tracking">
     <Setting Key="PRTracking_Get" SpName="PRTracking_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PRTracking_GetGroupsAndMembers" SpName="PRTracking_GetGroupsAndMembers" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PRTracking_GetDetail" SpName="PRTracking_GetDetail" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>

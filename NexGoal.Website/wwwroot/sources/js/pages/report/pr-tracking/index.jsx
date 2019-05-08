@@ -96,7 +96,6 @@ export default class PRTracking extends Component {
         }).then(response => {
             this.setState({
                 tableData: response.data.employees.reduce(function (groups, item) {
-                    debugger;
                     let group = groups.find(e => e.groupId === item.groupId);
 
                     if (!group) {
@@ -118,6 +117,17 @@ export default class PRTracking extends Component {
         }).catch(axiosError);
     }
 
+    getPRTrackingDetail = (employeeId, processId) => {
+        axios.get(resolveClientUrl('PRTracking/GetDetail'), {
+            params: {
+                employeeId,
+                processId
+            }
+        }).then(response => {
+            return response.data;
+        }).catch(axiosError);
+    }
+
     render() {
         return (
             <div className="row">
@@ -125,7 +135,7 @@ export default class PRTracking extends Component {
                     <li className="current">{getResource('PRReport')}</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    {this.state.employeeOptions.length > 0 && this.state.groupOptions.length > 0 &&
+                    {this.state.employeeOptions.length > 1 && this.state.groupOptions.length > 0 &&
                         <SearchForm filter={this.state.filter}
                             groupOptions={this.state.groupOptions}
                             employeeOptions={this.state.employeeOptions}
@@ -136,6 +146,7 @@ export default class PRTracking extends Component {
 
                     <Table tableData={this.state.tableData}
                         period={this.state.period}
+                        onHoverPRQuantity={this.getPRTrackingDetail}
                     />
                 </div>
             </div>

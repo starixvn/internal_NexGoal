@@ -40,5 +40,13 @@
                 }
             }
         }
+
+        public async Task<IEnumerable<PRTrackingDetailModel>> GetDetailAsync(ICriteria criteria)
+        {
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
+            {
+                return await db.QueryAsync<PRTrackingDetailModel>(criteria);
+            }
+        }
     }
 }
