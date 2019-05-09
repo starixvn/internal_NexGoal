@@ -94,7 +94,7 @@ export default class Table extends Component {
                             <th className="order" rowSpan="2">{getResource('SymbolCount')}</th>
                             <th className="nick-name " rowSpan="2">{getResource('Employee')}</th>
                             <th className="job-title" rowSpan="2">{getResource('JobTitle')}</th>
-                            <th colSpan="4">Performance RecordQuantity</th>
+                            <th colSpan="4">Performance Record Quantity</th>
                         </tr>
                         <tr>
                             <th className="self">{getResource('Self')}</th>
