@@ -7,6 +7,7 @@ import getResource from '../../../resourceHelper';
 import Breadcrumb from '../../../shared/components/Breadcrumb';
 import SearchForm from './SearchForm';
 import Table from './Table';
+import { PerformanceProcess } from '../../../constants';
 
 export default class PRTracking extends Component {
     constructor(props) {
@@ -23,6 +24,8 @@ export default class PRTracking extends Component {
             tableData: null,
             period: null
         };
+
+        this.employees = [];
     }
 
     componentDidMount() {
@@ -96,6 +99,11 @@ export default class PRTracking extends Component {
         }).then(response => {
             this.setState({
                 tableData: response.data.employees.reduce(function (groups, item) {
+                    item.selfPRQuantity = item.details.filter(d => d.roleId === PerformanceProcess.Self).reduce((current, item) => current + item.quantity, 0);
+                    item.pmPRQuantity = item.details.filter(d => d.roleId === PerformanceProcess.ProjectManager).reduce((current, item) => current + item.quantity, 0);
+                    item.evaluatorPRQuantity = item.details.filter(d => d.roleId === PerformanceProcess.Evaluator).reduce((current, item) => current + item.quantity, 0);
+                    item.reviewerPRQuantity = item.details.filter(d => d.roleId === PerformanceProcess.Reviewer).reduce((current, item) => current + item.quantity, 0);
+
                     let group = groups.find(e => e.groupId === item.groupId);
 
                     if (!group) {
@@ -116,18 +124,6 @@ export default class PRTracking extends Component {
             });
         }).catch(axiosError);
     }
-
-    getPRTrackingDetail = (employeeId, processId) => {
-        axios.get(resolveClientUrl('PRTracking/GetDetail'), {
-            params: {
-                employeeId,
-                processId
-            }
-        }).then(response => {
-            return response.data;
-        }).catch(axiosError);
-    }
-
     render() {
         return (
             <div className="row">
@@ -135,7 +131,7 @@ export default class PRTracking extends Component {
                     <li className="current">{getResource('PRReport')}</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    {this.state.employeeOptions.length > 1 && this.state.groupOptions.length > 0 &&
+                    {this.employees.length > 1 && this.state.groupOptions.length > 0 &&
                         <SearchForm filter={this.state.filter}
                             groupOptions={this.state.groupOptions}
                             employeeOptions={this.state.employeeOptions}
@@ -146,7 +142,6 @@ export default class PRTracking extends Component {
 
                     <Table tableData={this.state.tableData}
                         period={this.state.period}
-                        onHoverPRQuantity={this.getPRTrackingDetail}
                     />
                 </div>
             </div>

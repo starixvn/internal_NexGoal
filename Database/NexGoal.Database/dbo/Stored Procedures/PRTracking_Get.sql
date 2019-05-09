@@ -5,7 +5,7 @@
 AS
 /*
 Created: 20190506@Elton.Ton
-Task: Get PR Report.
+Task: Get PA Report.
 DB: bodb_NexGoal
 Original:
 */
@@ -72,39 +72,78 @@ BEGIN
 		,e.GroupId
 		,jt.Name AS JobTitle
 		,g.Name AS GroupName
-		,(
-			SELECT COUNT(*)
-			FROM dbo.PerformanceRecord pr WITH (NOLOCK) 				
-			WHERE pr.CreatorId = e.EmployeeId AND pr.EmployeeId = pr.CreatorId
-				AND pr.TypeId = 1 AND pr.CreatedDate BETWEEN @WorkingFromDate AND @WorkingToDate
-		) AS SelfPRs
-		,(
-			SELECT COUNT(*)
-			FROM dbo.PMSetting pms WITH (NOLOCK)
-				INNER JOIN dbo.PerformanceRecord pr WITH (NOLOCK) 
-				ON pms.MemberId = pr.EmployeeId AND pms.ProjectManagerId = pr.CreatorId AND pr.RoleId = @PMProcessId
-					AND pr.TypeId = 1 AND pr.CreatedDate BETWEEN @WorkingFromDate AND @WorkingToDate
-			WHERE pms.MemberId = e.EmployeeId
-		) AS PMPRs
-		,(
-			SELECT COUNT(*) AS 'Count'
-			FROM dbo.PerformanceRecord pr WITH (NOLOCK) 
-			WHERE e.EmployeeId = pr.EmployeeId AND pr.TypeId = 1 
-				AND pr.CreatedDate BETWEEN @WorkingFromDate AND @WorkingToDate
-				AND pr.RoleId = @EvaluatorProcessId
-		) AS EvaluatorPRs
-		,(
-			SELECT COUNT(*) AS 'Count'
-			FROM dbo.PerformanceRecord pr WITH (NOLOCK) 
-			WHERE e.EmployeeId = pr.EmployeeId AND pr.TypeId = 1 
-				AND pr.CreatedDate BETWEEN @WorkingFromDate AND @WorkingToDate
-				AND pr.RoleId = @ReviewerProcessId
-		) AS ReviewerPRs
 	INTO #result
 	FROM dbo.Employee e WITH (NOLOCK)
 		INNER JOIN dbo.JobTitle jt WITH (NOLOCK) ON e.JobTitleId = jt.JobTitleId
 		INNER JOIN dbo.[Group] g WITH (NOLOCK) ON e.GroupId = g.GroupId
 	WHERE EXISTS (SELECT 1 from #member m WHERE m.EmployeeId = e.EmployeeId)
+
+	SELECT e.EmployeeId
+		,e.EmployeeId AS CreatorId
+		,e.NickName AS CreatorNickname
+		,e.FullName AS CreatorFullname
+		,@SelfProcessId AS RoleId
+		,selfPR.Quantity
+	INTO #detail
+	FROM #member m
+		INNER JOIN dbo.Employee e WITH (NOLOCK) ON m.EmployeeId = e.EmployeeId
+		CROSS APPLY (
+			SELECT COUNT(*) AS Quantity
+			FROM dbo.PerformanceRecord pr WITH (NOLOCK)
+			WHERE m.EmployeeId = pr.EmployeeId AND pr.TypeId = 1
+				AND pr.RoleId = @SelfProcessId AND pr.CreatorId = pr.EmployeeId
+				AND pr.CreatedDate BETWEEN @WorkingFromDate AND @WorkingToDate
+		) selfPR
+	
+	INSERT INTO #detail
+	SELECT efs.EmployeeId
+		,e.EmployeeId AS CreatorId
+		,e.NickName AS CreatorNickname
+		,e.FullName AS CreatorFullname
+		,efs.ProcessId AS RoleId
+		,COUNT(pr.PerformanceRecordId) Quantity
+	FROM dbo.EmployeeFlowSetting efs WITH (NOLOCK)
+		INNER JOIN dbo.Employee e WITH (NOLOCK) ON efs.EvaluatorId = e.EmployeeId AND efs.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
+		LEFT JOIN PerformanceRecord pr WITH (NOLOCK) ON efs.EvaluatorId = pr.CreatorId
+			AND pr.EmployeeId = efs.EmployeeId AND pr.TypeId = 1 AND pr.RoleId = efs.ProcessId
+			AND pr.CreatedDate BETWEEN @WorkingFromDate AND @WorkingToDate
+	WHERE EXISTS (SELECT 1 from #member m WHERE m.EmployeeId = efs.EmployeeId)
+	GROUP BY efs.EmployeeId, e.EmployeeId, e.NickName, e.FullName, efs.ProcessId
+	
+	INSERT INTO #detail
+	SELECT member.EmployeeId
+		,e.EmployeeId AS CreatorId
+		,e.NickName AS CreatorNickname
+		,e.FullName AS CreatorFullname
+		,gfs.ProcessId AS RoleId
+		,COUNT(pr.PerformanceRecordId) Quantity
+	FROM dbo.GroupFlowSetting gfs WITH (NOLOCK)
+		INNER JOIN dbo.Employee member WITH (NOLOCK) ON gfs.GroupId = member.GroupId
+		INNER JOIN dbo.Employee e WITH (NOLOCK) ON gfs.EvaluatorId = e.EmployeeId AND gfs.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
+		LEFT JOIN PerformanceRecord pr WITH (NOLOCK) ON gfs.EvaluatorId = pr.CreatorId
+			AND pr.EmployeeId = member.EmployeeId AND pr.TypeId = 1 AND pr.RoleId = gfs.ProcessId
+			AND pr.CreatedDate BETWEEN @WorkingFromDate AND @WorkingToDate
+	WHERE EXISTS (SELECT 1 from #member m WHERE m.EmployeeId = member.EmployeeId)
+		AND NOT EXISTS (SELECT 1 FROM EmployeeFlowSetting efs WITH (NOLOCK) WHERE member.EmployeeId = efs.EmployeeId)
+	GROUP BY member.EmployeeId, e.EmployeeId, e.NickName, e.FullName, gfs.ProcessId
+
+	INSERT INTO #detail
+	SELECT pms.MemberId AS EmployeeId
+		,e.EmployeeId AS CreatorId
+		,e.NickName AS CreatorNickname
+		,e.FullName AS CreatorFullname
+		,@PMProcessId AS RoleId
+		,PMPR.Quantity
+	FROM dbo.PMSetting pms WITH (NOLOCK)
+		INNER JOIN dbo.Employee e WITH (NOLOCK) ON pms.ProjectManagerId = e.EmployeeId
+		CROSS APPLY	(
+			SELECT COUNT(*) AS Quantity
+			FROM PerformanceRecord pr WITH (NOLOCK)
+			WHERE pr.EmployeeId = pms.MemberId AND pr.CreatorId = pms.ProjectManagerId
+				AND pr.TypeId = 1 AND pr.RoleId = @PMProcessId
+				AND pr.CreatedDate BETWEEN @WorkingFromDate AND @WorkingToDate
+		) PMPR
+	WHERE EXISTS (SELECT 1 from #member m WHERE m.EmployeeId = pms.MemberId)
 
 	SELECT p.PeriodId
 		,p.Name
@@ -117,15 +156,31 @@ BEGIN
 		,GroupId
 		,JobTitle
 		,GroupName	
-		,SelfPRs
-		,PMPRs
-		,EvaluatorPRs
-		,ReviewerPRs
-	FROM #result		
-	WHERE @NoPR = 0 OR SelfPRs = 0 OR PMPRs = 0 OR EvaluatorPRs = 0 OR ReviewerPRs = 0
+	FROM #result r		
+	WHERE @NoPR = 0
+		OR EXISTS (
+			SELECT 1
+			FROM #detail d
+			WHERE d.EmployeeId = r.EmployeeId AND d.Quantity = 0
+		)
 	ORDER BY GroupName, NickName
+
+	SELECT d.EmployeeId
+		,d.CreatorId
+		,d.CreatorNickname
+		,d.CreatorFullname
+		,d.RoleId
+		,d.Quantity
+	FROM #detail d
+	WHERE @NoPR = 0 
+		OR EXISTS (
+			SELECT 1
+			FROM #detail d1
+			WHERE d1.EmployeeId = d.EmployeeId AND d1.Quantity = 0
+		)
 
 	DROP TABLE #member
 	DROP TABLE #selectedEmp
 	DROP TABLE #result
+	DROP TABLE #detail
 END

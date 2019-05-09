@@ -1,15 +1,46 @@
 ﻿import React, { Component, Fragment } from 'react';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 
 import getResource from '../../../resourceHelper';
 import StickyBlock from '../../../shared/components/StickyBlock';
-import Row from './Row';
+import { PerformanceProcess } from '../../../constants';
 
 export default class Table extends Component {
     constructor(props) {
         super(props);
     }
 
-    renderEmployee = (employee, index) => <Row key={employee.employeeId} employee={employee} index={index} />
+    getOverlay = (details) => {
+        if (details.length > 0) {
+            return (<Tooltip id="tooltip">{details.map(d => <p key={d.creatorId}>{d.creatorNickname}: {d.quantity}</p>)}</Tooltip>);
+        }
+
+        return <Fragment />;
+    }
+
+    renderEmployee = (employee, index) => (
+        <tr key={employee.employeeId}>
+            <td className="text-center">{index + 1}</td>
+            <td>{employee.nickName} ({employee.fullName})</td>
+            <td>{employee.jobTitle}</td>
+            <td className="text-center">{employee.selfPRQuantity > 0 ? employee.selfPRQuantity : '-'}</td>
+            <OverlayTrigger placement="bottom" overlay={this.getOverlay(employee.details.filter(d => d.roleId === PerformanceProcess.ProjectManager))}>
+                <td className="text-center">
+                    {employee.pmPRQuantity > 0 ? employee.pmPRQuantity : '-'}
+                </td>
+            </OverlayTrigger>
+            <OverlayTrigger placement="bottom" overlay={this.getOverlay(employee.details.filter(d => d.roleId === PerformanceProcess.Evaluator))}>
+                <td className="text-center">
+                    {employee.evaluatorPRQuantity > 0 ? employee.evaluatorPRQuantity : '-'}
+                </td>
+            </OverlayTrigger>
+            <OverlayTrigger placement="bottom" overlay={this.getOverlay(employee.details.filter(d => d.roleId === PerformanceProcess.Reviewer))}>
+                <td className="text-center">
+                    {employee.reviewerPRQuantity > 0 ? employee.reviewerPRQuantity : '-'}
+                </td>
+            </OverlayTrigger>
+        </tr>
+    )
 
     renderData = data => {
         return (

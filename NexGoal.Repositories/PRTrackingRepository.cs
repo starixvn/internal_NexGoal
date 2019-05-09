@@ -7,6 +7,7 @@
     using NexGoal.Models.PRTracking;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class PRTrackingRepository : IPRTrackingRepository
@@ -20,6 +21,13 @@
                     var period = await multi.ReadFirstOrDefaultAsync<PeriodModel>();
 
                     var prTrackings = await multi.ReadAsync<PRTrackingModel>();
+
+                    var details = await multi.ReadAsync<PRTrackingDetailModel>();
+
+                    foreach (var prTracking in prTrackings)
+                    {
+                        prTracking.Details = details.Where(x => x.EmployeeId == prTracking.EmployeeId);
+                    }
 
                     return new Tuple<PeriodModel, IEnumerable<PRTrackingModel>>(period, prTrackings);
                 }
@@ -38,14 +46,6 @@
 
                     return new Tuple<IEnumerable<Group>, IEnumerable<Employee>>(groups, employees);
                 }
-            }
-        }
-
-        public async Task<IEnumerable<PRTrackingDetailModel>> GetDetailAsync(ICriteria criteria)
-        {
-            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
-            {
-                return await db.QueryAsync<PRTrackingDetailModel>(criteria);
             }
         }
     }

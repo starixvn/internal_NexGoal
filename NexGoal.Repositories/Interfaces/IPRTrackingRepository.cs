@@ -13,7 +13,5 @@
         Task<Tuple<PeriodModel, IEnumerable<PRTrackingModel>>> GetAsync(ICriteria criteria);
 
         Task<Tuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndMembersAsync(ICriteria criteria);
-
-        Task<IEnumerable<PRTrackingDetailModel>> GetDetailAsync(ICriteria criteria);
     }
 }

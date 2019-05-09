@@ -1,4 +1,6 @@
-﻿namespace NexGoal.Models.PRTracking
+﻿using System.Collections.Generic;
+
+namespace NexGoal.Models.PRTracking
 {
     public class PRTrackingModel
     {
@@ -14,12 +16,6 @@
 
         public string GroupName { get; set; }
 
-        public int SelfPRs { get; set; }
-
-        public int PMPRs { get; set; }
-
-        public int EvaluatorPRs { get; set; }
-
-        public int ReviewerPRs { get; set; }
+        public IEnumerable<PRTrackingDetailModel> Details { get; set; }
     }
 }

@@ -41,13 +41,5 @@
 
             return Json(new { groups = result.Item1, employees = result.Item2 });
         }
-
-        [HttpGet]
-        public async Task<IActionResult> GetDetail(int employeeId, int processId)
-        {
-            var result = await trackingService.GetDetailAsync(employeeId, processId).ConfigureAwait(false);
-
-            return Json(result);
-        }
     }
 }

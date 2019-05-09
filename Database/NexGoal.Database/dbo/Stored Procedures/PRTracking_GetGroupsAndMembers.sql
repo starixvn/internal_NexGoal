@@ -35,9 +35,10 @@ BEGIN
 		INSERT INTO #member(EmployeeId)
 		SELECT EmployeeId
 		FROM dbo.func_GetMember(@ActorId)
+
+		INSERT INTO #member(EmployeeId) VALUES (@ActorId)
 	END
 
-	INSERT INTO #member(EmployeeId) VALUES (@ActorId)
 
 	SELECT g.GroupId
 		,g.Name
@@ -61,4 +62,6 @@ BEGIN
 		WHERE e.EmployeeId = m.EmployeeId
 	)
 	ORDER BY e.NickName
+
+	DROP TABLE #member
 END
