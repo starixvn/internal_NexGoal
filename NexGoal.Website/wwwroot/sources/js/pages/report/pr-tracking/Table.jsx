@@ -4,6 +4,7 @@ import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import getResource from '../../../resourceHelper';
 import StickyBlock from '../../../shared/components/StickyBlock';
 import { PerformanceProcess } from '../../../constants';
+import { noDataIndication } from '../../../common-functions';
 
 export default class Table extends Component {
     constructor(props) {
@@ -60,7 +61,9 @@ export default class Table extends Component {
                     <tr className="group-row">
                         <td colSpan={7}>{this.props.period.name}</td>
                     </tr>
-                    {this.props.tableData.map(this.renderData)}
+                    {this.props.tableData.length > 0 ? this.props.tableData.map(this.renderData) :
+                        <tr><td className="text-center" colSpan={7}>{noDataIndication()}</td></tr>
+                    }
                 </Fragment>);
         } else {
             return <Fragment />;

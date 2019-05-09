@@ -30,8 +30,21 @@
     }
 
     &.bottom {
+        border-bottom-color: #666;
+
         .tooltip-arrow {
-            border-bottom-color: #fff;
+            &:after {
+                position: absolute;
+                width: 0;
+                height: 0;
+                border-color: transparent;
+                border-style: solid;
+                content: '';
+                top: 0;
+                margin-left: -5px;
+                border-width: 0 5px 5px;
+                border-bottom-color: #fff !important;
+            }
         }
     }
 }
