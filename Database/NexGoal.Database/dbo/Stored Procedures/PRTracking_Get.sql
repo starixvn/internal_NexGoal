@@ -28,7 +28,7 @@ BEGIN
 		,@WorkingFromDate = p.DisciplineStartDate
 		,@WorkingToDate = p.DisciplineEndDate
 	FROM dbo.Period p WITH (NOLOCK)
-	WHERE @Today BETWEEN p.DisciplineStartDate AND p.StartDate AND p.IsActive = 1
+	WHERE @Today BETWEEN p.DisciplineStartDate AND p.DisciplineEndDate AND p.IsActive = 1
 
 	CREATE TABLE #member(EmployeeId INT)
 
