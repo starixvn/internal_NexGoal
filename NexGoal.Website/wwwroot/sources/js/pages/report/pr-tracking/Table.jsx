@@ -25,21 +25,23 @@ export default class Table extends Component {
             <td>{employee.nickName} ({employee.fullName})</td>
             <td>{employee.jobTitle}</td>
             <td className="text-center">{employee.selfPRQuantity > 0 ? employee.selfPRQuantity : '-'}</td>
-            <OverlayTrigger placement="bottom" overlay={this.getOverlay(employee.details.filter(d => d.roleId === PerformanceProcess.ProjectManager))}>
-                <td className="text-center">
-                    {employee.pmPRQuantity > 0 ? employee.pmPRQuantity : '-'}
-                </td>
-            </OverlayTrigger>
-            <OverlayTrigger placement="bottom" overlay={this.getOverlay(employee.details.filter(d => d.roleId === PerformanceProcess.Evaluator))}>
-                <td className="text-center">
-                    {employee.evaluatorPRQuantity > 0 ? employee.evaluatorPRQuantity : '-'}
-                </td>
-            </OverlayTrigger>
-            <OverlayTrigger placement="bottom" overlay={this.getOverlay(employee.details.filter(d => d.roleId === PerformanceProcess.Reviewer))}>
-                <td className="text-center">
-                    {employee.reviewerPRQuantity > 0 ? employee.reviewerPRQuantity : '-'}
-                </td>
-            </OverlayTrigger>
+            <td className="text-center">
+                <OverlayTrigger placement="bottom" overlay={this.getOverlay(employee.details.filter(d => d.roleId === PerformanceProcess.ProjectManager))}>
+                    <span className="pr-quantity">{employee.pmPRQuantity > 0 ? employee.pmPRQuantity : '-'}</span>
+                </OverlayTrigger>
+            </td>
+
+            <td className="text-center">
+                <OverlayTrigger placement="bottom" overlay={this.getOverlay(employee.details.filter(d => d.roleId === PerformanceProcess.Evaluator))}>
+                    <span className="pr-quantity">{employee.evaluatorPRQuantity > 0 ? employee.evaluatorPRQuantity : '-'}</span>
+                </OverlayTrigger>
+            </td>
+            <td className="text-center">
+                <OverlayTrigger placement="bottom" overlay={this.getOverlay(employee.details.filter(d => d.roleId === PerformanceProcess.Reviewer))}>
+                    <span className="pr-quantity">{employee.reviewerPRQuantity > 0 ? employee.reviewerPRQuantity : '-'}</span>
+                </OverlayTrigger>
+            </td>
+
         </tr>
     )
 
