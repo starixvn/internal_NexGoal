@@ -49,5 +49,13 @@
 
     .pr-quantity {
         cursor: default;
+    }    
+}
+
+.creator-item {
+    margin-bottom: 2px;
+
+    &:last-child {
+        margin-bottom: 0;
     }
 }

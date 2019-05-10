@@ -13,7 +13,7 @@ export default class Table extends Component {
 
     getOverlay = (details) => {
         if (details.length > 0) {
-            return (<Tooltip id="tooltip">{details.map(d => <p key={d.creatorId}>{d.creatorNickname}: {d.quantity}</p>)}</Tooltip>);
+            return (<Tooltip id="tooltip">{details.map(d => <p className="creator-item" key={d.creatorId}>{d.creatorNickname}: {d.quantity}</p>)}</Tooltip>);
         }
 
         return <Fragment />;
