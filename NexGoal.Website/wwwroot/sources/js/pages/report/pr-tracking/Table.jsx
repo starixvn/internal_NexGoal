@@ -68,7 +68,7 @@ export default class Table extends Component {
                     }
                 </Fragment>);
         } else {
-            return <Fragment />;
+            return (<tr><td className="text-center" colSpan={7}>{noDataIndication()}</td></tr>);
         }
     }
 
