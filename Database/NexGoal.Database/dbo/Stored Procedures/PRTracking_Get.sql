@@ -150,20 +150,21 @@ BEGIN
 	FROM dbo.Period p WITH (NOLOCK)
 	WHERE p.PeriodId = @PeriodId
 
-	SELECT EmployeeId
+	SELECT r.EmployeeId
 		,NickName
 		,FullName
 		,GroupId
 		,JobTitle
 		,GroupName	
-	FROM #result r		
+	FROM #result r
+		INNER JOIN dbo.func_GetSortedEmployee(@ActorId) se ON r.EmployeeId = se.EmployeeId	
 	WHERE @NoPR = 0
 		OR EXISTS (
 			SELECT 1
 			FROM #detail d
 			WHERE d.EmployeeId = r.EmployeeId AND d.Quantity = 0
 		)
-	ORDER BY GroupName, NickName
+	ORDER BY se.RankIndex
 
 	SELECT d.EmployeeId
 		,d.CreatorId
