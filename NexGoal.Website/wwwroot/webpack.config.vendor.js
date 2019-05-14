@@ -7,21 +7,21 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const { environment, projectPath } = require('./parts/constant');
 
-let pathsToClean = ['dist/vendors/*.*'];
+const pathsToClean = ['dist/vendors/*.*'];
 
-let cleanOptions = {
+const cleanOptions = {
     root: path.resolve(__dirname, '.'),
     verbose: true,
     dry: false
 };
 
 module.exports = env => {
-    env = environment[env] || environment.development;
-    const isDevBuild = env !== environment.production;
+    const mode = environment[env] || environment.development;
+    const isDevBuild = mode !== environment.production;
     const relativeOutputRootPath = projectPath.clientOutputPath;
 
     const sharedConfig = {
-        mode: env,
+        mode: mode,
         stats: { modules: false },
         module: {
             rules: [

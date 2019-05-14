@@ -36,7 +36,6 @@
         border-bottom: 4px solid transparent;
         border-left: 8px solid #B0CBDD;
         content: "";
-        right: 0;
         position: absolute;
         width: 0;
         height: 0;
@@ -118,7 +117,7 @@
     }
 
     &.role-system:after {
-        border-color: $role-system-color;        
+        border-color: $role-system-color;
     }
 
     &.status-nomination:after {
@@ -186,7 +185,6 @@
     }
 
     .create-date {
-        line-height: 25px;
         margin: 0;
         font-size: 11px;
         font-weight: bold;
@@ -212,17 +210,17 @@
     }
 }
 
-.previous:hover, .next:hover {
-    color: #8F8F8F;
-    opacity: 0.8;
-}
-
 .previous {
     left: 40px;
 }
 
 .next {
     right: 40px;
+}
+
+.previous:hover, .next:hover {
+    color: #8F8F8F;
+    opacity: 0.8;
 }
 
 .button-icon {
