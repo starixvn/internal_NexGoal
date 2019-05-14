@@ -1,7 +1,6 @@
 ﻿.marquee-block {
     display: flex;
     align-items: center;
-    color: #05499C;
     background-color: #FFEEBF;
     border: 1px solid #DFC681;
     border-radius: 2px;
@@ -55,11 +54,6 @@
         &:after {
             width: 0;
         }
-    }
-}
-
-.member-page {
-    .btn-pause {
     }
 }
 

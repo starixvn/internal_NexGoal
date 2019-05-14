@@ -13,12 +13,10 @@ $c-sidebar-menu-item-link-active-text: #324373;
 .sidebar {
     box-shadow: 0 2px 8px 0 rgba(0,0,0,.16);
     position: fixed;
-    top: 51px;
     bottom: 0;
     left: 0;
     z-index: 1000;
     display: block;
-    padding: 20px;
     margin-top: 50px;
     overflow-x: hidden;
     overflow-y: auto;
@@ -37,11 +35,11 @@ $c-sidebar-menu-item-link-active-text: #324373;
     width: 250px;
     background: #2C3B66;
     transition: width 0.25s;
+
     img {
         width: 100%;
     }
 }
-
 
 @media screen and (min-width: 1920px) {
     .left-bar {

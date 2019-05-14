@@ -5,9 +5,9 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const merge = require('webpack-merge');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-let pathsToClean = ['dist/js/*.*', 'dist/styles/*.*'];
+const pathsToClean = ['dist/js/*.*', 'dist/styles/*.*'];
 
-let cleanOptions = {
+const cleanOptions = {
     root: path.resolve(__dirname, '.'),
     verbose: true,
     dry: false
@@ -17,11 +17,11 @@ const { environment, projectPath } = require('./parts/constant');
 const entry = require('./parts/entry');
 
 module.exports = env => {
-    env = environment[env] || environment.development;
-    const isDevBuild = env !== environment.production;
+    const mode = environment[env] || environment.development;
+    const isDevBuild = mode !== environment.production;
 
     const sharedConfig = () => ({
-        mode: env,
+        mode: mode,
         stats: { modules: false },
         resolve: { extensions: ['.js', '.jsx'] },
         output: {

@@ -7,7 +7,6 @@
     display: grid;
     grid-template-columns: 280px 1fr;
     grid-template-rows: minmax(40px, auto) 1fr minmax(20px, auto);
-    margin-bottom: 16px;
     //padding: 16px;
     margin: 12px 16px;
     grid-row-gap: 4px;
@@ -80,7 +79,7 @@
         padding: 3px 16px 8px;
         border-bottom: 1px solid #e5e5e5;
 
-        &.self-checkin{
+        &.self-checkin {
             border: 0;
         }
 
@@ -360,7 +359,6 @@
                     background: #0789D1;
                 }
             }
-
 
             .icon-delete {
                 &:hover {

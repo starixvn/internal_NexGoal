@@ -30,8 +30,8 @@ export default class EditEmployeeRole extends Component {
     handleEditEmployeeRoles = event => {
         event.preventDefault();
 
-        let selectedIds = [];
-        Array.from(event.target.querySelectorAll('input')).map(checkbox => {
+        const selectedIds = [];
+        Array.from(event.target.querySelectorAll('input')).forEach(checkbox => {
             if (checkbox.checked) {
                 selectedIds.push(checkbox.value);
             }
