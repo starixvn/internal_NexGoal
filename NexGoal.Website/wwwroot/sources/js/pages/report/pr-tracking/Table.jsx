@@ -57,18 +57,23 @@ export default class Table extends Component {
     }
 
     renderTableContent = () => {
-        if (this.props.tableData && this.props.period) {
-            return (
-                <Fragment>
-                    <tr className="group-row">
-                        <td colSpan={7}>{this.props.period.name}</td>
-                    </tr>
-                    {this.props.tableData.length > 0 ? this.props.tableData.map(this.renderData) :
-                        <tr><td className="text-center" colSpan={7}>{noDataIndication()}</td></tr>
-                    }
-                </Fragment>);
+        if (this.props.tableData) {
+            if (this.props.period) {
+                return (
+                    <Fragment>
+                        <tr className="group-row">
+                            <td colSpan={7}>{this.props.period.name}</td>
+                        </tr>
+                        {this.props.tableData.length > 0 ? this.props.tableData.map(this.renderData) :
+                            <tr><td className="text-center" colSpan={7}>{noDataIndication()}</td></tr>
+                        }
+                    </Fragment>);
+            }
+            else {
+                return (<tr><td className="text-center" colSpan={7}>{noDataIndication()}</td></tr>);
+            }
         } else {
-            return (<tr><td className="text-center" colSpan={7}>{noDataIndication()}</td></tr>);
+            return <Fragment />;
         }
     }
 
