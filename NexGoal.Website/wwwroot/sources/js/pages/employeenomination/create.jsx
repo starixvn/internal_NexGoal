@@ -43,7 +43,7 @@ export default class Create extends Component {
     }
 
     validateForm = values => {
-        let errors = {};
+        const errors = {};
 
         if (!values.period || Array.isArray(values.period)) {
             errors.period = 'Period is required!';
@@ -77,7 +77,7 @@ export default class Create extends Component {
                 toast.success(getResource('CreatedSuccessfully'));
             } else {
                 if (data.errors) {
-                    let errors = {};
+                    const errors = {};
                     data.errors.map(error => {
                         errors[camelCase(error.key)] = error.errorMessage;
                     });

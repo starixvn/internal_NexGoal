@@ -54,7 +54,7 @@ export default class NotificationBell extends Component {
             }
         }).then(response => {
             const data = response.data;
-            let notifications = this.state.notifications;
+            const notifications = this.state.notifications;
             notifications.push(...data.notifications);
 
             this.setState({
@@ -70,7 +70,7 @@ export default class NotificationBell extends Component {
     }
 
     triggerNotificationCenter = notificationId => {
-        let notiCenterTrigger = document.getElementById('trigger-notification-center');
+        const notiCenterTrigger = document.getElementById('trigger-notification-center');
         if (notiCenterTrigger) {
             notiCenterTrigger.setAttribute('notificationId', notificationId);
             notiCenterTrigger.click();
@@ -78,7 +78,7 @@ export default class NotificationBell extends Component {
     }
 
     addEventListener = () => {
-        let notiTrigger = document.getElementById('trigger-notification-bell');
+        const notiTrigger = document.getElementById('trigger-notification-bell');
         if (notiTrigger) {
             notiTrigger.addEventListener('click', () => {
                 const notificationId = parseInt(notiTrigger.getAttribute('notificationId'), 10);
@@ -141,7 +141,7 @@ export default class NotificationBell extends Component {
     }
 
     markAsReadSuccess = () => {
-        let notifications = this.state.notifications.slice();
+        const notifications = this.state.notifications.slice();
         if (notifications.length > 0) {
             for (let i = 0; i < notifications.length; i++) {
                 notifications[i].statusId = NotificationStatus.Read;
@@ -193,7 +193,7 @@ export default class NotificationBell extends Component {
     }
 
     handleChangeStatusSuccess = (notificationId, isTriggerNotiCenter) => {
-        let notifications = this.state.notifications.slice();
+        const notifications = this.state.notifications.slice();
         const index = notifications.findIndex(x => x.notificationId === notificationId);
 
         if (index >= 0) {

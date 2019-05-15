@@ -11,11 +11,11 @@ import { camelCase, isEmpty } from 'lodash';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
-import { DateFormat } from '../../constants';
+import { DateFormat, InputErrorCssClass } from '../../constants';
 
 export default class Create extends Component {
     validateForm = values => {
-        let errors = {};
+        const errors = {};
 
         if (!values.employee) {
             errors.employee = getResource('EmployeeRequired');
@@ -56,7 +56,7 @@ export default class Create extends Component {
                 this.props.onCreateSuccess();
             } else {
                 if (data.errors) {
-                    let errors = {};
+                    const errors = {};
                     data.errors.map(error => {
                         errors[camelCase(error.key)] = error.errorMessage;
                     });
@@ -92,7 +92,7 @@ export default class Create extends Component {
                             <label className="control-label required-label">{getResource('Employee')}</label>
                             <div className="control-content">
                                 <Select name="employee"
-                                    className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`}
+                                    className={`react-select-container ${touched.employee && errors.employee && InputErrorCssClass}`}
                                     classNamePrefix="react-select"
                                     isDisabled={values.disciplineId > 0} isClearable
                                     options={this.props.employeeOptions}
@@ -104,7 +104,7 @@ export default class Create extends Component {
                         <FormGroup>
                             <label className="required-label control-label">{getResource('IssueDate')}</label>
                             <div className="control-content">
-                                <DatePicker className={`form-control  ${touched.effectiveDate && errors.effectiveDate && 'input-validation-error'}`}
+                                <DatePicker className={`form-control  ${touched.effectiveDate && errors.effectiveDate && InputErrorCssClass}`}
                                     dateFormat={DateFormat} selected={values.effectiveDate}
                                     onChange={value => setFieldValue('effectiveDate', value)}
                                     onChangeRaw={this.onChangeRaw}
@@ -115,7 +115,7 @@ export default class Create extends Component {
                         <FormGroup className="description-group">
                             <label className="required-label control-label">{getResource('Content')}</label>
                             <div className="control-content">
-                                <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
+                                <textarea className={`form-control none-resize ${touched.description && errors.description && InputErrorCssClass}`}
                                     name="description" rows="10"
                                     onChange={handleChange}
                                     value={values.description}

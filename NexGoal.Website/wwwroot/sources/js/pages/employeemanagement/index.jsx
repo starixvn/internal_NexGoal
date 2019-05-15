@@ -43,7 +43,7 @@ export default class EmployeeManagement extends Component {
 
         Promise.all(promises)
             .then(([groupResponse, roleResponse]) => {
-                let groupOptions = groupResponse.data.map(group => {
+                const groupOptions = groupResponse.data.map(group => {
                     return {
                         value: group.groupId,
                         label: group.name
@@ -80,7 +80,7 @@ export default class EmployeeManagement extends Component {
     }
 
     getEmployees = filter => {
-        const roleIds = filter.roles.map(role =>  role.value).join(',');
+        const roleIds = filter.roles.map(role => role.value).join(',');
 
         axios.get(resolveClientUrl('employee/GetEmployees'), {
             params: {
@@ -120,8 +120,8 @@ export default class EmployeeManagement extends Component {
         if (data.isSuccessful) {
             toast.success(getResource('UpdatedSuccessfully'));
 
-            this.getEmployeeById(this.employeeSelected.employeeId, (updatedEmployee) => {
-                let employees = this.state.data.slice();
+            this.getEmployeeById(this.employeeSelected.employeeId, updatedEmployee => {
+                const employees = this.state.data.slice();
                 const index = employees.findIndex(e => e.employeeId === this.employeeSelected.employeeId);
                 employees[index] = { ...employees[index], ...updatedEmployee };
 

@@ -51,6 +51,6 @@ module.exports = {
         [`${jsDistPath}/pa-report`]: `${jsSourcePath}/report/pa/index.jsx`,
         [`${jsDistPath}/pm-setting`]: `${jsSourcePath}/pmsetting/index.jsx`,
         [`${jsDistPath}/master-report`]: `${jsSourcePath}/report/master/index.jsx`,
-        [`${jsDistPath}/pr-tracking`]: `${jsSourcePath}/report/pr-tracking/index.jsx`,
+        [`${jsDistPath}/pr-tracking`]: `${jsSourcePath}/report/pr-tracking/index.jsx`
     }
 };

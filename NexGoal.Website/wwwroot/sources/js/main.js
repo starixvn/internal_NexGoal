@@ -9,7 +9,7 @@ WebFont.load({
 });
 
 $(document).ready(function () {
-    let $navHamburger = $('#js-navHamburger');
+    const $navHamburger = $('#js-navHamburger');
 
     $('#js-btnToggleMenu').on('click', function () {
         if ($navHamburger.hasClass('expended')) {
