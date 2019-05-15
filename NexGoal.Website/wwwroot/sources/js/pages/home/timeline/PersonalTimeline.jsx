@@ -33,7 +33,7 @@ export default class PersonalTimeline extends Component {
 
     updateDimensions = () => {
         this.setState((prevState, prevProps) => {
-            let nodes = calculateTimelineNode();
+            const nodes = calculateTimelineNode();
             if (nodes !== prevState.totalNodes) {
                 this.props.onPageChange(prevProps.data.pageIndex, nodes);
                 return {
@@ -63,9 +63,9 @@ export default class PersonalTimeline extends Component {
     }
 
     calculateNodePosition = (totalNodes, index) => {
-        let baseRight = 20;
-        let timelineWidth = this.timelineWidth.current ? this.timelineWidth.current.offsetWidth : 0;
-        let distanceFromRoot = timelineWidth / (totalNodes + 1);
+        const baseRight = 20;
+        const timelineWidth = this.timelineWidth.current ? this.timelineWidth.current.offsetWidth : 0;
+        const distanceFromRoot = timelineWidth / (totalNodes + 1);
         return Math.round(baseRight + (index + 1) * distanceFromRoot);
     }
 
@@ -80,7 +80,7 @@ export default class PersonalTimeline extends Component {
                 {
                     totalNodes > 0 &&
                     records.map((record, index) => {
-                        let position = this.calculateNodePosition(totalNodes, index);
+                        const position = this.calculateNodePosition(totalNodes, index);
                         return (
                             <TimelineNode key={`timelineNode${record.performanceRecordId}`}
                                 data={record}

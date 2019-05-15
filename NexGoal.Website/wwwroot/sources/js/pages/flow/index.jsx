@@ -27,7 +27,7 @@ export default class App extends Component {
     }
 
     componentDidMount() {
-        var promises = [
+        const promises = [
             axios(resolveClientUrl('common/GetEmployees')),
             axios(resolveClientUrl('Common/GetGroups'))
 

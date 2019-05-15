@@ -49,11 +49,11 @@ export default class WorkLoad extends PureComponent {
 
     getChartData = workload => {
         if (workload.length > 5) {
-            let labels = workload.slice(0, 5).map(e => e.name);
+            const labels = workload.slice(0, 5).map(e => e.name);
             labels.push('Others');
-            let data = workload.slice(0, 5).map(e => e.totalHours);
+            const data = workload.slice(0, 5).map(e => e.totalHours);
 
-            let othersValue = workload.slice(5, workload.length).reduce(function (total, current) {
+            const othersValue = workload.slice(5, workload.length).reduce(function (total, current) {
                 return total + current.totalHours;
             }, 0);
 
@@ -97,8 +97,8 @@ export default class WorkLoad extends PureComponent {
         tooltips: {
             callbacks: {
                 label: function (tooltipItem, data) {
-                    var dataset = data.datasets[tooltipItem.datasetIndex];
-                    var currentValue = dataset.data[tooltipItem.index];
+                    const dataset = data.datasets[tooltipItem.datasetIndex];
+                    const currentValue = dataset.data[tooltipItem.index];
 
                     return `${currentValue} hours`;
                 },
@@ -112,21 +112,21 @@ export default class WorkLoad extends PureComponent {
             labels: {
                 usePointStyle: true,
                 generateLabels: function (chart) {
-                    let data = chart.data;
+                    const data = chart.data;
 
                     if (data.labels.length && data.datasets.length) {
-                        var meta = chart.getDatasetMeta(0);
-                        var ds = data.datasets[0];
-                        var total = ds.data.reduce((accumulator, currentValue) => accumulator + currentValue);
+                        const meta = chart.getDatasetMeta(0);
+                        const ds = data.datasets[0];
+                        const total = ds.data.reduce((accumulator, currentValue) => accumulator + currentValue);
 
                         return data.labels.map(function (label, i) {
-                            var percentage = (ds.data[i] / total * 100).toFixed(1);
-                            var arc = meta.data[i];
-                            var custom = arc && arc.custom || {};
-                            var arcOpts = chart.options.elements.arc;
-                            var fill = custom.backgroundColor ? custom.backgroundColor : ds.backgroundColor[i] || arcOpts.backgroundColor;
-                            var stroke = arcOpts.borderColor;
-                            var bw = arcOpts.borderWidth;
+                            const percentage = (ds.data[i] / total * 100).toFixed(1);
+                            const arc = meta.data[i];
+                            const custom = arc && arc.custom || {};
+                            const arcOpts = chart.options.elements.arc;
+                            const fill = custom.backgroundColor ? custom.backgroundColor : ds.backgroundColor[i] || arcOpts.backgroundColor;
+                            const stroke = arcOpts.borderColor;
+                            const bw = arcOpts.borderWidth;
 
                             return {
                                 text: `${label}: ${percentage}% `,
@@ -146,20 +146,20 @@ export default class WorkLoad extends PureComponent {
         },
         maintainAspectRatio: false,
         legendCallback: function (chart) {
-            let data = chart.data;
+            const data = chart.data;
             let legends = [];
             if (data.labels.length && data.datasets.length) {
-                var meta = chart.getDatasetMeta(0);
-                var ds = data.datasets[0];
-                var total = ds.data.reduce((accumulator, currentValue) => accumulator + currentValue);
+                const meta = chart.getDatasetMeta(0);
+                const ds = data.datasets[0];
+                const total = ds.data.reduce((accumulator, currentValue) => accumulator + currentValue);
 
                 legends = data.labels.map(function (label, i) {
-                    var percentage = (ds.data[i] / total * 100).toFixed(1);
-                    var arc = meta.data[i];
-                    var custom = arc && arc.custom || {};
-                    var arcOpts = chart.options.elements.arc;
-                    var fill = custom.backgroundColor ? custom.backgroundColor : ds.backgroundColor[i] || arcOpts.backgroundColor;
-                    var stroke = arcOpts.borderColor;
+                    const percentage = (ds.data[i] / total * 100).toFixed(1);
+                    const arc = meta.data[i];
+                    const custom = arc && arc.custom || {};
+                    const arcOpts = chart.options.elements.arc;
+                    const fill = custom.backgroundColor ? custom.backgroundColor : ds.backgroundColor[i] || arcOpts.backgroundColor;
+                    const stroke = arcOpts.borderColor;
 
                     return `
                         <div class="legend-item">

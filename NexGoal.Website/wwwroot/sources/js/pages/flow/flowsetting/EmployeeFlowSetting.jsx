@@ -8,7 +8,7 @@ import Select from 'react-select';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
-import { PerformanceProcess } from '../../../constants';
+import { PerformanceProcess, InputErrorCssClass } from '../../../constants';
 import ConfiguredEmployeeList from './ConfiguredEmployeeList';
 
 export default class EmployeeFlowSetting extends Component {
@@ -83,9 +83,9 @@ export default class EmployeeFlowSetting extends Component {
             }).catch(axiosError);
     }
 
-    handleMemberChange = member => {
-        this.getEmployee(member.value, employee => {
-            let member = {
+    handleMemberChange = selectedMember => {
+        this.getEmployee(selectedMember.value, employee => {
+            const member = {
                 ...this.state.member,
                 ...{
                     employeeId: employee.employeeId,
@@ -101,7 +101,7 @@ export default class EmployeeFlowSetting extends Component {
 
     handleEvaluatorChange = selectedEvaluator => {
         this.getEmployee(selectedEvaluator.value, employee => {
-            let evaluator = {
+            const evaluator = {
                 ...this.state.evaluator,
                 ...{
                     processId: PerformanceProcess.Evaluator,
@@ -118,7 +118,7 @@ export default class EmployeeFlowSetting extends Component {
 
     handleReviewerChange = selectedReviewer => {
         this.getEmployee(selectedReviewer.value, employee => {
-            let reviewer = {
+            const reviewer = {
                 ...this.state.reviewer,
                 ...{
                     processId: PerformanceProcess.Reviewer,
@@ -138,7 +138,7 @@ export default class EmployeeFlowSetting extends Component {
             this.setState({ submit: true });
         }
 
-        let errorFields = [];
+        const errorFields = [];
 
         if (!this.state.member) {
             errorFields.push('Member');
@@ -155,7 +155,7 @@ export default class EmployeeFlowSetting extends Component {
         if (errorFields.length > 0) {
             toast.error(`Please select ${errorFields.join(', ')}`);
         } else {
-            let settings = [];
+            const settings = [];
 
             settings.push({
                 processId: this.state.evaluator.processId,
@@ -257,7 +257,7 @@ export default class EmployeeFlowSetting extends Component {
     render() {
         const { isHost } = this.props;
 
-        let employeeOptions = this.state.member ?
+        const employeeOptions = this.state.member ?
             this.props.employeeOptions.filter(e => e.value !== this.state.member.employeeId) : this.props.employeeOptions;
 
         return (
@@ -280,7 +280,7 @@ export default class EmployeeFlowSetting extends Component {
                             <tr>
                                 <td className="col-self">
                                     {isHost &&
-                                        <Select className={`react-select-container ${this.state.submit && !this.state.member && 'input-validation-error'}`}
+                                        <Select className={`react-select-container ${this.state.submit && !this.state.member && InputErrorCssClass}`}
                                             classNamePrefix="react-select"
                                             value={null} options={this.state.unconfiguredEmployeeOptions}
                                             isClearable={false} placeholder="Nickname or full name"
@@ -301,7 +301,7 @@ export default class EmployeeFlowSetting extends Component {
                                 </td>
                                 <td className="col-evaluator">
                                     {isHost &&
-                                        <Select className={`react-select-container ${this.state.submit && !this.state.evaluator && 'input-validation-error'}`}
+                                        <Select className={`react-select-container ${this.state.submit && !this.state.evaluator && InputErrorCssClass}`}
                                             classNamePrefix="react-select"
                                             value={null} options={employeeOptions}
                                             isClearable={false} placeholder="Nickname or full name"
@@ -320,7 +320,7 @@ export default class EmployeeFlowSetting extends Component {
                                 </td>
                                 <td className="col-reviewer">
                                     {isHost &&
-                                        <Select className={`react-select-container ${this.state.submit && !this.state.reviewer && 'input-validation-error'}`}
+                                        <Select className={`react-select-container ${this.state.submit && !this.state.reviewer && InputErrorCssClass}`}
                                             classNamePrefix="react-select"
                                             value={null} options={employeeOptions}
                                             isClearable={false} placeholder="Nickname or full name"
@@ -345,7 +345,9 @@ export default class EmployeeFlowSetting extends Component {
                     {
                         isHost &&
                         <div className="button-group" >
-                            <Button type="button" disabled={this.state.selectedEmployeeId === null} className="btn btn-cancel" onClick={this.handleDeleteSetting}>{getResource('Delete')}</Button>
+                            <Button type="button" disabled={this.state.selectedEmployeeId === null} className="btn btn-cancel" onClick={this.handleDeleteSetting}>
+                                {getResource('Delete')}
+                            </Button>
                             <Button type="button" disabled={!this.state.member && !this.state.evaluator && !this.state.reviewer}
                                 className="btn btn-cancel" onClick={this.handleCancel}
                             >

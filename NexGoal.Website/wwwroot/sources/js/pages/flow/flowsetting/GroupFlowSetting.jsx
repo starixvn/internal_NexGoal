@@ -68,7 +68,7 @@ class GroupFlowSetting extends Component {
 
     handleEvaluatorChange = selectedEvaluator => {
         this.getEmployee(selectedEvaluator.value, employee => {
-            let evaluator = {
+            const evaluator = {
                 ...this.state.evaluator,
                 ...{
                     processId: PerformanceProcess.Evaluator,
@@ -85,7 +85,7 @@ class GroupFlowSetting extends Component {
 
     handleReviewerChange = selectedReviewer => {
         this.getEmployee(selectedReviewer.value, employee => {
-            let reviewer = {
+            const reviewer = {
                 ...this.state.reviewer,
                 ...{
                     processId: PerformanceProcess.Reviewer,
@@ -101,7 +101,7 @@ class GroupFlowSetting extends Component {
     };
 
     handleSaveFlowSetting = () => {
-        let errorFields = [];
+        const errorFields = [];
 
         if (!this.state.evaluator) {
             errorFields.push('Evaluator');
@@ -114,7 +114,7 @@ class GroupFlowSetting extends Component {
         if (errorFields.length > 0) {
             toast.error(`Please select ${errorFields.join(', ')}`);
         } else {
-            let settings = [];
+            const settings = [];
 
             settings.push({
                 processId: this.state.evaluator.processId,
@@ -146,8 +146,8 @@ class GroupFlowSetting extends Component {
                 if (data.isSuccessful) {
                     toast.success(getResource('UpdatedSuccessfully'));
 
-                    let groupSettings = this.state.groupSettings.slice();
-                    let selectedGroup = groupSettings.find(g => g.groupId === this.state.selectedGroup.groupId);
+                    const groupSettings = this.state.groupSettings.slice();
+                    const selectedGroup = groupSettings.find(g => g.groupId === this.state.selectedGroup.groupId);
 
                     if (!selectedGroup.hasSetting) {
                         selectedGroup.hasSetting = true;
@@ -194,8 +194,8 @@ class GroupFlowSetting extends Component {
 
                 this.handleOnCloseModal();
 
-                let groupSettings = this.state.groupSettings.slice();
-                let selectedGroup = groupSettings.find(g => g.groupId === this.state.selectedGroup.groupId);
+                const groupSettings = this.state.groupSettings.slice();
+                const selectedGroup = groupSettings.find(g => g.groupId === this.state.selectedGroup.groupId);
                 selectedGroup.hasSetting = false;
 
                 this.setState({
@@ -280,7 +280,9 @@ class GroupFlowSetting extends Component {
                     {
                         isHost && this.state.selectedGroup &&
                         <div className="button-group" >
-                            <Button type="button" disabled={!this.state.enableDeleteButton} className="btn btn-cancel" onClick={this.handleOnDeleteClick}>{getResource('Delete')}</Button>
+                            <Button type="button" disabled={!this.state.enableDeleteButton} className="btn btn-cancel" onClick={this.handleOnDeleteClick}>
+                                {getResource('Delete')}
+                            </Button>
                             <Button type="button" bsStyle="primary" onClick={this.handleSaveFlowSetting}>{getResource('Submit')}</Button>
                         </div>
                     }

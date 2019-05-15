@@ -17,8 +17,8 @@ export default class TimelineNode extends Component {
     handleClick = () => this.props.onClick(this.props.data.performanceRecordId)
 
     renderSystemNomination = (data, position) => {
-        let status = getNominationClassName(data.nominationStatusId);
-        let statusText = NominationStatuses.find(x => x.value === data.nominationStatusId).text;
+        const status = getNominationClassName(data.nominationStatusId);
+        const statusText = NominationStatuses.find(x => x.value === data.nominationStatusId).text;
 
         return (
             <Fragment>

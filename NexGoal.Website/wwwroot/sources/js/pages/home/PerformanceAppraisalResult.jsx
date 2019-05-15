@@ -13,7 +13,7 @@ export default class PerformanceAppraisalResult extends Component {
 
     groupPerformanceAppraisals = performanceAppraisals => {
         performanceAppraisals.forEach(record => record.year = moment(record.period.startDate).year());
-        let pAs = performanceAppraisals.reduce(function (groups, item) {
+        const pAs = performanceAppraisals.reduce(function (groups, item) {
             const val = item['year'];
             groups[val] = groups[val] || [];
             groups[val].push(item);
@@ -21,7 +21,7 @@ export default class PerformanceAppraisalResult extends Component {
             return groups;
         }, []);
 
-        let performanceAppraisalResults = Object.keys(pAs).map(key => {
+        const performanceAppraisalResults = Object.keys(pAs).map(key => {
             return {
                 year: key,
                 records: pAs[key]
@@ -50,7 +50,7 @@ export default class PerformanceAppraisalResult extends Component {
                                 <div className="year">{performanceAppraisal.year}</div>
                                 {
                                     performanceAppraisal.records.map(record => {
-                                        let grade = record.grade ? record.grade.description : '';
+                                        const grade = record.grade ? record.grade.description : '';
                                         return (
                                             <div key={`performanceAppraisal${record.paRecordId}`} className="term">
                                                 <div>{record.period.name}</div>

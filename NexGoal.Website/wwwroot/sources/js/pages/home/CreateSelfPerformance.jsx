@@ -10,7 +10,7 @@ import moment from 'moment';
 import isEqual from 'react-fast-compare';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
-import { DateFormat, ProbationTag } from '../../constants';
+import { ProbationTag } from '../../constants';
 import getResource from '../../resourceHelper';
 import TextareaFullscreenEditor from '../../shared/components/textarea-fullscreen/index';
 import PerformanceGradeInfo from '../../shared/components/PerformanceGradeInfo';
@@ -94,7 +94,7 @@ export default class CreateSelfPerformance extends Component {
     }
 
     handleCommentChange = event => {
-        let errors = {};
+        const errors = {};
 
         if (!event.target.value) {
             errors.comment = getResource('CommentRequired');
@@ -113,7 +113,7 @@ export default class CreateSelfPerformance extends Component {
     }
 
     validateForm = () => {
-        let errors = {}, isValid = true;
+        const errors = {}, isValid = true;
 
         if (!this.state.performanceRecord.comment || this.state.performanceRecord.comment.trim() === '') {
             errors.comment = getResource('CommentRequired');
@@ -128,13 +128,14 @@ export default class CreateSelfPerformance extends Component {
     handleSubmit = event => {
         event.preventDefault();
 
-        if (this.state.isSubmitting)
+        if (this.state.isSubmitting) {
             return;
+        }
 
         if (this.validateForm()) {
             this.setSubmitting(true);
 
-            let performanceRecord = stringify({
+            const performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 gradeId: this.state.performanceRecord.grade ? this.state.performanceRecord.grade.value : null,
                 comment: this.state.performanceRecord.comment.trim(),
@@ -150,7 +151,7 @@ export default class CreateSelfPerformance extends Component {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }).then(response => {
-                let data = response.data;
+                const data = response.data;
 
                 if (data.isSuccessful) {
                     toast.success(getResource('CreatedSuccessfully'));
@@ -159,7 +160,7 @@ export default class CreateSelfPerformance extends Component {
                     this.props.onSubmitSuccess(data.objectIds);
                 } else {
                     if (data.errors) {
-                        let errors = {};
+                        const errors = {};
                         data.errors.map(error => {
                             errors[camelCase(error.key)] = error.errorMessage;
                         });
@@ -176,8 +177,9 @@ export default class CreateSelfPerformance extends Component {
     handleSaveAsDraft = event => {
         event.preventDefault();
 
-        if (this.state.isSubmitting)
+        if (this.state.isSubmitting) {
             return;
+        }
 
         if (this.validateForm()) {
             this.setSubmitting(true);
@@ -198,7 +200,7 @@ export default class CreateSelfPerformance extends Component {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }).then(response => {
-                let data = response.data;
+                const data = response.data;
 
                 if (data.isSuccessful) {
                     toast.success(getResource('CreatedSuccessfully'));
@@ -207,7 +209,7 @@ export default class CreateSelfPerformance extends Component {
                     this.props.onSubmitDraftSuccess(data.objectIds);
                 } else {
                     if (data.errors) {
-                        let errors = {};
+                        const errors = {};
                         data.errors.map(error => {
                             errors[camelCase(error.key)] = error.errorMessage;
                         });
@@ -275,7 +277,7 @@ export default class CreateSelfPerformance extends Component {
                             </FormGroup>
                             <FormGroup>
                                 <div className="grade">
-                                    <ControlLabel>{getResource('Grade')} <a className="grade-info" onClick={this.handleOpenGradeInfo}></a></ControlLabel>
+                                    <ControlLabel>{getResource('Grade')} <a className="grade-info" onClick={this.handleOpenGradeInfo} /></ControlLabel>
                                     <Select name="grade" className="react-select-container grade-field" classNamePrefix="react-select"
                                         placeholder="Select Grade"
                                         value={performanceRecord.grade}
@@ -298,7 +300,9 @@ export default class CreateSelfPerformance extends Component {
 
                             <FormGroup className="text-right">
                                 <Button className="btn-cancel" onClick={this.handleCancel}>{getResource('Cancel')}</Button>
-                                <Button className="btn-cancel" type="submit" name="saveAsDraft" onClick={this.handleSaveAsDraft} disabled={this.state.isSubmitting}>{getResource('SaveAsDraft')}</Button>
+                                <Button className="btn-cancel" type="submit" name="saveAsDraft" onClick={this.handleSaveAsDraft} disabled={this.state.isSubmitting}>
+                                    {getResource('SaveAsDraft')}
+                                </Button>
                                 <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit} disabled={this.state.isSubmitting}>{getResource('Publish')}</Button>
                             </FormGroup>
                         </form>
