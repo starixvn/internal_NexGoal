@@ -44,6 +44,9 @@
             /*.person-info {
                 align-self: flex-start;
             }*/
+            .person-info {
+                display: block;
+            }
         }
     }
 
@@ -213,6 +216,10 @@
                 background-color: #324476;
                 text-align: center;
                 padding-top: 6px;
+
+                ~ .person-info {
+                    display: block;
+                }
             }
         }
 

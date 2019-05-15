@@ -3,20 +3,28 @@
 .my-page {
     .record[class*="status-"] {
         grid-template-rows: 1fr;
+
         .comment {
             color: #fff;
             font-size: 20px;
             text-align: center;
             padding-bottom: 0;
+            margin-bottom: 0;
         }
     }
+
     .record.status-nomination {
+        padding-top: 16px;
         background-color: $status-nomination-color;
     }
+
     .record.status-winner {
+        padding-top: 16px;
         background-color: $status-winner-color;
     }
+
     .record.status-shortlisted {
+        padding-top: 16px;
         background-color: $status-shortlisted-color;
     }
 }
