@@ -113,7 +113,8 @@ export default class CreateSelfPerformance extends Component {
     }
 
     validateForm = () => {
-        const errors = {}, isValid = true;
+        const errors = {};
+        let isValid = true;
 
         if (!this.state.performanceRecord.comment || this.state.performanceRecord.comment.trim() === '') {
             errors.comment = getResource('CommentRequired');
