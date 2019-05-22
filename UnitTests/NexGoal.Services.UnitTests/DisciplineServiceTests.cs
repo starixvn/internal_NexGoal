@@ -82,7 +82,7 @@
             // Arrange
             var expected = new CommandResult();
             var service = GetDisciplineService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<AddDisciplineCriteria>()).Returns(expected);
+            baseService.ExecuteNonQueryAsync(Arg.Any<UpdateSettingCriteria>()).Returns(expected);
 
             // Act
             var actual = await service.CreateAsync(new AddDisciplineModel());

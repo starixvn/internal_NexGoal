@@ -3,7 +3,7 @@
     using System;
     using NexGoal.Core.Criteria;
 
-    public class AddDisciplineCriteria : CommandBaseCriteria
+    public class UpdateSettingCriteria : CommandBaseCriteria
     {
         public int EmployeeId { get; set; }
 

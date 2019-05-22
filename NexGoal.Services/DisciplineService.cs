@@ -49,7 +49,7 @@
 
         public async Task<CommandResult> CreateAsync(AddDisciplineModel model)
         {
-            var criteria = new AddDisciplineCriteria
+            var criteria = new UpdateSettingCriteria
             {
                 EmployeeId = model.EmployeeId,
                 EffectiveDate = model.EffectiveDate,

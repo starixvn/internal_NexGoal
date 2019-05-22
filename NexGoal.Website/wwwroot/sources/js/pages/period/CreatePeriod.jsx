@@ -153,7 +153,7 @@ export default class CreatePeriod extends Component {
                     <div className="line-group">
                         <FormGroup>
                             <label className="control-label">{getResource('Name')}</label>
-                            <div class="control-content name-content">
+                            <div className="control-content name-content">
                                 <input type="text" name="name" value={values.name} autoComplete="off"
                                     className={`form-control  ${touched.name && errors.name && 'input-validation-error'}`}
                                     onChange={handleChange}

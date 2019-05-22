@@ -9,7 +9,7 @@
         public void GetSettingKey_ReturnCorrectSettingKey()
         {
             // Arrange
-            var criteria = new AddDisciplineCriteria();
+            var criteria = new UpdateSettingCriteria();
             var expected = "Discipline_Insert";
 
             // Act
@@ -30,7 +30,7 @@
         public void IsValid_ParamsAreInvalid_ReturnFalse(int empId, int actorId, string description)
         {
             // Arrange
-            var criteria = new AddDisciplineCriteria
+            var criteria = new UpdateSettingCriteria
             {
                 EmployeeId = empId,
                 CreatedBy = actorId,
@@ -48,7 +48,7 @@
         public void IsValid_ParamsArevalid_ReturnTrue()
         {
             // Arrange
-            var criteria = new AddDisciplineCriteria
+            var criteria = new UpdateSettingCriteria
             {
                 EmployeeId = 1,
                 CreatedBy = 2,

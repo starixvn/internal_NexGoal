@@ -190,4 +190,9 @@
     <Setting Key="PRTracking_Get" SpName="PRTracking_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PRTracking_GetGroupsAndMembers" SpName="PRTracking_GetGroupsAndMembers" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
+  <Function name="Probation">
+    <Setting Key="Probation_GetProbationers" SpName="Probation_GetProbationers" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Probation_UpdateSetting" SpName="Probation_UpdateSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Probation_UpdateSelfEvaluation" SpName="Probation_GetProbationers" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
 </Functions>
