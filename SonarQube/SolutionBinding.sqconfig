@@ -2,6 +2,7 @@
   "ServerUri": "http://sonarqube.nexdev.net/",
   "Organization": null,
   "ProjectKey": "NexGoal",
+  "ProjectName": "Nexus / NexGoal",
   "Profiles": {
     "CSharp": {
       "ProfileKey": "cs-sonar-way-80515",
