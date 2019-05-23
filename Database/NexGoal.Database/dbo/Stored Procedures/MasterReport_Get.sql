@@ -17,6 +17,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @Today DATE = GETDATE()
+		,@PARejected TINYINT = 5
 	DECLARE @WorkingFromDate DATE
 		,@WorkingToDate DATE
 
@@ -103,14 +104,15 @@ BEGIN
 		INNER JOIN dbo.Employee AS e WITH (NOLOCK) ON par.EmployeeId = e.EmployeeId
 		INNER JOIN dbo.[Group] AS g WITH (NOLOCK) ON e.GroupId = g.GroupId
 		INNER JOIN dbo.JobTitle AS jt WITH (NOLOCK) ON e.JobTitleId = jt.JobTitleId
-		INNER JOIN #employeespenttime AS est ON est.EmployeeId = par.EmployeeId
 		INNER JOIN #workingday AS wd ON wd.EmpId = par.EmployeeId
 		INNER JOIN dbo.func_GetSortedEmployee(@ActorId) se ON par.EmployeeId = se.EmployeeId
+		LEFT JOIN #employeespenttime AS est ON est.EmployeeId = par.EmployeeId
 		LEFT JOIN dbo.PAFocus AS paf WITH (NOLOCK) ON paf.PeriodId = par.PeriodId
 		AND paf.EmployeeId = par.EmployeeId
 		LEFT JOIN dbo.EmployeeObjective AS l WITH (NOLOCK) ON l.ObjectiveId = paf.LastObjectiveId
 		LEFT JOIN dbo.EmployeeObjective AS n WITH (NOLOCK) ON n.ObjectiveId = paf.NextObjectiveId
-	WHERE EXISTS (
+	WHERE par.StatusId <> @PARejected
+		AND EXISTS (
 			SELECT 1
 			FROM #group AS g
 			WHERE e.GroupId = g.val
@@ -166,6 +168,7 @@ BEGIN
 		INNER JOIN dbo.Employee AS evaluator WITH (NOLOCK) ON pap.EvaluatorId = evaluator.EmployeeId
 		LEFT JOIN dbo.PerformanceRecord AS pr WITH (NOLOCK) ON pap.PerformanceRecordId = pr.PerformanceRecordId
 	WHERE par.PeriodId = @PeriodId
+		AND par.StatusId <> @PARejected
 		AND pap.ProcessId <> 1
 		AND EXISTS (
 			SELECT 1
