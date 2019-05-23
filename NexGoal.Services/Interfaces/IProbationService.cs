@@ -7,10 +7,14 @@
 
     public interface IProbationService
     {
-        Task<CommandResult> EditSetting(IEnumerable<ProbationSettingModel> settings);
+        Task<CommandResult> EditSettingAsync(IEnumerable<ProbationSettingModel> settings);
 
         Task<IEnumerable<ProbationEvaluationModel>> GetProbationersAsync(int actorId);
 
-        Task<CommandResult> EditSelfEvaluation(int employeeId, IEnumerable<EditSelfEvaluationModel> selfEvaluations);
+        Task<CommandResult> EditSelfEvaluationAsync(int employeeId, IEnumerable<EditSelfEvaluationModel> selfEvaluations);
+
+        Task<CommandResult> EditEvaluatorEvaluationAsync(int employeeId, IEnumerable<EditSelfEvaluationModel> evaluatorEvaluations);
+
+        Task<CommandResult> EditReviewerEvaluationAsync(int employeeId, int finalScore);
     }
 }

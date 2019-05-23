@@ -29,7 +29,7 @@
             }).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditSetting(IEnumerable<ProbationSettingModel> settings)
+        public async Task<CommandResult> EditSettingAsync(IEnumerable<ProbationSettingModel> settings)
         {
             return await baseService.ExecuteNonQueryAsync(new UpdateSettingCriteria
             {
@@ -37,12 +37,30 @@
             }).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditSelfEvaluation(int employeeId, IEnumerable<EditSelfEvaluationModel> selfEvaluations)
+        public async Task<CommandResult> EditSelfEvaluationAsync(int employeeId, IEnumerable<EditSelfEvaluationModel> selfEvaluations)
         {
             return await baseService.ExecuteNonQueryAsync(new UpdateSelfEvaluationCriteria
             {
                 EmployeeId = employeeId,
                 Details = selfEvaluations.ToXML().ToString()
+            }).ConfigureAwait(false);
+        }
+
+        public async Task<CommandResult> EditEvaluatorEvaluationAsync(int employeeId, IEnumerable<EditSelfEvaluationModel> evaluatorEvaluations)
+        {
+            return await baseService.ExecuteNonQueryAsync(new UpdateEvaluatorEvaluationCriteria
+            {
+                EmployeeId = employeeId,
+                Details = evaluatorEvaluations.ToXML().ToString()
+            }).ConfigureAwait(false);
+        }
+
+        public async Task<CommandResult> EditReviewerEvaluationAsync(int employeeId, int finalScore)
+        {
+            return await baseService.ExecuteNonQueryAsync(new UpdateReviewerEvaluationCriteria
+            {
+                EmployeeId = employeeId,
+                FinalScore = finalScore
             }).ConfigureAwait(false);
         }
     }
