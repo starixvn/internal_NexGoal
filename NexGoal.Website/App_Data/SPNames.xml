@@ -192,6 +192,7 @@
   </Function>
   <Function name="Probation">
     <Setting Key="Probation_GetProbationers" SpName="Probation_GetProbationers" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Probation_GetEvaluationDetail" SpName="Probation_GetEvaluationDetail" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Probation_UpdateSetting" SpName="Probation_UpdateSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Probation_UpdateSelfEvaluation" SpName="Probation_GetProbationers" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Probation_UpdateReviewerEvaluation" SpName="Probation_UpdateReviewerEvaluation" DbName="bodb_NexGoal" Plain="0"></Setting>

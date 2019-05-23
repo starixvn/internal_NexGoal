@@ -29,6 +29,12 @@
             }).ConfigureAwait(false);
         }
 
+        public async Task<IEnumerable<KPIGroupModel>> GetEvaluationDetailAsync(int employeeId)
+        {
+            return await probationRepository.GetEvaluationDetailAsync(new GetEvaluationDetailCriteria { EmployeeId = employeeId })
+                .ConfigureAwait(false);
+        }
+
         public async Task<CommandResult> EditSettingAsync(IEnumerable<ProbationSettingModel> settings)
         {
             return await baseService.ExecuteNonQueryAsync(new UpdateSettingCriteria

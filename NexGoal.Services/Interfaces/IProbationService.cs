@@ -11,6 +11,8 @@
 
         Task<IEnumerable<ProbationEvaluationModel>> GetProbationersAsync(int actorId);
 
+        Task<IEnumerable<KPIGroupModel>> GetEvaluationDetailAsync(int employeeId);
+
         Task<CommandResult> EditSelfEvaluationAsync(int employeeId, IEnumerable<EditSelfEvaluationModel> selfEvaluations);
 
         Task<CommandResult> EditEvaluatorEvaluationAsync(int employeeId, IEnumerable<EditSelfEvaluationModel> evaluatorEvaluations);
