@@ -1,6 +1,4 @@
-﻿
-
-CREATE PROCEDURE [dbo].[PARecord_GetByReviewer] @ActorId INT
+﻿CREATE PROCEDURE [dbo].[PARecord_GetByReviewer] @ActorId INT
 	,@PeriodId INT
 	,@GroupIds VARCHAR(MAX) = ''
 	,@IsRevised BIT = NULL
@@ -81,7 +79,6 @@ BEGIN
 	INNER JOIN #tblPARecordId AS tbl WITH (NOLOCK) ON pa.PARecordId = tbl.PARecordId
 	INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
 	INNER JOIN dbo.[Group] AS g WITH (NOLOCK) ON emp.GroupId = g.GroupId
-	INNER JOIN dbo.TOEIC AS t WITH (NOLOCK) ON pa.EmployeeId = t.EmpId
 	INNER JOIN dbo.PAProcess AS p WITH (NOLOCK) ON pa.PARecordId = p.PARecordId
 		AND p.ProcessId = @ReviewerProcessId
 	INNER JOIN dbo.func_GetSortedEmployee(@ActorId) AS es ON es.EmployeeId = emp.EmployeeId
