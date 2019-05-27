@@ -32,6 +32,10 @@ $fa-font-path: "~font-awesome/fonts";
     }
 }
 
+.navbar-inverse .navbar-nav > .active > a {
+    background-color: inherit;
+}
+
 .nav-hamberger {
     font-size: 14px;
     //margin-left: 16px;
@@ -67,17 +71,15 @@ $fa-font-path: "~font-awesome/fonts";
   padding-bottom: 20px;
 }
 
-.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+.navbar-inverse .navbar-nav > .open > a, 
+.navbar-inverse .navbar-nav > .open > a:hover, 
+.navbar-inverse .navbar-nav > .open > a:focus {
     background-color: #324476;
 
     @media only screen and (max-width: 1199px) {
       background-color: #DFE2EB;
       color: #324476;
     }
-}
-
-.navbar-inverse .navbar-nav > .active > a {
-    background-color: inherit;
 }
 
 .navbar-inverse .navbar-nav > .active > a:hover {

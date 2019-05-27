@@ -19,7 +19,46 @@
     background: #324476;
     border-bottom: none;
     //box-shadow: 0 2px 5px 0 rgba(0,0,0,.16);
+
+    .icon-submenu {
+        position: relative;
+        display: inline-block;
+        width: 6px;
+        height: 5px;
+        padding-left: 5px;
+
+        &:before, &:after {
+            content: '';
+            position: absolute;
+            display: block;
+            width: 6px;
+            height: 1px;
+            background: #B6BFD8;
+            transition: all 275ms ease-in-out;
+        }
+
+        &:before {
+            transform: translateX(-2px) rotate(45deg);
+        }
+
+        &:after {
+            transform: translateX(2px) rotate(-45deg);
+        }
+    }
+
     .navbar-nav {
+        > .active {
+            > a:focus {
+                background: transparent;
+            }
+
+            .icon-submenu {
+                &:before, &:after {
+                    background: #fff;
+                }
+            }
+        }
+
         > li {
             > a {
                 line-height: 50px;
@@ -57,18 +96,6 @@
                 }
             }
         }
-
-        > .active {
-            > a:focus {
-                background: transparent;
-            }
-
-            .icon-submenu {
-                &:before, &:after {
-                    background: #fff;
-                }
-            }
-        }
     }
 
     .user-avatar {
@@ -89,32 +116,6 @@
             position: absolute;
             top: 2px;
             left: 2px;
-        }
-    }
-
-    .icon-submenu {
-        position: relative;
-        display: inline-block;
-        width: 6px;
-        height: 5px;
-        padding-left: 5px;
-
-        &:before, &:after {
-            content: '';
-            position: absolute;
-            display: block;
-            width: 6px;
-            height: 1px;
-            background: #B6BFD8;
-            transition: all 275ms ease-in-out;
-        }
-
-        &:before {
-            transform: translateX(-2px) rotate(45deg);
-        }
-
-        &:after {
-            transform: translateX(2px) rotate(-45deg);
         }
     }
 }

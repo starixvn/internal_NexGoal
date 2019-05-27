@@ -97,25 +97,6 @@
             line-height: 1;
         }
 
-        .edited-date {
-            position: relative;
-            display: inline-block;
-            margin-left: 5px;
-
-            &:hover {
-                .edited-tooltip {
-                    top: 25px;
-                    opacity: 1;
-                    visibility: visible;
-                }
-            }
-        }
-
-        .icon-edited-date {
-            font-size: 13px;
-            cursor: pointer;
-        }
-
         .edited-tooltip {
             position: absolute;
             top: 28px;
@@ -154,6 +135,93 @@
                     border-top-left-radius: 2px;
                     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
                 }
+            }
+        }
+
+        .edited-date {
+            position: relative;
+            display: inline-block;
+            margin-left: 5px;
+
+            &:hover {
+                .edited-tooltip {
+                    top: 25px;
+                    opacity: 1;
+                    visibility: visible;
+                }
+            }
+        }
+
+        .icon-edited-date {
+            font-size: 13px;
+            cursor: pointer;
+        }
+    }
+
+    .date {
+        padding: 4px 0;
+        text-align: right;
+
+        .final-date {
+            color: #212121;
+        }
+
+        .edit-date {
+            color: #777;
+            font-size: 12px;
+
+            > span {
+                position: relative;
+                top: -2px;
+                margin-right: 5px;
+            }
+
+            .icon-edit, .icon-delete {
+                display: inline-block;
+                width: 30px;
+                height: 30px;
+                font-size: 15px;
+                line-height: 30px;
+                text-align: center;
+                color: #545454;
+                border-radius: 50%;
+                transition: .2s ease all;
+
+                &:hover {
+                    &:before {
+                        color: #fff;
+                    }
+                }
+            }
+
+            .icon-edit {
+                margin-left: 5px;
+
+                &:before {
+                    color: #545454;
+                }
+
+                &:hover {
+                    background: #0789D1;
+                }
+            }
+
+            .icon-delete {
+                &:hover {
+                    background: #DE5144;
+                }
+            }
+
+            .nomination-info {
+                position: relative;
+                top: -5px;
+                display: inline-block;
+                vertical-align: middle;
+            }
+
+            .nomination-period {
+                font-size: 13px;
+                font-weight: bold;
             }
         }
     }
@@ -317,74 +385,6 @@
         grid-row: 1;
         grid-column: 2 / 3;
         padding: 4px 8px;
-    }
-
-    .date {
-        padding: 4px 0;
-        text-align: right;
-
-        .final-date {
-            color: #212121;
-        }
-
-        .edit-date {
-            color: #777;
-            font-size: 12px;
-
-            > span {
-                position: relative;
-                top: -2px;
-                margin-right: 5px;
-            }
-
-            .icon-edit, .icon-delete {
-                display: inline-block;
-                width: 30px;
-                height: 30px;
-                font-size: 15px;
-                line-height: 30px;
-                text-align: center;
-                color: #545454;
-                border-radius: 50%;
-                transition: .2s ease all;
-
-                &:hover {
-                    &:before {
-                        color: #fff;
-                    }
-                }
-            }
-
-            .icon-edit {
-                margin-left: 5px;
-
-                &:before {
-                    color: #545454;
-                }
-
-                &:hover {
-                    background: #0789D1;
-                }
-            }
-
-            .icon-delete {
-                &:hover {
-                    background: #DE5144;
-                }
-            }
-
-            .nomination-info {
-                position: relative;
-                top: -5px;
-                display: inline-block;
-                vertical-align: middle;
-            }
-
-            .nomination-period {
-                font-size: 13px;
-                font-weight: bold;
-            }
-        }
     }
 
     .comment {

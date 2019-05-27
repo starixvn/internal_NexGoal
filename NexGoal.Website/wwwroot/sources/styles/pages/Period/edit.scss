@@ -76,6 +76,18 @@ table select {
     }
 }*/
 
+.search-wrapper {
+    .btn {
+        height: 30px;
+        line-height: 30px;
+        padding: 0 12px;
+    }
+
+    .search .search-textbox {
+        height: 30px;
+    }
+}
+
 .btn-block {
     .btn + .btn {
         margin-left: 10px;
@@ -89,18 +101,6 @@ table select {
 
     &.current {
         color: #545454;
-    }
-}
-
-.search-wrapper {
-    .btn {
-        height: 30px;
-        line-height: 30px;
-        padding: 0 12px;
-    }
-
-    .search .search-textbox {
-        height: 30px;
     }
 }
 

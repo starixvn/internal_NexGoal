@@ -110,27 +110,6 @@
         height: 20px;
         position: relative;
 
-        &:hover .description {
-            top: 28px;
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .icon-info {
-            display: inline-block;
-            margin-left: 5px;
-            cursor: pointer;            
-        }
-
-        p {
-            margin-bottom: 0;
-        }
-
-        ul {
-            padding-left: 25px;
-            margin: 0;
-        }
-
         .description {
             position: absolute;
             top: 30px;
@@ -147,6 +126,27 @@
             visibility: hidden;
             backface-visibility: visible;
             transition: all .3s ease;
+        }
+
+        &:hover .description {
+            top: 28px;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .icon-info {
+            display: inline-block;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+
+        p {
+            margin-bottom: 0;
+        }
+
+        ul {
+            padding-left: 25px;
+            margin: 0;
         }
 
         .arrow {
