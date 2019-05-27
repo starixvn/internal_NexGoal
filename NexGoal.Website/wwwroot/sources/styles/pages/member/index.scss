@@ -48,9 +48,7 @@
             }
         }
     }
-}
 
-.general-info, #chart-wrapper {
     .group-name {
         font-weight: bold;
         font-size: 14px;
@@ -159,6 +157,38 @@
 
     .next {
         right: -13px;
+    }
+}
+
+.nomination {
+    font-size: 14px;
+
+    .nick-name {
+        font-weight: bold;
+    }
+
+    .nomination-period-title {
+        font-weight: bold;
+        font-size: 15px;
+        //padding: 12px 0 8px;
+    }
+
+    h5 {
+        display: inline-block;
+    }
+
+    .milestone {
+        font-size: 13px;
+    }
+}
+
+#chart-wrapper .group-name {
+    font-weight: bold;
+    font-size: 14px;
+    margin: 20px 0 10px;
+
+    &:first-child {
+        margin-top: 0;
     }
 }
 
@@ -369,28 +399,6 @@
 
     #chart-wrapper {
         margin-top: 10px;
-    }
-}
-
-.nomination {
-    font-size: 14px;
-
-    .nick-name {
-        font-weight: bold;
-    }
-
-    .nomination-period-title {
-        font-weight: bold;
-        font-size: 15px;
-        //padding: 12px 0 8px;
-    }
-
-    h5 {
-        display: inline-block;
-    }
-
-    .milestone {
-        font-size: 13px;
     }
 }
 

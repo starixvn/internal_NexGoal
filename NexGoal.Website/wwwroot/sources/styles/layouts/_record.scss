@@ -12,44 +12,6 @@
     grid-row-gap: 4px;
     border: 1px solid #E5E5E5;
 
-    &.record-system {
-        grid-template-rows: 50px 1fr 20px;
-        padding: 16px;
-        padding-top: 10px;
-        background-color: #EBF4FF;
-        border: 1px solid #5191DF;
-        grid-row-gap: 0;
-
-        .avatar-user, .grade, .project {
-            padding: 0;
-        }
-
-        .comment {
-            padding: 0;
-            grid-row: 2;
-        }
-
-        .grade {
-            grid-row: 3;
-        }
-
-        &[class*="status"] {
-            grid-template-rows: 50px 1fr 0;
-            box-shadow: none;
-
-            .avatar-user {
-                grid-template-columns: 40px 1fr 100px;
-                padding: 0;
-            }
-            /*.person-info {
-                align-self: flex-start;
-            }*/
-            .person-info {
-                display: block;
-            }
-        }
-    }
-
     &.status-nomination {
         border: 1px solid $status-nomination-color;
         background-color: rgba($status-nomination-color, 0.1);
@@ -176,7 +138,33 @@
                 margin-right: 5px;
             }
 
-            .icon-edit, .icon-delete {
+            .icon-edit {
+                display: inline-block;
+                width: 30px;
+                height: 30px;
+                margin-left: 5px;
+                font-size: 15px;
+                line-height: 30px;
+                text-align: center;
+                color: #545454;
+                border-radius: 50%;
+                transition: .2s ease all;
+
+
+                &:before {
+                    color: #545454;
+                }
+
+                &:hover {
+                    background: #0789D1;
+
+                    &:before {
+                        color: #fff;
+                    }
+                }
+            }
+
+            .icon-delete {
                 display: inline-block;
                 width: 30px;
                 height: 30px;
@@ -188,27 +176,11 @@
                 transition: .2s ease all;
 
                 &:hover {
+                    background: #DE5144;
+
                     &:before {
                         color: #fff;
                     }
-                }
-            }
-
-            .icon-edit {
-                margin-left: 5px;
-
-                &:before {
-                    color: #545454;
-                }
-
-                &:hover {
-                    background: #0789D1;
-                }
-            }
-
-            .icon-delete {
-                &:hover {
-                    background: #DE5144;
                 }
             }
 
@@ -234,6 +206,67 @@
         grid-template-columns: 40px 1fr 290px;
         grid-gap: 8px;
         padding: 12px 16px 0;
+
+        .person-info {
+            align-self: center;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex: 0 1 auto;
+
+            [class^="role-"] {
+                display: inline-block;
+                font-weight: 700;
+                font-size: 15px;
+                vertical-align: middle;
+
+                @media screen and (min-width: 1280px) {
+                    font-size: 16px;
+                }
+            }
+
+            .draft {
+                font-size: 11px;
+                background-color: rgba(#000, 0.1);
+                border: 1px solid #7E7E7E;
+                color: #545454;
+                padding: 0 8px 2px;
+                text-align: center;
+                border-radius: 10px;
+                margin-left: 8px;
+            }
+
+            .role-member {
+                flex-basis: 0;
+                flex-grow: 1;
+            }
+
+            .icon-checkin {
+                margin: 0 8px;
+                display: inline-block;
+                font-size: 14px;
+                vertical-align: middle;
+            }
+
+            .icon-nomination {
+                margin: 0 8px;
+                display: inline-block;
+                vertical-align: middle;
+
+                &:before {
+                    color: #2270CE;
+                    font-size: 16px;
+                }
+            }
+
+            .icon-draft-member {
+                display: inline-block;
+                vertical-align: middle;
+                font-size: 20px;
+                line-height: 36px;
+                text-align: center;
+            }
+        }
 
         .avatar {
             @include box-shadow(0, 1px, 4px, rgba(0, 0, 0, 0.2));
@@ -302,67 +335,6 @@
             .person-info > span {
                 position: relative;
                 //top: -5px;
-            }
-        }
-
-        .person-info {
-            align-self: center;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            flex: 0 1 auto;
-
-            [class^="role-"] {
-                display: inline-block;
-                font-weight: 700;
-                font-size: 15px;
-                vertical-align: middle;
-
-                @media screen and (min-width: 1280px) {
-                    font-size: 16px;
-                }
-            }
-
-            .draft {
-                font-size: 11px;
-                background-color: rgba(#000, 0.1);
-                border: 1px solid #7E7E7E;
-                color: #545454;
-                padding: 0 8px 2px;
-                text-align: center;
-                border-radius: 10px;
-                margin-left: 8px;
-            }
-
-            .role-member {
-                flex-basis: 0;
-                flex-grow: 1;
-            }
-
-            .icon-checkin {
-                margin: 0 8px;
-                display: inline-block;
-                font-size: 14px;
-                vertical-align: middle;
-            }
-
-            .icon-nomination {
-                margin: 0 8px;
-                display: inline-block;
-                vertical-align: middle;
-
-                &:before {
-                    color: #2270CE;
-                    font-size: 16px;
-                }
-            }
-
-            .icon-draft-member {
-                display: inline-block;
-                vertical-align: middle;
-                font-size: 20px;
-                line-height: 36px;
-                text-align: center;
             }
         }
 
@@ -516,6 +488,44 @@
         .lb-project {
             width: 72px;
             padding-bottom: 0;
+        }
+    }
+}
+
+.record.record-system {
+    grid-template-rows: 50px 1fr 20px;
+    padding: 16px;
+    padding-top: 10px;
+    background-color: #EBF4FF;
+    border: 1px solid #5191DF;
+    grid-row-gap: 0;
+
+    .avatar-user, .grade, .project {
+        padding: 0;
+    }
+
+    .comment {
+        padding: 0;
+        grid-row: 2;
+    }
+
+    .grade {
+        grid-row: 3;
+    }
+
+    &[class*="status"] {
+        grid-template-rows: 50px 1fr 0;
+        box-shadow: none;
+
+        .avatar-user {
+            grid-template-columns: 40px 1fr 100px;
+            padding: 0;
+        }
+        /*.person-info {
+                align-self: flex-start;
+            }*/
+        .person-info {
+            display: block;
         }
     }
 }

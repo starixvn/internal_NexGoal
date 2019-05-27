@@ -1,6 +1,19 @@
 @import "../../abstracts/variables";
 @import "../../abstracts/mixins";
 
+.box {
+    border-bottom: 1px solid #ccc;
+    padding: 16px;
+
+    h5 {
+        color: #05517E;
+        font-size: 16px;
+        font-weight: 600;
+        margin-top: 0;
+        margin-bottom: 16px;
+    }
+}
+
 .main-layout {
     .general-info {
         border-right: 1px solid #ddd;
@@ -73,18 +86,5 @@
         .main-content, .fixed-section {
             width: calc(100% - 600px);
         }
-    }
-}
-
-.box {
-    border-bottom: 1px solid #ccc;
-    padding: 16px;
-
-    h5 {
-        color: #05517E;
-        font-size: 16px;
-        font-weight: 600;
-        margin-top: 0;
-        margin-bottom: 16px;
     }
 }

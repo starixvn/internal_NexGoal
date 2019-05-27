@@ -51,6 +51,17 @@
             min-width: 200px;
         }
 
+        &.title {
+            background-color: #E9E9E9;
+            color: #324373;
+            font-size: 14px;
+            font-weight: bold;
+
+            td {
+                border-color: #c4c4c4 !important;
+            }
+        }
+
         &.group-row {
             td {
                 background: #525e86;
@@ -61,17 +72,6 @@
                 &:hover {
                     background: #525e86 !important;
                 }
-            }
-        }
-
-        &.title {
-            background-color: #E9E9E9;
-            color: #324373;
-            font-size: 14px;
-            font-weight: bold;
-
-            td {
-                border-color: #c4c4c4 !important;
             }
         }
 
