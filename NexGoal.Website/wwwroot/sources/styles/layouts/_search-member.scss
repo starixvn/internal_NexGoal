@@ -43,10 +43,8 @@
             transition: all .5s;
             background-color: transparent;
             border: none;
-            height: 30px;
             width: 0;
             color: #474747;
-            width: 280px;
             padding: 0 8px;
             position: absolute;
             top: 34px;
@@ -66,7 +64,6 @@
             .icon-search {
                 cursor: pointer;
                 margin-left: 0;
-                position: absolute;
                 top: 6px;
                 position: unset;
 

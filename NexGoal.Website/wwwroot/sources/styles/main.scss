@@ -41,14 +41,25 @@ $fa-font-path: "~font-awesome/fonts";
     padding-bottom: 20px;
 }
 
-
-
 .nav-hamberger {
     font-size: 14px;
     transition: width 0.25s;
 
     a {
         color: #fff;
+    }
+
+    .navbar-nav > .active > a {
+        background-color: inherit;
+    }
+
+    .navbar-nav > .open > a {
+        background-color: #324476;
+
+        @media only screen and (max-width: 1199px) {
+            background-color: #DFE2EB;
+            color: #324476;
+        }
     }
 
     .dropdown-menu {
@@ -73,19 +84,6 @@ $fa-font-path: "~font-awesome/fonts";
     }
 
     .navbar-nav {
-        > .active > a {
-            background-color: inherit;
-        }
-
-        > .open > a {
-            background-color: #324476;
-
-            @media only screen and (max-width: 1199px) {
-                background-color: #DFE2EB;
-                color: #324476;
-            }
-        }
-
         > .active > a:hover {
             background-color: #2C3C69;
         }

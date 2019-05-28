@@ -225,7 +225,7 @@
             color: #474747;
 
             &:after {
-                font-family: 'NexGoalIcon';
+                font-family: 'NexGoalIcon', sans-serif !important;
                 content: "\e939";
                 position: absolute;
                 right: 9px;

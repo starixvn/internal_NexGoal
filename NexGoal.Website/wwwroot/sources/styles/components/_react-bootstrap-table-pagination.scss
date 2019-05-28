@@ -26,7 +26,7 @@
 
             .caret {
                 position: relative;
-                font-family: 'NexGoalIcon' !important;
+                font-family: 'NexGoalIcon', sans-serif !important;
                 display: inline-block;
                 color: #545454;
                 border: 0;
@@ -88,7 +88,7 @@
 
         .page-item[title="first page"] {
             .page-link {
-                font-family: 'NexGoalIcon' !important;
+                font-family: 'NexGoalIcon', sans-serif !important;
                 transform: rotate(180deg);
                 color: #545454;
                 font-size: 0;
@@ -102,7 +102,7 @@
 
         .page-item[title="previous page"] {
             .page-link {
-                font-family: 'NexGoalIcon' !important;
+                font-family: 'NexGoalIcon', sans-serif !important;
                 transform: rotate(90deg);
                 color: #545454;
                 font-size: 0;
@@ -116,7 +116,7 @@
 
         .page-item[title="next page"] {
             .page-link {
-                font-family: 'NexGoalIcon' !important;
+                font-family: 'NexGoalIcon', sans-serif !important;
                 transform: rotate(-90deg);
                 color: #545454;
                 font-size: 0;
@@ -130,7 +130,7 @@
 
         .page-item[title="last page"] {
             .page-link {
-                font-family: 'NexGoalIcon' !important;
+                font-family: 'NexGoalIcon', sans-serif !important;
                 color: #545454;
                 font-size: 0;
 
