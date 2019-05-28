@@ -61,27 +61,6 @@
                     color: #B6BFD8;
                 }
             }
-
-            &.open {
-                .icon-chevron-down {
-                    display: inline-block;
-                    transform: rotate(-180deg);
-                    transition: .2s ease all;
-                    backface-visibility: visible;
-                }
-
-                .icon-submenu {
-                    &:before {
-                        transform: translateX(-2px) rotate(-45deg);
-                        background: #fff;
-                    }
-
-                    &:after {
-                        transform: translateX(2px) rotate(45deg);
-                        background: #fff;
-                    }
-                }
-            }
         }
 
         > .active {
@@ -91,6 +70,27 @@
 
             .icon-submenu {
                 &:before, &:after {
+                    background: #fff;
+                }
+            }
+        }
+
+        li.open {
+            .icon-chevron-down {
+                display: inline-block;
+                transform: rotate(-180deg);
+                transition: .2s ease all;
+                backface-visibility: visible;
+            }
+
+            .icon-submenu {
+                &:before {
+                    transform: translateX(-2px) rotate(-45deg);
+                    background: #fff;
+                }
+
+                &:after {
+                    transform: translateX(2px) rotate(45deg);
                     background: #fff;
                 }
             }

@@ -36,6 +36,27 @@ $fa-font-path: "~font-awesome/fonts";
     padding-bottom: 20px;
 }
 
+.navbar-inverse .navbar-nav {
+    > .active > a {
+        background-color: inherit;
+    }
+
+    > .active > a:hover {
+        background-color: #2C3C69;
+    }
+
+    > .open {
+        > a, > a:hover, > a:focus {
+            background-color: #324476;
+
+            @media only screen and (max-width: 1199px) {
+                background-color: #DFE2EB;
+                color: #324476;
+            }
+        }
+    }
+}
+
 .nav-hamberger {
     font-size: 14px;
     transition: width 0.25s;
@@ -66,27 +87,6 @@ $fa-font-path: "~font-awesome/fonts";
     }
 }
 
-.navbar-inverse .navbar-nav {
-    > .active > a {
-        background-color: inherit;
-    }
-
-    > .active > a:hover {
-        background-color: #2C3C69;
-    }
-
-    > .open {
-        > a, > a:hover, > a:focus {
-            background-color: #324476;
-
-            @media only screen and (max-width: 1199px) {
-                background-color: #DFE2EB;
-                color: #324476;
-            }
-        }
-    }
-}
-
 .icon-chevron-down {
     position: relative;
     top: 2px;
@@ -98,7 +98,6 @@ $fa-font-path: "~font-awesome/fonts";
         min-width: 760px;
         padding-top: 50px;
         //padding-bottom: 20px;
-
         .sub-header {
             position: relative;
 
@@ -157,6 +156,7 @@ $fa-font-path: "~font-awesome/fonts";
     right: 0;
     z-index: 9999;
 }
+
 .toeic-passed {
     color: $status-nomination-color;
 }

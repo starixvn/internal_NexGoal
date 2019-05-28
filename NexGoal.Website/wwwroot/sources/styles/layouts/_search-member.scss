@@ -33,9 +33,26 @@
         // @include border-radius(20px);
         //padding: 0 16px;
         //background-color: #fff;
-
         .member-list {
             width: 312px;
+        }
+
+        input {
+            -webkit-transition: all .5s;
+            -moz-transition: all .5s;
+            transition: all .5s;
+            background-color: transparent;
+            border: none;
+            height: 30px;
+            width: 0;
+            color: #474747;
+            width: 280px;
+            padding: 0 8px;
+            position: absolute;
+            top: 34px;
+            right: -20px;
+            width: 280px;
+            height: 0;
         }
 
         &.focused {
@@ -85,24 +102,6 @@
                 right: -20px;
                 width: 280px;
             }
-        }
-
-        input {
-            -webkit-transition: all .5s;
-            -moz-transition: all .5s;
-            transition: all .5s;
-            background-color: transparent;
-            border: none;
-            height: 30px;
-            width: 0;
-            color: #474747;
-            width: 280px;
-            padding: 0 8px;
-            position: absolute;
-            top: 34px;
-            right: -20px;
-            width: 280px;
-            height: 0;
         }
     }
 }

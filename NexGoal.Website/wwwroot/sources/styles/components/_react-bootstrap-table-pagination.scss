@@ -67,6 +67,11 @@
             line-height: 22px;
         }
 
+        > .active > a {
+            color: #fff;
+            border-radius: 18px;
+        }
+
         > .active > a, span {
             &, &:hover {
                 background: #314172;
@@ -134,11 +139,6 @@
                     font-size: 15px;
                 }
             }
-        }
-
-        > .active > a {
-            color: #fff;
-            border-radius: 18px;
         }
     }
 }

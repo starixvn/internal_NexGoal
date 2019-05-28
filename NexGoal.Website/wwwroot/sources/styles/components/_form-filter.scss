@@ -5,7 +5,7 @@
     .row-filter {
         margin-bottom: 8px;
     }
-    
+
     .control-label {
         font-weight: normal;
         color: $font-color;
@@ -41,34 +41,39 @@
 
     .form-group .control-content {
         width: 200px;
+
         &.employee-width {
             width: 280px;
         }
+
         &.period-width, &.team-width {
             width: 250px;
         }
+
         &.status-width {
             width: 150px;
         }
 
         &.team {
-          .react-select__menu {
-            width: 240px;
-          }
+            .react-select__menu {
+                width: 240px;
+            }
         }
     }
 
     .checkbox {
         margin: 0;
+
+        label {
+            padding-left: 25px;
+        }
+
         .checkbox-custom + label {
             padding-left: 0;
+
             &:before {
                 margin-right: 6px;
             }
-        }
-        label {
-            padding-left: 25px;
-            
         }
     }
 }

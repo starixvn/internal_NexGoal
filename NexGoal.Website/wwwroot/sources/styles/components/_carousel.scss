@@ -73,6 +73,38 @@
                 margin-right: 4px;
             }
         }
+
+        .active {
+            top: 0;
+
+            &.left {
+                left: 0;
+                top: -100%;
+            }
+
+            &.right {
+                left: 0;
+                top: 100%;
+            }
+        }
+
+        .next {
+            left: 0;
+            top: 100%;
+
+            &.left {
+                top: 0;
+                color: inherit;
+            }
+        }
+
+        .prev {
+            top: -100%;
+
+            &.right {
+                top: 0;
+            }
+        }
     }
 }
 
@@ -120,42 +152,6 @@
                         @include transform(translate3d(0, 0, 0));
                     }
                 }
-            }
-        }
-    }
-}
-
-.carousel.vertical {
-    .carousel-inner {
-        .active {
-            top: 0;
-
-            &.left {
-                left: 0;
-                top: -100%;
-            }
-
-            &.right {
-                left: 0;
-                top: 100%;
-            }
-        }
-
-        .next {
-            left: 0;
-            top: 100%;
-
-            &.left {
-                top: 0;
-                color: inherit;
-            }
-        }
-
-        .prev {
-            top: -100%;
-
-            &.right {
-                top: 0;
             }
         }
     }

@@ -23,6 +23,9 @@
 }
 
 .group-flow, .employee-flow {
+    display: flex;
+    padding: 15px;
+
     .text-search {
         position: relative;
 
@@ -37,11 +40,6 @@
             top: 8px;
         }
     }
-}
-
-.group-flow, .employee-flow {
-    display: flex;
-    padding: 15px;
 }
 
 .flow-settings {

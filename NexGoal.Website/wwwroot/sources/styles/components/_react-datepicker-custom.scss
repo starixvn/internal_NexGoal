@@ -1,6 +1,30 @@
 ﻿@import '../abstracts/variables';
 @import '~react-datepicker/dist/react-datepicker.css';
 
+.react-datepicker__current-month,
+.react-datepicker-time__header {
+    font-size: 1.5104rem;
+}
+
+.react-datepicker__navigation {
+    line-height: 2.72rem;
+    border-width: 0.72rem;
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+    width: 2.72rem;
+    line-height: 2.72rem;
+    margin: 0.2656rem;
+}
+
+.react-datepicker__year-dropdown,
+.react-datepicker__month-dropdown,
+.react-datepicker__month-year-dropdown {
+    @include border-radius(0.48rem);
+}
+
 .react-datepicker {
     font-size: $font-size;
     font-family: $font-family;
@@ -76,16 +100,6 @@
     @include border-radius(0.48rem);
 }
 
-.react-datepicker__current-month,
-.react-datepicker-time__header {
-    font-size: 1.5104rem;
-}
-
-.react-datepicker__navigation {
-    line-height: 2.72rem;
-    border-width: 0.72rem;
-}
-
 .react-datepicker__time-container--with-today-button {
     @include border-radius(0.48rem);
 }
@@ -107,14 +121,7 @@
 .react-datepicker__portal .react-datepicker__current-month,
 .react-datepicker__portal .react-datepicker-time__header {
     @include border-radius(0.48rem);
-}
-
-.react-datepicker__day-name,
-.react-datepicker__day,
-.react-datepicker__time-name {
-    width: 2.72rem;
-    line-height: 2.72rem;
-    margin: 0.2656rem;
+    font-size: 2.304rem;
 }
 
 .react-datepicker__day:hover {
@@ -145,12 +152,6 @@
     border-width: 0.72rem;
 }
 
-.react-datepicker__year-dropdown,
-.react-datepicker__month-dropdown,
-.react-datepicker__month-year-dropdown {
-    @include border-radius(0.48rem);
-}
-
 .react-datepicker__year-option:first-of-type,
 .react-datepicker__month-option:first-of-type,
 .react-datepicker__month-year-option:first-of-type {
@@ -179,11 +180,6 @@
         width: 3.2rem;
         line-height: 3.2rem;
     }
-}
-
-.react-datepicker__portal .react-datepicker__current-month,
-.react-datepicker__portal .react-datepicker-time__header {
-    font-size: 2.304rem;
 }
 
 .react-datepicker__portal .react-datepicker__navigation {

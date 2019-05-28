@@ -12,6 +12,10 @@ textarea {
     &.form-control {
         height: auto;
     }
+
+    &.none-resize {
+        resize: none;
+    }
 }
 
 input[type="text"],
@@ -31,12 +35,6 @@ select {
     color: #ff0000;
     content: "*";
     padding-left: 5px;
-}
-
-textarea {
-    &.none-resize {
-        resize: none;
-    }
 }
 
 .control-label {
