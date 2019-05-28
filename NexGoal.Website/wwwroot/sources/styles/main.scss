@@ -36,24 +36,8 @@ $fa-font-path: "~font-awesome/fonts";
     padding-bottom: 20px;
 }
 
-.navbar-inverse .navbar-nav > .open > a,
-.navbar-inverse .navbar-nav > .open > a:hover,
-.navbar-inverse .navbar-nav > .open > a:focus {
-    background-color: #324476;
-
-    @media only screen and (max-width: 1199px) {
-        background-color: #DFE2EB;
-        color: #324476;
-    }
-}
-
-.navbar-inverse .navbar-nav > .active > a {
-    background-color: inherit;
-}
-
 .nav-hamberger {
     font-size: 14px;
-    
     transition: width 0.25s;
 
     a {
@@ -82,8 +66,25 @@ $fa-font-path: "~font-awesome/fonts";
     }
 }
 
-.navbar-inverse .navbar-nav > .active > a:hover {
-  background-color: #2C3C69;
+.navbar-inverse .navbar-nav {
+    > .active > a {
+        background-color: inherit;
+    }
+
+    > .active > a:hover {
+        background-color: #2C3C69;
+    }
+
+    > .open {
+        > a, > a:hover, > a:focus {
+            background-color: #324476;
+
+            @media only screen and (max-width: 1199px) {
+                background-color: #DFE2EB;
+                color: #324476;
+            }
+        }
+    }
 }
 
 .icon-chevron-down {

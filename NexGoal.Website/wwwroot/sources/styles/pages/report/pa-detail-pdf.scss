@@ -29,6 +29,23 @@
     padding: 8px;
 }
 
+.record {
+    display: block;
+
+    .avatar-user {
+        display: block;
+        height: 45px;
+    }
+
+    .comment, .grade {
+        margin-top: 8px;
+    }
+
+    .comment {
+        padding: 6px 0;
+    }
+}
+
 .box {
     border: 1px solid #C4C4C4;
     margin-bottom: 10px;
@@ -254,16 +271,12 @@ $last-pci: #46607F;
     width: 120px;
 }
 
-.record {
-    .avatar-user {
+
         &::after {
             display: block;
             content: "";
             clear: both;
         }
-
         .person-info, .avatar {
             float: left;
         }
-    }
-}

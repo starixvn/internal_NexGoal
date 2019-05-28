@@ -33,6 +33,11 @@
         // @include border-radius(20px);
         //padding: 0 16px;
         //background-color: #fff;
+
+        .member-list {
+            width: 312px;
+        }
+
         &.focused {
             // @include border-radius(20px);
             //padding: 0 16px;
@@ -81,11 +86,6 @@
                 width: 280px;
             }
         }
-
-        .member-list {
-            width: 312px;
-        }
-
 
         input {
             -webkit-transition: all .5s;

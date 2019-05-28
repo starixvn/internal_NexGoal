@@ -19,7 +19,6 @@
     background: #324476;
     border-bottom: none;
     //box-shadow: 0 2px 5px 0 rgba(0,0,0,.16);
-
     .icon-submenu {
         position: relative;
         display: inline-block;
@@ -47,18 +46,6 @@
     }
 
     .navbar-nav {
-        > .active {
-            > a:focus {
-                background: transparent;
-            }
-
-            .icon-submenu {
-                &:before, &:after {
-                    background: #fff;
-                }
-            }
-        }
-
         > li {
             > a {
                 line-height: 50px;
@@ -93,6 +80,18 @@
                         transform: translateX(2px) rotate(45deg);
                         background: #fff;
                     }
+                }
+            }
+        }
+
+        > .active {
+            > a:focus {
+                background: transparent;
+            }
+
+            .icon-submenu {
+                &:before, &:after {
+                    background: #fff;
                 }
             }
         }

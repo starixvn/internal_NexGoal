@@ -12,25 +12,6 @@
     grid-row-gap: 4px;
     border: 1px solid #E5E5E5;
 
-    &.status-nomination {
-        border: 1px solid $status-nomination-color;
-        background-color: rgba($status-nomination-color, 0.1);
-    }
-
-    &.status-winner {
-        border: 1px solid $status-winner-color;
-        background-color: #EBF4FF;
-    }
-
-    &.status-shortlisted {
-        border: 1px solid $status-shortlisted-color;
-        background-color: rgba($status-shortlisted-color, 0.05);
-    }
-
-    &.highlighted {
-        border: 2px solid #2475D7;
-    }
-
     &:focus-within {
         box-shadow: 0 0 32px #cecece;
         border-color: #E5E5E5;
@@ -312,8 +293,7 @@
                     background-image: url('../../images/winner-eoy.svg'), linear-gradient( to top right, #5E6E9C, #324476);
                 }
             }
-
-            &.nexgoal-system {
+            /*&.nexgoal-system {
                 background-color: #324476;
                 text-align: center;
                 padding-top: 6px;
@@ -321,6 +301,16 @@
                 ~ .person-info {
                     display: block;
                 }
+            }*/
+        }
+
+        .nexgoal-system {
+            background-color: #324476;
+            text-align: center;
+            padding-top: 6px;
+
+            ~ .person-info {
+                display: block;
             }
         }
 
@@ -528,4 +518,23 @@
             display: block;
         }
     }
+}
+
+.record.status-nomination {
+    border: 1px solid $status-nomination-color;
+    background-color: rgba($status-nomination-color, 0.1);
+}
+
+.record.status-winner {
+    border: 1px solid $status-winner-color;
+    background-color: #EBF4FF;
+}
+
+.record.status-shortlisted {
+    border: 1px solid $status-shortlisted-color;
+    background-color: rgba($status-shortlisted-color, 0.05);
+}
+
+.record.highlighted {
+    border: 2px solid #2475D7;
 }
