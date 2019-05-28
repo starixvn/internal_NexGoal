@@ -60,6 +60,37 @@
     }
 }
 
+.workload {
+    //padding: 8px 12px;
+    h5 {
+        display: inline-block;
+    }
+
+    position: relative;
+
+    .team {
+        margin-bottom: 4px;
+    }
+
+    .react-select-container {
+        display: inline-block;
+        width: 250px;
+
+        .react-select__value-container {
+            padding: 2px 0 2px 4px;
+            font-size: 12px;
+        }
+
+        @media only screen and (max-width: 1299px) {
+            width: 100%;
+        }
+    }
+
+    #chart-wrapper {
+        margin-top: 10px;
+    }
+}
+
 .general-info {
     padding: 0;
 
@@ -407,36 +438,7 @@
     }
 }
 
-.workload {
-    //padding: 8px 12px;
-    h5 {
-        display: inline-block;
-    }
 
-    position: relative;
-
-    .team {
-        margin-bottom: 4px;
-    }
-
-    .react-select-container {
-        display: inline-block;
-        width: 250px;
-
-        .react-select__value-container {
-            padding: 2px 0 2px 4px;
-            font-size: 12px;
-        }
-
-        @media only screen and (max-width: 1299px) {
-            width: 100%;
-        }
-    }
-
-    #chart-wrapper {
-        margin-top: 10px;
-    }
-}
 
 @media screen and (min-width: 1600px) {
     .main-content #tabs {

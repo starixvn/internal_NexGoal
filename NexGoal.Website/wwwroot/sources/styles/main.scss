@@ -32,30 +32,16 @@ $fa-font-path: "~font-awesome/fonts";
     }
 }
 
+.icon-chevron-down {
+    position: relative;
+    top: 2px;
+}
+
 .content-wrapper {
     padding-bottom: 20px;
 }
 
-.navbar-inverse .navbar-nav {
-    > .active > a {
-        background-color: inherit;
-    }
 
-    > .active > a:hover {
-        background-color: #2C3C69;
-    }
-
-    > .open {
-        > a, > a:hover, > a:focus {
-            background-color: #324476;
-
-            @media only screen and (max-width: 1199px) {
-                background-color: #DFE2EB;
-                color: #324476;
-            }
-        }
-    }
-}
 
 .nav-hamberger {
     font-size: 14px;
@@ -85,11 +71,34 @@ $fa-font-path: "~font-awesome/fonts";
             font-weight: 600;
         }
     }
-}
 
-.icon-chevron-down {
-    position: relative;
-    top: 2px;
+    .navbar-nav {
+        > .active > a {
+            background-color: inherit;
+        }
+
+        > .open > a {
+            background-color: #324476;
+
+            @media only screen and (max-width: 1199px) {
+                background-color: #DFE2EB;
+                color: #324476;
+            }
+        }
+
+        > .active > a:hover {
+            background-color: #2C3C69;
+        }
+
+        > .open > a:hover, > .open > a:focus {
+            background-color: #324476;
+
+            @media only screen and (max-width: 1199px) {
+                background-color: #DFE2EB;
+                color: #324476;
+            }
+        }
+    }
 }
 
 .container-fluid {

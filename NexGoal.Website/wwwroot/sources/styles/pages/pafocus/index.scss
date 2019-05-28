@@ -19,6 +19,16 @@
     }
 }
 
+.focus-evaluation-status {
+    &.good {
+        color: #3da52a;
+    }
+
+    &.normal {
+        color: #555;
+    }
+}
+
 .pa-focus-table {
     margin-bottom: 60px;
 
@@ -62,19 +72,6 @@
             }
         }
 
-        &.group-row {
-            td {
-                background: #525e86;
-                color: #fff;
-                font-weight: 500;
-                padding: 6px 8px !important;
-
-                &:hover {
-                    background: #525e86 !important;
-                }
-            }
-        }
-
         select.form-control {
             height: 23px;
             line-height: 23px;
@@ -93,57 +90,75 @@
                 font-size: 9px;
             }
         }
+    }
 
-        &.noticeable-performance {
-            td, a, .focus-evaluation-status {
+    .group-row {
+        td {
+            background: #525e86;
+            color: #fff;
+            font-weight: 500;
+            padding: 6px 8px !important;
+
+            &:hover {
+                background: #525e86 !important;
+            }
+        }
+    }
+
+    .noticeable-performance {
+        td, a, .focus-evaluation-status {
+            color: #fff;
+        }
+
+        .icon-increase-arrow, .icon-descrease-arrow {
+            &:before {
                 color: #fff;
             }
+        }
 
-            .icon-increase-arrow, .icon-descrease-arrow {
-                &:before {
-                    color: #fff;
-                }
+        &.outstanding {
+            td {
+                background: #59b03b;
             }
+        }
 
+        &.very-good {
+            td {
+                background: #68a9bd;
+            }
+        }
+
+        &.poor {
+            td {
+                background: #ff5f5f;
+            }
+        }
+
+        &:hover {
             &.outstanding {
                 td {
-                    background: #59b03b;
+                    background: #59b03b !important;
                 }
             }
 
             &.very-good {
                 td {
-                    background: #68a9bd;
+                    background: #68a9bd !important;
                 }
             }
 
             &.poor {
                 td {
-                    background: #ff5f5f;
-                }
-            }
-
-            &:hover {
-                &.outstanding {
-                    td {
-                        background: #59b03b !important;
-                    }
-                }
-
-                &.very-good {
-                    td {
-                        background: #68a9bd !important;
-                    }
-                }
-
-                &.poor {
-                    td {
-                        background: #ff5f5f !important;
-                    }
+                    background: #ff5f5f !important;
                 }
             }
         }
     }
+}
+
+.fa-info-circle {
+    font-size: 16px;
+    margin-left: 5px;
 }
 
 .nav-tabs {
@@ -152,11 +167,6 @@
             cursor: pointer;
         }
     }
-}
-
-.fa-info-circle {
-    font-size: 16px;
-    margin-left: 5px;
 }
 
 .tooltip.focus-note {
@@ -169,15 +179,7 @@
     }
 }
 
-.focus-evaluation-status {
-    &.good {
-        color: #3da52a;
-    }
 
-    &.normal {
-        color: #555;
-    }
-}
 
 #chartjs-tooltip {
     .content {
