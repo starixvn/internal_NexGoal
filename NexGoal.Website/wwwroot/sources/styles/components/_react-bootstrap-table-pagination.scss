@@ -6,7 +6,7 @@
     border: 1px solid #C4C4C4;
     border-top: none;
     height: 40px;
-    padding: 4px 8px;
+    padding: 6px 8px;
 
     > div {
         padding: 0;
@@ -17,6 +17,7 @@
             color: #333;
             border: 1px solid #ccc;
             min-width: 50px;
+            height: 28px;
 
             &:hover {
                 background: #fff;
@@ -36,7 +37,7 @@
                 &:before {
                     content: "\E90a";
                     position: absolute;
-                    top: -6px;
+                    top: -3px;
                     height: 25px;
                     font-size: 16px;
                 }
