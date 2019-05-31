@@ -7,6 +7,7 @@
         public int FinalScore { get; set; }
 
         public int EmployeeId { get; set; }
+        public string Comment { get; set; }
 
         public override string GetSettingKey() => "Probation_UpdateReviewerEvaluation";
 

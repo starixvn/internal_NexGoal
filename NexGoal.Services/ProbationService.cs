@@ -6,7 +6,9 @@
     using NexGoal.Criteria.Probation;
     using NexGoal.Models.Probation;
     using NexGoal.Repositories;
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class ProbationService : IProbationService
@@ -23,10 +25,19 @@
 
         public async Task<IEnumerable<ProbationEvaluationModel>> GetProbationersAsync(int actorId)
         {
-            return await probationRepository.GetProbationersAsync(new GetProbationersCriteria
+            var probationers = await probationRepository.GetProbationersAsync(new GetProbationersCriteria
             {
                 ActorId = actorId
             }).ConfigureAwait(false);
+
+            var today = DateTime.Today;
+
+            foreach (var probationer in probationers)
+            {
+                probationer.CanEdit = probationer.Settings.Any(x => x.EvaluatorId == actorId && x.FromDate <= today && x.ToDate >= today);
+            }
+
+            return probationers;
         }
 
         public async Task<IEnumerable<KPIGroupModel>> GetEvaluationDetailAsync(int employeeId)
@@ -43,30 +54,33 @@
             }).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditSelfEvaluationAsync(int employeeId, IEnumerable<EditSelfEvaluationModel> selfEvaluations)
+        public async Task<CommandResult> EditSelfEvaluationAsync(int employeeId, string comment, IEnumerable<EditSelfEvaluationModel> selfEvaluations)
         {
             return await baseService.ExecuteNonQueryAsync(new UpdateSelfEvaluationCriteria
             {
                 EmployeeId = employeeId,
-                Details = selfEvaluations.ToXML().ToString()
+                Details = selfEvaluations.ToXML().ToString(),
+                Comment = comment
             }).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditEvaluatorEvaluationAsync(int employeeId, IEnumerable<EditSelfEvaluationModel> evaluatorEvaluations)
+        public async Task<CommandResult> EditEvaluatorEvaluationAsync(int employeeId, string comment, IEnumerable<EditSelfEvaluationModel> evaluatorEvaluations)
         {
             return await baseService.ExecuteNonQueryAsync(new UpdateEvaluatorEvaluationCriteria
             {
                 EmployeeId = employeeId,
-                Details = evaluatorEvaluations.ToXML().ToString()
+                Details = evaluatorEvaluations.ToXML().ToString(),
+                Comment = comment
             }).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditReviewerEvaluationAsync(int employeeId, int finalScore)
+        public async Task<CommandResult> EditReviewerEvaluationAsync(int employeeId, int finalScore, string comment)
         {
             return await baseService.ExecuteNonQueryAsync(new UpdateReviewerEvaluationCriteria
             {
                 EmployeeId = employeeId,
-                FinalScore = finalScore
+                FinalScore = finalScore,
+                Comment = comment
             }).ConfigureAwait(false);
         }
     }

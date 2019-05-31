@@ -34,6 +34,8 @@
                     currentSession.EmployeeId = employee.EmployeeId;
                     currentSession.NickName = employee.NickName;
                     currentSession.FullName = employee.FullName;
+                    currentSession.JoinedDate = employee.JoinedDate;
+                    currentSession.ConfirmedDate = employee.ConfirmedDate;
                     currentSession.Functions = await authService.GetFunctionByEmployeeIdAsync(employee.EmployeeId).ConfigureAwait(false);
                     currentSession.MenuItems = await authService.GetMenuByEmployeeIdAsync(employee.EmployeeId).ConfigureAwait(false);
 

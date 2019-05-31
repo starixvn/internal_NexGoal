@@ -18,6 +18,8 @@
 
         public int? FinalScore { get; set; }
 
+        public bool CanEdit { get; set; }
+
         public IEnumerable<ProbationSettingModel> Settings { get; set; }
     }
 }

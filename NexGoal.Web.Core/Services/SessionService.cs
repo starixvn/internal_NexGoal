@@ -1,5 +1,6 @@
 namespace NexGoal.Web.Core.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Microsoft.AspNetCore.Http;
@@ -37,6 +38,19 @@ namespace NexGoal.Web.Core.Services
         {
             get => _session.GetString(SessionKey.InternalFullName) ?? string.Empty;
             set => _session.SetString(SessionKey.InternalFullName, value);
+        }
+
+        public DateTime JoinedDate
+        {
+            get => _session.Get<DateTime>(SessionKey.InternalJoinedDate);
+            set => _session.Set(SessionKey.InternalJoinedDate, value);
+        }
+
+        public DateTime? ConfirmedDate
+        {
+            get => _session.Get<DateTime?>(SessionKey.InternalConfirmedDate);
+
+            set => _session.Set(SessionKey.InternalConfirmedDate, value);
         }
 
         public IEnumerable<MenuItemSession> MenuItems

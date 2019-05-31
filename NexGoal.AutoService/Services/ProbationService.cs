@@ -156,6 +156,13 @@
             }
         }
 
+        public async Task AddNewEmployeeToProbation()
+        {
+            var criteria = new AddNewEmployeeToProbationCriteria();
+
+            await baseService.ExecuteNonQueryAsync(criteria);
+        }
+
         private IEnumerable<ProbationProcessSettingModel> GetSettingToSendNotification(ReceiveNotificationType receiveType)
         {
             var criteria = new GetSettingToSendNotificationCriteria

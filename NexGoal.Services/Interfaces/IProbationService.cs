@@ -13,10 +13,10 @@
 
         Task<IEnumerable<KPIGroupModel>> GetEvaluationDetailAsync(int employeeId);
 
-        Task<CommandResult> EditSelfEvaluationAsync(int employeeId, IEnumerable<EditSelfEvaluationModel> selfEvaluations);
+        Task<CommandResult> EditSelfEvaluationAsync(int employeeId, string comment, IEnumerable<EditSelfEvaluationModel> selfEvaluations);
 
-        Task<CommandResult> EditEvaluatorEvaluationAsync(int employeeId, IEnumerable<EditSelfEvaluationModel> evaluatorEvaluations);
+        Task<CommandResult> EditEvaluatorEvaluationAsync(int employeeId, string comment, IEnumerable<EditSelfEvaluationModel> evaluatorEvaluations);
 
-        Task<CommandResult> EditReviewerEvaluationAsync(int employeeId, int finalScore);
+        Task<CommandResult> EditReviewerEvaluationAsync(int employeeId, int finalScore, string comment);
     }
 }

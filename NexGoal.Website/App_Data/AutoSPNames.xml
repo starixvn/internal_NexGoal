@@ -27,5 +27,6 @@
   </Function>
   <Function Name="Probation">
     <Setting Key="Auto_Probation_GetSettingToSendNotification" SpName="Auto_Probation_GetSettingToSendNotification" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Auto_Probation_InsertNewEmployee" SpName="Auto_Probation_InsertNewEmployee" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>

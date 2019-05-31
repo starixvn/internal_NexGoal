@@ -52,7 +52,11 @@
             {
                 probationService.SendMail();
                 probationService.SendNotification();
-                Task.Run(() => probationService.SendSkypeMessage());
+                Task.Run(() =>
+                {
+                    probationService.SendSkypeMessage();
+                    probationService.AddNewEmployeeToProbation();
+                });
             }
             catch (Exception ex)
             {

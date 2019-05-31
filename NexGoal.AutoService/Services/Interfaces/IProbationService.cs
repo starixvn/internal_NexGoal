@@ -9,5 +9,7 @@
         void SendNotification();
 
         Task SendSkypeMessage();
+
+        Task AddNewEmployeeToProbation();
     }
 }
