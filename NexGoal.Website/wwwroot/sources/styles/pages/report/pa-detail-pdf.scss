@@ -245,18 +245,15 @@ $last-pci: #46607F;
 }
 
 .record {
-    display: block;
-
     .avatar-user {
-        display: block;
-        height: 45px;
-    }
+        &::after {
+            display: block;
+            content: "";
+            clear: both;
+        }
 
-    .comment, .grade {
-        margin-top: 8px;
-    }
-
-    .comment {
-        padding: 6px 0;
+        .person-info, .avatar {
+            float: left;
+        }
     }
 }
