@@ -3,6 +3,7 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Services;
     using NexGoal.Web.Core.Services;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class ProbationController : BaseController
@@ -15,10 +16,39 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProbationersAsync()
+        public ActionResult Index(int? id)
         {
-            var result = await probationService.GetProbationersAsync(sessionService.EmployeeId);
-            return Json(result);
+            return View(id ?? sessionService.EmployeeId);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetProbationers(int? employeeId)
+        {
+            var result = await probationService.GetProbationersAsync(sessionService.EmployeeId, employeeId);
+
+            if (result.Any())
+            {
+                return Json(result);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetEvaluationDetail(int employeeId)
+        {
+            var result = await probationService.GetEvaluationDetailAsync(employeeId);
+
+            if (result.Any())
+            {
+                return Json(result);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

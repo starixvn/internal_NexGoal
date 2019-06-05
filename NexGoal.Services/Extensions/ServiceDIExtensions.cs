@@ -36,6 +36,7 @@
             services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddScoped<ISkypeNotiService, SkypeNotiService>();
             services.AddScoped<IPRTrackingService, PRTrackingService>();
+            services.AddScoped<IProbationService, ProbationService>();
         }
     }
 }

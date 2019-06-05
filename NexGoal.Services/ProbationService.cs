@@ -23,11 +23,12 @@
             this.baseService = baseService;
         }
 
-        public async Task<IEnumerable<ProbationEvaluationModel>> GetProbationersAsync(int actorId)
+        public async Task<IEnumerable<ProbationEvaluationModel>> GetProbationersAsync(int actorId, int? employeeId)
         {
             var probationers = await probationRepository.GetProbationersAsync(new GetProbationersCriteria
             {
-                ActorId = actorId
+                ActorId = actorId,
+                EmployeeId = employeeId
             }).ConfigureAwait(false);
 
             var today = DateTime.Today;

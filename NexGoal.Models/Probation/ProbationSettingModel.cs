@@ -2,6 +2,7 @@
 {
     using NexGoal.Core.Extensions;
     using System;
+    using System.Xml.Serialization;
 
     [XMLName("Row")]
     public class ProbationSettingModel
@@ -15,5 +16,8 @@
         public DateTime FromDate { get; set; }
 
         public DateTime ToDate { get; set; }
+
+        [XmlIgnore]
+        public string EvaluatorNickname { get; set; }
     }
 }

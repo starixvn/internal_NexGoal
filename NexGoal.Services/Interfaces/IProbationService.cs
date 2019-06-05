@@ -9,7 +9,7 @@
     {
         Task<CommandResult> EditSettingAsync(IEnumerable<ProbationSettingModel> settings);
 
-        Task<IEnumerable<ProbationEvaluationModel>> GetProbationersAsync(int actorId);
+        Task<IEnumerable<ProbationEvaluationModel>> GetProbationersAsync(int actorId, int? employeeId);
 
         Task<IEnumerable<KPIGroupModel>> GetEvaluationDetailAsync(int employeeId);
 

@@ -5,6 +5,7 @@
     public class GetProbationersCriteria : CriteriaBase
     {
         public int ActorId { get; set; }
+        public int? EmployeeId { get; set; }
 
         public override string GetSettingKey() => "Probation_GetProbationers";
 
