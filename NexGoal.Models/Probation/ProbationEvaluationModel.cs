@@ -21,5 +21,7 @@
         public bool CanEdit { get; set; }
 
         public IEnumerable<ProbationSettingModel> Settings { get; set; }
+
+        public int? CurrentProcessId { get; set; }
     }
 }

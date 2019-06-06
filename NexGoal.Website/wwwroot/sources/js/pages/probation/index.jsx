@@ -4,9 +4,12 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import Select from 'react-select';
 import { stringify } from 'qs';
-import Breadcrumb from '../../shared/components/Breadcrumb';
+import { set } from 'lodash';
+import Rating from 'react-rating';
 
+import Breadcrumb from '../../shared/components/Breadcrumb';
 import { axiosError, resolveClientUrl } from '../../common-functions';
+import getResource from '../../resourceHelper';
 import { PerformanceProcess } from '../../constants';
 
 export default class Probation extends Component {
@@ -30,21 +33,45 @@ export default class Probation extends Component {
 
         Promise.all(promises)
             .then(([evaluationDetailResponse, probationerResponse]) => {
+                const probationer = probationerResponse.data[0];
+
                 this.setState({
                     evaluationDetails: evaluationDetailResponse.data,
-                    probationer: probationerResponse.data[0],
-                    evaluator: probationerResponse.data[0].settings.find(x => x.processId === PerformanceProcess.Evaluator).evaluatorNickname,
-                    reviewer: probationerResponse.data[0].settings.find(x => x.processId === PerformanceProcess.Reviewer).evaluatorNickname,
+                    probationer: probationer,
+                    evaluator: probationer.settings.find(x => x.processId === PerformanceProcess.Evaluator).evaluatorNickname,
+                    reviewer: probationer.settings.find(x => x.processId === PerformanceProcess.Reviewer).evaluatorNickname
                 });
             }).catch(axiosError);
+    }
+
+    updatePoint = (kpi, path, value) => {
+        let evaluationDetails = this.state.evaluationDetails.slice();
+        let kpiGroup = evaluationDetails.find(x => x.kpiGroupId === kpi.kpiGroupId);
+        kpiGroup.details.find(x => x.kpiId === kpi.kpiId)[path] = value;
+
+        this.setState({ evaluationDetails });
     }
 
     renderKPI = (kpi, index) => (
         <tr key={kpi.kpiId}>
             <td className="text-center">{index + 1}</td>
             <td>{kpi.kpiName}</td>
-            <td><span className="fa fa-star" /><span className="fa fa-star" /><span className="fa fa-star" /><span className="fa fa-star" /><span className="fa fa-star-o" /></td>
-            <td><span className="fa fa-star" /><span className="fa fa-star" /><span className="fa fa-star" /><span className="fa fa-star" /><span className="fa fa-star-o" /></td>
+            <td>
+                <Rating initialRating={kpi.selfPoint || 0}
+                    emptySymbol="fa fa-star-o"
+                    fullSymbol="fa fa-star"
+                    onChange={value => this.updatePoint(kpi, 'selfPoint', value)}
+                    readonly={!this.state.probationer.canEdit || this.state.probationer.currentProcessId !== PerformanceProcess.Self}
+                />
+            </td>
+            <td>
+                <Rating initialRating={kpi.evaluatorPoint || 0}
+                    emptySymbol="fa fa-star-o"
+                    fullSymbol="fa fa-star"
+                    onChange={value => this.updatePoint(kpi, 'evaluatorPoint', value)}
+                    readonly={!this.state.probationer.canEdit || this.state.probationer.currentProcessId !== PerformanceProcess.Evaluator}
+                />
+            </td>
         </tr>
     )
 
@@ -105,6 +132,9 @@ export default class Probation extends Component {
 
                             </tbody>
                         </table>
+                    </div>
+                    <div className="col-sm-12">
+                        <button className="btn btn-primary" onClick={this.handleSubmit}>Save</button>
                     </div>
                 </div>
             );

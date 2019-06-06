@@ -36,6 +36,7 @@
             foreach (var probationer in probationers)
             {
                 probationer.CanEdit = probationer.Settings.Any(x => x.EvaluatorId == actorId && x.FromDate <= today && x.ToDate >= today);
+                probationer.CurrentProcessId = probationer.Settings.FirstOrDefault(x => x.FromDate <= today && x.ToDate >= today)?.ProcessId;
             }
 
             return probationers;
