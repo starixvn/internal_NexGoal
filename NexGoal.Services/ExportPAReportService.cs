@@ -24,7 +24,7 @@
         private const string PADetailView = "PAReport/Pdf";
         private const string PDFStylePath = @"dist\\styles\\paDetail-pdf.css";
         private const string RevisedIcon = "✔";
-        private const int TotalColumns = 10;
+        private const int TotalColumns = 12;
         private const int TitleHeight = 25;
 
         private readonly IHostingEnvironment hostingEnvironment;
@@ -73,8 +73,10 @@
                     worksheet.Column(6).Width = 50;
                     worksheet.Column(7).Width = 50;
                     worksheet.Column(8).Width = 50;
-                    worksheet.Column(9).Width = 50;
-                    worksheet.Column(10).Width = 20;
+                    worksheet.Column(9).Width = 10;
+                    worksheet.Column(10).Width = 15;
+                    worksheet.Column(11).Width = 40;
+                    worksheet.Column(12).Width = 10;
 
                     var currentRow = 4;
 
@@ -165,7 +167,9 @@
                 WritePerformanceRecordByProcess(worksheet.Cells[currentRow, 7], pa.Processes, PerformanceProcess.Evaluator);
                 WritePerformanceRecordByProcess(worksheet.Cells[currentRow, 8], pa.Processes, PerformanceProcess.Reviewer);
                 WritePAFinalGrade(worksheet.Cells[currentRow, 9], pa);
-                WriteRevisedStatus(worksheet.Cells[currentRow, 10], pa.IsRevised);
+                WritePAAdjustment(worksheet.Cells[currentRow, 10], pa);
+                WritePAComment(worksheet.Cells[currentRow, 11], pa);
+                WriteRevisedStatus(worksheet.Cells[currentRow, 12], pa.IsRevised);
 
                 worksheet.Row(currentRow).Style.WrapText = true;
                 currentRow++;
@@ -210,43 +214,40 @@
 
         private static void WritePAFinalGrade(ExcelRange paCell, PARecordModel paRecord)
         {
-            var richTextCollection = paCell.RichText;
-            var assessorText = richTextCollection.Add(paRecord.Processes.FirstOrDefault(x => x.ProcessId == (int)PerformanceProcess.Reviewer)?.Evaluator.NickName);
-            assessorText.Bold = true;
+            paCell.Value = paRecord.Grade != null ? paRecord.Grade.Name : "N/A";
+        }
 
-            richTextCollection.Add(Environment.NewLine);
-            var gradeValue = paRecord.Grade != null ? paRecord.Grade.Name : "N/A";
-            var gradeText = richTextCollection.Add($"Grade: {gradeValue}");
-            gradeText.Bold = false;
-
+        private static void WritePAAdjustment(ExcelRange paCell, PARecordModel paRecord)
+        {
             var grade = paRecord.Grade != null ? paRecord.Grade.GradeId : Constants.MinGradeId;
             var originalGrade = paRecord.OriginalGrade != null ? paRecord.OriginalGrade.GradeId : Constants.MinGradeId;
 
-            var icon = "";
-            var color = Color.Black;
             if (grade > originalGrade)
             {
-                icon = "▲";
-                color = Color.Green;
+                paCell.Value = "▲";
+                paCell.Style.Font.Color.SetColor(Color.Green);
             }
 
             if (grade < originalGrade)
             {
-                icon = "▼";
-                color = Color.Red;
+                paCell.Value = "▼";
+                paCell.Style.Font.Color.SetColor(Color.Red);
             }
+        }
 
-            var iconText = richTextCollection.Add(icon);
-            iconText.Bold = true;
-            iconText.Color = color;
+        private static void WritePAComment(ExcelRange paCell, PARecordModel paRecord)
+        {
+            var richTextCollection = paCell.RichText;
+            var assessorText = richTextCollection.Add(paRecord.Processes.FirstOrDefault(x => x.ProcessId == (int)PerformanceProcess.Reviewer)?.Evaluator.NickName);
+            assessorText.Bold = true;
 
             if (!string.IsNullOrWhiteSpace(paRecord.Comment))
             {
                 richTextCollection.Add(Environment.NewLine);
+                richTextCollection.Add(Environment.NewLine);
 
                 var commentText = richTextCollection.Add(paRecord.Comment);
                 commentText.Bold = false;
-                commentText.Color = Color.Black;
             }
         }
 
