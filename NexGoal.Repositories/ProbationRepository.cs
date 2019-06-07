@@ -9,7 +9,7 @@
 
     public class ProbationRepository : IProbationRepository
     {
-        public async Task<IEnumerable<ProbationEvaluationModel>> GetProbationersAsync(ICriteria criteria)
+        public async Task<IEnumerable<ProbationEvaluationModel>> GetProbationEvaluationsAsync(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
@@ -45,6 +45,26 @@
                     }
 
                     return groups;
+                }
+            }
+        }
+
+        public async Task<IEnumerable<ProbationerModel>> GetProbationersAsync(ICriteria criteria)
+        {
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
+            {
+                using (var multi = await db.QueryMultipleAsync(criteria))
+                {
+                    var probationers = await multi.ReadAsync<ProbationerModel>();
+
+                    var settings = await multi.ReadAsync<ProbationSettingModel>();
+
+                    foreach (var probationer in probationers)
+                    {
+                        probationer.Settings = settings.Where(x => x.EmployeeId == probationer.EmployeeId);
+                    }
+
+                    return probationers;
                 }
             }
         }

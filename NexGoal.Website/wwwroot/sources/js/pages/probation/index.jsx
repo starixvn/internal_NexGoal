@@ -6,11 +6,13 @@ import Select from 'react-select';
 import { stringify } from 'qs';
 import { set } from 'lodash';
 import Rating from 'react-rating';
+import { toast } from 'react-toastify';
 
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
 import { PerformanceProcess } from '../../constants';
+import ToastLayout from '../../shared/layouts/ToastLayout';
 
 export default class Probation extends Component {
     constructor(props) {
@@ -28,12 +30,12 @@ export default class Probation extends Component {
     componentDidMount() {
         const promises = [
             axios(resolveClientUrl(`Probation/GetEvaluationDetail?employeeId=${this.state.employeeId}`)),
-            axios(resolveClientUrl(`Probation/GetProbationers?employeeId=${this.state.employeeId}`))
+            axios(resolveClientUrl(`Probation/GetEvaluation?employeeId=${this.state.employeeId}`))
         ];
 
         Promise.all(promises)
             .then(([evaluationDetailResponse, probationerResponse]) => {
-                const probationer = probationerResponse.data[0];
+                const probationer = probationerResponse.data;
 
                 this.setState({
                     evaluationDetails: evaluationDetailResponse.data,
@@ -84,6 +86,72 @@ export default class Probation extends Component {
         </Fragment>
     )
 
+    getData = processId => {
+        const data = {
+            employeeId: this.state.employeeId,
+            comment: null,
+            evaluations: []
+        };
+
+        switch (processId) {
+            case PerformanceProcess.Self:
+                this.state.evaluationDetails.forEach(kpiGroup =>
+                    data.evaluations.push(...kpiGroup.details.map(kpi => ({
+                        employeeId: this.state.employeeId,
+                        kpiId: kpiId,
+                        point: kpi.selfPoint
+                    })))
+                );
+                break;
+            case PerformanceProcess.Evaluator:
+                this.state.evaluationDetails.forEach(kpiGroup =>
+                    data.evaluations.push(...kpiGroup.details.map(kpi => ({
+                        employeeId: this.state.employeeId,
+                        kpiId: kpiId,
+                        point: kpi.evaluatorPoint
+                    })))
+                );
+                break;
+        }
+    }
+
+    getUrl = processId => {
+        switch (processId) {
+            case PerformanceProcess.Self:
+                return resolveClientUrl('Probation/EditSelfEvaluation');
+            case PerformanceProcess.Evaluator:
+                return resolveClientUrl('Probation/EditEvaluatorEvaluation');
+            case PerformanceProcess.Reviewer:
+                return resolveClientUrl('Probation/EditReviewerEvaluation');
+        }
+    }
+
+    handleSubmit = () => {
+        const data = getData(this.state.probationer.currentProcessId);
+        const url = getUrl(this.state.probationer.currentProcessId);
+
+        axios({
+            url: url,
+            method: 'post',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                ...data
+            }),
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            const data = response.data;
+
+            if (data.isSuccessful) {
+                toast.success(getResource('UpdatedSuccessfully'));
+            } else {
+                toast.error(data.message);
+            }
+        }).catch(axiosError);
+    }
+
     render() {
         if (this.state.probationer) {
             return (
@@ -91,7 +159,7 @@ export default class Probation extends Component {
                     <Breadcrumb>
                         <li className="current">Probation Evaluation</li>
                     </Breadcrumb>
-                    <div className="col-sm-12">
+                    <div className="col-sm-8">
                         <table className="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -133,9 +201,10 @@ export default class Probation extends Component {
                             </tbody>
                         </table>
                     </div>
-                    <div className="col-sm-12">
+                    <div className="col-sm-8" style={{ marginTop: '15px' }}>
                         <button className="btn btn-primary" onClick={this.handleSubmit}>Save</button>
                     </div>
+                    <ToastLayout />
                 </div>
             );
         }

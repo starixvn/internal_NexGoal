@@ -3,12 +3,12 @@
     using NexGoal.Core.Extensions;
 
     [XMLName("Row")]
-    public class EditSelfEvaluationModel
+    public class EditEvaluationModel
     {
         public int EmployeeId { get; set; }
 
         public int KPIId { get; set; }
 
-        public int SelfPoint { get; set; }
+        public int Point { get; set; }
     }
 }

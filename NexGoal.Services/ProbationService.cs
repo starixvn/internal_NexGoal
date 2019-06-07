@@ -23,9 +23,9 @@
             this.baseService = baseService;
         }
 
-        public async Task<IEnumerable<ProbationEvaluationModel>> GetProbationersAsync(int actorId, int? employeeId)
+        public async Task<IEnumerable<ProbationEvaluationModel>> GetProbationEvaluationsAsync(int actorId, int? employeeId)
         {
-            var probationers = await probationRepository.GetProbationersAsync(new GetProbationersCriteria
+            var probationers = await probationRepository.GetProbationEvaluationsAsync(new GetEvaluationsCriteria
             {
                 ActorId = actorId,
                 EmployeeId = employeeId
@@ -35,8 +35,9 @@
 
             foreach (var probationer in probationers)
             {
-                probationer.CanEdit = probationer.Settings.Any(x => x.EvaluatorId == actorId && x.FromDate <= today && x.ToDate >= today);
-                probationer.CurrentProcessId = probationer.Settings.FirstOrDefault(x => x.FromDate <= today && x.ToDate >= today)?.ProcessId;
+                var process = probationer.Settings.FirstOrDefault(x => x.EvaluatorId == actorId && x.FromDate <= today && x.ToDate >= today);
+                probationer.CanEdit = process != null;
+                probationer.CurrentProcessId = process?.ProcessId;
             }
 
             return probationers;
@@ -48,15 +49,17 @@
                 .ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditSettingAsync(IEnumerable<ProbationSettingModel> settings)
+        public async Task<CommandResult> EditSettingAsync(IEnumerable<EditProbationSettingModel> settings, int employeeId, int actorId)
         {
             return await baseService.ExecuteNonQueryAsync(new UpdateSettingCriteria
             {
-                Settings = settings.ToXML().ToString()
+                Settings = settings.ToXML().ToString(),
+                EmployeeId = employeeId,
+                ActorId = actorId
             }).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditSelfEvaluationAsync(int employeeId, string comment, IEnumerable<EditSelfEvaluationModel> selfEvaluations)
+        public async Task<CommandResult> EditSelfEvaluationAsync(int employeeId, string comment, IEnumerable<EditEvaluationModel> selfEvaluations)
         {
             return await baseService.ExecuteNonQueryAsync(new UpdateSelfEvaluationCriteria
             {
@@ -66,7 +69,7 @@
             }).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditEvaluatorEvaluationAsync(int employeeId, string comment, IEnumerable<EditSelfEvaluationModel> evaluatorEvaluations)
+        public async Task<CommandResult> EditEvaluatorEvaluationAsync(int employeeId, string comment, IEnumerable<EditEvaluationModel> evaluatorEvaluations)
         {
             return await baseService.ExecuteNonQueryAsync(new UpdateEvaluatorEvaluationCriteria
             {
@@ -84,6 +87,12 @@
                 FinalScore = finalScore,
                 Comment = comment
             }).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<ProbationerModel>> GetProbationersAsync()
+        {
+            return await probationRepository.GetProbationersAsync(new GetProbationersCriteria())
+              .ConfigureAwait(false);
         }
     }
 }

@@ -28,6 +28,7 @@ module.exports = {
         [`${styleDistPath}/paDetail-pdf`]: `${styleSourcePath}/pages/report/pa-detail-pdf.scss`,
         [`${styleDistPath}/pr-tracking`]: `${styleSourcePath}/pages/report/pr-tracking.scss`,
         [`${styleDistPath}/probation`]: `${styleSourcePath}/pages/probation/index.scss`,
+        [`${styleDistPath}/probation-setting`]: `${styleSourcePath}/pages/probation/setting.scss`,
         //
         [`${jsDistPath}/main`]: './sources/js/main.js',
         [`${jsDistPath}/search-member`]: './sources/js/SearchMember.jsx',
@@ -52,6 +53,7 @@ module.exports = {
         [`${jsDistPath}/pm-setting`]: `${jsSourcePath}/pmsetting/index.jsx`,
         [`${jsDistPath}/master-report`]: `${jsSourcePath}/report/master/index.jsx`,
         [`${jsDistPath}/pr-tracking`]: `${jsSourcePath}/report/pr-tracking/index.jsx`,
-        [`${jsDistPath}/probation`]: `${jsSourcePath}/probation/index.jsx`
+        [`${jsDistPath}/probation`]: `${jsSourcePath}/probation/index.jsx`,
+        [`${jsDistPath}/probation-setting`]: `${jsSourcePath}/probation/setting/index.jsx`,
     }
 };

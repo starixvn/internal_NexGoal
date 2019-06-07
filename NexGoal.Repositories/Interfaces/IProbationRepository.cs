@@ -7,8 +7,10 @@
 
     public interface IProbationRepository
     {
-        Task<IEnumerable<ProbationEvaluationModel>> GetProbationersAsync(ICriteria criteria);
+        Task<IEnumerable<ProbationEvaluationModel>> GetProbationEvaluationsAsync(ICriteria criteria);
 
         Task<IEnumerable<KPIGroupModel>> GetEvaluationDetailAsync(ICriteria criteria);
+
+        Task<IEnumerable<ProbationerModel>> GetProbationersAsync(ICriteria criteria);
     }
 }
