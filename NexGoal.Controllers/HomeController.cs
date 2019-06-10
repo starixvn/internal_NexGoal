@@ -28,7 +28,12 @@
 
         public IActionResult Index()
         {
-            return View();
+            if (sessionService.ConfirmedDate.HasValue)
+            {
+                return View();
+            }
+
+            return RedirectToAction("Index", "MyProbation");
         }
 
         public async Task<JsonResult> GetPerformanceAppraisalResult()

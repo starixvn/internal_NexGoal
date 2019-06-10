@@ -35,8 +35,8 @@
 
             foreach (var probationer in probationers)
             {
-                var process = probationer.Settings.FirstOrDefault(x => x.EvaluatorId == actorId && x.FromDate <= today && x.ToDate >= today);
-                probationer.CanEdit = process != null;
+                var process = probationer.Settings.FirstOrDefault(x => x.FromDate <= today && x.ToDate >= today);
+                probationer.CanEdit = process != null && process.EvaluatorId == actorId;
                 probationer.CurrentProcessId = process?.ProcessId;
             }
 

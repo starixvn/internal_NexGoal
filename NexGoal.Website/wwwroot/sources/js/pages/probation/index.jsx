@@ -9,6 +9,7 @@ import Rating from 'react-rating';
 import { toast } from 'react-toastify';
 
 import Breadcrumb from '../../shared/components/Breadcrumb';
+import NexPanel from '../../shared/components/NexPanel';
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
 import { PerformanceProcess } from '../../constants';
@@ -23,14 +24,15 @@ export default class Probation extends Component {
             employeeId: 406,
             evaluationDetails: [],
             evaluator: '',
-            reviewer: ''
+            reviewer: '',
+            avatarUrl: document.getElementById('employeeInfo-avatar').getAttribute('src')
         };
     }
 
     componentDidMount() {
         const promises = [
-            axios(resolveClientUrl(`Probation/GetEvaluationDetail?employeeId=${this.state.employeeId}`)),
-            axios(resolveClientUrl(`Probation/GetEvaluation?employeeId=${this.state.employeeId}`))
+            axios(resolveClientUrl('MyProbation/GetEvaluationDetail')),
+            axios(resolveClientUrl('Probation/GetEvaluation'))
         ];
 
         Promise.all(promises)
@@ -56,31 +58,23 @@ export default class Probation extends Component {
 
     renderKPI = (kpi, index) => (
         <tr key={kpi.kpiId}>
-            <td className="text-center">{index + 1}</td>
-            <td>{kpi.kpiName}</td>
-            <td>
+            <td>{index + 1}. {kpi.kpiName}</td>
+            <td className="text-center">
                 <Rating initialRating={kpi.selfPoint || 0}
                     emptySymbol="fa fa-star-o"
                     fullSymbol="fa fa-star"
                     onChange={value => this.updatePoint(kpi, 'selfPoint', value)}
-                    readonly={!this.state.probationer.canEdit || this.state.probationer.currentProcessId !== PerformanceProcess.Self}
-                />
-            </td>
-            <td>
-                <Rating initialRating={kpi.evaluatorPoint || 0}
-                    emptySymbol="fa fa-star-o"
-                    fullSymbol="fa fa-star"
-                    onChange={value => this.updatePoint(kpi, 'evaluatorPoint', value)}
-                    readonly={!this.state.probationer.canEdit || this.state.probationer.currentProcessId !== PerformanceProcess.Evaluator}
+                    readonly={!this.state.probationer.canEdit}
                 />
             </td>
         </tr>
     )
 
-    renderKPIGroup = (kpiGroup) => (
+    renderKPIGroup = (kpiGroup, index) => (
         <Fragment key={kpiGroup.kpiGroupId}>
-            <tr >
-                <td colSpan={4}>{kpiGroup.name}</td>
+            <tr className="group-row">
+                <td>{index + 1}. {kpiGroup.name}</td>
+                <td className="text-center">{getResource('Employee')}</td>
             </tr>
             {kpiGroup.details.map(this.renderKPI)}
         </Fragment>
@@ -115,23 +109,23 @@ export default class Probation extends Component {
         }
     }
 
-    getUrl = processId => {
-        switch (processId) {
-            case PerformanceProcess.Self:
-                return resolveClientUrl('Probation/EditSelfEvaluation');
-            case PerformanceProcess.Evaluator:
-                return resolveClientUrl('Probation/EditEvaluatorEvaluation');
-            case PerformanceProcess.Reviewer:
-                return resolveClientUrl('Probation/EditReviewerEvaluation');
-        }
-    }
-
     handleSubmit = () => {
-        const data = getData(this.state.probationer.currentProcessId);
-        const url = getUrl(this.state.probationer.currentProcessId);
+        const data = {
+            employeeId: this.state.employeeId,
+            comment: null,
+            evaluations: []
+        };
+
+        this.state.evaluationDetails.forEach(kpiGroup =>
+            data.evaluations.push(...kpiGroup.details.map(kpi => ({
+                employeeId: this.state.employeeId,
+                kpiId: kpiId,
+                point: kpi.selfPoint
+            })))
+        );
 
         axios({
-            url: url,
+            url: resolveClientUrl('MyProbation/Edit'),
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -159,53 +153,67 @@ export default class Probation extends Component {
                     <Breadcrumb>
                         <li className="current">Probation Evaluation</li>
                     </Breadcrumb>
-                    <div className="col-sm-8">
-                        <table className="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th colSpan={8}>Performance Result</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td className="text-center" colSpan={2}>Employee ({this.state.probationer.nickName})</td>
-                                    <td className="text-center" colSpan={2}>Evaluator ({this.state.evaluator})</td>
-                                    <td className="text-center" colSpan={2}>Reviewer ({this.state.reviewer})</td>
-                                </tr>
-                                <tr>
-                                    <td>76/100</td>
-                                    <td></td>
-                                    <td>76/100</td>
-                                    <td></td>
-                                    <td>76/100</td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table className="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th colSpan={4}>Detail Result</th>
-                                </tr>
-                                <tr>
-                                    <th>#</th>
-                                    <th>KPI</th>
-                                    <th>Employee</th>
-                                    <th>Evaluator</th>
-                                </tr>
-                            </thead>
-                            <tbody>
 
-                                {this.state.evaluationDetails.map(this.renderKPIGroup)}
+                    <div className="col-sm-12">
+                        <NexPanel title={`PERFORMANCE REVIEW: SKILLS AND ABILITIE (${this.state.probationer.code} - ${this.state.probationer.fullName})`} >
+                            <table className="table table-bordered" >
+                                <tbody>
+                                    <tr className="group-row">
+                                        <td colSpan={6}>Please rate the performance using the following rating scale</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="text-center">{this.state.probationer.fullName}</td>
+                                        <td className="text-center">Poor: 1 <i className="fa fa-star" /></td>
+                                        <td className="text-center">Below Average: 2 <i className="fa fa-star" /><i className="fa fa-star" /></td>
+                                        <td className="text-center">Sastisfactory: 3 <i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /></td>
+                                        <td className="text-center">Good: 4 <i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /></td>
+                                        <td className="text-center">Excellent:5  <i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src={this.state.avatarUrl} alt="avatar" className="avatar" />
+                                        </td>
+                                        <td>
+                                            Unsatisfactory: Performance was consistently below expectations. Poor quality of work, frequently needs rework. Significant improvement is needed.
+                                        </td>
+                                        <td>
+                                            Improvement needed: Performance did not consistently meet expectations. Did not generally contribute extra effort or energy. An improvement plan is needed.
+                                        </td>
+                                        <td>
+                                            Meets expectations: Solid performance with a good quality of work, at times possibly exceeding expectations and contributing additional value.
+                                        </td>
+                                        <td>
+                                            Exceeds expectations: Significant performance and exceeded expectations. The quality of work overall was excellent and was able to deal with big problems with minimal direction.
+                                        </td>
+                                        <td>
+                                            Exceptional: The most outstanding performance and far exceeded expectations due to exceptionally high quality of work. Made a superior contribution in support team/department objectives.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </NexPanel>
 
-                            </tbody>
-                        </table>
-                    </div>
+                        <NexPanel title="For Employee Use">
+                            <table className="table table-bordered table-striped">
+                                <tbody>
+                                    <tr className="group-row">
+                                        <td colSpan="2">B. Quality of Work</td>
+                                    </tr>
+                                    {this.state.evaluationDetails.map(this.renderKPIGroup)}
+
+                                    <tr>
+                                        <td className="text-center score">Score</td>
+                                        <td className="text-center">{this.state.probationer.selfPoint}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </NexPanel>
+                    </div >
                     <div className="col-sm-8" style={{ marginTop: '15px' }}>
                         <button className="btn btn-primary" onClick={this.handleSubmit}>Save</button>
                     </div>
                     <ToastLayout />
-                </div>
+                </div >
             );
         }
 

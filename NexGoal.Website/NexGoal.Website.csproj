@@ -67,7 +67,7 @@
     <Content Update="Views\Probation\Setting.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Probation\Index.cshtml">
+    <Content Update="Views\MyProbation\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\PRTracking\Index.cshtml">

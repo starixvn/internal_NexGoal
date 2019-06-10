@@ -8,7 +8,9 @@
 
         public string NickName { get; set; }
 
-        public string FulllName { get; set; }
+        public string FullName { get; set; }
+
+        public string Code { get; set; }
 
         public int GroupId { get; set; }
 

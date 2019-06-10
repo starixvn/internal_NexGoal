@@ -7,3 +7,13 @@
 @import "../../components/tables";
 @import "../../components/toast";
 @import "../../components/tooltip";
+
+.nex-panel {
+    margin-bottom: 20px;
+
+    .panel-header {
+        color: #fff;
+        background-color: #324373;
+        padding: 10px;
+    }
+}
