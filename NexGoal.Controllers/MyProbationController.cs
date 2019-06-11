@@ -55,9 +55,9 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditSelfEvaluation(int employeeId, string comment, IEnumerable<EditEvaluationViewModel> evaluations)
+        public async Task<IActionResult> EditSelfEvaluation(string comment, IEnumerable<EditEvaluationViewModel> evaluations)
         {
-            var result = await probationService.EditSelfEvaluationAsync(employeeId, comment,
+            var result = await probationService.EditSelfEvaluationAsync(sessionService.EmployeeId, comment,
                 evaluations.Select(x => new EditEvaluationModel
                 {
                     EmployeeId = x.EmployeeId,

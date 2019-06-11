@@ -1,0 +1,120 @@
+﻿$c-end-process: #525E86;
+$c-in-progress: #f4783d;
+$c-in-open: #CDDFEB;
+
+.process-title {
+    display: flex;
+    background-color: #e4e8eb;
+}
+
+.period {
+    background-color: #525E86;
+    color: #fff;
+    border-right: 2px solid #fff;
+    width: 325px;
+    padding-left: 16px;
+    font-size: 15px;
+    line-height: 50px;
+    height: 50px;
+}
+
+ul.evaluation-process {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    -ms-flex-flow: row wrap;
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+
+    &:before, &:after {
+        content: '';
+        width: 100%;
+        order: 1;
+    }
+
+    li {
+        width: auto;
+        height: 50px;
+        padding: 6px 50px 0 20px;
+        position: relative;
+        margin-right: 31px;
+        vertical-align: top;
+        font-weight: 600;
+
+        .fa {
+            font-size: 14px;
+            font-weight: 300;
+            padding-left: 5px;
+            vertical-align: middle;
+        }
+
+        &:after {
+            content: "";
+            border-top: 25px solid transparent;
+            border-bottom: 25px solid transparent;
+            position: absolute;
+            right: -25px;
+            top: 0;
+        }
+
+        &:before {
+            content: "";
+            position: absolute;
+            top: 0px;
+            border-width: 25px 3px 25px 25px;
+            border-style: solid;
+            left: -28px;
+        }
+
+        &:last-child {
+            margin-right: 0;
+        }
+
+        &:first-child {
+            &:before {
+                display: none;
+            }
+        }
+
+        &.end-process {
+            background: $c-end-process;
+            color: #fff;
+
+            &:after {
+                border-left: 25px solid $c-end-process;
+            }
+
+            &:before {
+                border-color: $c-end-process $c-end-process $c-end-process transparent;
+            }
+        }
+
+        &.in-process {
+            background: $c-in-progress;
+            color: #fff;
+
+            &:after {
+                border-left: 25px solid $c-in-progress;
+            }
+
+            &:before {
+                border-color: $c-in-progress $c-in-progress $c-in-progress transparent;
+            }
+        }
+
+        &.open {
+            background: $c-in-open;
+            color: #33406B;
+
+            &:after {
+                border-left: 25px solid $c-in-open;
+            }
+
+            &:before {
+                border-color: $c-in-open $c-in-open $c-in-open transparent;
+            }
+        }
+    }
+}

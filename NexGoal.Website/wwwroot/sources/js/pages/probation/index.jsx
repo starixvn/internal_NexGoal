@@ -7,6 +7,8 @@ import { stringify } from 'qs';
 import { set } from 'lodash';
 import Rating from 'react-rating';
 import { toast } from 'react-toastify';
+import moment from 'moment';
+import * as Yup from 'yup';
 
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import NexPanel from '../../shared/components/NexPanel';
@@ -14,6 +16,8 @@ import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
 import { PerformanceProcess } from '../../constants';
 import ToastLayout from '../../shared/layouts/ToastLayout';
+import ProbationProcess from './ProbationProcess';
+import { debug } from 'util';
 
 export default class Probation extends Component {
     constructor(props) {
@@ -21,7 +25,6 @@ export default class Probation extends Component {
 
         this.state = {
             probationer: null,
-            employeeId: 406,
             evaluationDetails: [],
             evaluator: '',
             reviewer: '',
@@ -38,7 +41,10 @@ export default class Probation extends Component {
         Promise.all(promises)
             .then(([evaluationDetailResponse, probationerResponse]) => {
                 const probationer = probationerResponse.data;
-
+                probationer.settings.forEach(setting => {
+                    setting.fromDate = moment(setting.fromDate);
+                    setting.toDate = moment(setting.toDate);
+                });
                 this.setState({
                     evaluationDetails: evaluationDetailResponse.data,
                     probationer: probationer,
@@ -48,24 +54,31 @@ export default class Probation extends Component {
             }).catch(axiosError);
     }
 
-    updatePoint = (kpi, path, value) => {
-        let evaluationDetails = this.state.evaluationDetails.slice();
-        let kpiGroup = evaluationDetails.find(x => x.kpiGroupId === kpi.kpiGroupId);
-        kpiGroup.details.find(x => x.kpiId === kpi.kpiId)[path] = value;
+    updatePoint = (kpi, value) => {
+        const evaluationDetails = this.state.evaluationDetails.slice();
+        kpi.selfPoint = value;
 
         this.setState({ evaluationDetails });
     }
+
+    emptySymbol = <i className="rating-icon fa fa-star-o" />
+
+    fullSymbol = <i className="rating-icon fa fa-star" />
 
     renderKPI = (kpi, index) => (
         <tr key={kpi.kpiId}>
             <td>{index + 1}. {kpi.kpiName}</td>
             <td className="text-center">
-                <Rating initialRating={kpi.selfPoint || 0}
-                    emptySymbol="fa fa-star-o"
-                    fullSymbol="fa fa-star"
-                    onChange={value => this.updatePoint(kpi, 'selfPoint', value)}
-                    readonly={!this.state.probationer.canEdit}
-                />
+                {this.state.probationer.canEdit ?
+                    <Rating initialRating={kpi.selfPoint || 0}
+                        emptySymbol={this.emptySymbol}
+                        fullSymbol={this.fullSymbol}
+                        onChange={value => this.updatePoint(kpi, value)}
+                        readonly={!this.state.probationer.canEdit}
+                    />
+
+                    : <span>{kpi.selfPoint}<i className="fa fa-star" /></span>
+                }
             </td>
         </tr>
     )
@@ -80,70 +93,61 @@ export default class Probation extends Component {
         </Fragment>
     )
 
-    getData = processId => {
-        const data = {
-            employeeId: this.state.employeeId,
-            comment: null,
-            evaluations: []
-        };
-
-        switch (processId) {
-            case PerformanceProcess.Self:
-                this.state.evaluationDetails.forEach(kpiGroup =>
-                    data.evaluations.push(...kpiGroup.details.map(kpi => ({
-                        employeeId: this.state.employeeId,
-                        kpiId: kpiId,
-                        point: kpi.selfPoint
-                    })))
-                );
-                break;
-            case PerformanceProcess.Evaluator:
-                this.state.evaluationDetails.forEach(kpiGroup =>
-                    data.evaluations.push(...kpiGroup.details.map(kpi => ({
-                        employeeId: this.state.employeeId,
-                        kpiId: kpiId,
-                        point: kpi.evaluatorPoint
-                    })))
-                );
-                break;
-        }
+    handleSelfCommentChange = (event) => {
+        const probationer = this.state.probationer;
+        probationer.selfComment = event.target.value;
+        this.setState({ probationer });
     }
+
+    schema = Yup.object().shape({
+        comment: Yup.string().required(),
+        evaluations: Yup.array().of(
+            Yup.object().shape({
+                point: Yup.number().required().min(1)
+            })
+        )
+    })
 
     handleSubmit = () => {
         const data = {
-            employeeId: this.state.employeeId,
-            comment: null,
+            comment: this.state.probationer.selfComment,
             evaluations: []
         };
 
         this.state.evaluationDetails.forEach(kpiGroup =>
             data.evaluations.push(...kpiGroup.details.map(kpi => ({
-                employeeId: this.state.employeeId,
-                kpiId: kpiId,
+                employeeId: kpi.employeeId,
+                kpiId: kpi.kpiId,
                 point: kpi.selfPoint
             })))
         );
 
-        axios({
-            url: resolveClientUrl('MyProbation/Edit'),
-            method: 'post',
-            data: stringify({
-                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                ...data
-            }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }).then(response => {
-            const data = response.data;
+        this.schema.isValid(data).then(valid => {
+            if (valid) {
+                axios({
+                    url: resolveClientUrl('MyProbation/EditSelfEvaluation'),
+                    method: 'post',
+                    data: stringify({
+                        __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                        ...data
+                    }),
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).then(response => {
+                    const data = response.data;
 
-            if (data.isSuccessful) {
-                toast.success(getResource('UpdatedSuccessfully'));
+                    if (data.isSuccessful) {
+                        toast.success(getResource('UpdatedSuccessfully'));
+                    } else {
+                        toast.error(data.message);
+                    }
+                }).catch(axiosError);
             } else {
-                toast.error(data.message);
+                toast.error('Please evaluate all KPIs and input comment');
             }
-        }).catch(axiosError);
+        });
     }
 
     render() {
@@ -193,6 +197,8 @@ export default class Probation extends Component {
                             </table>
                         </NexPanel>
 
+                        <ProbationProcess processes={this.state.probationer.settings} />
+
                         <NexPanel title="For Employee Use">
                             <table className="table table-bordered table-striped">
                                 <tbody>
@@ -205,11 +211,19 @@ export default class Probation extends Component {
                                         <td className="text-center score">Score</td>
                                         <td className="text-center">{this.state.probationer.selfPoint}</td>
                                     </tr>
+                                    <tr>
+                                        <td colSpan={2}>Employee's Comment</td>
+                                    </tr>
+                                    <tr>
+                                        <td colSpan={2}>
+                                            <textarea value={this.state.probationer.selfComment} onChange={this.handleSelfCommentChange} />
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </NexPanel>
                     </div >
-                    <div className="col-sm-8" style={{ marginTop: '15px' }}>
+                    <div className="col-sm-12" style={{ marginTop: '15px' }}>
                         <button className="btn btn-primary" onClick={this.handleSubmit}>Save</button>
                     </div>
                     <ToastLayout />
