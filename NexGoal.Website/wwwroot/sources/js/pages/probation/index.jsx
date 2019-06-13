@@ -9,6 +9,7 @@ import Rating from 'react-rating';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import * as Yup from 'yup';
+import { flatMap } from 'lodash';
 
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import NexPanel from '../../shared/components/NexPanel';
@@ -17,7 +18,7 @@ import getResource from '../../resourceHelper';
 import { PerformanceProcess } from '../../constants';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import ProbationProcess from './ProbationProcess';
-import { debug } from 'util';
+import HRM from './HRM';
 
 export default class Probation extends Component {
     constructor(props) {
@@ -35,11 +36,12 @@ export default class Probation extends Component {
     componentDidMount() {
         const promises = [
             axios(resolveClientUrl('MyProbation/GetEvaluationDetail')),
-            axios(resolveClientUrl('Probation/GetEvaluation'))
+            axios(resolveClientUrl('MyProbation/GetEvaluation')),
+            axios(resolveClientUrl('MyProbation/GetHRM')),
         ];
 
         Promise.all(promises)
-            .then(([evaluationDetailResponse, probationerResponse]) => {
+            .then(([evaluationDetailResponse, probationerResponse, hrmResponse]) => {
                 const probationer = probationerResponse.data;
                 probationer.settings.forEach(setting => {
                     setting.fromDate = moment(setting.fromDate);
@@ -49,7 +51,8 @@ export default class Probation extends Component {
                     evaluationDetails: evaluationDetailResponse.data,
                     probationer: probationer,
                     evaluator: probationer.settings.find(x => x.processId === PerformanceProcess.Evaluator).evaluatorNickname,
-                    reviewer: probationer.settings.find(x => x.processId === PerformanceProcess.Reviewer).evaluatorNickname
+                    reviewer: probationer.settings.find(x => x.processId === PerformanceProcess.Reviewer).evaluatorNickname,
+                    hrm: hrmResponse.data
                 });
             }).catch(axiosError);
     }
@@ -59,6 +62,7 @@ export default class Probation extends Component {
         kpi.selfPoint = value;
 
         this.setState({ evaluationDetails });
+        this.calcuateAverageGrade();
     }
 
     emptySymbol = <i className="rating-icon fa fa-star-o" />
@@ -99,6 +103,15 @@ export default class Probation extends Component {
         this.setState({ probationer });
     }
 
+    calcuateAverageGrade = () => {
+        let sum = 0;
+        console.log(flatMap(this.state.evaluationDetails, (kpiGroup) => kpiGroup.details.map(kpi => ({
+            employeeId: kpi.employeeId,
+            kpiId: kpi.kpiId,
+            point: kpi.selfPoint
+        }))));
+    }
+
     schema = Yup.object().shape({
         comment: Yup.string().required(),
         evaluations: Yup.array().of(
@@ -111,16 +124,12 @@ export default class Probation extends Component {
     handleSubmit = () => {
         const data = {
             comment: this.state.probationer.selfComment,
-            evaluations: []
-        };
-
-        this.state.evaluationDetails.forEach(kpiGroup =>
-            data.evaluations.push(...kpiGroup.details.map(kpi => ({
+            evaluations: flatMap(this.state.evaluationDetails, (kpiGroup) => kpiGroup.details.map(kpi => ({
                 employeeId: kpi.employeeId,
                 kpiId: kpi.kpiId,
                 point: kpi.selfPoint
             })))
-        );
+        };
 
         this.schema.isValid(data).then(valid => {
             if (valid) {
@@ -160,7 +169,7 @@ export default class Probation extends Component {
 
                     <div className="col-sm-12">
                         <NexPanel title={`PERFORMANCE REVIEW: SKILLS AND ABILITIE (${this.state.probationer.code} - ${this.state.probationer.fullName})`} >
-                            <table className="table table-bordered" >
+                            <table className="table table-bordered rate-info-table" >
                                 <tbody>
                                     <tr className="group-row">
                                         <td colSpan={6}>Please rate the performance using the following rating scale</td>
@@ -199,6 +208,10 @@ export default class Probation extends Component {
 
                         <ProbationProcess processes={this.state.probationer.settings} />
 
+                        <NexPanel title="Approach to Work">
+                            <HRM hrm={this.state.hrm} />
+                        </NexPanel>
+
                         <NexPanel title="For Employee Use">
                             <table className="table table-bordered table-striped">
                                 <tbody>
@@ -215,8 +228,9 @@ export default class Probation extends Component {
                                         <td colSpan={2}>Employee's Comment</td>
                                     </tr>
                                     <tr>
-                                        <td colSpan={2}>
-                                            <textarea value={this.state.probationer.selfComment} onChange={this.handleSelfCommentChange} />
+                                        <td colSpan={2} className="comment-cell">
+                                            <textarea className="none-resize"
+                                                value={this.state.probationer.selfComment} onChange={this.handleSelfCommentChange} />
                                         </td>
                                     </tr>
                                 </tbody>

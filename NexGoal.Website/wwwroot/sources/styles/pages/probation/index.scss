@@ -3,6 +3,7 @@
 @import "../../components/messages";
 @import "../../components/buttons";
 @import "../../components/modal";
+@import "../../components/form";
 @import "../../components/react-select";
 @import "../../components/tables";
 @import "../../components/toast";
@@ -16,5 +17,18 @@
         color: #fff;
         background-color: #324373;
         padding: 10px;
+    }
+}
+
+table {
+    td {
+        &.comment-cell {
+            padding: 0 !important;
+
+            textarea {
+                width: 100%;
+                display: block;
+            }
+        }
     }
 }

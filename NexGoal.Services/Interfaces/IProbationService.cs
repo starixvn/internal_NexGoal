@@ -20,5 +20,7 @@
         Task<CommandResult> EditReviewerEvaluationAsync(int employeeId, int finalScore, string comment);
 
         Task<IEnumerable<ProbationerModel>> GetProbationersAsync();
+
+        Task<HRMModel> GetHRM(int employeeId);
     }
 }

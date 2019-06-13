@@ -49,6 +49,12 @@
                 .ConfigureAwait(false);
         }
 
+        public async Task<HRMModel> GetHRM(int employeeId)
+        {
+            return await probationRepository.GetHRM(new GetHRMCriteria { EmployeeId = employeeId })
+                .ConfigureAwait(false);
+        }
+
         public async Task<CommandResult> EditSettingAsync(IEnumerable<EditProbationSettingModel> settings, int employeeId, int actorId)
         {
             return await baseService.ExecuteNonQueryAsync(new UpdateSettingCriteria

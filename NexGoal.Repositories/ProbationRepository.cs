@@ -68,5 +68,24 @@
                 }
             }
         }
+
+        public async Task<HRMModel> GetHRM(ICriteria criteria)
+        {
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
+            {
+                using (var multi = await db.QueryMultipleAsync(criteria))
+                {
+                    var attendances = await multi.ReadAsync<AttendanceModel>();
+
+                    var toeic = await multi.ReadFirstOrDefaultAsync<ToeicModel>();
+
+                    return new HRMModel
+                    {
+                        Toeic = toeic,
+                        Attendances = attendances
+                    };
+                }
+            }
+        }
     }
 }

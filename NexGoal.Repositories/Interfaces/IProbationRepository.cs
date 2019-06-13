@@ -12,5 +12,7 @@
         Task<IEnumerable<KPIGroupModel>> GetEvaluationDetailAsync(ICriteria criteria);
 
         Task<IEnumerable<ProbationerModel>> GetProbationersAsync(ICriteria criteria);
+
+        Task<HRMModel> GetHRM(ICriteria criteria);
     }
 }

@@ -54,6 +54,14 @@
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetHRM()
+        {
+            var result = await probationService.GetHRM(sessionService.EmployeeId);
+
+            return Json(result);
+        }
+
         [HttpPost]
         public async Task<IActionResult> EditSelfEvaluation(string comment, IEnumerable<EditEvaluationViewModel> evaluations)
         {
