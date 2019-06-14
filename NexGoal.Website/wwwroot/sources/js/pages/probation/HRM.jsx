@@ -22,7 +22,7 @@ export default class HRM extends PureComponent {
                         </div>
                         {this.props.hrm.toeic.expiredDate &&
                             <div>
-                                {moment(this.props.hrm.toeic.expiredDate).format(DateFormat)}
+                                (exp {moment(this.props.hrm.toeic.expiredDate).format(DateFormat)})
                             </div>
                         }
                     </td>
