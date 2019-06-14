@@ -64,7 +64,7 @@
                                     <th class="col-120">@ViewLang.UnplannedAnnualLeave</th>
                                     <th class="col-120">@ViewLang.Average<br />@ViewLang.WorkingHours</th>
                                     <th>@ViewLang.Overtime</th>
-                                    <th class="col-100">@ViewLang.Toeic</th>
+                                    <th class="col-120">@ViewLang.Toeic</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -85,8 +85,27 @@
                                                 <td class="text-center">@month.Overtime</td>
                                                 @if (i == 0)
                                                 {
+                                                    var cssClass = "";
+                                                    if (Model.PARecord.ToeicPolicy > 0)
+                                                    {
+                                                        cssClass = "toeic-passed";
+                                                    }
+                                                    else
+                                                    {
+                                                        if (Model.PARecord.ToeicPolicy < 0)
+                                                        {
+                                                            cssClass = "toeic-failed";
+                                                        }
+                                                    }
                                                     i++;
-                                                    <td class="text-center" rowspan="@Model.HRM.Count()">@Model.PARecord.Toeic</td>
+                                                    <td class="text-center" rowspan="@Model.HRM.Count()">
+                                                        <div class="@cssClass">@Model.PARecord.Toeic</div>
+                                                        <div>
+                                                            @(Model.PARecord.ToeicExpiredDate.HasValue ?
+                                                                                $"(exp {Model.PARecord.ToeicExpiredDate.Value.ToString("dd MMM yyyy")})"
+                                                                                : string.Empty)
+                                                        </div>
+                                                    </td>
                                                 }
                                             </tr>
                                         }
@@ -100,7 +119,7 @@
                                             <td class="text-center">
                                                 @Helper.RenderHour(Model.HRM.Average(x => x.AverageWorkingHours))
                                             </td>
-                                            <td class="text-center">@Model.HRM.Average(x => x.Overtime)</td>
+                                            <td class="text-center">@Model.HRM.Sum(x => x.Overtime)</td>
                                             <td></td>
                                         </tr>
                                     }

@@ -130,6 +130,16 @@
     border: 1px solid #C4C4C4;
 }
 
+.table > tbody > tr > td > div {
+    &.toeic-passed {
+        color: $status-nomination-color;
+    }
+
+    &.toeic-failed {
+        color: red;
+    }
+}
+
 .text-center {
     text-align: center;
 }

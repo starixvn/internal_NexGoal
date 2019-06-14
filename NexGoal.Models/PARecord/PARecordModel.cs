@@ -33,6 +33,8 @@
 
         public int? Toeic { get; set; }
 
+        public DateTime? ToeicExpiredDate { get; set; }
+
         public IEnumerable<PAProcessModel> Processes { get; set; }
     }
 }

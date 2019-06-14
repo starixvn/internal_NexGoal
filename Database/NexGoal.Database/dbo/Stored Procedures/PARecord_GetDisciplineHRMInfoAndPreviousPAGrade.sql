@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[PARecord_GetDisciplineHRMInfoAndPreviousPAGrade] @PARecordId INT, @ActorId INT
+﻿
+CREATE PROCEDURE [dbo].[PARecord_GetDisciplineHRMInfoAndPreviousPAGrade] @PARecordId INT, @ActorId INT
 AS
 /*
 Created: 20190125@Oliver.Dang
@@ -134,93 +135,111 @@ BEGIN
 			);
 
 	/* End Get have not request missing check in check out*/
-	SELECT MONTH(et.AttendanceDate) AS [Month]
-		,YEAR(et.AttendanceDate) AS [Year]
-		,SUM(CASE 
-				WHEN req.EmpId IS NOT NULL
-					THEN 1
-				ELSE 0
-				END) + SUM(CASE 
-				WHEN tpl.AttendanceDate IS NOT NULL
-					THEN 1
-				ELSE 0
-				END) AS MissingCheckInCheckOut
-		,SUM(CASE 
-				WHEN et.LateIn > 0
-					THEN 1
-				ELSE 0
-				END) AS LateIn
-		,SUM(CASE 
-				WHEN et.EarlyOut > 0
-					THEN 1
-				ELSE 0
-				END) AS EarlyOut
-		,SUM(CASE 
-				WHEN (
-						et.LeaveTypeId = 26
-						AND ISNULL(et.LeaveTypeId2, 0) <> 26
-						)
-					OR (
-						et.LeaveTypeId2 = 26
-						AND ISNULL(et.LeaveTypeId, 0) <> 26
-						)
-					THEN 1
-				WHEN (
-						et.LeaveTypeId = 26
-						AND et.LeaveTypeId2 = 26
-						)
-					THEN 2
-				ELSE 0
-				END) AS UnpaidLeave
-		,SUM(CASE 
-				WHEN (
-						et.LeaveTypeId = 30
-						AND ISNULL(et.LeaveTypeId2, 0) <> 30
-						)
-					OR (
-						et.LeaveTypeId2 = 30
-						AND ISNULL(et.LeaveTypeId, 0) <> 30
-						)
-					THEN 1
-				WHEN (
-						et.LeaveTypeId = 30
-						AND et.LeaveTypeId2 = 30
-						)
-					THEN 2
-				ELSE 0
-				END) AS UnplanAnnualLeave
-		,(
-			CAST(ROUND(SUM(et.TotalWorkHours) / SUM(CASE 
-							WHEN et.TotalWorkHours IS NOT NULL
-								THEN (
-										CASE 
-											WHEN et.LeaveDay < 1
-												THEN et.LeaveDay
-											ELSE 1
-											END
-										)
-							ELSE 0
-							END), 2) AS NUMERIC(36, 2))
-			) AverageWorkingHours
-		,SUM(ot.[Hour]) AS Overtime
-	FROM [dbo].[EmployeeAttendance] AS et WITH (NOLOCK)
-	LEFT JOIN [dbo].[EmployeeCalendar] AS ec WITH (NOLOCK) ON et.EmpId = ec.EmpId
-		AND ec.WorkDate = et.AttendanceDate
-	LEFT JOIN [dbo].[WorkingTimeRequest] AS req WITH (NOLOCK) ON req.EmpId = ec.EmpId
-		AND req.RequestType IN (
-			1
-			,2
-			)
-		AND CONVERT(DATE, req.FromDate) = et.AttendanceDate
-	LEFT JOIN #EmployeeAttendance AS tpl WITH (NOLOCK) ON tpl.AttendanceDate = et.AttendanceDate
-	LEFT JOIN dbo.EmployeeOvertime AS ot WITH (NOLOCK) ON et.EmpId = ot.EmployeeId
-		AND ot.[Date] BETWEEN @FromDate AND @ToDate
-	WHERE et.EmpId = @EmployeeId
-		AND et.AttendanceDate BETWEEN @FromDate
-			AND @ToDate
-	GROUP BY MONTH(et.AttendanceDate)
-		,YEAR(et.AttendanceDate)
-
+	SELECT at.[Month]
+		,at.[Year]
+		,at.MissingCheckInCheckOut
+		,at.LateIn
+		,at.EarlyOut
+		,at.UnpaidLeave
+		,at.UnplanAnnualLeave
+		,at.AverageWorkingHours
+		,ot.Overtime
+	FROM
+		(
+			SELECT MONTH(et.AttendanceDate) AS [Month]
+				,YEAR(et.AttendanceDate) AS [Year]
+				,SUM(CASE 
+						WHEN req.EmpId IS NOT NULL
+							THEN 1
+						ELSE 0
+						END) + SUM(CASE 
+						WHEN tpl.AttendanceDate IS NOT NULL
+							THEN 1
+						ELSE 0
+						END) AS MissingCheckInCheckOut
+				,SUM(CASE 
+						WHEN et.LateIn > 0
+							THEN 1
+						ELSE 0
+						END) AS LateIn
+				,SUM(CASE 
+						WHEN et.EarlyOut > 0
+							THEN 1
+						ELSE 0
+						END) AS EarlyOut
+				,SUM(CASE 
+						WHEN (
+								et.LeaveTypeId = 26
+								AND ISNULL(et.LeaveTypeId2, 0) <> 26
+								)
+							OR (
+								et.LeaveTypeId2 = 26
+								AND ISNULL(et.LeaveTypeId, 0) <> 26
+								)
+							THEN 1
+						WHEN (
+								et.LeaveTypeId = 26
+								AND et.LeaveTypeId2 = 26
+								)
+							THEN 2
+						ELSE 0
+						END) AS UnpaidLeave
+				,SUM(CASE 
+						WHEN (
+								et.LeaveTypeId = 30
+								AND ISNULL(et.LeaveTypeId2, 0) <> 30
+								)
+							OR (
+								et.LeaveTypeId2 = 30
+								AND ISNULL(et.LeaveTypeId, 0) <> 30
+								)
+							THEN 1
+						WHEN (
+								et.LeaveTypeId = 30
+								AND et.LeaveTypeId2 = 30
+								)
+							THEN 2
+						ELSE 0
+						END) AS UnplanAnnualLeave
+				,(
+					CAST(ROUND(SUM(et.TotalWorkHours) / SUM(CASE 
+									WHEN et.TotalWorkHours IS NOT NULL
+										THEN (
+												CASE 
+													WHEN et.LeaveDay < 1
+														THEN et.LeaveDay
+													ELSE 1
+													END
+												)
+									ELSE 0
+									END), 2) AS NUMERIC(36, 2))
+					) AverageWorkingHours
+			FROM [dbo].[EmployeeAttendance] AS et WITH (NOLOCK)
+			LEFT JOIN [dbo].[EmployeeCalendar] AS ec WITH (NOLOCK) ON et.EmpId = ec.EmpId
+				AND ec.WorkDate = et.AttendanceDate
+			LEFT JOIN [dbo].[WorkingTimeRequest] AS req WITH (NOLOCK) ON req.EmpId = ec.EmpId
+				AND req.RequestType IN (
+					1
+					,2
+					)
+				AND CONVERT(DATE, req.FromDate) = et.AttendanceDate
+			LEFT JOIN #EmployeeAttendance AS tpl WITH (NOLOCK) ON tpl.AttendanceDate = et.AttendanceDate
+			WHERE et.EmpId = @EmployeeId
+				AND et.AttendanceDate BETWEEN @FromDate
+					AND @ToDate
+			GROUP BY MONTH(et.AttendanceDate)
+				,YEAR(et.AttendanceDate)
+		) AS at
+	LEFT JOIN
+		(
+			SELECT MONTH(ot.[Date] ) AS [Month]
+				,YEAR(ot.[Date] ) AS [Year]
+				,SUM(ot.[Hour]) AS Overtime
+			FROM dbo.EmployeeOvertime AS ot WITH (NOLOCK)
+			WHERE ot.EmployeeId = @EmployeeId
+			AND ot.[Date] BETWEEN @FromDate AND @ToDate
+			GROUP BY MONTH(ot.[Date] ), YEAR(ot.[Date] )
+		) AS ot ON at.[Month] = ot.[Month] AND at.[Year] = ot.[Year]
 
 	--Get previous PA Grade
 	DECLARE @PreviuosPeriodId INT

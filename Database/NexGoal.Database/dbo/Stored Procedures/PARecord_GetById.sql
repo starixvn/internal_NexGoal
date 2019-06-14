@@ -31,6 +31,8 @@ BEGIN
 		,pa.IsRevised
 		,pa.OriginalGradeId
 		,pa.Toeic
+		,pa.ToeicPolicy
+		,DATEADD(year, 3, t.LRExamDate) ToeicExpiredDate
 		,(
 			CASE 
 				WHEN @Today BETWEEN reviewer.StartDate
@@ -52,6 +54,7 @@ BEGIN
 	INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
 	INNER JOIN dbo.PAProcess AS reviewer WITH (NOLOCK) ON pa.PARecordId = reviewer.PARecordId
 		AND reviewer.ProcessId = @ReviewerProcessId
+	INNER JOIN dbo.TOEIC t WITH (NOLOCK) ON pa.EmployeeId = t.EmpId
 	WHERE pa.PARecordId = @PARecordId
 
 	SELECT process.PARecordId
