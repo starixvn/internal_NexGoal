@@ -21,6 +21,7 @@ import Nomination from './nomination/Nomination';
 import MemberPerformanceAppraisal from './performance-appraisal/MemberPerformanceAppraisal';
 import Announcement from '../../shared/components/Announcement';
 import Marquee from '../../shared/components/Marquee';
+import Probation from './probation/Probation';
 
 const queryString = require('query-string');
 
@@ -134,6 +135,8 @@ export default class App extends Component {
             this.setState({ activeTabKey: key, loadNominationTab: true });
         } else if (key === 3 && !this.state.loadPATab) {
             this.setState({ activeTabKey: key, loadPATab: true });
+        } else if (key === 4 && !this.state.loadProbationTab) {
+            this.setState({ activeTabKey: key, loadProbationTab: true });
         } else {
             this.setState({ activeTabKey: key });
         }
@@ -459,6 +462,12 @@ export default class App extends Component {
                                         }
                                     </Tab>
                                 }
+                                <Tab eventKey={4} title={getResource('Probation')}>
+
+                                    {this.state.loadProbationTab &&
+                                        <Probation />
+                                    }
+                                </Tab>
                             </Tabs>
                         </div>
                         <div className="work-info">

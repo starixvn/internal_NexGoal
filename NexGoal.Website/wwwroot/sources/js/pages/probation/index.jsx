@@ -9,9 +9,9 @@ import Rating from 'react-rating';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import * as Yup from 'yup';
-import { flatMap } from 'lodash';
+import { flatMap, round } from 'lodash';
+import { Formik, getIn } from 'formik';
 
-import Breadcrumb from '../../shared/components/Breadcrumb';
 import NexPanel from '../../shared/components/NexPanel';
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
@@ -19,16 +19,24 @@ import { PerformanceProcess } from '../../constants';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import ProbationProcess from './ProbationProcess';
 import HRM from './HRM';
+import PerformanceAppraisalResult from './PerformanceAppraisalResult';
 
 export default class Probation extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            employeeInfo: {
+                nickName: document.getElementById('employeeInfo-nickName').innerText,
+                fullName: document.getElementById('employeeInfo-fullName').innerText,
+                jobTitle: document.getElementById('employeeInfo-jobTitle').innerText,
+                avatar: document.getElementById('employeeInfo-avatar').getAttribute('src'),
+                groupName: document.getElementById('employeeInfo-groupname').value,
+                joinedDate: moment(document.getElementById('employeeInfo-joineddate').value),
+                isProbation: document.getElementById('employeeInfo-isProbation').checked
+            },
             probationer: null,
             evaluationDetails: [],
-            evaluator: '',
-            reviewer: '',
             avatarUrl: document.getElementById('employeeInfo-avatar').getAttribute('src')
         };
     }
@@ -38,10 +46,12 @@ export default class Probation extends Component {
             axios(resolveClientUrl('MyProbation/GetEvaluationDetail')),
             axios(resolveClientUrl('MyProbation/GetEvaluation')),
             axios(resolveClientUrl('MyProbation/GetHRM')),
+            axios(resolveClientUrl('home/GetPerformanceAppraisalResult')),
+
         ];
 
         Promise.all(promises)
-            .then(([evaluationDetailResponse, probationerResponse, hrmResponse]) => {
+            .then(([evaluationDetailResponse, probationerResponse, hrmResponse, performanceAppraisalsResponse]) => {
                 const probationer = probationerResponse.data;
                 probationer.settings.forEach(setting => {
                     setting.fromDate = moment(setting.fromDate);
@@ -50,16 +60,15 @@ export default class Probation extends Component {
                 this.setState({
                     evaluationDetails: evaluationDetailResponse.data,
                     probationer: probationer,
-                    evaluator: probationer.settings.find(x => x.processId === PerformanceProcess.Evaluator).evaluatorNickname,
-                    reviewer: probationer.settings.find(x => x.processId === PerformanceProcess.Reviewer).evaluatorNickname,
-                    hrm: hrmResponse.data
+                    hrm: hrmResponse.data,
+                    performanceAppraisals: performanceAppraisalsResponse.data,
                 });
             }).catch(axiosError);
     }
 
     updatePoint = (kpi, value) => {
         const evaluationDetails = this.state.evaluationDetails.slice();
-        kpi.selfPoint = value;
+        kpi.selfPoint = value * 1.11;
 
         this.setState({ evaluationDetails });
         this.calcuateAverageGrade();
@@ -73,16 +82,15 @@ export default class Probation extends Component {
         <tr key={kpi.kpiId}>
             <td>{index + 1}. {kpi.kpiName}</td>
             <td className="text-center">
-                {this.state.probationer.canEdit ?
-                    <Rating initialRating={kpi.selfPoint || 0}
+                {this.state.probationer.canEdit &&
+                    <Rating initialRating={kpi.selfPoint / 1.11 || 0}
                         emptySymbol={this.emptySymbol}
                         fullSymbol={this.fullSymbol}
                         onChange={value => this.updatePoint(kpi, value)}
-                        readonly={!this.state.probationer.canEdit}
                     />
-
-                    : <span>{kpi.selfPoint}<i className="fa fa-star" /></span>
                 }
+                {kpi.selfPoint && `${kpi.selfPoint} pts`}
+
             </td>
         </tr>
     )
@@ -100,7 +108,16 @@ export default class Probation extends Component {
     handleSelfCommentChange = (event) => {
         const probationer = this.state.probationer;
         probationer.selfComment = event.target.value;
-        this.setState({ probationer });
+
+        if (!this.state.error) {
+            this.setState({ probationer });
+        }
+        else {
+            this.setState(prevState => ({
+                probationer: probationer,
+                error: Object.assign({}, prevState.error, { comment: event.target.value ? null : getResource('CommentRequired') })
+            }));
+        }
     }
 
     calcuateAverageGrade = () => {
@@ -116,58 +133,139 @@ export default class Probation extends Component {
         comment: Yup.string().required(),
         evaluations: Yup.array().of(
             Yup.object().shape({
-                point: Yup.number().required().min(1)
+                details: Yup.array().of(
+                    Yup.object().shape({
+                        selfPoint: Yup.number().required()
+                    })
+                )
             })
         )
     })
 
-    handleSubmit = () => {
+    renderForm = ({
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleSubmit,
+        setFieldValue,
+        isSubmitting
+    }) => {
+        let score = 0;
+
+        return (
+            <Fragment>
+                <NexPanel title="For Employee Use">
+                    <table className="table table-bordered table-striped">
+                        <tbody>
+                            <tr className="group-row">
+                                <td colSpan="2">B. Quality of Work</td>
+                            </tr>
+                            {values.evaluations.map((kpiGroup, gIndex) => (
+                                <Fragment key={kpiGroup.kpiGroupId}>
+                                    <tr className="group-row">
+                                        <td>{gIndex + 1}. {kpiGroup.name}</td>
+                                        <td className="text-center">{getResource('Employee')}</td>
+                                    </tr>
+                                    {kpiGroup.details.map((kpi, index) => {
+                                        score += kpi.selfPoint;
+                                        return (
+                                            <tr key={kpi.kpiId}>
+                                                <td>{index + 1}. {kpi.kpiName}</td>
+                                                <td className="text-center">
+                                                    {this.state.probationer.canEdit &&
+                                                        <Rating initialRating={kpi.selfPoint / 1.11 || 0}
+                                                            emptySymbol={this.emptySymbol}
+                                                            fullSymbol={this.fullSymbol}
+                                                            onChange={value => setFieldValue(`evaluations.${gIndex}.details.${index}.selfPoint`, round(value * 1.11, 2))}
+                                                            className={`rating ${getIn(touched, `evaluations.${gIndex}.details.${index}.selfPoint`)
+                                                                && getIn(errors, `evaluations.${gIndex}.details.${index}.selfPoint`)
+                                                                && 'input-validation-error'}`}
+                                                        />
+                                                    }
+                                                    {kpi.selfPoint && `${kpi.selfPoint} pts`}
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
+                                </Fragment>
+                            ))}
+
+                            <tr>
+                                <td className="text-center score">Score</td>
+                                <td className="text-center">{score > 0 && `${round(score)}/100`}</td>
+                            </tr>
+                            <tr>
+                                <td colSpan={2}>Employee's Comment</td>
+                            </tr>
+                            <tr>
+                                <td colSpan={2} className="comment-cell">
+                                    <textarea className={`none-resize ${touched.comment && errors.comment && 'input-validation-error'}`}
+                                        value={values.comment} onChange={handleChange} name="comment" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </NexPanel>
+                <div style={{ marginTop: '15px' }}>
+                    {this.state.probationer.canEdit &&
+                        <button className="btn btn-primary" disabled={isSubmitting} type="button" onClick={handleSubmit}>Save</button>
+                    }
+                </div>
+            </Fragment>
+        );
+    }
+
+    handleSubmit = (values, { setErrors, setSubmitting }) => {
         const data = {
-            comment: this.state.probationer.selfComment,
-            evaluations: flatMap(this.state.evaluationDetails, (kpiGroup) => kpiGroup.details.map(kpi => ({
+            comment: values.comment,
+            evaluations: flatMap(values.evaluations, (kpiGroup) => kpiGroup.details.map(kpi => ({
                 employeeId: kpi.employeeId,
                 kpiId: kpi.kpiId,
                 point: kpi.selfPoint
             })))
         };
 
-        this.schema.isValid(data).then(valid => {
-            if (valid) {
-                axios({
-                    url: resolveClientUrl('MyProbation/EditSelfEvaluation'),
-                    method: 'post',
-                    data: stringify({
-                        __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                        ...data
-                    }),
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                }).then(response => {
-                    const data = response.data;
-
-                    if (data.isSuccessful) {
-                        toast.success(getResource('UpdatedSuccessfully'));
-                    } else {
-                        toast.error(data.message);
-                    }
-                }).catch(axiosError);
-            } else {
-                toast.error('Please evaluate all KPIs and input comment');
+        axios({
+            url: resolveClientUrl('MyProbation/EditSelfEvaluation'),
+            method: 'post',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                ...data
+            }),
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/x-www-form-urlencoded'
             }
-        });
+        }).then(response => {
+            const data = response.data;
+
+            if (data.isSuccessful) {
+                toast.success(getResource('UpdatedSuccessfully'));
+            } else {
+                toast.error(data.message);
+            }
+
+            setSubmitting(false);
+        }).catch(axiosError);
     }
 
     render() {
         if (this.state.probationer) {
             return (
                 <div className="row">
-                    <Breadcrumb>
-                        <li className="current">Probation Evaluation</li>
-                    </Breadcrumb>
-
-                    <div className="col-sm-12">
+                    <div className="col-sm-3">
+                        <div className="user-info box">
+                            <img src={this.state.employeeInfo.avatar} alt="avatar" className="avatar" />
+                            <div>
+                                <div className="nick-name role-member">{this.state.employeeInfo.nickName}</div>
+                                <div className="user-name">{this.state.employeeInfo.fullName}</div>
+                                <div className="role role-PM">{this.state.employeeInfo.jobTitle}</div>
+                            </div>
+                        </div>
+                        <PerformanceAppraisalResult performanceAppraisals={this.state.performanceAppraisals} />
+                    </div>
+                    <div className="col-sm-9">
                         <NexPanel title={`PERFORMANCE REVIEW: SKILLS AND ABILITIE (${this.state.probationer.code} - ${this.state.probationer.fullName})`} >
                             <table className="table table-bordered rate-info-table" >
                                 <tbody>
@@ -211,35 +309,19 @@ export default class Probation extends Component {
                         <NexPanel title="Approach to Work">
                             <HRM hrm={this.state.hrm} />
                         </NexPanel>
+                        <Formik
+                            initialValues={{
+                                comment: this.state.probationer.selfComment,
+                                evaluations: this.state.evaluationDetails,
+                                score: this.state.probationer.selfScore
+                            }}
+                            render={this.renderForm}
+                            validationSchema={this.schema}
+                            onSubmit={this.handleSubmit}
+                        />
 
-                        <NexPanel title="For Employee Use">
-                            <table className="table table-bordered table-striped">
-                                <tbody>
-                                    <tr className="group-row">
-                                        <td colSpan="2">B. Quality of Work</td>
-                                    </tr>
-                                    {this.state.evaluationDetails.map(this.renderKPIGroup)}
-
-                                    <tr>
-                                        <td className="text-center score">Score</td>
-                                        <td className="text-center">{this.state.probationer.selfPoint}</td>
-                                    </tr>
-                                    <tr>
-                                        <td colSpan={2}>Employee's Comment</td>
-                                    </tr>
-                                    <tr>
-                                        <td colSpan={2} className="comment-cell">
-                                            <textarea className="none-resize"
-                                                value={this.state.probationer.selfComment} onChange={this.handleSelfCommentChange} />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </NexPanel>
                     </div >
-                    <div className="col-sm-12" style={{ marginTop: '15px' }}>
-                        <button className="btn btn-primary" onClick={this.handleSubmit}>Save</button>
-                    </div>
+
                     <ToastLayout />
                 </div >
             );

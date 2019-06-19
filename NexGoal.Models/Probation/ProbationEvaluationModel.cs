@@ -20,6 +20,16 @@
 
         public int? FinalScore { get; set; }
 
+        public int SelfScore { get; set; }
+
+        public string SelfComment { get; set; }
+
+        public int EvaluatorScore { get; set; }
+
+        public string EvaluatorComment { get; set; }
+
+        public string ReviewerComment { get; set; }
+
         public bool CanEdit { get; set; }
 
         public IEnumerable<ProbationSettingModel> Settings { get; set; }

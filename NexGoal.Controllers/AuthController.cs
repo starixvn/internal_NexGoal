@@ -40,8 +40,7 @@
                     sessionService.EmployeeId = employee.EmployeeId;
                     sessionService.NickName = employee.NickName;
                     sessionService.FullName = employee.FullName;
-                    sessionService.JoinedDate = employee.JoinedDate;
-                    sessionService.ConfirmedDate = employee.ConfirmedDate;
+                    sessionService.IsInProbation = employee.IsInProbation;
                     sessionService.Functions = await authService.GetFunctionByEmployeeIdAsync(employee.EmployeeId).ConfigureAwait(false);
                     sessionService.MenuItems = await authService.GetMenuByEmployeeIdAsync(employee.EmployeeId).ConfigureAwait(false);
 

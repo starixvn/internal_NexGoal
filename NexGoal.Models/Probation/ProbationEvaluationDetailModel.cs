@@ -10,8 +10,8 @@
 
         public int KPIGroupId { get; set; }
 
-        public int? SelfPoint { get; set; }
+        public decimal? SelfPoint { get; set; }
 
-        public int? EvaluatorPoint { get; set; }
+        public decimal? EvaluatorPoint { get; set; }
     }
 }

@@ -10,6 +10,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using System.Xml.Linq;
 
     public class ProbationService : IProbationService
     {
@@ -35,9 +36,7 @@
 
             foreach (var probationer in probationers)
             {
-                var process = probationer.Settings.FirstOrDefault(x => x.FromDate <= today && x.ToDate >= today);
-                probationer.CanEdit = process != null && process.EvaluatorId == actorId;
-                probationer.CurrentProcessId = process?.ProcessId;
+                probationer.CanEdit = probationer.Settings.Any(x => x.FromDate <= today && x.ToDate >= today && x.EvaluatorId == actorId);
             }
 
             return probationers;
@@ -67,10 +66,20 @@
 
         public async Task<CommandResult> EditSelfEvaluationAsync(int employeeId, string comment, IEnumerable<EditEvaluationModel> selfEvaluations)
         {
+            XElement root = new XElement("Root");
+            foreach (var evaluation in selfEvaluations)
+            {
+                XElement row = new XElement("Row");
+                row.SetAttributeValue(nameof(EditEvaluationModel.EmployeeId), evaluation.EmployeeId);
+                row.SetAttributeValue(nameof(EditEvaluationModel.KPIId), evaluation.KPIId);
+                row.SetAttributeValue(nameof(EditEvaluationModel.Point), evaluation.Point);
+                root.Add(row);
+            }
+
             return await baseService.ExecuteNonQueryAsync(new UpdateSelfEvaluationCriteria
             {
                 EmployeeId = employeeId,
-                Details = selfEvaluations.ToXML().ToString(),
+                Details = root.ToString(),
                 Comment = comment
             }).ConfigureAwait(false);
         }

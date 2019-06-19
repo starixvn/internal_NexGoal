@@ -64,9 +64,10 @@
     <span id="employeeInfo-fullName">@employee.FullName</span>
     <span id="employeeInfo-nickName">@employee.NickName</span>
     <span id="employeeInfo-jobTitle">@employee.JobTitle</span>
-    <span id="employeeInfo-jobTitle">@employee.JobTitle</span>
     <span id="employeeInfo-unreadNoti">@Model.UnreadNotification</span>
     <img id="employeeInfo-avatar" src="@employee.Avatar" alt="employee-avatar" />
+    <input type="hidden" id="employeeInfo-groupname" value="@employee.GroupName" />
+    <input type="hidden" id="employeeInfo-joineddate" value="@employee.JoinedDate" />
     <input type="checkbox" id="employeeInfo-isProbation" @(employee.IsProbation ? "checked" : string.Empty) />
     <input type="checkbox" id="employeeInfo-isHasMember" @(Model.IsHasMember ? "checked" : string.Empty) />
 </div>

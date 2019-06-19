@@ -6,6 +6,6 @@
 
         public int KPIId { get; set; }
 
-        public int Point { get; set; }
+        public decimal Point { get; set; }
     }
 }

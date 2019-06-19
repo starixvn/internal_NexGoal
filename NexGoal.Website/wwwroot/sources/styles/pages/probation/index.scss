@@ -8,6 +8,10 @@
 @import "../../components/tables";
 @import "../../components/toast";
 @import "../../components/tooltip";
+@import "../../layouts/main-layout";
+@import "../../layouts/employee-info";
+@import "../../layouts/role.scss";
+@import "../../layouts/pa";
 @import "probation-process";
 
 .nex-panel {
@@ -30,5 +34,11 @@ table {
                 display: block;
             }
         }
+    }
+}
+
+.rating {
+    &.input-validation-error {
+        border: 1px solid #ff4545;
     }
 }

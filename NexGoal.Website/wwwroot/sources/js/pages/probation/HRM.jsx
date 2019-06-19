@@ -1,5 +1,5 @@
 ﻿import React, { PureComponent, Fragment } from 'react';
-import { sumBy } from 'lodash';
+import { sumBy, meanBy } from 'lodash';
 import moment from 'moment';
 import { DateFormat } from '../../constants';
 
@@ -13,22 +13,29 @@ export default class HRM extends PureComponent {
                 <td className="text-center">{attendace.earlyOut}</td>
                 <td className="text-center">{attendace.unpaidLeave}</td>
                 <td className="text-center">{attendace.unplanAnnualLeave}</td>
-                <td className="text-center">{attendace.averageWorkingHours}</td>
-                <td className="text-center">{attendace.overtime}</td>
+                <td className="text-center">{this.displayTime(attendace.averageWorkingHours)}</td>
+                <td className="text-center">{this.displayTime(attendace.overtime)}</td>
                 {index === 0 &&
                     <td className="text-center" rowSpan={this.props.hrm.attendances.length + 1}>
                         <div>
                             {this.props.hrm.toeic.toeicScore}
                         </div>
-                        {this.props.hrm.toeic.expiredDate &&
+                        {this.props.hrm.toeic.examDate &&
                             <div>
-                                (exp {moment(this.props.hrm.toeic.expiredDate).format(DateFormat)})
+                                {moment(this.props.hrm.toeic.examDate).format(DateFormat)}
                             </div>
                         }
                     </td>
                 }
             </tr>
         );
+    }
+
+    displayTime = (value) => {
+        const hours = Math.floor(value).toString().padStart(2, '0');
+        const minutes = Math.round((value - hours) * 60).toString().padStart(2, '0');
+
+        return `${hours}h${minutes}'`;
     }
 
     render() {
@@ -61,8 +68,8 @@ export default class HRM extends PureComponent {
                         <td className="text-center">{sumBy(this.props.hrm.attendances, 'earlyOut')}</td>
                         <td className="text-center">{sumBy(this.props.hrm.attendances, 'unpaidLeave')}</td>
                         <td className="text-center">{sumBy(this.props.hrm.attendances, 'unplanAnnualLeave')}</td>
-                        <td className="text-center">{sumBy(this.props.hrm.attendances, 'averageWorkingHours')}</td>
-                        <td className="text-center">{sumBy(this.props.hrm.attendances, 'overtime')}</td>
+                        <td className="text-center">{this.displayTime(meanBy(this.props.hrm.attendances, 'averageWorkingHours'))}</td>
+                        <td className="text-center">{this.displayTime(sumBy(this.props.hrm.attendances, 'overtime'))}</td>
                     </tr>
                 </tbody>
             </table>

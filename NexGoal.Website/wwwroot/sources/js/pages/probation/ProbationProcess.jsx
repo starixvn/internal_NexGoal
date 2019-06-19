@@ -29,7 +29,7 @@ export default class ProbationProcess extends PureComponent {
                 {
                     status === 'open' &&
                     <div>
-                        <span>{getResource('Open')}</span> <i className="fa fa-hourglass-start" />
+                        <span>{getResource('NotReady')}</span> <i className="fa fa-hourglass-start" />
                     </div>
                 }
             </li>

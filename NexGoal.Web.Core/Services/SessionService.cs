@@ -40,17 +40,10 @@ namespace NexGoal.Web.Core.Services
             set => _session.SetString(SessionKey.InternalFullName, value);
         }
 
-        public DateTime JoinedDate
+        public bool IsInProbation
         {
-            get => _session.Get<DateTime>(SessionKey.InternalJoinedDate);
-            set => _session.Set(SessionKey.InternalJoinedDate, value);
-        }
-
-        public DateTime? ConfirmedDate
-        {
-            get => _session.Get<DateTime?>(SessionKey.InternalConfirmedDate);
-
-            set => _session.Set(SessionKey.InternalConfirmedDate, value);
+            get => _session.Get<bool>(SessionKey.InternalIsInProbation);
+            set => _session.Set(SessionKey.InternalIsInProbation, value);
         }
 
         public IEnumerable<MenuItemSession> MenuItems

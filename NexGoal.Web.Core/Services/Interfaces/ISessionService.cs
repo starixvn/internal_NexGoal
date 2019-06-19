@@ -10,8 +10,7 @@ namespace NexGoal.Web.Core.Services
         int EmployeeId { get; set; }
         string NickName { get; set; }
         string FullName { get; set; }
-        DateTime JoinedDate { get; set; }
-        DateTime? ConfirmedDate { get; set; }
+        bool IsInProbation { get; set; }
         IEnumerable<MenuItemSession> MenuItems { get; set; }
         IEnumerable<FunctionSession> Functions { get; set; }
 

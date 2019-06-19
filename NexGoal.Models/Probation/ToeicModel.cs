@@ -6,6 +6,6 @@
     {
         public int? ToeicScore { get; set; }
 
-        public DateTime? ExpiredDate { get; set; }
+        public DateTime? ExamDate { get; set; }
     }
 }
