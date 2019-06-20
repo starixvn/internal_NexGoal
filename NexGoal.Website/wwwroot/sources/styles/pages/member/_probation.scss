@@ -1,3 +1,18 @@
 ﻿.probation-content {
-    padding: 0 16px 20px;
+    padding: 16px;
+
+    .icon-search:before {
+        color: #333;
+        cursor: pointer;
+    }
+}
+
+.comment-modal {
+    .modal-body {
+        height: 300px;
+    }
+
+    .comment {
+        white-space: pre-wrap;
+    }
 }

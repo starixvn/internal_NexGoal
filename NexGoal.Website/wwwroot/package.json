@@ -37,7 +37,7 @@
     "react-bootstrap-table2-toolkit": "^1.0.3",
     "react-chartjs-2": "^2.7.4",
     "react-custom-scrollbars": "^4.2.1",
-    "react-datepicker": "^1.5.0",
+    "react-datepicker": "^1.8.0",
     "react-dom": "^16.4.2",
     "react-infinite-scroller": "^1.2.2",
     "react-rating": "^1.7.2",

@@ -2,27 +2,42 @@
 
 import getResource from '../../../resourceHelper';
 import { noDataIndication } from '../../../common-functions';
+import { PerformanceProcess } from '../../../constants';
 
 export default class Table extends Component {
     constructor(props) {
         super(props);
     }
 
+    handleShowComment = event => {
+        this.props.onShowComment(event.target.dataset.comment);
+    }
+
     renderRow = probationer => (
         <tr key={probationer.employeeId}>
             <td>{probationer.nickName}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>
-                {probationer.canEdit &&
-                    <a className="fa fa-pencil" title="Edit" data-employeeid={probationer.employeeId} onClick={this.props.onEdit} />
-                }
+            <td className="text-center">{probationer.selfScore || '-'}</td>
+            <td className="text-center">
+                {probationer.selfComment ? <span className="icon-search" data-comment={probationer.selfComment} onClick={this.handleShowComment} /> : '-'}
+            </td>
+            <td className="text-center">{probationer.evaluatorScore || '-'}</td>
+            <td className="text-center">{probationer.nickName}</td>
+            <td className="text-center">
+                {probationer.evaluatorComment ? <i className="icon-search" /> : '-'}
+            </td>
+            <td className="text-center">{probationer.finalScore || '-'}</td>
+            <td className="text-center">{probationer.nickName}</td>
+            <td className="text-center">
+                {probationer.reviewerComment ? <span className="icon-search" /> : '-'}
+            </td>
+            <td className="text-center">
+                <input type="checkbox" disabled={probationer.processId !== PerformanceProcess.Reviewer || !probationer.canEdit}
+                    checked={probationer.isRevised} id={`chb-${probationer.employeeId}`} className="checkbox-custom"
+                />
+                <label htmlFor={`chb-${probationer.employeeId}`} />
+            </td>
+            <td className="text-center">
+                <a className="fa fa-pencil" title="Edit" href={`/Probation/Evaluate/${probationer.employeeId}`} />
             </td>
         </tr>
     )
@@ -36,7 +51,7 @@ export default class Table extends Component {
                             <th rowSpan="2">{getResource('NickName')}</th>
                             <th colSpan="2">{getResource('Self')}</th>
                             <th colSpan="3">{getResource('Evaluator')}</th>
-                            <th colSpan="2">{getResource('Reviewer')}</th>
+                            <th colSpan="3">{getResource('Reviewer')}</th>
                             <th rowSpan="2">{getResource('Revised')}</th>
                             <th rowSpan="2">{getResource('Action')}</th>
 
@@ -47,6 +62,7 @@ export default class Table extends Component {
                             <th>{getResource('Score')}</th>
                             <th>{getResource('Result')}</th>
                             <th>{getResource('Comment')}</th>
+                            <th>{getResource('Score')}</th>
                             <th>{getResource('FinalResult')}</th>
                             <th>{getResource('Comment')}</th>
                         </tr>

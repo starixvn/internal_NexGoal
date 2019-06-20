@@ -37,6 +37,7 @@
             foreach (var probationer in probationers)
             {
                 probationer.CanEdit = probationer.Settings.Any(x => x.FromDate <= today && x.ToDate >= today && x.EvaluatorId == actorId);
+                probationer.ProcessId = probationer.Settings.FirstOrDefault(x => x.EvaluatorId == actorId).ProcessId;
             }
 
             return probationers;
@@ -64,7 +65,7 @@
             }).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditSelfEvaluationAsync(int employeeId, string comment, IEnumerable<EditEvaluationModel> selfEvaluations)
+        public async Task<CommandResult> EditSelfEvaluationAsync(int employeeId, string comment, int totalScore, IEnumerable<EditEvaluationModel> selfEvaluations)
         {
             XElement root = new XElement("Root");
             foreach (var evaluation in selfEvaluations)
@@ -80,7 +81,8 @@
             {
                 EmployeeId = employeeId,
                 Details = root.ToString(),
-                Comment = comment
+                Comment = comment,
+                TotalScore = totalScore
             }).ConfigureAwait(false);
         }
 

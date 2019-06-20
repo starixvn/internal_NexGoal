@@ -5,9 +5,10 @@ import { stringify } from 'qs';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import { toast } from 'react-toastify';
-import { Formik } from 'formik';
+import { Formik, getIn } from 'formik';
 import { camelCase, isEmpty, uniqBy } from 'lodash';
 import Select from 'react-select';
+import * as Yup from 'yup';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { DateFormat, PerformanceProcess } from '../../../constants';
@@ -64,6 +65,14 @@ export default class EditSetting extends Component {
         }).catch(axiosError);
     }
 
+    schema = Yup.object().shape({
+        settings: Yup.array().of(Yup.object().shape({
+            evaluator: Yup.object().required(),
+            fromDate: Yup.object().required(),
+            toDate: Yup.object().required()
+        }))
+    })
+
     renderForm = ({
         values,
         errors,
@@ -72,13 +81,6 @@ export default class EditSetting extends Component {
         handleSubmit,
         setFieldValue,
         isSubmitting }) => {
-        const onChangeRaw = event => {
-            const date = moment(event.target.value);
-            if (date.isValid()) {
-                setFieldValue(event.target.name, date);
-            }
-        };
-
         return (
             <Form id="edit-employee-settings" horizontal onSubmit={handleSubmit}>
                 <Modal.Body>
@@ -114,15 +116,17 @@ export default class EditSetting extends Component {
                                         }
                                     </td>
                                     <td>
-                                        <DatePicker autoComplete="off" className="form-control" dateFormat={DateFormat} selected={s.fromDate}
-                                            onChange={value => setFieldValue(`settings.${i}.fromDate`, value)} onChangeRaw={onChangeRaw}
+                                        <DatePicker autoComplete="off" dateFormat={DateFormat} selected={s.fromDate}
+                                            onChange={value => setFieldValue(`settings.${i}.fromDate`, value)}
                                             name={`settings.${i}.fromDate`} maxDate={s.toDate}
+                                            className={`form-control ${getIn(touched, `settings.${i}.fromDate`) && getIn(errors, `settings.${i}.fromDate`) && 'input-validation-error'}`}
                                         />
                                     </td>
                                     <td>
-                                        <DatePicker autoComplete="off" className="form-control" dateFormat={DateFormat} selected={s.toDate}
-                                            onChange={value => setFieldValue(`settings.${i}.toDate`, value)} onChangeRaw={onChangeRaw}
+                                        <DatePicker autoComplete="off" dateFormat={DateFormat} selected={s.toDate}
+                                            onChange={value => setFieldValue(`settings.${i}.toDate`, value)}
                                             name={`settings.${i}.toDate`} minDate={s.fromDate}
+                                            className={`form-control ${getIn(touched, `settings.${i}.toDate`) && getIn(errors, `settings.${i}.toDate`) && 'input-validation-error'}`}
                                         />
                                     </td>
                                 </tr>)
@@ -162,7 +166,7 @@ export default class EditSetting extends Component {
                 </Modal.Header>
                 <Formik
                     initialValues={{ settings }}
-                    validate={this.validateForm}
+                    validationSchema={this.schema}
                     onSubmit={this.onSubmit}
                     render={this.renderForm}
                 />

@@ -74,12 +74,6 @@ export default class Edit extends Component {
         handleChange,
         handleSubmit,
         setFieldValue }) => {
-        let onChangeRaw = event => {
-            let date = moment(event.target.value);
-            if (date.isValid()) {
-                setFieldValue(event.target.name, date);
-            }
-        };
         const employees = this.props.settings.map(e => e.employee.nickName).join(', ');
         let numberOfPARecord = this.props.paRecordIds.length;
         let lbstyle = {
@@ -141,7 +135,7 @@ export default class Edit extends Component {
                                         {
                                             p.processId === PerformanceProcess.Reviewer &&
                                             <DatePicker autoComplete="off" className="form-control" dateFormat={DateFormat} selected={p.startDate}
-                                                onChange={value => setFieldValue(`processes.${i}.startDate`, value)} onChangeRaw={onChangeRaw}
+                                                onChange={value => setFieldValue(`processes.${i}.startDate`, value)}
                                                 name={`processes.${i}.startDate`} maxDate={p.endDate}
                                             />
                                         }
@@ -150,7 +144,7 @@ export default class Edit extends Component {
                                         {
                                             p.processId === PerformanceProcess.Reviewer &&
                                             <DatePicker autoComplete="off" className="form-control" dateFormat={DateFormat} selected={p.endDate}
-                                                onChange={value => setFieldValue(`processes.${i}.endDate`, value)} onChangeRaw={onChangeRaw}
+                                                onChange={value => setFieldValue(`processes.${i}.endDate`, value)}
                                                 name={`processes.${i}.endDate`} minDate={p.startDate}
                                             />
                                         }

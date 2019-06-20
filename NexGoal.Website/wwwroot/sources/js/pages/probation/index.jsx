@@ -9,7 +9,7 @@ import Rating from 'react-rating';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import * as Yup from 'yup';
-import { flatMap, round } from 'lodash';
+import { flatMap, round, sumBy } from 'lodash';
 import { Formik, getIn } from 'formik';
 
 import NexPanel from '../../shared/components/NexPanel';
@@ -217,13 +217,16 @@ export default class Probation extends Component {
     }
 
     handleSubmit = (values, { setErrors, setSubmitting }) => {
+        const evaluations = flatMap(values.evaluations, (kpiGroup) => kpiGroup.details.map(kpi => ({
+            employeeId: kpi.employeeId,
+            kpiId: kpi.kpiId,
+            point: kpi.selfPoint
+        })));
+
         const data = {
             comment: values.comment,
-            evaluations: flatMap(values.evaluations, (kpiGroup) => kpiGroup.details.map(kpi => ({
-                employeeId: kpi.employeeId,
-                kpiId: kpi.kpiId,
-                point: kpi.selfPoint
-            })))
+            evaluations: evaluations,
+            totalScore: round(sumBy(evaluations, 'point'))
         };
 
         axios({
