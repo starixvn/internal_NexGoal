@@ -21,7 +21,7 @@ import ProbationProcess from './ProbationProcess';
 import HRM from './HRM';
 import PerformanceAppraisalResult from './PerformanceAppraisalResult';
 
-export default class Probation extends Component {
+export default class MyProbation extends Component {
     constructor(props) {
         super(props);
 
@@ -334,4 +334,4 @@ export default class Probation extends Component {
     }
 }
 
-ReactDOM.render(<Probation />, document.getElementById('probation-wrapper'));
+ReactDOM.render(<MyProbation />, document.getElementById('probation-wrapper'));

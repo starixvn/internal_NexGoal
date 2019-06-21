@@ -6,6 +6,7 @@ const _rootUrl = document.getElementById('RootURL').value ? document.getElementB
 export const resolveClientUrl = relativePath => _rootUrl + relativePath;
 
 export const axiosError = error => {
+    debugger;
     if (error.response) {
         let url;
 

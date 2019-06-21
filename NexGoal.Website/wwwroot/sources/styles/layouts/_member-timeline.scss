@@ -1,0 +1,161 @@
+﻿@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+.member-timeline-wrapper {
+    padding: 0;
+
+    .member-timeline {
+        padding: 0 16px 10px 20px;
+    }
+
+    .title {
+        padding: 24px 16px 10px 20px;
+        margin-bottom: 0;
+    }
+
+    .ddl-team {
+        padding: 0 16px 10px 20px;
+
+        .team {
+            padding-bottom: 4px;
+        }
+
+        .react-select-container {
+            width: 250px;
+
+            @media only screen and (max-width: 1299px) {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.member-timeline {
+    .timeline {
+        margin: 0;
+        box-shadow: none;
+        padding: 0;
+        height: 55px;
+
+        .timeline-grade {
+            color: #545454;
+            top: 3px;
+            font-size: 10px;
+            height: 17px;
+            line-height: 15px;
+            border-width: 1px;
+
+            .role-system {
+                border-color: $role-system-color;
+                color: $role-system-color;
+            }
+        }
+
+        .xaxes {
+            top: 24px;
+        }
+
+        .previous, .next {
+            top: 27px;
+        }
+
+        .previous {
+            left: -11px;
+        }
+
+        .next {
+            right: -13px;
+        }
+    }
+
+    .timeline-info {
+        border: none;
+        top: 29px;
+        width: 58px;
+        font-size: 10px;
+
+        @media screen and (min-width: 1601px) {
+            font-size: 11px;
+            width: 60px;
+        }
+
+        &:after {
+            left: 30px;
+        }
+
+        .name {
+            width: 58px;
+            height: 17px;
+            line-height: 13px;
+
+            @media screen and (min-width: 1601px) {
+                width: 60px;
+            }
+
+            &.role-default {
+                border: 1px solid $role-default-color;
+                background-color: rgba($role-default-color, 0.2);
+                color: $role-default-color;
+            }
+
+            &.role-member {
+                border: 1px solid $role-member-color;
+                background-color: rgba($role-member-color, 0.2);
+                color: #458A00;
+            }
+
+            &.role-evaluator {
+                border: 1px solid $role-evaluator-color;
+                background-color: rgba($role-evaluator-color, 0.2);
+                color: #C15C13;
+            }
+
+            &.role-pm {
+                border: 1px solid $role-pm-color;
+                background-color: rgba($role-pm-color, 0.2);
+                color: #0072C7;
+            }
+
+            &.role-reviewer {
+                border: 1px solid $role-reviewer-color;
+                background-color: rgba($role-reviewer-color, 0.2);
+                color: #9A308C;
+            }
+
+            &.role-system {
+                border: 1px solid $role-system-color;
+                background-color: rgba($role-system-color, 0.2);
+                color: $role-system-color;
+            }
+        }
+    }
+
+    .member-performance {
+        display: grid;
+        grid-template-columns: 80px 1fr;
+        align-content: center;
+
+        @media screen and (min-width: 1601px) {
+            grid-template-columns: 90px 1fr;
+        }
+
+        .employee-info {
+            align-self: center;
+            font-size: 12px;
+
+            @media screen and (min-width: 1601px) {
+                font-size: 13px;
+            }
+
+            .nick-name {
+                color: #2475D7;
+                font-size: 11px;
+                font-weight: bold;
+
+                @media screen and (min-width: 1601px) {
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+}

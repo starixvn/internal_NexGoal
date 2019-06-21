@@ -86,13 +86,24 @@
             }).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditEvaluatorEvaluationAsync(int employeeId, string comment, IEnumerable<EditEvaluationModel> evaluatorEvaluations)
+        public async Task<CommandResult> EditEvaluatorEvaluationAsync(int employeeId, string comment, int totalScore, IEnumerable<EditEvaluationModel> evaluatorEvaluations)
         {
+            XElement root = new XElement("Root");
+            foreach (var evaluation in evaluatorEvaluations)
+            {
+                XElement row = new XElement("Row");
+                row.SetAttributeValue(nameof(EditEvaluationModel.EmployeeId), evaluation.EmployeeId);
+                row.SetAttributeValue(nameof(EditEvaluationModel.KPIId), evaluation.KPIId);
+                row.SetAttributeValue(nameof(EditEvaluationModel.Point), evaluation.Point);
+                root.Add(row);
+            }
+
             return await baseService.ExecuteNonQueryAsync(new UpdateEvaluatorEvaluationCriteria
             {
                 EmployeeId = employeeId,
-                Details = evaluatorEvaluations.ToXML().ToString(),
-                Comment = comment
+                Details = root.ToString(),
+                Comment = comment,
+                TotalScore = totalScore
             }).ConfigureAwait(false);
         }
 

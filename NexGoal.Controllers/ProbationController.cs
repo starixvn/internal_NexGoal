@@ -12,16 +12,20 @@
     public class ProbationController : BaseController
     {
         private readonly IProbationService probationService;
+        private readonly ICommonService commonService;
 
-        public ProbationController(ISessionService sessionService, IProbationService probationService) : base(sessionService)
+        public ProbationController(ISessionService sessionService, IProbationService probationService, ICommonService commonService)
+            : base(sessionService)
         {
             this.probationService = probationService;
+            this.commonService = commonService;
         }
 
         [HttpGet]
-        public ActionResult Index(int? id)
+        public async Task<IActionResult> Evaluate(int id)
         {
-            return View(id ?? sessionService.EmployeeId);
+            var employee = await commonService.GetEmployeeByIdAsync(id).ConfigureAwait(false);
+            return View(employee);
         }
 
         [HttpGet]
@@ -33,7 +37,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetEvaluation(int? employeeId)
+        public async Task<IActionResult> GetEvaluation(int employeeId)
         {
             var result = await probationService.GetProbationEvaluationsAsync(sessionService.EmployeeId, employeeId);
 
@@ -62,10 +66,18 @@
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> EditEvaluatorEvaluation(int employeeId, string comment, IEnumerable<EditEvaluationViewModel> evaluations)
+        [HttpGet]
+        public async Task<IActionResult> GetHRM(int employeeId)
         {
-            var result = await probationService.EditEvaluatorEvaluationAsync(employeeId, comment,
+            var result = await probationService.GetHRM(employeeId);
+
+            return Json(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditEvaluatorEvaluation(int employeeId, string comment, int totalScore, IEnumerable<EditEvaluationViewModel> evaluations)
+        {
+            var result = await probationService.EditEvaluatorEvaluationAsync(employeeId, comment, totalScore,
                 evaluations.Select(x => new EditEvaluationModel
                 {
                     EmployeeId = x.EmployeeId,

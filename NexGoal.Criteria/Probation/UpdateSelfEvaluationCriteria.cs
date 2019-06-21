@@ -14,6 +14,6 @@
 
         public override string GetSettingKey() => "Probation_UpdateSelfEvaluation";
 
-        public override bool IsValid() => !string.IsNullOrWhiteSpace(Comment) && !string.IsNullOrWhiteSpace(Details) && EmployeeId > 0;
+        public override bool IsValid() => !string.IsNullOrWhiteSpace(Comment) && !string.IsNullOrWhiteSpace(Details) && EmployeeId > 0 && TotalScore > 0;
     }
 }

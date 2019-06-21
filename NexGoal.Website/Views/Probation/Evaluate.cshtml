@@ -1,0 +1,24 @@
+﻿@using NexGoal.Models.Common
+@model Employee
+
+@{
+    ViewData["Title"] = $"Evaluate {Model.NickName}";
+}
+
+<input type="hidden" id="probationer-id" value="@Model.EmployeeId" />
+<input type="hidden" id="probationer-fullName" value="@Model.FullName" />
+<input type="hidden" id="probationer-nickName" value="@Model.NickName" />
+<input type="hidden" id="probationer-jobTitle" value="@Model.JobTitle" />
+<input type="hidden" id="probationer-avatar" value="@Model.Avatar" />
+<input type="hidden" id="probationer-joineddate" value="@Model.JoinedDate" />
+<input type="checkbox" hidden id="member-isProbation" @(Model.IsProbation ? "checked" : string.Empty) />
+
+@section Styles {
+    <link rel="stylesheet" href="~/dist/styles/probation-evaluation.css" asp-append-version="true" />
+}
+<input type="hidden" id="employee-id" value="@Model" />
+<div id="evaluation-wrapper"></div>
+
+@section Scripts {
+    <script src="~/dist/js/probation-evaluation.js" asp-append-version="true"></script>
+}

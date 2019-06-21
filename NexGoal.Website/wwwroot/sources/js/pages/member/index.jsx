@@ -395,7 +395,7 @@ export default class App extends Component {
             <ToastLayout>
                 <div className="row">
                     <div className="main-layout member-page">
-                        <div className="general-info box">
+                        <div className="general-info member-timeline-wrapper box">
                             <CustomScrollbars>
                                 <Timeline ref="memberTimelineRef"
                                     currentPerformancePeriod={this.state.currentPerformancePeriod}

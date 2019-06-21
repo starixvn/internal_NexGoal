@@ -15,7 +15,7 @@
 
         Task<CommandResult> EditSelfEvaluationAsync(int employeeId, string comment, int totalScore, IEnumerable<EditEvaluationModel> selfEvaluations);
 
-        Task<CommandResult> EditEvaluatorEvaluationAsync(int employeeId, string comment, IEnumerable<EditEvaluationModel> evaluatorEvaluations);
+        Task<CommandResult> EditEvaluatorEvaluationAsync(int employeeId, string comment, int totalScore, IEnumerable<EditEvaluationModel> evaluatorEvaluations);
 
         Task<CommandResult> EditReviewerEvaluationAsync(int employeeId, int finalScore, string comment);
 
