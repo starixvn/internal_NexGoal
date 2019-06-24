@@ -257,7 +257,8 @@ export default class MyProbation extends Component {
         if (this.state.probationer) {
             return (
                 <div className="row">
-                    <div className="col-sm-3">
+                <div className="main-layout">
+                    <div className="general-info">
                         <div className="user-info box">
                             <img src={this.state.employeeInfo.avatar} alt="avatar" className="avatar" />
                             <div>
@@ -268,9 +269,85 @@ export default class MyProbation extends Component {
                         </div>
                         <PerformanceAppraisalResult performanceAppraisals={this.state.performanceAppraisals} />
                     </div>
-                    <div className="col-sm-9">
-                        <NexPanel title={`PERFORMANCE REVIEW: SKILLS AND ABILITIE (${this.state.probationer.code} - ${this.state.probationer.fullName})`} >
-                            <table className="table table-bordered rate-info-table" >
+                    <div className="probation-content">
+                            <NexPanel title={`PERFORMANCE REVIEW: SKILLS AND ABILITIE (${this.state.probationer.code} - ${this.state.probationer.fullName})`} >
+                                <div className="info-rate">
+                                    <div className="user-info">
+                                        <img src={this.state.avatarUrl} alt="avatar" className="avatar" />
+                                        <ul>
+                                            <li className="info">
+                                                <span className="label">Full Name:</span>
+                                                <span className="info-text">Nguyễn Văn A</span>
+                                            </li>
+                                            <li className="info">
+                                                <span className="label">Nick Name:</span>
+                                                <span className="info-text">Nick</span>
+                                            </li>
+                                            <li className="info">
+                                                <span className="label">Joined Day:</span>
+                                                <span className="info-text">01 May, 2019</span>
+                                            </li>
+                                            <li className="info">
+                                                <span className="label">Team:</span>
+                                                <span className="info-text">DEV Pool</span>
+                                            </li>
+                                            <li className="info">
+                                                <span className="label">Job Title:</span>
+                                                <span className="info-text">Software Engineer</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div className="rate-information">
+                                        <div className="rate-item">
+                                            <div className="rate-star">
+                                                <span>Poor: 1 </span>
+                                                <div className="star-block">
+                                                    <i className="fa fa-star" />
+                                                </div>                                                
+                                            </div>
+                                            <div className="rate-description">Unsatisfactory: Performance was consistently below expectations. Poor quality of work, frequently needs rework. Significant improvement is needed.</div>
+                                        </div>
+                                        <div className="rate-item">
+                                            <div className="rate-star">
+                                                <span>Below Average: 2</span>
+                                                <div className="star-block">
+                                                    <i className="fa fa-star" /><i className="fa fa-star" />
+                                                </div>                                                
+                                            </div>
+                                            <div className="rate-description">Improvement needed: Performance did not consistently meet expectations. Did not generally contribute extra effort or energy. An improvement plan is needed.</div>
+                                        </div>                                        
+                                        <div className="rate-item">
+                                            <div className="rate-star">
+                                                <span>Sastisfactory: 3</span>
+                                                <div className="star-block">
+                                                    <i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" />
+                                                </div>                                                
+                                            </div>
+                                            <div className="rate-description">Meets expectations: Solid performance with a good quality of work, at times possibly exceeding expectations and contributing additional value.</div>
+                                        </div>
+                                        <div className="rate-item">
+                                            <div className="rate-star">
+                                                <span>Good: 4</span>
+                                                <div className="star-block">
+                                                    <i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" />
+                                                </div>
+                                            </div>
+                                            <div className="rate-description">Exceeds expectations: Significant performance and exceeded expectations. The quality of work overall was excellent and was able to deal with big problems with minimal direction.</div>
+                                        </div>
+                                        <div className="rate-item">
+                                            <div className="rate-star">
+                                                <span>Excellent:5</span>
+                                                <div className="star-block">
+                                                    <i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" />
+                                                </div>
+                                            </div>
+                                            <div className="rate-description">Exceptional: The most outstanding performance and far exceeded expectations due to exceptionally high quality of work. Made a superior contribution in support team/department objectives.</div>
+                                        </div>
+                                    </div>                                    
+                                </div>
+
+                                {/*<table className="table table-bordered rate-info-table" >
                                 <tbody>
                                     <tr className="group-row">
                                         <td colSpan={6}>Please rate the performance using the following rating scale</td>
@@ -304,10 +381,12 @@ export default class MyProbation extends Component {
                                         </td>
                                     </tr>
                                 </tbody>
-                            </table>
+                            </table>*/}
+
+                            <ProbationProcess processes={this.state.probationer.settings} />
                         </NexPanel>
 
-                        <ProbationProcess processes={this.state.probationer.settings} />
+                        
 
                         <NexPanel title="Approach to Work">
                             <HRM hrm={this.state.hrm} />
@@ -326,7 +405,8 @@ export default class MyProbation extends Component {
                     </div >
 
                     <ToastLayout />
-                </div >
+                    </div >
+                </div>
             );
         }
 
