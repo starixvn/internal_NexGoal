@@ -2,9 +2,7 @@
 import ReactDOM from 'react-dom';
 
 import axios from 'axios';
-import Select from 'react-select';
 import { stringify } from 'qs';
-import { set } from 'lodash';
 import Rating from 'react-rating';
 import { toast } from 'react-toastify';
 import moment from 'moment';
@@ -32,7 +30,8 @@ export default class MyProbation extends Component {
                 avatar: document.getElementById('employeeInfo-avatar').getAttribute('src'),
                 groupName: document.getElementById('employeeInfo-groupname').value,
                 joinedDate: moment(document.getElementById('employeeInfo-joineddate').value),
-                isProbation: document.getElementById('employeeInfo-isProbation').checked
+                isProbation: document.getElementById('employeeInfo-isProbation').checked,
+                code: document.getElementById('employeeInfo-code').value
             },
             probationer: null,
             evaluationDetails: [],
@@ -45,8 +44,7 @@ export default class MyProbation extends Component {
             axios(resolveClientUrl('MyProbation/GetEvaluationDetail')),
             axios(resolveClientUrl('MyProbation/GetEvaluation')),
             axios(resolveClientUrl('MyProbation/GetHRM')),
-            axios(resolveClientUrl('home/GetPerformanceAppraisalResult')),
-
+            axios(resolveClientUrl('home/GetPerformanceAppraisalResult'))
         ];
 
         Promise.all(promises)
@@ -146,7 +144,7 @@ export default class MyProbation extends Component {
             <Fragment>
                 <NexPanel title="B. Quality of Work">
                     <table className="table table-bordered table-striped">
-                        <tbody>                            
+                        <tbody>
                             {values.evaluations.map((kpiGroup, gIndex) => (
                                 <Fragment key={kpiGroup.kpiGroupId}>
                                     <tr className="group-row">
@@ -243,19 +241,19 @@ export default class MyProbation extends Component {
         if (this.state.probationer) {
             return (
                 <div className="row">
-                <div className="main-layout">
-                    <div className="general-info">
-                        <div className="user-info box">
-                            <img src={this.state.employeeInfo.avatar} alt="avatar" className="avatar" />
-                            <div>
-                                <div className="nick-name role-member">{this.state.employeeInfo.nickName}</div>
-                                <div className="user-name">{this.state.employeeInfo.fullName}</div>
-                                <div className="role role-PM">{this.state.employeeInfo.jobTitle}</div>
+                    <div className="main-layout">
+                        <div className="general-info">
+                            <div className="user-info box">
+                                <img src={this.state.employeeInfo.avatar} alt="avatar" className="avatar" />
+                                <div>
+                                    <div className="nick-name role-member">{this.state.employeeInfo.nickName}</div>
+                                    <div className="user-name">{this.state.employeeInfo.fullName}</div>
+                                    <div className="role role-PM">{this.state.employeeInfo.jobTitle}</div>
+                                </div>
                             </div>
+                            <PerformanceAppraisalResult performanceAppraisals={this.state.performanceAppraisals} />
                         </div>
-                        <PerformanceAppraisalResult performanceAppraisals={this.state.performanceAppraisals} />
-                    </div>
-                    <div className="probation-content">
+                        <div className="probation-content">
                             <NexPanel title={`PERFORMANCE REVIEW: SKILLS AND ABILITIE (${this.state.probationer.code} - ${this.state.probationer.fullName})`} >
                                 <div className="info-rate">
                                     <div className="user-info">
@@ -290,7 +288,7 @@ export default class MyProbation extends Component {
                                                 <span>Poor: 1 </span>
                                                 <div className="star-block">
                                                     <i className="fa fa-star" />
-                                                </div>                                                
+                                                </div>
                                             </div>
                                             <div className="rate-description">Unsatisfactory: Performance was consistently below expectations. Poor quality of work, frequently needs rework. Significant improvement is needed.</div>
                                         </div>
@@ -299,16 +297,16 @@ export default class MyProbation extends Component {
                                                 <span>Below Average: 2</span>
                                                 <div className="star-block">
                                                     <i className="fa fa-star" /><i className="fa fa-star" />
-                                                </div>                                                
+                                                </div>
                                             </div>
                                             <div className="rate-description">Improvement needed: Performance did not consistently meet expectations. Did not generally contribute extra effort or energy. An improvement plan is needed.</div>
-                                        </div>                                        
+                                        </div>
                                         <div className="rate-item">
                                             <div className="rate-star">
                                                 <span>Sastisfactory: 3</span>
                                                 <div className="star-block">
                                                     <i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" />
-                                                </div>                                                
+                                                </div>
                                             </div>
                                             <div className="rate-description">Meets expectations: Solid performance with a good quality of work, at times possibly exceeding expectations and contributing additional value.</div>
                                         </div>
@@ -330,7 +328,7 @@ export default class MyProbation extends Component {
                                             </div>
                                             <div className="rate-description">Exceptional: The most outstanding performance and far exceeded expectations due to exceptionally high quality of work. Made a superior contribution in support team/department objectives.</div>
                                         </div>
-                                    </div>                                    
+                                    </div>
                                 </div>
 
                                 {/*<table className="table table-bordered rate-info-table" >
@@ -369,28 +367,26 @@ export default class MyProbation extends Component {
                                 </tbody>
                             </table>*/}
 
-                            <ProbationProcess processes={this.state.probationer.settings} />
-                        </NexPanel>
+                                <ProbationProcess processes={this.state.probationer.settings} />
+                            </NexPanel>
 
-                        
+                            <NexPanel title="A. HRM System">
+                                <HRM hrm={this.state.hrm} />
+                            </NexPanel>
+                            <Formik
+                                initialValues={{
+                                    comment: this.state.probationer.selfComment,
+                                    evaluations: this.state.evaluationDetails,
+                                    score: this.state.probationer.selfScore
+                                }}
+                                render={this.renderForm}
+                                validationSchema={this.schema}
+                                onSubmit={this.handleSubmit}
+                            />
 
-                        <NexPanel title="A. HRM System">
-                            <HRM hrm={this.state.hrm} />
-                        </NexPanel>
-                        <Formik
-                            initialValues={{
-                                comment: this.state.probationer.selfComment,
-                                evaluations: this.state.evaluationDetails,
-                                score: this.state.probationer.selfScore
-                            }}
-                            render={this.renderForm}
-                            validationSchema={this.schema}
-                            onSubmit={this.handleSubmit}
-                        />
+                        </div >
 
-                    </div >
-
-                    <ToastLayout />
+                        <ToastLayout />
                     </div >
                 </div>
             );

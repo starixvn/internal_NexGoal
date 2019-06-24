@@ -70,4 +70,5 @@
     <input type="hidden" id="employeeInfo-joineddate" value="@employee.JoinedDate" />
     <input type="checkbox" id="employeeInfo-isProbation" @(employee.IsProbation ? "checked" : string.Empty) />
     <input type="checkbox" id="employeeInfo-isHasMember" @(Model.IsHasMember ? "checked" : string.Empty) />
+    <input type="hidden" id="employeeInfo-code" value="@employee.Code" />
 </div>

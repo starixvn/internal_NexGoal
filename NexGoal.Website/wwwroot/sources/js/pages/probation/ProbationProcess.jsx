@@ -40,7 +40,7 @@ export default class ProbationProcess extends PureComponent {
     render() {
         return (
             <div className="process">
-                <div class="title">Evaluation Process</div>
+                <div className="title">{getResource('EvaluationProcess')}</div>
                 <ul className="evaluation-process">
                     {this.props.processes.map(this.renderProcess)}
 
