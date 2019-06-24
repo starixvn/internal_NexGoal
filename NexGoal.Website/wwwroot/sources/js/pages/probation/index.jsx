@@ -74,7 +74,7 @@ export default class MyProbation extends Component {
         this.calcuateAverageGrade();
     }
 
-    emptySymbol = <i className="rating-icon fa fa-star-o" />
+    emptySymbol = <i className="rating-icon fa fa-star grey" />
 
     fullSymbol = <i className="rating-icon fa fa-star" />
 
@@ -155,16 +155,13 @@ export default class MyProbation extends Component {
 
         return (
             <Fragment>
-                <NexPanel title="For Employee Use">
+                <NexPanel title="B. Quality of Work">
                     <table className="table table-bordered table-striped">
-                        <tbody>
-                            <tr className="group-row">
-                                <td colSpan="2">B. Quality of Work</td>
-                            </tr>
+                        <tbody>                            
                             {values.evaluations.map((kpiGroup, gIndex) => (
                                 <Fragment key={kpiGroup.kpiGroupId}>
                                     <tr className="group-row">
-                                        <td>{gIndex + 1}. {kpiGroup.name}</td>
+                                        <td className="text-uppercase">{gIndex + 1}. {kpiGroup.name}</td>
                                         <td className="text-center">{getResource('Employee')}</td>
                                     </tr>
                                     {kpiGroup.details.map((kpi, index) => {
@@ -183,7 +180,7 @@ export default class MyProbation extends Component {
                                                                 && 'input-validation-error'}`}
                                                         />
                                                     }
-                                                    {kpi.selfPoint && `${kpi.selfPoint} pts`}
+                                                    <strong>{kpi.selfPoint && `${kpi.selfPoint} pts`}</strong>
                                                 </td>
                                             </tr>
                                         )
@@ -192,8 +189,8 @@ export default class MyProbation extends Component {
                             ))}
 
                             <tr>
-                                <td className="text-center score">Score</td>
-                                <td className="text-center">{score > 0 && `${round(score)}/100`}</td>
+                                <td className="text-center score text-bold">Score</td>
+                                <td className="text-center score"><span className="score-badge">{score > 0 && `${round(score)}/100`}</span></td>
                             </tr>
                             <tr>
                                 <td colSpan={2}>Employee's Comment</td>
@@ -388,7 +385,7 @@ export default class MyProbation extends Component {
 
                         
 
-                        <NexPanel title="Approach to Work">
+                        <NexPanel title="A. HRM System">
                             <HRM hrm={this.state.hrm} />
                         </NexPanel>
                         <Formik

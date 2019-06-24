@@ -13,7 +13,8 @@ export default class ProbationProcess extends PureComponent {
 
         return (
             <li key={process.processId} className={`process-item ${status}`}>
-                {`${process.process}: ${process.evaluatorNickName} ${process.fromDate.format(DateFormat)} - ${process.toDate.format(DateFormat)}`}
+                <div>{`${process.process}: ${process.evaluatorNickName}`}</div>
+                <div>{`${process.fromDate.format(DateFormat)} - ${process.toDate.format(DateFormat)}`}</div>
                 {
                     status === 'end-process' &&
                     <div>

@@ -1,10 +1,50 @@
-﻿$c-end-process: #525E86;
-$c-in-progress: #f4783d;
-$c-in-open: #CDDFEB;
+﻿$c-end-process: #536CB8;
+$c-in-progress: #F4783D;
+$c-in-open: #5BA277;
+
+.text-bold {
+    font-weight: bold;
+}
+
+.rating {
+    margin-right: 10px;
+}
+
+.score-badge {
+    padding: 2px 15px;
+    display: inline-block;
+    color: #fff;
+    border-radius: 10px;
+    font-weight: bold;
+    background: #2475D7;
+}
+
+.score {
+    background: #E3E6EE;
+    font-size: 14px;
+}
+
+.rating-icon {
+    color: #F09700;
+    padding: 0 2px;
+    font-size: 15px;
+
+    &.grey {
+        color: #C9D4E2;
+    }
+}
 
 .process {
     margin-top: 12px;
-    background-color: #e4e8eb;
+    background-color: #EAEAEA;
+
+    .title {
+        padding: 8px 16px;
+        background: #525E86;
+        color: #fff;
+        font-size: 14px;
+        font-weight: bold;
+    }
 }
 
 .period {
@@ -18,7 +58,7 @@ $c-in-open: #CDDFEB;
     height: 50px;
 }
 
-ul.evaluation-process {
+.evaluation-process {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -35,11 +75,15 @@ ul.evaluation-process {
     }
 
     li {
-        width: auto;
-        height: 50px;
-        padding: 6px 50px 0 20px;
         position: relative;
-        margin-right: 31px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: auto;
+        height: 80px;
+        padding: 0 50px 0 20px;
+        margin-right: 23px;
+        font-size: 14px;
         vertical-align: top;
         font-weight: 600;
 
@@ -52,10 +96,10 @@ ul.evaluation-process {
 
         &:after {
             content: "";
-            border-top: 25px solid transparent;
-            border-bottom: 25px solid transparent;
+            border-top: 40px solid transparent;
+            border-bottom: 40px solid transparent;
             position: absolute;
-            right: -25px;
+            right: -20px;
             top: 0;
         }
 
@@ -63,9 +107,9 @@ ul.evaluation-process {
             content: "";
             position: absolute;
             top: 0px;
-            border-width: 25px 3px 25px 25px;
+            border-width: 40px 3px 40px 20px;
             border-style: solid;
-            left: -28px;
+            left: -20px;
         }
 
         &:last-child {
@@ -83,7 +127,7 @@ ul.evaluation-process {
             color: #fff;
 
             &:after {
-                border-left: 25px solid $c-end-process;
+                border-left: 20px solid $c-end-process;
             }
 
             &:before {
@@ -96,7 +140,7 @@ ul.evaluation-process {
             color: #fff;
 
             &:after {
-                border-left: 25px solid $c-in-progress;
+                border-left: 20px solid $c-in-progress;
             }
 
             &:before {
@@ -106,10 +150,10 @@ ul.evaluation-process {
 
         &.open {
             background: $c-in-open;
-            color: #33406B;
+            color: #fff;
 
             &:after {
-                border-left: 25px solid $c-in-open;
+                border-left: 20px solid $c-in-open;
             }
 
             &:before {

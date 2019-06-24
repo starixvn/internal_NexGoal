@@ -41,10 +41,7 @@ export default class HRM extends PureComponent {
     render() {
         return (
             <table className="table table-bordered table-striped hrm-table">
-                <thead>
-                    <tr>
-                        <th colSpan="9">A. HRM System</th>
-                    </tr>
+                <thead>                    
                     <tr>
                         <th>Month</th>
                         <th>Missing Check In/Out</th>
@@ -61,7 +58,7 @@ export default class HRM extends PureComponent {
 
                     {this.props.hrm.attendances.map(this.renderAttendance)}
 
-                    <tr>
+                    <tr className="hrm-total">
                         <td className="text-center">Total</td>
                         <td className="text-center">{sumBy(this.props.hrm.attendances, 'missingCheckInCheckOut')}</td>
                         <td className="text-center">{sumBy(this.props.hrm.attendances, 'lateIn')}</td>
