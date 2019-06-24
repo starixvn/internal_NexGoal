@@ -37,7 +37,7 @@
             foreach (var probationer in probationers)
             {
                 probationer.CanEdit = probationer.Settings.Any(x => x.FromDate <= today && x.ToDate >= today && x.EvaluatorId == actorId);
-                probationer.ProcessId = probationer.Settings.FirstOrDefault(x => x.EvaluatorId == actorId).ProcessId;
+                probationer.ProcessIds = probationer.Settings.Where(x => x.EvaluatorId == actorId).Select(x => x.ProcessId);
             }
 
             return probationers;
@@ -86,7 +86,8 @@
             }).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditEvaluatorEvaluationAsync(int employeeId, string comment, int totalScore, IEnumerable<EditEvaluationModel> evaluatorEvaluations)
+        public async Task<CommandResult> EditEvaluatorEvaluationAsync(int employeeId, string comment,
+            bool isQualifiedByEvaluator, int totalScore, IEnumerable<EditEvaluationModel> evaluatorEvaluations)
         {
             XElement root = new XElement("Root");
             foreach (var evaluation in evaluatorEvaluations)
@@ -103,16 +104,17 @@
                 EmployeeId = employeeId,
                 Details = root.ToString(),
                 Comment = comment,
-                TotalScore = totalScore
+                TotalScore = totalScore,
+                IsQualifiedByEvaluator = isQualifiedByEvaluator
             }).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditReviewerEvaluationAsync(int employeeId, int finalScore, string comment)
+        public async Task<CommandResult> EditReviewerEvaluationAsync(int employeeId, bool isQualified, string comment)
         {
             return await baseService.ExecuteNonQueryAsync(new UpdateReviewerEvaluationCriteria
             {
                 EmployeeId = employeeId,
-                FinalScore = finalScore,
+                IsQualified = isQualified,
                 Comment = comment
             }).ConfigureAwait(false);
         }

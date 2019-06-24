@@ -8,7 +8,6 @@
 @import "../../layouts/main-layout";
 @import "../../layouts/milestone";
 @import "../../layouts/member-timeline";
-
 @import "../home/personal-timeline";
 @import "probation-process";
 
@@ -30,6 +29,7 @@ table {
             textarea {
                 width: 100%;
                 display: block;
+                resize: vertical;
             }
 
             p {
@@ -91,6 +91,14 @@ table {
 
 .main-content {
     padding: 16px;
+}
+
+.passed {
+    color: #376E00;
+}
+
+.failed {
+    color: #E22C04;
 }
 
 @media screen and (min-width: 1600px) {

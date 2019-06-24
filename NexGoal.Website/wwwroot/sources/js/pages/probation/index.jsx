@@ -15,7 +15,6 @@ import { Formik, getIn } from 'formik';
 import NexPanel from '../../shared/components/NexPanel';
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
-import { PerformanceProcess } from '../../constants';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import ProbationProcess from './ProbationProcess';
 import HRM from './HRM';
@@ -71,7 +70,6 @@ export default class MyProbation extends Component {
         kpi.selfPoint = value * 1.11;
 
         this.setState({ evaluationDetails });
-        this.calcuateAverageGrade();
     }
 
     emptySymbol = <i className="rating-icon fa fa-star grey" />
@@ -118,15 +116,6 @@ export default class MyProbation extends Component {
                 error: Object.assign({}, prevState.error, { comment: event.target.value ? null : getResource('CommentRequired') })
             }));
         }
-    }
-
-    calcuateAverageGrade = () => {
-        let sum = 0;
-        console.log(flatMap(this.state.evaluationDetails, (kpiGroup) => kpiGroup.details.map(kpi => ({
-            employeeId: kpi.employeeId,
-            kpiId: kpi.kpiId,
-            point: kpi.selfPoint
-        }))));
     }
 
     schema = Yup.object().shape({

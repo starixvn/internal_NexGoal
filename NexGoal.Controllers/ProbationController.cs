@@ -1,9 +1,12 @@
 ﻿namespace NexGoal.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using NexGoal.Core.Constants;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Models.Probation;
     using NexGoal.Services;
     using NexGoal.ViewModels.Probation;
+    using NexGoal.Web.Core.Filters;
     using NexGoal.Web.Core.Services;
     using System.Collections.Generic;
     using System.Linq;
@@ -22,6 +25,7 @@
         }
 
         [HttpGet]
+        [NexGoalPermission(FunctionKey = FunctionKey.MemberPage, Policy = Policy.Host)]
         public async Task<IActionResult> Evaluate(int id)
         {
             var employee = await commonService.GetEmployeeByIdAsync(id).ConfigureAwait(false);
@@ -29,6 +33,7 @@
         }
 
         [HttpGet]
+        [NexGoalPermission(FunctionKey = FunctionKey.MemberPage, Policy = Policy.Host)]
         public async Task<IActionResult> GetEvaluations()
         {
             var result = await probationService.GetProbationEvaluationsAsync(sessionService.EmployeeId, null);
@@ -37,6 +42,7 @@
         }
 
         [HttpGet]
+        [NexGoalPermission(FunctionKey = FunctionKey.MemberPage, Policy = Policy.Host)]
         public async Task<IActionResult> GetEvaluation(int employeeId)
         {
             var result = await probationService.GetProbationEvaluationsAsync(sessionService.EmployeeId, employeeId);
@@ -52,6 +58,7 @@
         }
 
         [HttpGet]
+        [NexGoalPermission(FunctionKey = FunctionKey.MemberPage, Policy = Policy.Host)]
         public async Task<IActionResult> GetEvaluationDetail(int employeeId)
         {
             var result = await probationService.GetEvaluationDetailAsync(employeeId);
@@ -67,6 +74,7 @@
         }
 
         [HttpGet]
+        [NexGoalPermission(FunctionKey = FunctionKey.MemberPage, Policy = Policy.Host)]
         public async Task<IActionResult> GetHRM(int employeeId)
         {
             var result = await probationService.GetHRM(employeeId);
@@ -75,20 +83,22 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditEvaluatorEvaluation(int employeeId, string comment, int totalScore, IEnumerable<EditEvaluationViewModel> evaluations)
+        [NexGoalPermission(FunctionKey = FunctionKey.MemberPage, Policy = Policy.Host)]
+        public async Task<IActionResult> EditEvaluatorEvaluation(int employeeId, string comment, bool isQualifiedByEvaluator, int totalScore, IEnumerable<EditEvaluationViewModel> evaluations)
         {
-            var result = await probationService.EditEvaluatorEvaluationAsync(employeeId, comment, totalScore,
+            var result = await probationService.EditEvaluatorEvaluationAsync(employeeId, comment, isQualifiedByEvaluator, totalScore,
                 evaluations.Select(x => new EditEvaluationModel
                 {
                     EmployeeId = x.EmployeeId,
                     KPIId = x.KPIId,
-                    Point = x.Point
+                    Point = x.Point,
                 }));
 
             return Json(result);
         }
 
         [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.MemberPage, Policy = Policy.Host)]
         public async Task<IActionResult> EditSetting(int employeeId, IEnumerable<EditSettingViewModel> settings)
         {
             var result = await probationService.EditSettingAsync(settings.Select(x => new EditProbationSettingModel

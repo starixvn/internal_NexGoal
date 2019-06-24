@@ -30,10 +30,12 @@
 
         public string ReviewerComment { get; set; }
 
+        public bool? IsQualifiedByEvaluator { get; set; }
+
         public bool CanEdit { get; set; }
 
         public IEnumerable<ProbationSettingModel> Settings { get; set; }
 
-        public int ProcessId { get; set; }
+        public IEnumerable<int> ProcessIds { get; set; }
     }
 }

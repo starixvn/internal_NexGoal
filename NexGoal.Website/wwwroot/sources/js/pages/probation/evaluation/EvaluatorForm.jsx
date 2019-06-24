@@ -10,6 +10,9 @@ import { stringify } from 'qs';
 import { toast } from 'react-toastify';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
+import ProbationResultOptions from './ProbationResultOptions';
+import SingleValue from './SingleValue';
+import { error } from 'util';
 
 export default class EvaluatorForm extends Component {
     constructor(props) {
@@ -43,15 +46,6 @@ export default class EvaluatorForm extends Component {
         }
     }
 
-    calcuateAverageGrade = () => {
-        let sum = 0;
-        console.log(flatMap(this.state.evaluationDetails, (kpiGroup) => kpiGroup.details.map(kpi => ({
-            employeeId: kpi.employeeId,
-            kpiId: kpi.kpiId,
-            point: kpi.evaluatorPoint
-        }))));
-    }
-
     schema = Yup.object().shape({
         comment: Yup.string().required(),
         evaluations: Yup.array().of(
@@ -62,7 +56,8 @@ export default class EvaluatorForm extends Component {
                     })
                 )
             })
-        )
+        ),
+        isQualifiedByEvaluator: Yup.object().required()
     })
 
     renderForm = ({
@@ -117,12 +112,20 @@ export default class EvaluatorForm extends Component {
 
                         <tr>
                             <td className="text-center score">Score</td>
-                            <td className="text-center">{this.props.probationer.selfScore}/100</td>
+                            <td className="text-center">{this.props.probationer.selfScore && `${this.props.probationer.selfScore}/100`}</td>
                             <td className="text-center">{score > 0 && `${round(score)}/100`}</td>
                         </tr>  <tr>
                             <td className="text-center score" colSpan="2">{getResource('Result')}</td>
-                            < td className="text-center" >
-
+                            <td>
+                                <Select name="isQualifiedByEvaluator"
+                                    className={`react-select-container ${touched.isQualifiedByEvaluator && errors.isQualifiedByEvaluator && 'input-validation-error'}`}
+                                    classNamePrefix="react-select" isDisabled={!this.props.probationer.canEdit}
+                                    value={values.isQualifiedByEvaluator}
+                                    options={ProbationResultOptions} placeholder=""
+                                    isClearable={false} isSearchable={false}
+                                    components={{ SingleValue }}
+                                    onChange={value => setFieldValue('isQualifiedByEvaluator', value)}
+                                />
                             </td>
                         </tr>
                         <tr>
@@ -138,13 +141,17 @@ export default class EvaluatorForm extends Component {
                         </tr>
                         <tr>
                             <td colSpan="3" className="comment-cell">
-                                <textarea className={`none-resize ${touched.comment && errors.comment && 'input-validation-error'}`}
-                                    value={values.comment} onChange={handleChange} name="comment" />
+                                <div>
+                                    <textarea className={`${touched.comment && errors.comment && 'input-validation-error'}`}
+                                        value={values.comment} onChange={handleChange} name="comment" />
+                                </div>
+
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <div style={{ marginTop: '15px' }}>
+                    <a className="btn btn-default btn-cancel" href="/member/index?activeTab=4">{getResource('Back')}</a>
                     {this.props.probationer.canEdit &&
                         <button className="btn btn-primary" disabled={isSubmitting} type="button" onClick={handleSubmit}>Save</button>
                     }
@@ -164,7 +171,8 @@ export default class EvaluatorForm extends Component {
             employeeId: this.props.probationer.employeeId,
             comment: values.comment,
             evaluations: evaluations,
-            totalScore: round(sumBy(evaluations, 'point'))
+            totalScore: round(sumBy(evaluations, 'point')),
+            isQualifiedByEvaluator: values.isQualifiedByEvaluator.value
         };
 
         axios({
@@ -196,7 +204,8 @@ export default class EvaluatorForm extends Component {
             <Formik
                 initialValues={{
                     comment: this.props.probationer.evaluatorComment,
-                    evaluations: this.props.evaluationDetails
+                    evaluations: this.props.evaluationDetails,
+                    isQualifiedByEvaluator: this.props.probationer.isQualifiedByEvaluator ? ProbationResultOptions.find(x => x.value === this.props.probationer.isQualifiedByEvaluator) : null
                 }}
                 render={this.renderForm}
                 validationSchema={this.schema}

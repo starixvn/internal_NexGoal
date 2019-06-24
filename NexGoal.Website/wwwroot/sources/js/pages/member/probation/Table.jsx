@@ -13,34 +13,38 @@ export default class Table extends Component {
         this.props.onShowComment(event.target.dataset.comment);
     }
 
-    renderRow = probationer => (
-        <tr key={probationer.employeeId}>
-            <td>{probationer.nickName}</td>
-            <td className="text-center">{probationer.selfScore || '-'}</td>
-            <td className="text-center">
-                {probationer.selfComment ? <span className="icon-search" data-comment={probationer.selfComment} onClick={this.handleShowComment} /> : '-'}
-            </td>
-            <td className="text-center">{probationer.evaluatorScore || '-'}</td>
-            <td className="text-center">{probationer.nickName}</td>
-            <td className="text-center">
-                {probationer.evaluatorComment ? <i className="icon-search" /> : '-'}
-            </td>
-            <td className="text-center">{probationer.finalScore || '-'}</td>
-            <td className="text-center">{probationer.nickName}</td>
-            <td className="text-center">
-                {probationer.reviewerComment ? <span className="icon-search" /> : '-'}
-            </td>
-            <td className="text-center">
-                <input type="checkbox" disabled={probationer.processId !== PerformanceProcess.Reviewer || !probationer.canEdit}
-                    checked={probationer.isRevised} id={`chb-${probationer.employeeId}`} className="checkbox-custom"
-                />
-                <label htmlFor={`chb-${probationer.employeeId}`} />
-            </td>
-            <td className="text-center">
-                <a className="fa fa-pencil" title="Edit" href={`/Probation/Evaluate/${probationer.employeeId}`} />
-            </td>
-        </tr>
-    )
+    renderRow = probationer => {
+        let evaluatorResult = '';
+        evaluatorResult = probationer.isQualifiedByEvaluator !== null ? probationer.isQualifiedByEvaluator ? 'Passed' : 'Failed' : '-';
+        return (
+            <tr key={probationer.employeeId}>
+                <td>{probationer.nickName}</td>
+                <td className="text-center">{probationer.selfScore || '-'}</td>
+                <td className="text-center">
+                    {probationer.selfComment ? <span className="icon-search" data-comment={probationer.selfComment} onClick={this.handleShowComment} /> : '-'}
+                </td>
+                <td className="text-center">{probationer.evaluatorScore || '-'}</td>
+                <td className="text-center"><span className={evaluatorResult.toLowerCase()} >{evaluatorResult}</span></td>
+                <td className="text-center">
+                    {probationer.evaluatorComment ? <i className="icon-search" /> : '-'}
+                </td>
+                <td className="text-center">{probationer.finalScore || '-'}</td>
+                <td className="text-center">{probationer.nickName}</td>
+                <td className="text-center">
+                    {probationer.reviewerComment ? <span className="icon-search" /> : '-'}
+                </td>
+                <td className="text-center">
+                    <input type="checkbox" disabled={probationer.processId !== PerformanceProcess.Reviewer || !probationer.canEdit}
+                        checked={probationer.isRevised} id={`chb-${probationer.employeeId}`} className="checkbox-custom"
+                    />
+                    <label htmlFor={`chb-${probationer.employeeId}`} />
+                </td>
+                <td className="text-center">
+                    <a className="fa fa-pencil" title="Edit" href={`/Probation/Evaluate/${probationer.employeeId}`} />
+                </td>
+            </tr>
+        );
+    }
 
     render() {
         if (this.props.tableData) {

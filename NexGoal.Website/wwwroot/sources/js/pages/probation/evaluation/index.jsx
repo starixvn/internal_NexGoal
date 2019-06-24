@@ -75,8 +75,29 @@ export default class Evaluation extends Component {
                     probationer: probationer,
                     currentPerformancePeriod: currentPerformancePeriodResponse.data,
                     hrm: hrmResponse.data,
+                    processId: this.getProcessId(probationer)
                 });
             }).catch(axiosError);
+    }
+
+    getProcessId = probationer => {
+        const processIds = probationer.processIds;
+
+        if (processIds.length === 1) {
+            return processIds[0];
+        }
+
+        const reviewerProcess = probationer.settings.find(x => x.processId === PerformanceProcess.Reviewer);
+
+        if (moment().isBefore(reviewerProcess.fromDate) && processIds.some(p => p === PerformanceProcess.Evaluator)) {
+            return PerformanceProcess.Evaluator;
+        }
+
+        if (moment().isAfter(reviewerProcess.fromDate) && processIds.some(p => p === PerformanceProcess.Reviewer)) {
+            return PerformanceProcess.Reviewer;
+        }
+
+        return null;
     }
 
     render() {
@@ -100,7 +121,7 @@ export default class Evaluation extends Component {
                                 <HRM hrm={this.state.hrm} />
                             </NexPanel>
 
-                            {this.state.probationer.processId === PerformanceProcess.Evaluator
+                            {this.state.processId === PerformanceProcess.Evaluator
                                 && <EvaluatorForm probationer={this.state.probationer} evaluationDetails={this.state.evaluationDetails} />
                             }
                         </div>

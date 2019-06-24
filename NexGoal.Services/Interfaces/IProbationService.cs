@@ -15,9 +15,9 @@
 
         Task<CommandResult> EditSelfEvaluationAsync(int employeeId, string comment, int totalScore, IEnumerable<EditEvaluationModel> selfEvaluations);
 
-        Task<CommandResult> EditEvaluatorEvaluationAsync(int employeeId, string comment, int totalScore, IEnumerable<EditEvaluationModel> evaluatorEvaluations);
+        Task<CommandResult> EditEvaluatorEvaluationAsync(int employeeId, string comment, bool isQualifiedByEvaluator, int totalScore, IEnumerable<EditEvaluationModel> evaluatorEvaluations);
 
-        Task<CommandResult> EditReviewerEvaluationAsync(int employeeId, int finalScore, string comment);
+        Task<CommandResult> EditReviewerEvaluationAsync(int employeeId, bool isQualified, string comment);
 
         Task<IEnumerable<ProbationerModel>> GetProbationersAsync();
 
