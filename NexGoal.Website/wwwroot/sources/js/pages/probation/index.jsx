@@ -68,7 +68,7 @@ export default class MyProbation extends Component {
                     hrm: hrmResponse.data,
                     performanceAppraisals: performanceAppraisalsResponse.data,
                     selfProcess: selfProcess,
-                    showEvaluationForm: !moment().isSameOrAfter(selfProcess.fromDate)
+                    showEvaluationForm: moment().isSameOrAfter(selfProcess.fromDate)
                 });
             }).catch(axiosError);
     }
