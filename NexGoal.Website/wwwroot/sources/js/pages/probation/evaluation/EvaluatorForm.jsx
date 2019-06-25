@@ -12,39 +12,15 @@ import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import ProbationResultOptions from './ProbationResultOptions';
 import SingleValue from './SingleValue';
-import { error } from 'util';
 
 export default class EvaluatorForm extends Component {
     constructor(props) {
         super(props);
     }
 
-    updatePoint = (kpi, value) => {
-        const evaluationDetails = this.state.evaluationDetails.slice();
-        kpi.evaluatorPoint = value * 1.11;
-
-        this.setState({ evaluationDetails });
-        this.calcuateAverageGrade();
-    }
-
-    emptySymbol = <i className="rating-icon fa fa-star-o" />
+    emptySymbol = <i className="rating-icon fa fa-star grey" />
 
     fullSymbol = <i className="rating-icon fa fa-star" />
-
-    handleSelfCommentChange = (event) => {
-        const probationer = this.props.probationer;
-        probationer.selfComment = event.target.value;
-
-        if (!this.state.error) {
-            this.setState({ probationer });
-        }
-        else {
-            this.setState(prevState => ({
-                probationer: probationer,
-                error: Object.assign({}, prevState.error, { comment: event.target.value ? null : getResource('CommentRequired') })
-            }));
-        }
-    }
 
     schema = Yup.object().shape({
         comment: Yup.string().required(),
@@ -87,6 +63,7 @@ export default class EvaluatorForm extends Component {
                                 </tr>
                                 {kpiGroup.details.map((kpi, index) => {
                                     score += kpi.evaluatorPoint;
+
                                     return (
                                         <tr key={kpi.kpiId}>
                                             <td>{index + 1}. {kpi.kpiName}</td>
@@ -141,11 +118,9 @@ export default class EvaluatorForm extends Component {
                         </tr>
                         <tr>
                             <td colSpan="3" className="comment-cell">
-                                <div>
-                                    <textarea className={`${touched.comment && errors.comment && 'input-validation-error'}`}
-                                        value={values.comment} onChange={handleChange} name="comment" />
-                                </div>
-
+                                <textarea className={`${touched.comment && errors.comment && 'input-validation-error'}`}
+                                    value={values.comment} onChange={handleChange} name="comment" readOnly={!this.props.probationer.canEdit}
+                                />
                             </td>
                         </tr>
                     </tbody>
@@ -153,7 +128,7 @@ export default class EvaluatorForm extends Component {
                 <div style={{ marginTop: '15px' }}>
                     <a className="btn btn-default btn-cancel" href="/member/index?activeTab=4">{getResource('Back')}</a>
                     {this.props.probationer.canEdit &&
-                        <button className="btn btn-primary" disabled={isSubmitting} type="button" onClick={handleSubmit}>Save</button>
+                        <button className="btn btn-primary" disabled={isSubmitting} type="button" onClick={handleSubmit}>{getResource('Submit')}</button>
                     }
                 </div>
             </Fragment>

@@ -31,10 +31,10 @@ table {
                 display: block;
                 resize: vertical;
             }
+        }
 
-            p {
-                white-space: pre-wrap;
-            }
+        p.comment {
+            white-space: pre-wrap;
         }
     }
 }

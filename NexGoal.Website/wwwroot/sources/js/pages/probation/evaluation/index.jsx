@@ -14,6 +14,8 @@ import NexPanel from '../../../shared/components/NexPanel';
 import ProbationProcess from '../ProbationProcess';
 import HRM from '../HRM';
 import EvaluatorForm from './EvaluatorForm';
+import ReviewerForm from './ReviewerForm';
+import Description from '../Description';
 
 export default class Evaluation extends Component {
     constructor(props) {
@@ -31,7 +33,7 @@ export default class Evaluation extends Component {
             fullName: document.getElementById('probationer-fullName').value,
             jobTitle: document.getElementById('probationer-jobTitle').value,
             avatar: document.getElementById('probationer-avatar').value,
-            joinedDate: document.getElementById('probationer-joineddate').value
+            joinedDate: moment(document.getElementById('probationer-joineddate').value)
         };
 
         this.myGroupOptions = [];
@@ -115,7 +117,10 @@ export default class Evaluation extends Component {
                     </div>
                     {this.state.probationer &&
                         <div className="main-content">
-                            <ProbationProcess processes={this.state.probationer.settings} />
+                            <NexPanel title={`PERFORMANCE REVIEW: SKILLS AND ABILITIE (${this.state.probationer.code} - ${this.state.probationer.fullName})`} >
+                                <Description employeeInfo={this.probationerInfo} />
+                                <ProbationProcess processes={this.state.probationer.settings} />
+                            </NexPanel>
 
                             <NexPanel title="Approach to Work">
                                 <HRM hrm={this.state.hrm} />
@@ -123,6 +128,9 @@ export default class Evaluation extends Component {
 
                             {this.state.processId === PerformanceProcess.Evaluator
                                 && <EvaluatorForm probationer={this.state.probationer} evaluationDetails={this.state.evaluationDetails} />
+                            }
+                            {this.state.processId === PerformanceProcess.Reviewer
+                                && <ReviewerForm probationer={this.state.probationer} evaluationDetails={this.state.evaluationDetails} />
                             }
                         </div>
                     }

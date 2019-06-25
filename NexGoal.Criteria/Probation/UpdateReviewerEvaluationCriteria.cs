@@ -10,8 +10,10 @@
 
         public bool IsQualified { get; set; }
 
+        public int ActorId { get; set; }
+
         public override string GetSettingKey() => "Probation_UpdateReviewerEvaluation";
 
-        public override bool IsValid() => !string.IsNullOrWhiteSpace(Comment) && EmployeeId > 0;
+        public override bool IsValid() => !string.IsNullOrWhiteSpace(Comment) && EmployeeId > 0 && ActorId > 0;
     }
 }

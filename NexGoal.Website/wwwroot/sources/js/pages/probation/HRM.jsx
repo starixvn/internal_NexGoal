@@ -22,7 +22,7 @@ export default class HRM extends PureComponent {
                         </div>
                         {this.props.hrm.toeic.examDate &&
                             <div>
-                                {moment(this.props.hrm.toeic.examDate).format(DateFormat)}
+                                ({moment(this.props.hrm.toeic.examDate).format(DateFormat)})
                             </div>
                         }
                     </td>
@@ -41,7 +41,7 @@ export default class HRM extends PureComponent {
     render() {
         return (
             <table className="table table-bordered table-striped hrm-table">
-                <thead>                    
+                <thead>
                     <tr>
                         <th>Month</th>
                         <th>Missing Check In/Out</th>

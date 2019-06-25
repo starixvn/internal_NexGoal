@@ -17,6 +17,7 @@ import ToastLayout from '../../shared/layouts/ToastLayout';
 import ProbationProcess from './ProbationProcess';
 import HRM from './HRM';
 import PerformanceAppraisalResult from './PerformanceAppraisalResult';
+import Description from './Description';
 
 export default class MyProbation extends Component {
     constructor(props) {
@@ -35,7 +36,6 @@ export default class MyProbation extends Component {
             },
             probationer: null,
             evaluationDetails: [],
-            avatarUrl: document.getElementById('employeeInfo-avatar').getAttribute('src')
         };
     }
 
@@ -63,58 +63,9 @@ export default class MyProbation extends Component {
             }).catch(axiosError);
     }
 
-    updatePoint = (kpi, value) => {
-        const evaluationDetails = this.state.evaluationDetails.slice();
-        kpi.selfPoint = value * 1.11;
-
-        this.setState({ evaluationDetails });
-    }
-
     emptySymbol = <i className="rating-icon fa fa-star grey" />
 
     fullSymbol = <i className="rating-icon fa fa-star" />
-
-    renderKPI = (kpi, index) => (
-        <tr key={kpi.kpiId}>
-            <td>{index + 1}. {kpi.kpiName}</td>
-            <td className="text-center">
-                {this.state.probationer.canEdit &&
-                    <Rating initialRating={kpi.selfPoint / 1.11 || 0}
-                        emptySymbol={this.emptySymbol}
-                        fullSymbol={this.fullSymbol}
-                        onChange={value => this.updatePoint(kpi, value)}
-                    />
-                }
-                {kpi.selfPoint && `${kpi.selfPoint} pts`}
-
-            </td>
-        </tr>
-    )
-
-    renderKPIGroup = (kpiGroup, index) => (
-        <Fragment key={kpiGroup.kpiGroupId}>
-            <tr className="group-row">
-                <td>{index + 1}. {kpiGroup.name}</td>
-                <td className="text-center">{getResource('Employee')}</td>
-            </tr>
-            {kpiGroup.details.map(this.renderKPI)}
-        </Fragment>
-    )
-
-    handleSelfCommentChange = (event) => {
-        const probationer = this.state.probationer;
-        probationer.selfComment = event.target.value;
-
-        if (!this.state.error) {
-            this.setState({ probationer });
-        }
-        else {
-            this.setState(prevState => ({
-                probationer: probationer,
-                error: Object.assign({}, prevState.error, { comment: event.target.value ? null : getResource('CommentRequired') })
-            }));
-        }
-    }
 
     schema = Yup.object().shape({
         comment: Yup.string().required(),
@@ -170,7 +121,7 @@ export default class MyProbation extends Component {
                                                     <strong>{kpi.selfPoint && `${kpi.selfPoint} pts`}</strong>
                                                 </td>
                                             </tr>
-                                        )
+                                        );
                                     })}
                                 </Fragment>
                             ))}
@@ -193,7 +144,7 @@ export default class MyProbation extends Component {
                 </NexPanel>
                 <div style={{ marginTop: '15px' }}>
                     {this.state.probationer.canEdit &&
-                        <button className="btn btn-primary" disabled={isSubmitting} type="button" onClick={handleSubmit}>Save</button>
+                        <button className="btn btn-primary" disabled={isSubmitting} type="button" onClick={handleSubmit}>{getResource('Submit')}</button>
                     }
                 </div>
             </Fragment>
@@ -255,118 +206,7 @@ export default class MyProbation extends Component {
                         </div>
                         <div className="probation-content">
                             <NexPanel title={`PERFORMANCE REVIEW: SKILLS AND ABILITIE (${this.state.probationer.code} - ${this.state.probationer.fullName})`} >
-                                <div className="info-rate">
-                                    <div className="user-info">
-                                        <img src={this.state.avatarUrl} alt="avatar" className="avatar" />
-                                        <ul>
-                                            <li className="info">
-                                                <span className="label">Full Name:</span>
-                                                <span className="info-text">Nguyễn Văn A</span>
-                                            </li>
-                                            <li className="info">
-                                                <span className="label">Nick Name:</span>
-                                                <span className="info-text">Nick</span>
-                                            </li>
-                                            <li className="info">
-                                                <span className="label">Joined Day:</span>
-                                                <span className="info-text">01 May, 2019</span>
-                                            </li>
-                                            <li className="info">
-                                                <span className="label">Team:</span>
-                                                <span className="info-text">DEV Pool</span>
-                                            </li>
-                                            <li className="info">
-                                                <span className="label">Job Title:</span>
-                                                <span className="info-text">Software Engineer</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div className="rate-information">
-                                        <div className="rate-item">
-                                            <div className="rate-star">
-                                                <span>Poor: 1 </span>
-                                                <div className="star-block">
-                                                    <i className="fa fa-star" />
-                                                </div>
-                                            </div>
-                                            <div className="rate-description">Unsatisfactory: Performance was consistently below expectations. Poor quality of work, frequently needs rework. Significant improvement is needed.</div>
-                                        </div>
-                                        <div className="rate-item">
-                                            <div className="rate-star">
-                                                <span>Below Average: 2</span>
-                                                <div className="star-block">
-                                                    <i className="fa fa-star" /><i className="fa fa-star" />
-                                                </div>
-                                            </div>
-                                            <div className="rate-description">Improvement needed: Performance did not consistently meet expectations. Did not generally contribute extra effort or energy. An improvement plan is needed.</div>
-                                        </div>
-                                        <div className="rate-item">
-                                            <div className="rate-star">
-                                                <span>Sastisfactory: 3</span>
-                                                <div className="star-block">
-                                                    <i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" />
-                                                </div>
-                                            </div>
-                                            <div className="rate-description">Meets expectations: Solid performance with a good quality of work, at times possibly exceeding expectations and contributing additional value.</div>
-                                        </div>
-                                        <div className="rate-item">
-                                            <div className="rate-star">
-                                                <span>Good: 4</span>
-                                                <div className="star-block">
-                                                    <i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" />
-                                                </div>
-                                            </div>
-                                            <div className="rate-description">Exceeds expectations: Significant performance and exceeded expectations. The quality of work overall was excellent and was able to deal with big problems with minimal direction.</div>
-                                        </div>
-                                        <div className="rate-item">
-                                            <div className="rate-star">
-                                                <span>Excellent:5</span>
-                                                <div className="star-block">
-                                                    <i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" />
-                                                </div>
-                                            </div>
-                                            <div className="rate-description">Exceptional: The most outstanding performance and far exceeded expectations due to exceptionally high quality of work. Made a superior contribution in support team/department objectives.</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/*<table className="table table-bordered rate-info-table" >
-                                <tbody>
-                                    <tr className="group-row">
-                                        <td colSpan={6}>Please rate the performance using the following rating scale</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="text-center">{this.state.probationer.fullName}</td>
-                                        <td className="text-center">Poor: 1 <i className="fa fa-star" /></td>
-                                        <td className="text-center">Below Average: 2 <i className="fa fa-star" /><i className="fa fa-star" /></td>
-                                        <td className="text-center">Sastisfactory: 3 <i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /></td>
-                                        <td className="text-center">Good: 4 <i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /></td>
-                                        <td className="text-center">Excellent:5  <i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src={this.state.avatarUrl} alt="avatar" className="avatar" />
-                                        </td>
-                                        <td>
-                                            Unsatisfactory: Performance was consistently below expectations. Poor quality of work, frequently needs rework. Significant improvement is needed.
-                                        </td>
-                                        <td>
-                                            Improvement needed: Performance did not consistently meet expectations. Did not generally contribute extra effort or energy. An improvement plan is needed.
-                                        </td>
-                                        <td>
-                                            Meets expectations: Solid performance with a good quality of work, at times possibly exceeding expectations and contributing additional value.
-                                        </td>
-                                        <td>
-                                            Exceeds expectations: Significant performance and exceeded expectations. The quality of work overall was excellent and was able to deal with big problems with minimal direction.
-                                        </td>
-                                        <td>
-                                            Exceptional: The most outstanding performance and far exceeded expectations due to exceptionally high quality of work. Made a superior contribution in support team/department objectives.
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>*/}
-
+                                <Description employeeInfo={this.state.employeeInfo} />
                                 <ProbationProcess processes={this.state.probationer.settings} />
                             </NexPanel>
 

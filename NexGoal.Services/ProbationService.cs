@@ -65,57 +65,42 @@
             }).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditSelfEvaluationAsync(int employeeId, string comment, int totalScore, IEnumerable<EditEvaluationModel> selfEvaluations)
+        public async Task<CommandResult> EditSelfEvaluationAsync(EditSelfEvaluationModel model)
         {
-            XElement root = new XElement("Root");
-            foreach (var evaluation in selfEvaluations)
-            {
-                XElement row = new XElement("Row");
-                row.SetAttributeValue(nameof(EditEvaluationModel.EmployeeId), evaluation.EmployeeId);
-                row.SetAttributeValue(nameof(EditEvaluationModel.KPIId), evaluation.KPIId);
-                row.SetAttributeValue(nameof(EditEvaluationModel.Point), evaluation.Point);
-                root.Add(row);
-            }
+            var root = ConvertToXML(model.Evaluations);
 
             return await baseService.ExecuteNonQueryAsync(new UpdateSelfEvaluationCriteria
             {
-                EmployeeId = employeeId,
+                EmployeeId = model.EmployeeId,
                 Details = root.ToString(),
-                Comment = comment,
-                TotalScore = totalScore
+                Comment = model.Comment,
+                TotalScore = model.TotalScore
             }).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditEvaluatorEvaluationAsync(int employeeId, string comment,
-            bool isQualifiedByEvaluator, int totalScore, IEnumerable<EditEvaluationModel> evaluatorEvaluations)
+        public async Task<CommandResult> EditEvaluatorEvaluationAsync(EditEvaluatorEvaluationModel model)
         {
-            XElement root = new XElement("Root");
-            foreach (var evaluation in evaluatorEvaluations)
-            {
-                XElement row = new XElement("Row");
-                row.SetAttributeValue(nameof(EditEvaluationModel.EmployeeId), evaluation.EmployeeId);
-                row.SetAttributeValue(nameof(EditEvaluationModel.KPIId), evaluation.KPIId);
-                row.SetAttributeValue(nameof(EditEvaluationModel.Point), evaluation.Point);
-                root.Add(row);
-            }
+            var root = ConvertToXML(model.Evaluations);
 
             return await baseService.ExecuteNonQueryAsync(new UpdateEvaluatorEvaluationCriteria
             {
-                EmployeeId = employeeId,
+                EmployeeId = model.EmployeeId,
                 Details = root.ToString(),
-                Comment = comment,
-                TotalScore = totalScore,
-                IsQualifiedByEvaluator = isQualifiedByEvaluator
+                Comment = model.Comment,
+                TotalScore = model.TotalScore,
+                IsQualifiedByEvaluator = model.IsQualifiedByEvaluator,
+                ActorId = model.ActorId,
             }).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditReviewerEvaluationAsync(int employeeId, bool isQualified, string comment)
+        public async Task<CommandResult> EditReviewerEvaluationAsync(EditReviewerEvaluationModel model)
         {
             return await baseService.ExecuteNonQueryAsync(new UpdateReviewerEvaluationCriteria
             {
-                EmployeeId = employeeId,
-                IsQualified = isQualified,
-                Comment = comment
+                EmployeeId = model.EmployeeId,
+                IsQualified = model.IsQualified,
+                Comment = model.Comment,
+                ActorId = model.ActorId
             }).ConfigureAwait(false);
         }
 
@@ -123,6 +108,21 @@
         {
             return await probationRepository.GetProbationersAsync(new GetProbationersCriteria())
               .ConfigureAwait(false);
+        }
+
+        private XElement ConvertToXML(IEnumerable<EditEvaluationModel> evaluations)
+        {
+            XElement root = new XElement("Root");
+            foreach (var evaluation in evaluations)
+            {
+                XElement row = new XElement("Row");
+                row.SetAttributeValue(nameof(EditEvaluationModel.EmployeeId), evaluation.EmployeeId);
+                row.SetAttributeValue(nameof(EditEvaluationModel.KPIId), evaluation.KPIId);
+                row.SetAttributeValue(nameof(EditEvaluationModel.Point), evaluation.Point);
+                root.Add(row);
+            }
+
+            return root;
         }
     }
 }

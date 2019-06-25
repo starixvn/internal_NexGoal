@@ -86,13 +86,35 @@
         [NexGoalPermission(FunctionKey = FunctionKey.MemberPage, Policy = Policy.Host)]
         public async Task<IActionResult> EditEvaluatorEvaluation(int employeeId, string comment, bool isQualifiedByEvaluator, int totalScore, IEnumerable<EditEvaluationViewModel> evaluations)
         {
-            var result = await probationService.EditEvaluatorEvaluationAsync(employeeId, comment, isQualifiedByEvaluator, totalScore,
-                evaluations.Select(x => new EditEvaluationModel
+            var result = await probationService.EditEvaluatorEvaluationAsync(new EditEvaluatorEvaluationModel
+            {
+                EmployeeId = employeeId,
+                IsQualifiedByEvaluator = isQualifiedByEvaluator,
+                TotalScore = totalScore,
+                ActorId = sessionService.EmployeeId,
+                Comment = comment,
+                Evaluations = evaluations.Select(x => new EditEvaluationModel
                 {
                     EmployeeId = x.EmployeeId,
                     KPIId = x.KPIId,
                     Point = x.Point,
-                }));
+                })
+            });
+
+            return Json(result);
+        }
+
+        [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.MemberPage, Policy = Policy.Host)]
+        public async Task<IActionResult> EditReviewerEvaluation(int employeeId, string comment, bool isQualified)
+        {
+            var result = await probationService.EditReviewerEvaluationAsync(new EditReviewerEvaluationModel
+            {
+                EmployeeId = employeeId,
+                IsQualified = isQualified,
+                ActorId = sessionService.EmployeeId,
+                Comment = comment
+            });
 
             return Json(result);
         }

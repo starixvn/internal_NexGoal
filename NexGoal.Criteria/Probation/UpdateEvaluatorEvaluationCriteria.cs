@@ -14,6 +14,8 @@
 
         public bool IsQualifiedByEvaluator { get; set; }
 
+        public int ActorId { get; set; }
+
         public override string GetSettingKey() => "Probation_UpdateEvaluatorEvaluation";
 
         public override bool IsValid() => !string.IsNullOrWhiteSpace(Comment) && !string.IsNullOrWhiteSpace(Details) && EmployeeId > 0 && TotalScore > 0;

@@ -65,13 +65,18 @@
         [HttpPost]
         public async Task<IActionResult> EditSelfEvaluation(string comment, int totalScore, IEnumerable<EditEvaluationViewModel> evaluations)
         {
-            var result = await probationService.EditSelfEvaluationAsync(sessionService.EmployeeId, comment, totalScore,
-                evaluations.Select(x => new EditEvaluationModel
+            var result = await probationService.EditSelfEvaluationAsync(new EditSelfEvaluationModel
+            {
+                EmployeeId = sessionService.EmployeeId,
+                Comment = comment,
+                TotalScore = totalScore,
+                Evaluations = evaluations.Select(x => new EditEvaluationModel
                 {
                     EmployeeId = x.EmployeeId,
                     KPIId = x.KPIId,
                     Point = x.Point
-                }));
+                })
+            });
 
             return Json(result);
         }
