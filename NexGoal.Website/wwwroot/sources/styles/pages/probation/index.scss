@@ -14,6 +14,50 @@
 @import "../../layouts/pa";
 @import "probation-process";
 
+.text-bold {
+    font-weight: bold;
+}
+
+.rating {
+    margin-right: 10px;
+}
+
+.score-badge {
+    padding: 2px 15px;
+    display: inline-block;
+    color: #fff;
+    border-radius: 10px;
+    font-weight: bold;
+    background: #2475D7;
+    font-size: 13px;
+
+    > span {
+        font-size: 16px;
+    }
+}
+
+.score {
+    font-size: 14px;
+
+    td {
+        background: #E3E6EE;
+    }
+
+    &:hover td {
+        background: #E3E6EE !important;
+    }
+}
+
+.rating-icon {
+    color: #F09700;
+    padding: 0 2px;
+    font-size: 15px;
+
+    &.grey {
+        color: #C9D4E2;
+    }
+}
+
 .probation-content {
     width: calc(100% - 250px);
     padding: 16px;
@@ -54,6 +98,26 @@
     }
 }
 
+.comment-title {
+    background: #324373;
+    color: #fff !important;
+
+    &:hover {
+        background: #324373 !important;
+    }
+}
+
+.comment-cell {
+    &:hover {
+        background: #fff !important;
+    }
+
+    textarea {
+        width: 100%;
+        border: 0;
+    }
+}
+
 .hrm-table {
     .hrm-total {
         background: #E3E6EE;
@@ -66,7 +130,7 @@
         textarea {
             width: 100%;
             display: block;
-                resize: vertical;
+            resize: vertical;
         }
     }
 

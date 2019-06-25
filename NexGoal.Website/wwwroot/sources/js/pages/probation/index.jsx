@@ -142,7 +142,7 @@ export default class MyProbation extends Component {
 
         return (
             <Fragment>
-                <NexPanel title="B. Quality of Work">
+                <NexPanel title="B. QUALITY OF WORK">
                     <table className="table table-bordered table-striped">
                         <tbody>
                             {values.evaluations.map((kpiGroup, gIndex) => (
@@ -175,12 +175,12 @@ export default class MyProbation extends Component {
                                 </Fragment>
                             ))}
 
-                            <tr>
-                                <td className="text-center score text-bold">Score</td>
-                                <td className="text-center score"><span className="score-badge">{score > 0 && `${round(score)}/100`}</span></td>
+                            <tr className="score">
+                                <td className="text-center text-bold">Score</td>
+                                <td className="text-center"><span className="score-badge"><span>{score > 0 && `${round(score)}`}</span> / 100 pts</span></td>
                             </tr>
                             <tr>
-                                <td colSpan={2}>Employee's Comment</td>
+                                <td className="comment-title" colSpan={2}>Employee's Comment</td>
                             </tr>
                             <tr>
                                 <td colSpan={2} className="comment-cell">

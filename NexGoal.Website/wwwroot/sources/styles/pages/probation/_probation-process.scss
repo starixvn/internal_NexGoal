@@ -2,38 +2,6 @@
 $c-in-progress: #F4783D;
 $c-in-open: #5BA277;
 
-.text-bold {
-    font-weight: bold;
-}
-
-.rating {
-    margin-right: 10px;
-}
-
-.score-badge {
-    padding: 2px 15px;
-    display: inline-block;
-    color: #fff;
-    border-radius: 10px;
-    font-weight: bold;
-    background: #2475D7;
-}
-
-.score {
-    background: #E3E6EE;
-    font-size: 14px;
-}
-
-.rating-icon {
-    color: #F09700;
-    padding: 0 2px;
-    font-size: 15px;
-
-    &.grey {
-        color: #C9D4E2;
-    }
-}
-
 .process {
     margin-top: 12px;
     background-color: #EAEAEA;
