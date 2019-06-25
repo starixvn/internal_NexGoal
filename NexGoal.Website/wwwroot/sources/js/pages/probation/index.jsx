@@ -13,6 +13,7 @@ import { OverlayTrigger } from 'react-bootstrap';
 
 import NexPanel from '../../shared/components/NexPanel';
 import { axiosError, resolveClientUrl } from '../../common-functions';
+import { DateFormat, PerformanceProcess } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import ProbationProcess from './ProbationProcess';
@@ -38,7 +39,7 @@ export default class MyProbation extends Component {
                 code: document.getElementById('employeeInfo-code').value
             },
             probationer: null,
-            evaluationDetails: [],
+            evaluationDetails: []
         };
     }
 
@@ -53,15 +54,21 @@ export default class MyProbation extends Component {
         Promise.all(promises)
             .then(([evaluationDetailResponse, probationerResponse, hrmResponse, performanceAppraisalsResponse]) => {
                 const probationer = probationerResponse.data;
+
                 probationer.settings.forEach(setting => {
                     setting.fromDate = moment(setting.fromDate);
                     setting.toDate = moment(setting.toDate);
                 });
+
+                const selfProcess = probationer.settings.find(x => x.processId = PerformanceProcess.Self);
+
                 this.setState({
                     evaluationDetails: evaluationDetailResponse.data,
                     probationer: probationer,
                     hrm: hrmResponse.data,
                     performanceAppraisals: performanceAppraisalsResponse.data,
+                    selfProcess: selfProcess,
+                    showEvaluationForm: !moment().isSameOrAfter(selfProcess.fromDate)
                 });
             }).catch(axiosError);
     }
@@ -141,8 +148,8 @@ export default class MyProbation extends Component {
                             </tr>
                             <tr>
                                 <td colSpan={2} className="comment-cell">
-                                    <textarea className={`none-resize ${touched.comment && errors.comment && 'input-validation-error'}`}
-                                        value={values.comment} onChange={handleChange} name="comment" />
+                                    <textarea className={`${touched.comment && errors.comment && 'input-validation-error'}`}
+                                        value={values.comment} onChange={handleChange} name="comment" rows="7" readOnly={!this.state.probationer.canEdit} />
                                 </td>
                             </tr>
                         </tbody>
@@ -211,25 +218,35 @@ export default class MyProbation extends Component {
                             <PerformanceAppraisalResult performanceAppraisals={this.state.performanceAppraisals} />
                         </div>
                         <div className="probation-content">
-                            <NexPanel title={`PERFORMANCE REVIEW: SKILLS AND ABILITIE (${this.state.probationer.code} - ${this.state.probationer.fullName})`} >
-                                <Description employeeInfo={this.state.employeeInfo} />
-                                <ProbationProcess processes={this.state.probationer.settings} />
-                            </NexPanel>
+                            {this.state.showEvaluationForm ?
+                                <Fragment>
+                                    <NexPanel title={`PERFORMANCE REVIEW: SKILLS AND ABILITIE (${this.state.probationer.code} - ${this.state.probationer.fullName})`} >
+                                        <Description employeeInfo={this.state.employeeInfo} />
+                                        <ProbationProcess processes={this.state.probationer.settings} />
+                                    </NexPanel>
 
-                            <NexPanel title="A. HRM System">
-                                <HRM hrm={this.state.hrm} />
-                            </NexPanel>
-                            <Formik
-                                initialValues={{
-                                    comment: this.state.probationer.selfComment,
-                                    evaluations: this.state.evaluationDetails,
-                                    score: this.state.probationer.selfScore
-                                }}
-                                render={this.renderForm}
-                                validationSchema={this.schema}
-                                onSubmit={this.handleSubmit}
-                            />
-
+                                    <NexPanel title="A. HRM System">
+                                        <HRM hrm={this.state.hrm} />
+                                    </NexPanel>
+                                    <Formik
+                                        initialValues={{
+                                            comment: this.state.probationer.selfComment,
+                                            evaluations: this.state.evaluationDetails,
+                                            score: this.state.probationer.selfScore
+                                        }}
+                                        render={this.renderForm}
+                                        validationSchema={this.schema}
+                                        onSubmit={this.handleSubmit}
+                                    />
+                                </Fragment>
+                                :
+                                <div className="announcement">
+                                    <div>{getResource('Announcement')}</div>
+                                    <div>
+                                        Welcome to your probation self-evaluation. Please be informed that this form will not be available until {this.state.selfProcess.fromDate.format(DateFormat)}. Thank you for your concern.
+                                    </div>
+                                </div>
+                            }
                         </div >
 
                         <ToastLayout />

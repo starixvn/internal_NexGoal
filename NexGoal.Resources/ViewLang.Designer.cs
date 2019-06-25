@@ -304,6 +304,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to My Probation.
+        /// </summary>
+        public static string MyProbation {
+            get {
+                return ResourceManager.GetString("MyProbation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nomination Period.
         /// </summary>
         public static string NominationPeriod {
@@ -498,6 +507,15 @@ namespace NexGoal.Resources {
         public static string Status {
             get {
                 return ResourceManager.GetString("Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Probation.
+        /// </summary>
+        public static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
         
