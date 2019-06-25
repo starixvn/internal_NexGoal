@@ -155,7 +155,7 @@ export default class MyProbation extends Component {
                         </tbody>
                     </table>
                 </NexPanel>
-                <div>
+                <div className="btn-group">
                     {this.state.probationer.canEdit &&
                         <button className="btn btn-primary" disabled={isSubmitting} type="button" onClick={handleSubmit}>{getResource('Submit')}</button>
                     }

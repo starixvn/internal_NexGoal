@@ -117,22 +117,25 @@ export default class Evaluation extends Component {
                         </CustomScrollbars>
                     </div>
                     {this.state.probationer &&
-                        <div className="main-content">
+                        <div className="probation-content">
                             <NexPanel title={`PERFORMANCE REVIEW: SKILLS AND ABILITIE (${this.state.probationer.code} - ${this.state.probationer.fullName})`} >
                                 <Description employeeInfo={this.probationerInfo} />
                                 <ProbationProcess processes={this.state.probationer.settings} />
                             </NexPanel>
 
-                            <NexPanel title="Approach to Work">
+                            <NexPanel title="A. HRM System ">
                                 <HRM hrm={this.state.hrm} />
                             </NexPanel>
 
-                            {this.state.processId === PerformanceProcess.Evaluator
-                                && <EvaluatorForm probationer={this.state.probationer} evaluationDetails={this.state.evaluationDetails} />
-                            }
-                            {this.state.processId === PerformanceProcess.Reviewer
-                                && <ReviewerForm probationer={this.state.probationer} evaluationDetails={this.state.evaluationDetails} />
-                            }
+                            <NexPanel title="B. QUALITY OF WORK">
+                                {this.state.processId === PerformanceProcess.Evaluator
+                                    && <EvaluatorForm probationer={this.state.probationer} evaluationDetails={this.state.evaluationDetails} />
+                                }
+                                {this.state.processId === PerformanceProcess.Reviewer
+                                    && <ReviewerForm probationer={this.state.probationer} evaluationDetails={this.state.evaluationDetails} />
+                                }
+                            </NexPanel>     
+                        
                         </div>
                     }
 

@@ -2,11 +2,15 @@
     font-weight: bold;
 }
 
+.btn-group {
+    margin-top: 8px;
+}
+
 .score-badge {
-    padding: 2px 15px;
+    padding: 0 15px;
     display: inline-block;
     color: #fff;
-    border-radius: 10px;
+    border-radius: 20px;
     font-weight: bold;
     background: #2475D7;
     font-size: 13px;
@@ -21,11 +25,13 @@
 
     td {
         background: #E3E6EE;
+        border-color: #fff !important;
     }
 
     &:hover td {
         background: #E3E6EE !important;
     }
+
 }
 
 .comment-title {

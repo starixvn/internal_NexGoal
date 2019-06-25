@@ -50,15 +50,13 @@ export default class EvaluatorForm extends Component {
         return (
             <Fragment>
                 <table className="table table-bordered table-striped">
-                    <tbody>
-                        <tr className="group-row">
+                    <tbody>                        
                             <td colSpan="3">
                                 B. Quality of Work
                                 <OverlayTrigger placement="bottom" overlay={EvaluationDetailTooltip}>
                                     <i className="icon-info" />
                                 </OverlayTrigger>
                             </td>
-                        </tr>
                         {values.evaluations.map((kpiGroup, gIndex) => (
                             <Fragment key={kpiGroup.kpiGroupId}>
                                 <tr className="group-row">
@@ -72,7 +70,7 @@ export default class EvaluatorForm extends Component {
                                     return (
                                         <tr key={kpi.kpiId}>
                                             <td>{index + 1}. {kpi.kpiName}</td>
-                                            <td className="text-center">{kpi.selfPoint}</td>
+                                            <td className="text-center"><strong>{kpi.selfPoint}</strong></td>
                                             <td className="text-center">
                                                 {this.props.probationer.canEdit &&
                                                     <Rating initialRating={kpi.evaluatorPoint / 1.11 || 0}
@@ -84,7 +82,7 @@ export default class EvaluatorForm extends Component {
                                                             && 'input-validation-error'}`}
                                                     />
                                                 }
-                                                {kpi.evaluatorPoint && `${kpi.evaluatorPoint} pts`}
+                                                <strong>{kpi.evaluatorPoint && `${kpi.evaluatorPoint} pts`}</strong>
                                             </td>
                                         </tr>
                                     )
@@ -104,8 +102,10 @@ export default class EvaluatorForm extends Component {
                                     <span className="score-badge"><span>{round(score)}</span>/100 pts</span>
                                 }
                             </td>
-                        </tr>  <tr>
-                            <td className="text-center score" colSpan="2">{getResource('Result')}</td>
+                        </tr>
+                        <tr className="score">
+                            <td className="text-center text-bold">{getResource('Result')}</td>
+                            <td className="empty-cell"></td>
                             <td>
                                 <Select name="isQualifiedByEvaluator"
                                     className={`react-select-container ${touched.isQualifiedByEvaluator && errors.isQualifiedByEvaluator && 'input-validation-error'}`}
@@ -119,7 +119,7 @@ export default class EvaluatorForm extends Component {
                             </td>
                         </tr>
                         <tr>
-                            <td colSpan="3">Employee's Comment</td>
+                            <td className="comment-title" colSpan="3">Employee's Comment</td>
                         </tr>
                         <tr>
                             <td colSpan="3" className="comment-cell">
@@ -127,7 +127,7 @@ export default class EvaluatorForm extends Component {
                             </td>
                         </tr>
                         <tr>
-                            <td colSpan="3">Evaluator's Comment</td>
+                            <td className="comment-title" colSpan="3">Evaluator's Comment</td>
                         </tr>
                         <tr>
                             <td colSpan="3" className="comment-cell">
@@ -138,7 +138,7 @@ export default class EvaluatorForm extends Component {
                         </tr>
                     </tbody>
                 </table>
-                <div>
+                <div className="btn-group">
                     <a className="btn btn-default btn-cancel" href="/member/index?activeTab=4">{getResource('Back')}</a>
                     {this.props.probationer.canEdit &&
                         <button className="btn btn-primary" disabled={isSubmitting} type="button" onClick={handleSubmit}>{getResource('Submit')}</button>

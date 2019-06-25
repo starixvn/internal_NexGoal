@@ -7,6 +7,7 @@
 @import "../../components/toast";
 @import "../../components/tooltip";
 @import "../../layouts/main-layout";
+@import "../../layouts/employee-info";
 @import "../../layouts/milestone";
 @import "../../layouts/member-timeline";
 @import "../home/personal-timeline";
@@ -16,6 +17,20 @@
 @import "hrm";
 @import "rating";
 @import "evaluation-detail";
+
+.main-content {
+    padding: 16px;
+}
+
+.passed {
+    color: #376E00;
+    font-weight: bold;
+}
+
+.failed {
+    color: #E22C04;
+    font-weight: bold;
+}
 
 .general-info {
     .group-name {
@@ -63,19 +78,74 @@
     }
 }
 
-.main-content {
+.comment-cell {
+    padding: 0 !important;
+    font-size: 14px;
+    background: #fff;
+
+    &:hover {
+        background: #ECECEC !important;
+    }
+
+    > p, > textarea {
+        padding: 10px;
+        margin-bottom: 0;
+    }
+
+    > p {
+        background: #ECECEC;
+    }
+
+    > textarea {
+        height: 100%;
+    }
+}
+
+.probation-content {
+    width: calc(100% - 250px);
     padding: 16px;
+    margin-left: 250px;
+
+    @media screen and (max-width: 1600px) and (min-width: 1280px) {
+        width: calc(100% - 300px);
+        margin-left: 300px;
+    }
+
+    @media screen and (min-width: 1600px) {
+        width: calc(100% - 400px);
+        margin-left: 400px;
+    }
 }
 
-.passed {
-    color: #376E00;
+.react-select-container {
+    width: 100px;
+    margin: 0 auto;
+
+    .react-select__value-container {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .react-select__control {
+        height: 26px;
+        line-height: 26px;
+        font-weight: 500;
+        border-color: #C4C4C4;
+
+        .react-select__indicators .react-select__indicator {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    }
+
+
+
+    .react-select__single-value {
+        top: 12px;
+    }
 }
 
-.failed {
-    color: #E22C04;
-}
-
-@media screen and (min-width: 1600px) {
+/*@media screen and (min-width: 1600px) {
     .main-layout {
         .general-info {
             width: 400px;
@@ -99,4 +169,4 @@
             margin-left: 300px;
         }
     }
-}
+}*/
