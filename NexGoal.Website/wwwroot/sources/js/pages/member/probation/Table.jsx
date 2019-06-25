@@ -39,7 +39,6 @@ export default class Table extends Component {
                 <td className="text-center">
                     {probationer.evaluatorComment ? <span className="icon-search" data-comment={probationer.reviewerComment} onClick={this.handleShowComment} /> : '-'}
                 </td>
-                <td className="text-center">{probationer.finalScore || '-'}</td>
                 <td className="text-center">
                     <span className={finalResult.toLowerCase()}>{finalResult}</span>
                 </td>
@@ -68,7 +67,7 @@ export default class Table extends Component {
                             <th rowSpan="2">{getResource('NickName')}</th>
                             <th colSpan="2">{getResource('Self')}</th>
                             <th colSpan="3">{getResource('Evaluator')}</th>
-                            <th colSpan="3">{getResource('Reviewer')}</th>
+                            <th colSpan="2">{getResource('Reviewer')}</th>
                             <th rowSpan="2">{getResource('Revised')}</th>
                             <th rowSpan="2">{getResource('Action')}</th>
 
@@ -79,7 +78,6 @@ export default class Table extends Component {
                             <th>{getResource('Score')}</th>
                             <th>{getResource('Result')}</th>
                             <th>{getResource('Comment')}</th>
-                            <th>{getResource('Score')}</th>
                             <th>{getResource('FinalResult')}</th>
                             <th>{getResource('Comment')}</th>
                         </tr>
