@@ -18,8 +18,6 @@
 
         public bool? IsQualified { get; set; }
 
-        public int? FinalScore { get; set; }
-
         public int? SelfScore { get; set; }
 
         public string SelfComment { get; set; }
