@@ -136,12 +136,14 @@
         }
 
         [HttpGet]
+        [NexGoalPermission(FunctionKey = FunctionKey.ProbationSetting, Policy = Policy.Host)]
         public IActionResult Setting()
         {
             return View();
         }
 
         [HttpGet]
+        [NexGoalPermission(FunctionKey = FunctionKey.ProbationSetting, Policy = Policy.Host)]
         public async Task<IActionResult> GetProbationers()
         {
             var result = await probationService.GetProbationersAsync();

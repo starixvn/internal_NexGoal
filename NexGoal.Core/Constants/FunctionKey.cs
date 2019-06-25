@@ -20,5 +20,6 @@
         public const string RolePermission = "RolePermission";
         public const string PMAssignment = "PMAssignment";
         public const string Discipline = "Discipline";
+        public const string ProbationSetting = "ProbationSetting";
     }
 }
