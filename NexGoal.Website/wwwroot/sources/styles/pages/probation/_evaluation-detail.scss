@@ -1,0 +1,49 @@
+﻿.text-bold {
+    font-weight: bold;
+}
+
+.score-badge {
+    padding: 2px 15px;
+    display: inline-block;
+    color: #fff;
+    border-radius: 10px;
+    font-weight: bold;
+    background: #2475D7;
+    font-size: 13px;
+
+    > span {
+        font-size: 16px;
+    }
+}
+
+.score {
+    font-size: 14px;
+
+    td {
+        background: #E3E6EE;
+    }
+
+    &:hover td {
+        background: #E3E6EE !important;
+    }
+}
+
+.comment-title {
+    background: #324373;
+    color: #fff !important;
+
+    &:hover {
+        background: #324373 !important;
+    }
+}
+
+.comment-cell {
+    &:hover {
+        background: #fff !important;
+    }
+
+    textarea {
+        width: 100%;
+        border: 0;
+    }
+}

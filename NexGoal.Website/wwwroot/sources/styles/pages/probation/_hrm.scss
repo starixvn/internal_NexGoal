@@ -1,0 +1,27 @@
+﻿.hrm-table {
+    .hrm-total {
+        background: #E3E6EE;
+        font-weight: bold;
+    }
+
+    .comment-cell {
+        padding: 0 !important;
+
+        textarea {
+            width: 100%;
+            display: block;
+            resize: vertical;
+        }
+    }
+
+    thead tr th {
+        height: 36px;
+        background: #B8BECF;
+        color: #333;
+        font-weight: bold;
+    }
+
+    > tbody > tr > td {
+        height: 30px;
+    }
+}

@@ -1,0 +1,17 @@
+﻿.rating-icon {
+    color: #F09700;
+    padding: 0 2px;
+    font-size: 15px;
+
+    &.grey {
+        color: #C9D4E2;
+    }
+}
+
+.rating {
+    margin-right: 10px;
+
+    &.input-validation-error {
+        border: 1px solid #ff4545;
+    }
+}

@@ -1,0 +1,23 @@
+﻿.nex-panel {
+    margin-bottom: 12px;
+
+    .panel-header {
+        position: relative;
+        color: #fff;
+        background-color: #324373;
+        padding: 8px 10px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+
+        &:after {
+            content: "\e90a";
+            position: absolute;
+            right: 15px;
+            top: 7px;
+            font-family: 'NexGoalIcon', sans-serif !important;
+            font-weight: normal;
+            font-size: 18px;
+        }
+    }
+}

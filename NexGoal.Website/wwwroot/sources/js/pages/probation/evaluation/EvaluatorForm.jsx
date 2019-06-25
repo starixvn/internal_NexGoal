@@ -87,10 +87,18 @@ export default class EvaluatorForm extends Component {
                             </Fragment>
                         ))}
 
-                        <tr>
-                            <td className="text-center score">Score</td>
-                            <td className="text-center">{this.props.probationer.selfScore && `${this.props.probationer.selfScore}/100`}</td>
-                            <td className="text-center">{score > 0 && `${round(score)}/100`}</td>
+                        <tr className="score">
+                            <td className="text-center text-bold">Score</td>
+                            <td className="text-center">
+                                {this.props.probationer.selfScore &&
+                                    <span className="score-badge"><span>{this.props.probationer.selfScore}</span>/100 pts</span>
+                                }
+                            </td>
+                            <td className="text-center">
+                                {score > 0 &&
+                                    <span className="score-badge"><span>{round(score)}</span>/100 pts</span>
+                                }
+                            </td>
                         </tr>  <tr>
                             <td className="text-center score" colSpan="2">{getResource('Result')}</td>
                             <td>
@@ -125,7 +133,7 @@ export default class EvaluatorForm extends Component {
                         </tr>
                     </tbody>
                 </table>
-                <div style={{ marginTop: '15px' }}>
+                <div>
                     <a className="btn btn-default btn-cancel" href="/member/index?activeTab=4">{getResource('Back')}</a>
                     {this.props.probationer.canEdit &&
                         <button className="btn btn-primary" disabled={isSubmitting} type="button" onClick={handleSubmit}>{getResource('Submit')}</button>
