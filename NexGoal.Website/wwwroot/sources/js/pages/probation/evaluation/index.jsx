@@ -32,6 +32,7 @@ export default class Evaluation extends Component {
             nickName: document.getElementById('probationer-nickName').value,
             fullName: document.getElementById('probationer-fullName').value,
             jobTitle: document.getElementById('probationer-jobTitle').value,
+            groupName: document.getElementById('probationer-groupname').value,
             avatar: document.getElementById('probationer-avatar').value,
             joinedDate: moment(document.getElementById('probationer-joineddate').value)
         };

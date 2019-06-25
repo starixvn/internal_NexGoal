@@ -8,19 +8,19 @@ import { flatMap, round, sumBy } from 'lodash';
 import { Formik, getIn } from 'formik';
 import { stringify } from 'qs';
 import { toast } from 'react-toastify';
+import { OverlayTrigger } from 'react-bootstrap';
+
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import ProbationResultOptions from './ProbationResultOptions';
 import SingleValue from './SingleValue';
+import EvaluationDetailTooltip from '../EvaluationDetailTooltip';
+import { emptySymbol, fullSymbol } from '../RatingSymbol';
 
 export default class EvaluatorForm extends Component {
     constructor(props) {
         super(props);
     }
-
-    emptySymbol = <i className="rating-icon fa fa-star grey" />
-
-    fullSymbol = <i className="rating-icon fa fa-star" />
 
     schema = Yup.object().shape({
         comment: Yup.string().required(),
@@ -52,7 +52,12 @@ export default class EvaluatorForm extends Component {
                 <table className="table table-bordered table-striped">
                     <tbody>
                         <tr className="group-row">
-                            <td colSpan="3">B. Quality of Work</td>
+                            <td colSpan="3">
+                                B. Quality of Work
+                                <OverlayTrigger placement="bottom" overlay={EvaluationDetailTooltip}>
+                                    <i className="icon-info" />
+                                </OverlayTrigger>
+                            </td>
                         </tr>
                         {values.evaluations.map((kpiGroup, gIndex) => (
                             <Fragment key={kpiGroup.kpiGroupId}>
@@ -71,8 +76,8 @@ export default class EvaluatorForm extends Component {
                                             <td className="text-center">
                                                 {this.props.probationer.canEdit &&
                                                     <Rating initialRating={kpi.evaluatorPoint / 1.11 || 0}
-                                                        emptySymbol={this.emptySymbol}
-                                                        fullSymbol={this.fullSymbol}
+                                                        emptySymbol={emptySymbol}
+                                                        fullSymbol={fullSymbol}
                                                         onChange={value => setFieldValue(`evaluations.${gIndex}.details.${index}.evaluatorPoint`, round(value * 1.11, 2))}
                                                         className={`rating ${getIn(touched, `evaluations.${gIndex}.details.${index}.evaluatorPoint`)
                                                             && getIn(errors, `evaluations.${gIndex}.details.${index}.evaluatorPoint`)
@@ -126,7 +131,7 @@ export default class EvaluatorForm extends Component {
                         </tr>
                         <tr>
                             <td colSpan="3" className="comment-cell">
-                                <textarea className={`${touched.comment && errors.comment && 'input-validation-error'}`}
+                                <textarea className={`${touched.comment && errors.comment && 'input-validation-error'}`} rows="7"
                                     value={values.comment} onChange={handleChange} name="comment" readOnly={!this.props.probationer.canEdit}
                                 />
                             </td>

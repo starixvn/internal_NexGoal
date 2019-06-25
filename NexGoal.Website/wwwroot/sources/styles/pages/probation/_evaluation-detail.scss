@@ -45,5 +45,16 @@
     textarea {
         width: 100%;
         border: 0;
+        resize: vertical;
+    }
+}
+
+.evaluation-detail-tooltip {
+    .tooltip-inner {
+        text-align: left;
+
+        p {
+            white-space: pre-wrap;
+        }
     }
 }

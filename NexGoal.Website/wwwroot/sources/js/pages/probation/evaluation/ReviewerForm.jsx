@@ -3,15 +3,16 @@
 import Select from 'react-select';
 import axios from 'axios';
 import * as Yup from 'yup';
-import Rating from 'react-rating';
-import { flatMap, round, sumBy } from 'lodash';
-import { Formik, getIn } from 'formik';
+import { Formik } from 'formik';
 import { stringify } from 'qs';
 import { toast } from 'react-toastify';
+import { OverlayTrigger } from 'react-bootstrap';
+
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import ProbationResultOptions from './ProbationResultOptions';
 import SingleValue from './SingleValue';
+import EvaluationDetailTooltip from '../EvaluationDetailTooltip';
 
 export default class ReviewerForm extends Component {
     constructor(props) {
@@ -119,7 +120,12 @@ export default class ReviewerForm extends Component {
                     <tbody>
 
                         <tr className="group-row">
-                            <td colSpan="3">B. Details</td>
+                            <td colSpan="3">
+                                B. Details
+                                <OverlayTrigger placement="bottom" overlay={EvaluationDetailTooltip}>
+                                    <i className="icon-info" />
+                                </OverlayTrigger>
+                            </td>
                         </tr>
                         {this.props.evaluationDetails.map(this.renderKPIGroup)}
                         <tr>
@@ -129,7 +135,7 @@ export default class ReviewerForm extends Component {
                         </tr>
                     </tbody>
                 </table>
-                <div style={{ marginTop: '15px' }}>
+                <div>
                     <a className="btn btn-default btn-cancel" href="/member/index?activeTab=4">{getResource('Back')}</a>
                     {this.props.probationer.canEdit &&
                         <button className="btn btn-primary" disabled={isSubmitting} type="button" onClick={handleSubmit}>{getResource('Submit')}</button>

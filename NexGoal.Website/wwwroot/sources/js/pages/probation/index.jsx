@@ -9,6 +9,7 @@ import moment from 'moment';
 import * as Yup from 'yup';
 import { flatMap, round, sumBy } from 'lodash';
 import { Formik, getIn } from 'formik';
+import { OverlayTrigger } from 'react-bootstrap';
 
 import NexPanel from '../../shared/components/NexPanel';
 import { axiosError, resolveClientUrl } from '../../common-functions';
@@ -18,6 +19,8 @@ import ProbationProcess from './ProbationProcess';
 import HRM from './HRM';
 import PerformanceAppraisalResult from './PerformanceAppraisalResult';
 import Description from './Description';
+import EvaluationDetailTooltip from './EvaluationDetailTooltip';
+import { emptySymbol, fullSymbol } from './RatingSymbol';
 
 export default class MyProbation extends Component {
     constructor(props) {
@@ -63,10 +66,6 @@ export default class MyProbation extends Component {
             }).catch(axiosError);
     }
 
-    emptySymbol = <i className="rating-icon fa fa-star grey" />
-
-    fullSymbol = <i className="rating-icon fa fa-star" />
-
     schema = Yup.object().shape({
         comment: Yup.string().required(),
         evaluations: Yup.array().of(
@@ -79,6 +78,13 @@ export default class MyProbation extends Component {
             })
         )
     })
+
+    evaluationDetailTitle = <Fragment>
+        B. QUALITY OF WORK
+        <OverlayTrigger placement="bottom" overlay={EvaluationDetailTooltip}>
+            <i className="icon-info" />
+        </OverlayTrigger>
+    </Fragment>
 
     renderForm = ({
         values,
@@ -93,7 +99,7 @@ export default class MyProbation extends Component {
 
         return (
             <Fragment>
-                <NexPanel title="B. QUALITY OF WORK">
+                <NexPanel title={this.evaluationDetailTitle}>
                     <table className="table table-bordered table-striped">
                         <tbody>
                             {values.evaluations.map((kpiGroup, gIndex) => (
@@ -110,15 +116,15 @@ export default class MyProbation extends Component {
                                                 <td className="text-center">
                                                     {this.state.probationer.canEdit &&
                                                         <Rating initialRating={kpi.selfPoint / 1.11 || 0}
-                                                            emptySymbol={this.emptySymbol}
-                                                            fullSymbol={this.fullSymbol}
+                                                            emptySymbol={emptySymbol}
+                                                            fullSymbol={fullSymbol}
                                                             onChange={value => setFieldValue(`evaluations.${gIndex}.details.${index}.selfPoint`, round(value * 1.11, 2))}
                                                             className={`rating ${getIn(touched, `evaluations.${gIndex}.details.${index}.selfPoint`)
                                                                 && getIn(errors, `evaluations.${gIndex}.details.${index}.selfPoint`)
                                                                 && 'input-validation-error'}`}
                                                         />
                                                     }
-                                                    <strong>{kpi.selfPoint && `${kpi.selfPoint} pts`}</strong>
+                                                    <strong>{kpi.selfPoint}</strong>
                                                 </td>
                                             </tr>
                                         );
