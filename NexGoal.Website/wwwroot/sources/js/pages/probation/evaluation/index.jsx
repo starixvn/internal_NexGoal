@@ -123,19 +123,16 @@ export default class Evaluation extends Component {
                                 <ProbationProcess processes={this.state.probationer.settings} />
                             </NexPanel>
 
-                            <NexPanel title="A. HRM System ">
+                            <NexPanel title={this.state.processId === PerformanceProcess.Evaluator ? 'A. HRM System' : 'HRM System'}>
                                 <HRM hrm={this.state.hrm} />
                             </NexPanel>
+                            {this.state.processId === PerformanceProcess.Evaluator &&
+                                <EvaluatorForm probationer={this.state.probationer} evaluationDetails={this.state.evaluationDetails} />
+                            }
 
-                            <NexPanel title="B. QUALITY OF WORK">
-                                {this.state.processId === PerformanceProcess.Evaluator
-                                    && <EvaluatorForm probationer={this.state.probationer} evaluationDetails={this.state.evaluationDetails} />
-                                }
-                                {this.state.processId === PerformanceProcess.Reviewer
-                                    && <ReviewerForm probationer={this.state.probationer} evaluationDetails={this.state.evaluationDetails} />
-                                }
-                            </NexPanel>     
-                        
+                            {this.state.processId === PerformanceProcess.Reviewer &&
+                                <ReviewerForm probationer={this.state.probationer} evaluationDetails={this.state.evaluationDetails} />
+                            }
                         </div>
                     }
 

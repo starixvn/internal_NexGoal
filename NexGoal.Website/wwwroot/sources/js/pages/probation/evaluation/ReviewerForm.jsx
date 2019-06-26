@@ -13,6 +13,7 @@ import getResource from '../../../resourceHelper';
 import ProbationResultOptions from './ProbationResultOptions';
 import SingleValue from './SingleValue';
 import EvaluationDetailTooltip from '../EvaluationDetailTooltip';
+import NexPanel from '../../../shared/components/NexPanel';
 
 export default class ReviewerForm extends Component {
     constructor(props) {
@@ -61,87 +62,92 @@ export default class ReviewerForm extends Component {
     }) => {
         return (
             <Fragment>
-                <table className="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th colSpan="4">Performance Result</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr className="group-row">
-                            <td colSpan="4">A. Result</td>
-                        </tr>
-                        <tr>
-                            <td className="text-center">{getResource('Self')}</td>
-                            <td className="text-center">{getResource('Score')}</td>
-                            <td className="text-center">{this.props.probationer.selfScore}</td>
-                            <td className="comment-cell"><p className="comment">{this.props.probationer.selfComment}</p></td>
-                        </tr>
-                        <tr>
-                            <td className="text-center" rowSpan="2">{getResource('Evaluator')}</td>
-                            <td className="text-center">{getResource('Score')}</td>
-                            <td className="text-center">{this.props.probationer.evaluatorScore}</td>
-                            <td className="comment-cell" rowSpan="2"><p className="comment">{this.props.probationer.evaluatorComment}</p></td>
-                        </tr>
-                        <tr>
-                            <td className="text-center">{getResource('Result')}</td>
-                            <td className="text-center">
-                                <span>
-                                    {this.props.probationer.isQualifiedByEvaluator !== null ? this.props.probationer.isQualifiedByEvaluator ? 'Passed' : 'Failed' : '-'}
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="text-center">{getResource('Reviewer')}</td>
-                            <td className="text-center">{getResource('FinalResult')}</td>
-                            <td>
-                                {this.props.probationer.canEdit &&
-                                    <Select name="isQualified"
-                                        className={`react-select-container ${touched.isQualified && errors.isQualified && 'input-validation-error'}`}
-                                        classNamePrefix="react-select" isDisabled={!this.props.probationer.canEdit}
-                                        value={values.isQualified}
-                                        options={ProbationResultOptions} placeholder=""
-                                        isClearable={false} isSearchable={false}
-                                        components={{ SingleValue }}
-                                        onChange={value => setFieldValue('isQualified', value)}
-                                    />
-                                }
-                            </td>
-                            <td className="comment-cell">
-                                {this.props.probationer.canEdit &&
-                                    <textarea className={`${touched.comment && errors.comment && 'input-validation-error'}`}
-                                        value={values.comment} onChange={handleChange} name="comment" />
-                                }
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table className="table table-bordered table-striped">
-                    <tbody>
+                <NexPanel title="Performance Result">
+                    <table className="table table-bordered table-striped">
+                        <tbody>
+                            <tr className="group-row">
+                                <td colSpan="4">A. Result</td>
+                            </tr>
+                            <tr>
+                                <td className="text-center">{getResource('Self')}</td>
+                                <td className="text-center">{getResource('Score')}</td>
+                                <td className="text-center">{this.props.probationer.selfScore && `${this.props.probationer.selfScore} pts`}</td>
+                                <td className="comment-cell"><p className="comment">{this.props.probationer.selfComment}</p></td>
+                            </tr>
+                            <tr>
+                                <td className="text-center" rowSpan="2">{getResource('Evaluator')}</td>
+                                <td className="text-center">{getResource('Score')}</td>
+                                <td className="text-center">{this.props.probationer.evaluatorScore && `${this.props.probationer.evaluatorScore} pts`}</td>
+                                <td className="comment-cell" rowSpan="2"><p className="comment">{this.props.probationer.evaluatorComment}</p></td>
+                            </tr>
+                            <tr>
+                                <td className="text-center">{getResource('Result')}</td>
+                                <td className="text-center">
+                                    <span>
+                                        {this.props.probationer.isQualifiedByEvaluator !== null ? this.props.probationer.isQualifiedByEvaluator ? 'Passed' : 'Failed' : '-'}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="text-center">{getResource('Reviewer')}</td>
+                                <td className="text-center">{getResource('FinalResult')}</td>
+                                <td>
+                                    {this.props.probationer.canEdit &&
+                                        <Select name="isQualified"
+                                            className={`react-select-container ${touched.isQualified && errors.isQualified && 'input-validation-error'}`}
+                                            classNamePrefix="react-select" isDisabled={!this.props.probationer.canEdit}
+                                            value={values.isQualified}
+                                            options={ProbationResultOptions} placeholder=""
+                                            isClearable={false} isSearchable={false}
+                                            components={{ SingleValue }}
+                                            onChange={value => setFieldValue('isQualified', value)}
+                                        />
+                                    }
+                                </td>
+                                <td className="comment-cell">
+                                    {this.props.probationer.canEdit &&
+                                        <textarea className={`${touched.comment && errors.comment && 'input-validation-error'}`}
+                                            value={values.comment} onChange={handleChange} name="comment" />
+                                    }
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table className="table table-bordered table-striped">
+                        <tbody>
 
-                        <tr className="group-row">
-                            <td colSpan="3">
-                                B. Details
+                            <tr className="group-row">
+                                <td colSpan="3">
+                                    B. Details
                                 <OverlayTrigger placement="bottom" overlay={EvaluationDetailTooltip}>
-                                    <i className="icon-info" />
-                                </OverlayTrigger>
-                            </td>
-                        </tr>
-                        {this.props.evaluationDetails.map(this.renderKPIGroup)}
-                        <tr>
-                            <td className="text-center score">Score</td>
-                            <td className="text-center">{this.props.probationer.selfScore && `${this.props.probationer.selfScore}/100`}</td>
-                            <td className="text-center">{this.props.probationer.evaluatorScore && `${this.props.probationer.evaluatorScore}/100`}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div>
+                                        <i className="icon-info" />
+                                    </OverlayTrigger>
+                                </td>
+                            </tr>
+                            {this.props.evaluationDetails.map(this.renderKPIGroup)}
+                            <tr className="score">
+                                <td className="text-center">Score</td>
+                                <td className="text-center">
+                                    {this.props.probationer.selfScore &&
+                                        <span className="score-badge"><span>{this.props.probationer.selfScore}</span>/100 pts</span>
+                                    }
+                                </td>
+                                <td className="text-center">
+                                    {this.props.probationer.evaluatorScore &&
+                                        <span className="score-badge"><span>{this.props.probationer.evaluatorScore}</span>/100 pts</span>
+                                    }
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </NexPanel>
+                <div className="btn-group">
                     <a className="btn btn-default btn-cancel" href="/member/index?activeTab=4">{getResource('Back')}</a>
                     {this.props.probationer.canEdit &&
                         <button className="btn btn-primary" disabled={isSubmitting} type="button" onClick={handleSubmit}>{getResource('Submit')}</button>
                     }
                 </div>
-            </Fragment>
+            </Fragment >
         );
     }
 
