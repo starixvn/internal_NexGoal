@@ -141,7 +141,6 @@ export default class EvaluatorForm extends Component {
                             </tr>
                         </tbody>
                     </table>
-
                 </NexPanel>
 
                 <div className="btn-group">

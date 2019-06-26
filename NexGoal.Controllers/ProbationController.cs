@@ -121,6 +121,15 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.MemberPage, Policy = Policy.Host)]
+        public async Task<IActionResult> ConfirmEvaluatorResult(int employeeId)
+        {
+            var result = await probationService.ConfirmEvaluatorResultAsync(employeeId, sessionService.EmployeeId);
+
+            return Json(result);
+        }
+
+        [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.MemberPage, Policy = Policy.Host)]
         public async Task<IActionResult> EditSetting(int employeeId, IEnumerable<EditSettingViewModel> settings)
         {
             var result = await probationService.EditSettingAsync(settings.Select(x => new EditProbationSettingModel

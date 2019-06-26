@@ -1,4 +1,5 @@
 ﻿import React, { Component } from 'react';
+import moment from 'moment';
 
 import getResource from '../../../resourceHelper';
 import { noDataIndication } from '../../../common-functions';
@@ -7,6 +8,8 @@ import { PerformanceProcess } from '../../../constants';
 export default class Table extends Component {
     constructor(props) {
         super(props);
+
+        this.today = moment();
     }
 
     handleShowComment = event => {
@@ -14,13 +17,15 @@ export default class Table extends Component {
     }
 
     handleRevisedChange = (event) => {
-        debugger;
         const probationer = this.props.tableData.find(x => x.employeeId == event.target.dataset.employeeid);
 
-        if (probationer.isQualified !== null) {
+        const reviewerProcess = probationer.settings.find(x => x.processId === PerformanceProcess.Reviewer);
+
+        if (probationer.isQualified !== null || !probationer.processIds.some(p => p === PerformanceProcess.Reviewer)
+            || this.today.isBefore(reviewerProcess.fromDate) || this.today.isAfter(reviewerProcess.toDate)) {
             event.preventDefault();
         } else {
-            console.log("ok");
+            this.props.onConfirmedByReviewer(probationer);
         }
     }
 

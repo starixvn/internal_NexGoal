@@ -104,6 +104,15 @@
             }).ConfigureAwait(false);
         }
 
+        public async Task<CommandResult> ConfirmEvaluatorResultAsync(int employeeId, int actorId)
+        {
+            return await baseService.ExecuteNonQueryAsync(new ConfirmEvaluatorResultCriteria
+            {
+                EmployeeId = employeeId,
+                ActorId = actorId
+            });
+        }
+
         public async Task<IEnumerable<ProbationerModel>> GetProbationersAsync()
         {
             return await probationRepository.GetProbationersAsync(new GetProbationersCriteria())

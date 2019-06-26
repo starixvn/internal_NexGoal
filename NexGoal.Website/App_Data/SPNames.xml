@@ -199,5 +199,6 @@
     <Setting Key="Probation_GetEvaluations" SpName="Probation_GetEvaluations" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Probation_GetProbationers" SpName="Probation_GetProbationers" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Probation_GetHRM" SpName="Probation_GetHRM" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Probation_ConfirmEvaluatorResult" SpName="Probation_ConfirmEvaluatorResult" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>

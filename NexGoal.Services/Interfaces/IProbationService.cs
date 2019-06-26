@@ -22,5 +22,7 @@
         Task<IEnumerable<ProbationerModel>> GetProbationersAsync();
 
         Task<HRMModel> GetHRM(int employeeId);
+
+        Task<CommandResult> ConfirmEvaluatorResultAsync(int employeeId, int actorId);
     }
 }
