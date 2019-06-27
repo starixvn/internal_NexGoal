@@ -96,7 +96,7 @@ export default class Evaluation extends Component {
             return PerformanceProcess.Evaluator;
         }
 
-        if (moment().isAfter(reviewerProcess.fromDate) && processIds.some(p => p === PerformanceProcess.Reviewer)) {
+        if (moment().isSameOrAfter(reviewerProcess.fromDate) && processIds.some(p => p === PerformanceProcess.Reviewer)) {
             return PerformanceProcess.Reviewer;
         }
 

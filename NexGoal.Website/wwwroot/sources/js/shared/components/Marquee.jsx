@@ -6,13 +6,13 @@ export default class Marquee extends PureComponent {
         super(props);
         this.state = {
             run: true,
-        }
+        };
     }
 
     toggleRun = () => this.setState(prevState => ({ run: !prevState.run }));
 
     renderMessage = (message, index) =>
-        <span key={`message{index}`} className="announcement-item">
+        <span key={`message${index}`} className="announcement-item">
             {message}
         </span>
 

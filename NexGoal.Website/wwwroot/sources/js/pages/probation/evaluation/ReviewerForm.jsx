@@ -14,10 +14,22 @@ import ProbationResultOptions from './ProbationResultOptions';
 import SingleValue from './SingleValue';
 import EvaluationDetailTooltip from '../EvaluationDetailTooltip';
 import NexPanel from '../../../shared/components/NexPanel';
+import { DateFormat, PerformanceProcess } from '../../../constants';
 
 export default class ReviewerForm extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            showAnnouncement: this.props.probationer.canEdit,
+            announcementMessage: this.getAnnouncementMessage()
+        };
+    }
+
+    getAnnouncementMessage = () => {
+        const reviewerProcess = this.props.probationer.settings.find(x => x.processId === PerformanceProcess.Reviewer);
+
+        return `Please be informed that these information might not be the final one, and you will not be able to make any changes until ${reviewerProcess.fromDate.format(DateFormat)}. Thank you for your concern`;
     }
 
     updatePoint = (kpi, value) => {
