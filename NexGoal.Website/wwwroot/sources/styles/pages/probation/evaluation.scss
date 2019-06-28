@@ -6,10 +6,12 @@
 @import "../../components/buttons";
 @import "../../components/toast";
 @import "../../components/tooltip";
+@import "../../components/modal";
 @import "../../layouts/main-layout";
 @import "../../layouts/employee-info";
 @import "../../layouts/milestone";
 @import "../../layouts/member-timeline";
+@import "../../layouts/announcement";
 @import "../home/personal-timeline";
 @import "probation-process";
 @import "nex-panel";
@@ -137,8 +139,6 @@
             padding-bottom: 0;
         }
     }
-
-
 
     .react-select__single-value {
         top: 12px;

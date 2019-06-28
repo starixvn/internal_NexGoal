@@ -15,13 +15,14 @@ import SingleValue from './SingleValue';
 import EvaluationDetailTooltip from '../EvaluationDetailTooltip';
 import NexPanel from '../../../shared/components/NexPanel';
 import { DateFormat, PerformanceProcess } from '../../../constants';
+import Announcement from './Announcement';
 
 export default class ReviewerForm extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            showAnnouncement: this.props.probationer.canEdit,
+            showAnnouncement: !this.props.probationer.canEdit,
             announcementMessage: this.getAnnouncementMessage()
         };
     }
@@ -190,17 +191,22 @@ export default class ReviewerForm extends Component {
         }).catch(axiosError);
     }
 
+    handleCloseAnnouncement = () => this.setState({ showAnnouncement: false });
+
     render() {
         return (
-            <Formik
-                initialValues={{
-                    comment: this.props.probationer.reviewerComment,
-                    isQualified: this.props.probationer.isQualified ? ProbationResultOptions.find(x => x.value === this.props.probationer.isQualified) : null
-                }}
-                render={this.renderForm}
-                validationSchema={this.schema}
-                onSubmit={this.handleSubmit}
-            />
+            <Fragment>
+                <Formik
+                    initialValues={{
+                        comment: this.props.probationer.reviewerComment,
+                        isQualified: this.props.probationer.isQualified ? ProbationResultOptions.find(x => x.value === this.props.probationer.isQualified) : null
+                    }}
+                    render={this.renderForm}
+                    validationSchema={this.schema}
+                    onSubmit={this.handleSubmit}
+                />
+                <Announcement content={this.state.announcementMessage} showModal={this.state.showAnnouncement} onCloseModal={this.handleCloseAnnouncement} />
+            </Fragment>
         );
     }
 }
