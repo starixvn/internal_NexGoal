@@ -2,8 +2,16 @@
     font-weight: bold;
 }
 
-.btn-group {
+.icon-info {
+    margin-left: 5px;    
+}
+
+.button-group {
     margin-top: 8px;
+
+    .btn-cancel {
+        margin-right: 16px;       
+    }
 }
 
 .score-badge {

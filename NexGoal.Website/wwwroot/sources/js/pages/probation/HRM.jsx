@@ -17,8 +17,8 @@ export default class HRM extends PureComponent {
                 <td className="text-center">{this.displayTime(attendace.overtime)}</td>
                 {index === 0 &&
                     <td className="text-center" rowSpan={this.props.hrm.attendances.length + 1}>
-                        <div>
-                            {this.props.hrm.toeic.toeicScore}
+                    <div>
+                        <strong>{this.props.hrm.toeic.toeicScore}</strong>
                         </div>
                         {this.props.hrm.toeic.examDate &&
                             <div>

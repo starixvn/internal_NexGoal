@@ -16,6 +16,7 @@ import EvaluationDetailTooltip from '../EvaluationDetailTooltip';
 import NexPanel from '../../../shared/components/NexPanel';
 import { DateFormat, PerformanceProcess } from '../../../constants';
 import Announcement from './Announcement';
+import { string } from 'prop-types';
 
 export default class ReviewerForm extends Component {
     constructor(props) {
@@ -44,8 +45,8 @@ export default class ReviewerForm extends Component {
     renderKPI = (kpi, index) => (
         <tr key={kpi.kpiId}>
             <td>{index + 1}. {kpi.kpiName}</td>
-            <td className="text-center">{kpi.selfPoint}</td>
-            <td className="text-center">{kpi.evaluatorPoint}</td>
+            <td className="text-center"><strong>{kpi.selfPoint}</strong></td>
+            <td className="text-center"><strong>{kpi.evaluatorPoint}</strong></td>
         </tr>
     )
 
@@ -76,35 +77,35 @@ export default class ReviewerForm extends Component {
         return (
             <Fragment>
                 <NexPanel title="Performance Result">
-                    <table className="table table-bordered table-striped">
+                    <table className="table table-bordered table-striped result-table">
                         <tbody>
                             <tr className="group-row">
-                                <td colSpan="4">A. Result</td>
+                                <td colSpan="4">A. RESULT</td>
                             </tr>
                             <tr>
-                                <td className="text-center">{getResource('Self')}</td>
-                                <td className="text-center">{getResource('Score')}</td>
-                                <td className="text-center">{this.props.probationer.selfScore && `${this.props.probationer.selfScore} pts`}</td>
-                                <td className="comment-cell"><p className="comment">{this.props.probationer.selfComment}</p></td>
+                                <td className="text-center text-title">{getResource('Self')}</td>
+                                <td className="text-center text-title">{getResource('Score')}</td>
+                                <td className="text-center text-score">{this.props.probationer.selfScore && `${this.props.probationer.selfScore} pts`}</td>
+                                <td className="comment-cell comment-text">{this.props.probationer.selfComment}</td>
                             </tr>
                             <tr>
-                                <td className="text-center" rowSpan="2">{getResource('Evaluator')}</td>
-                                <td className="text-center">{getResource('Score')}</td>
-                                <td className="text-center">{this.props.probationer.evaluatorScore && `${this.props.probationer.evaluatorScore} pts`}</td>
-                                <td className="comment-cell" rowSpan="2"><p className="comment">{this.props.probationer.evaluatorComment}</p></td>
+                                <td className="text-center text-title" rowSpan="2">{getResource('Evaluator')}</td>
+                                <td className="text-center text-title">{getResource('Score')}</td>
+                                <td className="text-center text-score">{this.props.probationer.evaluatorScore && `${this.props.probationer.evaluatorScore} pts`}</td>
+                                <td className="comment-cell comment-text" rowSpan="2">{this.props.probationer.evaluatorComment}</td>
                             </tr>
                             <tr>
-                                <td className="text-center">{getResource('Result')}</td>
-                                <td className="text-center">
+                                <td className="text-center text-title">{getResource('Result')}</td>
+                                <td className="text-center text-score">
                                     <span>
                                         {this.props.probationer.isQualifiedByEvaluator !== null ? this.props.probationer.isQualifiedByEvaluator ? 'Passed' : 'Failed' : '-'}
                                     </span>
                                 </td>
                             </tr>
                             <tr>
-                                <td className="text-center">{getResource('Reviewer')}</td>
-                                <td className="text-center">{getResource('FinalResult')}</td>
-                                <td>
+                                <td className="text-center text-title">{getResource('Reviewer')}</td>
+                                <td className="text-center text-title">{getResource('FinalResult')}</td>
+                                <td className="text-score">
                                     {this.props.probationer.canEdit &&
                                         <Select name="isQualified"
                                             className={`react-select-container ${touched.isQualified && errors.isQualified && 'input-validation-error'}`}
@@ -117,7 +118,7 @@ export default class ReviewerForm extends Component {
                                         />
                                     }
                                 </td>
-                                <td className="comment-cell">
+                                <td className="comment-cell input-comment">
                                     {this.props.probationer.canEdit &&
                                         <textarea className={`${touched.comment && errors.comment && 'input-validation-error'}`}
                                             value={values.comment} onChange={handleChange} name="comment" />
@@ -139,7 +140,7 @@ export default class ReviewerForm extends Component {
                             </tr>
                             {this.props.evaluationDetails.map(this.renderKPIGroup)}
                             <tr className="score">
-                                <td className="text-center">Score</td>
+                                <td className="text-center"><strong>Score</strong></td>
                                 <td className="text-center">
                                     {this.props.probationer.selfScore &&
                                         <span className="score-badge"><span>{this.props.probationer.selfScore}</span>/100 pts</span>
@@ -154,7 +155,7 @@ export default class ReviewerForm extends Component {
                         </tbody>
                     </table>
                 </NexPanel>
-                <div className="btn-group">
+                <div className="button-group">
                     <a className="btn btn-default btn-cancel" href="/member/index?activeTab=4">{getResource('Back')}</a>
                     {this.props.probationer.canEdit &&
                         <button className="btn btn-primary" disabled={isSubmitting} type="button" onClick={handleSubmit}>{getResource('Submit')}</button>

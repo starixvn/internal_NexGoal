@@ -80,29 +80,6 @@
     }
 }
 
-.comment-cell {
-    padding: 0 !important;
-    font-size: 14px;
-    background: #fff;
-
-    &:hover {
-        background: #ECECEC !important;
-    }
-
-    > p, > textarea {
-        padding: 10px;
-        margin-bottom: 0;
-    }
-
-    > p {
-        background: #ECECEC;
-    }
-
-    > textarea {
-        height: 100%;
-    }
-}
-
 .probation-content {
     width: calc(100% - 250px);
     padding: 16px;
@@ -118,55 +95,98 @@
         margin-left: 400px;
     }
 }
+.quality-table, .result-table {
+    .react-select-container {
+        width: 100px;
+        margin: 0 auto;
 
-.react-select-container {
-    width: 100px;
-    margin: 0 auto;
-
-    .react-select__value-container {
-        padding-top: 0;
-        padding-bottom: 0;
-    }
-
-    .react-select__control {
-        height: 26px;
-        line-height: 26px;
-        font-weight: 500;
-        border-color: #C4C4C4;
-
-        .react-select__indicators .react-select__indicator {
+        .react-select__value-container {
             padding-top: 0;
             padding-bottom: 0;
         }
-    }
 
-    .react-select__single-value {
-        top: 12px;
+        .react-select__control {
+            height: 26px;
+            line-height: 26px;
+            font-weight: 500;
+            border-color: #C4C4C4;
+
+            .react-select__indicators .react-select__indicator {
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+        }
+
+        .react-select__single-value {
+            top: 12px;
+        }
     }
 }
 
-/*@media screen and (min-width: 1600px) {
-    .main-layout {
-        .general-info {
-            width: 400px;
+.result-table {
+    .text-title {
+        width: 130px;
+        background: #B8BECF;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .comment-text {
+        padding: 10px !important;
+        background: #F7F8FD;
+    }
+
+    .text-score {
+        background: #fff !important;
+        font-weight: bold;
+    }
+
+    .comment-cell {
+        font-size: 14px;
+        background: #fff;
+
+        &:hover {
+            background: #ECECEC !important;
         }
 
-        .main-content {
-            width: calc(100% - 400px);
-            margin-left: 400px;
+        &.input-comment {
+            padding: 6px !important;
+            padding-bottom: 3px;
+        }
+
+        > p {
+            height: 100%;
+        }
+
+        > textarea {
+            min-height: 50px;
+            height: auto;
+            border: 1px solid #C4C4C4;
+            border-radius: 2px;
+        }
+
+        > p {
+            background: #ECECEC;
+        }
+    }
+
+    tr:hover {
+        .text-score, .comment-cell {
+            background: #fff !important;
+        }
+
+        > .text-title {
+            background: #B8BECF !important;
+        }
+
+        > .comment-text {
+            background: #F7F8FD !important;
         }
     }
 }
 
-@media screen and (min-width: 1280px) and (max-width: 1600px) {
-    .main-layout {
-        .general-info {
-            width: 300px;
-        }
-
-        .main-content {
-            width: calc(100% - 300px);
-            margin-left: 300px;
-        }
+.quality-table {
+    .comment-cell {
+        background: #ECECEC !important;
     }
-}*/
+}

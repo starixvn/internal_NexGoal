@@ -58,7 +58,7 @@ export default class EvaluatorForm extends Component {
         return (
             <Fragment>
                 <NexPanel title={this.evaluationDetailTitle}>
-                    <table className="table table-bordered table-striped">
+                    <table className="table table-bordered table-striped  quality-table">
                         <tbody>
                             {values.evaluations.map((kpiGroup, gIndex) => (
                                 <Fragment key={kpiGroup.kpiGroupId}>
@@ -126,7 +126,7 @@ export default class EvaluatorForm extends Component {
                             </tr>
                             <tr>
                                 <td colSpan="3" className="comment-cell">
-                                    <p>{this.props.probationer.selfComment}</p>
+                                    {this.props.probationer.selfComment}
                                 </td>
                             </tr>
                             <tr>
