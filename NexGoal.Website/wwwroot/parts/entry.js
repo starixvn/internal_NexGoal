@@ -30,6 +30,7 @@ module.exports = {
         [`${styleDistPath}/probation`]: `${styleSourcePath}/pages/probation/index.scss`,
         [`${styleDistPath}/probation-setting`]: `${styleSourcePath}/pages/probation/setting.scss`,
         [`${styleDistPath}/probation-evaluation`]: `${styleSourcePath}/pages/probation/evaluation.scss`,
+        [`${styleDistPath}/probation-report`]: `${styleSourcePath}/pages/report/probation.scss`,
         //
         [`${jsDistPath}/main`]: './sources/js/main.js',
         [`${jsDistPath}/search-member`]: './sources/js/SearchMember.jsx',
@@ -57,5 +58,6 @@ module.exports = {
         [`${jsDistPath}/probation`]: `${jsSourcePath}/probation/index.jsx`,
         [`${jsDistPath}/probation-setting`]: `${jsSourcePath}/probation/setting/index.jsx`,
         [`${jsDistPath}/probation-evaluation`]: `${jsSourcePath}/probation/evaluation/index.jsx`,
+        [`${jsDistPath}/probation-report`]: `${jsSourcePath}/report/probation/index.jsx`,
     }
 };

@@ -403,6 +403,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Probation Report.
+        /// </summary>
+        public static string ProbationReport {
+            get {
+                return ResourceManager.GetString("ProbationReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Project Manager.
         /// </summary>
         public static string ProjectManager {

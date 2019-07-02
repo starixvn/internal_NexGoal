@@ -64,6 +64,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\ProbationReport\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Probation\Evaluate.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
