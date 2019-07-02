@@ -123,6 +123,7 @@ window.resource_en_US = {
     'Personal': 'Personal',
     'PMAssignment': 'PM Assignment',
     'Probation': 'Probation',
+    'ProbationReport': 'Probation Report',
     'ProjectManager': 'Project Manager',
     'ProjectTag': 'Project Tag',
     'PRReport': 'Performance Record Report',
