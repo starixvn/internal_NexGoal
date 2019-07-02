@@ -59,8 +59,13 @@ export default class Table extends Component {
     render() {
         return (
             <Fragment>
-                <table className="table table-bordered table-striped pr-tracking-table">
+                <table className="table table-bordered table-striped">
                     <thead>
+                        <tr className="header-control">
+                            <th colSpan="5">
+                                <button onClick={this.props.onAddNewEmployee} className="pull-left btn btn-primary">Add New Employee(s)</button>
+                            </th>
+                        </tr>
                         <tr>
                             <th className="order">{getResource('SymbolCount')}</th>
                             <th className="nick-name ">{getResource('Employee')}</th>

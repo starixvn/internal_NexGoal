@@ -62,7 +62,8 @@ export default class ReviewerForm extends Component {
     )
 
     schema = Yup.object().shape({
-        isQualified: Yup.object().required()
+        isQualified: Yup.object().required(),
+        comment: Yup.string().required()
     })
 
     renderForm = ({
@@ -86,13 +87,13 @@ export default class ReviewerForm extends Component {
                                 <td className="text-center text-title">{getResource('Self')}</td>
                                 <td className="text-center text-title">{getResource('Score')}</td>
                                 <td className="text-center text-score">{this.props.probationer.selfScore && `${this.props.probationer.selfScore} pts`}</td>
-                                <td className="comment-cell comment-text">{this.props.probationer.selfComment}</td>
+                                <td className="comment-cell comment-text"><p>{this.props.probationer.selfComment}</p></td>
                             </tr>
                             <tr>
                                 <td className="text-center text-title" rowSpan="2">{getResource('Evaluator')}</td>
                                 <td className="text-center text-title">{getResource('Score')}</td>
                                 <td className="text-center text-score">{this.props.probationer.evaluatorScore && `${this.props.probationer.evaluatorScore} pts`}</td>
-                                <td className="comment-cell comment-text" rowSpan="2">{this.props.probationer.evaluatorComment}</td>
+                                <td className="comment-cell comment-text" rowSpan="2"><p>{this.props.probationer.evaluatorComment}</p></td>
                             </tr>
                             <tr>
                                 <td className="text-center text-title">{getResource('Result')}</td>
@@ -121,7 +122,8 @@ export default class ReviewerForm extends Component {
                                 <td className="comment-cell input-comment">
                                     {this.props.probationer.canEdit &&
                                         <textarea className={`${touched.comment && errors.comment && 'input-validation-error'}`}
-                                            value={values.comment} onChange={handleChange} name="comment" />
+                                            value={values.comment} onChange={handleChange} name="comment"
+                                        />
                                     }
                                 </td>
                             </tr>

@@ -8,6 +8,7 @@ import Breadcrumb from '../../../shared/components/Breadcrumb';
 import ToastLayout from '../../../shared/layouts/ToastLayout';
 import Table from './Table';
 import EditSetting from './EditSetting';
+import AddEmployee from './AddEmployee';
 
 export default class Setting extends Component {
     constructor(props) {
@@ -16,7 +17,11 @@ export default class Setting extends Component {
         this.state = {
             probationers: null,
             showEditSettingModal: false,
-            selectedProbationer: null
+            selectedProbationer: null,
+            addNewEmployee: {
+                showModal: false,
+                employeeOptions: []
+            }
         };
 
         this.employeeOptions = [];
@@ -62,6 +67,29 @@ export default class Setting extends Component {
         this.getProbationers();
     }
 
+    handleShowAddEmployeeModal = () => {
+        axios.get(resolveClientUrl('Probation/GetProbationersNotInEvaluation')).then(response => {
+            this.setState({
+                addNewEmployee: {
+                    showModal: true,
+                    employeeOptions: response.data.map(item => {
+                        return {
+                            value: item.employeeId,
+                            label: `${item.nickName} (${item.fullName})`
+                        };
+                    })
+                }
+            });
+        }).catch(axiosError);
+    }
+
+    handleCloseAddEmployeeModal = () => this.setState({ addNewEmployee: { showModal: false } })
+
+    handleAddEmployeeSuccess = () => {
+        this.handleCloseAddEmployeeModal();
+        this.getProbationers();
+    }
+
     render() {
         return (
             <div className="row" >
@@ -69,12 +97,17 @@ export default class Setting extends Component {
                     <li className="current">Probation Setting</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    <Table tableData={this.state.probationers} onEditSetting={this.onEditSetting} />
+                    <Table tableData={this.state.probationers} onEditSetting={this.onEditSetting} onAddNewEmployee={this.handleShowAddEmployeeModal} />
                 </div>
                 {this.state.showEditSettingModal &&
                     <EditSetting onCloseModal={this.handleCloseEditSettingModal} probationer={this.state.selectedProbationer}
                         showModal employeeOptions={this.employeeOptions} onEditSuccess={this.handleEditSuccess} />
                 }
+                <AddEmployee showModal={this.state.addNewEmployee.showModal}
+                    employeeOptions={this.state.addNewEmployee.employeeOptions}
+                    onCloseModal={this.handleCloseAddEmployeeModal}
+                    onAddEmployeesuccess={this.handleAddEmployeeSuccess}
+                />
                 <ToastLayout />
             </div>
         );

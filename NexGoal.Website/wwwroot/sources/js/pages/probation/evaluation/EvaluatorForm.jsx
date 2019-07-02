@@ -126,7 +126,7 @@ export default class EvaluatorForm extends Component {
                             </tr>
                             <tr>
                                 <td colSpan="3" className="comment-cell">
-                                    {this.props.probationer.selfComment}
+                                    <p>{this.props.probationer.selfComment}</p>
                                 </td>
                             </tr>
                             <tr>

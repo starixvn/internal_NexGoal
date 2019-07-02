@@ -2,14 +2,8 @@
 {
     using System.Collections.Generic;
 
-    public class ProbationerModel
+    public class ProbationerModel : BaseProbationerModel
     {
-        public int EmployeeId { get; set; }
-
-        public string NickName { get; set; }
-
-        public string FullName { get; set; }
-
         public int GroupId { get; set; }
 
         public string GroupName { get; set; }

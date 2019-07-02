@@ -24,5 +24,9 @@
         Task<HRMModel> GetHRM(int employeeId);
 
         Task<CommandResult> ConfirmEvaluatorResultAsync(int employeeId, int actorId);
+
+        Task<IEnumerable<BaseProbationerModel>> GetProbationersNotInEvaluationAsync();
+
+        Task<CommandResult> AddNewEmployeesAsync(IEnumerable<int> employeeIds);
     }
 }

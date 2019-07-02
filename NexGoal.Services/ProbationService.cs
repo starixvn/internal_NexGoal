@@ -119,6 +119,21 @@
               .ConfigureAwait(false);
         }
 
+        public async Task<IEnumerable<BaseProbationerModel>> GetProbationersNotInEvaluationAsync()
+        {
+            var probationers = await baseService.GetDataAsync<BaseProbationerModel>(new GetProbationersNotInEvaluationCriteria()).ConfigureAwait(false);
+
+            return probationers;
+        }
+
+        public async Task<CommandResult> AddNewEmployeesAsync(IEnumerable<int> employeeIds)
+        {
+            return await baseService.ExecuteNonQueryAsync(new AddNewEmployeesCriteria
+            {
+                EmployeeIds = string.Join(',', employeeIds)
+            });
+        }
+
         private XElement ConvertToXML(IEnumerable<EditEvaluationModel> evaluations)
         {
             XElement root = new XElement("Root");

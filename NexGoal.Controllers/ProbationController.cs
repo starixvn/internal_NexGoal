@@ -159,5 +159,23 @@
 
             return Json(result);
         }
+
+        [HttpGet]
+        [NexGoalPermission(FunctionKey = FunctionKey.ProbationSetting, Policy = Policy.Host)]
+        public async Task<IActionResult> GetProbationersNotInEvaluation()
+        {
+            var result = await probationService.GetProbationersNotInEvaluationAsync();
+
+            return Json(result);
+        }
+
+        [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.ProbationSetting, Policy = Policy.Host)]
+        public async Task<IActionResult> AddNewEmployees(IEnumerable<int> employeeIds)
+        {
+            var result = await probationService.AddNewEmployeesAsync(employeeIds);
+
+            return Json(result);
+        }
     }
 }

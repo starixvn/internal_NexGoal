@@ -8,3 +8,9 @@
 @import "../../components/tooltip";
 @import "../../components/toast";
 @import "../../components/react-datepicker-custom";
+
+.add-new-employee-modal {
+    .react-select-container .react-select__control {
+        height: auto;
+    }
+}
