@@ -303,4 +303,7 @@
   <data name="ProbationReport" xml:space="preserve">
     <value>Probation Report</value>
   </data>
+  <data name="ProbationSetting" xml:space="preserve">
+    <value>Probation Setting</value>
+  </data>
 </root>

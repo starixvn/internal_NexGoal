@@ -412,6 +412,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Probation Setting.
+        /// </summary>
+        public static string ProbationSetting {
+            get {
+                return ResourceManager.GetString("ProbationSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Project Manager.
         /// </summary>
         public static string ProjectManager {

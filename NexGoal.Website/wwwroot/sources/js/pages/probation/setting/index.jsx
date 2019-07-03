@@ -55,6 +55,7 @@ export default class Setting extends Component {
 
     onEditSetting = (event) => {
         const employeeId = event.target.dataset.employeeid;
+
         this.setState(prevState => ({
             showEditSettingModal: true,
             selectedProbationer: prevState.probationers.find(x => x.employeeId == employeeId)
@@ -95,7 +96,7 @@ export default class Setting extends Component {
         return (
             <div className="row" >
                 <Breadcrumb>
-                    <li className="current">Probation Setting</li>
+                    <li className="current">{getResource('ProbationSetting')}</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
                     <Table tableData={this.state.probationers} onEditSetting={this.onEditSetting} onAddNewEmployee={this.handleShowAddEmployeeModal} />
