@@ -85,6 +85,7 @@ window.resource_en_US = {
     'IssueDateRequired': 'Issue Date is required.',
     'IsRevised': 'Is Revised',
     'JobTitle': 'Job Title',
+    'JoinedDate': 'Joined Date',
     'Keyword': 'Keyword',
     'LateInEarlyOut': 'Late In/Early Out',
     'MasterReport': 'Master Report',

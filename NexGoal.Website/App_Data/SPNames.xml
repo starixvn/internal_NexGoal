@@ -202,5 +202,7 @@
     <Setting Key="Probation_ConfirmEvaluatorResult" SpName="Probation_ConfirmEvaluatorResult" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Probation_GetProbationersNotInEvaluation" SpName="Probation_GetProbationersNotInEvaluation" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Probation_InsertNewEmployees" SpName="Probation_InsertNewEmployees" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="ProbationReport_GetGroupsAndEmployees" SpName="ProbationReport_GetGroupsAndEmployees" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="ProbationReport_Get" SpName="ProbationReport_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>

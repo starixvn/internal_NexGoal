@@ -30,6 +30,15 @@ export default class SearchForm extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
+        this.props.onSubmit();
+    }
+
+    handleEvaluatorResultChange = selectedOption => {
+        this.props.onFilterChange('isQualifiedByEvaluator', selectedOption);
+    }
+
+    handleReviewerResultChange = selectedOption => {
+        this.props.onFilterChange('isQualified', selectedOption);
     }
 
     render() {
@@ -76,6 +85,28 @@ export default class SearchForm extends Component {
                             value={filter.employees}
                             options={this.props.employeeOptions}
                             onChange={this.handleEmployeeChange}
+                        />
+                    </div>
+                </FormGroup>
+                <FormGroup>
+                    <ControlLabel>Evaluator's Result</ControlLabel>
+                    <div className="control-content employee-width">
+                        <Select
+                            className="react-select-container" classNamePrefix="react-select"
+                            value={filter.isQualifiedByEvaluator}
+                            options={this.props.probationResultOptions}
+                            onChange={this.handleEvaluatorResultChange}
+                        />
+                    </div>
+                </FormGroup>
+                <FormGroup>
+                    <ControlLabel>Reviewer's Result</ControlLabel>
+                    <div className="control-content employee-width">
+                        <Select
+                            className="react-select-container" classNamePrefix="react-select"
+                            value={filter.isQualified}
+                            options={this.props.probationResultOptions}
+                            onChange={this.handleReviewerResultChange}
                         />
                     </div>
                 </FormGroup>

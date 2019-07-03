@@ -7,3 +7,18 @@
 @import "../../components/react-select";
 @import "../../components/react-datepicker-custom.scss";
 @import "../../components/tables";
+
+.icon-search:before {
+    color: #333;
+    cursor: pointer;
+}
+
+.comment-modal {
+    .modal-body {
+        height: 500px;
+    }
+
+    .comment {
+        white-space: pre-wrap;
+    }
+}

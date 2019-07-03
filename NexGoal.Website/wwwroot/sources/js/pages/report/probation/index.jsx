@@ -8,6 +8,14 @@ import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import Breadcrumb from '../../../shared/components/Breadcrumb';
 import SearchForm from './SearchForm';
+import Table from './Table';
+import CommentModal from './CommentModal';
+
+const ProbationResultOptions = [
+    { label: 'All', value: '' },
+    { label: 'Passed', value: true },
+    { label: 'Failed', value: false }
+];
 
 export default class ProbationReport extends Component {
     constructor(props) {
@@ -19,51 +27,73 @@ export default class ProbationReport extends Component {
                 fromDate: moment().startOf('month'),
                 toDate: moment().endOf('month'),
                 groups: [],
-                employees: []
+                employees: [],
+                isQualifiedByEvaluator: ProbationResultOptions[0],
+                isQualified: ProbationResultOptions[0]
             },
             groupOptions: [],
             employeeOptions: [],
-            periodOptions: []
+            tableData: null,
+            commentModal: {
+                show: false,
+                content: ''
+            }
         };
     }
 
     componentDidMount() {
-        //const promises = [
-        //    axios(resolveClientUrl('Common/GetGroups')),
-        //    axios(resolveClientUrl('common/GetEmployees')),
-        //    axios.get(resolveClientUrl('Common/GetPeriodsForReport'))
-        //];
+        const promises = [
+            axios(resolveClientUrl('ProbationReport/GetGroupsAndEmployees'))
+        ];
 
-        //Promise.all(promises)
-        //    .then(([groupResponse, employeeResponse, periodResponse]) => {
-        //        let groupOptions = groupResponse.data.map(group => {
-        //            return {
-        //                value: group.groupId,
-        //                label: group.name
-        //            };
-        //        });
+        Promise.all(promises)
+            .then(([response]) => {
+                const groupOptions = response.data.groups.map(group => {
+                    return {
+                        value: group.groupId,
+                        label: group.name
+                    };
+                });
 
-        //        this.employees = employeeResponse.data;
-        //        let employeeOptions = employeeResponse.data.map(item => {
-        //            return {
-        //                value: item.employeeId,
-        //                label: `${item.nickName} (${item.fullName})`
-        //            };
-        //        });
+                this.employees = response.data.employees;
 
-        //        let periodOptions = periodResponse.data.map(x => ({ value: x.periodId, label: x.name }));
+                const employeeOptions = response.data.employees.map(item => {
+                    return {
+                        value: item.employeeId,
+                        label: `${item.nickName} (${item.fullName})`
+                    };
+                });
 
-        //        let filter = {
-        //            ... this.state.filter,
-        //            ...{
-        //                groups: groupOptions,
-        //                period: periodOptions[0],
-        //                employees: employeeOptions
-        //            }
-        //        };
+                const filter = {
+                    ... this.state.filter,
+                    ...{
+                        groups: groupOptions,
+                        employees: employeeOptions
+                    }
+                };
 
-        //        this.setState({ filter, employeeOptions, groupOptions, periodOptions });
-        //    }).catch(axiosError);
+                this.setState({ filter, groupOptions, employeeOptions }, this.getProbationers);
+            }).catch(axiosError);
+    }
+
+    getProbationers = () => {
+        const filter = this.state.filter;
+
+        axios.get(resolveClientUrl('ProbationReport/Get'), {
+            params: {
+                fromDate: filter.fromDate.format('YYYY-MM-DD'),
+                toDate: filter.toDate.format('YYYY-MM-DD'),
+                employeeIds: filter.employees.map(x => x.value).toString(),
+                isQualifiedByEvaluator: filter.isQualifiedByEvaluator.value,
+                isQualified: filter.isQualified.value
+            }
+        }).then(response => {
+            response.data.forEach(probationer => {
+                probationer.joinedDate = moment(probationer.joinedDate);
+            });
+
+            this.setState({ tableData: response.data });
+        }).catch(axiosError);
     }
 
     handleFilterChange = (name, value) => {
@@ -91,6 +121,10 @@ export default class ProbationReport extends Component {
         }
     }
 
+    handleShowCommentModal = comment => this.setState({ commentModal: { show: true, content: comment } })
+
+    handleCloseCommentModal = () => this.setState({ commentModal: { show: false } })
+
     render() {
         const filter = this.state.filter;
 
@@ -102,16 +136,24 @@ export default class ProbationReport extends Component {
                 <div className="col-sm-12">
                     <SearchForm filter={this.state.filter}
                         groupOptions={this.state.groupOptions}
-                        periodOptions={this.state.periodOptions}
                         employeeOptions={this.state.employeeOptions}
                         onFilterChange={this.handleFilterChange}
-                        exportUrl={`/MasterReport/Export?${stringify({
+                        probationResultOptions={ProbationResultOptions}
+                        exportUrl={`/ProbationReport/ExportExcel?${stringify({
                             periodId: filter.period ? filter.period.value : null,
                             groupIds: filter.groups.map(x => x.value).toString(),
                             employeeIds: filter.employees.map(x => x.value).toString()
                         })}`}
+                        onSubmit={this.getProbationers}
+                    />
+
+                    <Table tableData={this.state.tableData}
+                        onShowComment={this.handleShowCommentModal}
                     />
                 </div>
+                <CommentModal showModal={this.state.commentModal.show} content={this.state.commentModal.content}
+                    onCloseModal={this.handleCloseCommentModal}
+                />
             </div>
         );
     }

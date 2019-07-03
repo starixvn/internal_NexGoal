@@ -2,7 +2,9 @@
 {
     using Fanex.Data;
     using Fanex.Data.Repository;
+    using NexGoal.Models.Common;
     using NexGoal.Models.Probation;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -84,6 +86,21 @@
                         Toeic = toeic,
                         Attendances = attendances
                     };
+                }
+            }
+        }
+
+        public async Task<Tuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndEmployeesAsync(ICriteria criteria)
+        {
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
+            {
+                using (var multi = await db.QueryMultipleAsync(criteria))
+                {
+                    var groups = await multi.ReadAsync<Group>();
+
+                    var employees = await multi.ReadAsync<Employee>();
+
+                    return new Tuple<IEnumerable<Group>, IEnumerable<Employee>>(groups, employees);
                 }
             }
         }
