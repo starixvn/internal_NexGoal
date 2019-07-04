@@ -241,8 +241,8 @@ export default class MyProbation extends Component {
                                 </Fragment>
                                 :
                                 <div className="announcement">
-                                    <div>{getResource('Announcement')}</div>
-                                    <div>
+                                    <div className="title">{getResource('Announcement')}</div>
+                                    <div className="info">
                                         Welcome to your probation self-evaluation. Please be informed that this form will not be available until {this.state.selfProcess.fromDate.format(DateFormat)}. Thank you for your concern.
                                     </div>
                                 </div>
