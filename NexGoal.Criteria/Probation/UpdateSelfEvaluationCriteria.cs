@@ -10,10 +10,10 @@
 
         public string Comment { get; set; }
 
-        public int TotalScore { get; set; }
+        public string TotalScore { get; set; }
 
         public override string GetSettingKey() => "Probation_UpdateSelfEvaluation";
 
-        public override bool IsValid() => !string.IsNullOrWhiteSpace(Comment) && !string.IsNullOrWhiteSpace(Details) && EmployeeId > 0 && TotalScore > 0;
+        public override bool IsValid() => !string.IsNullOrWhiteSpace(Comment) && !string.IsNullOrWhiteSpace(Details) && EmployeeId > 0 && !string.IsNullOrWhiteSpace(TotalScore);
     }
 }

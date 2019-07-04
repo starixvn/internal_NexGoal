@@ -8,6 +8,7 @@
     using NexGoal.Repositories;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Xml.Linq;
@@ -15,13 +16,14 @@
     public class ProbationService : IProbationService
     {
         private readonly IProbationRepository probationRepository;
-
+        private readonly ICryptoService cryptoService;
         private readonly IBaseService baseService;
 
-        public ProbationService(IProbationRepository probationRepository, IBaseService baseService)
+        public ProbationService(IProbationRepository probationRepository, IBaseService baseService, ICryptoService cryptoService)
         {
             this.probationRepository = probationRepository;
             this.baseService = baseService;
+            this.cryptoService = cryptoService;
         }
 
         public async Task<IEnumerable<ProbationEvaluationModel>> GetProbationEvaluationsAsync(int actorId, int? employeeId)
@@ -38,6 +40,8 @@
             {
                 probationer.CanEdit = probationer.Settings.Any(x => x.FromDate <= today && x.ToDate >= today && x.EvaluatorId == actorId);
                 probationer.ProcessIds = probationer.Settings.Where(x => x.EvaluatorId == actorId).Select(x => x.ProcessId);
+                probationer.SelfScore = cryptoService.Decrypt(probationer.SelfScore);
+                probationer.EvaluatorScore = cryptoService.Decrypt(probationer.EvaluatorScore);
             }
 
             return probationers;
@@ -45,8 +49,26 @@
 
         public async Task<IEnumerable<KPIGroupModel>> GetEvaluationDetailAsync(int employeeId)
         {
-            return await probationRepository.GetEvaluationDetailAsync(new GetEvaluationDetailCriteria { EmployeeId = employeeId })
-                .ConfigureAwait(false);
+            var result = await baseService.FetchMultipleAsync<KPIGroupModel, EncryptedProbationEvaluationDetailModel>(
+                new GetEvaluationDetailCriteria { EmployeeId = employeeId }).ConfigureAwait(false);
+
+            var groups = result.Item1;
+            var details = result.Item2;
+
+            foreach (var group in groups)
+            {
+                group.Details = details.Where(x => x.KPIGroupId == group.KPIGroupId).Select(x => new ProbationEvaluationDetailModel
+                {
+                    KPIId = x.KPIId,
+                    KPIName = x.KPIName,
+                    KPIGroupId = x.KPIGroupId,
+                    EmployeeId = x.EmployeeId,
+                    SelfPoint = string.IsNullOrWhiteSpace(x.SelfPoint) ? (decimal?)null : decimal.Parse(cryptoService.Decrypt(x.SelfPoint)),
+                    EvaluatorPoint = string.IsNullOrWhiteSpace(x.EvaluatorPoint) ? (decimal?)null : decimal.Parse(cryptoService.Decrypt(x.EvaluatorPoint))
+                });
+            }
+
+            return groups;
         }
 
         public async Task<HRMModel> GetHRM(int employeeId)
@@ -74,7 +96,7 @@
                 EmployeeId = model.EmployeeId,
                 Details = root.ToString(),
                 Comment = model.Comment,
-                TotalScore = model.TotalScore
+                TotalScore = cryptoService.Encrypt(model.TotalScore.ToString())
             }).ConfigureAwait(false);
         }
 
@@ -87,7 +109,7 @@
                 EmployeeId = model.EmployeeId,
                 Details = root.ToString(),
                 Comment = model.Comment,
-                TotalScore = model.TotalScore,
+                TotalScore = cryptoService.Encrypt(model.TotalScore.ToString()),
                 IsQualifiedByEvaluator = model.IsQualifiedByEvaluator,
                 ActorId = model.ActorId,
             }).ConfigureAwait(false);
@@ -142,7 +164,7 @@
                 XElement row = new XElement("Row");
                 row.SetAttributeValue(nameof(EditEvaluationModel.EmployeeId), evaluation.EmployeeId);
                 row.SetAttributeValue(nameof(EditEvaluationModel.KPIId), evaluation.KPIId);
-                row.SetAttributeValue(nameof(EditEvaluationModel.Point), evaluation.Point);
+                row.SetAttributeValue(nameof(EditEvaluationModel.Point), cryptoService.Encrypt(evaluation.Point.ToString(CultureInfo.InvariantCulture)));
                 root.Add(row);
             }
 

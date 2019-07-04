@@ -18,11 +18,11 @@
 
         public bool? IsQualified { get; set; }
 
-        public int? SelfScore { get; set; }
+        public string SelfScore { get; set; }
 
         public string SelfComment { get; set; }
 
-        public int? EvaluatorScore { get; set; }
+        public string EvaluatorScore { get; set; }
 
         public string EvaluatorComment { get; set; }
 

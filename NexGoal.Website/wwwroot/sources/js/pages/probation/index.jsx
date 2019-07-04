@@ -79,7 +79,7 @@ export default class MyProbation extends Component {
             Yup.object().shape({
                 details: Yup.array().of(
                     Yup.object().shape({
-                        selfPoint: Yup.number().required()
+                        selfPoint: Yup.number().required().min(1)
                     })
                 )
             })
@@ -116,6 +116,7 @@ export default class MyProbation extends Component {
                                         <td className="text-center">{getResource('Employee')}</td>
                                     </tr>
                                     {kpiGroup.details.map((kpi, index) => {
+                                        debugger;
                                         score += kpi.selfPoint;
                                         return (
                                             <tr key={kpi.kpiId}>
@@ -141,7 +142,11 @@ export default class MyProbation extends Component {
 
                             <tr className="score">
                                 <td className="text-center text-bold">Score</td>
-                                <td className="text-center"><span className="score-badge"><span>{score > 0 && `${round(score)}`}</span> / 100 pts</span></td>
+                                <td className="text-center">
+                                    {score > 0 &&
+                                        <span className="score-badge"><span>{round(score)}</span> / 100 pts</span>
+                                    }
+                                </td>
                             </tr>
                             <tr>
                                 <td className="comment-title" colSpan={2}>Employee's Comment</td>
@@ -232,7 +237,6 @@ export default class MyProbation extends Component {
                                         initialValues={{
                                             comment: this.state.probationer.selfComment,
                                             evaluations: this.state.evaluationDetails,
-                                            score: this.state.probationer.selfScore
                                         }}
                                         render={this.renderForm}
                                         validationSchema={this.schema}
