@@ -109,16 +109,21 @@ export default class EvaluatorForm extends Component {
                             <tr className="score">
                                 <td className="text-center text-bold">{getResource('Result')}</td>
                                 <td className="empty-cell" />
-                                <td>
-                                    <Select name="isQualifiedByEvaluator"
-                                        className={`react-select-container ${touched.isQualifiedByEvaluator && errors.isQualifiedByEvaluator && 'input-validation-error'}`}
-                                        classNamePrefix="react-select" isDisabled={!this.props.probationer.canEdit}
-                                        value={values.isQualifiedByEvaluator}
-                                        options={ProbationResultOptions} placeholder=""
-                                        isClearable={false} isSearchable={false}
-                                        components={{ SingleValue }}
-                                        onChange={value => setFieldValue('isQualifiedByEvaluator', value)}
-                                    />
+                                <td className="text-center">
+                                    {this.props.probationer.canEdit ?
+                                        <Select name="isQualifiedByEvaluator"
+                                            className={`react-select-container ${touched.isQualifiedByEvaluator && errors.isQualifiedByEvaluator && 'input-validation-error'}`}
+                                            classNamePrefix="react-select"
+                                            value={values.isQualifiedByEvaluator}
+                                            options={ProbationResultOptions} placeholder=""
+                                            isClearable={false} isSearchable={false}
+                                            components={{ SingleValue }}
+                                            onChange={value => setFieldValue('isQualifiedByEvaluator', value)}
+                                        />
+                                        :
+                                        <span className={values.isQualifiedByEvaluator.value ? 'passed' : 'failed'}>{values.isQualifiedByEvaluator.label}</span>
+                                   }
+
                                 </td>
                             </tr>
                             <tr>

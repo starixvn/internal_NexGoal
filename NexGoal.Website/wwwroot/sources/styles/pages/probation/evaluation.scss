@@ -132,19 +132,14 @@
         font-size: 14px;
     }
 
-    .comment-text {
-        padding: 10px !important;
-        background: #F7F8FD;
-    }
-
     .text-score {
+        min-width: 100px;
         background: #fff !important;
         font-weight: bold;
     }
 
     .comment-cell {
         font-size: 14px;
-        background: #fff;
 
         &:hover {
             background: #ECECEC !important;
@@ -152,7 +147,12 @@
 
         &.input-comment {
             padding: 6px !important;
-            padding-bottom: 3px;
+            padding-bottom: 3px;           
+        }
+
+        &.comment-text {
+            padding: 10px !important;
+            background: #F7F8FD;
         }
 
         > p {
@@ -192,5 +192,9 @@
             height: 100%;
             white-space: pre-wrap;
         }
+    }
+
+    .comment-cell textarea[readonly] {
+        background: #ECECEC;
     }
 }
