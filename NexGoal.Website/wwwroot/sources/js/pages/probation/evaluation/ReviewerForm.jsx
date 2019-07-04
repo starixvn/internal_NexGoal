@@ -122,7 +122,7 @@ export default class ReviewerForm extends Component {
                                 <td className="comment-cell input-comment">
                                     {this.props.probationer.canEdit &&
                                         <textarea className={`${touched.comment && errors.comment && 'input-validation-error'}`}
-                                            value={values.comment} onChange={handleChange} name="comment"
+                                            value={values.comment} onChange={handleChange} name="comment" rows="5"
                                         />
                                     }
                                 </td>

@@ -95,6 +95,7 @@
         margin-left: 400px;
     }
 }
+
 .quality-table, .result-table {
     .react-select-container {
         width: 100px;
@@ -156,6 +157,8 @@
 
         > p {
             height: 100%;
+            background: #ECECEC;
+            white-space: pre-wrap;
         }
 
         > textarea {
@@ -163,10 +166,6 @@
             height: auto;
             border: 1px solid #C4C4C4;
             border-radius: 2px;
-        }
-
-        > p {
-            background: #ECECEC;
         }
     }
 
@@ -188,5 +187,10 @@
 .quality-table {
     .comment-cell {
         background: #ECECEC !important;
+
+        p {
+            height: 100%;
+            white-space: pre-wrap;
+        }
     }
 }

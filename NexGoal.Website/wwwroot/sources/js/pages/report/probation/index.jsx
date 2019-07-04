@@ -140,9 +140,11 @@ export default class ProbationReport extends Component {
                         onFilterChange={this.handleFilterChange}
                         probationResultOptions={ProbationResultOptions}
                         exportUrl={`/ProbationReport/ExportExcel?${stringify({
-                            periodId: filter.period ? filter.period.value : null,
-                            groupIds: filter.groups.map(x => x.value).toString(),
-                            employeeIds: filter.employees.map(x => x.value).toString()
+                            fromDate: filter.fromDate.format('YYYY-MM-DD'),
+                            toDate: filter.toDate.format('YYYY-MM-DD'),
+                            employeeIds: filter.employees.map(x => x.value).toString(),
+                            isQualifiedByEvaluator: filter.isQualifiedByEvaluator.value,
+                            isQualified: filter.isQualified.value
                         })}`}
                         onSubmit={this.getProbationers}
                     />
