@@ -90,7 +90,7 @@ export default class SearchForm extends Component {
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Evaluator's Result</ControlLabel>
-                    <div className="control-content employee-width">
+                    <div className="control-content">
                         <Select
                             className="react-select-container" classNamePrefix="react-select"
                             value={filter.isQualifiedByEvaluator}
@@ -101,7 +101,7 @@ export default class SearchForm extends Component {
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Reviewer's Result</ControlLabel>
-                    <div className="control-content employee-width">
+                    <div className="control-content">
                         <Select
                             className="react-select-container" classNamePrefix="react-select"
                             value={filter.isQualified}

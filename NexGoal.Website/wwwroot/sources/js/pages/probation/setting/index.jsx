@@ -98,7 +98,7 @@ export default class Setting extends Component {
                 <Breadcrumb>
                     <li className="current">{getResource('ProbationSetting')}</li>
                 </Breadcrumb>
-                <div className="col-sm-12">
+                <div className="col-sm-12 tbl-probation-setting">
                     <Table tableData={this.state.probationers} onEditSetting={this.onEditSetting} onAddNewEmployee={this.handleShowAddEmployeeModal} />
                 </div>
                 {this.state.showEditSettingModal &&
