@@ -118,12 +118,12 @@ export default class Evaluation extends Component {
                     </div>
                     {this.state.probationer &&
                         <div className="probation-content">
-                            <NexPanel title={`PERFORMANCE REVIEW: SKILLS AND ABILITIE (${this.state.probationer.code} - ${this.state.probationer.fullName})`} >
+                            <NexPanel title="PERFORMANCE REVIEW: SKILLS AND ABILITIE">
                                 <Description employeeInfo={this.probationerInfo} />
                                 <ProbationProcess processes={this.state.probationer.settings} />
                             </NexPanel>
 
-                            <NexPanel title={this.state.processId === PerformanceProcess.Evaluator ? 'A. HRM System' : 'HRM System'}>
+                            <NexPanel title="HRM System">
                                 <HRM hrm={this.state.hrm} />
                             </NexPanel>
                             {this.state.processId === PerformanceProcess.Evaluator &&

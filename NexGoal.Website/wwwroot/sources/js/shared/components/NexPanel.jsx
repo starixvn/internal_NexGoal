@@ -3,7 +3,8 @@ import { Collapse } from 'react-bootstrap';
 
 export default class NexPanel extends Component {
     static defaultProps = {
-        defaultOpened: true
+        defaultOpened: true,
+        enable: true
     }
 
     constructor(props) {
@@ -14,12 +15,16 @@ export default class NexPanel extends Component {
         };
     }
 
-    toggle = () => this.setState(prevState => ({ open: !prevState.open }));
+    toggle = () => {
+        if (this.props.enable) {
+            this.setState(prevState => ({ open: !prevState.open }));
+        }
+    }
 
     render() {
         return (
             <div className="nex-panel">
-                <div className="panel-header" onClick={this.toggle}>
+                <div className={`panel-header ${this.props.enable && 'enable'}`} onClick={this.toggle}>
                     {this.props.title}
                 </div>
                 <Collapse in={this.state.open}>

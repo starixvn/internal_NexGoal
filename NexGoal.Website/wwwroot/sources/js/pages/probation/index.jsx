@@ -87,7 +87,7 @@ export default class MyProbation extends Component {
     })
 
     evaluationDetailTitle = <Fragment>
-        B. QUALITY OF WORK
+        Quality of Work
         <OverlayTrigger placement="bottom" overlay={EvaluationDetailTooltip}>
             <i className="icon-info" />
         </OverlayTrigger>
@@ -106,7 +106,7 @@ export default class MyProbation extends Component {
 
         return (
             <Fragment>
-                <NexPanel title={this.evaluationDetailTitle}>
+                <NexPanel title={this.evaluationDetailTitle} enable={false}>
                     <table className="table table-bordered table-striped">
                         <tbody>
                             {values.evaluations.map((kpiGroup, gIndex) => (
@@ -116,7 +116,6 @@ export default class MyProbation extends Component {
                                         <td className="text-center">{getResource('Employee')}</td>
                                     </tr>
                                     {kpiGroup.details.map((kpi, index) => {
-                                        debugger;
                                         score += kpi.selfPoint;
                                         return (
                                             <tr key={kpi.kpiId}>
@@ -225,12 +224,12 @@ export default class MyProbation extends Component {
                         <div className="probation-content">
                             {this.state.showEvaluationForm ?
                                 <Fragment>
-                                    <NexPanel title={`PERFORMANCE REVIEW: SKILLS AND ABILITIE (${this.state.probationer.code} - ${this.state.probationer.fullName})`} >
+                                    <NexPanel title="PERFORMANCE REVIEW: SKILLS AND ABILITIE">
                                         <Description employeeInfo={this.state.employeeInfo} />
                                         <ProbationProcess processes={this.state.probationer.settings} />
                                     </NexPanel>
 
-                                    <NexPanel title="A. HRM System">
+                                    <NexPanel title="HRM System">
                                         <HRM hrm={this.state.hrm} />
                                     </NexPanel>
                                     <Formik

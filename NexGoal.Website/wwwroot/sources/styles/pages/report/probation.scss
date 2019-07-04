@@ -22,3 +22,13 @@
         white-space: pre-wrap;
     }
 }
+
+.passed {
+    color: #376E00;
+    font-weight: bold;
+}
+
+.failed {
+    color: #E22C04;
+    font-weight: bold;
+}

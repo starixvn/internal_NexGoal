@@ -38,7 +38,7 @@ export default class EvaluatorForm extends Component {
     })
 
     evaluationDetailTitle = <Fragment>
-        B. QUALITY OF WORK
+        Quality of Work
         <OverlayTrigger placement="bottom" overlay={EvaluationDetailTooltip}>
             <i className="icon-info" />
         </OverlayTrigger>
@@ -57,7 +57,7 @@ export default class EvaluatorForm extends Component {
 
         return (
             <Fragment>
-                <NexPanel title={this.evaluationDetailTitle}>
+                <NexPanel title={this.evaluationDetailTitle} enable={false}>
                     <table className="table table-bordered table-striped  quality-table">
                         <tbody>
                             {values.evaluations.map((kpiGroup, gIndex) => (
@@ -122,8 +122,7 @@ export default class EvaluatorForm extends Component {
                                         />
                                         :
                                         <span className={values.isQualifiedByEvaluator.value ? 'passed' : 'failed'}>{values.isQualifiedByEvaluator.label}</span>
-                                   }
-
+                                    }
                                 </td>
                             </tr>
                             <tr>
@@ -148,7 +147,7 @@ export default class EvaluatorForm extends Component {
                     </table>
                 </NexPanel>
 
-                <div className="btn-group">
+                <div className="button-group">
                     <a className="btn btn-default btn-cancel" href="/member/index?activeTab=4">{getResource('Back')}</a>
                     {this.props.probationer.canEdit &&
                         <button className="btn btn-primary" disabled={isSubmitting} type="button" onClick={handleSubmit}>{getResource('Submit')}</button>

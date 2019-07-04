@@ -146,19 +146,13 @@
         }
 
         &.input-comment {
-            padding: 6px 6px 0 6px !important;               
+            padding: 6px 6px 0 6px !important;
             background: #fff;
         }
 
         &.comment-text {
             padding: 10px !important;
             background: #F7F8FD;
-        }
-
-        > p {
-            height: 100%;
-            background: #ECECEC;
-            white-space: pre-wrap;
         }
 
         > textarea {
@@ -187,14 +181,29 @@
 .quality-table {
     .comment-cell {
         background: #ECECEC !important;
-
-        p {
-            height: 100%;
-            white-space: pre-wrap;
-        }
     }
 
     .comment-cell textarea[readonly] {
         background: #ECECEC;
+    }
+}
+
+.paragraph-wrapper {
+    .see-more, .see-less {
+        color: #2475D7;
+        font-size: 12px;
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+        cursor: pointer;
+    }
+
+    p {
+        overflow: hidden;
+        white-space: pre-wrap;
+
+        &.collapsed {
+            max-height: 80px;
+        }
     }
 }

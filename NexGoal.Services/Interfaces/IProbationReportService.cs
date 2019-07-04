@@ -11,5 +11,7 @@
         Task<Tuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndEmployeesAsync(int actorId);
 
         Task<IEnumerable<ProbationReportModel>> GetAsync(GetProbationReportModel model);
+
+        Task<byte[]> ExportExcelAsync(GetProbationReportModel model);
     }
 }

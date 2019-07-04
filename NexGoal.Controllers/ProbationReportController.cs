@@ -48,5 +48,21 @@
 
             return Json(result);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ExportExcel(GetProbationReportViewModel model)
+        {
+            var fileContent = await probationReportService.ExportExcelAsync(new GetProbationReportModel
+            {
+                FromDate = model.FromDate,
+                ToDate = model.ToDate,
+                EmployeeIds = model.EmployeeIds,
+                IsQualified = model.IsQualified,
+                IsQualifiedByEvaluator = model.IsQualifiedByEvaluator,
+                ActorId = sessionService.EmployeeId
+            }).ConfigureAwait(false);
+
+            return File(fileContent, MimeType.XLSX, "Probation Report.xlsx");
+        }
     }
 }
