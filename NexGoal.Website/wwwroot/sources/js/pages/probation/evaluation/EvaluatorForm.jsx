@@ -72,7 +72,7 @@ export default class EvaluatorForm extends Component {
 
                                         return (
                                             <tr key={kpi.kpiId}>
-                                                <td>{index + 1}. {kpi.kpiName}</td>
+                                                <td>{gIndex + 1}-{index + 1}. {kpi.kpiName}</td>
                                                 <td className="text-center"><strong>{kpi.selfPoint}</strong></td>
                                                 <td className="text-center">
                                                     {this.props.probationer.canEdit &&

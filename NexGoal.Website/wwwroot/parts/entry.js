@@ -31,6 +31,7 @@ module.exports = {
         [`${styleDistPath}/probation-setting`]: `${styleSourcePath}/pages/probation/setting.scss`,
         [`${styleDistPath}/probation-evaluation`]: `${styleSourcePath}/pages/probation/evaluation.scss`,
         [`${styleDistPath}/probation-report`]: `${styleSourcePath}/pages/report/probation.scss`,
+        [`${styleDistPath}/probation-report-pdf`]: `${styleSourcePath}/pages/probation/pdf.scss`,
         //
         [`${jsDistPath}/main`]: './sources/js/main.js',
         [`${jsDistPath}/search-member`]: './sources/js/SearchMember.jsx',

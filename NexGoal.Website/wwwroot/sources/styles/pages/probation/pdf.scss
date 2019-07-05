@@ -1,0 +1,170 @@
+﻿@import "../../abstracts/variables";
+@import "../../abstracts/mixins";
+$fa-font-path: "~font-awesome/fonts";
+@import "~font-awesome/scss/font-awesome.scss";
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "../../layouts/employee-info";
+@import "../../components/tables";
+@import "probation-process";
+@import "nex-panel";
+@import "hrm";
+@import "rating";
+@import "evaluation-detail";
+
+.title {
+    color: #E15F00;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.info-rate {
+    display: flex;
+    margin-bottom: 12px;
+
+    .user-info {
+        flex-direction: column;
+        flex-basis: 250px;
+        max-width: 250px;
+        padding-top: 35px;
+        background: #525E86;
+        color: #fff;
+
+        .avatar {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 16px;
+        }
+
+        > ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .label {
+            display: inline-block;
+            width: 90px;
+            padding-left: 10px;
+            font-size: inherit;
+            text-align: left;
+            font-weight: normal;
+            vertical-align: middle;
+        }
+
+        .info-text {
+            display: inline-block;
+            font-weight: bold;
+            vertical-align: middle;
+        }
+    }
+
+    .rate-information {
+        width: calc(100% - 250px);
+        background: #EAEAEA;
+    }
+
+    .rate-item {
+        display: flex;
+
+        .rate-star {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 190px;
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #AEAEAE;
+            border-right: 1px solid #AEAEAE;
+        }
+
+        .star-block {
+            color: #F09700;
+
+            .fa-star {
+                padding: 0 2px;
+            }
+        }
+
+        .rate-description {
+            width: calc(100% - 190px);
+            padding: 10px;
+            border-bottom: 1px solid #AEAEAE;
+        }
+
+        &:last-child {
+            .rate-star, .rate-description {
+                border-bottom: 0;
+            }
+        }
+    }
+}
+
+.result-table {
+    .text-title {
+        width: 130px;
+        background: #B8BECF;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .text-score {
+        min-width: 100px;
+        background: #fff !important;
+        font-weight: bold;
+    }
+
+    .comment-cell {
+        font-size: 14px;
+
+        &:hover {
+            background: #ECECEC !important;
+        }
+
+        &.input-comment {
+            padding: 6px 6px 0 6px !important;
+            background: #fff;
+        }
+
+        &.comment-text {
+            padding: 10px !important;
+            background: #F7F8FD;
+        }
+
+        > textarea {
+            min-height: 50px;
+            height: auto;
+            border: 1px solid #C4C4C4;
+            border-radius: 2px;
+        }
+
+        p {
+            white-space: pre-wrap
+        }
+    }
+
+    tr:hover {
+        .text-score, .comment-cell {
+            background: #fff !important;
+        }
+
+        > .text-title {
+            background: #B8BECF !important;
+        }
+
+        > .comment-text {
+            background: #F7F8FD !important;
+        }
+    }
+}
+
+.passed {
+    color: #376E00;
+    font-weight: bold;
+}
+
+.failed {
+    color: #E22C04;
+    font-weight: bold;
+}

@@ -1,0 +1,264 @@
+﻿@using NexGoal.Core.Constants
+@using NexGoal.Web.Core.Extensions
+
+@model NexGoal.Models.Probation.ProbationReportPdfModel
+
+@{
+    Layout = null;
+
+    var attendances = Model.Hrm.Attendances.ToList();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Probation Report</title>
+    <link rel="shortcut icon" type="image/ico" href="~/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="~/dist/styles/probation-report-pdf.css" asp-append-version="true" />
+</head>
+<body>
+    <div>
+        <div class="title">Probation of @Model.NickName</div>
+        <div class="info-rate">
+            <div class="user-info">
+                <img src="@Constants.ImageURL/@(Model.Code).jpg" alt="avatar" class="avatar" />
+                <ul>
+                    <li class="info">
+                        <span class="label">Full Name:</span>
+                        <span class="info-text">@Model.FullName</span>
+                    </li>
+                    <li class="info">
+                        <span class="label">Nick Name:</span>
+                        <span class="info-text">@Model.NickName</span>
+                    </li>
+                    <li class="info">
+                        <span class="label">Joined Day:</span>
+                        <span class="info-text">@Model.JoinedDate.ToString("dd MMM yyyy")</span>
+                    </li>
+                    <li class="info">
+                        <span class="label">Team:</span>
+                        <span class="info-text">@Model.GroupName</span>
+                    </li>
+                    <li class="info">
+                        <span class="label">Job Title:</span>
+                        <span class="info-text">@Model.JobTitle</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="rate-information">
+                <div class="rate-item">
+                    <div class="rate-star">
+                        <span>Poor: 1 </span>
+                        <div class="star-block">
+                            <i class="fa fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="rate-description">Unsatisfactory: Performance was consistently below expectations. Poor quality of work, frequently needs rework. Significant improvement is needed.</div>
+                </div>
+                <div class="rate-item">
+                    <div class="rate-star">
+                        <span>Below Average: 2</span>
+                        <div class="star-block">
+                            <i class="fa fa-star"></i><i class="fa fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="rate-description">Improvement needed: Performance did not consistently meet expectations. Did not generally contribute extra effort or energy. An improvement plan is needed.</div>
+                </div>
+                <div class="rate-item">
+                    <div class="rate-star">
+                        <span>Sastisfactory: 3</span>
+                        <div class="star-block">
+                            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="rate-description">Meets expectations: Solid performance with a good quality of work, at times possibly exceeding expectations and contributing additional value.</div>
+                </div>
+                <div class="rate-item">
+                    <div class="rate-star">
+                        <span>Good: 4</span>
+                        <div class="star-block">
+                            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="rate-description">Exceeds expectations: Significant performance and exceeded expectations. The quality of work overall was excellent and was able to deal with big problems with minimal direction.</div>
+                </div>
+                <div class="rate-item">
+                    <div class="rate-star">
+                        <span>Excellent:5</span>
+                        <div class="star-block">
+                            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="rate-description">Exceptional: The most outstanding performance and far exceeded expectations due to exceptionally high quality of work. Made a superior contribution in support team/department objectives.</div>
+                </div>
+            </div>
+        </div>
+        <div class="nex-panel">
+            <div class="panel-header">
+                HRM System
+            </div>
+            <div>
+                <table class="table table-bordered table-striped hrm-table">
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Missing Check In/Out</th>
+                            <th>Late In</th>
+                            <th>Early Out</th>
+                            <th>Unpaid Leave</th>
+                            <th>Unpaid Annual Leave</th>
+                            <th>Average Working Hours</th>
+                            <th>Overtime</th>
+                            <th>TOEIC Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @for (var i = 0; i < attendances.Count; i++)
+                        {
+                            var attendance = attendances[i];
+                            <tr>
+                                <td class="text-center">@attendance.Month/@attendance.Year</td>
+                                <td class="text-center">@attendance.MissingCheckInCheckOut</td>
+                                <td class="text-center">@attendance.LateIn</td>
+                                <td class="text-center">@attendance.EarlyOut</td>
+                                <td class="text-center">@attendance.UnpaidLeave</td>
+                                <td class="text-center">@attendance.UnplanAnnualLeave</td>
+                                <td class="text-center">@Helper.RenderHour(attendance.AverageWorkingHours)</td>
+                                <td class="text-center">@Helper.RenderHour(attendance.Overtime)</td>
+                                @if (i == 0)
+                                {
+                                    <td class="text-center" rowspan="@(attendances.Count + 1)">
+                                        <div>
+                                            <strong>@Model.Hrm.Toeic.ToeicScore</strong>
+                                        </div>
+                                        @if (Model.Hrm.Toeic.ExamDate.HasValue)
+                                        {
+                                            <div>
+                                                (@Model.Hrm.Toeic.ExamDate.Value.ToString("dd MMM yyyy"))
+                                            </div>
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                        }
+
+                        <tr class="hrm-total">
+                            <td class="text-center">Total</td>
+                            <td class="text-center">@Model.Hrm.Attendances.Sum(x => x.MissingCheckInCheckOut)</td>
+                            <td class="text-center">@Model.Hrm.Attendances.Sum(x => x.LateIn)</td>
+                            <td class="text-center">@Model.Hrm.Attendances.Sum(x => x.EarlyOut)</td>
+                            <td class="text-center">@Model.Hrm.Attendances.Sum(x => x.UnpaidLeave)</td>
+                            <td class="text-center">@Model.Hrm.Attendances.Sum(x => x.UnplanAnnualLeave)</td>
+                            <td class="text-center">
+                                @Helper.RenderHour(Model.Hrm.Attendances.Average(x => x.AverageWorkingHours))
+                            </td>
+                            <td class="text-center">
+                                @Helper.RenderHour(Model.Hrm.Attendances.Sum(x => x.Overtime))
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="nex-panel">
+            <div class="panel-header">
+                Performance Result
+            </div>
+            <div>
+                <table class="table table-bordered table-striped result-table">
+                    <tbody>
+                        <tr class="group-row">
+                            <td colSpan="4">A. RESULT</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center text-title">Self</td>
+                            <td class="text-center text-title">Score</td>
+                            <td class="text-center text-score">@(string.IsNullOrWhiteSpace(Model.SelfScore) ? string.Empty : $"{Model.SelfScore} pts")</td>
+                            <td class="comment-cell comment-text">
+                                <p>@Model.SelfComment</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center text-title" rowspan="2">Evaluator</td>
+                            <td class="text-center text-title">Score</td>
+                            <td class="text-center text-score">@(string.IsNullOrWhiteSpace(Model.EvaluatorScore) ? string.Empty : $"{Model.EvaluatorScore} pts")</td>
+                            <td class="comment-cell comment-text" rowspan="2">
+                                <p>@Model.EvaluatorComment</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center text-title">Result</td>
+                            <td class="text-center text-score">
+                                @if (Model.IsQualifiedByEvaluator.HasValue)
+                                {
+                                    <span class=@(Model.IsQualifiedByEvaluator.Value ? "passed" : "failed" ) }>
+                                        @(Model.IsQualifiedByEvaluator.Value ? "Passed" : "Failed")
+                                    </span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center text-title">Reviewer</td>
+                            <td class="text-center text-title">Final Result</td>
+                            <td class="text-score text-center">
+                                @if (Model.IsQualified.HasValue)
+                                {
+                                    <span class=@(Model.IsQualified.Value ? "passed" : "failed" ) }>
+                                        @(Model.IsQualified.Value ? "Passed" : "Failed")
+                                    </span>
+                                }
+                            </td>
+                            <td class="comment-cell input-comment">
+                                <p>@Model.EvaluatorComment</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                        <tr class="group-row">
+                            <td colspan="3">
+                                B. Details
+                            </td>
+                        </tr>
+                        @foreach (var kpiGroup in Model.Details)
+                        {
+                            <tr class="group-row">
+                                <td>@kpiGroup.KPIGroupId. @kpiGroup.Name</td>
+                                <td class="text-center">Employee</td>
+                                <td class="text-center">Evaluator</td>
+                            </tr>
+                            foreach (var kpi in kpiGroup.Details)
+                            {
+                                <tr>
+                                    <td>@kpi.KPIGroupId-@kpi.KPIId. @kpi.KPIName</td>
+                                    <td class="text-center"><strong>@kpi.SelfPoint</strong></td>
+                                    <td class="text-center"><strong>@kpi.EvaluatorPoint</strong></td>
+                                </tr>
+                            }
+
+                        }
+                        <tr class="score">
+                            <td class="text-center"><strong>Score</strong></td>
+                            <td class="text-center">
+                                @if (!string.IsNullOrWhiteSpace(Model.SelfScore))
+                                {
+                                    <span class="score-badge"><span>@Model.SelfScore</span>/100 pts</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                @if (!string.IsNullOrWhiteSpace(Model.EvaluatorScore))
+                                {
+                                    <span class="score-badge"><span>@Model.EvaluatorScore</span>/100 pts</span>
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

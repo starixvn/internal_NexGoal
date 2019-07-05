@@ -17,8 +17,8 @@ export default class HRM extends PureComponent {
                 <td className="text-center">{this.displayTime(attendace.overtime)}</td>
                 {index === 0 &&
                     <td className="text-center" rowSpan={this.props.hrm.attendances.length + 1}>
-                    <div>
-                        <strong>{this.props.hrm.toeic.toeicScore}</strong>
+                        <div>
+                            <strong>{this.props.hrm.toeic.toeicScore}</strong>
                         </div>
                         {this.props.hrm.toeic.examDate &&
                             <div>
@@ -35,7 +35,7 @@ export default class HRM extends PureComponent {
         const hours = Math.floor(value).toString().padStart(2, '0');
         const minutes = Math.round((value - hours) * 60).toString().padStart(2, '0');
 
-        return `${hours}h${minutes}'`;
+        return `${hours !== '00' ? hours + 'h' : ''}${minutes}'`;
     }
 
     render() {

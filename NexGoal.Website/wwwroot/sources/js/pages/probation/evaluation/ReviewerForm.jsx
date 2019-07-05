@@ -44,7 +44,7 @@ export default class ReviewerForm extends Component {
 
     renderKPI = (kpi, index) => (
         <tr key={kpi.kpiId}>
-            <td>{index + 1}. {kpi.kpiName}</td>
+            <td>{kpi.kpiGroupId}-{index + 1}. {kpi.kpiName}</td>
             <td className="text-center"><strong>{kpi.selfPoint}</strong></td>
             <td className="text-center"><strong>{kpi.evaluatorPoint}</strong></td>
         </tr>

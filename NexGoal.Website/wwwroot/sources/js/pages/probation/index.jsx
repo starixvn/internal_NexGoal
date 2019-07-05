@@ -119,7 +119,7 @@ export default class MyProbation extends Component {
                                         score += kpi.selfPoint;
                                         return (
                                             <tr key={kpi.kpiId}>
-                                                <td>{index + 1}. {kpi.kpiName}</td>
+                                                <td>{gIndex + 1}-{index + 1}. {kpi.kpiName}</td>
                                                 <td className="text-center">
                                                     {this.state.probationer.canEdit &&
                                                         <Rating initialRating={kpi.selfPoint / 1.11 || 0}

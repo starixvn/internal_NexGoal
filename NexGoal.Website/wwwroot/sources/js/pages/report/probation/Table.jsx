@@ -43,10 +43,10 @@ export default class Table extends Component {
                     {probationer.reviewerComment ? <span className="icon-search" data-comment={probationer.reviewerComment} onClick={this.handleShowComment} /> : '-'}
                 </td>
                 <td className="text-center">
-                    <a href={resolveClientUrl(`/ProbationReport/ViewDetail/${probationer.employeeId}`)} >
+                    <a href={resolveClientUrl(`ProbationReport/ViewDetail/${probationer.employeeId}`)} >
                         <span className="icon-search" />
                     </a>
-                    <a href={resolveClientUrl(`/ProbationReport/ExportPdf/${probationer.employeeId}`)} >
+                    <a href={resolveClientUrl(`ProbationReport/ExportPdf/${probationer.employeeId}`)} >
                         <span className="icon-pdf" />
                     </a>
                 </td>

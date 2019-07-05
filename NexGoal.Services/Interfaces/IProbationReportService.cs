@@ -13,5 +13,9 @@
         Task<IEnumerable<ProbationReportModel>> GetAsync(GetProbationReportModel model);
 
         Task<byte[]> ExportExcelAsync(GetProbationReportModel model);
+
+        Task<PdfModel> ExportPdfAsync(int employeeId, int actorId);
+
+        Task<ProbationReportPdfModel> GetByEmployeeIdAsync(int employeeId, int actorId);
     }
 }

@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Services
 {
+    using DinkToPdf;
+    using DinkToPdf.Contracts;
     using Microsoft.AspNetCore.Hosting;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Probation;
@@ -17,19 +19,27 @@
     public class ProbationReportService : IProbationReportService
     {
         private const string ExcelTemplatePath = @"ExcelTemplates\\Probation Report.xlsx";
+        private const string PDFViewName = "ProbationReport/Pdf";
+        private const string PDFStylePath = @"dist\\styles\\probation-report-pdf.css";
 
         private readonly IProbationRepository probationRepository;
         private readonly IBaseService baseService;
         private readonly ICryptoService cryptoService;
         private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IViewRenderService viewRenderService;
+        private readonly IConverter converter;
 
-        public ProbationReportService(IProbationRepository probationRepository, IBaseService baseService, ICryptoService cryptoService
-            , IHostingEnvironment hostingEnvironment)
+        public ProbationReportService(IProbationRepository probationRepository, IBaseService baseService, ICryptoService cryptoService,
+            IHostingEnvironment hostingEnvironment,
+             IViewRenderService viewRenderService,
+            IConverter converter)
         {
             this.probationRepository = probationRepository;
             this.baseService = baseService;
             this.cryptoService = cryptoService;
             this.hostingEnvironment = hostingEnvironment;
+            this.viewRenderService = viewRenderService;
+            this.converter = converter;
         }
 
         public async Task<Tuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndEmployeesAsync(int actorId)
@@ -119,6 +129,94 @@
 
                 return package.GetAsByteArray();
             }
+        }
+
+        public async Task<PdfModel> ExportPdfAsync(int employeeId, int actorId)
+        {
+            var reportModel = await GetByEmployeeIdAsync(employeeId, actorId).ConfigureAwait(false);
+
+            if (reportModel != null)
+            {
+                var pdf = await GetPdfSettingAsync(reportModel).ConfigureAwait(false);
+
+                return new PdfModel
+                {
+                    FileName = $"{reportModel.NickName}_Probation.pdf",
+                    Content = converter.Convert(pdf)
+                };
+            }
+
+            return null;
+        }
+
+        private async Task<HtmlToPdfDocument> GetPdfSettingAsync(ProbationReportPdfModel reportModel)
+        {
+            string htmlString = await viewRenderService.RenderToStringAsync(PDFViewName, reportModel).ConfigureAwait(false);
+
+            var globalSettings = new GlobalSettings
+            {
+                ColorMode = ColorMode.Color,
+                Orientation = Orientation.Portrait,
+                PaperSize = PaperKind.A4,
+                Margins = new MarginSettings { Unit = Unit.Millimeters, Top = 10, Bottom = 10, Left = 4, Right = 4 },
+                DocumentTitle = $"Probation of {reportModel.NickName}"
+            };
+
+            var objectSettings = new ObjectSettings
+            {
+                PagesCount = true,
+                HtmlContent = htmlString,
+                WebSettings = {
+                    DefaultEncoding = "utf-8",
+                    Background = true,
+                    LoadImages = true,
+                   UserStyleSheet = Path.Combine(hostingEnvironment.WebRootPath, PDFStylePath)
+                },
+                FooterSettings = { FontName = "Arial", FontSize = 7, Spacing = 1.5, Center = "[page]" }
+            };
+
+            var pdf = new HtmlToPdfDocument
+            {
+                GlobalSettings = globalSettings,
+                Objects = { objectSettings }
+            };
+
+            return pdf;
+        }
+
+        public async Task<ProbationReportPdfModel> GetByEmployeeIdAsync(int employeeId, int actorId)
+        {
+            var result = await baseService.FetchMultipleAsync<ProbationReportPdfModel, KPIGroupModel, EncryptedProbationEvaluationDetailModel>(
+                new GetProbationReportByEmployeeIdCriteria { EmployeeId = employeeId, ActorId = actorId }).ConfigureAwait(false);
+
+            var probationer = result.Item1.FirstOrDefault();
+
+            if (probationer != null)
+            {
+                var groups = result.Item2;
+                var details = result.Item3;
+
+                foreach (var group in groups)
+                {
+                    group.Details = details.Where(x => x.KPIGroupId == group.KPIGroupId).Select(x => new ProbationEvaluationDetailModel
+                    {
+                        KPIId = x.KPIId,
+                        KPIName = x.KPIName,
+                        KPIGroupId = x.KPIGroupId,
+                        EmployeeId = x.EmployeeId,
+                        SelfPoint = string.IsNullOrWhiteSpace(x.SelfPoint) ? (decimal?)null : decimal.Parse(cryptoService.Decrypt(x.SelfPoint)),
+                        EvaluatorPoint = string.IsNullOrWhiteSpace(x.EvaluatorPoint) ? (decimal?)null : decimal.Parse(cryptoService.Decrypt(x.EvaluatorPoint))
+                    });
+                }
+
+                probationer.SelfScore = cryptoService.Decrypt(probationer.SelfScore);
+                probationer.EvaluatorScore = cryptoService.Decrypt(probationer.EvaluatorScore);
+
+                probationer.Details = groups;
+
+                probationer.Hrm = await probationRepository.GetHRM(new GetHRMCriteria { EmployeeId = employeeId }).ConfigureAwait(false);
+            }
+            return probationer;
         }
     }
 }

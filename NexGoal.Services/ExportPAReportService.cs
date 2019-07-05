@@ -304,7 +304,7 @@
                     DefaultEncoding = "utf-8",
                     Background = true,
                     LoadImages = true,
-                    UserStyleSheet = Path.Combine(hostingEnvironment.WebRootPath, PDFStylePath)
+                   UserStyleSheet = Path.Combine(hostingEnvironment.WebRootPath, PDFStylePath)
                 },
                 FooterSettings = { FontName = "Arial", FontSize = 7, Spacing = 1.5, Center = "[page]" }
             };
