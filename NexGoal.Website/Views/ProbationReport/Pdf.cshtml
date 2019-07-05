@@ -228,22 +228,26 @@
                                 B. DETAILS
                             </td>
                         </tr>
+                        @{var kpiGroupIndex = 1; }
                         @foreach (var kpiGroup in Model.Details)
                         {
                             <tr class="group-row">
-                                <td>@kpiGroup.KPIGroupId. @kpiGroup.Name</td>
+                                <td>@kpiGroupIndex. @kpiGroup.Name</td>
                                 <td class="text-center">Employee</td>
                                 <td class="text-center">Evaluator</td>
                             </tr>
+                            var index = 1;
                             foreach (var kpi in kpiGroup.Details)
                             {
                                 <tr>
-                                    <td>@kpi.KPIGroupId-@kpi.KPIId. @kpi.KPIName</td>
+                                    <td>@kpiGroupIndex-@index. @kpi.KPIName</td>
                                     <td class="text-center"><strong>@kpi.SelfPoint</strong></td>
                                     <td class="text-center"><strong>@kpi.EvaluatorPoint</strong></td>
                                 </tr>
+                                index++;
                             }
 
+                            kpiGroupIndex++;
                         }
                         <tr class="score">
                             <td class="text-center"><strong>Score</strong></td>
