@@ -19,79 +19,72 @@
     <div>
         <div class="title">Probation of @Model.NickName</div>
         <div class="info-rate">
-            <div class="user-info">
-                <img src="@Constants.ImageURL/@(Model.Code).jpg" alt="avatar" class="avatar" />
-                <ul>
-                    <li class="info">
-                        <span class="label">Full Name:</span>
-                        <span class="info-text">@Model.FullName</span>
-                    </li>
-                    <li class="info">
-                        <span class="label">Nick Name:</span>
-                        <span class="info-text">@Model.NickName</span>
-                    </li>
-                    <li class="info">
-                        <span class="label">Joined Day:</span>
-                        <span class="info-text">@Model.JoinedDate.ToString("dd MMM yyyy")</span>
-                    </li>
-                    <li class="info">
-                        <span class="label">Team:</span>
-                        <span class="info-text">@Model.GroupName</span>
-                    </li>
-                    <li class="info">
-                        <span class="label">Job Title:</span>
-                        <span class="info-text">@Model.JobTitle</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="rate-information">
-                <div class="rate-item">
-                    <div class="rate-star">
+            <table>                
+                <tr>
+                    <td rowspan="2" class="user-info">
+                        <img src="@Constants.ImageURL/@(Model.Code).jpg" alt="avatar" class="avatar" />
+                        <ul>
+                            <li class="info">
+                                <span class="label">Full Name:</span>
+                                <span class="info-text">@Model.FullName</span>
+                            </li>
+                            <li class="info">
+                                <span class="label">Nick Name:</span>
+                                <span class="info-text">@Model.NickName</span>
+                            </li>
+                            <li class="info">
+                                <span class="label">Joined Day:</span>
+                                <span class="info-text">@Model.JoinedDate.ToString("dd MMM yyyy")</span>
+                            </li>
+                            <li class="info">
+                                <span class="label">Team:</span>
+                                <span class="info-text">@Model.GroupName</span>
+                            </li>
+                            <li class="info">
+                                <span class="label">Job Title:</span>
+                                <span class="info-text">@Model.JobTitle</span>
+                            </li>
+                        </ul>
+                    </td>
+                    <td class="rate-item">
                         <span>Poor: 1 </span>
                         <div class="star-block">
                             <i class="fa fa-star"></i>
                         </div>
-                    </div>
-                    <div class="rate-description">Unsatisfactory: Performance was consistently below expectations. Poor quality of work, frequently needs rework. Significant improvement is needed.</div>
-                </div>
-                <div class="rate-item">
-                    <div class="rate-star">
+                    </td>
+                    <td class="rate-item">
                         <span>Below Average: 2</span>
                         <div class="star-block">
                             <i class="fa fa-star"></i><i class="fa fa-star"></i>
                         </div>
-                    </div>
-                    <div class="rate-description">Improvement needed: Performance did not consistently meet expectations. Did not generally contribute extra effort or energy. An improvement plan is needed.</div>
-                </div>
-                <div class="rate-item">
-                    <div class="rate-star">
+                    </td>
+                    <td class="rate-item">
                         <span>Sastisfactory: 3</span>
                         <div class="star-block">
                             <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
                         </div>
-                    </div>
-                    <div class="rate-description">Meets expectations: Solid performance with a good quality of work, at times possibly exceeding expectations and contributing additional value.</div>
-                </div>
-                <div class="rate-item">
-                    <div class="rate-star">
+                    </td>
+                    <td class="rate-item">
                         <span>Good: 4</span>
                         <div class="star-block">
                             <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
                         </div>
-                    </div>
-                    <div class="rate-description">Exceeds expectations: Significant performance and exceeded expectations. The quality of work overall was excellent and was able to deal with big problems with minimal direction.</div>
-                </div>
-                <div class="rate-item">
-                    <div class="rate-star">
+                    </td>
+                    <td class="rate-item">
                         <span>Excellent:5</span>
                         <div class="star-block">
                             <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
                         </div>
-                    </div>
-                    <div class="rate-description">Exceptional: The most outstanding performance and far exceeded expectations due to exceptionally high quality of work. Made a superior contribution in support team/department objectives.</div>
-                </div>
-            </div>
+                    </td>
+                </tr>
+                <tr class="rate-description">                    
+                    <td>Unsatisfactory: Performance was consistently below expectations. Poor quality of work, frequently needs rework. Significant improvement is needed.</td>
+                    <td>Improvement needed: Performance did not consistently meet expectations. Did not generally contribute extra effort or energy. An improvement plan is needed.</td>
+                    <td>Meets expectations: Solid performance with a good quality of work, at times possibly exceeding expectations and contributing additional value.</td>
+                    <td>Exceeds expectations: Significant performance and exceeded expectations. The quality of work overall was excellent and was able to deal with big problems with minimal direction.</td>
+                    <td>Exceptional: The most outstanding performance and far exceeded expectations due to exceptionally high quality of work. Made a superior contribution in support team/department objectives.</td>
+                </tr>
+            </table>      
         </div>
         <div class="nex-panel">
             <div class="panel-header">

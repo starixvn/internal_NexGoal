@@ -20,24 +20,29 @@ $fa-font-path: "~font-awesome/fonts";
 }
 
 .info-rate {
-    display: flex;
     margin-bottom: 12px;
 
+    td {
+        border: 1px solid #AFB3C0;
+    }
+
     .user-info {
-        flex-direction: column;
-        flex-basis: 250px;
-        max-width: 250px;
-        padding-top: 35px;
+        display: table-cell;
+        width: 300px;
+        padding: 20px 10px;
         background: #525E86;
+        text-align: center;
         color: #fff;
 
         .avatar {
+            float: none;
             width: 70px;
             height: 70px;
             margin-bottom: 16px;
         }
 
         > ul {
+            text-align: left;
             list-style: none;
             padding: 0;
             margin: 0;
@@ -66,17 +71,13 @@ $fa-font-path: "~font-awesome/fonts";
     }
 
     .rate-item {
-        display: flex;
+        text-align: center;
+        background: #EDEDED;
+        height: 50px;
 
         .rate-star {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            width: 190px;
             padding: 8px;
             text-align: center;
-            border-bottom: 1px solid #AEAEAE;
-            border-right: 1px solid #AEAEAE;
         }
 
         .star-block {
@@ -86,17 +87,14 @@ $fa-font-path: "~font-awesome/fonts";
                 padding: 0 2px;
             }
         }
+    }
 
-        .rate-description {
-            width: calc(100% - 190px);
+    .rate-description {
+        background: #EDEDED;
+
+        > td {
             padding: 10px;
-            border-bottom: 1px solid #AEAEAE;
-        }
-
-        &:last-child {
-            .rate-star, .rate-description {
-                border-bottom: 0;
-            }
+            vertical-align: top;
         }
     }
 }
