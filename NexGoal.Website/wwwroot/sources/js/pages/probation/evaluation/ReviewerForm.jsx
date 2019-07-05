@@ -138,7 +138,7 @@ export default class ReviewerForm extends Component {
 
                             <tr className="group-row">
                                 <td colSpan="3">
-                                    B. Details
+                                    B. DETAILS
                                 <OverlayTrigger placement="bottom" overlay={EvaluationDetailTooltip}>
                                         <i className="icon-info" />
                                     </OverlayTrigger>
