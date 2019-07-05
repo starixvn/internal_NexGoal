@@ -18,10 +18,10 @@
 <body>
     <div>
         <div class="title">Probation of @Model.NickName</div>
-        <div class="info-rate">
-            <table>                
+        <div>
+            <table class="info-rate">
                 <tr>
-                    <td rowspan="2" class="user-info">
+                    <td rowspan="5" class="user-info">
                         <img src="@Constants.ImageURL/@(Model.Code).jpg" alt="avatar" class="avatar" />
                         <ul>
                             <li class="info">
@@ -52,39 +52,47 @@
                             <i class="fa fa-star"></i>
                         </div>
                     </td>
+                    <td class="rate-description">Unsatisfactory: Performance was consistently below expectations. Poor quality of work, frequently needs rework. Significant improvement is needed.</td>
+                </tr>
+                <tr>
                     <td class="rate-item">
                         <span>Below Average: 2</span>
                         <div class="star-block">
                             <i class="fa fa-star"></i><i class="fa fa-star"></i>
                         </div>
                     </td>
+                    <td class="rate-description">Improvement needed: Performance did not consistently meet expectations. Did not generally contribute extra effort or energy. An improvement plan is needed.</td>
+                </tr>
+                <tr>
                     <td class="rate-item">
                         <span>Sastisfactory: 3</span>
                         <div class="star-block">
                             <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
                         </div>
                     </td>
+                    <td class="rate-description">Meets expectations: Solid performance with a good quality of work, at times possibly exceeding expectations and contributing additional value.</td>
+                </tr>
+                <tr>
+
                     <td class="rate-item">
                         <span>Good: 4</span>
                         <div class="star-block">
                             <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
                         </div>
                     </td>
+                    <td class="rate-description">Exceeds expectations: Significant performance and exceeded expectations. The quality of work overall was excellent and was able to deal with big problems with minimal direction.</td>
+                </tr>
+                <tr>
+
                     <td class="rate-item">
                         <span>Excellent:5</span>
                         <div class="star-block">
                             <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
                         </div>
                     </td>
+                    <td class="rate-description">Exceptional: The most outstanding performance and far exceeded expectations due to exceptionally high quality of work. Made a superior contribution in support team/department objectives.</td>
                 </tr>
-                <tr class="rate-description">                    
-                    <td>Unsatisfactory: Performance was consistently below expectations. Poor quality of work, frequently needs rework. Significant improvement is needed.</td>
-                    <td>Improvement needed: Performance did not consistently meet expectations. Did not generally contribute extra effort or energy. An improvement plan is needed.</td>
-                    <td>Meets expectations: Solid performance with a good quality of work, at times possibly exceeding expectations and contributing additional value.</td>
-                    <td>Exceeds expectations: Significant performance and exceeded expectations. The quality of work overall was excellent and was able to deal with big problems with minimal direction.</td>
-                    <td>Exceptional: The most outstanding performance and far exceeded expectations due to exceptionally high quality of work. Made a superior contribution in support team/department objectives.</td>
-                </tr>
-            </table>      
+            </table>
         </div>
         <div class="nex-panel">
             <div class="panel-header">
@@ -173,24 +181,28 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="text-center text-title" rowspan="2">Evaluator</td>
+                            <td class="text-center text-title" rowspan="@(Model.CanViewEvaluatorResult ? 2 : 1)">Evaluator</td>
                             <td class="text-center text-title">Score</td>
                             <td class="text-center text-score">@(string.IsNullOrWhiteSpace(Model.EvaluatorScore) ? string.Empty : $"{Model.EvaluatorScore} pts")</td>
-                            <td class="comment-cell comment-text" rowspan="2">
+                            <td class="comment-cell comment-text" rowspan="@(Model.CanViewEvaluatorResult ? 2 : 1)">
                                 <p>@Model.EvaluatorComment</p>
                             </td>
                         </tr>
-                        <tr>
-                            <td class="text-center text-title">Result</td>
-                            <td class="text-center text-score">
-                                @if (Model.IsQualifiedByEvaluator.HasValue)
-                                {
-                                    <span class=@(Model.IsQualifiedByEvaluator.Value ? "passed" : "failed" ) }>
-                                        @(Model.IsQualifiedByEvaluator.Value ? "Passed" : "Failed")
-                                    </span>
-                                }
-                            </td>
-                        </tr>
+                        @if (Model.CanViewEvaluatorResult)
+                        {
+                            <tr>
+                                <td class="text-center text-title">Result</td>
+                                <td class="text-center text-score">
+                                    @if (Model.IsQualifiedByEvaluator.HasValue)
+                                    {
+                                        <span class=@(Model.IsQualifiedByEvaluator.Value ? "passed" : "failed" ) }>
+                                            @(Model.IsQualifiedByEvaluator.Value ? "Passed" : "Failed")
+                                        </span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+
                         <tr>
                             <td class="text-center text-title">Reviewer</td>
                             <td class="text-center text-title">Final Result</td>
@@ -213,7 +225,7 @@
                     <tbody>
                         <tr class="group-row">
                             <td colspan="3">
-                                B. Details
+                                B. DETAILS
                             </td>
                         </tr>
                         @foreach (var kpiGroup in Model.Details)

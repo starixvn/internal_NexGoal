@@ -38,5 +38,7 @@
         public IEnumerable<KPIGroupModel> Details { get; set; }
 
         public HRMModel Hrm { get; set; }
+
+        public bool CanViewEvaluatorResult { get; set; }
     }
 }

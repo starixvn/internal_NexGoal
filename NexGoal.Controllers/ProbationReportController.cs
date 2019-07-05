@@ -68,15 +68,14 @@
         [HttpGet]
         public async Task<IActionResult> ExportPdf(int id)
         {
-            // var pdfModel = await probationReportService.ExportPdfAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
-            var model = await probationReportService.GetByEmployeeIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
-            return View("Pdf", model);
-            //if (pdfModel != null)
-            //{
-            //    return File(pdfModel.Content, MimeType.PDF, pdfModel.FileName);
-            //}
+            var pdfModel = await probationReportService.ExportPdfAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
 
-            //  return RedirectToAction("PageNotFound", "Error");
+            if (pdfModel != null)
+            {
+                return File(pdfModel.Content, MimeType.PDF, pdfModel.FileName);
+            }
+
+            return RedirectToAction("PageNotFound", "Error");
         }
     }
 }

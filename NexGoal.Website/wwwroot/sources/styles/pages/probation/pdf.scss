@@ -21,6 +21,7 @@ $fa-font-path: "~font-awesome/fonts";
 
 .info-rate {
     margin-bottom: 12px;
+    width: 100%;
 
     td {
         border: 1px solid #AFB3C0;
@@ -28,7 +29,7 @@ $fa-font-path: "~font-awesome/fonts";
 
     .user-info {
         display: table-cell;
-        width: 300px;
+        width: 230px;
         padding: 20px 10px;
         background: #525E86;
         text-align: center;
@@ -65,15 +66,11 @@ $fa-font-path: "~font-awesome/fonts";
         }
     }
 
-    .rate-information {
-        width: calc(100% - 250px);
-        background: #EAEAEA;
-    }
-
     .rate-item {
         text-align: center;
         background: #EDEDED;
         height: 50px;
+        padding: 10px;
 
         .rate-star {
             padding: 8px;
@@ -91,11 +88,8 @@ $fa-font-path: "~font-awesome/fonts";
 
     .rate-description {
         background: #EDEDED;
-
-        > td {
-            padding: 10px;
-            vertical-align: top;
-        }
+        vertical-align: middle;
+        padding: 10px;
     }
 }
 
