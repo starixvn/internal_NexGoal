@@ -457,6 +457,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Report Detail.
+        /// </summary>
+        public static string ReportDetail {
+            get {
+                return ResourceManager.GetString("ReportDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Review.
         /// </summary>
         public static string Review {

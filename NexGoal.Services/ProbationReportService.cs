@@ -66,6 +66,11 @@
             {
                 probationer.SelfScore = cryptoService.Decrypt(probationer.SelfScore);
                 probationer.EvaluatorScore = cryptoService.Decrypt(probationer.EvaluatorScore);
+
+                if (!probationer.CanViewEvaluatorResult)
+                {
+                    probationer.IsQualifiedByEvaluator = null;
+                }
             }
 
             return result;
@@ -103,7 +108,7 @@
                     worksheet.Cells[currentRow, 8].Value = probationer.SelfComment;
                     worksheet.Cells[currentRow, 9].Value = probationer.EvaluatorScore;
 
-                    if (probationer.IsQualifiedByEvaluator.HasValue)
+                    if (probationer.IsQualifiedByEvaluator.HasValue && probationer.CanViewEvaluatorResult)
                     {
                         var cell = worksheet.Cells[currentRow, 10];
                         cell.Value = probationer.IsQualifiedByEvaluator.Value ? "Passed" : "Failed";
@@ -133,7 +138,7 @@
 
         public async Task<PdfModel> ExportPdfAsync(int employeeId, int actorId)
         {
-            var reportModel = await GetByEmployeeIdAsync(employeeId, actorId).ConfigureAwait(false);
+            var reportModel = await GetPdfData(employeeId, actorId).ConfigureAwait(false);
 
             if (reportModel != null)
             {
@@ -184,7 +189,40 @@
             return pdf;
         }
 
-        public async Task<ProbationReportPdfModel> GetByEmployeeIdAsync(int employeeId, int actorId)
+        public async Task<Tuple<ProbationReportModel, IEnumerable<KPIGroupModel>>> GetByEmployeeIdAsync(int employeeId, int actorId)
+        {
+            var result = await baseService.FetchMultipleAsync<ProbationReportModel, KPIGroupModel, EncryptedProbationEvaluationDetailModel>(
+                new GetProbationReportByEmployeeIdCriteria { EmployeeId = employeeId, ActorId = actorId }).ConfigureAwait(false);
+
+            var probationer = result.Item1.FirstOrDefault();
+            var groups = result.Item2;
+            var details = result.Item3;
+
+            if (probationer != null)
+            {
+                foreach (var group in groups)
+                {
+                    group.Details = details.Where(x => x.KPIGroupId == group.KPIGroupId).Select(x => new ProbationEvaluationDetailModel
+                    {
+                        KPIId = x.KPIId,
+                        KPIName = x.KPIName,
+                        KPIGroupId = x.KPIGroupId,
+                        EmployeeId = x.EmployeeId,
+                        SelfPoint = string.IsNullOrWhiteSpace(x.SelfPoint) ? (decimal?)null : decimal.Parse(cryptoService.Decrypt(x.SelfPoint)),
+                        EvaluatorPoint = string.IsNullOrWhiteSpace(x.EvaluatorPoint) ? (decimal?)null : decimal.Parse(cryptoService.Decrypt(x.EvaluatorPoint))
+                    });
+                }
+
+                probationer.SelfScore = cryptoService.Decrypt(probationer.SelfScore);
+                probationer.EvaluatorScore = cryptoService.Decrypt(probationer.EvaluatorScore);
+
+                return new Tuple<ProbationReportModel, IEnumerable<KPIGroupModel>>(probationer, groups);
+            }
+
+            return null;
+        }
+
+        private async Task<ProbationReportPdfModel> GetPdfData(int employeeId, int actorId)
         {
             var result = await baseService.FetchMultipleAsync<ProbationReportPdfModel, KPIGroupModel, EncryptedProbationEvaluationDetailModel>(
                 new GetProbationReportByEmployeeIdCriteria { EmployeeId = employeeId, ActorId = actorId }).ConfigureAwait(false);

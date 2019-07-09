@@ -18,7 +18,7 @@ export default class Table extends Component {
 
     renderRow = (probationer, index) => {
         const evaluatorResult = probationer.isQualifiedByEvaluator !== null ? probationer.isQualifiedByEvaluator ? 'Passed' : 'Failed' : '-';
-        const finalResult = probationer.isQualified !== null ? probationer.isQualifiedByEvaluator ? 'Passed' : 'Failed' : '-';
+        const finalResult = probationer.isQualified !== null ? probationer.isQualified ? 'Passed' : 'Failed' : '-';
         return (
             <tr key={probationer.employeeId}>
                 <td className="text-center">{index + 1}</td>
@@ -34,7 +34,7 @@ export default class Table extends Component {
                 <td className="text-center">{probationer.evaluatorScore || '-'}</td>
                 <td className="text-center"><span className={evaluatorResult.toLowerCase()} >{evaluatorResult}</span></td>
                 <td className="text-center">
-                    {probationer.evaluatorComment ? <span className="icon-search" data-comment={probationer.reviewerComment} onClick={this.handleShowComment} /> : '-'}
+                    {probationer.evaluatorComment ? <span className="icon-search" data-comment={probationer.evaluatorComment} onClick={this.handleShowComment} /> : '-'}
                 </td>
                 <td className="text-center">
                     <span className={finalResult.toLowerCase()}>{finalResult}</span>
@@ -43,7 +43,7 @@ export default class Table extends Component {
                     {probationer.reviewerComment ? <span className="icon-search" data-comment={probationer.reviewerComment} onClick={this.handleShowComment} /> : '-'}
                 </td>
                 <td className="text-center">
-                    <a href={resolveClientUrl(`ProbationReport/ViewDetail/${probationer.employeeId}`)} >
+                    <a href={resolveClientUrl(`ProbationReport/Detail/${probationer.employeeId}`)} >
                         <span className="icon-search" />
                     </a>
                     <a href={resolveClientUrl(`ProbationReport/ExportPdf/${probationer.employeeId}`)} >

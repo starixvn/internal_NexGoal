@@ -32,6 +32,7 @@ module.exports = {
         [`${styleDistPath}/probation-evaluation`]: `${styleSourcePath}/pages/probation/evaluation.scss`,
         [`${styleDistPath}/probation-report`]: `${styleSourcePath}/pages/report/probation.scss`,
         [`${styleDistPath}/probation-report-pdf`]: `${styleSourcePath}/pages/probation/pdf.scss`,
+        [`${styleDistPath}/probation-report-detail`]: `${styleSourcePath}/pages/probation/probation-report-detail.scss`,
         //
         [`${jsDistPath}/main`]: './sources/js/main.js',
         [`${jsDistPath}/search-member`]: './sources/js/SearchMember.jsx',
@@ -60,5 +61,6 @@ module.exports = {
         [`${jsDistPath}/probation-setting`]: `${jsSourcePath}/probation/setting/index.jsx`,
         [`${jsDistPath}/probation-evaluation`]: `${jsSourcePath}/probation/evaluation/index.jsx`,
         [`${jsDistPath}/probation-report`]: `${jsSourcePath}/report/probation/index.jsx`,
+        [`${jsDistPath}/probation-report-detail`]: `${jsSourcePath}/report/probation/Detail.jsx`,
     }
 };

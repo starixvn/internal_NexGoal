@@ -19,6 +19,7 @@
 @import "hrm";
 @import "rating";
 @import "evaluation-detail";
+@import "result-table";
 
 .main-content {
     padding: 16px;
@@ -124,63 +125,13 @@
     }
 }
 
-.result-table {
-    .text-title {
-        width: 130px;
-        background: #B8BECF;
-        font-weight: bold;
-        font-size: 14px;
-    }
-
-    .text-score {
-        min-width: 100px;
-        background: #fff !important;
-        font-weight: bold;
-    }
-
-    .comment-cell {
-        font-size: 14px;
-
-        &:hover {
-            background: #ECECEC !important;
-        }
-
-        &.input-comment {
-            padding: 6px 6px 0 6px !important;
-            background: #fff;
-        }
-
-        &.comment-text {
-            padding: 10px !important;
-            background: #F7F8FD;
-        }
-
-        > textarea {
-            min-height: 50px;
-            height: auto;
-            border: 1px solid #C4C4C4;
-            border-radius: 2px;
-        }
-    }
-
-    tr:hover {
-        .text-score, .comment-cell {
-            background: #fff !important;
-        }
-
-        > .text-title {
-            background: #B8BECF !important;
-        }
-
-        > .comment-text {
-            background: #F7F8FD !important;
-        }
-    }
-}
-
 .quality-table {
     .comment-cell {
         background: #ECECEC !important;
+
+        p {
+            white-space: pre-wrap;
+        }
     }
 
     .comment-cell textarea[readonly] {

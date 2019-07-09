@@ -1,0 +1,20 @@
+﻿@using NexGoal.Resources
+@using NexGoal.Core.Constants
+@model int
+
+@{
+    ViewData["Title"] = ViewLang.ReportDetail;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/dist/styles/probation-report-detail.css" asp-append-version="true" />
+}
+
+<input type="hidden" value="@Model" id="employee-id" />
+<input type="hidden" value="@Constants.ImageURL" id="image-url" />
+
+<div id="probation-report-detail-wrapper"></div>
+
+@section Scripts {
+    <script src="~/dist/js/probation-report-detail.js" asp-append-version="true"></script>
+}

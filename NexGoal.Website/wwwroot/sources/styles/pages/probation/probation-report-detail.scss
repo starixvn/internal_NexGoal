@@ -1,0 +1,27 @@
+﻿@import "../../abstracts/variables";
+@import "../../abstracts/mixins";
+@import "../../components/tables";
+@import "../../components/buttons";
+@import "nex-panel";
+@import "evaluation-detail";
+@import "result-table";
+
+.main-content {
+    padding: 16px;
+}
+
+.passed {
+    color: #376E00;
+    font-weight: bold;
+}
+
+.failed {
+    color: #E22C04;
+    font-weight: bold;
+}
+
+.comment-cell {
+    p {
+        white-space: pre-wrap
+    }
+}

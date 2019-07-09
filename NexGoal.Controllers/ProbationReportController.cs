@@ -26,6 +26,12 @@
         }
 
         [HttpGet]
+        public IActionResult Detail(int id)
+        {
+            return View(id);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> GetGroupsAndEmployees()
         {
             var result = await probationReportService.GetGroupsAndEmployeesAsync(sessionService.EmployeeId).ConfigureAwait(false);
@@ -47,6 +53,18 @@
             }).ConfigureAwait(false);
 
             return Json(result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetByEmployeeId(int id)
+        {
+            var result = await probationReportService.GetByEmployeeIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
+            if (result != null)
+            {
+                return Json(new { probationer = result.Item1, details = result.Item2 });
+            }
+
+            return NotFound();
         }
 
         [HttpGet]

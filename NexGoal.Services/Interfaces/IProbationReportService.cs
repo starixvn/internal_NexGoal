@@ -16,6 +16,6 @@
 
         Task<PdfModel> ExportPdfAsync(int employeeId, int actorId);
 
-        Task<ProbationReportPdfModel> GetByEmployeeIdAsync(int employeeId, int actorId);
+        Task<Tuple<ProbationReportModel, IEnumerable<KPIGroupModel>>> GetByEmployeeIdAsync(int employeeId, int actorId);
     }
 }
