@@ -1,10 +1,9 @@
-﻿import React, { Component, Fragment } from 'react';
+﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 import axios from 'axios';
 import moment from 'moment';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import getResource from '../../../resourceHelper';
 import { PerformanceProcess } from '../../../constants';
 import Timeline from '../../member/timeline/index';
 
@@ -28,7 +27,7 @@ export default class Evaluation extends Component {
         };
 
         this.probationerInfo = {
-            employeeId: parseInt(document.getElementById('probationer-id').value),
+            employeeId: parseInt(document.getElementById('probationer-id').value, 10),
             nickName: document.getElementById('probationer-nickName').value,
             fullName: document.getElementById('probationer-fullName').value,
             jobTitle: document.getElementById('probationer-jobTitle').value,

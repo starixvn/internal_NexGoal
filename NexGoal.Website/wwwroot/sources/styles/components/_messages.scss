@@ -42,11 +42,6 @@
     @extend %message-special;
     color: $msg-warning;
 
-    &:has-border {
-        border-color: $msg-warning-border;
-        background-color: $msg-warning-bg;
-    }
-
     &.-no-border:before {
         top: -2px;
         left: 0;
