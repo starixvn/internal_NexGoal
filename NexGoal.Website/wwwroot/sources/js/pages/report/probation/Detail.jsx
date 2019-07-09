@@ -2,11 +2,8 @@
 import ReactDOM from 'react-dom';
 
 import axios from 'axios';
-import moment from 'moment';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
-import { PerformanceProcess } from '../../../constants';
-
 import NexPanel from '../../../shared/components/NexPanel';
 
 export default class Detail extends Component {
