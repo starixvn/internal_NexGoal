@@ -39,6 +39,10 @@
 
         public HRMModel Hrm { get; set; }
 
+        public string EvaluatorNickName { get; set; }
+
+        public string ReviewerNickName { get; set; }
+
         public bool CanViewEvaluatorResult { get; set; }
     }
 }

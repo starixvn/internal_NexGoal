@@ -152,7 +152,7 @@ export default class MyProbation extends Component {
                             </tr>
                             <tr>
                                 <td colSpan={2} className="comment-cell">
-                                    <textarea className={`${touched.comment && errors.comment && 'input-validation-error'}`}
+                                    <textarea className={touched.comment && errors.comment && 'input-validation-error'}
                                         value={values.comment} onChange={handleChange} name="comment" rows="7" readOnly={!this.state.probationer.canEdit} />
                                 </td>
                             </tr>

@@ -88,14 +88,17 @@ export default class Detail extends Component {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td className="text-center text-title" rowSpan={this.state.probationer.isQualifiedByEvaluator !== null ? 2 : 1}>{getResource('Evaluator')}</td>
+                                        <td className="text-center text-title" rowSpan={this.state.probationer.canViewEvaluatorResult ? 2 : 1}>
+                                            {getResource('Evaluator')}
+                                            <div>({this.state.probationer.evaluatorNickName})</div>
+                                        </td>
                                         <td className="text-center text-title">{getResource('Score')}</td>
                                         <td className="text-center text-score">{this.state.probationer.evaluatorScore && `${this.state.probationer.evaluatorScore} pts`}</td>
-                                        <td className="comment-cell comment-text" rowSpan={this.state.probationer.isQualifiedByEvaluator !== null ? 2 : 1}>
+                                        <td className="comment-cell comment-text" rowSpan={this.state.probationer.canViewEvaluatorResult ? 2 : 1}>
                                             <p>{this.state.probationer.evaluatorComment}</p>
                                         </td>
                                     </tr>
-                                    {this.state.probationer.isQualifiedByEvaluator !== null &&
+                                    {this.state.probationer.canViewEvaluatorResult &&
                                         <tr>
                                             <td className="text-center text-title">{getResource('Result')}</td>
                                             <td className="text-center text-score">
@@ -109,7 +112,10 @@ export default class Detail extends Component {
                                         </tr>
                                     }
                                     <tr>
-                                        <td className="text-center text-title">{getResource('Reviewer')}</td>
+                                        <td className="text-center text-title">
+                                            {getResource('Reviewer')}
+                                            <div>({this.state.probationer.reviewerNickName})</div>
+                                        </td>
                                         <td className="text-center text-title">{getResource('FinalResult')}</td>
                                         <td className="text-center text-score">
                                             {this.state.probationer.isQualified !== null ?

@@ -20,7 +20,6 @@ const ProbationResultOptions = [
 export default class ProbationReport extends Component {
     constructor(props) {
         super(props);
-        debugger;
         const roleIds = document.getElementById('roles').value.split(',').map(x => parseInt(x));
         this.isManagement = roleIds.some(x => x === 2 || x === 3);
         this.isEvaluator = roleIds.some(x => x === 4);

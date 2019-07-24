@@ -181,7 +181,10 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="text-center text-title" rowspan="@(Model.CanViewEvaluatorResult ? 2 : 1)">Evaluator</td>
+                            <td class="text-center text-title" rowspan="@(Model.CanViewEvaluatorResult ? 2 : 1)">
+                                Evaluator
+                                <div>(@Model.EvaluatorNickName)</div>
+                            </td>
                             <td class="text-center text-title">Score</td>
                             <td class="text-center text-score">@(string.IsNullOrWhiteSpace(Model.EvaluatorScore) ? string.Empty : $"{Model.EvaluatorScore} pts")</td>
                             <td class="comment-cell comment-text" rowspan="@(Model.CanViewEvaluatorResult ? 2 : 1)">
@@ -204,7 +207,10 @@
                         }
 
                         <tr>
-                            <td class="text-center text-title">Reviewer</td>
+                            <td class="text-center text-title">
+                                Reviewer
+                                <div>(@Model.ReviewerNickName)</div>
+                            </td>
                             <td class="text-center text-title">Final Result</td>
                             <td class="text-score text-center">
                                 @if (Model.IsQualified.HasValue)

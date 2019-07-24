@@ -92,7 +92,10 @@ export default class ReviewerForm extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td className="text-center text-title" rowSpan="2">{getResource('Evaluator')}</td>
+                                <td className="text-center text-title" rowSpan="2">
+                                    {getResource('Evaluator')}
+                                    <div>({this.props.probationer.settings.find(x => x.processId === PerformanceProcess.Evaluator).evaluatorNickName})</div>
+                                </td>
                                 <td className="text-center text-title">{getResource('Score')}</td>
                                 <td className="text-center text-score">{this.props.probationer.evaluatorScore && `${this.props.probationer.evaluatorScore} pts`}</td>
                                 <td className="comment-cell comment-text" rowSpan="2">
@@ -108,7 +111,10 @@ export default class ReviewerForm extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td className="text-center text-title">{getResource('Reviewer')}</td>
+                                <td className="text-center text-title">
+                                    {getResource('Reviewer')}
+                                    <div>({this.props.probationer.settings.find(x => x.processId === PerformanceProcess.Reviewer).evaluatorNickName})</div>
+                                </td>
                                 <td className="text-center text-title">{getResource('FinalResult')}</td>
                                 <td className="text-score">
                                     {this.props.probationer.canEdit &&
@@ -125,7 +131,7 @@ export default class ReviewerForm extends Component {
                                 </td>
                                 <td className="comment-cell input-comment">
                                     {this.props.probationer.canEdit &&
-                                        <textarea className={`${touched.comment && errors.comment && 'input-validation-error'}`}
+                                        <textarea className={touched.comment && errors.comment && 'input-validation-error'}
                                             value={values.comment} onChange={handleChange} name="comment" rows="5"
                                         />
                                     }
@@ -206,7 +212,7 @@ export default class ReviewerForm extends Component {
                 <Formik
                     initialValues={{
                         comment: this.props.probationer.reviewerComment,
-                        isQualified: this.props.probationer.isQualified ? ProbationResultOptions.find(x => x.value === this.props.probationer.isQualified) : null
+                        isQualified: this.props.probationer.isQualified !== null ? ProbationResultOptions.find(x => x.value === this.props.probationer.isQualified) : null
                     }}
                     render={this.renderForm}
                     validationSchema={this.schema}

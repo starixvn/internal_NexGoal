@@ -32,6 +32,12 @@
 
         public string ReviewerComment { get; set; }
 
+        public string EvaluatorNickName { get; set; }
+
+        public string ReviewerNickName { get; set; }
+
         public bool? IsQualifiedByEvaluator { get; set; }
+
+        public bool CanViewEvaluatorResult { get; set; }
     }
 }

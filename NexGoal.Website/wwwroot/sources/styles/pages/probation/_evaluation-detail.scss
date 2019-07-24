@@ -3,14 +3,14 @@
 }
 
 .icon-info {
-    margin-left: 5px;    
+    margin-left: 5px;
 }
 
 .button-group {
     margin-top: 8px;
 
     .btn-cancel {
-        margin-right: 16px;       
+        margin-right: 16px;
     }
 }
 
@@ -39,7 +39,6 @@
     &:hover td {
         background: #E3E6EE !important;
     }
-
 }
 
 .comment-title {
@@ -60,6 +59,11 @@
         width: 100%;
         border: 0;
         resize: vertical;
+
+        &.input-validation-error {
+            border-width: 1px;
+            border-style: solid;
+        }
     }
 }
 

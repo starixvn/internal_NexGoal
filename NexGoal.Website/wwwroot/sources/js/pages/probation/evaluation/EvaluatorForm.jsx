@@ -138,7 +138,7 @@ export default class EvaluatorForm extends Component {
                             </tr>
                             <tr>
                                 <td colSpan="3" className="comment-cell">
-                                    <textarea className={`${touched.comment && errors.comment && 'input-validation-error'}`} rows="7"
+                                    <textarea className={touched.comment && errors.comment && 'input-validation-error'} rows="7"
                                         value={values.comment} onChange={handleChange} name="comment" readOnly={!this.props.probationer.canEdit}
                                     />
                                 </td>
