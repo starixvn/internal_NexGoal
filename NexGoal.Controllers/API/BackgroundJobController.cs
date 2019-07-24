@@ -50,13 +50,13 @@
         {
             try
             {
-                probationService.SendMail();
-                probationService.SendNotification();
                 Task.Run(() =>
                 {
-                    probationService.SendSkypeMessage();
                     probationService.AddNewEmployeeToProbation();
+                    probationService.SendSkypeMessage();
                 });
+                probationService.SendMail();
+                probationService.SendNotification();
             }
             catch (Exception ex)
             {
