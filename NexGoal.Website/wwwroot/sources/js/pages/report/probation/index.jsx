@@ -20,12 +20,17 @@ const ProbationResultOptions = [
 export default class ProbationReport extends Component {
     constructor(props) {
         super(props);
+        debugger;
+        const roleIds = document.getElementById('roles').value.split(',').map(x => parseInt(x));
+        this.isManagement = roleIds.some(x => x === 2 || x === 3);
+        this.isEvaluator = roleIds.some(x => x === 4);
+        this.isReviewer = roleIds.some(x => x === 5);
 
         this.state = {
             showModal: false,
             filter: {
-                fromDate: moment().startOf('month'),
-                toDate: moment().endOf('month'),
+                fromDate: this.isManagement || this.isEvaluator || this.isReviewer ? moment().startOf('month') : null,
+                toDate: this.isManagement || this.isEvaluator || this.isReviewer ? moment().endOf('month') : null,
                 groups: [],
                 employees: [],
                 isQualifiedByEvaluator: ProbationResultOptions[0],
@@ -81,8 +86,8 @@ export default class ProbationReport extends Component {
 
         axios.get(resolveClientUrl('ProbationReport/Get'), {
             params: {
-                fromDate: filter.fromDate.format('YYYY-MM-DD'),
-                toDate: filter.toDate.format('YYYY-MM-DD'),
+                fromDate: filter.fromDate ? filter.fromDate.format('YYYY-MM-DD') : null,
+                toDate: filter.toDate ? filter.toDate.format('YYYY-MM-DD') : null,
                 employeeIds: filter.employees.map(x => x.value).toString(),
                 isQualifiedByEvaluator: filter.isQualifiedByEvaluator.value,
                 isQualified: filter.isQualified.value
@@ -134,23 +139,27 @@ export default class ProbationReport extends Component {
                     <li className="current">{getResource('ProbationReport')}</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    <SearchForm filter={this.state.filter}
-                        groupOptions={this.state.groupOptions}
-                        employeeOptions={this.state.employeeOptions}
-                        onFilterChange={this.handleFilterChange}
-                        probationResultOptions={ProbationResultOptions}
-                        exportUrl={`/ProbationReport/ExportExcel?${stringify({
-                            fromDate: filter.fromDate.format('YYYY-MM-DD'),
-                            toDate: filter.toDate.format('YYYY-MM-DD'),
-                            employeeIds: filter.employees.map(x => x.value).toString(),
-                            isQualifiedByEvaluator: filter.isQualifiedByEvaluator.value,
-                            isQualified: filter.isQualified.value
-                        })}`}
-                        onSubmit={this.getProbationers}
-                    />
+                    {(this.isManagement || this.isEvaluator || this.isReviewer) &&
+                        <SearchForm filter={this.state.filter}
+                            groupOptions={this.state.groupOptions}
+                            employeeOptions={this.state.employeeOptions}
+                            onFilterChange={this.handleFilterChange}
+                            probationResultOptions={ProbationResultOptions}
+                            exportUrl={`/ProbationReport/ExportExcel?${stringify({
+                                fromDate: filter.fromDate.format('YYYY-MM-DD'),
+                                toDate: filter.toDate.format('YYYY-MM-DD'),
+                                employeeIds: filter.employees.map(x => x.value).toString(),
+                                isQualifiedByEvaluator: filter.isQualifiedByEvaluator.value,
+                                isQualified: filter.isQualified.value
+                            })}`}
+                            onSubmit={this.getProbationers}
+                            showTeam={this.isManagement || this.isReviewer}
+                        />
+                    }
 
                     <Table tableData={this.state.tableData}
                         onShowComment={this.handleShowCommentModal}
+
                     />
                 </div>
                 <CommentModal showModal={this.state.commentModal.show} content={this.state.commentModal.content}

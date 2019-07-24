@@ -7,22 +7,28 @@
     using NexGoal.Services;
     using NexGoal.Web.Core.Filters;
     using NexGoal.Web.Core.Services;
+    using System.Linq;
     using System.Threading.Tasks;
 
     [NexGoalPermission(FunctionKey = FunctionKey.ProbationReport, Policy = Policy.Read)]
     public class ProbationReportController : BaseController
     {
         private readonly IProbationReportService probationReportService;
+        private readonly IEmployeeService employeeService;
 
-        public ProbationReportController(IProbationReportService probationReportService, ISessionService sessionService) : base(sessionService)
+        public ProbationReportController(IProbationReportService probationReportService,
+            IEmployeeService employeeService,
+            ISessionService sessionService) : base(sessionService)
         {
             this.probationReportService = probationReportService;
+            this.employeeService = employeeService;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var roles = await employeeService.GetRolesByEmployeeIdAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            return View(roles.Where(x => x.HasRole).Select(x => x.RoleId));
         }
 
         [HttpGet]
@@ -61,7 +67,7 @@
             var result = await probationReportService.GetByEmployeeIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
             if (result != null)
             {
-                return Json(new { probationer = result.Item1, details = result.Item2 });
+                return Json(new { probationer = result.Item1, details = result.Item2, hrm = result.Item3 });
             }
 
             return NotFound();

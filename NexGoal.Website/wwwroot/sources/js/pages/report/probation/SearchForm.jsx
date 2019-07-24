@@ -66,17 +66,20 @@ export default class SearchForm extends Component {
                         />
                     </div>
                 </FormGroup>
-                <FormGroup>
-                    <ControlLabel>{getResource('Team')}</ControlLabel>
-                    <div className="control-content team-width">
-                        <MultiSelect name="groups"
-                            className="react-select-container" classNamePrefix="react-select"
-                            value={filter.groups}
-                            options={this.props.groupOptions}
-                            onChange={this.handleGroupChange}
-                        />
-                    </div>
-                </FormGroup>
+                {this.props.showTeam &&
+                    <FormGroup>
+                        <ControlLabel>{getResource('Team')}</ControlLabel>
+                        <div className="control-content team-width">
+                            <MultiSelect name="groups"
+                                className="react-select-container" classNamePrefix="react-select"
+                                value={filter.groups}
+                                options={this.props.groupOptions}
+                                onChange={this.handleGroupChange}
+                            />
+                        </div>
+                    </FormGroup>
+                }
+
                 <FormGroup>
                     <ControlLabel>{getResource('Employee')}</ControlLabel>
                     <div className="control-content employee-width">

@@ -1,10 +1,12 @@
 ﻿import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
-
+import moment from 'moment';
 import axios from 'axios';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import NexPanel from '../../../shared/components/NexPanel';
+import Description from '../../probation/Description';
+import HRM from '../../probation/HRM';
 
 export default class Detail extends Component {
     constructor(props) {
@@ -13,10 +15,8 @@ export default class Detail extends Component {
         this.state = {
             employeeId: document.getElementById('employee-id').value,
             probationer: null,
-            evaluationDetails: []
+            evaluationDetails: [],
         };
-
-        this.imageUrl = document.getElementById('image-url').value;
     }
 
     componentDidMount() {
@@ -30,9 +30,14 @@ export default class Detail extends Component {
 
         Promise.all(promises)
             .then(([response]) => {
+                const probationer = response.data.probationer;
+                probationer.joinedDate = moment(probationer.joinedDate);
+                probationer.avatar = document.getElementById('image-url').value + '/' + response.data.probationer.code + '.jpg';
+
                 this.setState({
                     evaluationDetails: response.data.details,
-                    probationer: response.data.probationer,
+                    probationer: probationer,
+                    hrm: response.data.hrm
                 });
             }).catch(axiosError);
     }
@@ -61,6 +66,13 @@ export default class Detail extends Component {
             return (
                 <div className="row">
                     <div className="main-content">
+                        <NexPanel title="PERFORMANCE REVIEW: SKILLS AND ABILITIE">
+                            <Description employeeInfo={this.state.probationer} />
+                        </NexPanel>
+
+                        <NexPanel title="HRM System" enable={false}>
+                            <HRM hrm={this.state.hrm} />
+                        </NexPanel>
                         <NexPanel title="Performance Result">
                             <table className="table table-bordered table-striped result-table">
                                 <tbody>
@@ -76,14 +88,14 @@ export default class Detail extends Component {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td className="text-center text-title" rowSpan={this.state.probationer.canViewEvaluatorResult ? 2 : 1}>{getResource('Evaluator')}</td>
+                                        <td className="text-center text-title" rowSpan={this.state.probationer.isQualifiedByEvaluator !== null ? 2 : 1}>{getResource('Evaluator')}</td>
                                         <td className="text-center text-title">{getResource('Score')}</td>
                                         <td className="text-center text-score">{this.state.probationer.evaluatorScore && `${this.state.probationer.evaluatorScore} pts`}</td>
-                                        <td className="comment-cell comment-text" rowSpan={this.state.probationer.canViewEvaluatorResult ? 2 : 1}>
+                                        <td className="comment-cell comment-text" rowSpan={this.state.probationer.isQualifiedByEvaluator !== null ? 2 : 1}>
                                             <p>{this.state.probationer.evaluatorComment}</p>
                                         </td>
                                     </tr>
-                                    {this.state.probationer.canViewEvaluatorResult &&
+                                    {this.state.probationer.isQualifiedByEvaluator !== null &&
                                         <tr>
                                             <td className="text-center text-title">{getResource('Result')}</td>
                                             <td className="text-center text-score">
@@ -138,12 +150,14 @@ export default class Detail extends Component {
                                 </tbody>
                             </table>
                         </NexPanel>
+
+                        <a className="btn btn-primary" href={resolveClientUrl('ProbationReport/Index')}>Back</a>
                     </div>
                 </div>
             );
         }
 
-        return <Fragment />
+        return <Fragment />;
     }
 }
 

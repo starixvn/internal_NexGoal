@@ -66,11 +66,6 @@
             {
                 probationer.SelfScore = cryptoService.Decrypt(probationer.SelfScore);
                 probationer.EvaluatorScore = cryptoService.Decrypt(probationer.EvaluatorScore);
-
-                if (!probationer.CanViewEvaluatorResult)
-                {
-                    probationer.IsQualifiedByEvaluator = null;
-                }
             }
 
             return result;
@@ -108,7 +103,7 @@
                     worksheet.Cells[currentRow, 8].Value = probationer.SelfComment;
                     worksheet.Cells[currentRow, 9].Value = probationer.EvaluatorScore;
 
-                    if (probationer.IsQualifiedByEvaluator.HasValue && probationer.CanViewEvaluatorResult)
+                    if (probationer.IsQualifiedByEvaluator.HasValue)
                     {
                         var cell = worksheet.Cells[currentRow, 10];
                         cell.Value = probationer.IsQualifiedByEvaluator.Value ? "Passed" : "Failed";
@@ -189,7 +184,7 @@
             return pdf;
         }
 
-        public async Task<Tuple<ProbationReportModel, IEnumerable<KPIGroupModel>>> GetByEmployeeIdAsync(int employeeId, int actorId)
+        public async Task<Tuple<ProbationReportModel, IEnumerable<KPIGroupModel>, HRMModel>> GetByEmployeeIdAsync(int employeeId, int actorId)
         {
             var result = await baseService.FetchMultipleAsync<ProbationReportModel, KPIGroupModel, EncryptedProbationEvaluationDetailModel>(
                 new GetProbationReportByEmployeeIdCriteria { EmployeeId = employeeId, ActorId = actorId }).ConfigureAwait(false);
@@ -215,8 +210,8 @@
 
                 probationer.SelfScore = cryptoService.Decrypt(probationer.SelfScore);
                 probationer.EvaluatorScore = cryptoService.Decrypt(probationer.EvaluatorScore);
-
-                return new Tuple<ProbationReportModel, IEnumerable<KPIGroupModel>>(probationer, groups);
+                var hrm = await probationRepository.GetHRM(new GetHRMCriteria { EmployeeId = employeeId }).ConfigureAwait(false);
+                return new Tuple<ProbationReportModel, IEnumerable<KPIGroupModel>, HRMModel>(probationer, groups, hrm);
             }
 
             return null;

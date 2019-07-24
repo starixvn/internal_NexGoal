@@ -122,7 +122,7 @@ export default class Evaluation extends Component {
                                 <ProbationProcess processes={this.state.probationer.settings} />
                             </NexPanel>
 
-                            <NexPanel title="HRM System">
+                            <NexPanel title="HRM System" enable={false}>
                                 <HRM hrm={this.state.hrm} />
                             </NexPanel>
                             {this.state.processId === PerformanceProcess.Evaluator &&

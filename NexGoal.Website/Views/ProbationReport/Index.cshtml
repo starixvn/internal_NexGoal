@@ -1,5 +1,7 @@
 ﻿@using NexGoal.Resources
 
+@model IEnumerable<int>
+
 @{
     ViewData["Title"] = ViewLang.ProbationReport;
 }
@@ -9,6 +11,7 @@
 }
 
 <div id="probation-report-wrapper"></div>
+<input id="roles" type="hidden" value="@string.Join(',', Model)" />
 
 @section Scripts {
     <script src="~/dist/js/probation-report.js" asp-append-version="true"></script>

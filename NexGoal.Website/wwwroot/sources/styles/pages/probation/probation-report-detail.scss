@@ -2,9 +2,13 @@
 @import "../../abstracts/mixins";
 @import "../../components/tables";
 @import "../../components/buttons";
+@import "../../layouts/employee-info";
+
 @import "nex-panel";
 @import "evaluation-detail";
 @import "result-table";
+@import "hrm";
+@import "rate-info";
 
 .main-content {
     padding: 16px;
