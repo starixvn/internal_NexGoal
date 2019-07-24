@@ -14,6 +14,28 @@
     }
 }
 
+.label-status {
+    display: inline-block;
+    margin-top: 3px;
+    color: #fff;
+    padding: 1px 20px;
+    border-radius: 40px;
+    font-weight: 600;
+}
+
+.label-completed {
+    background: #536CB8;
+}
+
+.label-inprogress {
+    background: #F4783D;
+}
+
+.label-notready {
+    background: #5BA277;
+}
+
+
 .score-badge {
     padding: 0 15px;
     display: inline-block;

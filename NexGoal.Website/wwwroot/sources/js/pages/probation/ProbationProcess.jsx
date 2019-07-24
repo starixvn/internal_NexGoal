@@ -9,8 +9,8 @@ export default class ProbationProcess extends PureComponent {
 
     renderEvaluator = process => {
         return (
-            <td key={process.processId} className="text-center">
-                {`${process.process}: ${process.evaluatorNickName}`}
+            <td key={process.processId} className="text-center ">
+                <strong>{`${process.process}: ${process.evaluatorNickName}`}</strong>
             </td>
         );
     }
@@ -21,23 +21,23 @@ export default class ProbationProcess extends PureComponent {
 
         return (
             <td key={process.processId} className="text-center">
-                <div>{`${process.fromDate.format(DateFormat)} - ${process.toDate.format(DateFormat)}`}</div>
+                <div><strong>{`${process.fromDate.format(DateFormat)} - ${process.toDate.format(DateFormat)}`}</strong></div>
                 {
                     status === 'end-process' &&
                     <div>
-                        <span>{getResource('Completed')}</span>
+                        <span className="label-status label-completed">{getResource('Completed')}</span>
                     </div>
                 }
                 {
                     status === 'in-process' &&
                     <div>
-                        <span>{getResource('InProgress')}</span>
+                        <span className="label-status label-inprogress">{getResource('InProgress')}</span>
                     </div>
                 }
                 {
                     status === 'open' &&
                     <div>
-                        <span>{getResource('NotReady')}</span>
+                        <span className="label-status label-notready">{getResource('NotReady')}</span>
                     </div>
                 }
             </td>
@@ -51,7 +51,7 @@ export default class ProbationProcess extends PureComponent {
                     <tr>
                         <td colSpan={3} className="title">{getResource('EvaluationProcess')}</td>
                     </tr>
-                    <tr>
+                    <tr className="group-row">
                         {this.props.processes.map(this.renderEvaluator)}
                     </tr>
                     <tr>
