@@ -203,7 +203,7 @@ export default class EvaluatorForm extends Component {
                 initialValues={{
                     comment: this.props.probationer.evaluatorComment,
                     evaluations: this.props.evaluationDetails,
-                    isQualifiedByEvaluator: this.props.probationer.isQualifiedByEvaluator ? ProbationResultOptions.find(x => x.value === this.props.probationer.isQualifiedByEvaluator) : null
+                    isQualifiedByEvaluator: this.props.probationer.isQualifiedByEvaluator !== null ? ProbationResultOptions.find(x => x.value === this.props.probationer.isQualifiedByEvaluator) : null
                 }}
                 render={this.renderForm}
                 validationSchema={this.schema}

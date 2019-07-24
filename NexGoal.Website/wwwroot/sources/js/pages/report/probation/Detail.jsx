@@ -2,11 +2,13 @@
 import ReactDOM from 'react-dom';
 import moment from 'moment';
 import axios from 'axios';
+import { OverlayTrigger } from 'react-bootstrap';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import NexPanel from '../../../shared/components/NexPanel';
 import Description from '../../probation/Description';
 import HRM from '../../probation/HRM';
+import EvaluationDetailTooltip from '../../probation/EvaluationDetailTooltip';
 
 export default class Detail extends Component {
     constructor(props) {
@@ -137,7 +139,10 @@ export default class Detail extends Component {
                                     <tr className="group-row">
                                         <td colSpan="3">
                                             B. DETAILS
-                                    </td>
+                                            <OverlayTrigger placement="bottom" overlay={EvaluationDetailTooltip}>
+                                                <i className="icon-info" />
+                                            </OverlayTrigger>
+                                        </td>
                                     </tr>
                                     {this.state.evaluationDetails.map(this.renderKPIGroup)}
                                     <tr className="score">
@@ -159,7 +164,7 @@ export default class Detail extends Component {
 
                         <a className="btn btn-primary" href={resolveClientUrl('ProbationReport/Index')}>Back</a>
                     </div>
-                </div>
+                </div >
             );
         }
 
