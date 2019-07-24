@@ -125,6 +125,7 @@ window.resource_en_US = {
     'PMAssignment': 'PM Assignment',
     'Probation': 'Probation',
     'ProbationReport': 'Probation Report',
+    'ProbationSetting': 'Probation Setting',
     'ProjectManager': 'Project Manager',
     'ProjectTag': 'Project Tag',
     'PRReport': 'Performance Record Report',
