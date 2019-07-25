@@ -273,6 +273,26 @@
     <Build Include="dbo\Stored Procedures\GroupFlowSetting_GetGroups.sql" />
     <Build Include="dbo\Stored Procedures\PRTracking_Get.sql" />
     <Build Include="dbo\Stored Procedures\PRTracking_GetGroupsAndMembers.sql" />
+    <Build Include="dbo\Stored Procedures\Probation_ConfirmEvaluatorResult.sql" />
+    <Build Include="dbo\Tables\ProbationSetting.sql" />
+    <Build Include="dbo\Tables\ProbationEvaluationDetail.sql" />
+    <Build Include="dbo\Tables\ProbationEvaluation.sql" />
+    <Build Include="dbo\Tables\KPIGroup.sql" />
+    <Build Include="dbo\Tables\KPI.sql" />
+    <Build Include="dbo\Stored Procedures\ProbationReport_GetGroupsAndEmployees.sql" />
+    <Build Include="dbo\Stored Procedures\ProbationReport_GetByEmployeeId.sql" />
+    <Build Include="dbo\Stored Procedures\ProbationReport_Get.sql" />
+    <Build Include="dbo\Stored Procedures\Probation_UpdateSetting.sql" />
+    <Build Include="dbo\Stored Procedures\Probation_UpdateSelfEvaluation.sql" />
+    <Build Include="dbo\Stored Procedures\Probation_UpdateReviewerEvaluation.sql" />
+    <Build Include="dbo\Stored Procedures\Probation_UpdateEvaluatorEvaluation.sql" />
+    <Build Include="dbo\Stored Procedures\Probation_InsertNewEmployees.sql" />
+    <Build Include="dbo\Stored Procedures\Probation_GetProbationersNotInEvaluation.sql" />
+    <Build Include="dbo\Stored Procedures\Probation_GetProbationers.sql" />
+    <Build Include="dbo\Stored Procedures\Probation_GetHRM.sql" />
+    <Build Include="dbo\Stored Procedures\Probation_GetEvaluations.sql" />
+    <Build Include="dbo\Stored Procedures\Probation_GetEvaluationDetail.sql" />
+    <Build Include="dbo\Stored Procedures\Auto_Probation_InsertNewEmployee.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">
