@@ -42,7 +42,7 @@ export default class Table extends Component {
                 <td className="text-center">{probationer.evaluatorScore || '-'}</td>
                 <td className="text-center"><span className={evaluatorResult.toLowerCase()} >{evaluatorResult}</span></td>
                 <td className="text-center">
-                    {probationer.evaluatorComment ? <span className="icon-search" data-comment={probationer.reviewerComment} onClick={this.handleShowComment} /> : '-'}
+                    {probationer.evaluatorComment ? <span className="icon-search" data-comment={probationer.evaluatorComment} onClick={this.handleShowComment} /> : '-'}
                 </td>
                 <td className="text-center">
                     <span className={finalResult.toLowerCase()}>{finalResult}</span>
