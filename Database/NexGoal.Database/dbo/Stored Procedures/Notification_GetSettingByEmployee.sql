@@ -1,10 +1,11 @@
-﻿
-CREATE PROCEDURE [dbo].[Notification_GetSettingByEmployee] @EmployeeId INT
+﻿CREATE PROCEDURE [dbo].[Notification_GetSettingByEmployee] @EmployeeId INT
 AS
 /*
 Created: 20181227@Oliver.Dang
 Task: Get Notification settings
 DB: bodb_NexGoal
+Revision:
+20190725@Elton.Ton: add probation
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -14,6 +15,7 @@ BEGIN
 		,@PA SMALLINT = 2
 		,@Nomination SMALLINT = 3
 		,@PAFocus SMALLINT = 4
+		,@Probation SMALLINT = 5
 		,@EvaluatorProcess SMALLINT = 4
 		,@IsNomitor BIT
 
@@ -46,6 +48,7 @@ BEGIN
 			r.ResourceId IN (
 				@PRCheckIn
 				,@PA
+				,@Probation
 				)
 			OR (
 				@IsNomitor = 1

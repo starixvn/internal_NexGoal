@@ -7,6 +7,7 @@ DB: bodb_NexGoal
 Original: 
 
 Revisions:  
+20190725@Elton.Ton: add IsInProbation
 Param's Explanation:
 */
 BEGIN
@@ -15,9 +16,9 @@ BEGIN
 	SELECT EmployeeId
 		,FullName
 		,NickName
+		,dbo.fnc_CheckIsProbation(EmployeeId) AS IsInProbation
 	FROM dbo.Employee WITH (NOLOCK)
 	WHERE DomainUsername = @DomainUsername
 		AND [Enabled] = 1
 		AND IsDeleted = 0
 END
-

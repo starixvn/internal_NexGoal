@@ -8,19 +8,17 @@ Original:
 
 Revisions:
 Oliver.Dang revised, get skype message settings
+20190725@Elton.Ton: change with new probation function
 Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @Today DATE = GETDATE()
-		,@ProbationDuration SMALLINT = 2 -- month
-		,@RemindDay SMALLINT
-		,@HRRemindDay SMALLINT
 		,@EvaluatorRemindDay SMALLINT
-		,@ReviewerRemindDay SMALLINT
-		,@NotificationType TINYINT = 1
+		,@NotificationType TINYINT = 5
 		,@RemindMode TINYINT = 2
+		,@StartMode TINYINT = 1
 		,@HRRoleId TINYINT = 2
 		-- process
 		,@HRProcessId TINYINT = 1
@@ -34,60 +32,40 @@ BEGIN
 
 	CREATE TABLE #tblProcessSetting (
 		ProcessId TINYINT
+		,NotificationMode TINYINT
 		,EvaluatorId INT
 		,Nickname NVARCHAR(20)
 		,FullName NVARCHAR(50)
 		,Email VARCHAR(50)
 		,ConversationId VARCHAR(255)
+		,StartDate DATE
 		,EndDate DATE
 		,ProbationerNickname NVARCHAR(20)
 		)
 
-	SELECT @RemindDay = CAST(Value AS SMALLINT)
-		,@HRRemindDay = CAST(Value AS SMALLINT) + 2
-		,@EvaluatorRemindDay = CAST(Value AS SMALLINT) - 2
-		,@ReviewerRemindDay = CAST(Value AS SMALLINT) - 4
+	SELECT @EvaluatorRemindDay = CAST(Value AS SMALLINT) - 2
 	FROM dbo.RefResource WITH (NOLOCK)
 	WHERE RefName = 'ProbationRemindDay'
 
 	INSERT INTO #tblProcessSetting (
 		ProcessId
+		,NotificationMode
 		,EvaluatorId
 		,Nickname
 		,FullName
 		,Email
 		,ConversationId
-		,EndDate
-		)
-	SELECT @SelfProcessId
-		,EmployeeId
-		,NickName
-		,FullName
-		,Email
-		,ConversationId
-		,DATEADD(MONTH, @ProbationDuration, JoinedDate) AS EndDate
-	FROM dbo.Employee WITH (NOLOCK)
-	WHERE [Enabled] = 1
-		AND IsDeleted = 0
-		AND DATEADD(DAY, - @RemindDay, DATEADD(MONTH, @ProbationDuration, JoinedDate)) = @Today
-
-	INSERT INTO #tblProcessSetting (
-		ProcessId
-		,EvaluatorId
-		,Nickname
-		,FullName
-		,Email
-		,ConversationId
-		,EndDate
+		,StartDate
 		,ProbationerNickname
 		)
 	SELECT @HRProcessId
+		,@StartMode
 		,hr.EmployeeId
 		,hr.NickName
 		,hr.FullName
 		,hr.Email
 		,hr.ConversationId
-		,DATEADD(MONTH, @ProbationDuration, member.JoinedDate) AS EndDate
+		,member.JoinedDate
 		,member.NickName
 	FROM dbo.Employee AS hr WITH (NOLOCK)
 		,dbo.Employee AS member WITH (NOLOCK)
@@ -95,97 +73,132 @@ BEGIN
 		AND hr.IsDeleted = 0
 		AND member.[Enabled] = 1
 		AND member.IsDeleted = 0
-		AND DATEADD(DAY, - @HRRemindDay, DATEADD(MONTH, @ProbationDuration, member.JoinedDate)) = @Today
+		AND member.JoinedDate = @Today
 		AND EXISTS (
-			SELECT 1
-			FROM dbo.EmployeeRole AS erole WITH (NOLOCK)
-			WHERE hr.EmployeeId = erole.EmployeeId
-				AND erole.RoleId = @HRRoleId
+				SELECT 1
+				FROM dbo.EmployeeRole AS erole WITH (NOLOCK)
+				WHERE hr.EmployeeId = erole.EmployeeId
+					AND erole.RoleId = @HRRoleId
 			)
 
 	INSERT INTO #tblProcessSetting (
 		ProcessId
+		,NotificationMode
 		,EvaluatorId
 		,Nickname
 		,FullName
 		,Email
 		,ConversationId
+		,StartDate
 		,EndDate
-		,ProbationerNickname
 		)
-	SELECT @EvaluatorProcessId
-		,efs.EvaluatorId
-		,evaluator.NickName
-		,evaluator.FullName
-		,evaluator.Email
-		,evaluator.ConversationId
-		,DATEADD(MONTH, @ProbationDuration, member.JoinedDate)
-		,member.NickName
-	FROM dbo.EmployeeFlowSetting AS efs WITH (NOLOCK)
-		INNER JOIN dbo.Employee AS evaluator WITH (NOLOCK) ON efs.EvaluatorId = evaluator.EmployeeId
-		AND evaluator.[Enabled] = 1
-		AND evaluator.IsDeleted = 0
-		INNER JOIN dbo.Employee AS member WITH (NOLOCK) ON efs.EmployeeId = member.EmployeeId
-		AND member.[Enabled] = 1
-		AND member.IsDeleted = 0
-	WHERE (
-			efs.ProcessId = @EvaluatorProcessId
-			AND DATEADD(DAY, - @EvaluatorRemindDay, DATEADD(MONTH, @ProbationDuration, member.JoinedDate)) = @Today
-			)
-		OR (
-			efs.ProcessId = @ReviewerProcessId
-			AND DATEADD(DAY, - @ReviewerRemindDay, DATEADD(MONTH, @ProbationDuration, member.JoinedDate)) = @Today
-			)
+	SELECT @SelfProcessId
+		,@StartMode
+		,e.EmployeeId
+		,e.NickName
+		,e.FullName
+		,e.Email
+		,e.ConversationId
+		,ps.FromDate
+		,ps.ToDate
+	FROM dbo.Employee e WITH (NOLOCK)
+		INNER JOIN dbo.ProbationSetting ps WITH (NOLOCK) ON e.EmployeeId = ps.EmployeeId
+	WHERE [Enabled] = 1
+		AND IsDeleted = 0
+		AND ps.FromDate = @Today
+		AND ps.ProcessId = @SelfProcessId
 
+	
 	INSERT INTO #tblProcessSetting (
 		ProcessId
+		,NotificationMode
 		,EvaluatorId
 		,Nickname
 		,FullName
 		,Email
 		,ConversationId
+		,StartDate
 		,EndDate
 		,ProbationerNickname
 		)
 	SELECT @EvaluatorProcessId
-		,gfs.EvaluatorId
+		,@StartMode
+		,evaluator.EmployeeId
 		,evaluator.NickName
 		,evaluator.FullName
 		,evaluator.Email
 		,evaluator.ConversationId
-		,DATEADD(MONTH, @ProbationDuration, member.JoinedDate)
+		,ps.FromDate
+		,ps.ToDate
 		,member.NickName
-	FROM dbo.GroupFlowSetting AS gfs WITH (NOLOCK)
-		INNER JOIN dbo.Employee AS evaluator WITH (NOLOCK) ON gfs.EvaluatorId = evaluator.EmployeeId
-		AND evaluator.[Enabled] = 1
-		AND evaluator.IsDeleted = 0
-		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON gfs.GroupId = gr.GroupId
-		INNER JOIN dbo.Employee AS member WITH (NOLOCK) ON gr.GroupId = member.GroupId
-		AND member.[Enabled] = 1
-		AND member.IsDeleted = 0
-	WHERE (
-			(
-				gfs.ProcessId = @EvaluatorProcessId
-				AND DATEADD(DAY, - @EvaluatorRemindDay, DATEADD(MONTH, @ProbationDuration, member.JoinedDate)) = @Today
-				)
-			OR (
-				gfs.ProcessId = @ReviewerProcessId
-				AND DATEADD(DAY, - @ReviewerRemindDay, DATEADD(MONTH, @ProbationDuration, member.JoinedDate)) = @Today
-				)
-			)
-		AND NOT EXISTS (
-			SELECT 1
-			FROM dbo.EmployeeFlowSetting AS efs WITH (NOLOCK)
-			WHERE member.EmployeeId = efs.EmployeeId
-			);
+	FROM dbo.ProbationSetting ps WITH (NOLOCK)
+		INNER JOIN dbo.Employee evaluator ON ps.EvaluatorId = evaluator.EmployeeId
+		INNER JOIN dbo.Employee member ON ps.EmployeeId = member.EmployeeId
+	WHERE ps.ProcessId = @EvaluatorProcessId AND ps.FromDate = @Today
+
+	INSERT INTO #tblProcessSetting (
+		ProcessId
+		,NotificationMode
+		,EvaluatorId
+		,Nickname
+		,FullName
+		,Email
+		,ConversationId
+		,StartDate
+		,EndDate
+		,ProbationerNickname
+		)
+	SELECT @EvaluatorProcessId
+		,@RemindMode
+		,evaluator.EmployeeId
+		,evaluator.NickName
+		,evaluator.FullName
+		,evaluator.Email
+		,evaluator.ConversationId
+		,ps.FromDate
+		,ps.ToDate
+		,member.NickName
+	FROM dbo.ProbationSetting ps WITH (NOLOCK)
+		INNER JOIN dbo.Employee evaluator ON ps.EvaluatorId = evaluator.EmployeeId
+		INNER JOIN dbo.Employee member ON ps.EmployeeId = member.EmployeeId
+	WHERE ps.ProcessId = @EvaluatorProcessId AND ps.ToDate = @Today
+
+	INSERT INTO #tblProcessSetting (
+		ProcessId
+		,NotificationMode
+		,EvaluatorId
+		,Nickname
+		,FullName
+		,Email
+		,ConversationId
+		,StartDate
+		,EndDate
+		,ProbationerNickname
+		)
+	SELECT @ReviewerProcessId
+		,@StartMode
+		,evaluator.EmployeeId
+		,evaluator.NickName
+		,evaluator.FullName
+		,evaluator.Email
+		,evaluator.ConversationId
+		,ps.FromDate
+		,ps.ToDate
+		,member.NickName
+	FROM dbo.ProbationSetting ps WITH (NOLOCK)
+		INNER JOIN dbo.Employee evaluator ON ps.EvaluatorId = evaluator.EmployeeId
+		INNER JOIN dbo.Employee member ON ps.EmployeeId = member.EmployeeId
+	WHERE ps.ProcessId = @ReviewerProcessId AND ps.FromDate = @Today
 
 	SELECT ProcessId
+		,NotificationMode
 		,EvaluatorId
 		,Nickname
 		,FullName
 		,Email
-		,EndDate
 		,ConversationId
+		,StartDate
+		,EndDate
 		,ProbationerNickname
 	FROM #tblProcessSetting AS tbl WITH (NOLOCK)
 		LEFT JOIN dbo.NotificationSetting AS setting WITH (NOLOCK) ON tbl.EvaluatorId = setting.EmployeeId
