@@ -8,6 +8,8 @@
         MemberPageWithSpecificPerformanceCheckin,
         MemberPageWithActiveNominationTab,
         MemberPageWithActivePerformanceAppraisalTab,
-        PAFocus
+        PAFocus,
+        ProbationSettingPage,
+        MemberPageWithActiveProbationTab
     }
 }

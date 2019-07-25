@@ -132,6 +132,12 @@ export default class NotificationBell extends Component {
                 case NotificationActionType.PAFocus:
                     url = resolveClientUrl('pafocus');
                     break;
+                case NotificationActionType.ProbationSettingPage:
+                    url = resolveClientUrl('Probation/Setting');
+                    break;
+                case NotificationActionType.MemberPageWithActiveProbationTab:
+                    url = resolveClientUrl('member?activeTab=4');
+                    break;
             }
 
             if (url) {

@@ -85,7 +85,9 @@ export const NotificationActionType = {
     MemberPageWithSpecificPerformanceCheckin: 4,
     MemberPageWithActiveNominationTab: 5,
     MemberPageWithActivePerformanceAppraisalTab: 6,
-    PAFocus: 7
+    PAFocus: 7,
+    ProbationSettingPage: 8,
+    MemberPageWithActiveProbationTab: 9
 };
 
 export const PaginationOptions = {

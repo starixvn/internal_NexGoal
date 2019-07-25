@@ -27,9 +27,13 @@ $fa-font-path: "~font-awesome/fonts";
         border: 1px solid #AFB3C0;
     }
 
+    .rate-item {
+        width: 120px;
+    }
+
     .user-info {
         display: table-cell;
-        width: 230px;
+        width: 260px;
         padding: 20px 10px;
         background: #525E86;
         text-align: center;

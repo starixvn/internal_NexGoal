@@ -17,7 +17,7 @@ export default class Table extends Component {
     }
 
     handleRevisedChange = (event) => {
-        const probationer = this.props.tableData.find(x => x.employeeId == event.target.dataset.employeeid);
+        const probationer = this.props.tableData.find(x => x.employeeId === parseInt(event.target.dataset.employeeid));
 
         const reviewerProcess = probationer.settings.find(x => x.processId === PerformanceProcess.Reviewer);
 

@@ -19,8 +19,9 @@
 
     public class ProbationService : IProbationService
     {
-        private const string RemindMailTemplateToHR = "EmailTemplates\\Probation\\RemindToHR.cshtml";
-        private const string RemindMailTemplateToMember = "EmailTemplates\\Probation\\RemindToMember.cshtml";
+        private const string StartMailTemplateToHR = "EmailTemplates\\Probation\\StartToHR.cshtml";
+        private const string StartMailTemplateToMember = "EmailTemplates\\Probation\\StartToMember.cshtml";
+        private const string StartMailTemplateToEvaluator = "EmailTemplates\\Probation\\StartToEvaluator.cshtml";
         private const string RemindMailTemplateToEvaluator = "EmailTemplates\\Probation\\RemindToEvaluator.cshtml";
 
         private readonly IHostingEnvironment hostingEnvironment;
@@ -28,6 +29,8 @@
         private readonly IBaseService baseService;
         private readonly IBaseMailService mailService;
         private readonly IChatbotService chatbotService;
+        private readonly string memberPage;
+        private readonly string probationSettingPage;
 
         public ProbationService(
             IHostingEnvironment hostingEnvironment,
@@ -41,16 +44,18 @@
             this.baseService = baseService;
             this.mailService = mailService;
             this.chatbotService = chatbotService;
+            memberPage = $"{configuration.Value.ApplicationDomain}/member?activeTab=4";
+            probationSettingPage = $"{configuration.Value.ApplicationDomain}/Probation/Setting";
         }
 
         public void SendMail()
         {
             IEnumerable<ProbationProcessSettingModel> settings = GetSettingToSendNotification(ReceiveNotificationType.Email);
 
-            var remindToHRPath = Path.Combine(hostingEnvironment.WebRootPath, RemindMailTemplateToHR);
-            var remindToMemberPath = Path.Combine(hostingEnvironment.WebRootPath, RemindMailTemplateToMember);
+            var startToHRPath = Path.Combine(hostingEnvironment.WebRootPath, StartMailTemplateToHR);
+            var startToMemberPath = Path.Combine(hostingEnvironment.WebRootPath, StartMailTemplateToMember);
+            var startToEvaluatorPath = Path.Combine(hostingEnvironment.WebRootPath, StartMailTemplateToEvaluator);
             var remindToEvaluatorPath = Path.Combine(hostingEnvironment.WebRootPath, RemindMailTemplateToEvaluator);
-            var subjectRemindMail = Message.EmailSubject_Probation_RemindToMember;
             var body = string.Empty;
 
             foreach (ProbationProcessSettingModel setting in settings)
@@ -59,31 +64,45 @@
                 {
                     case PerformanceProcess.HumanResource:
                         body = string.Format(
-                            mailService.ReadTextFile(remindToHRPath),
-                            setting.Nickname,
+                            mailService.ReadTextFile(startToHRPath),
                             setting.ProbationerNickname,
-                            mailService.FormatDate(setting.EndDate));
-                        SendEmail(subjectRemindMail, body, setting.Email);
+                            probationSettingPage);
+                        SendEmail(Message.EmailSubject_Probation_StartToHR, body, setting.Email);
                         break;
 
                     case PerformanceProcess.Self:
                         body = string.Format(
-                            mailService.ReadTextFile(remindToMemberPath),
+                            mailService.ReadTextFile(startToMemberPath),
                             setting.Nickname,
-                            mailService.FormatDate(setting.EndDate),
-                            configuration.Value.ApplicationDomain);
-                        SendEmail(subjectRemindMail, body, setting.Email);
+                            configuration.Value.ApplicationDomain,
+                            mailService.FormatDate(setting.EndDate));
+                        SendEmail(Message.EmailSubject_Probation_StartToEvaluator, body, setting.Email);
                         break;
 
                     case PerformanceProcess.Evaluator:
+                        body = setting.NotificationMode == MailMode.Start ?
+                            string.Format(mailService.ReadTextFile(startToEvaluatorPath),
+                                setting.Nickname,
+                                setting.ProbationerNickname,
+                                memberPage,
+                                mailService.FormatDate(setting.EndDate))
+                          : string.Format(mailService.ReadTextFile(remindToEvaluatorPath),
+                                setting.Nickname,
+                                setting.ProbationerNickname,
+                                mailService.FormatDate(setting.EndDate),
+                                memberPage);
+                        SendEmail(
+                            setting.NotificationMode == MailMode.Start ? Message.EmailSubject_Probation_StartToEvaluator : Message.EmailSubject_Probation_RemindToEvaluator,
+                            body, setting.Email);
+                        break;
+
                     case PerformanceProcess.Reviewer:
-                        body = string.Format(
-                            mailService.ReadTextFile(remindToEvaluatorPath),
-                            setting.Nickname,
-                            setting.ProbationerNickname,
-                            mailService.FormatDate(setting.EndDate),
-                            configuration.Value.ApplicationDomain);
-                        SendEmail(subjectRemindMail, body, setting.Email);
+                        body = string.Format(mailService.ReadTextFile(remindToEvaluatorPath),
+                                  setting.Nickname,
+                                  setting.ProbationerNickname,
+                                  mailService.FormatDate(setting.EndDate),
+                                  memberPage);
+                        SendEmail(Message.EmailSubject_Probation_RemindToEvaluator, body, setting.Email);
                         break;
 
                     default:
@@ -100,7 +119,7 @@
             notifications.AddRange(settings.Select(x => new NotificationModel
             {
                 EmployeeId = x.EvaluatorId,
-                Content = GetNotificationContent(x.ProcessId, x.EndDate, x.ProbationerNickname),
+                Content = GetNotificationContent(x),
                 StatusId = (int)NotificationStatus.Unread,
                 ActionTypeId = GetActionType(x.ProcessId)
             }));
@@ -125,28 +144,42 @@
                 switch (setting.ProcessId)
                 {
                     case PerformanceProcess.HumanResource:
-                        message = string.Format(Message.SkypeMessageTemplate_Probation_RemindHR,
-                            setting.Nickname,
+                        message = string.Format(Message.SkypeMessageTemplate_Probation_StartToHR,
                             setting.ProbationerNickname,
-                            mailService.FormatDate(setting.EndDate));
+                            probationSettingPage);
                         await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
                         break;
 
                     case PerformanceProcess.Self:
-                        message = string.Format(Message.SkypeMessageTemplate_Probation_RemindMember,
+                        message = string.Format(Message.SkypeMessageTemplate_Probation_StartToMember,
                             setting.Nickname,
-                            mailService.FormatDate(setting.EndDate),
-                            configuration.Value.ApplicationDomain);
+                            configuration.Value.ApplicationDomain,
+                            mailService.FormatDate(setting.EndDate));
                         await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
                         break;
 
                     case PerformanceProcess.Evaluator:
+                        message = setting.NotificationMode == MailMode.Start ?
+                             string.Format(Message.SkypeMessageTemplate_Probation_StartToEvaluator,
+                                setting.Nickname,
+                                setting.ProbationerNickname,
+                                memberPage,
+                                mailService.FormatDate(setting.EndDate))
+                            : string.Format(Message.SkypeMessageTemplate_Probation_RemindEvaluator,
+                                setting.Nickname,
+                                setting.ProbationerNickname,
+                                mailService.FormatDate(setting.EndDate),
+                                memberPage);
+
+                        await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
+                        break;
+
                     case PerformanceProcess.Reviewer:
-                        message = string.Format(Message.SkypeMessageTemplate_Probation_RemindEvaluator,
-                            setting.Nickname,
-                            setting.ProbationerNickname,
-                            mailService.FormatDate(setting.EndDate),
-                            configuration.Value.ApplicationDomain);
+                        message = string.Format(Message.SkypeMessageTemplate_Probation_StartToEvaluator,
+                               setting.Nickname,
+                               setting.ProbationerNickname,
+                               memberPage,
+                               mailService.FormatDate(setting.EndDate));
                         await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
                         break;
 
@@ -170,7 +203,31 @@
                 ReceiveType = (int)receiveType
             };
 
-            return baseService.GetDataAsync<ProbationProcessSettingModel>(criteria).Result;
+            var result = baseService.GetDataAsync<ProbationProcessSettingModel>(criteria).Result;
+
+            return result.GroupBy(x => new
+            {
+                x.ProcessId,
+                x.NotificationMode,
+                x.EvaluatorId,
+                x.Nickname,
+                x.Email,
+                x.StartDate,
+                x.EndDate,
+                x.ConversationId
+            }, x => x.ProbationerNickname,
+            (key, probationerNickname) => new ProbationProcessSettingModel
+            {
+                ProcessId = key.ProcessId,
+                NotificationMode = key.NotificationMode,
+                EvaluatorId = key.EvaluatorId,
+                Nickname = key.Nickname,
+                Email = key.Email,
+                StartDate = key.StartDate,
+                EndDate = key.EndDate,
+                ConversationId = key.ConversationId,
+                ProbationerNickname = string.Join(", ", probationerNickname)
+            });
         }
 
         private void SendEmail(string subject, string body, string receiverEmail)
@@ -185,23 +242,32 @@
             mailService.SendMailAsync(email).Wait();
         }
 
-        private string GetNotificationContent(PerformanceProcess processId, DateTime endDate, string probationerNickname)
+        private string GetNotificationContent(ProbationProcessSettingModel model)
         {
             var content = string.Empty;
 
-            switch (processId)
+            switch (model.ProcessId)
             {
                 case PerformanceProcess.HumanResource:
-                    content = string.Format(Message.NotificationTemplate_Probation_RemindToHR, probationerNickname, mailService.FormatDate(endDate));
+                    content = string.Format(Message.NotificationTemplate_Probation_StartToHR, model.ProbationerNickname);
+                    break;
+
+                case PerformanceProcess.Self:
+                    content = string.Format(Message.NotificationTemplate_Probation_StartToMember, mailService.FormatDate(model.EndDate));
                     break;
 
                 case PerformanceProcess.Evaluator:
+                    content = model.NotificationMode == MailMode.Start ?
+                         string.Format(Message.NotificationTemplate_Probation_StartToEvaluator, model.ProbationerNickname, mailService.FormatDate(model.EndDate)) :
+                         string.Format(Message.NotificationTemplate_Probation_RemindToEvaluator, model.ProbationerNickname, mailService.FormatDate(model.EndDate));
+                    break;
+
                 case PerformanceProcess.Reviewer:
-                    content = string.Format(Message.NotificationTemplate_Probation_RemindToEvaluator, probationerNickname, mailService.FormatDate(endDate));
+                    content = string.Format(Message.NotificationTemplate_Probation_StartToEvaluator, model.ProbationerNickname, mailService.FormatDate(model.EndDate));
                     break;
 
                 default:
-                    content = string.Format(Message.NotificationTemplate_Probation_RemindToMember, mailService.FormatDate(endDate));
+                    content = string.Format(Message.NotificationTemplate_Probation_RemindToMember, mailService.FormatDate(model.EndDate));
                     break;
             }
 
@@ -214,13 +280,13 @@
 
             switch (processId)
             {
-                case PerformanceProcess.Self:
-                    actionTypeId = (int)NotificationActionType.MyPageWithCreatePerformanceCheckin;
+                case PerformanceProcess.HumanResource:
+                    actionTypeId = (int)NotificationActionType.ProbationSettingPage;
                     break;
 
                 case PerformanceProcess.Evaluator:
                 case PerformanceProcess.Reviewer:
-                    actionTypeId = (int)NotificationActionType.MemberPageWithCreatePerformanceCheckin;
+                    actionTypeId = (int)NotificationActionType.MemberPageWithActiveProbationTab;
                     break;
 
                 default:

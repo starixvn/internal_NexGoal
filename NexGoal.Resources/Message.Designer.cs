@@ -214,11 +214,29 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Probation process is almost over!.
+        ///   Looks up a localized string similar to The Probation evaluation process is almost over!.
         /// </summary>
-        public static string EmailSubject_Probation_RemindToMember {
+        public static string EmailSubject_Probation_RemindToEvaluator {
             get {
-                return ResourceManager.GetString("EmailSubject_Probation_RemindToMember", resourceCulture);
+                return ResourceManager.GetString("EmailSubject_Probation_RemindToEvaluator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Probation evaluation process has begun!.
+        /// </summary>
+        public static string EmailSubject_Probation_StartToEvaluator {
+            get {
+                return ResourceManager.GetString("EmailSubject_Probation_StartToEvaluator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The setup for a new Probation process is required!.
+        /// </summary>
+        public static string EmailSubject_Probation_StartToHR {
+            get {
+                return ResourceManager.GetString("EmailSubject_Probation_StartToHR", resourceCulture);
             }
         }
         
@@ -448,20 +466,11 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Probation process for {0} is going to be CLOSED on {1}, please create a Performance Record (with a detailed comment, selected grade, and a &quot;Probation&quot; tag) for your member(s)..
+        ///   Looks up a localized string similar to The Probation evaluation process for {0} will end at 23:59, {1}. Please visit the NexGoal site to complete the evaluation form(s)..
         /// </summary>
         public static string NotificationTemplate_Probation_RemindToEvaluator {
             get {
                 return ResourceManager.GetString("NotificationTemplate_Probation_RemindToEvaluator", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The Probation process for {0} is going to be CLOSED on {1}, please follow up on the progress and make a reminder for related people (if needed)..
-        /// </summary>
-        public static string NotificationTemplate_Probation_RemindToHR {
-            get {
-                return ResourceManager.GetString("NotificationTemplate_Probation_RemindToHR", resourceCulture);
             }
         }
         
@@ -471,6 +480,33 @@ namespace NexGoal.Resources {
         public static string NotificationTemplate_Probation_RemindToMember {
             get {
                 return ResourceManager.GetString("NotificationTemplate_Probation_RemindToMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Probation evaluation process for {0} has begun. Please visit the NexGoal site to complete the evaluation form before 23:59, {1}..
+        /// </summary>
+        public static string NotificationTemplate_Probation_StartToEvaluator {
+            get {
+                return ResourceManager.GetString("NotificationTemplate_Probation_StartToEvaluator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Probation evaluation process for {0} has begun. Please visit the NexGoal site to review the Probation settings..
+        /// </summary>
+        public static string NotificationTemplate_Probation_StartToHR {
+            get {
+                return ResourceManager.GetString("NotificationTemplate_Probation_StartToHR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The evaluation process for your Probation has begun. Please visit the NexGoal site to complete the evaluation form before 23:59, {0}..
+        /// </summary>
+        public static string NotificationTemplate_Probation_StartToMember {
+            get {
+                return ResourceManager.GetString("NotificationTemplate_Probation_StartToMember", resourceCulture);
             }
         }
         
@@ -682,8 +718,8 @@ namespace NexGoal.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to Dear *{0}*,
-        ///The Probation process for *{1}* is going to be closed on **{2}**.
-        ///Please log in to *{3}* to create a Performance Record (with a detailed comment, selected grade, and a `Probation` tag) for your member(s).
+        ///The Probation evaluation process for *{1}* will end at 23:59, {2}.
+        ///Please visit *{3}* to complete the evaluation form(s).
         ///Thank you,
         ///NexGoal..
         /// </summary>
@@ -695,27 +731,40 @@ namespace NexGoal.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to Dear *{0}*,
-        ///The Probation proces for *{1}* is going to be closed on **{2}**.
-        ///Please follow up on the progress and make a reminder for related people (Evaluator and Reviewer) to create a Performance Record (with a detailed comment, selected grade, and a `Probation` tag) for the member(s).
+        ///The Probation evaluation process for *{1}* has begun.
+        ///Please visit *{2}* to complete the evaluation form before 23:59, {3}
         ///Thank you,
         ///NexGoal..
         /// </summary>
-        public static string SkypeMessageTemplate_Probation_RemindHR {
+        public static string SkypeMessageTemplate_Probation_StartToEvaluator {
             get {
-                return ResourceManager.GetString("SkypeMessageTemplate_Probation_RemindHR", resourceCulture);
+                return ResourceManager.GetString("SkypeMessageTemplate_Probation_StartToEvaluator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dear HR-Admin Dept.,
+        ///The Probation proces for *{0}* has begun.
+        ///Please go to *{1}* and review the Probation settings, follow up on the progress and make a reminder for related people (if needed).
+        ///Thank you,
+        ///NexGoal..
+        /// </summary>
+        public static string SkypeMessageTemplate_Probation_StartToHR {
+            get {
+                return ResourceManager.GetString("SkypeMessageTemplate_Probation_StartToHR", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Dear *{0}*,
-        ///The Probation process is going to be closed on **{1}**.
-        ///Please log in to *{2}* to create a Performance Record (with a detailed comment, selected grade, and a `Probation` tag) for yourself.
+        ///The evaluation process for your Probation has begun.
+        ///Please visit *{1}* to complete the evaluation form before 23:59, {2}
         ///Thank you,
         ///NexGoal..
         /// </summary>
-        public static string SkypeMessageTemplate_Probation_RemindMember {
+        public static string SkypeMessageTemplate_Probation_StartToMember {
             get {
-                return ResourceManager.GetString("SkypeMessageTemplate_Probation_RemindMember", resourceCulture);
+                return ResourceManager.GetString("SkypeMessageTemplate_Probation_StartToMember", resourceCulture);
             }
         }
         

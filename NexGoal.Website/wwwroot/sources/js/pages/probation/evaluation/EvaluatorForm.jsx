@@ -121,6 +121,7 @@ export default class EvaluatorForm extends Component {
                                             onChange={value => setFieldValue('isQualifiedByEvaluator', value)}
                                         />
                                         :
+                                        values.isQualifiedByEvaluator &&
                                         <span className={values.isQualifiedByEvaluator.value ? 'passed' : 'failed'}>{values.isQualifiedByEvaluator.label}</span>
                                     }
                                 </td>
