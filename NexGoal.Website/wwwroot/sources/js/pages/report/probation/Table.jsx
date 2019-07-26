@@ -32,7 +32,9 @@ export default class Table extends Component {
                     {probationer.selfComment ? <span className="icon-search" data-processid={PerformanceProcess.Self} data-comment={probationer.selfComment} onClick={this.handleShowComment} /> : '-'}
                 </td>
                 <td className="text-center">{probationer.evaluatorScore || '-'}</td>
-                <td className="text-center"><span className={evaluatorResult.toLowerCase()} >{evaluatorResult}</span></td>
+                {this.props.showEvaluatorResult &&
+                    <td className="text-center"><span className={evaluatorResult.toLowerCase()} >{evaluatorResult}</span></td>
+                }
                 <td className="text-center">
                     {probationer.evaluatorComment ? <span className="icon-search" data-processid={PerformanceProcess.Evaluator} data-comment={probationer.evaluatorComment} onClick={this.handleShowComment} /> : '-'}
                 </td>
@@ -67,7 +69,7 @@ export default class Table extends Component {
                             <th rowSpan="2">{getResource('Team')}</th>
                             <th rowSpan="2">{getResource('JobTitle')}</th>
                             <th colSpan="2">{getResource('Self')}</th>
-                            <th colSpan="3">{getResource('Evaluator')}</th>
+                            <th colSpan={this.props.showEvaluatorResult ? 3 : 2}>{getResource('Evaluator')}</th>
                             <th colSpan="2">{getResource('Reviewer')}</th>
                             <th rowSpan="2">{getResource('Action')}</th>
 
@@ -76,7 +78,9 @@ export default class Table extends Component {
                             <th>{getResource('Score')}</th>
                             <th>{getResource('Comment')}</th>
                             <th>{getResource('Score')}</th>
-                            <th>{getResource('Result')}</th>
+                            {this.props.showEvaluatorResult &&
+                                <th>{getResource('Result')}</th>
+                            }
                             <th>{getResource('Comment')}</th>
                             <th>{getResource('FinalResult')}</th>
                             <th>{getResource('Comment')}</th>

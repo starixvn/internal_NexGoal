@@ -76,7 +76,14 @@ BEGIN
 		,pe.EvaluatorScore
 		,pe.EvaluatorComment
 		,pe.ReviewerComment
-		,pe.IsQualifiedByEvaluator
+		,(CASE 
+				WHEN m.ProcessId = @EvaluatorProcessId OR m.ProcessId = @ReviewerProcessId  OR m.ProcessId = @HRProcessId THEN pe.IsQualifiedByEvaluator
+				ELSE NULL
+			END) AS IsQualifiedByEvaluator
+		,CAST((CASE 
+				WHEN m.ProcessId = @EvaluatorProcessId OR m.ProcessId = @ReviewerProcessId OR m.ProcessId = @HRProcessId THEN 1
+				ELSE 0
+		END) AS BIT) AS CanViewEvaluatorResult
 	FROM dbo.ProbationEvaluation pe WITH (NOLOCK)
 		INNER JOIN dbo.Employee e WITH (NOLOCK) ON pe.EmployeeId = e.EmployeeId
 		INNER JOIN dbo.JobTitle jt WITH (NOLOCK) ON e.JobTitleId = jt.JobTitleId

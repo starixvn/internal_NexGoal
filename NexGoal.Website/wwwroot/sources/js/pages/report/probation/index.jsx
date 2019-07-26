@@ -158,6 +158,7 @@ export default class ProbationReport extends Component {
 
                     <Table tableData={this.state.tableData}
                         onShowComment={this.handleShowCommentModal}
+                        showEvaluatorResult={this.isManagement || this.isEvaluator || this.isReviewer}
 
                     />
                 </div>
