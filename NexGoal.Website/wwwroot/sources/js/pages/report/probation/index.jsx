@@ -125,7 +125,7 @@ export default class ProbationReport extends Component {
         }
     }
 
-    handleShowCommentModal = comment => this.setState({ commentModal: { show: true, content: comment } })
+    handleShowCommentModal = (comment, processId) => this.setState({ commentModal: { show: true, content: comment, processId: processId } })
 
     handleCloseCommentModal = () => this.setState({ commentModal: { show: false } })
 
@@ -162,6 +162,7 @@ export default class ProbationReport extends Component {
                     />
                 </div>
                 <CommentModal showModal={this.state.commentModal.show} content={this.state.commentModal.content}
+                    processId={this.state.commentModal.processId}
                     onCloseModal={this.handleCloseCommentModal}
                 />
             </div>

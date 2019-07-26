@@ -86,7 +86,9 @@
                 ActorId = sessionService.EmployeeId
             }).ConfigureAwait(false);
 
-            return File(fileContent, MimeType.XLSX, "Probation Report.xlsx");
+            var fileName = $"Probation Report ({model.FromDate.Value.ToString("dd MMM yyyy")} - {model.ToDate.Value.ToString("dd MMM yyyy")}).xlsx";
+
+            return File(fileContent, MimeType.XLSX, fileName);
         }
 
         [HttpGet]

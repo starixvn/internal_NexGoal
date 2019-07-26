@@ -37,7 +37,7 @@ export default class ProbationProcess extends PureComponent {
                 {
                     status === 'open' &&
                     <div>
-                        <span className="label-status label-notready">{getResource('NotReady')}</span>
+                        <span className="label-status label-notready">{getResource('Open')}</span>
                     </div>
                 }
             </td>

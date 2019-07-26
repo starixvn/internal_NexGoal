@@ -74,7 +74,6 @@ export default class Probation extends Component {
 
             if (data.isSuccessful) {
                 toast.success(getResource('UpdatedSuccessfully'));
-                debugger;
                 this.getProbationer(probationer.employeeId);
             } else {
                 toast.error(data.message);
@@ -82,7 +81,7 @@ export default class Probation extends Component {
         }).catch(axiosError);
     }
 
-    handleShowCommentModal = comment => this.setState({ commentModal: { show: true, content: comment } })
+    handleShowCommentModal = (comment, processId) => this.setState({ commentModal: { show: true, content: comment, processId } })
 
     handleCloseCommentModal = () => this.setState({ commentModal: { show: false } })
 
@@ -93,6 +92,7 @@ export default class Probation extends Component {
                     onConfirmedByReviewer={this.handleConfirmedByReviewer}
                 />
                 <CommentModal showModal={this.state.commentModal.show} content={this.state.commentModal.content}
+                    processId={this.state.commentModal.processId}
                     onCloseModal={this.handleCloseCommentModal}
                 />
             </div>

@@ -3,8 +3,17 @@ import { Button, Modal } from 'react-bootstrap';
 
 import getResource from '../../../resourceHelper';
 import CustomScrollbars from '../../../shared/components/CustomScrollbars';
+import { PerformanceProcess } from '../../../constants';
 
 export default class CommentModal extends PureComponent {
+    getTitle = () => {
+        switch (this.props.processId) {
+            case PerformanceProcess.Self: return getResource('SelfComment');
+            case PerformanceProcess.Evaluator: return getResource('EvaluatorComment');
+            case PerformanceProcess.Reviewer: return getResource('ReviewerComment');
+        }
+    }
+
     render() {
         return (
             <Modal show={this.props.showModal} onHide={this.props.onCloseModal}
@@ -12,7 +21,7 @@ export default class CommentModal extends PureComponent {
             >
                 <Modal.Header>
                     <Modal.Title>
-                        Evaluator's Comment
+                        {this.getTitle()}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
