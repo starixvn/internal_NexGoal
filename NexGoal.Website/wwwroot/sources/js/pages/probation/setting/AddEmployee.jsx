@@ -45,10 +45,10 @@ export default class AddEmployee extends Component {
 
             if (data.isSuccessful) {
                 toast.success(getResource('AddedSuccessfully'));
-                this.props.onAddEmployeesuccess();
             } else {
                 toast.error(data.message);
             }
+            this.props.onAddEmployeesuccess();
         }).catch(axiosError);
     }
 
