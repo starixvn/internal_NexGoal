@@ -104,11 +104,10 @@ export default class Detail extends Component {
                                         <tr>
                                             <td className="text-center text-title">{getResource('Result')}</td>
                                             <td className="text-center text-score">
-                                                {this.state.probationer.isQualifiedByEvaluator !== null ?
+                                                {this.state.probationer.isQualifiedByEvaluator !== null &&
                                                     <span className={this.state.probationer.isQualifiedByEvaluator ? 'passed' : 'failed'}>
                                                         {this.state.probationer.isQualifiedByEvaluator ? 'Passed' : 'Failed'}
                                                     </span>
-                                                    : '-'
                                                 }
                                             </td>
                                         </tr>
@@ -120,11 +119,10 @@ export default class Detail extends Component {
                                         </td>
                                         <td className="text-center text-title">{getResource('FinalResult')}</td>
                                         <td className="text-center text-score">
-                                            {this.state.probationer.isQualified !== null ?
+                                            {this.state.probationer.isQualified !== null &&
                                                 <span className={this.state.probationer.isQualified ? 'passed' : 'failed'}>
                                                     {this.state.probationer.isQualified ? 'Passed' : 'Failed'}
                                                 </span>
-                                                : '-'
                                             }
                                         </td>
                                         <td className="comment-cell comment-text">
