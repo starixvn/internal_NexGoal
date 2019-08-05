@@ -271,11 +271,17 @@ $last-pci: #46607F;
 .col-120 {
     width: 120px;
 }
+
+.record {
+    .avatar-user {
         &::after {
             display: block;
             content: "";
             clear: both;
         }
+
         .person-info, .avatar {
             float: left;
         }
+    }
+}
