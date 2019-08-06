@@ -55,7 +55,7 @@ BEGIN
 		,gfs.ProcessId
 		,gfs.EvaluatorId
 		,CASE 
-			WHEN gfs.ProcessId = @EvaluatorProcessId THEN e.JoinedDate
+			WHEN gfs.ProcessId = @EvaluatorProcessId THEN @Today
 			WHEN gfs.ProcessId = @ReviewerProcessId THEN DATEADD(DAY, -3, DATEADD(MONTH, 2, e.JoinedDate))
 		END
 		,CASE 

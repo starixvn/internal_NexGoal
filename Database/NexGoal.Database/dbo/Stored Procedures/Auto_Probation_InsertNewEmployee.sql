@@ -17,8 +17,8 @@ BEGIN
 	SET @EmployeeIds= STUFF(
 		(SELECT CONCAT(',', e.EmployeeId)
 		FROM dbo.Employee e WITH (NOLOCK)		
-		WHERE e.JoinedDate = @Today AND e.ConfirmedDate IS NULL 
-			AND [Enabled] = 1 AND IsDeleted = 0
+		WHERE e.JoinedDate BETWEEN DATEADD(MONTH, -2, @Today) AND @Today AND e.ConfirmedDate IS NULL 
+			AND IsDeleted = 0
 			AND NOT EXISTS (SELECT 1 FROM dbo.ProbationEvaluation pe WITH (NOLOCK) WHERE pe.EmployeeId = e.EmployeeId)
 		FOR XML PATH('')), 1, 1, '')
 
