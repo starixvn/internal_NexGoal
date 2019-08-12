@@ -17,14 +17,19 @@ export default class HRM extends PureComponent {
                 <td className="text-center">{this.displayTime(attendace.overtime)}</td>
                 {index === 0 &&
                     <td className="text-center" rowSpan={this.props.hrm.attendances.length + 1}>
-                        <div>
-                            <strong>{this.props.hrm.toeic.toeicScore}</strong>
-                        </div>
-                        {this.props.hrm.toeic.examDate &&
-                            <div>
-                                ({moment(this.props.hrm.toeic.examDate).format(DateFormat)})
-                            </div>
+                        {this.props.hrm.toeic &&
+                            <Fragment>
+                                <div>
+                                    <strong>{this.props.hrm.toeic.toeicScore}</strong>
+                                </div>
+                                {this.props.hrm.toeic.examDate &&
+                                    <div>
+                                        ({moment(this.props.hrm.toeic.examDate).format(DateFormat)})
+                                    </div>
+                                }
+                            </Fragment>
                         }
+
                     </td>
                 }
             </tr>

@@ -130,14 +130,17 @@
                                 @if (i == 0)
                                 {
                                     <td class="text-center" rowspan="@(attendances.Count + 1)">
-                                        <div>
-                                            <strong>@Model.Hrm.Toeic.ToeicScore</strong>
-                                        </div>
-                                        @if (Model.Hrm.Toeic.ExamDate.HasValue)
+                                        @if (@Model.Hrm.Toeic != null)
                                         {
                                             <div>
-                                                (@Model.Hrm.Toeic.ExamDate.Value.ToString("dd MMM yyyy"))
+                                                <strong>@Model.Hrm.Toeic.ToeicScore</strong>
                                             </div>
+                                            if (Model.Hrm.Toeic.ExamDate.HasValue)
+                                            {
+                                                <div>
+                                                    (@Model.Hrm.Toeic.ExamDate.Value.ToString("dd MMM yyyy"))
+                                                </div>
+                                            }
                                         }
                                     </td>
                                 }
