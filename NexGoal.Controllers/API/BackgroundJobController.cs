@@ -48,20 +48,20 @@
 
         private void RunProbation()
         {
-            try
-            {
-                Task.Run(() =>
-                {
-                    probationService.AddNewEmployeeToProbation();
-                    probationService.SendSkypeMessage();
-                });
-                probationService.SendMail();
-                probationService.SendNotification();
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex.Message, ex);
-            }
+            Task.Run(async () =>
+           {
+               try
+               {
+                   await probationService.AddNewEmployeeToProbation();
+                   await probationService.SendSkypeMessage();
+                   probationService.SendMail();
+                   probationService.SendNotification();
+               }
+               catch (Exception ex)
+               {
+                   logger.Error(ex.Message, ex);
+               }
+           }).ConfigureAwait(false);
         }
 
         private void RunPeriod()
