@@ -95,7 +95,7 @@ BEGIN
 		AND EXISTS (
 			SELECT 1
 			FROM dbo.ProbationSetting ps WITH (NOLOCK)
-			WHERE ps.EmployeeId = pe.EmployeeId AND ps.ProcessId = @SelfProcessId AND ps.FromDate >= @Today
+			WHERE ps.EmployeeId = pe.EmployeeId AND ps.ProcessId = @SelfProcessId AND ps.FromDate <= @Today
 		)
 	ORDER BY e.JoinedDate DESC
 
