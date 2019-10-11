@@ -27,7 +27,9 @@ export default class CreateSelfPerformance extends Component {
         currentUser: { nickName: '', avatar: '' },
         performanceGradeOptions: [],
         projectOptions: [],
-        onSubmitSuccess: function () { }
+        onSubmitSuccess: function () {
+            // default: do nothing
+        }
     };
 
     constructor(props) {
@@ -185,7 +187,7 @@ export default class CreateSelfPerformance extends Component {
         if (this.validateForm()) {
             this.setSubmitting(true);
 
-            let performanceRecord = stringify({
+            const performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 gradeId: this.state.performanceRecord.grade ? this.state.performanceRecord.grade.value : null,
                 comment: this.state.performanceRecord.comment.trim(),

@@ -254,11 +254,105 @@ export default class EmployeeFlowSetting extends Component {
         }).catch(axiosError);
     }
 
-    render() {
-        const { isHost } = this.props;
+    renderSelf = () => (
+        <td className="col-self">
+            {this.props.isHost &&
+                <Select className={`react-select-container ${this.state.submit && !this.state.member && InputErrorCssClass}`}
+                    classNamePrefix="react-select"
+                    value={null} options={this.state.unconfiguredEmployeeOptions}
+                    isClearable={false} placeholder="Nickname or full name"
+                    onChange={this.handleMemberChange}
+                    isDisabled={this.state.selectedEmployeeId !== null}
+                    backspaceRemovesValue={false}
+                />
+            }
+            {this.state.member &&
+                <div className="flow-item">
+                    <img className="avatar" src={this.state.member.avatar} />
+                    <div className="personal-info">
+                        <span className="txt-bold">{this.state.member.nickName}</span>
+                        <p>{this.state.member.fullName}</p>
+                    </div>
+                </div>
+            }
+        </td>
+    )
 
+    renderEvaluator = () => {
         const employeeOptions = this.state.member ?
             this.props.employeeOptions.filter(e => e.value !== this.state.member.employeeId) : this.props.employeeOptions;
+
+        return (
+            <td className="col-evaluator">
+                {this.props.isHost &&
+                    <Select className={`react-select-container ${this.state.submit && !this.state.evaluator && InputErrorCssClass}`}
+                        classNamePrefix="react-select"
+                        value={null} options={employeeOptions}
+                        isClearable={false} placeholder="Nickname or full name"
+                        onChange={this.handleEvaluatorChange}
+                        backspaceRemovesValue={false}
+                    />
+                }
+                {this.state.evaluator &&
+                    <div className="flow-item">
+                        <img className="avatar" src={this.state.evaluator.avatar} />
+                        <div className="personal-info">
+                            <span className="txt-bold">{this.state.evaluator.nickName}</span>
+                            <p>{this.state.evaluator.fullName}</p>
+                        </div>
+                    </div>}
+            </td>
+        );
+    }
+
+    renderReviewer = () => {
+        const employeeOptions = this.state.member ?
+            this.props.employeeOptions.filter(e => e.value !== this.state.member.employeeId) : this.props.employeeOptions;
+
+        return (
+            <td className="col-reviewer">
+                {this.props.isHost &&
+                    <Select className={`react-select-container ${this.state.submit && !this.state.reviewer && InputErrorCssClass}`}
+                        classNamePrefix="react-select"
+                        value={null} options={employeeOptions}
+                        isClearable={false} placeholder="Nickname or full name"
+                        onChange={this.handleReviewerChange}
+                        backspaceRemovesValue={false}
+                    />
+                }
+                {this.state.reviewer &&
+                    <div className="flow-item">
+                        <img className="avatar" src={this.state.reviewer.avatar} />
+                        <div className="personal-info">
+                            <span className="txt-bold">{this.state.reviewer.nickName}</span>
+                            <p>{this.state.reviewer.fullName}</p>
+                        </div>
+                    </div>
+                }
+            </td>
+        );
+    }
+
+    renderButtonGroup = () => (
+        <div className="button-group" >
+            <Button type="button" disabled={this.state.selectedEmployeeId === null} className="btn btn-cancel" onClick={this.handleDeleteSetting}>
+                {getResource('Delete')}
+            </Button>
+            <Button type="button" disabled={!this.state.member && !this.state.evaluator && !this.state.reviewer}
+                className="btn btn-cancel" onClick={this.handleCancel}
+            >
+                {getResource('Cancel')}
+            </Button>
+            <Button type="button" bsStyle="primary" onClick={this.handleSaveFlowSetting}
+                disabled={!this.state.member && !this.state.evaluator && !this.state.reviewer}
+            >
+                {getResource('Submit')}
+            </Button>
+        </div>
+    )
+
+    render() {
+        const { isHost } = this.props;
 
         return (
             <div className="row employee-flow">
@@ -278,88 +372,13 @@ export default class EmployeeFlowSetting extends Component {
                         </thead>
                         <tbody>
                             <tr>
-                                <td className="col-self">
-                                    {isHost &&
-                                        <Select className={`react-select-container ${this.state.submit && !this.state.member && InputErrorCssClass}`}
-                                            classNamePrefix="react-select"
-                                            value={null} options={this.state.unconfiguredEmployeeOptions}
-                                            isClearable={false} placeholder="Nickname or full name"
-                                            onChange={this.handleMemberChange}
-                                            isDisabled={this.state.selectedEmployeeId !== null}
-                                            backspaceRemovesValue={false}
-                                        />
-                                    }
-                                    {this.state.member &&
-                                        <div className="flow-item">
-                                            <img className="avatar" src={this.state.member.avatar} />
-                                            <div className="personal-info">
-                                                <span className="txt-bold">{this.state.member.nickName}</span>
-                                                <p>{this.state.member.fullName}</p>
-                                            </div>
-                                        </div>
-                                    }
-                                </td>
-                                <td className="col-evaluator">
-                                    {isHost &&
-                                        <Select className={`react-select-container ${this.state.submit && !this.state.evaluator && InputErrorCssClass}`}
-                                            classNamePrefix="react-select"
-                                            value={null} options={employeeOptions}
-                                            isClearable={false} placeholder="Nickname or full name"
-                                            onChange={this.handleEvaluatorChange}
-                                            backspaceRemovesValue={false}
-                                        />
-                                    }
-                                    {this.state.evaluator &&
-                                        <div className="flow-item">
-                                            <img className="avatar" src={this.state.evaluator.avatar} />
-                                            <div className="personal-info">
-                                                <span className="txt-bold">{this.state.evaluator.nickName}</span>
-                                                <p>{this.state.evaluator.fullName}</p>
-                                            </div>
-                                        </div>}
-                                </td>
-                                <td className="col-reviewer">
-                                    {isHost &&
-                                        <Select className={`react-select-container ${this.state.submit && !this.state.reviewer && InputErrorCssClass}`}
-                                            classNamePrefix="react-select"
-                                            value={null} options={employeeOptions}
-                                            isClearable={false} placeholder="Nickname or full name"
-                                            onChange={this.handleReviewerChange}
-                                            backspaceRemovesValue={false}
-                                        />
-                                    }
-
-                                    {this.state.reviewer &&
-                                        <div className="flow-item">
-                                            <img className="avatar" src={this.state.reviewer.avatar} />
-                                            <div className="personal-info">
-                                                <span className="txt-bold">{this.state.reviewer.nickName}</span>
-                                                <p>{this.state.reviewer.fullName}</p>
-                                            </div>
-                                        </div>
-                                    }
-                                </td>
+                                {this.renderSelf()}
+                                {this.renderEvaluator()}
+                                {this.renderReviewer()}
                             </tr>
                         </tbody>
                     </table>
-                    {
-                        isHost &&
-                        <div className="button-group" >
-                            <Button type="button" disabled={this.state.selectedEmployeeId === null} className="btn btn-cancel" onClick={this.handleDeleteSetting}>
-                                {getResource('Delete')}
-                            </Button>
-                            <Button type="button" disabled={!this.state.member && !this.state.evaluator && !this.state.reviewer}
-                                className="btn btn-cancel" onClick={this.handleCancel}
-                            >
-                                {getResource('Cancel')}
-                            </Button>
-                            <Button type="button" bsStyle="primary" onClick={this.handleSaveFlowSetting}
-                                disabled={!this.state.member && !this.state.evaluator && !this.state.reviewer}
-                            >
-                                {getResource('Submit')}
-                            </Button>
-                        </div>
-                    }
+                    {isHost && this.renderButtonGroup()}
                 </div>
                 {
                     this.state.showDeleteModal &&

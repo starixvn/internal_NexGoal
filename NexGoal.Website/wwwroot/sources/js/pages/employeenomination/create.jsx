@@ -97,25 +97,28 @@ export default class Create extends Component {
         handleChange,
         handleSubmit,
         setFieldValue }) => {
+        const isPeriodInvalid = touched.period && errors.period;
+        const isEmployeeInvalid = touched.employee && errors.employee;
+
         return (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} >
                 {!isEmpty(errors) && !isEmpty(touched) &&
                     <ul className="list-message-error">
-                        {touched.period && errors.period && <li>{errors.period}</li>}
-                        {touched.employee && errors.employee && <li>{errors.employee}</li>}
+                        {isPeriodInvalid && <li>{errors.period}</li>}
+                        {isEmployeeInvalid && <li>{errors.employee}</li>}
                     </ul>
                 }
 
                 <FormGroup>
                     <ControlLabel className="required-label" >{getResource('NominationPeriod')}</ControlLabel>
-                    <Select name="period" className={`react-select-container ${touched.period && errors.period && 'input-validation-error'}`} classNamePrefix="react-select"
+                    <Select name="period" className={`react-select-container ${isPeriodInvalid && 'input-validation-error'}`} classNamePrefix="react-select"
                         value={values.period} onChange={value => setFieldValue('period', value)}
                         options={this.state.nominationPeriodOptions}
                     />
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel className="required-label">{getResource('Employee')}</ControlLabel>
-                    <Select name="employee" className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`} classNamePrefix="react-select"
+                    <Select name="employee" className={`react-select-container ${isEmployeeInvalid && 'input-validation-error'}`} classNamePrefix="react-select"
                         value={values.employee} onChange={value => setFieldValue('employee', value)}
                         options={this.state.employeeOptions}
                     />
@@ -126,7 +129,7 @@ export default class Create extends Component {
                 </FormGroup>
 
                 <button type="submit" className="btn btn-primary">{getResource('Submit')}</button>
-            </form>
+            </form >
         );
     }
 

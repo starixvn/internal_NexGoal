@@ -76,15 +76,19 @@ export default class Create extends Component {
         handleChange,
         handleSubmit,
         setFieldValue }) => {
+        const isEmployeeInvalid = touched.employee && errors.employee;
+        const isEffectiveDateInvalid = touched.effectiveDate && errors.effectiveDate;
+        const isDescriptionInvalid = touched.description && errors.description;
+
         return (
             <Form className="discipline-form" id="create-form" inline onSubmit={handleSubmit}>
                 <Modal.Body>
                     {
                         !isEmpty(errors) && !isEmpty(touched) &&
                         <ul className="list-message-error">
-                            {touched.employee && errors.employee && <li>{errors.employee}</li>}
-                            {touched.effectiveDate && errors.effectiveDate && <li>{errors.effectiveDate}</li>}
-                            {touched.description && errors.description && <li>{errors.description}</li>}
+                            {isEmployeeInvalid && <li>{errors.employee}</li>}
+                            {isEffectiveDateInvalid && <li>{errors.effectiveDate}</li>}
+                            {isDescriptionInvalid && <li>{errors.description}</li>}
                         </ul>
                     }
                     <div className="line-group">
@@ -92,7 +96,7 @@ export default class Create extends Component {
                             <label className="control-label required-label">{getResource('Employee')}</label>
                             <div className="control-content">
                                 <Select name="employee"
-                                    className={`react-select-container ${touched.employee && errors.employee && InputErrorCssClass}`}
+                                    className={`react-select-container ${isEmployeeInvalid && InputErrorCssClass}`}
                                     classNamePrefix="react-select"
                                     isDisabled={values.disciplineId > 0} isClearable
                                     options={this.props.employeeOptions}
@@ -104,7 +108,7 @@ export default class Create extends Component {
                         <FormGroup>
                             <label className="required-label control-label">{getResource('IssueDate')}</label>
                             <div className="control-content">
-                                <DatePicker className={`form-control  ${touched.effectiveDate && errors.effectiveDate && InputErrorCssClass}`}
+                                <DatePicker className={`form-control  ${isEffectiveDateInvalid && InputErrorCssClass}`}
                                     dateFormat={DateFormat} selected={values.effectiveDate}
                                     onChange={value => setFieldValue('effectiveDate', value)}
                                     onChangeRaw={this.onChangeRaw}
@@ -115,7 +119,7 @@ export default class Create extends Component {
                         <FormGroup className="description-group">
                             <label className="required-label control-label">{getResource('Content')}</label>
                             <div className="control-content">
-                                <textarea className={`form-control none-resize ${touched.description && errors.description && InputErrorCssClass}`}
+                                <textarea className={`form-control none-resize ${isDescriptionInvalid && InputErrorCssClass}`}
                                     name="description" rows="10"
                                     onChange={handleChange}
                                     value={values.description}

@@ -8,6 +8,7 @@ import axios from 'axios';
 
 import { PaginationOptions } from '../../constants';
 import { axiosError, noDataIndication, resolveClientUrl } from '../../common-functions';
+import { TextCenterCssClass } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
@@ -138,14 +139,14 @@ export default class EmployeeManagement extends Component {
                 dataField: 'rowNum',
                 isDummyField: true,
                 text: `${getResource('SymbolCount')}`,
-                classes: 'text-center',
+                classes: TextCenterCssClass,
                 headerStyle: { width: '50px' },
                 formatter: (cell, row, rowIndex) => rowIndex + 1
             },
             {
                 dataField: 'code',
                 text: `${getResource('Code')}`,
-                classes: 'text-center',
+                classes: TextCenterCssClass,
                 headerStyle: { width: '80px' }
             },
             {
@@ -174,7 +175,7 @@ export default class EmployeeManagement extends Component {
             {
                 dataField: '',
                 text: `${getResource('Edit')}`,
-                classes: 'text-center',
+                classes: TextCenterCssClass,
                 headerStyle: { width: '80px' },
                 isDummyField: true,
                 formatter: (cell, row) => {

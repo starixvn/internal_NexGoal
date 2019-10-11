@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 
@@ -7,7 +7,7 @@ import Notification from './shared/components/notification/Notification';
 import { NotificationActionType, NotificationStatus } from './constants';
 import { toast } from 'react-toastify';
 
-export default class NotificationBell extends Component {
+export default class NotificationBell extends PureComponent {
     constructor(props) {
         super(props);
 
@@ -26,19 +26,6 @@ export default class NotificationBell extends Component {
     componentDidMount() {
         document.addEventListener('mousedown', this.handleClickOutside);
         this.addEventListener();
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        if (nextState.isShowNoti !== this.state.isShowNoti
-            || nextState.unreadNoti !== this.state.unreadNoti
-            || nextState.totalItems !== this.state.totalItems
-            || nextState.pageIndex !== this.state.pageIndex
-            || nextState.hasMore !== this.state.hasMore
-            || JSON.stringify(nextState.notifications) !== JSON.stringify(this.state.notifications)) {
-            return true;
-        }
-
-        return false;
     }
 
     componentWillUnmount() {
@@ -92,7 +79,7 @@ export default class NotificationBell extends Component {
     }
 
     removeEventListener = () => {
-        let notiTrigger = document.getElementById('trigger-notification-bell');
+        const notiTrigger = document.getElementById('trigger-notification-bell');
         if (notiTrigger) {
             notiTrigger.removeEventListener('click');
         }

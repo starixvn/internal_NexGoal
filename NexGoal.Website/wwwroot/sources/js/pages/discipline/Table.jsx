@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 
 import { PaginationOptions } from '../../constants';
 import { axiosError, noDataIndication, resolveClientUrl } from '../../common-functions';
+import { TextCenterCssClass } from '../../constants';
 import getResource from '../../resourceHelper';
 
 const { SearchBar } = Search;
@@ -61,7 +62,7 @@ export default class Table extends Component {
                 dataField: 'rowNum',
                 isDummyField: true,
                 text: `${getResource('SymbolCount')}`,
-                classes: 'text-center',
+                classes: TextCenterCssClass,
                 headerStyle: { width: '50px' },
                 formatter: (cell, row, rowIndex) => rowIndex + 1
             },
@@ -85,7 +86,7 @@ export default class Table extends Component {
             {
                 dataField: 'effectiveDate',
                 text: `${getResource('IssueDate')}`,
-                classes: 'text-center',
+                classes: TextCenterCssClass,
                 headerStyle: { width: '120px' },
                 formatter: (cell, row) => `${moment(row.effectiveDate).format('DD MMM, YYYY')}`
             },
@@ -97,27 +98,29 @@ export default class Table extends Component {
             {
                 dataField: 'isActive',
                 text: `${getResource('Active')}`,
-                classes: 'text-center',
+                classes: TextCenterCssClass,
                 headerStyle: { width: '80px' },
                 formatter: (cell, row, rowIndex) => {
+                    const idName = `chb-active-${rowIndex}`;
+
                     if (isHost) {
                         return (
                             <div className="checkbox">
-                                <input type='checkbox' id={'chb-active-' + rowIndex}
+                                <input type='checkbox' id={idName}
                                     defaultChecked={row.isActive}
                                     onChange={event => this.handleEditStatus(event, row)} className="checkbox-custom"
                                 />
-                                <label htmlFor={'chb-active-' + rowIndex} />
+                                <label htmlFor={idName} />
                             </div>
                         );
                     }
 
                     return (
                         <div className="checkbox">
-                            <input type='checkbox' id={'chb-active-' + rowIndex}
+                            <input type='checkbox' id={idName}
                                 checked={row.isActive} readOnly className="checkbox-custom"
                             />
-                            <label htmlFor={'chb-active-' + rowIndex} />
+                            <label htmlFor={idName} />
                         </div>
                     );
                 }
@@ -125,7 +128,7 @@ export default class Table extends Component {
             {
                 dataField: '',
                 text: `${getResource('Edit')}`,
-                classes: 'text-center',
+                classes: TextCenterCssClass,
                 headerStyle: { width: '80px' },
                 isDummyField: true,
                 formatter: (cell, row) => {

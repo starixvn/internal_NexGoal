@@ -21,6 +21,8 @@
         private const string ExcelTemplatePath = @"ExcelTemplates\\Probation Report.xlsx";
         private const string PDFViewName = "ProbationReport/Pdf";
         private const string PDFStylePath = @"dist\\styles\\probation-report-pdf.css";
+        private Color passedColor = Color.FromArgb(1, 67, 135, 0);
+        private Color failedColor = Color.FromArgb(1, 226, 44, 4);
 
         private readonly IProbationRepository probationRepository;
         private readonly IBaseService baseService;
@@ -82,14 +84,8 @@
 
                 var currentRow = 4;
                 var position = 1;
-                var passedColor = Color.FromArgb(1, 67, 135, 0);
-                var failedColor = Color.FromArgb(1, 226, 44, 4);
 
-                if (model.FromDate.HasValue && model.ToDate.HasValue)
-                {
-                    var titleCell = worksheet.Cells[1, 1];
-                    titleCell.Value = $"{titleCell.Value} ({model.FromDate.Value.ToString("dd MMM, yyyy")} - {model.ToDate.Value.ToString("dd MMM, yyyy")})";
-                }
+                FillDate(model, worksheet);
 
                 foreach (var probationer in data)
                 {
@@ -103,23 +99,11 @@
                     worksheet.Cells[currentRow, 8].Value = probationer.SelfComment;
                     worksheet.Cells[currentRow, 9].Value = probationer.EvaluatorScore;
 
-                    if (probationer.IsQualifiedByEvaluator.HasValue)
-                    {
-                        var cell = worksheet.Cells[currentRow, 10];
-                        cell.Value = probationer.IsQualifiedByEvaluator.Value ? "Passed" : "Failed";
-                        cell.Style.Font.Bold = true;
-                        cell.Style.Font.Color.SetColor(probationer.IsQualifiedByEvaluator.Value ? passedColor : failedColor);
-                    }
+                    FillEvaluatorResult(probationer, worksheet.Cells[currentRow, 10]);
 
                     worksheet.Cells[currentRow, 11].Value = probationer.EvaluatorComment;
 
-                    if (probationer.IsQualified.HasValue)
-                    {
-                        var cell = worksheet.Cells[currentRow, 12];
-                        cell.Value = probationer.IsQualified.Value ? "Passed" : "Failed";
-                        cell.Style.Font.Bold = true;
-                        cell.Style.Font.Color.SetColor(probationer.IsQualified.Value ? passedColor : failedColor);
-                    }
+                    FillReviewerResult(probationer, worksheet.Cells[currentRow, 12]);
 
                     worksheet.Cells[currentRow, 13].Value = probationer.ReviewerComment;
 
@@ -250,6 +234,35 @@
                 probationer.Hrm = await probationRepository.GetHRM(new GetHRMCriteria { EmployeeId = employeeId }).ConfigureAwait(false);
             }
             return probationer;
+        }
+
+        private static void FillDate(GetProbationReportModel model, ExcelWorksheet worksheet)
+        {
+            if (model.FromDate.HasValue && model.ToDate.HasValue)
+            {
+                var titleCell = worksheet.Cells[1, 1];
+                titleCell.Value = $"{titleCell.Value} ({model.FromDate.Value.ToString("dd MMM, yyyy")} - {model.ToDate.Value.ToString("dd MMM, yyyy")})";
+            }
+        }
+
+        private void FillReviewerResult(ProbationReportModel probationer, ExcelRange cell)
+        {
+            if (probationer.IsQualified.HasValue)
+            {
+                cell.Value = probationer.IsQualified.Value ? "Passed" : "Failed";
+                cell.Style.Font.Bold = true;
+                cell.Style.Font.Color.SetColor(probationer.IsQualified.Value ? passedColor : failedColor);
+            }
+        }
+
+        private void FillEvaluatorResult(ProbationReportModel probationer, ExcelRange cell)
+        {
+            if (probationer.IsQualifiedByEvaluator.HasValue)
+            {
+                cell.Value = probationer.IsQualifiedByEvaluator.Value ? "Passed" : "Failed";
+                cell.Style.Font.Bold = true;
+                cell.Style.Font.Color.SetColor(probationer.IsQualifiedByEvaluator.Value ? passedColor : failedColor);
+            }
         }
     }
 }

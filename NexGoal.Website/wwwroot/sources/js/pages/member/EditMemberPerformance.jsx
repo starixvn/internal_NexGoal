@@ -36,8 +36,12 @@ export default class EditMemberPerformance extends Component {
         projectOptions: [],
         isDraft: false,
         isShowModal: false,
-        onCloseModal: function () { },
-        onSubmitSuccess: function () { }
+        onCloseModal: function () {
+            //default: do nothing
+        },
+        onSubmitSuccess: function () {
+            //default: do nothing
+        }
     };
 
     constructor(props) {
@@ -53,10 +57,10 @@ export default class EditMemberPerformance extends Component {
     }
 
     componentDidMount() {
-        let url = this.props.isDraft ? `Performance/GetDraftById/${this.props.performanceRecordId}` : `Performance/GetById/${this.props.performanceRecordId}`;
+        const url = this.props.isDraft ? `Performance/GetDraftById/${this.props.performanceRecordId}` : `Performance/GetById/${this.props.performanceRecordId}`;
         axios(resolveClientUrl(url))
             .then(response => {
-                let performanceRecord = response.data;
+                const performanceRecord = response.data;
                 performanceRecord.grade = performanceRecord.grade ? this.props.performanceGradeOptions.find(x => x.value === performanceRecord.grade.gradeId) : null;
 
                 performanceRecord.employees = performanceRecord.employees.map(employee => {
@@ -89,9 +93,9 @@ export default class EditMemberPerformance extends Component {
     }
 
     handleEmployeeChange = selectedOptions => {
-        let projects = [...this.state.performanceRecord.projects];
-        let index = projects.length > 0 ? projects.findIndex(item => item.value === ProbationTag.value) : -1;
-        let errors = { ...this.state.errors };
+        const projects = [...this.state.performanceRecord.projects];
+        const index = projects.length > 0 ? projects.findIndex(item => item.value === ProbationTag.value) : -1;
+        const errors = { ...this.state.errors };
         delete errors['employee'];
 
         if (selectedOptions.length === 0) {
@@ -119,7 +123,7 @@ export default class EditMemberPerformance extends Component {
     }
 
     handleCommentChange = event => {
-        let errors = { ...this.state.errors };
+        const errors = { ...this.state.errors };
         delete errors['comment'];
         if (!event.target.value) {
             errors.comment = getResource('CommentRequired');
@@ -159,15 +163,16 @@ export default class EditMemberPerformance extends Component {
     handleSubmit = event => {
         event.preventDefault();
 
-        if (this.state.isSubmitting)
+        if (this.state.isSubmitting) {
             return;
+        }
 
         if (this.validateForm()) {
             this.setSubmitting(true);
 
-            let record = this.state.performanceRecord;
+            const record = this.state.performanceRecord;
 
-            let performanceRecord = stringify({
+            const performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 performanceRecordId: record.performanceRecordId,
                 employeeIds: record.employees.map(employee => employee.value).join(','),
@@ -186,7 +191,7 @@ export default class EditMemberPerformance extends Component {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }).then(response => {
-                let data = response.data;
+                const data = response.data;
 
                 if (data.isSuccessful) {
                     toast.success(getResource('UpdatedSuccessfully'));
@@ -194,7 +199,7 @@ export default class EditMemberPerformance extends Component {
                     this.props.onSubmitSuccess(data.objectIds);
                 } else {
                     if (data.errors) {
-                        let errors = {};
+                        const errors = {};
                         data.errors.map(error => {
                             errors[camelCase(error.key)] = error.errorMessage;
                         });
@@ -217,9 +222,9 @@ export default class EditMemberPerformance extends Component {
         if (this.validateForm()) {
             this.setSubmitting(true);
 
-            let record = this.state.performanceRecord;
+            const record = this.state.performanceRecord;
 
-            let performanceRecord = stringify({
+            const performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 performanceRecordId: record.performanceRecordId,
                 employeeIds: record.employees.map(employee => employee.value).join(','),
@@ -237,7 +242,7 @@ export default class EditMemberPerformance extends Component {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }).then(response => {
-                let data = response.data;
+                const data = response.data;
 
                 if (data.isSuccessful) {
                     toast.success(getResource('UpdatedSuccessfully'));
@@ -245,7 +250,7 @@ export default class EditMemberPerformance extends Component {
                     this.props.onSubmitDraftSuccess(record.performanceRecordId);
                 } else {
                     if (data.errors) {
-                        let errors = {};
+                        const errors = {};
                         data.errors.map(error => {
                             errors[camelCase(error.key)] = error.errorMessage;
                         });
@@ -284,10 +289,9 @@ export default class EditMemberPerformance extends Component {
                                 <img src={currentUser.avatar} className="avatar" />
                                 <div className="person-info">
                                     <span className={getRoleClassName(performanceRecord.roleId)}>{currentUser.nickName}</span>
-                                    
                                 </div>
                             </div>
-                            <div className="date-time">                                
+                            <div className="date-time">
                                 {
                                     performanceRecord.isDraft &&
                                     <span className="draft">draft</span>

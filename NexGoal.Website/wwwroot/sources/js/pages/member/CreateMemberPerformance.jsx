@@ -34,8 +34,12 @@ export default class CreateMemberPerformance extends Component {
         projectOptions: [],
         selectedMemberInfo: null,
         isMultiple: true,
-        onSubmitSuccess: function () { },
-        onSubmitDraftSuccess: function () { }
+        onSubmitSuccess: function () {
+            //default: do nothing
+        },
+        onSubmitDraftSuccess: function () {
+            //default: do nothing
+        }
     };
 
     constructor(props) {
@@ -104,9 +108,9 @@ export default class CreateMemberPerformance extends Component {
     }
 
     handleEmployeeChange = selectedOptions => {
-        let projects = [...this.state.performanceRecord.projects];
-        let index = projects.length > 0 ? projects.findIndex(item => item.value === ProbationTag.value) : -1;
-        let errors = { ...this.state.errors };
+        const projects = [...this.state.performanceRecord.projects];
+        const index = projects.length > 0 ? projects.findIndex(item => item.value === ProbationTag.value) : -1;
+        const errors = { ...this.state.errors };
         delete errors['employee'];
 
         if (selectedOptions.length === 0) {
@@ -134,7 +138,7 @@ export default class CreateMemberPerformance extends Component {
     }
 
     handleCommentChange = event => {
-        let errors = { ...this.state.errors };
+        const errors = { ...this.state.errors };
         delete errors['comment'];
         if (!event.target.value) {
             errors.comment = getResource('CommentRequired');
@@ -153,8 +157,9 @@ export default class CreateMemberPerformance extends Component {
     }
 
     validateForm = () => {
-        let errors = {}, isValid = true;
-        let performanceRecord = this.state.performanceRecord;
+        const errors = {};
+        let isValid = true;
+        const performanceRecord = this.state.performanceRecord;
 
         if (performanceRecord.employees.length === 0 && this.props.isMultiple) {
             errors.employee = getResource('EmployeeRequired');
@@ -174,16 +179,17 @@ export default class CreateMemberPerformance extends Component {
     handleSubmit = event => {
         event.preventDefault();
 
-        if (this.state.isSubmitting)
+        if (this.state.isSubmitting) {
             return;
+        }
 
         if (this.validateForm()) {
             this.setSubmitting(true);
 
-            let record = this.state.performanceRecord;
-            let employeeIds = this.props.isMultiple
+            const record = this.state.performanceRecord;
+            const employeeIds = this.props.isMultiple
                 ? record.employees.map(employee => employee.value).join(',') : this.props.selectedMemberInfo.id;
-            let performanceRecord = stringify({
+            const performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 employeeIds: employeeIds,
                 gradeId: record.grade ? record.grade.value : null,
@@ -200,7 +206,7 @@ export default class CreateMemberPerformance extends Component {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }).then(response => {
-                let data = response.data;
+                const data = response.data;
                 if (data.isSuccessful) {
                     toast.success(getResource('CreatedSuccessfully'));
 
@@ -208,7 +214,7 @@ export default class CreateMemberPerformance extends Component {
                     this.handleCancel();
                 } else {
                     if (data.errors) {
-                        let errors = {};
+                        const errors = {};
                         data.errors.map(error => {
                             errors[camelCase(error.key)] = error.errorMessage;
                         });
@@ -225,15 +231,16 @@ export default class CreateMemberPerformance extends Component {
     handleSaveAsDraft = event => {
         event.preventDefault();
 
-        if (this.state.isSubmitting)
+        if (this.state.isSubmitting) {
             return;
+        }
 
         if (this.validateForm()) {
             this.setSubmitting(true);
-            let record = this.state.performanceRecord;
-            let employeeIds = this.props.isMultiple ? record.employees.map(employee => employee.value).join(',') :
+            const record = this.state.performanceRecord;
+            const employeeIds = this.props.isMultiple ? record.employees.map(employee => employee.value).join(',') :
                 this.props.selectedMemberInfo.id;
-            let performanceRecord = stringify({
+            const performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 employeeIds: employeeIds,
                 gradeId: record.grade ? record.grade.value : null,
@@ -250,7 +257,7 @@ export default class CreateMemberPerformance extends Component {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }).then(response => {
-                let data = response.data;
+                const data = response.data;
                 if (data.isSuccessful) {
                     toast.success(getResource('CreatedSuccessfully'));
 
@@ -258,7 +265,7 @@ export default class CreateMemberPerformance extends Component {
                     this.handleCancel();
                 } else {
                     if (data.errors) {
-                        let errors = {};
+                        const errors = {};
                         data.errors.map(error => {
                             errors[camelCase(error.key)] = error.errorMessage;
                         });

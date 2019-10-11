@@ -43,7 +43,7 @@ export default class MemberWorkload extends Component {
     }
 
     generateWorkload = groupWorkload => {
-        var totalHours = 0;
+        let totalHours = 0;
         groupWorkload.employeeWorkloads.forEach(e => {
             totalHours += e.workloads.reduce((total, current) => total + current.totalHours, 0);
         });
@@ -58,14 +58,14 @@ export default class MemberWorkload extends Component {
     }
 
     generateDataSets = employeeWorkloads => {
-        let labels = [];
-        let dataset = {
+        const labels = [];
+        const dataset = {
             label: 'workload',
             backgroundColor: '#2748A5',
             data: [],
             workloadDetails: []
         };
-        let datasets = [dataset];
+        const datasets = [dataset];
 
         employeeWorkloads.forEach(employee => {
             labels.push(employee.nickName);
@@ -99,14 +99,14 @@ export default class MemberWorkload extends Component {
         tooltips: {
             callbacks: {
                 label: function (tooltipItem, data) {
-                    var dataset = data.datasets[tooltipItem.datasetIndex];
+                    const dataset = data.datasets[tooltipItem.datasetIndex];
                     return dataset.workloadDetails[tooltipItem.index];
                 }
             },
             enabled: false,
             custom: function (tooltipModel) {
                 // Tooltip Element
-                var tooltipEl = document.getElementById('chartjs-tooltip');
+                let tooltipEl = document.getElementById('chartjs-tooltip');
 
                 // Create element on first render
                 if (!tooltipEl) {
@@ -131,8 +131,8 @@ export default class MemberWorkload extends Component {
 
                 // Set Text
                 if (tooltipModel.body) {
-                    var bodyLines = tooltipModel.body.map(bodyItem => bodyItem.lines);
-                    var innerHtml = '';
+                    const bodyLines = tooltipModel.body.map(bodyItem => bodyItem.lines);
+                    let innerHtml = '';
                     bodyLines.forEach(function (body) {
                         body.forEach(b => innerHtml += '<p>' + `${b.project}: ${b.totalHours}h` + '</p>');
                     });
@@ -192,7 +192,7 @@ export default class MemberWorkload extends Component {
         return <div className="group-name">{groupName}</div>;
     }
 
-    renderChart = (workload, i) => {
+    renderChart = workload => {
         if (this.state.selectedGroups.some(x => x.value === workload.groupId)) {
             let basicHeight = 140;
 
