@@ -81,6 +81,8 @@ export default class CreateSelfPerformance extends Component {
             event.returnValue = ' ';
             return ' ';
         }
+
+        return null;
     }
 
     handleOpenForm = () => {

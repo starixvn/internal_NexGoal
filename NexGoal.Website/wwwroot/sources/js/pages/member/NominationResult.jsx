@@ -20,8 +20,8 @@ export default class NominationResult extends Component {
     componentDidMount() {
         axios.get(resolveClientUrl('member/GetNominationPeriod'), { params: { isCompleted: true } })
             .then(response => {
-                let yearOptions = response.data.map(period => period.year).filter((value, index, self) => self.indexOf(value) === index);
-                let year = yearOptions.length > 0 ? yearOptions[0] : null;
+                const yearOptions = response.data.map(period => period.year).filter((value, index, self) => self.indexOf(value) === index);
+                const year = yearOptions.length > 0 ? yearOptions[0] : null;
 
                 this.setState({
                     yearOptions: yearOptions,
@@ -58,11 +58,11 @@ export default class NominationResult extends Component {
     }
 
     groupMemberNominations = () => {
-        let memberNominations = this.state.memberNominations;
+        const memberNominations = this.state.memberNominations;
         let nominations = {};
 
         memberNominations.forEach(function (nomination) {
-            let key = nomination.period.nominationPeriodId;
+            const key = nomination.period.nominationPeriodId;
 
             if (!nominations[key]) {
                 nominations[key] = {
@@ -97,12 +97,17 @@ export default class NominationResult extends Component {
             };
         });
 
-        let sortDesc = function (nomination1, nomination2) {
-            let date1 = new Date(nomination1.period.endDateForCommittee);
-            let date2 = new Date(nomination2.period.endDateForCommittee);
+        const sortDesc = function (nomination1, nomination2) {
+            const date1 = new Date(nomination1.period.endDateForCommittee);
+            const date2 = new Date(nomination2.period.endDateForCommittee);
 
-            if (date1 > date2) return -1;
-            if (date1 < date2) return 1;
+            if (date1 > date2) {
+                return -1;
+            }
+
+            if (date1 < date2) {
+                return 1;
+            }
 
             return 0;
         };
@@ -111,7 +116,7 @@ export default class NominationResult extends Component {
     }
 
     renderMemberNominations = () => {
-        let memberNominations = this.groupMemberNominations();
+        const memberNominations = this.groupMemberNominations();
 
         if (memberNominations && memberNominations.length > 0) {
             return (
@@ -123,21 +128,21 @@ export default class NominationResult extends Component {
                                     <div className="nomination-period-title">{nomination.period.shortTitle}</div>
                                     {
                                         nomination.winners.length > 0 &&
-                                        <div  className="result-item">
+                                        <div className="result-item">
                                             <span className={getNominationClassName(NominationStatuses[2].value)}>Winner</span>
                                             <span>: {nomination.winners.join(', ')}</span>
                                         </div>
                                     }
                                     {
                                         nomination.shortlisteds.length > 0 &&
-                                        <div  className="result-item">
+                                        <div className="result-item">
                                             <span className={getNominationClassName(NominationStatuses[1].value)}>Shortlisted</span>
                                             <span>: {nomination.shortlisteds.join(', ')}</span>
                                         </div>
                                     }
                                     {
                                         nomination.nominateds.length > 0 &&
-                                        <div  className="result-item">
+                                        <div className="result-item">
                                             <span className={getNominationClassName(NominationStatuses[0].value)}>Nominated</span>
                                             <span>: {nomination.nominateds.join(', ')}</span>
                                         </div>

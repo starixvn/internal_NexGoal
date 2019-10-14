@@ -30,7 +30,7 @@ export default class MemberWorkload extends Component {
                 periodId: this.state.periodId
             }
         }).then(response => {
-            let workloads = response.data.map(this.generateWorkload);
+            const workloads = response.data.map(this.generateWorkload);
 
             this.setState({ workloads: workloads }, () => this.chartOptions.afterInit = null);
         }).catch(axiosError);
@@ -140,7 +140,7 @@ export default class MemberWorkload extends Component {
                     tooltipEl.innerHTML = innerHtml;
                 }
 
-                var position = this._chart.canvas.getBoundingClientRect();
+                const position = this._chart.canvas.getBoundingClientRect();
 
                 // Display, position, and set styles for font
                 tooltipEl.style.opacity = 1;

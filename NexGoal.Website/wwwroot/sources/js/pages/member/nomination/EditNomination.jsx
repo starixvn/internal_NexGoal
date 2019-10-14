@@ -9,6 +9,7 @@ import { Formik } from 'formik';
 import moment from 'moment';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
+import { InputErrorCssClass } from '../../../constants';
 import { DateFormat } from '../../../constants';
 import getResource from '../../../resourceHelper';
 import TextareaFullscreenEditor from '../../../shared/components/textarea-fullscreen/index';
@@ -46,16 +47,18 @@ export default class EditNomination extends Component {
 
     onLeavingPageEventListener = event => {
         if (this.refs.form) {
-            var isDirty = this.refs.form.getFormikComputedProps().dirty;
+            const isDirty = this.refs.form.getFormikComputedProps().dirty;
             if (isDirty) {
                 event.returnValue = ' ';
                 return ' ';
             }
         }
+
+        return null;
     }
 
     validateForm = values => {
-        let errors = {};
+        const errors = {};
 
         if (!values.comment || values.comment.trim() === '') {
             errors.comment = 'Comment is required!';
@@ -87,7 +90,7 @@ export default class EditNomination extends Component {
                 toast.success(getResource('CreatedSuccessfully'));
             } else {
                 if (data.errors) {
-                    let errors = {};
+                    const errors = {};
                     data.errors.map(error => {
                         errors[camelCase(error.key)] = error.errorMessage;
                     });
@@ -109,7 +112,7 @@ export default class EditNomination extends Component {
         setFieldValue,
         isSubmitting
     }) => {
-        let onPeriodChange = value => {
+        const onPeriodChange = value => {
             let period = this.props.nominationPeriodOptions.find(x => x.value === value.value);
             let questions = '';
             if (period.quarter) {
@@ -122,8 +125,8 @@ export default class EditNomination extends Component {
             setFieldValue('comment', questions);
         };
 
-        let currentUser = this.props.currentUser;
-        let createdDate = moment(this.props.performanceRecord.createdDate);
+        const currentUser = this.props.currentUser;
+        const createdDate = moment(this.props.performanceRecord.createdDate);
 
         return (
             <form onSubmit={handleSubmit} className="form-filter form-performance edit">
@@ -133,7 +136,7 @@ export default class EditNomination extends Component {
                             <img src={currentUser.avatar} className="avatar" />
                             <div className="person-info">
                                 <span className="role-member">{currentUser.nickName}</span>
-                                
+
                             </div>
                         </div>
                         <div className="date-time">
@@ -145,7 +148,7 @@ export default class EditNomination extends Component {
                                     <ControlLabel>{getResource('NominationPeriod')}</ControlLabel>
                                     <Select name="period"
                                         classNamePrefix="react-select"
-                                        className={`react-select-container ${touched.period && errors.period && 'input-validation-error'}`}
+                                        className={`react-select-container ${touched.period && errors.period && InputErrorCssClass}`}
                                         value={values.period} onChange={onPeriodChange}
                                         options={this.props.nominationPeriodOptions}
                                     />
@@ -156,7 +159,7 @@ export default class EditNomination extends Component {
                                         this.props.isEmployeeSelectable ?
                                             <Select name="employee"
                                                 classNamePrefix="react-select"
-                                                className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`}
+                                                className={`react-select-container ${touched.employee && errors.employee && InputErrorCssClass}`}
                                                 value={values.employee} onChange={value => setFieldValue('employee', value)}
                                                 options={this.props.employeeOptions}
                                             />
@@ -168,7 +171,7 @@ export default class EditNomination extends Component {
                             <FormGroup>
                                 <ControlLabel>{getResource('Comment')}</ControlLabel>
                                 <TextareaFullscreenEditor
-                                    className={`form-control comment-field ${touched.comment && errors.comment && 'input-validation-error'}`}
+                                    className={`form-control comment-field ${touched.comment && errors.comment && InputErrorCssClass}`}
                                     name="comment"
                                     value={values.comment}
                                     onChange={handleChange}
@@ -186,7 +189,7 @@ export default class EditNomination extends Component {
     }
 
     render() {
-        let initialObj = {
+        const initialObj = {
             period: {
                 label: this.props.performanceRecord.nominationPeriod.title,
                 value: this.props.performanceRecord.nominationPeriod.nominationPeriodId

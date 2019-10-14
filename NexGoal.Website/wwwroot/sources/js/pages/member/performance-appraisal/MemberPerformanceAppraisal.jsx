@@ -47,10 +47,10 @@ export default class MemberPerformanceAppraisal extends Component {
     }
 
     onQuickEditSuccess = (paRecordId, isRevised) => {
-        let paString = JSON.stringify(this.state.performanceAppraisals);
-        let groupPAs = JSON.parse(paString);
+        const paString = JSON.stringify(this.state.performanceAppraisals);
+        const groupPAs = JSON.parse(paString);
         for (let i = 0; i < groupPAs.length; i++) {
-            let paIndex = groupPAs[i].performanceAppraisals.findIndex(pa => pa.paRecordId === paRecordId);
+            const paIndex = groupPAs[i].performanceAppraisals.findIndex(pa => pa.paRecordId === paRecordId);
             if (paIndex !== -1) {
                 groupPAs[i].performanceAppraisals[paIndex].isRevised = !isRevised;
             }

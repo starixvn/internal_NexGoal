@@ -6,10 +6,9 @@ import { toast } from 'react-toastify';
 import { camelCase } from 'lodash';
 import { stringify } from 'qs';
 import { Formik } from 'formik';
-import moment from 'moment';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import { DateFormat } from '../../../constants';
+import { InputErrorCssClass } from '../../../constants';
 import getResource from '../../../resourceHelper';
 import TextareaFullscreenEditor from '../../../shared/components/textarea-fullscreen/index';
 
@@ -54,6 +53,8 @@ export default class CreateNomination extends Component {
                 return ' ';
             }
         }
+
+        return null;
     }
 
     handleOpenForm = () => {
@@ -65,7 +66,7 @@ export default class CreateNomination extends Component {
     }
 
     validateForm = values => {
-        let errors = {};
+        const errors = {};
 
         if (!values.period) {
             errors.period = 'Period is required!';
@@ -97,7 +98,7 @@ export default class CreateNomination extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 this.handleCloseForm();
@@ -105,7 +106,7 @@ export default class CreateNomination extends Component {
                 toast.success(getResource('CreatedSuccessfully'));
             } else {
                 if (data.errors) {
-                    let errors = {};
+                    const errors = {};
                     data.errors.map(error => {
                         errors[camelCase(error.key)] = error.errorMessage;
                     });
@@ -127,8 +128,8 @@ export default class CreateNomination extends Component {
         setFieldValue,
         isSubmitting
     }) => {
-        let onPeriodChange = value => {
-            let period = this.props.nominationPeriodOptions.find(x => x.value === value.value);
+        const onPeriodChange = value => {
+            const period = this.props.nominationPeriodOptions.find(x => x.value === value.value);
             let questions = '';
             if (period.quarter) {
                 questions = this.state.eoqQuestions.map(e => `${e.resourceId}. ${e.value}`).join('\r\n\r\n');
@@ -147,7 +148,7 @@ export default class CreateNomination extends Component {
                         <ControlLabel>{getResource('NominationPeriod')}</ControlLabel>
                         <Select name="period"
                             classNamePrefix="react-select"
-                            className={`react-select-container ${touched.period && errors.period && 'input-validation-error'}`}
+                            className={`react-select-container ${touched.period && errors.period && InputErrorCssClass}`}
                             value={values.period} onChange={onPeriodChange}
                             options={this.props.nominationPeriodOptions}
                         />
@@ -158,7 +159,7 @@ export default class CreateNomination extends Component {
                             <ControlLabel>{getResource('Employee')}</ControlLabel>
                             <Select name="employee"
                                 classNamePrefix="react-select"
-                                className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`}
+                                className={`react-select-container ${touched.employee && errors.employee && InputErrorCssClass}`}
                                 value={values.employee} onChange={value => setFieldValue('employee', value)}
                                 options={this.props.employeeOptions}
                             />
@@ -168,7 +169,7 @@ export default class CreateNomination extends Component {
                 <FormGroup>
                     <ControlLabel>{getResource('Comment')}</ControlLabel>
                     <TextareaFullscreenEditor
-                        className={`form-control comment-field ${touched.comment && errors.comment && 'input-validation-error'}`}
+                        className={`form-control comment-field ${touched.comment && errors.comment && InputErrorCssClass}`}
                         name="comment"
                         value={values.comment}
                         onChange={handleChange}
@@ -183,7 +184,7 @@ export default class CreateNomination extends Component {
     }
 
     render() {
-        let currentUser = this.props.currentUser;
+        const currentUser = this.props.currentUser;
 
         return (
             <div className="record record-your-mind">

@@ -37,7 +37,7 @@ export default class EditMemberPA extends Component {
     componentDidMount() {
         axios(resolveClientUrl(`PA/GetById/${this.props.paRecordId}`)).then(response => {
             if (response.data) {
-                let pa = response.data;
+                const pa = response.data;
                 this.setState({
                     paRecord: {
                         paRecordId: pa.paRecordId,
@@ -74,8 +74,8 @@ export default class EditMemberPA extends Component {
     }
 
     validateForm = () => {
-        let errors = {}, isValid = true;
-        let paRecord = this.state.paRecord;
+        const errors = {}, isValid = true;
+        const paRecord = this.state.paRecord;
 
         if (!paRecord.comment || paRecord.comment.trim() === '') {
             errors.comment = getResource('CommentRequired');
@@ -96,9 +96,9 @@ export default class EditMemberPA extends Component {
         event.preventDefault();
 
         if (this.validateForm() && this.state.paRecord.paStatus === PAStatus.InProgress) {
-            let record = this.state.paRecord;
+            const record = this.state.paRecord;
 
-            let paRecord = stringify({
+            const paRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 paRecordId: record.paRecordId,
                 gradeId: record.grade ? record.grade.value : null,
@@ -113,7 +113,7 @@ export default class EditMemberPA extends Component {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }).then(response => {
-                let data = response.data;
+                const data = response.data;
 
                 if (data.isSuccessful) {
                     toast.success(getResource('UpdatedSuccessfully'));
@@ -121,7 +121,7 @@ export default class EditMemberPA extends Component {
                     this.props.onSubmitSuccess();
                 } else {
                     if (data.errors) {
-                        let errors = {};
+                        const errors = {};
                         data.errors.map(error => {
                             errors[camelCase(error.key)] = error.errorMessage;
                         });
@@ -156,7 +156,7 @@ export default class EditMemberPA extends Component {
     handleCloseGradeInfo = () => this.setState({ showGradeInfo: false })
 
     renderEditPA = paRecord => {
-        let errors = this.state.errors;
+        const errors = this.state.errors;
         const currentUserInfo = this.state.currentUserInfo;
 
         return (
@@ -165,7 +165,6 @@ export default class EditMemberPA extends Component {
                     <img src={currentUserInfo.avatar} className="avatar" />
                     <div className="person-info">
                         <span className="role-reviewer">{currentUserInfo.nickName}</span>
-                        
                     </div>
                 </div>
                 <div className="date-time"><div className="submit-date">{this.state.currentDate.format(DateFormat)}</div></div>
@@ -202,8 +201,8 @@ export default class EditMemberPA extends Component {
     }
 
     render() {
-        let paRecord = this.state.paRecord;
-        let employees = [];
+        const paRecord = this.state.paRecord;
+        const employees = [];
         employees.push(this.state.employee);
         let title = this.state.paRecord.paStatus === PAStatus.Closed ?
             getResource('PerformanceAppraisal') :

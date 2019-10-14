@@ -69,7 +69,7 @@ export default class Nomination extends Component {
             }
         }).then(response => {
             this.setState(prevState => {
-                let nominations = [response.data, ...prevState.nominations];
+                const nominations = [response.data, ...prevState.nominations];
 
                 return {
                     nominations: nominations
@@ -85,8 +85,8 @@ export default class Nomination extends Component {
             }
         }).then(response => {
             this.setState(prevState => {
-                let nominations = prevState.nominations.slice();
-                let index = nominations.findIndex(x => x.performanceRecordId === performanceRecordId);
+                const nominations = prevState.nominations.slice();
+                const index = nominations.findIndex(x => x.performanceRecordId === performanceRecordId);
                 nominations[index] = response.data;
 
                 return {
@@ -124,14 +124,14 @@ export default class Nomination extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('DeletedSuccessfully'));
 
                 this.setState(prevState => {
-                    let nominations = prevState.nominations.slice();
-                    let index = nominations.findIndex(x => x.performanceRecordId === this.state.deletedRecordId);
+                    const nominations = prevState.nominations.slice();
+                    const index = nominations.findIndex(x => x.performanceRecordId === this.state.deletedRecordId);
                     nominations.splice(index, 1);
 
                     return {

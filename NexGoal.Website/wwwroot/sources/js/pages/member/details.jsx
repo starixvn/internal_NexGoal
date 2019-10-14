@@ -98,7 +98,7 @@ export default class App extends Component {
         Promise.all(promises)
             .then(([periodResponse, gradeResponse, projectResponse, roleResponse,
                 nominationResponse, performanceAppraisalResponse, performanceRecordResponse, timelineResponse, announcementResponse]) => {
-                let displayedPerformanceRecords = performanceRecordResponse.data.slice(0, this.itemPerPage);
+                const displayedPerformanceRecords = performanceRecordResponse.data.slice(0, this.itemPerPage);
 
                 this.performanceGradeInfos = gradeResponse.data;
 
@@ -113,7 +113,7 @@ export default class App extends Component {
                     return { value: project.projectId, label: project.name };
                 });
 
-                let timelineInfo = timelineResponse.data[0];
+                const timelineInfo = timelineResponse.data[0];
                 this.currentUserInfo.roleId = roleResponse.data;
 
                 this.setState({
@@ -145,7 +145,7 @@ export default class App extends Component {
     }
 
     loadMorePerformanceRecord = (page, callback) => {
-        let records = this.state.performanceRecords.slice(0, page * this.itemPerPage);
+        const records = this.state.performanceRecords.slice(0, page * this.itemPerPage);
         this.setState({
             displayedPerformanceRecords: records,
             hasMore: records.length < this.state.performanceRecords.length
@@ -157,7 +157,7 @@ export default class App extends Component {
     }
 
     handleTimelinePageChange = (pageIndex, pageSize) => {
-        let size = pageSize ? pageSize : calculateTimelineNode();
+        const size = pageSize ? pageSize : calculateTimelineNode();
         axios(resolveClientUrl('Member/Performance/Timeline'), {
             params: {
                 employeeId: this.memberInfo.id,
@@ -192,11 +192,11 @@ export default class App extends Component {
 
     handleClickTimelineNode = performanceRecordId => {
         if (!this.state.displayedPerformanceRecords.some(r => r.performanceRecordId === performanceRecordId)) {
-            let index = this.state.performanceRecords.findIndex(function (element) {
+            const index = this.state.performanceRecords.findIndex(function (element) {
                 return element.performanceRecordId === performanceRecordId;
             });
 
-            let page = Math.ceil((index + 1) / this.itemPerPage);
+            const page = Math.ceil((index + 1) / this.itemPerPage);
 
             this.refs.infiniteScrollRef.pageLoaded = page;
             this.loadMorePerformanceRecord(page, () => {
@@ -214,7 +214,7 @@ export default class App extends Component {
     handleCreatePerformanceRecordSuccess = performanceRecordIds => {
         axios(resolveClientUrl(`Performance/GetByIds/${performanceRecordIds}`))
             .then(response => {
-                let performanceRecords = this.state.performanceRecords.slice();
+                const performanceRecords = this.state.performanceRecords.slice();
                 if (this.state.personalTimeline.pageIndex === 0) {
                     this.handleTimelinePageChange(0);
                 }
@@ -228,8 +228,8 @@ export default class App extends Component {
                     performanceRecords.splice(lastIndex, 0, ...response.data);
                 }
 
-                let pageIndex = this.refs.infiniteScrollRef ? this.refs.infiniteScrollRef.pageLoaded : 1;
-                let displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
+                const pageIndex = this.refs.infiniteScrollRef ? this.refs.infiniteScrollRef.pageLoaded : 1;
+                const displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
                     performanceRecords: performanceRecords,
@@ -242,10 +242,10 @@ export default class App extends Component {
     handleCreateDraftPerformanceRecordSuccess = performanceRecordId => {
         axios(resolveClientUrl(`Performance/GetDraftById/${performanceRecordId}`))
             .then(response => {
-                let performanceRecords = this.state.performanceRecords.slice();
+                const performanceRecords = this.state.performanceRecords.slice();
                 performanceRecords.unshift(response.data);
-                let pageIndex = this.refs.infiniteScrollRef ? this.refs.infiniteScrollRef.pageLoaded : 1;
-                let displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
+                const pageIndex = this.refs.infiniteScrollRef ? this.refs.infiniteScrollRef.pageLoaded : 1;
+                const displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
                     performanceRecords: performanceRecords,
@@ -287,9 +287,9 @@ export default class App extends Component {
     handleEditPerformanceRecordSuccess = performanceRecordIds => {
         axios(resolveClientUrl(`Performance/GetByIds/${performanceRecordIds}`))
             .then(response => {
-                let performanceRecords = this.state.performanceRecords.slice();
-                let currentRecordIndex = performanceRecords.findIndex(record => record.performanceRecordId === this.state.editPerformanceRecord.performanceRecordId);
-                let currentRecord = performanceRecords[currentRecordIndex];
+                const performanceRecords = this.state.performanceRecords.slice();
+                const currentRecordIndex = performanceRecords.findIndex(record => record.performanceRecordId === this.state.editPerformanceRecord.performanceRecordId);
+                const currentRecord = performanceRecords[currentRecordIndex];
 
                 if (currentRecord.isDraft) {
                     performanceRecords.splice(currentRecordIndex, 1);
@@ -304,8 +304,8 @@ export default class App extends Component {
                     performanceRecords.splice(currentRecordIndex, 1, ...response.data);
                 }
 
-                let pageIndex = this.refs.infiniteScrollRef.pageLoaded;
-                let displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
+                const pageIndex = this.refs.infiniteScrollRef.pageLoaded;
+                const displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
                     performanceRecords: performanceRecords,
@@ -320,13 +320,13 @@ export default class App extends Component {
     handleEditDraftPerformanceRecordSuccess = performanceRecordId => {
         axios(resolveClientUrl(`Performance/GetDraftById/${performanceRecordId}`))
             .then(response => {
-                let performanceRecords = this.state.performanceRecords.slice();
-                let currentRecordIndex = performanceRecords.findIndex(record => record.performanceRecordId === this.state.editPerformanceRecord.performanceRecordId);
+                const performanceRecords = this.state.performanceRecords.slice();
+                const currentRecordIndex = performanceRecords.findIndex(record => record.performanceRecordId === this.state.editPerformanceRecord.performanceRecordId);
 
                 performanceRecords.splice(currentRecordIndex, 1, response.data);
 
-                let pageIndex = this.refs.infiniteScrollRef.pageLoaded;
-                let displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
+                const pageIndex = this.refs.infiniteScrollRef.pageLoaded;
+                const displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
                     performanceRecords: performanceRecords,
@@ -348,7 +348,7 @@ export default class App extends Component {
     }
 
     handleDeletePerformanceRecord = () => {
-        let performanceRecordId = this.state.deletePerformanceRecord.performanceRecordId;
+        const performanceRecordId = this.state.deletePerformanceRecord.performanceRecordId;
         axios({
             url: resolveClientUrl('Performance/Delete'),
             method: 'DELETE',
@@ -361,19 +361,19 @@ export default class App extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('DeletedSuccessfully'));
 
-                let performanceRecords = this.state.performanceRecords.slice();
-                let index = performanceRecords.findIndex(item => item.performanceRecordId === performanceRecordId);
+                const performanceRecords = this.state.performanceRecords.slice();
+                const index = performanceRecords.findIndex(item => item.performanceRecordId === performanceRecordId);
                 if (index >= 0) {
                     performanceRecords.splice(index, 1);
                 }
 
-                let pageIndex = this.refs.infiniteScrollRef.pageLoaded;
-                let displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
+                const pageIndex = this.refs.infiniteScrollRef.pageLoaded;
+                const displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
                     performanceRecords: performanceRecords,

@@ -93,7 +93,7 @@ export default class MyPage extends Component {
                     return { value: project.projectId, label: project.name };
                 });
 
-                let displayedPerformanceRecords = performanceRecordResponse.data.slice(0, this.itemPerPage);
+                const displayedPerformanceRecords = performanceRecordResponse.data.slice(0, this.itemPerPage);
 
                 this.setState({
                     performanceRecords: performanceRecordResponse.data,
@@ -180,12 +180,12 @@ export default class MyPage extends Component {
     handleCreateDraftPerformanceRecordSuccess = performanceRecordId => {
         axios(resolveClientUrl(`Performance/GetDraftById/${performanceRecordId}`))
             .then(response => {
-                let performanceRecords = this.state.performanceRecords.slice();
+                const performanceRecords = this.state.performanceRecords.slice();
 
                 performanceRecords.unshift(response.data);
 
-                let pageIndex = this.refs.infiniteScrollRef ? this.refs.infiniteScrollRef.pageLoaded : 1;
-                let displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
+                const pageIndex = this.refs.infiniteScrollRef ? this.refs.infiniteScrollRef.pageLoaded : 1;
+                const displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
                     performanceRecords: performanceRecords,
@@ -301,7 +301,7 @@ export default class MyPage extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('DeletedSuccessfully'));
@@ -338,7 +338,7 @@ export default class MyPage extends Component {
     }
 
     loadMorePerformanceRecord = (page, callback) => {
-        let records = this.state.performanceRecords.slice(0, page * this.itemPerPage);
+        const records = this.state.performanceRecords.slice(0, page * this.itemPerPage);
         this.setState({
             displayedPerformanceRecords: records,
             hasMore: records.length < this.state.performanceRecords.length

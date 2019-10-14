@@ -69,6 +69,8 @@ export default class Create extends Component {
         }).catch(axiosError);
     }
 
+    checkIsInvalid = (touched, errors, fieldName) => touched[fieldName] && errors[fieldName];
+
     renderForm = ({
         values,
         errors,
@@ -76,9 +78,9 @@ export default class Create extends Component {
         handleChange,
         handleSubmit,
         setFieldValue }) => {
-        const isEmployeeInvalid = touched.employee && errors.employee;
-        const isEffectiveDateInvalid = touched.effectiveDate && errors.effectiveDate;
-        const isDescriptionInvalid = touched.description && errors.description;
+        const isEmployeeInvalid = this.checkIsInvalid(touched, errors, 'employee');
+        const isEffectiveDateInvalid = this.checkIsInvalid(touched, errors, 'effectiveDate');
+        const isDescriptionInvalid = this.checkIsInvalid(touched, errors, 'description');
 
         return (
             <Form className="discipline-form" id="create-form" inline onSubmit={handleSubmit}>

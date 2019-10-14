@@ -19,8 +19,13 @@ class Rows extends Component {
 
     renderToeic = (toeicPolicy, toeic) => {
         let toeicClass = '';
-        if (toeicPolicy !== null && toeicPolicy > 0) toeicClass = 'toeic-passed';
-        if (toeicPolicy === null || toeicPolicy < 0) toeicClass = 'toeic-failed';
+        if (toeicPolicy !== null && toeicPolicy > 0) {
+            toeicClass = 'toeic-passed';
+        }
+
+        if (toeicPolicy === null || toeicPolicy < 0) {
+            toeicClass = 'toeic-failed';
+        }
         return <span className={`bold ${toeicClass}`}>{toeic ? toeic : getResource('N/A')}</span>;
     }
 
@@ -45,20 +50,18 @@ class Rows extends Component {
 
     countDuplicateGrades = grades => {
         grades.sort();
-        let displayGrades = [];
-        let currentGrade = null;
-        var count = 0;
+        const displayGrades = [];
+        const currentGrade = null;
+        const count = 0;
         for (let i = 0; i < grades.length; i++) {
-            if (grades[i]) {
-                if (grades[i] !== currentGrade) {
-                    if (count > 0) {
-                        displayGrades.push(count > 1 ? count + currentGrade : currentGrade);
-                    }
-                    currentGrade = grades[i];
-                    count = 1;
-                } else {
-                    count++;
+            if (grades[i] !== currentGrade) {
+                if (count > 0) {
+                    displayGrades.push(count > 1 ? count + currentGrade : currentGrade);
                 }
+                currentGrade = grades[i];
+                count = 1;
+            } else {
+                count++;
             }
         }
 
@@ -86,6 +89,8 @@ class Rows extends Component {
                 return process.performanceRecord.grade ?
                     process.performanceRecord.grade.name : getResource('N/A');
             }
+
+            return getResource('N/A');
         });
 
         const tooltip = (
@@ -102,6 +107,8 @@ class Rows extends Component {
                                 </p>
                             );
                         }
+
+                        return null;
                     })
                 }
             </Tooltip>
@@ -131,10 +138,10 @@ class Rows extends Component {
     }
 
     renderPAGrade = record => {
-        let gradeId = record.grade ? record.grade.gradeId : null;
-        let originalGradeId = record.originalGrade ? record.originalGrade.gradeId : null;
+        const gradeId = record.grade ? record.grade.gradeId : null;
+        const originalGradeId = record.originalGrade ? record.originalGrade.gradeId : null;
 
-        let gradeChangeClass = getPAGradeClassName(originalGradeId, gradeId);
+        const gradeChangeClass = getPAGradeClassName(originalGradeId, gradeId);
 
         let paGrade = <span>{record.grade ? record.grade.name : getResource('N/A')}</span>;
         if (record.statusId === PAStatus.InProgress) {

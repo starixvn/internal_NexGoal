@@ -142,8 +142,9 @@ export default class EditMemberPerformance extends Component {
     }
 
     validateForm = () => {
-        let errors = {}, isValid = true;
-        let performanceRecord = this.state.performanceRecord;
+        const errors = {};
+        let isValid = true;
+        const performanceRecord = this.state.performanceRecord;
 
         if (performanceRecord.employees.length === 0) {
             errors.employee = getResource('EmployeeRequired');
@@ -216,8 +217,9 @@ export default class EditMemberPerformance extends Component {
     handleSaveAsDraft = event => {
         event.preventDefault();
 
-        if (this.state.isSubmitting)
+        if (this.state.isSubmitting) {
             return;
+        }
 
         if (this.validateForm()) {
             this.setSubmitting(true);

@@ -40,10 +40,10 @@ export default class EditSelfPerformance extends Component {
     }
 
     componentDidMount() {
-        let url = this.props.isDraft ? `Performance/GetDraftById/${this.props.performanceRecordId}` : `Performance/GetById/${this.props.performanceRecordId}`;
+        const url = this.props.isDraft ? `Performance/GetDraftById/${this.props.performanceRecordId}` : `Performance/GetById/${this.props.performanceRecordId}`;
         axios(resolveClientUrl(url))
             .then(response => {
-                let performanceRecord = response.data;
+                const performanceRecord = response.data;
                 performanceRecord.grade = performanceRecord.grade ? {
                     value: performanceRecord.grade.gradeId,
                     label: `(${performanceRecord.grade.name}) ${performanceRecord.grade.description}`
@@ -70,6 +70,8 @@ export default class EditSelfPerformance extends Component {
             event.returnValue = ' ';
             return ' ';
         }
+
+        return null;
     }
 
     handleGradeChange = selectedOption => {
@@ -79,7 +81,7 @@ export default class EditSelfPerformance extends Component {
     }
 
     handleCommentChange = event => {
-        let errors = {};
+        const errors = {};
 
         if (!event.target.value) {
             errors.comment = getResource('CommentRequired');
@@ -98,7 +100,8 @@ export default class EditSelfPerformance extends Component {
     }
 
     validateForm = () => {
-        let errors = {}, isValid = true;
+        const errors = {};
+        let isValid = true;
 
         if (!this.state.performanceRecord.comment || this.state.performanceRecord.comment.trim() === '') {
             errors.comment = getResource('CommentRequired');
@@ -113,14 +116,15 @@ export default class EditSelfPerformance extends Component {
     handleSubmit = event => {
         event.preventDefault();
 
-        if (this.state.isSubmitting)
+        if (this.state.isSubmitting) {
             return;
+        }
 
         if (this.validateForm()) {
             this.setSubmitting(true);
 
-            let record = this.state.performanceRecord;
-            let performanceRecord = stringify({
+            const record = this.state.performanceRecord;
+            const performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 performanceRecordId: record.performanceRecordId,
                 gradeId: record.grade ? record.grade.value : null,
@@ -138,7 +142,7 @@ export default class EditSelfPerformance extends Component {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }).then(response => {
-                let data = response.data;
+                const data = response.data;
 
                 if (data.isSuccessful) {
                     toast.success(getResource('UpdatedSuccessfully'));
@@ -146,7 +150,7 @@ export default class EditSelfPerformance extends Component {
                     this.props.onSubmitSuccess(data.objectIds);
                 } else {
                     if (data.errors) {
-                        let errors = {};
+                        const errors = {};
                         data.errors.map(error => {
                             errors[camelCase(error.key)] = error.errorMessage;
                         });
@@ -163,14 +167,15 @@ export default class EditSelfPerformance extends Component {
     handleSaveAsDraft = event => {
         event.preventDefault();
 
-        if (this.state.isSubmitting)
+        if (this.state.isSubmitting) {
             return;
+        }
 
         if (this.validateForm()) {
             this.setSubmitting(true);
 
-            let record = this.state.performanceRecord;
-            let performanceRecord = stringify({
+            const record = this.state.performanceRecord;
+            const performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 performanceRecordId: record.performanceRecordId,
                 gradeId: record.grade ? record.grade.value : null,
@@ -187,7 +192,7 @@ export default class EditSelfPerformance extends Component {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }).then(response => {
-                let data = response.data;
+                const data = response.data;
 
                 if (data.isSuccessful) {
                     toast.success(getResource('UpdatedSuccessfully'));
@@ -195,7 +200,7 @@ export default class EditSelfPerformance extends Component {
                     this.props.onSubmitDraftSuccess(record.performanceRecordId);
                 } else {
                     if (data.errors) {
-                        let errors = {};
+                        const errors = {};
                         data.errors.map(error => {
                             errors[camelCase(error.key)] = error.errorMessage;
                         });
@@ -234,11 +239,9 @@ export default class EditSelfPerformance extends Component {
                                 <img src={currentUser.avatar} className="avatar" />
                                 <div className="person-info">
                                     <span className="role-member">{currentUser.nickName}</span>
-                                    
                                 </div>
                             </div>
                             <div className="date-time self-checkin">
-                                
                                 {
                                     performanceRecord.isDraft &&
                                     <span className="draft">draft</span>
