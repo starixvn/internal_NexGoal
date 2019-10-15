@@ -30,8 +30,8 @@ export default class Line extends Component {
     }
 
     calculateNodePosition = (totalNodes, index) => {
-        let nodeWidth = (this.props.timelineWidth - 10) / totalNodes;
-        let startAt = (nodeWidth - 57) / 2;
+        const nodeWidth = (this.props.timelineWidth - 10) / totalNodes;
+        const startAt = (nodeWidth - 57) / 2;
 
         return index * nodeWidth + startAt;
     }
@@ -55,7 +55,7 @@ export default class Line extends Component {
                     {
                         totalNodes > 0 &&
                         performanceRecords.map((performanceRecord, index) => {
-                            let position = this.calculateNodePosition(totalNodes, index);
+                            const position = this.calculateNodePosition(totalNodes, index);
 
                             return (
                                 <Node key={`timelineNode${performanceRecord.performanceRecordId}`}

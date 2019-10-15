@@ -43,7 +43,7 @@ class Table extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
             if (data.isSuccessful) {
                 this.props.onRevisedSuccess(paRecordId, isRevised);
             } else {

@@ -11,7 +11,7 @@ import { stringify } from 'qs';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { quarterOptions, validateEOQForm } from '../common';
 import getResource from '../../../resourceHelper';
-import { DateFormat } from '../../../constants';
+import { DateFormat, InputErrorCssClass } from '../../../constants';
 
 class CreateEOQ extends Component {
     constructor(props) {
@@ -19,7 +19,7 @@ class CreateEOQ extends Component {
     }
 
     handleSubmit = (values, { setErrors }) => {
-        let eoq = stringify({
+        const eoq = stringify({
             __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
             quarter: values.quarter.value,
             year: values.year.value,
@@ -39,7 +39,7 @@ class CreateEOQ extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('CreatedSuccessfully'));
@@ -48,7 +48,7 @@ class CreateEOQ extends Component {
                 this.props.handleFilterSubmit();
             } else {
                 if (data.errors) {
-                    let errors = {};
+                    const errors = {};
                     data.errors.map(error => {
                         errors[camelCase(error.key)] = error.errorMessage;
                     });
@@ -119,7 +119,7 @@ class CreateEOQ extends Component {
                             <label className="control-label">{getResource('StartDate')}</label>
                             <div className="field control-content">
                                 <DatePicker name="startDateForNominator" autoComplete="off"
-                                    className={`form-control ${touched.startDateForNominator && errors.startDateForNominator && 'input-validation-error'}`}
+                                    className={`form-control ${touched.startDateForNominator && errors.startDateForNominator && InputErrorCssClass}`}
                                     dateFormat={DateFormat}
                                     selected={values.startDateForNominator}
                                     onChange={value => setFieldValue('startDateForNominator', value)}
@@ -130,7 +130,7 @@ class CreateEOQ extends Component {
                             <label className="control-label">{getResource('EndDate')}</label>
                             <div className="field control-content">
                                 <DatePicker name="endDateForNominator" autoComplete="off"
-                                    className={`form-control ${touched.endDateForNominator && errors.endDateForNominator && 'input-validation-error'}`}
+                                    className={`form-control ${touched.endDateForNominator && errors.endDateForNominator && InputErrorCssClass}`}
                                     dateFormat={DateFormat}
                                     selected={values.endDateForNominator}
                                     onChange={value => setFieldValue('endDateForNominator', value)}
@@ -141,7 +141,7 @@ class CreateEOQ extends Component {
                             <label className="control-label">{getResource('RemindDate')}</label>
                             <div className="field control-content">
                                 <DatePicker name="remindDateForNominator" autoComplete="off"
-                                    className={`form-control ${touched.remindDateForNominator && errors.remindDateForNominator && 'input-validation-error'}`}
+                                    className={`form-control ${touched.remindDateForNominator && errors.remindDateForNominator && InputErrorCssClass}`}
                                     dateFormat={DateFormat}
                                     selected={values.remindDateForNominator}
                                     onChange={value => setFieldValue('remindDateForNominator', value)}
@@ -155,7 +155,7 @@ class CreateEOQ extends Component {
                             <label className="control-label">{getResource('EndDate')}</label>
                             <div className="field control-content">
                                 <DatePicker name="endDateForCommittee" autoComplete="off"
-                                    className={`form-control ${touched.endDateForCommittee && errors.endDateForCommittee && 'input-validation-error'}`}
+                                    className={`form-control ${touched.endDateForCommittee && errors.endDateForCommittee && InputErrorCssClass}`}
                                     dateFormat={DateFormat}
                                     selected={values.endDateForCommittee}
                                     onChange={value => setFieldValue('endDateForCommittee', value)}
@@ -167,7 +167,7 @@ class CreateEOQ extends Component {
                         <FormGroup className="description-group">
                             <label className="control-label">{getResource('Description')} (optional)</label>
                             <div className="field control-content">
-                                <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
+                                <textarea className={`form-control none-resize ${touched.description && errors.description && InputErrorCssClass}`}
                                     rows="5" maxLength="200"
                                     name="description" value={values.description}
                                     onChange={handleChange}

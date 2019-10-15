@@ -30,7 +30,7 @@ class Filter extends Component {
     }
 
     render() {
-        let yearOptions = this.props.years.map(year => {
+        const yearOptions = this.props.years.map(year => {
             return { value: year.toString(), label: year };
         });
         yearOptions.unshift({ value: '', label: '-- All --' });

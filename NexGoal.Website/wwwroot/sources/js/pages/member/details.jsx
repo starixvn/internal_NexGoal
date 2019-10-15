@@ -165,7 +165,7 @@ export default class App extends Component {
                 pageSize: size
             }
         }).then(response => {
-            let timelineInfo = response.data[0];
+            const timelineInfo = response.data[0];
             this.setState({
                 personalTimeline: {
                     records: timelineInfo.performanceRecords,

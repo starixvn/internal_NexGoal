@@ -51,8 +51,8 @@ class Rows extends Component {
     countDuplicateGrades = grades => {
         grades.sort();
         const displayGrades = [];
-        const currentGrade = null;
-        const count = 0;
+        let currentGrade = null;
+        let count = 0;
         for (let i = 0; i < grades.length; i++) {
             if (grades[i] !== currentGrade) {
                 if (count > 0) {

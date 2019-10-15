@@ -12,7 +12,7 @@ import { stringify } from 'qs';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { quarterOptions, validateEOQForm } from '../common';
 import getResource from '../../../resourceHelper';
-import { DateFormat } from '../../../constants';
+import { DateFormat, InputErrorCssClass } from '../../../constants';
 
 class Settings extends Component {
     constructor(props) {
@@ -39,10 +39,10 @@ class Settings extends Component {
     }
 
     getEOQById = () => {
-        let eoqId = document.getElementById('EOQId').value;
+        const eoqId = document.getElementById('EOQId').value;
         axios.get(resolveClientUrl(`EOQ/GetById/${eoqId}`))
             .then(response => {
-                let data = response.data;
+                const data = response.data;
 
                 this.setState({
                     eoq: {
@@ -60,7 +60,7 @@ class Settings extends Component {
     }
 
     handleSubmit = (values, { setErrors }) => {
-        let eoq = stringify({
+        const eoq = stringify({
             __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
             eoqId: this.state.eoq.eoqyId,
             quarter: values.quarter,
@@ -81,13 +81,13 @@ class Settings extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('UpdatedSuccessfully'));
             } else {
                 if (data.errors) {
-                    let errors = {};
+                    const errors = {};
                     data.errors.map(error => {
                         errors[camelCase(error.key)] = error.errorMessage;
                     });
@@ -151,7 +151,7 @@ class Settings extends Component {
                         <label className="control-label">{getResource('StartDate')}</label>
                         <div className="field control-content">
                             <DatePicker name="startDateForNominator" autoComplete="off" disabled={!isHost}
-                                className={`form-control ${touched.startDateForNominator && errors.startDateForNominator && 'input-validation-error'}`}
+                                className={`form-control ${touched.startDateForNominator && errors.startDateForNominator && InputErrorCssClass}`}
                                 dateFormat={DateFormat}
                                 selected={values.startDateForNominator}
                                 onChange={value => setFieldValue('startDateForNominator', value)}
@@ -162,7 +162,7 @@ class Settings extends Component {
                         <label className="control-label">{getResource('EndDate')}</label>
                         <div className="field control-content">
                             <DatePicker name="endDateForNominator" autoComplete="off" disabled={!isHost}
-                                className={`form-control ${touched.endDateForNominator && errors.endDateForNominator && 'input-validation-error'}`}
+                                className={`form-control ${touched.endDateForNominator && errors.endDateForNominator && InputErrorCssClass}`}
                                 dateFormat={DateFormat}
                                 selected={values.endDateForNominator}
                                 onChange={value => setFieldValue('endDateForNominator', value)}
@@ -173,7 +173,7 @@ class Settings extends Component {
                         <label className="control-label">{getResource('RemindDate')}</label>
                         <div className="field control-content">
                             <DatePicker name="remindDateForNominator" autoComplete="off" disabled={!isHost}
-                                className={`form-control ${touched.remindDateForNominator && errors.remindDateForNominator && 'input-validation-error'}`}
+                                className={`form-control ${touched.remindDateForNominator && errors.remindDateForNominator && InputErrorCssClass}`}
                                 dateFormat={DateFormat}
                                 selected={values.remindDateForNominator}
                                 onChange={value => setFieldValue('remindDateForNominator', value)}
@@ -187,7 +187,7 @@ class Settings extends Component {
                         <label className="control-label">{getResource('EndDate')}</label>
                         <div className="field control-content">
                             <DatePicker name="endDateForCommittee" autoComplete="off" disabled={!isHost}
-                                className={`form-control ${touched.endDateForCommittee && errors.endDateForCommittee && 'input-validation-error'}`}
+                                className={`form-control ${touched.endDateForCommittee && errors.endDateForCommittee && InputErrorCssClass}`}
                                 dateFormat={DateFormat}
                                 selected={values.endDateForCommittee}
                                 onChange={value => setFieldValue('endDateForCommittee', value)}
@@ -199,7 +199,7 @@ class Settings extends Component {
                     <FormGroup>
                         <label className="control-label">{getResource('Description')} (optional)</label>
                         <div className="field control-content description-content">
-                            <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
+                            <textarea className={`form-control none-resize ${touched.description && errors.description && InputErrorCssClass}`}
                                 rows="3" maxLength="200"
                                 name="description" value={values.description || ''}
                                 onChange={handleChange} disabled={isHost ? false : true}

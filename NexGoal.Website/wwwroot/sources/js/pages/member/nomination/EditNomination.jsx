@@ -9,8 +9,7 @@ import { Formik } from 'formik';
 import moment from 'moment';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import { InputErrorCssClass } from '../../../constants';
-import { DateFormat } from '../../../constants';
+import { InputErrorCssClass, DateFormat } from '../../../constants';
 import getResource from '../../../resourceHelper';
 import TextareaFullscreenEditor from '../../../shared/components/textarea-fullscreen/index';
 
@@ -113,7 +112,7 @@ export default class EditNomination extends Component {
         isSubmitting
     }) => {
         const onPeriodChange = value => {
-            let period = this.props.nominationPeriodOptions.find(x => x.value === value.value);
+            const period = this.props.nominationPeriodOptions.find(x => x.value === value.value);
             let questions = '';
             if (period.quarter) {
                 questions = this.state.eoqQuestions.map(e => `${e.resourceId}. ${e.value}`).join('\r\n\r\n');

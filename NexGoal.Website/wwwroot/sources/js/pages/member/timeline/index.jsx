@@ -52,7 +52,7 @@ export default class Timeline extends Component {
     }
 
     calculatePageSize = () => {
-        let windowWidth = window.innerWidth;
+        const windowWidth = window.innerWidth;
         let pageSize;
 
         if (windowWidth > 1600) {
@@ -67,7 +67,7 @@ export default class Timeline extends Component {
     }
 
     updateDimensions = () => {
-        let pageSize = this.calculatePageSize();
+        const pageSize = this.calculatePageSize();
 
         this.setState(prevState => {
             if (prevState.pageSize !== pageSize) {
@@ -109,8 +109,8 @@ export default class Timeline extends Component {
     }
 
     handlePageChange = (employeeId, pageIndex) => {
-        let memberPerformances = this.state.memberPerformances.slice();
-        let index = memberPerformances.findIndex(memberPerformance => memberPerformance.employeeId === employeeId);
+        const memberPerformances = this.state.memberPerformances.slice();
+        const index = memberPerformances.findIndex(memberPerformance => memberPerformance.employeeId === employeeId);
 
         if (index >= 0 && this.props.currentPerformancePeriod) {
             axios(resolveClientUrl('Member/Performance/Timeline'), {
@@ -150,8 +150,8 @@ export default class Timeline extends Component {
         }, []);
 
         memberPerformances = Object.keys(memberPerformances).map(key => {
-            let index = this.state.filter.groups.findIndex(group => group.label === key);
-            let group = this.props.groupOptions.filter(x => x.label === key)[0];
+            const index = this.state.filter.groups.findIndex(group => group.label === key);
+            const group = this.props.groupOptions.filter(x => x.label === key)[0];
 
             return {
                 groupId: group ? group.value : '',
@@ -181,7 +181,7 @@ export default class Timeline extends Component {
     }
 
     calculateTimelineWidth = () => {
-        let windowWidth = window.innerWidth;
+        const windowWidth = window.innerWidth;
         let timelineWidth = this.timelineEl.current ? this.timelineEl.current.offsetWidth : 0;
 
         if (windowWidth > 1600) {
@@ -194,9 +194,9 @@ export default class Timeline extends Component {
     }
 
     render() {
-        let { groupOptions, currentPerformancePeriod } = this.props;
-        let groupPerformances = this.groupMemberPerformances(this.state.memberPerformances);
-        let timelineWidth = this.calculateTimelineWidth();
+        const { groupOptions, currentPerformancePeriod } = this.props;
+        const groupPerformances = this.groupMemberPerformances(this.state.memberPerformances);
+        const timelineWidth = this.calculateTimelineWidth();
 
         return (
             <Fragment>

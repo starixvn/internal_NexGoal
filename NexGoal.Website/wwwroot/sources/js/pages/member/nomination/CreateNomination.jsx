@@ -47,7 +47,7 @@ export default class CreateNomination extends Component {
 
     onLeavingPageEventListener = event => {
         if (this.refs.form) {
-            var isDirty = this.refs.form.getFormikComputedProps().dirty;
+            const isDirty = this.refs.form.getFormikComputedProps().dirty;
             if (isDirty) {
                 event.returnValue = ' ';
                 return ' ';

@@ -61,7 +61,7 @@ export default class EditMemberPA extends Component {
     }
 
     handleCommentChange = event => {
-        let errors = { ...this.state.errors };
+        const errors = { ...this.state.errors };
         delete errors['comment'];
         if (!event.target.value) {
             errors.comment = getResource('CommentRequired');
@@ -74,7 +74,8 @@ export default class EditMemberPA extends Component {
     }
 
     validateForm = () => {
-        const errors = {}, isValid = true;
+        const errors = {};
+        let isValid = true;
         const paRecord = this.state.paRecord;
 
         if (!paRecord.comment || paRecord.comment.trim() === '') {
@@ -156,8 +157,7 @@ export default class EditMemberPA extends Component {
     handleCloseGradeInfo = () => this.setState({ showGradeInfo: false })
 
     renderEditPA = paRecord => {
-        const errors = this.state.errors;
-        const currentUserInfo = this.state.currentUserInfo;
+        const { errors, currentUserInfo } = this.state;
 
         return (
             <div className="record record-your-mind">
