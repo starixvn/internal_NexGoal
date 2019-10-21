@@ -46,35 +46,35 @@ export default class PMSetting extends Component {
 
         Promise.all(promises)
             .then(([employeeResponse, pmResponse]) => {
-                let pms = pmResponse.data;
-                let pmOptions = pms.map(item => {
+                const pms = pmResponse.data;
+                const pmOptions = pms.map(item => {
                     return {
                         value: item.employeeId,
                         label: `${item.nickName} (${item.fullName})`
                     };
                 });
 
-                let employeeOptions = employeeResponse.data.map(item => {
+                const employeeOptions = employeeResponse.data.map(item => {
                     return {
                         value: item.employeeId,
                         label: `${item.nickName} (${item.fullName})`
                     };
                 });
 
-                let filter = {
+                const filter = {
                     pms: pmOptions
                 };
 
                 this.setState({ filter: filter, pmOptions: pmOptions, pms: pms, employeeOptions: employeeOptions }, () => {
-                    let filter = this.state.filter;
-                    this.getPMSetting(filter.pms.map(e => e.value).toString(), filter.employee ? filter.employee.value : null, this.updateTableData);
+                    const newFilter = this.state.filter;
+                    this.getPMSetting(newFilter.pms.map(e => e.value).toString(), newFilter.employee ? newFilter.employee.value : null, this.updateTableData);
                 });
             }).catch(axiosError);
     }
 
     updateTableData = response => {
-        let data = response.data;
-        let selectedPMs = this.state.pms.filter(pm => this.state.filter.pms.some(e => e.value === pm.employeeId));
+        const data = response.data;
+        const selectedPMs = this.state.pms.filter(pm => this.state.filter.pms.some(e => e.value === pm.employeeId));
 
         this.setState({
             tableData: selectedPMs.map(pm => ({
@@ -95,9 +95,9 @@ export default class PMSetting extends Component {
 
     handleAddMemberSuccess = () => {
         this.getPMSetting(this.state.addMember.pm.employeeId, null, response => {
-            let data = response.data;
-            let tableData = this.state.tableData.slice();
-            let pmSetting = tableData.find(e => e.pm.employeeId === this.state.addMember.pm.employeeId);
+            const data = response.data;
+            const tableData = this.state.tableData.slice();
+            const pmSetting = tableData.find(e => e.pm.employeeId === this.state.addMember.pm.employeeId);
             pmSetting.members = data;
             this.setState({ tableData: tableData });
         });
@@ -105,7 +105,7 @@ export default class PMSetting extends Component {
     }
 
     handleFilterSubmit = () => {
-        let filter = this.state.filter;
+        const filter = this.state.filter;
         this.getPMSetting(filter.pms.map(e => e.value).toString(), filter.employee ? filter.employee.value : null, this.updateTableData);
     }
 
@@ -150,14 +150,14 @@ export default class PMSetting extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('RemovedSuccessfully'));
 
-                let tableData = this.state.tableData.slice();
-                let pmSetting = tableData.find(e => e.pm.employeeId === this.state.removeMember.member.projectManagerId);
-                let index = pmSetting.members.findIndex(m => m.employeeId === this.state.removeMember.member.employeeId);
+                const tableData = this.state.tableData.slice();
+                const pmSetting = tableData.find(e => e.pm.employeeId === this.state.removeMember.member.projectManagerId);
+                const index = pmSetting.members.findIndex(m => m.employeeId === this.state.removeMember.member.employeeId);
                 pmSetting.members.splice(index, 1);
                 this.setState({ tableData: tableData });
                 this.handleCloseRemoveMemberModal();

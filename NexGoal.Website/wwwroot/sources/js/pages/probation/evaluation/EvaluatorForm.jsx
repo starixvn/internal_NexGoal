@@ -2,7 +2,7 @@
 
 import Select from 'react-select';
 import axios from 'axios';
-import * as Yup from 'yup';
+import { object, array, number, string } from 'yup';
 import Rating from 'react-rating';
 import { flatMap, round, sumBy } from 'lodash';
 import { Formik, getIn } from 'formik';
@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import { OverlayTrigger } from 'react-bootstrap';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
+import { InputErrorCssClass, TextCenterCssClass } from '../../../constants';
 import getResource from '../../../resourceHelper';
 import ProbationResultOptions from './ProbationResultOptions';
 import SingleValue from './SingleValue';
@@ -23,18 +24,18 @@ export default class EvaluatorForm extends Component {
         super(props);
     }
 
-    schema = Yup.object().shape({
-        comment: Yup.string().required(),
-        evaluations: Yup.array().of(
-            Yup.object().shape({
-                details: Yup.array().of(
-                    Yup.object().shape({
-                        evaluatorPoint: Yup.number().required()
+    schema = object().shape({
+        comment: string().required(),
+        evaluations: array().of(
+            object().shape({
+                details: array().of(
+                    object().shape({
+                        evaluatorPoint: number().required()
                     })
                 )
             })
         ),
-        isQualifiedByEvaluator: Yup.object().required()
+        isQualifiedByEvaluator: object().required()
     })
 
     evaluationDetailTitle = <Fragment>
@@ -64,8 +65,8 @@ export default class EvaluatorForm extends Component {
                                 <Fragment key={kpiGroup.kpiGroupId}>
                                     <tr className="group-row">
                                         <td>{gIndex + 1}. {kpiGroup.name}</td>
-                                        <td className="text-center">{getResource('Employee')}</td>
-                                        <td className="text-center">{getResource('Evaluator')}</td>
+                                        <td className={TextCenterCssClass}>{getResource('Employee')}</td>
+                                        <td className={TextCenterCssClass}>{getResource('Evaluator')}</td>
                                     </tr>
                                     {kpiGroup.details.map((kpi, index) => {
                                         score += kpi.evaluatorPoint;
@@ -73,8 +74,8 @@ export default class EvaluatorForm extends Component {
                                         return (
                                             <tr key={kpi.kpiId}>
                                                 <td>{gIndex + 1}-{index + 1}. {kpi.kpiName}</td>
-                                                <td className="text-center"><strong>{kpi.selfPoint}</strong></td>
-                                                <td className="text-center">
+                                                <td className={TextCenterCssClass}><strong>{kpi.selfPoint}</strong></td>
+                                                <td className={TextCenterCssClass}>
                                                     {this.props.probationer.canEdit &&
                                                         <Rating initialRating={kpi.evaluatorPoint / 1.11 || 0}
                                                             emptySymbol={emptySymbol}
@@ -82,7 +83,7 @@ export default class EvaluatorForm extends Component {
                                                             onChange={value => setFieldValue(`evaluations.${gIndex}.details.${index}.evaluatorPoint`, round(value * 1.11, 2))}
                                                             className={`rating ${getIn(touched, `evaluations.${gIndex}.details.${index}.evaluatorPoint`)
                                                                 && getIn(errors, `evaluations.${gIndex}.details.${index}.evaluatorPoint`)
-                                                                && 'input-validation-error'}`}
+                                                                && InputErrorCssClass}`}
                                                         />
                                                     }
                                                     <strong>{kpi.evaluatorPoint}</strong>
@@ -95,12 +96,12 @@ export default class EvaluatorForm extends Component {
 
                             <tr className="score">
                                 <td className="text-center text-bold">Score</td>
-                                <td className="text-center">
+                                <td className={TextCenterCssClass}>
                                     {this.props.probationer.selfScore &&
                                         <span className="score-badge"><span>{this.props.probationer.selfScore}</span>/100 pts</span>
                                     }
                                 </td>
-                                <td className="text-center">
+                                <td className={TextCenterCssClass}>
                                     {score > 0 &&
                                         <span className="score-badge"><span>{round(score)}</span>/100 pts</span>
                                     }
@@ -109,10 +110,10 @@ export default class EvaluatorForm extends Component {
                             <tr className="score">
                                 <td className="text-center text-bold">{getResource('Result')}</td>
                                 <td className="empty-cell" />
-                                <td className="text-center">
+                                <td className={TextCenterCssClass}>
                                     {this.props.probationer.canEdit ?
                                         <Select name="isQualifiedByEvaluator"
-                                            className={`react-select-container ${touched.isQualifiedByEvaluator && errors.isQualifiedByEvaluator && 'input-validation-error'}`}
+                                            className={`react-select-container ${touched.isQualifiedByEvaluator && errors.isQualifiedByEvaluator && InputErrorCssClass}`}
                                             classNamePrefix="react-select"
                                             value={values.isQualifiedByEvaluator}
                                             options={ProbationResultOptions} placeholder=""
@@ -139,7 +140,7 @@ export default class EvaluatorForm extends Component {
                             </tr>
                             <tr>
                                 <td colSpan="3" className="comment-cell">
-                                    <textarea className={touched.comment && errors.comment && 'input-validation-error'} rows="7"
+                                    <textarea className={touched.comment && errors.comment && InputErrorCssClass} rows="7"
                                         value={values.comment} onChange={handleChange} name="comment" readOnly={!this.props.probationer.canEdit}
                                     />
                                 </td>
@@ -159,14 +160,14 @@ export default class EvaluatorForm extends Component {
         );
     }
 
-    handleSubmit = (values, { setErrors, setSubmitting }) => {
-        const evaluations = flatMap(values.evaluations, (kpiGroup) => kpiGroup.details.map(kpi => ({
+    handleSubmit = (values, { setSubmitting }) => {
+        const evaluations = flatMap(values.evaluations, kpiGroup => kpiGroup.details.map(kpi => ({
             employeeId: kpi.employeeId,
             kpiId: kpi.kpiId,
             point: kpi.evaluatorPoint
         })));
 
-        const data = {
+        const submitData = {
             employeeId: this.props.probationer.employeeId,
             comment: values.comment,
             evaluations: evaluations,
@@ -179,7 +180,7 @@ export default class EvaluatorForm extends Component {
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                ...data
+                ...submitData
             }),
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
@@ -204,7 +205,8 @@ export default class EvaluatorForm extends Component {
                 initialValues={{
                     comment: this.props.probationer.evaluatorComment,
                     evaluations: this.props.evaluationDetails,
-                    isQualifiedByEvaluator: this.props.probationer.isQualifiedByEvaluator !== null ? ProbationResultOptions.find(x => x.value === this.props.probationer.isQualifiedByEvaluator) : null
+                    isQualifiedByEvaluator: this.props.probationer.isQualifiedByEvaluator !== null ?
+                        ProbationResultOptions.find(x => x.value === this.props.probationer.isQualifiedByEvaluator) : null
                 }}
                 render={this.renderForm}
                 validationSchema={this.schema}

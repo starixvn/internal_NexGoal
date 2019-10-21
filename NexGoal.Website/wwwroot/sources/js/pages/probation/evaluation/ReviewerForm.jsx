@@ -2,7 +2,7 @@
 
 import Select from 'react-select';
 import axios from 'axios';
-import * as Yup from 'yup';
+import { object, string } from 'yup';
 import { Formik } from 'formik';
 import { stringify } from 'qs';
 import { toast } from 'react-toastify';
@@ -30,8 +30,8 @@ export default class ReviewerForm extends Component {
 
     getAnnouncementMessage = () => {
         const reviewerProcess = this.props.probationer.settings.find(x => x.processId === PerformanceProcess.Reviewer);
-
-        return `Please be informed that these information might not be the final one, and you will not be able to make any changes until ${reviewerProcess.fromDate.format(DateFormat)}. Thank you for your concern`;
+        const message = 'Please be informed that these information might not be the final one, and you will not be able to make any changes until';
+        return `${message} ${reviewerProcess.fromDate.format(DateFormat)}. Thank you for your concern`;
     }
 
     updatePoint = (kpi, value) => {
@@ -61,9 +61,9 @@ export default class ReviewerForm extends Component {
         </Fragment>
     )
 
-    schema = Yup.object().shape({
-        isQualified: Yup.object().required(),
-        comment: Yup.string().required()
+    schema = object().shape({
+        isQualified: object().required(),
+        comment: string().required()
     })
 
     renderForm = ({

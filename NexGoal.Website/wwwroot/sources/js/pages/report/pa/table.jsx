@@ -23,8 +23,12 @@ export default class Table extends Component {
 
     renderToeic = (toeicPolicy, toeic) => {
         let toeicClass = '';
-        if (toeicPolicy !== null && toeicPolicy > 0) toeicClass = 'toeic-passed';
-        if (toeicPolicy === null || toeicPolicy < 0) toeicClass = 'toeic-failed';
+        if (toeicPolicy !== null && toeicPolicy > 0) {
+            toeicClass = 'toeic-passed';
+        }
+        if (toeicPolicy === null || toeicPolicy < 0) {
+            toeicClass = 'toeic-failed';
+        }
         return <span className={`bold ${toeicClass}`}>{toeic ? toeic : getResource('N/A')}</span>;
     }
 
@@ -91,8 +95,8 @@ export default class Table extends Component {
 
     renderPAGrade = record => {
         const paGrade = record.grade ? record.grade.name : getResource('N/A');
-        let gradeId = record.grade ? record.grade.gradeId : null;
-        let originalGradeId = record.originalGrade ? record.originalGrade.gradeId : null;
+        const gradeId = record.grade ? record.grade.gradeId : null;
+        const originalGradeId = record.originalGrade ? record.originalGrade.gradeId : null;
 
         const revisedIcon = this.renderPARivisedIcon(originalGradeId, gradeId);
         return <span>{paGrade}{revisedIcon}</span>;
@@ -137,20 +141,18 @@ export default class Table extends Component {
 
     countDuplicateGrades = grades => {
         grades.sort();
-        let displayGrades = [];
+        const displayGrades = [];
         let currentGrade = null;
-        var count = 0;
+        let count = 0;
         for (let i = 0; i < grades.length; i++) {
-            if (grades[i]) {
-                if (grades[i] !== currentGrade) {
-                    if (count > 0) {
-                        displayGrades.push(count > 1 ? count + currentGrade : currentGrade);
-                    }
-                    currentGrade = grades[i];
-                    count = 1;
-                } else {
-                    count++;
+            if (grades[i] !== currentGrade) {
+                if (count > 0) {
+                    displayGrades.push(count > 1 ? count + currentGrade : currentGrade);
                 }
+                currentGrade = grades[i];
+                count = 1;
+            } else {
+                count++;
             }
         }
 
@@ -164,7 +166,7 @@ export default class Table extends Component {
     renderPMGrades = (paProcesses, paRecordId) => {
         const processes = paProcesses.filter(process => process.performanceRecord &&
             process.processId === PerformanceProcess.ProjectManager);
-        const grades = processes.map((process, index) => {
+        const grades = processes.map(process => {
             return process.performanceRecord.grade ?
                 process.performanceRecord.grade.name : getResource('N/A');
         });
@@ -194,7 +196,9 @@ export default class Table extends Component {
 
     renderGradeByProcess = (processes, processId, paRecordId) => {
         const processRecords = processes.filter(process => process.performanceRecord && process.processId === processId);
-        if (!processRecords.length) return '';
+        if (!processRecords.length) {
+            return '';
+        }
 
         if (processId !== PerformanceProcess.ProjectManager) {
             const grade = this.renderGrade(processRecords[0]);

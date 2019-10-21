@@ -1,20 +1,21 @@
 ﻿import React, { Component, Fragment } from 'react';
-import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import moment from 'moment';
 
 import getResource from '../../../resourceHelper';
-import { PerformanceProcess, DateFormat } from '../../../constants';
+import { PerformanceProcess } from '../../../constants';
 import { noDataIndication } from '../../../common-functions';
 
 export default class Table extends Component {
     constructor(props) {
         super(props);
+
+        this.dateFormat = 'DD MMM, YYYY';
     }
 
     renderProbationer = (probationer, index) => {
-        var evaluatorProcess = probationer.settings.find(p => p.processId === PerformanceProcess.Evaluator);
-        var reviewerProcess = probationer.settings.find(p => p.processId === PerformanceProcess.Reviewer);
-        var selfProcess = probationer.settings.find(p => p.processId === PerformanceProcess.Self);
+        const evaluatorProcess = probationer.settings.find(p => p.processId === PerformanceProcess.Evaluator);
+        const reviewerProcess = probationer.settings.find(p => p.processId === PerformanceProcess.Reviewer);
+        const selfProcess = probationer.settings.find(p => p.processId === PerformanceProcess.Self);
 
         return (
             <tr key={probationer.employeeId}>
@@ -22,22 +23,22 @@ export default class Table extends Component {
                 <td>
                     <div>{probationer.nickName} ({probationer.fullName})</div>
                     <div>
-                        {selfProcess.fromDate && moment(selfProcess.fromDate).format('DD MMM, YYYY')}
-                        {selfProcess.toDate && ` - ${moment(selfProcess.toDate).format('DD MMM, YYYY')}`}
+                        {selfProcess.fromDate && moment(selfProcess.fromDate).format(this.dateFormat)}
+                        {selfProcess.toDate && ` - ${moment(selfProcess.toDate).format(this.dateFormat)}`}
                     </div>
                 </td>
                 <td>
                     <div>{evaluatorProcess.evaluatorNickName}</div>
                     <div>
-                        {evaluatorProcess.fromDate && moment(evaluatorProcess.fromDate).format('DD MMM, YYYY')}
-                        {evaluatorProcess.toDate && ` - ${moment(evaluatorProcess.toDate).format('DD MMM, YYYY')}`}
+                        {evaluatorProcess.fromDate && moment(evaluatorProcess.fromDate).format(this.dateFormat)}
+                        {evaluatorProcess.toDate && ` - ${moment(evaluatorProcess.toDate).format(this.dateFormat)}`}
                     </div>
                 </td>
                 <td>
                     <div>{reviewerProcess.evaluatorNickName}</div>
                     <div>
-                        {reviewerProcess.fromDate && moment(reviewerProcess.fromDate).format('DD MMM, YYYY')}
-                        {reviewerProcess.toDate && ` - ${moment(reviewerProcess.toDate).format('DD MMM, YYYY')}`}
+                        {reviewerProcess.fromDate && moment(reviewerProcess.fromDate).format(this.dateFormat)}
+                        {reviewerProcess.toDate && ` - ${moment(reviewerProcess.toDate).format(this.dateFormat)}`}
                     </div>
                 </td>
                 <td className="text-center">

@@ -6,23 +6,17 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import { Formik, getIn } from 'formik';
-import { camelCase, isEmpty, uniqBy } from 'lodash';
+import { camelCase, isEmpty } from 'lodash';
 import Select from 'react-select';
-import * as Yup from 'yup';
+import { object, array } from 'yup';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import { DateFormat, PerformanceProcess } from '../../../constants';
+import { DateFormat, PerformanceProcess, InputErrorCssClass } from '../../../constants';
 import getResource from '../../../resourceHelper';
 
 export default class EditSetting extends Component {
-    validateForm = values => {
-        let errors = {};
-
-        return errors;
-    }
-
     onSubmit = (values, { setErrors }) => {
-        let settings = values.settings.map(p => {
+        const settings = values.settings.map(p => {
             return {
                 employeeId: p.employeeId,
                 processId: p.processId,
@@ -45,14 +39,14 @@ export default class EditSetting extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 this.props.onEditSuccess();
                 toast.success(getResource('UpdatedSuccessfully'));
             } else {
                 if (data.errors) {
-                    let errors = {};
+                    const errors = {};
                     data.errors.map(error => {
                         errors[camelCase(error.key)] = error.errorMessage;
                     });
@@ -65,11 +59,11 @@ export default class EditSetting extends Component {
         }).catch(axiosError);
     }
 
-    schema = Yup.object().shape({
-        settings: Yup.array().of(Yup.object().shape({
-            evaluator: Yup.object().required(),
-            fromDate: Yup.object().required(),
-            toDate: Yup.object().required()
+    schema = object().shape({
+        settings: array().of(Yup.object().shape({
+            evaluator: object().required(),
+            fromDate: object().required(),
+            toDate: object().required()
         }))
     })
 
@@ -119,14 +113,16 @@ export default class EditSetting extends Component {
                                         <DatePicker autoComplete="off" dateFormat={DateFormat} selected={s.fromDate}
                                             onChange={value => setFieldValue(`settings.${i}.fromDate`, value)}
                                             name={`settings.${i}.fromDate`} maxDate={s.toDate}
-                                            className={`form-control ${getIn(touched, `settings.${i}.fromDate`) && getIn(errors, `settings.${i}.fromDate`) && 'input-validation-error'}`}
+                                            className={`form-control ${getIn(touched, `settings.${i}.fromDate`) && getIn(errors, `settings.${i}.fromDate`)
+                                                && InputErrorCssClass}`}
                                         />
                                     </td>
                                     <td>
                                         <DatePicker autoComplete="off" dateFormat={DateFormat} selected={s.toDate}
                                             onChange={value => setFieldValue(`settings.${i}.toDate`, value)}
                                             name={`settings.${i}.toDate`} minDate={s.fromDate}
-                                            className={`form-control ${getIn(touched, `settings.${i}.toDate`) && getIn(errors, `settings.${i}.toDate`) && 'input-validation-error'}`}
+                                            className={`form-control ${getIn(touched, `settings.${i}.toDate`) && getIn(errors, `settings.${i}.toDate`)
+                                                && InputErrorCssClass}`}
                                         />
                                     </td>
                                 </tr>)
@@ -143,7 +139,7 @@ export default class EditSetting extends Component {
     }
 
     render() {
-        let settings = this.props.probationer.settings.map(s => ({
+        const settings = this.props.probationer.settings.map(s => ({
             employeeId: s.employeeId,
             processId: s.processId,
             process: s.process,

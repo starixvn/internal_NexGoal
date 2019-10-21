@@ -21,7 +21,7 @@ export default class Paragraph extends PureComponent {
     }
 
     checkElementHeight() {
-        let height = this.refs.element.offsetHeight;
+        const height = this.refs.element.offsetHeight;
         if (height > 80) {
             this.setState({
                 showCollapseExpandButton: true,

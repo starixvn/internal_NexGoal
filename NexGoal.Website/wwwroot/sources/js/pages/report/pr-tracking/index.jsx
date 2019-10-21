@@ -65,7 +65,7 @@ export default class PRTracking extends Component {
 
     handleFilterChange = (name, value) => {
         if (name === 'groups') {
-            let employeeOptions = this.employees.filter(e => value.some(v => v.value === e.groupId))
+            const employeeOptions = this.employees.filter(e => value.some(v => v.value === e.groupId))
                 .map(e => ({
                     value: e.employeeId,
                     label: `${e.nickName} (${e.fullName})`
@@ -99,10 +99,10 @@ export default class PRTracking extends Component {
         }).then(response => {
             this.setState({
                 tableData: response.data.employees.reduce(function (groups, item) {
-                    item.selfPRQuantity = item.details.filter(d => d.roleId === PerformanceProcess.Self).reduce((current, item) => current + item.quantity, 0);
-                    item.pmPRQuantity = item.details.filter(d => d.roleId === PerformanceProcess.ProjectManager).reduce((current, item) => current + item.quantity, 0);
-                    item.evaluatorPRQuantity = item.details.filter(d => d.roleId === PerformanceProcess.Evaluator).reduce((current, item) => current + item.quantity, 0);
-                    item.reviewerPRQuantity = item.details.filter(d => d.roleId === PerformanceProcess.Reviewer).reduce((current, item) => current + item.quantity, 0);
+                    item.selfPRQuantity = item.details.filter(d => d.roleId === PerformanceProcess.Self).reduce((current, i) => current + i.quantity, 0);
+                    item.pmPRQuantity = item.details.filter(d => d.roleId === PerformanceProcess.ProjectManager).reduce((current, i) => current + i.quantity, 0);
+                    item.evaluatorPRQuantity = item.details.filter(d => d.roleId === PerformanceProcess.Evaluator).reduce((current, i) => current + i.quantity, 0);
+                    item.reviewerPRQuantity = item.details.filter(d => d.roleId === PerformanceProcess.Reviewer).reduce((current, i) => current + i.quantity, 0);
 
                     let group = groups.find(e => e.groupId === item.groupId);
 

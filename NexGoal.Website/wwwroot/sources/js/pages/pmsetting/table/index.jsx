@@ -12,7 +12,7 @@ export default class Table extends Component {
     renderSetting = data => <Row key={data.pm.employeeId} data={data} onAddMember={this.props.onAddMember} onRemoveMember={this.props.onRemoveMember} />
 
     render() {
-        let content = this.props.tableData.length > 0 ? this.props.tableData.map(this.renderSetting)
+        const content = this.props.tableData.length > 0 ? this.props.tableData.map(this.renderSetting)
             : <tr><td className="text-center" colSpan={3}>{noDataIndication()}</td></tr>;
 
         return (

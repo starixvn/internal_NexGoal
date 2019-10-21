@@ -17,7 +17,7 @@ export default class Detail extends Component {
         this.state = {
             employeeId: document.getElementById('employee-id').value,
             probationer: null,
-            evaluationDetails: [],
+            evaluationDetails: []
         };
     }
 
@@ -34,7 +34,7 @@ export default class Detail extends Component {
             .then(([response]) => {
                 const probationer = response.data.probationer;
                 probationer.joinedDate = moment(probationer.joinedDate);
-                probationer.avatar = document.getElementById('image-url').value + '/' + response.data.probationer.code + '.jpg';
+                probationer.avatar = `${document.getElementById('image-url').value}/${response.data.probationer.code}.jpg`;
 
                 this.setState({
                     evaluationDetails: response.data.details,

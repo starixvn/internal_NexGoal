@@ -82,10 +82,10 @@ export default class App extends Component {
     }
 
     onGroupChange = selectedGroups => {
-        let employees = [...this.employees];
-        let employeeOptions = employees.filter(employee => selectedGroups.includes(employee.groupId));
-        let filter = this.state.filter;
-        filter = Object.assign({}, this.state.filter, { employees: employeeOptions });
+        const employees = [...this.employees];
+        const employeeOptions = employees.filter(employee => selectedGroups.includes(employee.groupId));
+        const filter = Object.assign({}, this.state.filter, { employees: employeeOptions });
+
         this.setState({
             filter: filter,
             employeeOptions: employeeOptions
@@ -95,8 +95,8 @@ export default class App extends Component {
     handleClickViewPADetail = paRecordId => {
         axios(resolveClientUrl(`PA/GetById/${paRecordId}`)).then(response => {
             if (response.data) {
-                let pa = response.data;
-                let reviewer = pa.processes.filter(x => x.processId === PerformanceProcess.Reviewer)[0].evaluator;
+                const pa = response.data;
+                const reviewer = pa.processes.filter(x => x.processId === PerformanceProcess.Reviewer)[0].evaluator;
 
                 this.setState({
                     isShowPADetail: true,
@@ -139,8 +139,8 @@ export default class App extends Component {
             method: 'get',
             responseType: 'blob'
         }).then(response => {
-            let url = window.URL.createObjectURL(new Blob([response.data]));
-            let link = document.createElement('a');
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
             link.href = url;
             link.setAttribute('download', `PA Report.xlsx`);
             document.body.appendChild(link);

@@ -20,10 +20,11 @@ const ProbationResultOptions = [
 export default class ProbationReport extends Component {
     constructor(props) {
         super(props);
-        const roleIds = document.getElementById('roles').value.split(',').map(x => parseInt(x));
+        const roleIds = document.getElementById('roles').value.split(',').map(x => parseInt(x, 10));
         this.isManagement = roleIds.some(x => x === 2 || x === 3);
         this.isEvaluator = roleIds.some(x => x === 4);
         this.isReviewer = roleIds.some(x => x === 5);
+        this.submitDateFormat = 'YYYY-MM-DD';
 
         this.state = {
             showModal: false,
@@ -85,8 +86,8 @@ export default class ProbationReport extends Component {
 
         axios.get(resolveClientUrl('ProbationReport/Get'), {
             params: {
-                fromDate: filter.fromDate ? filter.fromDate.format('YYYY-MM-DD') : null,
-                toDate: filter.toDate ? filter.toDate.format('YYYY-MM-DD') : null,
+                fromDate: filter.fromDate ? filter.fromDate.format(this.submitDateFormat) : null,
+                toDate: filter.toDate ? filter.toDate.format(this.submitDateFormat) : null,
                 employeeIds: filter.employees.map(x => x.value).toString(),
                 isQualifiedByEvaluator: filter.isQualifiedByEvaluator.value,
                 isQualified: filter.isQualified.value
@@ -102,7 +103,7 @@ export default class ProbationReport extends Component {
 
     handleFilterChange = (name, value) => {
         if (name === 'groups') {
-            let employeeOptions = this.employees.filter(e => value.some(v => v.value === e.groupId))
+            const employeeOptions = this.employees.filter(e => value.some(v => v.value === e.groupId))
                 .map(e => ({
                     value: e.employeeId,
                     label: `${e.nickName} (${e.fullName})`
@@ -145,8 +146,8 @@ export default class ProbationReport extends Component {
                             onFilterChange={this.handleFilterChange}
                             probationResultOptions={ProbationResultOptions}
                             exportUrl={`/ProbationReport/ExportExcel?${stringify({
-                                fromDate: filter.fromDate.format('YYYY-MM-DD'),
-                                toDate: filter.toDate.format('YYYY-MM-DD'),
+                                fromDate: filter.fromDate.format(this.submitDateFormat),
+                                toDate: filter.toDate.format(this.submitDateFormat),
                                 employeeIds: filter.employees.map(x => x.value).toString(),
                                 isQualifiedByEvaluator: filter.isQualifiedByEvaluator.value,
                                 isQualified: filter.isQualified.value

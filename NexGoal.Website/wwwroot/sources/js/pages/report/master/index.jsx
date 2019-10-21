@@ -34,7 +34,7 @@ export default class MasterReport extends Component {
 
         Promise.all(promises)
             .then(([groupResponse, employeeResponse, periodResponse]) => {
-                let groupOptions = groupResponse.data.map(group => {
+                const groupOptions = groupResponse.data.map(group => {
                     return {
                         value: group.groupId,
                         label: group.name
@@ -42,16 +42,16 @@ export default class MasterReport extends Component {
                 });
 
                 this.employees = employeeResponse.data;
-                let employeeOptions = employeeResponse.data.map(item => {
+                const employeeOptions = employeeResponse.data.map(item => {
                     return {
                         value: item.employeeId,
                         label: `${item.nickName} (${item.fullName})`
                     };
                 });
 
-                let periodOptions = periodResponse.data.map(x => ({ value: x.periodId, label: x.name }));
+                const periodOptions = periodResponse.data.map(x => ({ value: x.periodId, label: x.name }));
 
-                let filter = {
+                const filter = {
                     ... this.state.filter,
                     ...{
                         groups: groupOptions,
@@ -66,7 +66,7 @@ export default class MasterReport extends Component {
 
     handleFilterChange = (name, value) => {
         if (name === 'groups') {
-            let employeeOptions = this.employees.filter(e => value.some(v => v.value === e.groupId))
+            const employeeOptions = this.employees.filter(e => value.some(v => v.value === e.groupId))
                 .map(e => ({
                     value: e.employeeId,
                     label: `${e.nickName} (${e.fullName})`

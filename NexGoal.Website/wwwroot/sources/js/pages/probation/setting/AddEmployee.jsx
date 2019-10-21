@@ -19,7 +19,7 @@ export default class AddEmployee extends Component {
     }
 
     validateForm = values => {
-        let errors = {};
+        const errors = {};
 
         if (!values.employees || values.employees.length === 0) {
             errors.employees = 'Please select member';
@@ -41,7 +41,7 @@ export default class AddEmployee extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('AddedSuccessfully'));

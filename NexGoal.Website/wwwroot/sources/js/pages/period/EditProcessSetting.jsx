@@ -36,7 +36,7 @@ export default class EditProcessSetting extends Component {
         const processId = parseInt(element.dataset.processid, 10);
 
         const settings = this.state.settings.slice(0);
-        const process = settings.find(e => e.processId === processId);
+        const process = settings.find(s => s.processId === processId);
         process.remindDay = element.value;
 
         this.setState({ settings: settings });

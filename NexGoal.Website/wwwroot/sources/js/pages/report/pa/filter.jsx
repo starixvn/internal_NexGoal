@@ -32,7 +32,7 @@ export default class Filter extends Component {
     }
 
     render() {
-        let filter = this.props.filter;
+        const filter = this.props.filter;
         return (
             <Form inline className="form-filter" onSubmit={this.handleSubmit}>
                 <FormGroup>

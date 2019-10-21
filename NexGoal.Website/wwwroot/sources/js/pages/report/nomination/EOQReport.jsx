@@ -11,7 +11,7 @@ export default class EOQReport extends Component {
     constructor(props) {
         super(props);
 
-        let defaultStatus = { value: '', label: '-- All --' };
+        const defaultStatus = { value: '', label: '-- All --' };
 
         this.state = {
             filter: {
@@ -60,7 +60,7 @@ export default class EOQReport extends Component {
                     endDateForCommittee: x.endDateForCommittee
                 }));
 
-                let filter = {
+                const filter = {
                     ... this.state.filter,
                     ...{
                         groups: this.groupOptions,

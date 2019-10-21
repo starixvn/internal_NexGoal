@@ -19,7 +19,7 @@ export default class AddMember extends Component {
     }
 
     validateForm = values => {
-        let errors = {};
+        const errors = {};
 
         if (!values.members || values.members.length === 0) {
             errors.members = 'Please select member';
@@ -42,7 +42,7 @@ export default class AddMember extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('AddedSuccessfully'));

@@ -6,7 +6,7 @@ import { stringify } from 'qs';
 import Rating from 'react-rating';
 import { toast } from 'react-toastify';
 import moment from 'moment';
-import * as Yup from 'yup';
+import { object, string, array, number } from 'yup';
 import { flatMap, round, sumBy } from 'lodash';
 import { Formik, getIn } from 'formik';
 import { OverlayTrigger } from 'react-bootstrap';
@@ -73,13 +73,13 @@ export default class MyProbation extends Component {
             }).catch(axiosError);
     }
 
-    schema = Yup.object().shape({
-        comment: Yup.string().required(),
-        evaluations: Yup.array().of(
-            Yup.object().shape({
-                details: Yup.array().of(
-                    Yup.object().shape({
-                        selfPoint: Yup.number().required().min(1)
+    schema = object().shape({
+        comment: string().required(),
+        evaluations: array().of(
+            object().shape({
+                details: array().of(
+                    object().shape({
+                        selfPoint: number().required().min(1)
                     })
                 )
             })
@@ -168,14 +168,14 @@ export default class MyProbation extends Component {
         );
     }
 
-    handleSubmit = (values, { setErrors, setSubmitting }) => {
-        const evaluations = flatMap(values.evaluations, (kpiGroup) => kpiGroup.details.map(kpi => ({
+    handleSubmit = (values, { setSubmitting }) => {
+        const evaluations = flatMap(values.evaluations, kpiGroup => kpiGroup.details.map(kpi => ({
             employeeId: kpi.employeeId,
             kpiId: kpi.kpiId,
             point: kpi.selfPoint
         })));
 
-        const data = {
+        const submitData = {
             comment: values.comment,
             evaluations: evaluations,
             totalScore: round(sumBy(evaluations, 'point'))
@@ -186,7 +186,7 @@ export default class MyProbation extends Component {
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                ...data
+                ...submitData
             }),
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
@@ -235,7 +235,7 @@ export default class MyProbation extends Component {
                                     <Formik
                                         initialValues={{
                                             comment: this.state.probationer.selfComment,
-                                            evaluations: this.state.evaluationDetails,
+                                            evaluations: this.state.evaluationDetails
                                         }}
                                         render={this.renderForm}
                                         validationSchema={this.schema}
@@ -246,7 +246,9 @@ export default class MyProbation extends Component {
                                 <div className="announcement">
                                     <div className="title">{getResource('Announcement')}</div>
                                     <div className="info">
-                                        Welcome to your probation self-evaluation. Please be informed that this form will not be available until {this.state.selfProcess.fromDate.format(DateFormat)}. Thank you for your concern.
+                                        Welcome to your probation self-evaluation.
+                                        Please be informed that this form will not be available until {this.state.selfProcess.fromDate.format(DateFormat)}.
+                                        Thank you for your concern.
                                     </div>
                                 </div>
                             }
