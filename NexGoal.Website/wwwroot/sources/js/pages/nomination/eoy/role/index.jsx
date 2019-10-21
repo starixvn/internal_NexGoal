@@ -35,7 +35,7 @@ export default class RoleManagement extends Component {
                     return { value: group.groupId, label: group.name };
                 });
 
-                let filter = Object.assign({}, this.state.filter, { groups: groupOptions });
+                const filter = Object.assign({}, this.state.filter, { groups: groupOptions });
 
                 this.setState({
                     groupOptions: groupOptions,
@@ -79,7 +79,7 @@ export default class RoleManagement extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('UpdatedSuccessfully'));

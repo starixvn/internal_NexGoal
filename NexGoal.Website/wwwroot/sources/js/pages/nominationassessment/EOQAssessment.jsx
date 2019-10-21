@@ -15,7 +15,7 @@ export default class EOQAssessment extends Component {
     constructor(props) {
         super(props);
 
-        let defaultStatus = { value: '', label: '-- All --' };
+        const defaultStatus = { value: '', label: '-- All --' };
 
         this.state = {
             filter: {
@@ -54,7 +54,7 @@ export default class EOQAssessment extends Component {
             }
         }).then(response => {
             this.setState(prevState => {
-                let period = prevState.nominationPeriod;
+                const period = prevState.nominationPeriod;
                 return {
                     tableData: response.data,
                     isHost: this.currentDate.isAfter(moment(period.endDateForNominator), 'day') && this.currentDate.isSameOrBefore(moment(period.endDateForCommittee), 'day')
@@ -87,11 +87,11 @@ export default class EOQAssessment extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
-                let tableData = this.state.tableData;
-                let nomination = tableData.find(x => x.nominationId === nominationId);
+                const tableData = this.state.tableData;
+                const nomination = tableData.find(x => x.nominationId === nominationId);
                 nomination.statusId = statusId;
 
                 this.setState({ tableData });

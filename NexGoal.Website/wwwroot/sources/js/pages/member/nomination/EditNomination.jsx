@@ -82,7 +82,7 @@ export default class EditNomination extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 this.props.onEditSuccess(this.props.performanceRecord.performanceRecordId);

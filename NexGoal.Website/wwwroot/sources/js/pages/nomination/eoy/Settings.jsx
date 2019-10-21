@@ -42,7 +42,7 @@ class Settings extends Component {
 
         axios.get(resolveClientUrl(`EOY/GetById/${eoyId}`))
             .then(response => {
-                let data = response.data;
+                const data = response.data;
 
                 this.setState({
                     eoy: {
@@ -59,7 +59,7 @@ class Settings extends Component {
     }
 
     handleSubmit = (values, { setErrors }) => {
-        let eoy = stringify({
+        const eoy = stringify({
             __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
             eoyId: this.state.eoy.eoqyId,
             year: values.year,
@@ -79,13 +79,13 @@ class Settings extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('UpdatedSuccessfully'));
             } else {
                 if (data.errors) {
-                    let errors = {};
+                    const errors = {};
                     data.errors.map(error => {
                         errors[camelCase(error.key)] = error.errorMessage;
                     });

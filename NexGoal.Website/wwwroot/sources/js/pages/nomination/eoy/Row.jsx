@@ -40,8 +40,8 @@ class Row extends Component {
     }
 
     render() {
-        let eoy = this.props.eoy;
-        let statusIndex = nominationSettingStatuses.findIndex(x => x.value === eoy.statusId);
+        const eoy = this.props.eoy;
+        const statusIndex = nominationSettingStatuses.findIndex(x => x.value === eoy.statusId);
 
         return (
             <tr>

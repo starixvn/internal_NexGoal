@@ -90,6 +90,8 @@ export default class EditMemberPerformance extends Component {
             event.returnValue = ' ';
             return ' ';
         }
+
+        return null;
     }
 
     handleEmployeeChange = selectedOptions => {

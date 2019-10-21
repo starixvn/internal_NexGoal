@@ -97,6 +97,8 @@ export default class CreateMemberPerformance extends Component {
             event.returnValue = ' ';
             return ' ';
         }
+
+        return null;
     }
 
     handleOpenForm = () => {

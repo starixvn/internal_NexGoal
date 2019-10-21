@@ -19,7 +19,7 @@ class CreateEOY extends Component {
     }
 
     handleSubmit = (values, { setErrors }) => {
-        let eoy = stringify({
+        const eoy = stringify({
             __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
             year: values.year.value,
             startDateForNominator: values.startDateForNominator.toDate(),
@@ -38,7 +38,7 @@ class CreateEOY extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('CreatedSuccessfully'));
@@ -47,7 +47,7 @@ class CreateEOY extends Component {
                 this.props.handleFilterSubmit();
             } else {
                 if (data.errors) {
-                    let errors = {};
+                    const errors = {};
                     data.errors.map(error => {
                         errors[camelCase(error.key)] = error.errorMessage;
                     });
@@ -87,7 +87,7 @@ class CreateEOY extends Component {
                             {touched.description && errors.description && <li>{errors.description}</li>}
                         </ul>
                     }
-                     <div className="line-group">
+                    <div className="line-group">
                         <FormGroup>
                             <label className="control-label">{getResource('Year')}</label>
                             <div className="field control-content">

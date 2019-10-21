@@ -78,7 +78,7 @@ export default class NotificationCenter extends Component {
             }
         }).then(response => {
             const data = response.data;
-            let notifications = this.state.notifications;
+            const notifications = this.state.notifications;
             notifications.push(...data.notifications);
 
             this.setState({
@@ -90,7 +90,7 @@ export default class NotificationCenter extends Component {
     }
 
     triggerNotificationBell = notificationId => {
-        let notiBell = document.getElementById('trigger-notification-bell');
+        const notiBell = document.getElementById('trigger-notification-bell');
         if (notiBell) {
             notiBell.setAttribute('notificationId', notificationId);
             notiBell.click();
@@ -98,10 +98,10 @@ export default class NotificationCenter extends Component {
     }
 
     addEventListener = () => {
-        let notiTrigger = document.getElementById('trigger-notification-center');
+        const notiTrigger = document.getElementById('trigger-notification-center');
         if (notiTrigger) {
             notiTrigger.addEventListener('click', () => {
-                let notificationId = parseInt(notiTrigger.getAttribute('notificationId'), 10);
+                const notificationId = parseInt(notiTrigger.getAttribute('notificationId'), 10);
                 if (!notificationId) {
                     this.markAsReadSuccess();
                 } else {
@@ -131,8 +131,8 @@ export default class NotificationCenter extends Component {
     }
 
     handleRedirectToAction = notificationId => {
-        let notifications = this.state.notifications.slice();
-        let notiIndex = notifications.findIndex(noti => noti.notificationId === notificationId);
+        const notifications = this.state.notifications.slice();
+        const notiIndex = notifications.findIndex(noti => noti.notificationId === notificationId);
         if (notiIndex !== -1) {
             let { actionTypeId, recordId } = notifications[notiIndex];
             let url = '';
@@ -173,7 +173,7 @@ export default class NotificationCenter extends Component {
     }
 
     markAsReadSuccess = () => {
-        let notifications = this.state.notifications.slice();
+        const notifications = this.state.notifications.slice();
         for (var i = 0; i < notifications.length; i++) {
             notifications[i].statusId = NotificationStatus.Read;
         }
@@ -190,7 +190,7 @@ export default class NotificationCenter extends Component {
         if (this.state.unreadNoti > 0) {
             axios.get(resolveClientUrl('Notification/MarkAsRead'))
                 .then(response => {
-                    let data = response.data;
+                    const data = response.data;
                     if (data.isSuccessful) {
                         this.markAsReadSuccess();
                     } else {
@@ -201,8 +201,8 @@ export default class NotificationCenter extends Component {
     }
 
     handleChangeStatusSuccess = notificationId => {
-        let notifications = this.state.notifications.slice();
-        let index = notifications.findIndex(x => x.notificationId === notificationId);
+        const notifications = this.state.notifications.slice();
+        const index = notifications.findIndex(x => x.notificationId === notificationId);
 
         if (index >= 0) {
             notifications[index].statusId = NotificationStatus.Read;
@@ -222,7 +222,7 @@ export default class NotificationCenter extends Component {
                     notificationId: notificationId
                 }
             }).then(response => {
-                let data = response.data;
+                const data = response.data;
                 if (data.isSuccessful) {
                     if (isRedirect) {
                         this.handleRedirectToAction(notificationId);
@@ -243,7 +243,7 @@ export default class NotificationCenter extends Component {
     handleOpenAnnouncementModal = () => this.setState({ showAnnouncementModal: true })
 
     render() {
-        let currentUserInfo = getCurrentUserInfo();
+        const currentUserInfo = getCurrentUserInfo();
 
         return (
             <div className="row">

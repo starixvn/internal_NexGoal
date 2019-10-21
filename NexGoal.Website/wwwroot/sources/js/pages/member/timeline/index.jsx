@@ -150,7 +150,7 @@ export default class Timeline extends Component {
         }, []);
 
         memberPerformances = Object.keys(memberPerformances).map(key => {
-            const index = this.state.filter.groups.findIndex(group => group.label === key);
+            const index = this.state.filter.groups.findIndex(g => g.label === key);
             const group = this.props.groupOptions.filter(x => x.label === key)[0];
 
             return {
