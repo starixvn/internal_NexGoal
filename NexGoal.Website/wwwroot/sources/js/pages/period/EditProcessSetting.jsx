@@ -26,17 +26,17 @@ export default class EditProcessSetting extends Component {
     getSettings = () => {
         axios.get(resolveClientUrl('Period/GetPeriodProcessSetting/' + this.props.periodId))
             .then(response => {
-                let data = response.data;
+                const data = response.data;
                 this.setState({ settings: data });
             }).catch(axiosError);
     }
 
     handleRemindDayChange = e => {
-        var element = e.target;
-        var processId = parseInt(element.dataset.processid, 10);
+        const element = e.target;
+        const processId = parseInt(element.dataset.processid, 10);
 
-        var settings = this.state.settings.slice(0);
-        var process = settings.find(e => e.processId === processId);
+        const settings = this.state.settings.slice(0);
+        const process = settings.find(e => e.processId === processId);
         process.remindDay = element.value;
 
         this.setState({ settings: settings });
@@ -69,13 +69,13 @@ export default class EditProcessSetting extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('UpdatedSuccessfully'));
             } else {
                 if (data.errors) {
-                    let errors = {};
+                    const errors = {};
                     data.errors.map(error => {
                         errors[camelCase(error.key)] = error.errorMessage;
                     });

@@ -22,7 +22,7 @@ export default class ScatterChart extends Component {
     points = [];
 
     getFocusEvaluationLevel = value => {
-        let index = this.props.focusEvaluationLevelOptions.findIndex(item => item.value.toString() === value);
+        const index = this.props.focusEvaluationLevelOptions.findIndex(item => item.value.toString() === value);
 
         if (index >= 0) {
             return this.props.focusEvaluationLevelOptions[index].name;
@@ -32,7 +32,8 @@ export default class ScatterChart extends Component {
     }
 
     checkExistPoint = (x, y) => {
-        var isExisted = false;
+        let isExisted = false;
+
         this.points.forEach(point => {
             if (point.x === x && point.y === y) {
                 isExisted = true;
@@ -60,8 +61,8 @@ export default class ScatterChart extends Component {
     findUniquePoint = member => {
         let isExisted = true;
         let step = 0;
-        let number = this.findNumberExist(member);
-        let threshold = this.calculateThreshold(number);
+        const number = this.findNumberExist(member);
+        const threshold = this.calculateThreshold(number);
         let contribution = member.contribution ? parseInt(member.contribution, 10) : null;
         let bonusGiven = member.bonusGiven ? parseInt(member.bonusGiven, 10) : null;
 
@@ -93,7 +94,12 @@ export default class ScatterChart extends Component {
     }
 
     renderReadyPromotion = value => {
-        let text = value === null ? '-' : value === 'true' ? 'Yes' : 'No';
+        let text = '-';
+
+        if (value) {
+            text = value === 'true' ? 'Yes' : 'No';
+        }
+
         let html = text;
         if (value === 'true') {
             html = `<span style='color:#F0931F'>${text}</span>`;
@@ -104,8 +110,8 @@ export default class ScatterChart extends Component {
 
     getChartData = () => {
         this.points = [];
-        let data = [];
-        let colors = [];
+        const data = [];
+        const colors = [];
 
         this.props.pafocuses.forEach(pafocus => {
             pafocus.members.forEach(member => {
@@ -115,12 +121,12 @@ export default class ScatterChart extends Component {
                         color = '#f0931f';
                     }
 
-                    let description = '<span style="color:red">(*)</span>: ' + this.getFocusEvaluationLevel(member.contribution)
-                        + '<br> <span style="color:red">(**)</span>: ' + this.getFocusEvaluationLevel(member.bonusGiven)
-                        + '<br> Ready for Promotion: ' + this.renderReadyPromotion(member.isReadyPromotion)
-                        + '<br> Job Title: ' + member.employee.jobTitle;
+                    const description = `<span style="color:red">(*)</span>: ${this.getFocusEvaluationLevel(member.contribution)}
+                        <br> <span style="color:red">(**)</span>: ${this.getFocusEvaluationLevel(member.bonusGiven)}
+                        <br> Ready for Promotion: ' ${this.renderReadyPromotion(member.isReadyPromotion)}
+                        <br> Job Title: ${member.employee.jobTitle}`;
 
-                    let point = this.findUniquePoint(member);
+                    const point = this.findUniquePoint(member);
 
                     colors.push(color);
                     data.push({
@@ -187,7 +193,7 @@ export default class ScatterChart extends Component {
 
                     // Set Text
                     if (tooltipModel.body) {
-                        let titleLines = tooltipModel.title || [];
+                        const titleLines = tooltipModel.title || [];
                         let innerHtml = '';
 
                         titleLines.forEach(function (title) {
@@ -198,7 +204,7 @@ export default class ScatterChart extends Component {
                     }
 
                     // `this` will be the overall tooltip
-                    let position = this._chart.canvas.getBoundingClientRect();
+                    const position = this._chart.canvas.getBoundingClientRect();
 
                     // Display, position, and set styles for font
                     tooltipEl.style.opacity = 1;
@@ -212,8 +218,8 @@ export default class ScatterChart extends Component {
                 },
                 callbacks: {
                     title: function (tooltipItems, data) {
-                        let dataset = data.datasets[tooltipItems[0].datasetIndex];
-                        let currentValue = dataset.data[tooltipItems[0].index];
+                        const dataset = data.datasets[tooltipItems[0].datasetIndex];
+                        const currentValue = dataset.data[tooltipItems[0].index];
 
                         return `<div class="content" style="border: 1px solid ${currentValue.color}"><b>${currentValue.name}</b> <br />${currentValue.description}</div>`;
                     }
@@ -250,8 +256,8 @@ export default class ScatterChart extends Component {
     };
 
     render() {
-        let data = this.getChartData();
-        let options = this.getChartOptions();
+        const data = this.getChartData();
+        const options = this.getChartOptions();
 
         return (
             <Scatter

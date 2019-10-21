@@ -10,7 +10,7 @@ import { camelCase, isEmpty } from 'lodash';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
-import { DateFormat, TargetType } from '../../constants';
+import { DateFormat, TargetType , InputErrorCssClass} from '../../constants';
 
 export default class CreatePeriod extends Component {
     constructor(props) {
@@ -31,7 +31,7 @@ export default class CreatePeriod extends Component {
     }
 
     validateForm = values => {
-        let errors = {};
+        const errors = {};
 
         if (!values.name) {
             errors.name = getResource('NameRequired');
@@ -79,6 +79,7 @@ export default class CreatePeriod extends Component {
     }
 
     onSubmit = (values, { setErrors, setSubmitting }) => {
+        const dateFormat = dateFormat;
         axios({
             url: resolveClientUrl(`period/Create`),
             method: 'post',
@@ -86,12 +87,12 @@ export default class CreatePeriod extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 name: values.name,
                 targetTypeId: values.targetTypeId,
-                startDate: values.startDate ? values.startDate.format('YYYY-MM-DD') : null,
-                endDate: values.endDate ? values.endDate.format('YYYY-MM-DD') : null,
-                disciplineStartDate: values.disciplineStartDate ? values.disciplineStartDate.format('YYYY-MM-DD') : null,
-                disciplineEndDate: values.disciplineEndDate ? values.disciplineEndDate.format('YYYY-MM-DD') : null,
-                focusStartDate: values.targetTypeId === TargetType.SemiAnnual ? values.focusStartDate.format('YYYY-MM-DD') : null,
-                focusEndDate: values.targetTypeId === TargetType.SemiAnnual ? values.focusEndDate.format('YYYY-MM-DD') : null,
+                startDate: values.startDate ? values.startDate.format(dateFormat) : null,
+                endDate: values.endDate ? values.endDate.format(dateFormat) : null,
+                disciplineStartDate: values.disciplineStartDate ? values.disciplineStartDate.format(dateFormat) : null,
+                disciplineEndDate: values.disciplineEndDate ? values.disciplineEndDate.format(dateFormat) : null,
+                focusStartDate: values.targetTypeId === TargetType.SemiAnnual ? values.focusStartDate.format(dateFormat) : null,
+                focusEndDate: values.targetTypeId === TargetType.SemiAnnual ? values.focusEndDate.format(dateFormat) : null,
                 description: values.description,
                 isActive: values.isActive
             }),
@@ -100,7 +101,7 @@ export default class CreatePeriod extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('CreatedSuccessfully'));
@@ -108,7 +109,7 @@ export default class CreatePeriod extends Component {
                 this.props.closeModal();
             } else {
                 if (data.errors) {
-                    let errors = {};
+                    const errors = {};
                     data.errors.map(error => {
                         errors[camelCase(error.key)] = error.errorMessage;
                     });
@@ -129,8 +130,8 @@ export default class CreatePeriod extends Component {
         handleSubmit,
         setFieldValue,
         isSubmitting }) => {
-        let onChangeRaw = event => {
-            let date = moment(Date(event.target.value));
+        const onChangeRaw = event => {
+            const date = moment(Date(event.target.value));
             if (date.isValid()) {
                 setFieldValue(event.target.name, date);
             }
@@ -155,7 +156,7 @@ export default class CreatePeriod extends Component {
                             <label className="control-label">{getResource('Name')}</label>
                             <div className="control-content name-content">
                                 <input type="text" name="name" value={values.name} autoComplete="off"
-                                    className={`form-control  ${touched.name && errors.name && 'input-validation-error'}`}
+                                    className={`form-control  ${touched.name && errors.name && InputErrorCssClass}`}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -168,7 +169,7 @@ export default class CreatePeriod extends Component {
                             </Col>
                             <Col className="control-content">
                                 <DatePicker name="startDate" autoComplete="off"
-                                    className={`form-control  ${touched.startDate && errors.startDate && 'input-validation-error'}`}
+                                    className={`form-control  ${touched.startDate && errors.startDate && InputErrorCssClass}`}
                                     dateFormat={DateFormat} selected={values.startDate}
                                     onChange={value => setFieldValue('startDate', value)} onChangeRaw={onChangeRaw}
                                 />
@@ -180,7 +181,7 @@ export default class CreatePeriod extends Component {
                             </Col>
                             <Col className="control-content">
                                 <DatePicker name="endDate" autoComplete="off"
-                                    className={`form-control  ${touched.endDate && errors.endDate && 'input-validation-error'}`}
+                                    className={`form-control  ${touched.endDate && errors.endDate && InputErrorCssClass}`}
                                     dateFormat={DateFormat} selected={values.endDate}
                                     onChange={value => setFieldValue('endDate', value)} onChangeRaw={onChangeRaw}
                                 />
@@ -194,7 +195,7 @@ export default class CreatePeriod extends Component {
                             </Col>
                             <Col className="control-content">
                                 <DatePicker name="disciplineStartDate" autoComplete="off"
-                                    className={`form-control  ${touched.disciplineStartDate && errors.disciplineStartDate && 'input-validation-error'}`}
+                                    className={`form-control  ${touched.disciplineStartDate && errors.disciplineStartDate && InputErrorCssClass}`}
                                     dateFormat={DateFormat} selected={values.disciplineStartDate}
                                     onChange={value => setFieldValue('disciplineStartDate', value)} onChangeRaw={onChangeRaw}
                                 />
@@ -206,7 +207,7 @@ export default class CreatePeriod extends Component {
                             </Col>
                             <Col className="control-content">
                                 <DatePicker name="disciplineEndDate" autoComplete="off"
-                                    className={`form-control  ${touched.disciplineEndDate && errors.disciplineEndDate && 'input-validation-error'}`}
+                                    className={`form-control  ${touched.disciplineEndDate && errors.disciplineEndDate && InputErrorCssClass}`}
                                     dateFormat={DateFormat} selected={values.disciplineEndDate}
                                     onChange={value => setFieldValue('disciplineEndDate', value)} onChangeRaw={onChangeRaw}
                                 />
@@ -219,7 +220,7 @@ export default class CreatePeriod extends Component {
                                 <Col componentClass={ControlLabel} className="">Focus Start Date</Col>
                                 <Col className="control-content">
                                     <DatePicker name="focusStartDate" autoComplete="off"
-                                        className={`form-control  ${touched.focusStartDate && errors.focusStartDate && 'input-validation-error'}`}
+                                        className={`form-control  ${touched.focusStartDate && errors.focusStartDate && InputErrorCssClass}`}
                                         dateFormat={DateFormat} selected={values.focusStartDate}
                                         onChange={value => setFieldValue('focusStartDate', value)} onChangeRaw={onChangeRaw}
                                     />
@@ -229,7 +230,7 @@ export default class CreatePeriod extends Component {
                                 <Col componentClass={ControlLabel} className="">Focus End Date</Col>
                                 <Col className="control-content">
                                     <DatePicker name="disciplineEndDate" autoComplete="off"
-                                        className={`form-control  ${touched.focusEndDate && errors.focusEndDate && 'input-validation-error'}`}
+                                        className={`form-control  ${touched.focusEndDate && errors.focusEndDate && InputErrorCssClass}`}
                                         dateFormat={DateFormat} selected={values.focusEndDate}
                                         onChange={value => setFieldValue('focusEndDate', value)} onChangeRaw={onChangeRaw}
                                     />
@@ -249,7 +250,7 @@ export default class CreatePeriod extends Component {
                         <FormGroup className="description-group">
                             <Col componentClass={ControlLabel}>{getResource('Description')} (optional)</Col>
                             <Col className="">
-                                <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
+                                <textarea className={`form-control none-resize ${touched.description && errors.description && InputErrorCssClass}`}
                                     name="description" rows="4"
                                     onChange={handleChange} value={values.description}
                                 />

@@ -83,7 +83,7 @@ export default class Chart extends Component {
     }
 
     handleFilterSubmit = () => {
-        let filter = this.state.filter;
+        const filter = this.state.filter;
         this.getPAFocus(filter);
     }
 

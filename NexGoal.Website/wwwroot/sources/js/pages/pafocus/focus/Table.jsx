@@ -37,10 +37,10 @@ export default class Table extends Component {
     }
 
     render() {
-        let period = this.props.period,
+        const period = this.props.period,
             focusStartDate = period && period.focusStartDate ? moment(period.focusStartDate).format(DateFormat) : '',
             focusEndDate = period && period.focusEndDate ? moment(period.focusEndDate).format(DateFormat) : '';
-        let pafocuses = this.props.data;
+        const pafocuses = this.props.data;
 
         return (
             <Fragment>

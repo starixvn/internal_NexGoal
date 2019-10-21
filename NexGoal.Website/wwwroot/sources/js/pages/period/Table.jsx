@@ -7,6 +7,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 
 import { axiosError, noDataIndication, resolveClientUrl } from '../../common-functions';
+import { TextCenterCssClass } from '../../constants';
 import getResource from '../../resourceHelper';
 import ConfirmationModal from '../../shared/components/ConfirmationModal';
 import CreatePeriod from './CreatePeriod';
@@ -27,7 +28,7 @@ export default class Table extends Component {
             dataField: 'rowNum',
             isDummyField: true,
             text: `${getResource('SymbolCount')}`,
-            classes: 'text-center',
+            classes: TextCenterCssClass,
             headerStyle: { width: '50px' },
             formatter: (cell, row, rowIndex) => rowIndex + 1
         },
@@ -38,49 +39,51 @@ export default class Table extends Component {
         {
             dataField: 'startDate',
             text: `${getResource('StartDate')}`,
-            classes: 'text-center',
+            classes: TextCenterCssClass,
             headerStyle: { width: '120px' },
             formatter: (cell, row) => row.startDate ? moment(row.startDate).format('DD MMM, YYYY') : ''
         },
         {
             dataField: 'endDate',
             text: `${getResource('EndDate')}`,
-            classes: 'text-center',
+            classes: TextCenterCssClass,
             headerStyle: { width: '120px' },
             formatter: (cell, row) => row.endDate ? moment(row.endDate).format('DD MMM, YYYY') : ''
         },
         {
             dataField: 'totalEmployees',
             text: 'Total Employees',
-            classes: 'text-center'
+            classes: TextCenterCssClass
         },
         {
             dataField: 'totalUnfinished',
             text: 'Unfinished PA',
-            classes: 'text-center'
+            classes: TextCenterCssClass
         },
         {
             dataField: 'isActive',
             text: `${getResource('Active')}`,
-            classes: 'text-center',
+            classes: TextCenterCssClass,
             headerStyle: { width: '80px' },
             isDummyField: true,
             formatter: (cell, row, rowIndex) => {
                 if (this.props.isHost) {
+                    const checkboxId = `chb-active-${rowIndex}`;
+
                     return (
                         <div className="checkbox">
-                            <input id={'chb-active-' + rowIndex} type='checkbox' defaultChecked={row.isActive}
+                            <input id={checkboxId} type='checkbox' defaultChecked={row.isActive}
                                 onChange={event => this.editPeriodStatus(event, row)} className="checkbox-custom"
                             />
-                            <label htmlFor={'chb-active-' + rowIndex} />
+                            <label htmlFor={checkboxId} />
                         </div>
                     );
                 }
 
                 return (
                     <div className="checkbox">
-                        <input type='checkbox' id={'chb-active-' + rowIndex} checked={row.isActive} readOnly className="checkbox-custom" />
-                        <label htmlFor={'chb-active-' + rowIndex} />
+                        <input type='checkbox' id={checkboxId} checked={row.isActive} readOnly className="checkbox-custom" />
+                        <label htmlFor={checkboxId} />
                     </div>
                 );
             }
@@ -88,10 +91,10 @@ export default class Table extends Component {
         {
             dataField: '',
             text: `${getResource('Action')}`,
-            classes: 'text-center',
+            classes: TextCenterCssClass,
             headerStyle: { width: '120px' },
             isDummyField: true,
-            formatter: (cell, row, rowIndex, colIndex) => {
+            formatter: (cell, row) => {
                 if (this.props.isHost) {
                     return (
                         <Fragment>
@@ -106,7 +109,7 @@ export default class Table extends Component {
         }];
 
     editPeriodStatus = (event, period) => {
-        var isActive = event.target.checked;
+        const isActive = event.target.checked;
 
         axios({
             url: resolveClientUrl('period/editstatus'),
@@ -121,7 +124,7 @@ export default class Table extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            var data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('UpdatedSuccessfully'));
@@ -153,7 +156,7 @@ export default class Table extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('DeletedSuccessfully'));

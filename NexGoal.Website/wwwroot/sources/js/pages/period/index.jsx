@@ -29,7 +29,7 @@ export default class EvaluationPeriod extends Component {
     }
 
     updateFilterValue = (name, value) => {
-        var filter = { [name]: value };
+        const filter = { [name]: value };
         this.setState({ filter: { ...this.state.filter, ...filter } });
     }
 
@@ -47,8 +47,8 @@ export default class EvaluationPeriod extends Component {
     }
 
     handleUpdateStatus = (periodId, isActive) => {
-        let periods = this.state.periods.slice();
-        let period = periods.find(e => e.periodId === periodId);
+        const periods = this.state.periods.slice();
+        const period = periods.find(e => e.periodId === periodId);
         period.isActive = isActive;
         this.setState({ periods: periods });
     }

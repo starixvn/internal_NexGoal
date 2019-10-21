@@ -34,7 +34,7 @@ export default class EditEmployeeSetting extends Component {
     componentDidMount = () => {
         Promise.all([this.getPerformanceStatusesAxios(), this.getGroupsAxios(), this.getEmployeesAxios(), this.getEmployeeSettingsAxios()])
             .then(axios.spread((perfRes, groupRes, employeeRes, settingRes) => {
-                let groups = groupRes.data.map(group => {
+                const groups = groupRes.data.map(group => {
                     return { value: group.groupId, label: group.name };
                 });
 
@@ -56,7 +56,7 @@ export default class EditEmployeeSetting extends Component {
     }
 
     updateFilterValue = (name, value) => {
-        var filter = { [name]: value };
+        const filter = { [name]: value };
         this.setState({ filter: { ...this.state.filter, ...filter } });
     }
 
@@ -82,8 +82,8 @@ export default class EditEmployeeSetting extends Component {
                 paRecordId: paRecordId
             }
         }).then(response => {
-            var settings = this.state.settings.slice(0);
-            var index = settings.findIndex(e => e.paRecordId === paRecordId);
+            const settings = this.state.settings.slice(0);
+            const index = settings.findIndex(e => e.paRecordId === paRecordId);
 
             settings[index] = { ...settings[index], ...response.data };
 

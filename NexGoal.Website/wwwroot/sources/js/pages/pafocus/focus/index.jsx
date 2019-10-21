@@ -80,7 +80,7 @@ export default class PAFocus extends Component {
             return undefined;
         }
 
-        var confirmationMessage = 'It looks like you have been editing something. '
+        const confirmationMessage = 'It looks like you have been editing something. '
             + 'If you leave before saving, your changes will be lost.';
 
         (event || window.event).returnValue = confirmationMessage;
@@ -94,7 +94,7 @@ export default class PAFocus extends Component {
                 groupIds: groupIds
             }
         }).then(response => {
-            let memberOptions = response.data.map(item => {
+            const memberOptions = response.data.map(item => {
                 return {
                     value: item.employeeId,
                     label: `${item.nickName} (${item.fullName})`
@@ -151,17 +151,17 @@ export default class PAFocus extends Component {
     }
 
     handleExportToExcel = () => {
-        let filter = this.state.filter;
-        let groupIds = filter.groups.map(group => group.value).join(',');
-        let employeeId = filter.employee ? filter.employee.value : '';
+        const filter = this.state.filter;
+        const groupIds = filter.groups.map(group => group.value).join(',');
+        const employeeId = filter.employee ? filter.employee.value : '';
 
         axios({
             url: resolveClientUrl('pafocus/ExportToExcel') + `?periodId=${filter.period.value}&groupIds=${groupIds}&employeeId=${employeeId}`,
             method: 'get',
             responseType: 'blob'
         }).then(response => {
-            let url = window.URL.createObjectURL(new Blob([response.data]));
-            let link = document.createElement('a');
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
             link.href = url;
             link.setAttribute('download', `PA Focus of ${filter.period ? filter.period.label : ''}.xlsx`);
             document.body.appendChild(link);
@@ -170,11 +170,11 @@ export default class PAFocus extends Component {
     }
 
     handleChange = (groupCode, paFocusId, propName, value) => {
-        let pafocuses = this.state.pafocuses.slice();
-        let index = pafocuses.findIndex(pafocus => pafocus.groupCode === groupCode);
+        const pafocuses = this.state.pafocuses.slice();
+        const index = pafocuses.findIndex(pafocus => pafocus.groupCode === groupCode);
 
         if (index >= 0) {
-            let memberIndex = pafocuses[index].members.findIndex(member => member.paFocusId === paFocusId);
+            const memberIndex = pafocuses[index].members.findIndex(member => member.paFocusId === paFocusId);
 
             if (memberIndex >= 0) {
                 pafocuses[index].members[memberIndex] = Object.assign({}, pafocuses[index].members[memberIndex], { [propName]: value });
@@ -187,7 +187,7 @@ export default class PAFocus extends Component {
     }
 
     handleSubmit = () => {
-        let pafocuses = [];
+        const pafocuses = [];
 
         this.state.pafocuses.forEach(pafocus => {
             pafocus.members.forEach(member => {
@@ -220,7 +220,7 @@ export default class PAFocus extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('UpdatedSuccessfully'));
@@ -235,7 +235,7 @@ export default class PAFocus extends Component {
     }
 
     render() {
-        let period = this.state.filter.period,
+        const period = this.state.filter.period,
             today = moment(new Date()).startOf('day'),
             focusStartDate = period && period.focusStartDate ? moment(period.focusStartDate).startOf('day') : null,
             focusEndDate = period && period.focusEndDate ? moment(period.focusEndDate).startOf('day') : null;

@@ -4,13 +4,13 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 
 import { noDataIndication } from '../../../../common-functions';
-import { PaginationOptions } from '../../../../constants';
+import { PaginationOptions, TextCenterCssClass } from '../../../../constants';
 import getResource from '../../../../resourceHelper';
 
 const { SearchBar } = Search;
 
 class Table extends Component {
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate(nextProps) {
         if (this.props.nominators !== nextProps.nominators
             || this.props.isHost !== nextProps.isHost) {
             return true;
@@ -50,7 +50,7 @@ class Table extends Component {
                 dataField: 'rowNum',
                 isDummyField: true,
                 text: `${getResource('SymbolCount')}`,
-                classes: 'text-center',
+                classes: TextCenterCssClass,
                 headerStyle: { width: '50px' },
                 formatter: (cell, row, rowIndex) => rowIndex + 1
             },
@@ -62,41 +62,53 @@ class Table extends Component {
                 dataField: 'isCommittee',
                 headerStyle: { width: '120px' },
                 text: `${getResource('Committee')}`,
-                classes: 'text-center',
+                classes: TextCenterCssClass,
                 formatter: (cell, row, rowIndex) => {
+                    const checkboxId = `chb-committee ${rowIndex}`;
+
                     if (isHost) {
                         return (
                             <div className="checkbox">
-                                <input type='checkbox' name="Committee" className="checkbox-custom" id={'chb-committee' + rowIndex}
+                                <input type='checkbox' name="Committee" className="checkbox-custom" id={checkboxId}
                                     defaultChecked={row.isCommittee}
                                     onChange={event => this.handleCheckboxChange(event, row)}
                                 />
-                                <label htmlFor={'chb-committee' + rowIndex} />
+                                <label htmlFor={checkboxId} />
                             </div>
                         );
                     }
 
-                    return <div className="checkbox"><input type='checkbox' className="checkbox-custom" id={'chb-committee' + rowIndex} name="Committee" defaultChecked={row.isCommittee} disabled /><label htmlFor={'chb-committee' + rowIndex} /></div>;
+                    return (
+                        <div className="checkbox">
+                            <input type='checkbox' className="checkbox-custom" id={checkboxId} name="Committee" defaultChecked={row.isCommittee} disabled />
+                            <label htmlFor={checkboxId} />
+                        </div>);
                 }
             },
             {
                 dataField: 'isNominator',
                 text: `${getResource('Nominator')}`,
-                classes: 'text-center',
+                classes: TextCenterCssClass,
                 headerStyle: { width: '120px' },
                 formatter: (cell, row, rowIndex) => {
+                    const checkboxId = `chb-nominator ${rowIndex}`;
+
                     if (isHost) {
                         return (
                             <div className="checkbox">
-                                <input type='checkbox' name="Nominator" id={'chb-nominator' + rowIndex}
+                                <input type='checkbox' name="Nominator" id={checkboxId}
                                     defaultChecked={row.isNominator}
                                     onChange={event => this.handleCheckboxChange(event, row)} className="checkbox-custom"
                                 />
-                                <label htmlFor={'chb-nominator' + rowIndex} /></div>
+                                <label htmlFor={checkboxId} /></div>
                         );
                     }
 
-                    return <div className="checkbox"><input type='checkbox' id={'chb-nominator' + rowIndex} name="Nominator" defaultChecked={row.isNominator} className="checkbox-custom" disabled /><label htmlFor={'chb-nominator' + rowIndex} /></div>;
+                    return (
+                        <div className="checkbox">
+                            <input type='checkbox' id={checkboxId} name="Nominator" defaultChecked={row.isNominator} className="checkbox-custom" disabled />
+                            <label htmlFor={checkboxId} />
+                        </div>);
                 }
             }
         ];

@@ -15,7 +15,7 @@ import getResource from '../../../resourceHelper';
 
 export default class Edit extends Component {
     validateForm = values => {
-        let errors = {};
+        const errors = {};
         if (!values.processes.some(p => p.isSelected)) {
             errors.noSelect = 'Please select at least a process';
         }
@@ -24,7 +24,7 @@ export default class Edit extends Component {
     }
 
     onSubmit = (values, { setErrors }) => {
-        let processes = values.processes.filter(p => p.processId > PerformanceProcess.ProjectManager && p.isSelected).map(p => {
+        const processes = values.processes.filter(p => p.processId > PerformanceProcess.ProjectManager && p.isSelected).map(p => {
             return {
                 processId: p.processId,
                 evaluatorId: p.evaluator ? p.evaluator.value : null,
@@ -47,14 +47,14 @@ export default class Edit extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 this.props.onEditSuccess();
                 toast.success(getResource('UpdatedSuccessfully'));
             } else {
                 if (data.errors) {
-                    let errors = {};
+                    const errors = {};
                     data.errors.map(error => {
                         errors[camelCase(error.key)] = error.errorMessage;
                     });
@@ -75,8 +75,8 @@ export default class Edit extends Component {
         handleSubmit,
         setFieldValue }) => {
         const employees = this.props.settings.map(e => e.employee.nickName).join(', ');
-        let numberOfPARecord = this.props.paRecordIds.length;
-        let lbstyle = {
+        const numberOfPARecord = this.props.paRecordIds.length;
+        const lbstyle = {
             display: 'inline-block',
             paddingLeft: '12px'
         };

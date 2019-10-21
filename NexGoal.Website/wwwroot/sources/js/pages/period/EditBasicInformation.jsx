@@ -10,7 +10,7 @@ import { camelCase, isEmpty } from 'lodash';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
-import { DateFormat, TargetType } from '../../constants';
+import { DateFormat, TargetType, InputErrorCssClass } from '../../constants';
 
 export default class EditBasicInformation extends Component {
     constructor(props) {
@@ -28,7 +28,7 @@ export default class EditBasicInformation extends Component {
     getPeriod = () => {
         axios.get(resolveClientUrl('Period/GetById/' + this.props.periodId))
             .then(response => {
-                var data = response.data;
+                const data = response.data;
                 data.startDate = data.startDate ? moment(data.startDate) : null;
                 data.endDate = data.endDate ? moment(data.endDate) : null;
                 data.disciplineStartDate = data.disciplineStartDate ? moment(data.disciplineStartDate) : null;
@@ -40,7 +40,7 @@ export default class EditBasicInformation extends Component {
     }
 
     validateForm = values => {
-        let errors = {};
+        const errors = {};
 
         if (!values.name) {
             errors.name = getResource('NameRequired');
@@ -88,6 +88,8 @@ export default class EditBasicInformation extends Component {
     }
 
     onSubmit = (values, { setErrors, setSubmitting }) => {
+        const dateFormat = 'YYYY-MM-DD';
+
         axios({
             url: resolveClientUrl('period/edit'),
             method: 'post',
@@ -96,12 +98,12 @@ export default class EditBasicInformation extends Component {
                 periodId: values.periodId,
                 name: values.name,
                 targetTypeId: values.targetTypeId,
-                startDate: values.startDate ? values.startDate.format('YYYY-MM-DD') : null,
-                endDate: values.endDate ? values.endDate.format('YYYY-MM-DD') : null,
-                disciplineStartDate: values.disciplineStartDate ? values.disciplineStartDate.format('YYYY-MM-DD') : null,
-                disciplineEndDate: values.disciplineEndDate ? values.disciplineEndDate.format('YYYY-MM-DD') : null,
-                focusStartDate: values.targetTypeId === TargetType.SemiAnnual ? values.focusStartDate.format('YYYY-MM-DD') : null,
-                focusEndDate: values.targetTypeId === TargetType.SemiAnnual ? values.focusEndDate.format('YYYY-MM-DD') : null,
+                startDate: values.startDate ? values.startDate.format(dateFormat) : null,
+                endDate: values.endDate ? values.endDate.format(dateFormat) : null,
+                disciplineStartDate: values.disciplineStartDate ? values.disciplineStartDate.format(dateFormat) : null,
+                disciplineEndDate: values.disciplineEndDate ? values.disciplineEndDate.format(dateFormat) : null,
+                focusStartDate: values.targetTypeId === TargetType.SemiAnnual ? values.focusStartDate.format(dateFormat) : null,
+                focusEndDate: values.targetTypeId === TargetType.SemiAnnual ? values.focusEndDate.format(dateFormat) : null,
                 description: values.description,
                 isActive: values.isActive
             }),
@@ -110,13 +112,13 @@ export default class EditBasicInformation extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('UpdatedSuccessfully'));
             } else {
                 if (data.errors) {
-                    let errors = {};
+                    const errors = {};
                     data.errors.map(error => {
                         errors[camelCase(error.key)] = error.errorMessage;
                     });
@@ -137,8 +139,8 @@ export default class EditBasicInformation extends Component {
         handleSubmit,
         setFieldValue,
         isSubmitting }) => {
-        var onChangeRaw = e => {
-            let date = moment(Date(e.target.value));
+        const onChangeRaw = e => {
+            const date = moment(Date(e.target.value));
             if (date.isValid()) {
                 setFieldValue(e.target.name, date);
             }
@@ -163,7 +165,7 @@ export default class EditBasicInformation extends Component {
                         <Col componentClass={ControlLabel}>{getResource('Name')}</Col>
                         <Col className="control-content name-content">
                             <input type="text" name="name" value={values.name} autoComplete="off"
-                                className={`form-control  ${touched.name && errors.name && 'input-validation-error'}`} onChange={handleChange}
+                                className={`form-control  ${touched.name && errors.name && InputErrorCssClass}`} onChange={handleChange}
                             />
                         </Col>
                     </FormGroup>
@@ -175,7 +177,7 @@ export default class EditBasicInformation extends Component {
                         </Col>
                         <Col className="control-content">
                             <DatePicker name="startDate" autoComplete="off"
-                                className={`form-control  ${touched.startDate && errors.startDate && 'input-validation-error'}`}
+                                className={`form-control  ${touched.startDate && errors.startDate && InputErrorCssClass}`}
                                 dateFormat={DateFormat} selected={values.startDate}
                                 onChange={value => setFieldValue('startDate', value)} onChangeRaw={onChangeRaw}
                             />
@@ -187,7 +189,7 @@ export default class EditBasicInformation extends Component {
                         </Col>
                         <Col className="control-content">
                             <DatePicker name="endDate" autoComplete="off"
-                                className={`form-control  ${touched.endDate && errors.endDate && 'input-validation-error'}`}
+                                className={`form-control  ${touched.endDate && errors.endDate && InputErrorCssClass}`}
                                 dateFormat={DateFormat} selected={values.endDate}
                                 onChange={value => setFieldValue('endDate', value)} onChangeRaw={onChangeRaw}
                             />
@@ -199,7 +201,7 @@ export default class EditBasicInformation extends Component {
                         <Col componentClass={ControlLabel} >Working From Date</Col>
                         <Col className="control-content">
                             <DatePicker name="disciplineStartDate" autoComplete="off"
-                                className={`form-control  ${touched.disciplineStartDate && errors.disciplineStartDate && 'input-validation-error'}`}
+                                className={`form-control  ${touched.disciplineStartDate && errors.disciplineStartDate && InputErrorCssClass}`}
                                 dateFormat={DateFormat} selected={values.disciplineStartDate}
                                 onChange={value => setFieldValue('disciplineStartDate', value)} onChangeRaw={onChangeRaw}
                             />
@@ -211,7 +213,7 @@ export default class EditBasicInformation extends Component {
                         </Col>
                         <Col className="control-content">
                             <DatePicker name="disciplineEndDate" autoComplete="off"
-                                className={`form-control  ${touched.disciplineEndDate && errors.disciplineEndDate && 'input-validation-error'}`}
+                                className={`form-control  ${touched.disciplineEndDate && errors.disciplineEndDate && InputErrorCssClass}`}
                                 dateFormat={DateFormat} selected={values.disciplineEndDate}
                                 onChange={value => setFieldValue('disciplineEndDate', value)} onChangeRaw={onChangeRaw}
                             />
@@ -224,7 +226,7 @@ export default class EditBasicInformation extends Component {
                             <Col componentClass={ControlLabel}>Focus Start Date</Col>
                             <Col className="control-content">
                                 <DatePicker name="focusStartDate" autoComplete="off"
-                                    className={`form-control  ${touched.focusStartDate && errors.focusStartDate && 'input-validation-error'}`}
+                                    className={`form-control  ${touched.focusStartDate && errors.focusStartDate && InputErrorCssClass}`}
                                     dateFormat={DateFormat} selected={values.focusStartDate}
                                     onChange={value => setFieldValue('focusStartDate', value)} onChangeRaw={onChangeRaw}
                                 />
@@ -234,7 +236,7 @@ export default class EditBasicInformation extends Component {
                             <Col componentClass={ControlLabel}>Focus End Date</Col>
                             <Col className="control-content">
                                 <DatePicker name="disciplineEndDate" autoComplete="off"
-                                    className={`form-control  ${touched.focusEndDate && errors.focusEndDate && 'input-validation-error'}`}
+                                    className={`form-control  ${touched.focusEndDate && errors.focusEndDate && InputErrorCssClass}`}
                                     dateFormat={DateFormat} selected={values.focusEndDate}
                                     onChange={value => setFieldValue('focusEndDate', value)} onChangeRaw={onChangeRaw}
                                 />
@@ -254,7 +256,7 @@ export default class EditBasicInformation extends Component {
                     <FormGroup>
                         <Col componentClass={ControlLabel}>{getResource('Description')}</Col>
                         <Col className="description-content">
-                            <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
+                            <textarea className={`form-control none-resize ${touched.description && errors.description && InputErrorCssClass}`}
                                 name="description" rows="4"
                                 onChange={handleChange} value={values.description}
                             />

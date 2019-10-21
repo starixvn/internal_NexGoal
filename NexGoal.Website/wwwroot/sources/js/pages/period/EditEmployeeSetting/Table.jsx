@@ -12,7 +12,7 @@ import { axiosError, noDataIndication, resolveClientUrl } from '../../../common-
 import getResource from '../../../resourceHelper';
 import Multiselect from '../../../shared/components/multi-select/multi-select';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
-import { PaginationOptions, PAStatus, PerformanceProcess } from '../../../constants';
+import { PaginationOptions, PAStatus, PerformanceProcess, TextCenterCssClass } from '../../../constants';
 import Edit from './Edit';
 
 export default class Table extends Component {
@@ -39,7 +39,7 @@ export default class Table extends Component {
             dataField: 'rowNum',
             isDummyField: true,
             text: `${getResource('SymbolCount')}`,
-            classes: 'text-center',
+            classes: TextCenterCssClass,
             headerStyle: { width: '50px' },
             formatter: (cell, row, rowIndex) => rowIndex + 1
         },
@@ -57,7 +57,7 @@ export default class Table extends Component {
             text: `${getResource('Evaluator')}`,
             isDummyField: true,
             formatter: (cell, row) => {
-                var evaluatorProcess = row.processes.find(p => p.processId === PerformanceProcess.Evaluator);
+                const evaluatorProcess = row.processes.find(p => p.processId === PerformanceProcess.Evaluator);
 
                 return (
                     <Fragment>
@@ -71,7 +71,7 @@ export default class Table extends Component {
             text: `${getResource('Reviewer')}`,
             isDummyField: true,
             formatter: (cell, row) => {
-                var reviewerProcess = row.processes.find(p => p.processId === PerformanceProcess.Reviewer);
+                const reviewerProcess = row.processes.find(p => p.processId === PerformanceProcess.Reviewer);
 
                 return (
                     <Fragment>
@@ -88,12 +88,12 @@ export default class Table extends Component {
         {
             dataField: 'status',
             text: `${getResource('PAStatus')}`,
-            classes: 'text-center'
+            classes: TextCenterCssClass
         },
         {
             dataField: 'statusId',
             text: `${getResource('Include')}`,
-            classes: 'text-center',
+            classes: TextCenterCssClass,
             headerStyle: { width: '80px' },
             formatter: (cell, row, rowIndex) => {
                 return (
@@ -109,7 +109,7 @@ export default class Table extends Component {
         {
             dataField: '',
             text: `${getResource('Action')}`,
-            classes: 'text-center',
+            classes: TextCenterCssClass,
             headerStyle: { width: '80px' },
             isDummyField: true,
             formatter: (cell, row) => {
@@ -120,18 +120,18 @@ export default class Table extends Component {
         }]
 
     onEmployeeChange = employee => {
-        var addFilter = { employee: employee };
+        const addFilter = { employee: employee };
         this.setState({ addFilter: { ...this.state.addFilter, ...addFilter } });
     }
 
     onGroupsChange = groups => {
-        var addFilter = { groups: groups };
+        const addFilter = { groups: groups };
         this.setState({ addFilter: { ...this.state.addFilter, ...addFilter } });
     }
 
-    addEmployeeSettings = e => {
-        var groupIds = this.state.addFilter.groups.length > 0 ? this.state.addFilter.groups.map(e => e.value).toString() : null;
-        var employeeId = this.state.addFilter.employee ? this.state.addFilter.employee.value : null;
+    addEmployeeSettings = () => {
+        const groupIds = this.state.addFilter.groups.length > 0 ? this.state.addFilter.groups.map(e => e.value).toString() : null;
+        const employeeId = this.state.addFilter.employee ? this.state.addFilter.employee.value : null;
 
         if (groupIds === null && employeeId === null) {
             toast.error('No team/employee selected');
@@ -152,7 +152,7 @@ export default class Table extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            var data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('UpdatedSuccessfully'));
@@ -163,7 +163,7 @@ export default class Table extends Component {
         }).catch(axiosError);
     }
 
-    onSelectRow = (row, isSelect, rowIndex, e) => {
+    onSelectRow = (row, isSelect) => {
         if (isSelect) {
             this.selectedIds.push(row.paRecordId);
         } else {
@@ -171,7 +171,7 @@ export default class Table extends Component {
         }
     }
 
-    onSelectAllRows = (isSelect, rows, e) => {
+    onSelectAllRows = (isSelect) => {
         if (isSelect) {
             this.selectedIds = this.props.data.map(e => e.paRecordId);
         } else {
@@ -206,7 +206,7 @@ export default class Table extends Component {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }).then(response => {
-                var data = response.data;
+                const data = response.data;
 
                 if (data.isSuccessful) {
                     toast.success('Generate Successfully');
@@ -235,7 +235,7 @@ export default class Table extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            var data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('UpdatedSuccessfully'));
@@ -318,7 +318,9 @@ export default class Table extends Component {
                                                 <div className="checkbox">
                                                     <input type={mode} className="checkbox-custom"
                                                         ref={input => {
-                                                            if (input) input.indeterminate = indeterminate;
+                                                            if (input) {
+                                                                input.indeterminate = indeterminate;
+                                                            }
                                                         }}
                                                         checked={checked}
                                                     />

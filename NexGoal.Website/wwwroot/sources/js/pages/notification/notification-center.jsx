@@ -112,7 +112,7 @@ export default class NotificationCenter extends Component {
     }
 
     removeEventListener = () => {
-        let notiTrigger = document.getElementById('trigger-notification-center');
+        const notiTrigger = document.getElementById('trigger-notification-center');
         if (notiTrigger) {
             notiTrigger.removeEventListener('click');
         }
@@ -174,7 +174,7 @@ export default class NotificationCenter extends Component {
 
     markAsReadSuccess = () => {
         const notifications = this.state.notifications.slice();
-        for (var i = 0; i < notifications.length; i++) {
+        for (let i = 0; i < notifications.length; i++) {
             notifications[i].statusId = NotificationStatus.Read;
         }
 

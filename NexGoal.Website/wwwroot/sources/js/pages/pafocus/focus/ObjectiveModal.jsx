@@ -20,7 +20,7 @@ export default class ObjectiveModal extends Component {
     }
 
     validateForm = values => {
-        let errors = {};
+        const errors = {};
 
         if (!values.value) {
             errors.value = 'Required';
@@ -57,8 +57,8 @@ export default class ObjectiveModal extends Component {
     }
 
     render() {
-        let isHost = this.props.isHost;
-        let modalTitle = `${isHost ? 'Edit ' : ''}${this.props.objective.name === 'currentObjective'
+        const isHost = this.props.isHost;
+        const modalTitle = `${isHost ? 'Edit ' : ''}${this.props.objective.name === 'currentObjective'
             ? getResource('AccomplishedCurrentObjectives') : getResource('NextObjectives')}`;
 
         return (

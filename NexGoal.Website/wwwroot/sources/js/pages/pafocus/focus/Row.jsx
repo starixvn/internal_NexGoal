@@ -28,11 +28,11 @@ export default class Row extends Component {
     }
 
     getCssClass = () => {
-        let pafocus = this.props.data;
+        const pafocus = this.props.data;
         let className = '';
-        let contribution = pafocus.contribution ? parseInt(pafocus.contribution, 10) : 0;
-        let bonusGiven = pafocus.bonusGiven ? parseInt(pafocus.bonusGiven, 10) : 0;
-        let isReadyPromotion = pafocus.isReadyPromotion ? pafocus.isReadyPromotion === 'true' : false;
+        const contribution = pafocus.contribution ? parseInt(pafocus.contribution, 10) : 0;
+        const bonusGiven = pafocus.bonusGiven ? parseInt(pafocus.bonusGiven, 10) : 0;
+        const isReadyPromotion = pafocus.isReadyPromotion ? pafocus.isReadyPromotion === 'true' : false;
 
         if (contribution + bonusGiven > 8) {
             className = `noticeable-performance ${isReadyPromotion ? 'outstanding' : 'very-good'}`;
@@ -44,7 +44,7 @@ export default class Row extends Component {
     }
 
     getFocusEvaluationLevel = value => {
-        let index = this.props.focusEvaluationLevelOptions.findIndex(item => item.value.toString() === value);
+        const index = this.props.focusEvaluationLevelOptions.findIndex(item => item.value.toString() === value);
 
         if (index >= 0) {
             return this.props.focusEvaluationLevelOptions[index].name;
@@ -54,7 +54,7 @@ export default class Row extends Component {
     }
 
     renderContribution = () => {
-        let pafocus = this.props.data;
+        const pafocus = this.props.data;
 
         return (
             <Fragment>
@@ -85,7 +85,7 @@ export default class Row extends Component {
     }
 
     renderBonusGiven = () => {
-        let pafocus = this.props.data;
+        const pafocus = this.props.data;
 
         return (
             <Fragment>
@@ -116,9 +116,14 @@ export default class Row extends Component {
     }
 
     renderReadyPromotion = () => {
-        let pafocus = this.props.data;
-        let cssClass = pafocus.isReadyPromotion === null || pafocus.isReadyPromotion === '' ? '' : pafocus.isReadyPromotion === 'true' ? 'good' : 'normal';
-        let label = pafocus.isReadyPromotion === null || pafocus.isReadyPromotion === '' ? '-' : pafocus.isReadyPromotion === 'true' ? 'Yes' : 'No';
+        const pafocus = this.props.data;
+        let cssClass = '';
+        let label = '-';
+
+        if (pafocus.isReadyPromotion) {
+            cssClass = pafocus.isReadyPromotion === 'true' ? 'good' : 'normal';
+            label = pafocus.isReadyPromotion === 'true' ? 'Yes' : 'No';
+        }
 
         return (
             <Fragment>
@@ -159,7 +164,7 @@ export default class Row extends Component {
     }
 
     renderActionObjective = propName => {
-        let pafocus = this.props.data;
+        const pafocus = this.props.data;
 
         return (
             <Fragment>
@@ -186,31 +191,31 @@ export default class Row extends Component {
     }
 
     renderGrade = (originalGrade, grade) => {
-        let gradeId = grade ? grade.gradeId : null;
-        let originalGradeId = originalGrade ? originalGrade.gradeId : null;
+        const gradeId = grade ? grade.gradeId : null;
+        const originalGradeId = originalGrade ? originalGrade.gradeId : null;
 
-        let gradeClass = getPAGradeClassName(originalGradeId, gradeId);
+        const gradeClass = getPAGradeClassName(originalGradeId, gradeId);
 
         return <span>{grade ? grade.name : 'N/A'}<span className={gradeClass} /></span>;
     }
 
     handleOnChange = event => {
-        let pafocus = this.props.data;
+        const pafocus = this.props.data;
 
         this.props.onChange(pafocus.employee.groupCode, pafocus.paFocusId, event.target.name, event.target.value);
     }
 
     handleChangeObjective = objective => {
-        let pafocus = this.props.data;
+        const pafocus = this.props.data;
 
         this.props.onChange(pafocus.employee.groupCode, pafocus.paFocusId, objective.name, objective.value);
     }
 
     handleShowObjectiveModal = event => {
-        let targetName = event.target.name;
-        let value = this.props.data[targetName] ? this.props.data[targetName] : '';
+        const targetName = event.target.name;
+        const value = this.props.data[targetName] ? this.props.data[targetName] : '';
 
-        let objective = {
+        const objective = {
             name: targetName,
             value: value
         };
@@ -226,7 +231,7 @@ export default class Row extends Component {
     }
 
     render() {
-        let pafocus = this.props.data;
+        const pafocus = this.props.data;
 
         return (
             <Fragment>
