@@ -16,7 +16,9 @@ export default class MultiSelectSearchbox extends Component {
     static defaultProps = {
         value: [],
         options: [],
-        onChange: function () { }
+        onChange: function () {
+            //empty
+        }
     };
 
     constructor(props) {

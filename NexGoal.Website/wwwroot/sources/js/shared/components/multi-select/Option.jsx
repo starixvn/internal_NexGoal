@@ -4,10 +4,14 @@ import { components } from 'react-select';
 const Option = props => {
     return (
         <components.Option {...props}>
-          <div className="checkbox">
-            <input className="checkbox-custom" type="checkbox" checked={props.isSelected} onChange={() => { }} />
-            <label>{props.data.label}</label>
-          </div>
+            <div className="checkbox">
+                <input className="checkbox-custom" type="checkbox" checked={props.isSelected}
+                    onChange={() => {
+                        //empty
+                    }}
+                />
+                <label>{props.data.label}</label>
+            </div>
         </components.Option>
     );
 };

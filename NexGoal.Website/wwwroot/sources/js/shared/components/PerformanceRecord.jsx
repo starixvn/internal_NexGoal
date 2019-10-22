@@ -25,9 +25,15 @@ export default class PerformanceRecord extends Component {
         data: null,
         pageType: PageType.MyPage,
         isHighlighted: false,
-        onEdit: function () { },
-        onEditDraft: function () { },
-        onDelete: function () { }
+        onEdit: function () {
+            //empty
+        },
+        onEditDraft: function () {
+            //empty
+        },
+        onDelete: function () {
+            //empty
+        }
     };
 
     constructor(props) {
@@ -40,7 +46,7 @@ export default class PerformanceRecord extends Component {
     }
 
     componentDidMount() {
-        let record = this.props.data;
+        const record = this.props.data;
         if (record && (record.typeId === PerformanceRecordType.PerformanceCheckin || record.typeId === PerformanceRecordType.Nomination)) {
             this.detectCollapseExpandComment();
         }
@@ -65,7 +71,7 @@ export default class PerformanceRecord extends Component {
     }
 
     detectCollapseExpandComment() {
-        let height = this.element.offsetHeight;
+        const height = this.element.offsetHeight;
         if (height > 60) {
             this.setState({
                 showCollapseExpandButton: true,
@@ -81,13 +87,21 @@ export default class PerformanceRecord extends Component {
     handleDelete = () => this.props.onDelete(this.props.data.performanceRecordId);
 
     renderPerformanceCheckin = () => {
-        let record = this.props.data;
+        const record = this.props.data;
         let { employees, creator } = record;
-        let grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : getResource('N/A');
-        let projects = record.projects && record.projects.length > 0 ?
+        const grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : getResource('N/A');
+        const projects = record.projects && record.projects.length > 0 ?
             record.projects.map(project => <span key={project.projectId} className="tag">{project.name}</span>) : getResource('N/A');
-        let createdDate = record.createdDate ? calendar(record.createdDate) : '';
-        let modifiedDate = record.modifiedDate ? calendar(record.modifiedDate) : '';
+        const createdDate = record.createdDate ? calendar(record.createdDate) : '';
+        const modifiedDate = record.modifiedDate ? calendar(record.modifiedDate) : '';
+
+        let commentWrapperClass = 'expanded';
+        let expandCommentButtonClass = 'see-less';
+
+        if (this.state.isExpanded) {
+            commentWrapperClass = 'collapsed';
+            expandCommentButtonClass = 'see-more';
+        }
 
         return (
             <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${record.performanceRecordId}`}>
@@ -126,10 +140,10 @@ export default class PerformanceRecord extends Component {
                     }
                 </div>
                 <div className="comment" >
-                    <p className={this.state.isExpanded ? 'collapsed' : 'expanded'} ref={element => this.element = element}>{record.comment}</p>
+                    <p className={commentWrapperClass} ref={element => this.element = element}>{record.comment}</p>
                     {
                         this.state.showCollapseExpandButton ?
-                            <span className={this.state.isExpanded ? 'see-more' : 'see-less'} onClick={this.collapseExpandComment} />
+                            <span className={expandCommentButtonClass} onClick={this.collapseExpandComment} />
                             : null
                     }
                 </div>
@@ -147,12 +161,20 @@ export default class PerformanceRecord extends Component {
     }
 
     renderDraftPerformanceCheckin = () => {
-        let record = this.props.data;
+        const record = this.props.data;
         let { employees, creator } = record;
-        let grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : getResource('N/A');
-        let projects = record.projects && record.projects.length > 0 ?
+        const grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : getResource('N/A');
+        const projects = record.projects && record.projects.length > 0 ?
             record.projects.map(project => <span key={project.projectId} className="tag">{project.name}</span>) : getResource('N/A');
-        let createdDate = record.createdDate ? calendar(record.createdDate) : '';
+        const createdDate = record.createdDate ? calendar(record.createdDate) : '';
+
+        let commentWrapperClass = 'expanded';
+        let expandCommentButtonClass = 'see-less';
+
+        if (this.state.isExpanded) {
+            commentWrapperClass = 'collapsed';
+            expandCommentButtonClass = 'see-more';
+        }
 
         return (
             <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-draft-${record.performanceRecordId}`}>
@@ -191,10 +213,10 @@ export default class PerformanceRecord extends Component {
 
                 </div>
                 <div className="comment" >
-                    <p className={this.state.isExpanded ? 'collapsed' : 'expanded'} ref={element => this.element = element}>{record.comment}</p>
+                    <p className={commentWrapperClass} ref={element => this.element = element}>{record.comment}</p>
                     {
                         this.state.showCollapseExpandButton ?
-                            <span className={this.state.isExpanded ? 'see-more' : 'see-less'} onClick={this.collapseExpandComment} />
+                            <span className={expandCommentButtonClass} onClick={this.collapseExpandComment} />
                             : null
                     }
                 </div>
@@ -212,13 +234,21 @@ export default class PerformanceRecord extends Component {
     }
 
     renderNomination = () => {
-        let record = this.props.data;
+        const record = this.props.data;
         let { employees, creator } = record;
-        let createdDate = record.createdDate ? calendar(record.createdDate) : '';
-        let modifiedDate = record.modifiedDate ? calendar(record.modifiedDate) : '';
-        let status = NominationStatuses.find(x => x.value === record.nominationStatusId);
-        let endDateForNominator = moment(record.nominationPeriod.endDateForNominator);
-        let currentDate = moment();
+        const createdDate = record.createdDate ? calendar(record.createdDate) : '';
+        const modifiedDate = record.modifiedDate ? calendar(record.modifiedDate) : '';
+        const status = NominationStatuses.find(x => x.value === record.nominationStatusId);
+        const endDateForNominator = moment(record.nominationPeriod.endDateForNominator);
+        const currentDate = moment();
+
+        let commentWrapperClass = 'expanded';
+        let expandCommentButtonClass = 'see-less';
+
+        if (this.state.isExpanded) {
+            commentWrapperClass = 'collapsed';
+            expandCommentButtonClass = 'see-more';
+        }
 
         return (
             <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${record.performanceRecordId}`}>
@@ -268,10 +298,10 @@ export default class PerformanceRecord extends Component {
                 </div>
 
                 <div className="comment" >
-                    <p className={this.state.isExpanded ? 'collapsed' : 'expanded'} ref={element => this.element = element}>{record.comment}</p>
+                    <p className={commentWrapperClass} ref={element => this.element = element}>{record.comment}</p>
                     {
                         this.state.showCollapseExpandButton ?
-                            <span className={this.state.isExpanded ? 'see-more' : 'see-less'} onClick={this.collapseExpandComment} />
+                            <span className={expandCommentButtonClass} onClick={this.collapseExpandComment} />
                             : null
                     }
                 </div>
@@ -280,9 +310,9 @@ export default class PerformanceRecord extends Component {
     }
 
     renderSystemPerformanceAppraisal = () => {
-        let record = this.props.data;
-        let grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : getResource('N/A');
-        let createdDate = record.createdDate ? calendar(record.createdDate) : '';
+        const record = this.props.data;
+        const grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : getResource('N/A');
+        const createdDate = record.createdDate ? calendar(record.createdDate) : '';
 
         return (
             <div className={`record record-system ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${record.performanceRecordId}`}>
@@ -302,12 +332,12 @@ export default class PerformanceRecord extends Component {
     }
 
     renderSystemNomination = () => {
-        let record = this.props.data;
-        let nominationStatusId = record.nominationStatusId;
-        let nominationStatus = NominationStatuses.find(x => x.value === nominationStatusId);
-        let createdDate = record.createdDate ? calendar(record.createdDate) : '';
-        let nominationPeriod = record.nominationPeriod ? record.nominationPeriod.title : '';
-        let employees = record.employees.map(employee => employee.nickName).join(', ');
+        const record = this.props.data;
+        const nominationStatusId = record.nominationStatusId;
+        const nominationStatus = NominationStatuses.find(x => x.value === nominationStatusId);
+        const createdDate = record.createdDate ? calendar(record.createdDate) : '';
+        const nominationPeriod = record.nominationPeriod ? record.nominationPeriod.title : '';
+        const employees = record.employees.map(employee => employee.nickName).join(', ');
         let content = '';
 
         switch (nominationStatusId) {
@@ -376,7 +406,7 @@ export default class PerformanceRecord extends Component {
     }
 
     renderRecord = () => {
-        let record = this.props.data;
+        const record = this.props.data;
 
         switch (record.typeId) {
             case PerformanceRecordType.PerformanceCheckin:
@@ -397,6 +427,8 @@ export default class PerformanceRecord extends Component {
             case PerformanceRecordType.SystemNomination:
                 return this.renderSystemNomination();
         }
+
+        return (<Fragment />);
     }
 
     render() {

@@ -2,7 +2,7 @@
 import { components } from 'react-select';
 
 const MenuList = props => {
-    let selected = props.getValue();
+    const selected = props.getValue();
 
     return (
         <components.MenuList {...props}>
@@ -19,7 +19,9 @@ const MenuList = props => {
                 >
                     <div className="checkbox">
                         <input className="checkbox-custom" type="checkbox" checked={selected.length === props.options.length}
-                            onChange={() => { }}
+                            onChange={() => {
+                                //empty
+                            }}
                         /> <label>Select All</label>
                     </div>
                 </div>

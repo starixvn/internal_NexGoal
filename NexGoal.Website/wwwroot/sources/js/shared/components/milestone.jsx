@@ -9,7 +9,9 @@ export default class Milestone extends Component {
 
     static defaultProps = {
         options: [],
-        onChange: function () { }
+        onChange: function () {
+            //empty
+        }
     };
 
     constructor(props) {
@@ -35,17 +37,19 @@ export default class Milestone extends Component {
         return false;
     }
 
+    onClickComplete = () => {
+        this.setState({
+            nextDisabled: this.state.currentIndex === 0,
+            prevDisabled: this.state.currentIndex === this.state.maxIndex
+        });
+        this.props.onChange(this.props.options[this.state.currentIndex].value);
+    }
+
     onClickNext = () => {
         if (!this.state.nextDisabled) {
             this.setState({
                 currentIndex: this.state.currentIndex - 1
-            }, () => {
-                this.setState({
-                    nextDisabled: this.state.currentIndex === 0,
-                    prevDisabled: this.state.currentIndex === this.state.maxIndex
-                });
-                this.props.onChange(this.props.options[this.state.currentIndex].value);
-            });
+            }, this.onClickComplete);
         }
     }
 
@@ -53,13 +57,7 @@ export default class Milestone extends Component {
         if (!this.state.prevDisabled) {
             this.setState({
                 currentIndex: this.state.currentIndex + 1
-            }, () => {
-                this.setState({
-                    nextDisabled: this.state.currentIndex === 0,
-                    prevDisabled: this.state.currentIndex === this.state.maxIndex
-                });
-                this.props.onChange(this.props.options[this.state.currentIndex].value);
-            });
+            }, this.onClickComplete);
         }
     }
 

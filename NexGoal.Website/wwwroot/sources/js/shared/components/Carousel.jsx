@@ -11,7 +11,7 @@ export default class VerticalCarousel extends PureComponent {
     }
 
     toggleSlide = () => {
-        let currentIndex = this.refs.carousel.state.activeIndex;
+        const currentIndex = this.refs.carousel.state.activeIndex;
         this.setState(prevState => ({ slide: !prevState.slide, currentIndex: currentIndex }));
     }
 

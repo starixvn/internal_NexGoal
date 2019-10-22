@@ -2,13 +2,13 @@
 import { components } from 'react-select';
 
 const MultiValueContainer = props => {
-    let selectedItems = props.selectProps.value;
-    let totalItems = props.selectProps.value.length;
-    let currentItem = props.data;
-    let index = selectedItems.indexOf(currentItem);
+    const selectedItems = props.selectProps.value;
+    const totalItems = props.selectProps.value.length;
+    const currentItem = props.data;
+    const index = selectedItems.indexOf(currentItem);
 
-    let containerProps = { ...props };
-    let innerProps = { ...containerProps.innerProps };
+    const containerProps = { ...props };
+    const innerProps = { ...containerProps.innerProps };
     innerProps.className = index > 0 ? innerProps.className + ' hide' : innerProps.className;
     containerProps.innerProps = { ...containerProps.innerProps, ...innerProps };
 

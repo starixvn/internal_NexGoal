@@ -22,7 +22,7 @@ export default class NominationCommentModal extends PureComponent {
     }
 
     render() {
-        let nomination = this.props.nomination;
+        const nomination = this.props.nomination;
 
         if (nomination) {
             let { nominators, nominee } = nomination;
