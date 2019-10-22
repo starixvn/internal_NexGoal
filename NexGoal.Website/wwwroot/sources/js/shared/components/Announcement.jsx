@@ -3,7 +3,7 @@ import { Button, Modal } from 'react-bootstrap';
 import getResource from '../../resourceHelper';
 
 export default function Announcement(props) {
-    let content = props.announcements.map((e, i) => <li key={i}><p>{e}</p></li>);
+    const content = props.announcements.map((e, i) => <li key={i}><p>{e}</p></li>);
 
     return (
         <Modal

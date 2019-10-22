@@ -15,8 +15,12 @@ class ConfirmationModal extends Component {
         action: '',
         name: '',
         showModal: false,
-        onCloseModal: function () { },
-        onSubmit: function () { }
+        onCloseModal: function () {
+            //empty
+        },
+        onSubmit: function () {
+            //empty
+        }
     };
 
     handleSubmit = event => {

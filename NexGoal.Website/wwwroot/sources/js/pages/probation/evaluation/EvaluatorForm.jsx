@@ -89,7 +89,7 @@ export default class EvaluatorForm extends Component {
                                                     <strong>{kpi.evaluatorPoint}</strong>
                                                 </td>
                                             </tr>
-                                        )
+                                        );
                                     })}
                                 </Fragment>
                             ))}

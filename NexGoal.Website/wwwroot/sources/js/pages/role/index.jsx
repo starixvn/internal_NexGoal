@@ -32,7 +32,7 @@ export default class App extends Component {
     getAssignPermissions = roleId => {
         axios.get(resolveClientUrl(`Role/AssignPermission?roleId=${roleId}`))
             .then(response => {
-                let data = response.data;
+                const data = response.data;
 
                 this.setState({
                     roleSelected: data.roleId,
@@ -49,8 +49,8 @@ export default class App extends Component {
 
     handleOnCheckboxChange = (functionObj, target, isChecked) => {
         let { functionId, parentId } = functionObj;
-        let functions = this.state.functions.slice();
-        let totalItems = functions.length;
+        const functions = this.state.functions.slice();
+        const totalItems = functions.length;
 
         let index = functions.indexOf(functionObj);
         if (isChecked) {
@@ -62,8 +62,8 @@ export default class App extends Component {
         }
 
         if (parentId) {
-            let childs = functions.filter(f => f.parentId === parentId);
-            let policy = Math.max.apply(Math, childs.map(f => f.policy));
+            const childs = functions.filter(f => f.parentId === parentId);
+            const policy = Math.max.apply(Math, childs.map(f => f.policy));
 
             for (index = 0; index < totalItems; index++) {
                 if (functions[index].functionId === parentId) {
@@ -91,8 +91,8 @@ export default class App extends Component {
     handleOnSubmit = event => {
         event.preventDefault();
 
-        let roleId = this.state.roleSelected;
-        let permissions = this.state.functions.slice().map(func => {
+        const roleId = this.state.roleSelected;
+        const permissions = this.state.functions.slice().map(func => {
             return { roleId: roleId, functionId: func.functionId, policy: func.policy };
         });
 
@@ -109,7 +109,7 @@ export default class App extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let data = response.data;
+            const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('UpdatePermissionSuccessfully'));
