@@ -25,7 +25,7 @@ export default class NotificationSetting extends Component {
     }
 
     handleChange = (event, typeId, name) => {
-        let settings = [...this.state.notificationSettings];
+        const settings = [...this.state.notificationSettings];
         settings.find(setting => setting.type === typeId)[name] = event.target.checked;
         this.setState({
             notificationSettings: settings
@@ -45,7 +45,7 @@ export default class NotificationSetting extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
-            let result = response.data;
+            const result = response.data;
             if (result.isSuccessful) {
                 toast.success(getResource('UpdatedSuccessfully'));
                 this.props.onCloseModal();

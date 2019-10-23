@@ -26,6 +26,24 @@
         private const string RevisedIcon = "✔";
         private const int TotalColumns = 12;
         private const int TitleHeight = 25;
+        private const int TemplateRow = 11;
+        private const int GroupTemplateRow = 6;
+        private const int PeriodTemplateRow = 5;
+        private const int FirstHeaderRow = 2;
+        private const int SecondHeaderRow = 3;
+
+        private const int RowIndexColumn = 1;
+        private const int NickNameColumn = 2;
+        private const int JobTitleColumn = 3;
+        private const int ToeicColumn = 4;
+        private const int SelfColumn = 5;
+        private const int ProjectManagerColumn = 6;
+        private const int EvaluatorColumn = 7;
+        private const int ReviewerColumn = 8;
+        private const int PAGradeColumn = 9;
+        private const int PAAdjustmentColumn = 10;
+        private const int PACommentColumn = 11;
+        private const int RevisedStatusColumn = 12;
 
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IPAReportService reportService;
@@ -61,22 +79,23 @@
                     worksheet.Row(1).Height = TitleHeight;
                     worksheet.Cells[1, 1, 1, TotalColumns].Merge = true;
 
-                    templateWorksheet.Cells[2, 1, 3, TotalColumns].Copy(worksheet.Cells[2, 1, 3, TotalColumns]);
-                    worksheet.Row(2).Height = TitleHeight;
-                    worksheet.Row(3).Height = TitleHeight;
+                    templateWorksheet.Cells[FirstHeaderRow, 1, SecondHeaderRow, TotalColumns]
+                        .Copy(worksheet.Cells[FirstHeaderRow, 1, SecondHeaderRow, TotalColumns]);
+                    worksheet.Row(FirstHeaderRow).Height = TitleHeight;
+                    worksheet.Row(SecondHeaderRow).Height = TitleHeight;
 
-                    worksheet.Column(1).Width = 5;
-                    worksheet.Column(2).Width = 15;
-                    worksheet.Column(3).Width = 30;
-                    worksheet.Column(4).Width = 10;
-                    worksheet.Column(5).Width = 50;
-                    worksheet.Column(6).Width = 50;
-                    worksheet.Column(7).Width = 50;
-                    worksheet.Column(8).Width = 50;
-                    worksheet.Column(9).Width = 10;
-                    worksheet.Column(10).Width = 15;
-                    worksheet.Column(11).Width = 40;
-                    worksheet.Column(12).Width = 10;
+                    worksheet.Column(RowIndexColumn).Width = 5;
+                    worksheet.Column(NickNameColumn).Width = 15;
+                    worksheet.Column(JobTitleColumn).Width = 30;
+                    worksheet.Column(ToeicColumn).Width = 10;
+                    worksheet.Column(SelfColumn).Width = 50;
+                    worksheet.Column(ProjectManagerColumn).Width = 50;
+                    worksheet.Column(EvaluatorColumn).Width = 50;
+                    worksheet.Column(ReviewerColumn).Width = 50;
+                    worksheet.Column(PAGradeColumn).Width = 10;
+                    worksheet.Column(PAAdjustmentColumn).Width = 15;
+                    worksheet.Column(PACommentColumn).Width = 40;
+                    worksheet.Column(RevisedStatusColumn).Width = 10;
 
                     var currentRow = 4;
 
@@ -103,7 +122,7 @@
             {
                 periodName += " - In Progress";
             }
-            templateWorksheet.Cells[5, 1, 5, TotalColumns].Copy(worksheet.Cells[currentRow, 1, currentRow, TotalColumns]);
+            templateWorksheet.Cells[PeriodTemplateRow, 1, PeriodTemplateRow, TotalColumns].Copy(worksheet.Cells[currentRow, 1, currentRow, TotalColumns]);
             worksheet.Cells[currentRow, 1].Value = periodName;
             worksheet.Row(currentRow).Height = TitleHeight;
             worksheet.Cells[currentRow, 1, currentRow, TotalColumns].Merge = true;
@@ -135,7 +154,7 @@
             PAReportModel groupPA
             , ref int currentRow)
         {
-            templateWorksheet.Cells[6, 1, 6, TotalColumns].Copy(worksheet.Cells[currentRow, 1, currentRow, TotalColumns]);
+            templateWorksheet.Cells[GroupTemplateRow, 1, GroupTemplateRow, TotalColumns].Copy(worksheet.Cells[currentRow, 1, currentRow, TotalColumns]);
             worksheet.Cells[currentRow, 1].Value = groupPA.Group.Name;
             worksheet.Row(currentRow).Height = TitleHeight;
             worksheet.Cells[currentRow, 1, currentRow, TotalColumns].Merge = true;
@@ -145,31 +164,31 @@
 
             foreach (var pa in groupPA.PARecords)
             {
-                templateWorksheet.Cells[11, 1, 11, TotalColumns].Copy(worksheet.Cells[currentRow, 1, currentRow, TotalColumns]);
-                worksheet.Cells[currentRow, 1].Value = index;
-                worksheet.Cells[currentRow, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                worksheet.Cells[currentRow, 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                templateWorksheet.Cells[TemplateRow, 1, TemplateRow, TotalColumns].Copy(worksheet.Cells[currentRow, 1, currentRow, TotalColumns]);
+                worksheet.Cells[currentRow, RowIndexColumn].Value = index;
+                worksheet.Cells[currentRow, RowIndexColumn].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Cells[currentRow, RowIndexColumn].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
 
-                worksheet.Cells[currentRow, 2].Value = pa.Employee.NickName;
-                worksheet.Cells[currentRow, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-                worksheet.Cells[currentRow, 2].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                worksheet.Cells[currentRow, NickNameColumn].Value = pa.Employee.NickName;
+                worksheet.Cells[currentRow, NickNameColumn].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                worksheet.Cells[currentRow, NickNameColumn].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
 
-                worksheet.Cells[currentRow, 3].Value = pa.Employee.JobTitle;
-                worksheet.Cells[currentRow, 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-                worksheet.Cells[currentRow, 3].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                worksheet.Cells[currentRow, JobTitleColumn].Value = pa.Employee.JobTitle;
+                worksheet.Cells[currentRow, JobTitleColumn].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                worksheet.Cells[currentRow, JobTitleColumn].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
 
-                WriteToeic(templateWorksheet, worksheet.Cells[currentRow, 4], pa.ToeicPolicy, pa.Toeic);
-                worksheet.Cells[currentRow, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                worksheet.Cells[currentRow, 4].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                WriteToeic(templateWorksheet, worksheet.Cells[currentRow, ToeicColumn], pa.ToeicPolicy, pa.Toeic);
+                worksheet.Cells[currentRow, ToeicColumn].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Cells[currentRow, ToeicColumn].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
 
-                WritePerformanceRecordByProcess(worksheet.Cells[currentRow, 5], pa.Processes, PerformanceProcess.Self);
-                WritePerformanceRecordByProcess(worksheet.Cells[currentRow, 6], pa.Processes, PerformanceProcess.ProjectManager);
-                WritePerformanceRecordByProcess(worksheet.Cells[currentRow, 7], pa.Processes, PerformanceProcess.Evaluator);
-                WritePerformanceRecordByProcess(worksheet.Cells[currentRow, 8], pa.Processes, PerformanceProcess.Reviewer);
-                WritePAFinalGrade(worksheet.Cells[currentRow, 9], pa);
-                WritePAAdjustment(worksheet.Cells[currentRow, 10], pa);
-                WritePAComment(worksheet.Cells[currentRow, 11], pa);
-                WriteRevisedStatus(worksheet.Cells[currentRow, 12], pa.IsRevised);
+                WritePerformanceRecordByProcess(worksheet.Cells[currentRow, SelfColumn], pa.Processes, PerformanceProcess.Self);
+                WritePerformanceRecordByProcess(worksheet.Cells[currentRow, ProjectManagerColumn], pa.Processes, PerformanceProcess.ProjectManager);
+                WritePerformanceRecordByProcess(worksheet.Cells[currentRow, EvaluatorColumn], pa.Processes, PerformanceProcess.Evaluator);
+                WritePerformanceRecordByProcess(worksheet.Cells[currentRow, ReviewerColumn], pa.Processes, PerformanceProcess.Reviewer);
+                WritePAFinalGrade(worksheet.Cells[currentRow, PAGradeColumn], pa);
+                WritePAAdjustment(worksheet.Cells[currentRow, PAAdjustmentColumn], pa);
+                WritePAComment(worksheet.Cells[currentRow, PACommentColumn], pa);
+                WriteRevisedStatus(worksheet.Cells[currentRow, RevisedStatusColumn], pa.IsRevised);
 
                 worksheet.Row(currentRow).Style.WrapText = true;
                 currentRow++;

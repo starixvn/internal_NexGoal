@@ -14,7 +14,7 @@ export default class PAProcessTab extends Component {
     }
 
     renderRecordByProcess = processId => {
-        let paProcesses = this.props.processes.filter(p => p.performanceRecord && p.processId === processId);
+        const paProcesses = this.props.processes.filter(p => p.performanceRecord && p.processId === processId);
         if (paProcesses.length > 0) {
             return paProcesses.map((process, index) => {
                 process.performanceRecord.employees = null;

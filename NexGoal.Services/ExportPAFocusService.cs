@@ -26,6 +26,19 @@
 
         private const string ExcelTemplatePath = @"ExcelTemplates\\PAFocus.xlsx";
         private const int TotalCells = 11;
+        private const int PAFocusColumnWidth = 60;
+
+        private const int RowIndexColumn = 1;
+        private const int NickNameColumn = 2;
+        private const int FullNameColumn = 3;
+        private const int JobTitleColumn = 4;
+        private const int GroupNameColumn = 5;
+        private const int ContributionColumn = 6;
+        private const int BonusGivenColumn = 7;
+        private const int ReadyPromotionColumn = 8;
+        private const int PAGradeColumn = 9;
+        private const int CurrentObjectiveColumn = 10;
+        private const int NextObjectiveColumn = 11;
 
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly ICommonService commonService;
@@ -64,34 +77,34 @@
 
                         TemplateRowIndex templateRowIndex = GetCellsTemplate(templateWorksheet, worksheet, paFocus, rowIndex, currentRow);
 
-                        worksheet.Cells[currentRow, 1].Value = rowIndex;
-                        worksheet.Cells[currentRow, 2].Value = paFocus.Employee.NickName;
-                        worksheet.Cells[currentRow, 3].Value = paFocus.Employee.FullName;
-                        worksheet.Cells[currentRow, 4].Value = paFocus.Employee.JobTitle;
-                        worksheet.Cells[currentRow, 5].Value = paFocus.Employee.GroupName;
-                        worksheet.Cells[currentRow, 6].Value = GetFocusEvaluationLevel(referenceResources, paFocus.Contribution);
-                        worksheet.Cells[currentRow, 7].Value = GetFocusEvaluationLevel(referenceResources, paFocus.BonusGiven);
-                        worksheet.Cells[currentRow, 8].Value = GetIsReadyPromotion(isReadyPromotion);
+                        worksheet.Cells[currentRow, RowIndexColumn].Value = rowIndex;
+                        worksheet.Cells[currentRow, NickNameColumn].Value = paFocus.Employee.NickName;
+                        worksheet.Cells[currentRow, FullNameColumn].Value = paFocus.Employee.FullName;
+                        worksheet.Cells[currentRow, JobTitleColumn].Value = paFocus.Employee.JobTitle;
+                        worksheet.Cells[currentRow, GroupNameColumn].Value = paFocus.Employee.GroupName;
+                        worksheet.Cells[currentRow, ContributionColumn].Value = GetFocusEvaluationLevel(referenceResources, paFocus.Contribution);
+                        worksheet.Cells[currentRow, BonusGivenColumn].Value = GetFocusEvaluationLevel(referenceResources, paFocus.BonusGiven);
+                        worksheet.Cells[currentRow, ReadyPromotionColumn].Value = GetIsReadyPromotion(isReadyPromotion);
 
-                        WritePAGrade(worksheet.Cells[currentRow, 9], templateRowIndex, paFocus);
+                        WritePAGrade(worksheet.Cells[currentRow, PAGradeColumn], templateRowIndex, paFocus);
 
-                        worksheet.Cells[currentRow, 10].Value = paFocus.CurrentObjective;
-                        worksheet.Cells[currentRow, 11].Value = paFocus.NextObjective;
+                        worksheet.Cells[currentRow, CurrentObjectiveColumn].Value = paFocus.CurrentObjective;
+                        worksheet.Cells[currentRow, NextObjectiveColumn].Value = paFocus.NextObjective;
 
                         rowIndex++;
                         currentRow++;
                     }
 
-                    worksheet.Column(2).AutoFit();
-                    worksheet.Column(3).AutoFit();
-                    worksheet.Column(4).AutoFit();
-                    worksheet.Column(5).AutoFit();
-                    worksheet.Column(6).AutoFit();
-                    worksheet.Column(7).AutoFit();
-                    worksheet.Column(8).AutoFit();
-                    worksheet.Column(9).AutoFit();
-                    worksheet.Column(10).Width = 60;
-                    worksheet.Column(11).Width = 60;
+                    worksheet.Column(NickNameColumn).AutoFit();
+                    worksheet.Column(FullNameColumn).AutoFit();
+                    worksheet.Column(JobTitleColumn).AutoFit();
+                    worksheet.Column(GroupNameColumn).AutoFit();
+                    worksheet.Column(ContributionColumn).AutoFit();
+                    worksheet.Column(BonusGivenColumn).AutoFit();
+                    worksheet.Column(ReadyPromotionColumn).AutoFit();
+                    worksheet.Column(PAGradeColumn).AutoFit();
+                    worksheet.Column(CurrentObjectiveColumn).Width = PAFocusColumnWidth;
+                    worksheet.Column(NextObjectiveColumn).Width = PAFocusColumnWidth;
 
                     worksheet.View.FreezePanes(4, 1);
 
@@ -153,7 +166,7 @@
 
                 if (isReadyPromotion == "true")
                 {
-                    worksheet.Cells[currentRow, 8].Style.Font.Color.SetColor(Color.Green);
+                    worksheet.Cells[currentRow, ReadyPromotionColumn].Style.Font.Color.SetColor(Color.Green);
                 }
             }
 

@@ -34,10 +34,10 @@ export default class Notification extends Component {
     }
 
     calculateNotiBodyHeight = () => {
-        let items = document.getElementsByClassName('noti-item');
+        const items = document.getElementsByClassName('noti-item');
         let totalHeight = 0;
         if (items.length > 0) {
-            for (var i = 0; i < items.length; i++) {
+            for (let i = 0; i < items.length; i++) {
                 totalHeight += items[i].offsetHeight + 4;
             }
         }
