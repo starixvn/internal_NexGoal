@@ -57,6 +57,8 @@
             IEnumerable<ReferenceResourceModel> referenceResources = await commonService.GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
             var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.WebRootPath, ExcelTemplatePath));
 
+            var headerRowExpand = 3;
+
             using (var templatePackage = new ExcelPackage(fileInfo))
             {
                 using (var package = new ExcelPackage())
@@ -65,7 +67,7 @@
                     ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("PA Focus Report");
 
                     // write header
-                    templateWorksheet.Cells[1, 1, 3, TotalCells].Copy(worksheet.Cells[1, 1, 3, TotalCells]);
+                    templateWorksheet.Cells[1, 1, headerRowExpand, TotalCells].Copy(worksheet.Cells[1, 1, headerRowExpand, TotalCells]);
                     worksheet.Cells[1, 1].Value = string.Format("PA Focus of {0}", period != null ? period.Name : string.Empty);
 
                     // write data

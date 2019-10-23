@@ -24,6 +24,22 @@
         private Color passedColor = Color.FromArgb(1, 67, 135, 0);
         private Color failedColor = Color.FromArgb(1, 226, 44, 4);
 
+        private const int OrderColumn = 1;
+        private const int NickNameColumn = 2;
+        private const int FullNameColumn = 3;
+        private const int JoinedDateColumn = 4;
+        private const int GroupNameColumn = 5;
+        private const int JobTitleColumn = 6;
+        private const int SelfScoreColumn = 7;
+        private const int SelfCommentColumn = 8;
+        private const int EvaluatorScoreColumn = 9;
+        private const int EvaluatorResultColumn = 10;
+        private const int EvaluatorCommentColumn = 11;
+        private const int ReviewerResultColumn = 12;
+        private const int ReviewerCommentColumn = 13;
+
+        private const string PDFStylePath = @"dist\\styles\\probation-report-pdf.css";
+
         private readonly IProbationRepository probationRepository;
         private readonly IBaseService baseService;
         private readonly ICryptoService cryptoService;
@@ -89,23 +105,23 @@
 
                 foreach (var probationer in data)
                 {
-                    worksheet.Cells[currentRow, 1].Value = position;
-                    worksheet.Cells[currentRow, 2].Value = probationer.NickName;
-                    worksheet.Cells[currentRow, 3].Value = probationer.FullName;
-                    worksheet.Cells[currentRow, 4].Value = probationer.JoinedDate.ToString("dd MMM, yyyy");
-                    worksheet.Cells[currentRow, 5].Value = probationer.GroupName;
-                    worksheet.Cells[currentRow, 6].Value = probationer.JobTitle;
-                    worksheet.Cells[currentRow, 7].Value = probationer.SelfScore;
-                    worksheet.Cells[currentRow, 8].Value = probationer.SelfComment;
-                    worksheet.Cells[currentRow, 9].Value = probationer.EvaluatorScore;
+                    worksheet.Cells[currentRow, OrderColumn].Value = position;
+                    worksheet.Cells[currentRow, NickNameColumn].Value = probationer.NickName;
+                    worksheet.Cells[currentRow, FullNameColumn].Value = probationer.FullName;
+                    worksheet.Cells[currentRow, JoinedDateColumn].Value = probationer.JoinedDate.ToString("dd MMM, yyyy");
+                    worksheet.Cells[currentRow, GroupNameColumn].Value = probationer.GroupName;
+                    worksheet.Cells[currentRow, JobTitleColumn].Value = probationer.JobTitle;
+                    worksheet.Cells[currentRow, SelfScoreColumn].Value = probationer.SelfScore;
+                    worksheet.Cells[currentRow, SelfCommentColumn].Value = probationer.SelfComment;
+                    worksheet.Cells[currentRow, EvaluatorScoreColumn].Value = probationer.EvaluatorScore;
 
-                    FillEvaluatorResult(probationer, worksheet.Cells[currentRow, 10]);
+                    FillEvaluatorResult(probationer, worksheet.Cells[currentRow, EvaluatorResultColumn]);
 
-                    worksheet.Cells[currentRow, 11].Value = probationer.EvaluatorComment;
+                    worksheet.Cells[currentRow, EvaluatorCommentColumn].Value = probationer.EvaluatorComment;
 
-                    FillReviewerResult(probationer, worksheet.Cells[currentRow, 12]);
+                    FillReviewerResult(probationer, worksheet.Cells[currentRow, ReviewerResultColumn]);
 
-                    worksheet.Cells[currentRow, 13].Value = probationer.ReviewerComment;
+                    worksheet.Cells[currentRow, ReviewerCommentColumn].Value = probationer.ReviewerComment;
 
                     position++;
                     currentRow++;

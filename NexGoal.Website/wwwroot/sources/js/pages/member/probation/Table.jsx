@@ -13,11 +13,11 @@ export default class Table extends Component {
     }
 
     handleShowComment = event => {
-        this.props.onShowComment(event.target.dataset.comment, parseInt(event.target.dataset.processid));
+        this.props.onShowComment(event.target.dataset.comment, parseInt(event.target.dataset.processid, 10));
     }
 
-    handleRevisedChange = (event) => {
-        const probationer = this.props.tableData.find(x => x.employeeId === parseInt(event.target.dataset.employeeid));
+    handleRevisedChange = event => {
+        const probationer = this.props.tableData.find(x => x.employeeId === parseInt(event.target.dataset.employeeid, 10));
 
         const reviewerProcess = probationer.settings.find(x => x.processId === PerformanceProcess.Reviewer);
 
@@ -30,25 +30,48 @@ export default class Table extends Component {
     }
 
     renderRow = probationer => {
-        const evaluatorResult = probationer.isQualifiedByEvaluator !== null ? probationer.isQualifiedByEvaluator ? 'Passed' : 'Failed' : '-';
-        const finalResult = probationer.isQualified !== null ? probationer.isQualifiedByEvaluator ? 'Passed' : 'Failed' : '-';
+        let evaluatorResult, finalResult = '-';
+
+        if (probationer.isQualifiedByEvaluator !== null) {
+            evaluatorResult = probationer.isQualifiedByEvaluator ? 'Passed' : 'Failed';
+        }
+
+        if (probationer.isQualified !== null) {
+            finalResult = probationer.isQualified ? 'Passed' : 'Failed';
+        }
+
         return (
             <tr key={probationer.employeeId}>
                 <td>{probationer.nickName}</td>
                 <td className="text-center">{probationer.selfScore || '-'}</td>
                 <td className="text-center">
-                    {probationer.selfComment ? <span className="icon-search" data-processid={PerformanceProcess.Self} data-comment={probationer.selfComment} onClick={this.handleShowComment} /> : '-'}
+                    {probationer.selfComment ?
+                        <span className="icon-search" data-processid={PerformanceProcess.Self}
+                            data-comment={probationer.selfComment} onClick={this.handleShowComment}
+                        />
+                        : '-'
+                    }
                 </td>
                 <td className="text-center">{probationer.evaluatorScore || '-'}</td>
                 <td className="text-center"><span className={evaluatorResult.toLowerCase()} >{evaluatorResult}</span></td>
                 <td className="text-center">
-                    {probationer.evaluatorComment ? <span className="icon-search" data-processid={PerformanceProcess.Evaluator} data-comment={probationer.evaluatorComment} onClick={this.handleShowComment} /> : '-'}
+                    {probationer.evaluatorComment ?
+                        <span className="icon-search" data-processid={PerformanceProcess.Evaluator}
+                            data-comment={probationer.evaluatorComment} onClick={this.handleShowComment}
+                        />
+                        : '-'
+                    }
                 </td>
                 <td className="text-center">
                     <span className={finalResult.toLowerCase()}>{finalResult}</span>
                 </td>
                 <td className="text-center">
-                    {probationer.reviewerComment ? <span className="icon-search" data-processid={PerformanceProcess.Reviewer} data-comment={probationer.reviewerComment} onClick={this.handleShowComment} /> : '-'}
+                    {probationer.reviewerComment ?
+                        <span className="icon-search" data-processid={PerformanceProcess.Reviewer}
+                            data-comment={probationer.reviewerComment} onClick={this.handleShowComment}
+                        />
+                        : '-'
+                    }
                 </td>
                 <td className="text-center">
                     <input type="checkbox" onChange={this.handleRevisedChange} data-employeeid={probationer.employeeId}

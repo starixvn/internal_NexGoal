@@ -17,7 +17,7 @@ export default class StickyBlock extends PureComponent {
         window.removeEventListener('scroll', this.handleToggleSticky);
     }
 
-    handleToggleSticky = event => {
+    handleToggleSticky = () => {
         if (window.scrollY > this.props.threshold) {
             if (!this.state.showStickyHeader) {
                 this.setState({ showStickyHeader: true });

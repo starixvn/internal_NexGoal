@@ -47,17 +47,17 @@ export default class PMSetting extends Component {
         Promise.all(promises)
             .then(([employeeResponse, pmResponse]) => {
                 const pms = pmResponse.data;
-                const pmOptions = pms.map(item => {
+                const pmOptions = pms.map(pm => {
                     return {
-                        value: item.employeeId,
-                        label: `${item.nickName} (${item.fullName})`
+                        value: pm.employeeId,
+                        label: `${pm.nickName} (${pm.fullName})`
                     };
                 });
 
-                const employeeOptions = employeeResponse.data.map(item => {
+                const employeeOptions = employeeResponse.data.map(employee => {
                     return {
-                        value: item.employeeId,
-                        label: `${item.nickName} (${item.fullName})`
+                        value: employee.employeeId,
+                        label: `${employee.nickName} (${employee.fullName})`
                     };
                 });
 

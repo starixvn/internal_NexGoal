@@ -5,6 +5,30 @@ import getResource from '../../resourceHelper';
 import { DateFormat } from '../../constants';
 
 export default class NominationProcess extends PureComponent {
+    getNominatorStatusClass = (today, startDateForNominator, endDateForNominator) => {
+        if (today.isSameOrAfter(startDateForNominator, 'day') && today.isSameOrBefore(endDateForNominator, 'day')) {
+            return 'in-process';
+        }
+
+        if (today.isAfter(endDateForNominator, 'day')) {
+            return 'end-process';
+        }
+
+        return 'open';
+    }
+
+    getComitteeStatusClass = (today, endDateForNominator, endDateForCommittee) => {
+        if (endDateForNominator.isBefore(today, 'day') && endDateForCommittee.isSameOrAfter(today, 'day')) {
+            return 'in-process';
+        }
+
+        if (today.isAfter(endDateForCommittee, 'day')) {
+            return 'end-process';
+        }
+
+        return 'open';
+    }
+
     render() {
         const period = this.props.period;
         const today = moment(),
@@ -17,8 +41,7 @@ export default class NominationProcess extends PureComponent {
             <div className="process-title">
                 <div className="period">{period.title}</div>
                 <ul className="evaluation-process">
-                    <li className={`process-item ${today.isSameOrAfter(startDateForNominator, 'day') && today.isSameOrBefore(endDateForNominator, 'day') ?
-                        'in-process' : today.isAfter(endDateForNominator, 'day') ? 'end-process' : 'open'}`}
+                    <li className={`process-item ${this.getNominatorStatusClass(today, startDateForNominator, endDateForNominator)}`}
                     >
                         {`${getResource('Nominator')}: ${startDateForNominator.format(DateFormat)} - ${endDateForNominator.format(DateFormat)}`}
                         {
@@ -34,8 +57,7 @@ export default class NominationProcess extends PureComponent {
                             </div>
                         }
                     </li>
-                    <li className={`process-item ${endDateForNominator.isBefore(today, 'day') && endDateForCommittee.isSameOrAfter(today, 'day') ?
-                        'in-process' : today.isAfter(endDateForCommittee, 'day') ? 'end-process' : 'open'}`}
+                    <li className={`process-item ${this.getComitteeStatusClass(today, endDateForNominator, endDateForCommittee)}`}
                     >
                         {`${getResource('Committee')}: ${startDateForComittee.format(DateFormat)} - ${endDateForCommittee.format(DateFormat)}`}
                         <div>

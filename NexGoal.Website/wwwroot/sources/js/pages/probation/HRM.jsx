@@ -36,11 +36,12 @@ export default class HRM extends PureComponent {
         );
     }
 
-    displayTime = (value) => {
-        const hours = Math.floor(value).toString().padStart(2, '0');
+    displayTime = value => {
+        const hours = Math.floor(value);
+        const hoursString = hours.toString().padStart(2, '0');
         const minutes = Math.round((value - hours) * 60).toString().padStart(2, '0');
 
-        return `${hours !== '00' ? hours + 'h' : ''}${minutes}'`;
+        return `${hoursString !== '00' ? hoursString + 'h' : ''}${minutes}'`;
     }
 
     render() {

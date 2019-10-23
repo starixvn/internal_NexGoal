@@ -23,8 +23,9 @@ export default class VerticalCarousel extends PureComponent {
     render() {
         return (
             <div className="marquee-block">
-                <div className={`btn-pause ${!this.state.slide && 'play'}`} onClick={this.toggleSlide}></div>
-                <Carousel ref='carousel' key={this.state.slide} className="vertical" slide={this.state.slide} onClick={this.props.onClick} indicators={false} controls={false} interval={5000}
+                <div className={`btn-pause ${!this.state.slide && 'play'}`} onClick={this.toggleSlide} />
+                <Carousel ref='carousel' key={this.state.slide} className="vertical" slide={this.state.slide} onClick={this.props.onClick}
+                    indicators={false} controls={false} interval={5000}
                     defaultActiveIndex={this.state.currentIndex}>
                     {this.props.messages.map(this.renderMessage)}
                 </Carousel>

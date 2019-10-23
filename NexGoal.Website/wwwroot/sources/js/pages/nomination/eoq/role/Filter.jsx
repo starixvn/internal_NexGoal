@@ -6,7 +6,7 @@ import MultiSelect from '../../../../shared/components/multi-select/multi-select
 import getResource from '../../../../resourceHelper';
 
 class Filter extends Component {
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate(nextProps) {
         if (JSON.stringify(this.props.filter) !== JSON.stringify(nextProps.filter)
             || JSON.stringify(this.props.groupOptions) !== JSON.stringify(nextProps.groupOptions)
             || JSON.stringify(this.props.nominationRoleOptions) !== JSON.stringify(nextProps.nominationRoleOptions)) {

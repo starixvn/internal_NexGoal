@@ -11,6 +11,7 @@ export default class CommentModal extends PureComponent {
             case PerformanceProcess.Self: return getResource('SelfComment');
             case PerformanceProcess.Evaluator: return getResource('EvaluatorComment');
             case PerformanceProcess.Reviewer: return getResource('ReviewerComment');
+            default: return '';
         }
     }
 

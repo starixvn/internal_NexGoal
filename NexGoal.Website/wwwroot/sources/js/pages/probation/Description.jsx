@@ -39,7 +39,8 @@ export default class Description extends PureComponent {
                                 <i className="fa fa-star" />
                             </div>
                         </div>
-                        <div className="rate-description">Unsatisfactory: Performance was consistently below expectations. Poor quality of work, frequently needs rework. Significant improvement is needed.</div>
+                        <div className="rate-description">Unsatisfactory: Performance was consistently below expectations.
+                            Poor quality of work, frequently needs rework. Significant improvement is needed.</div>
                     </div>
                     <div className="rate-item">
                         <div className="rate-star">
@@ -48,7 +49,9 @@ export default class Description extends PureComponent {
                                 <i className="fa fa-star" /><i className="fa fa-star" />
                             </div>
                         </div>
-                        <div className="rate-description">Improvement needed: Performance did not consistently meet expectations. Did not generally contribute extra effort or energy. An improvement plan is needed.</div>
+                        <div className="rate-description">Improvement needed: Performance did not consistently meet expectations.
+                            Did not generally contribute extra effort or energy. An improvement plan is needed.
+                            </div>
                     </div>
                     <div className="rate-item">
                         <div className="rate-star">
@@ -57,25 +60,34 @@ export default class Description extends PureComponent {
                                 <i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" />
                             </div>
                         </div>
-                        <div className="rate-description">Meets expectations: Solid performance with a good quality of work, at times possibly exceeding expectations and contributing additional value.</div>
+                        <div className="rate-description">
+                            Meets expectations:
+                            Solid performance with a good quality of work, at times possibly exceeding expectations and contributing additional value.</div>
                     </div>
                     <div className="rate-item">
                         <div className="rate-star">
                             <span>Good: 4</span>
                             <div className="star-block">
-                                <i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" />
+                                <i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" />
+                                <i className="fa fa-star" />
                             </div>
                         </div>
-                        <div className="rate-description">Exceeds expectations: Significant performance and exceeded expectations. The quality of work overall was excellent and was able to deal with big problems with minimal direction.</div>
+                        <div className="rate-description">Exceeds expectations: Significant performance and exceeded expectations.
+                            The quality of work overall was excellent and was able to deal with big problems with minimal direction.
+                            </div>
                     </div>
                     <div className="rate-item">
                         <div className="rate-star">
                             <span>Excellent:5</span>
                             <div className="star-block">
-                                <i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" />
+                                <i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" />
+                                <i className="fa fa-star" /><i className="fa fa-star" />
                             </div>
                         </div>
-                        <div className="rate-description">Exceptional: The most outstanding performance and far exceeded expectations due to exceptionally high quality of work. Made a superior contribution in support team/department objectives.</div>
+                        <div className="rate-description">
+                            Exceptional: The most outstanding performance and far exceeded expectations due to exceptionally high quality of work.
+                            Made a superior contribution in support team/department objectives.
+                            </div>
                     </div>
                 </div>
             </div>
