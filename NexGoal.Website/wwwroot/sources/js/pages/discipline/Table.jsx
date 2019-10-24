@@ -7,9 +7,8 @@ import axios from 'axios';
 import { stringify } from 'qs';
 import { toast } from 'react-toastify';
 
-import { PaginationOptions } from '../../constants';
+import { PaginationOptions, TextCenterCssClass } from '../../constants';
 import { axiosError, noDataIndication, resolveClientUrl } from '../../common-functions';
-import { TextCenterCssClass } from '../../constants';
 import getResource from '../../resourceHelper';
 
 const { SearchBar } = Search;

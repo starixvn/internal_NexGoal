@@ -57,7 +57,7 @@ export default class Evaluation extends Component {
                 }
             }),
             axios(resolveClientUrl('Common/GetMyGroup')),
-            axios(resolveClientUrl('Common/GetCurrentPerformancePeriod')),
+            axios(resolveClientUrl('Common/GetCurrentPerformancePeriod'))
         ];
 
         Promise.all(promises)

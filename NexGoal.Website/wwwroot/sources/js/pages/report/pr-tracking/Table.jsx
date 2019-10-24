@@ -11,7 +11,7 @@ export default class Table extends Component {
         super(props);
     }
 
-    getOverlay = (details) => {
+    getOverlay = details => {
         if (details.length > 0) {
             return (<Tooltip id="tooltip">{details.map(d => <p className="creator-item" key={d.creatorId}>{d.creatorNickname}: {d.quantity}</p>)}</Tooltip>);
         }

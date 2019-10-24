@@ -4,12 +4,14 @@ import { Button, Modal } from 'react-bootstrap';
 import getResource from '../../resourceHelper';
 
 export default class PerformanceGradeInfo extends PureComponent {
-    renderGradeInfo = (grade) =>
-        <tr key={grade.gradeId}>
-            <td className="text-center">{grade.name}</td>
-            <td>{grade.description}</td>
-            <td><p className="grade-explanation">{grade.explanation}</p></td>
-        </tr>
+    renderGradeInfo = grade =>
+        (
+            <tr key={grade.gradeId}>
+                <td className="text-center">{grade.name}</td>
+                <td>{grade.description}</td>
+                <td><p className="grade-explanation">{grade.explanation}</p></td>
+            </tr>
+        )
 
     render() {
         return (

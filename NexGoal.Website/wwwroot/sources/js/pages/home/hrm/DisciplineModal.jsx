@@ -7,7 +7,7 @@ import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import { DateFormat } from '../../../constants';
 
-export default class Discipline extends Component {
+export default class DisciplineModal extends Component {
     constructor(props) {
         super(props);
         this.state = {

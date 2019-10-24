@@ -10,7 +10,7 @@ import EditBasicInformation from './EditBasicInformation';
 import EditProcessSetting from './EditProcessSetting';
 import EditEmployeeSetting from './EditEmployeeSetting/EditEmployeeSetting';
 
-export default class EditPeriod extends Component {
+export default class Edit extends Component {
     constructor(props) {
         super(props);
 
@@ -69,4 +69,4 @@ export default class EditPeriod extends Component {
     }
 }
 
-ReactDOM.render(<EditPeriod />, document.getElementById('edit-period-wrapper'));
+ReactDOM.render(<Edit />, document.getElementById('edit-period-wrapper'));

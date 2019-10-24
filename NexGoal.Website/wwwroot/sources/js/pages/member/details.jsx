@@ -24,7 +24,7 @@ import Nomination from './nomination/Nomination';
 import Announcement from '../../shared/components/Announcement';
 import Marquee from '../../shared/components/Marquee';
 
-export default class App extends Component {
+export default class Details extends Component {
     constructor(props) {
         super(props);
 
@@ -529,4 +529,4 @@ export default class App extends Component {
     }
 }
 
-ReactDOM.render(<App />, document.getElementById('member-wrapper'));
+ReactDOM.render(<Details />, document.getElementById('member-wrapper'));

@@ -6,7 +6,7 @@ import { DateFormat } from '../../../constants';
 import getResource from '../../../resourceHelper';
 import Discipline from './DisciplineModal';
 
-export default class HRM extends Component {
+export default class HRMSummary extends Component {
     constructor(props) {
         super(props);
         this.state = {

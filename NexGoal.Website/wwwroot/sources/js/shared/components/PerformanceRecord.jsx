@@ -357,6 +357,7 @@ export default class PerformanceRecord extends Component {
                     : this.props.pageType === PageType.MemberProfile ?
                         `Congratulations! ${employees} was the Winner of ${nominationPeriod} award.`
                         : <Fragment>Here is the list of your members who are the Winner of this Award: <span className="bold">{employees}</span></Fragment>;
+            default: return '';
         }
     }
 

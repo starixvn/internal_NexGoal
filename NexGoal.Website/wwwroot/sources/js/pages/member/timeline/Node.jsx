@@ -2,7 +2,7 @@
 import getResource from '../../../resourceHelper';
 import { getRoleClassName } from '../../../common-functions';
 
-export default class TimelineNode extends Component {
+export default class Node extends Component {
     shouldComponentUpdate(nextProps) {
         if (this.props.position !== nextProps.position
             || JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)) {

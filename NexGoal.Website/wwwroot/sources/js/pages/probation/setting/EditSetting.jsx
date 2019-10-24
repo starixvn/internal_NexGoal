@@ -22,7 +22,7 @@ export default class EditSetting extends Component {
                 processId: p.processId,
                 evaluatorId: p.evaluator.value,
                 fromDate: p.fromDate.format('YYYY-MM-DD'),
-                toDate: p.toDate.format('YYYY-MM-DD'),
+                toDate: p.toDate.format('YYYY-MM-DD')
             };
         });
 

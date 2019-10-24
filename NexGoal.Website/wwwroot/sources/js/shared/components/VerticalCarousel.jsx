@@ -7,7 +7,7 @@ export default class VerticalCarousel extends PureComponent {
         this.state = {
             slide: true,
             currentIndex: 0
-        }
+        };
     }
 
     toggleSlide = () => {

@@ -10,7 +10,7 @@ import moment from 'moment';
 import isEqual from 'react-fast-compare';
 
 import { axiosError, getRoleClassName, resolveClientUrl } from '../../common-functions';
-import { DateFormat, ProbationTag } from '../../constants';
+import { ProbationTag } from '../../constants';
 import getResource from '../../resourceHelper';
 import TextareaFullscreenEditor from '../../shared/components/textarea-fullscreen/index';
 import PerformanceGradeInfo from '../../shared/components/PerformanceGradeInfo';

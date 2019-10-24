@@ -15,7 +15,7 @@ import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 import PAProcessTab from '../../../shared/components/performance-appraisal/PAProcessTab';
 import PerformanceGradeInfo from '../../../shared/components/PerformanceGradeInfo';
 
-export default class EditMemberPA extends Component {
+export default class EditPAForm extends Component {
     constructor(props) {
         super(props);
         this.state = {

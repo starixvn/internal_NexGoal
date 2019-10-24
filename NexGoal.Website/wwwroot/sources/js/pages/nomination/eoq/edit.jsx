@@ -9,7 +9,7 @@ import Breadcrumb from '../../../shared/components/Breadcrumb';
 import Settings from './Settings';
 import RoleManagement from './role/index';
 
-export default class App extends Component {
+export default class Edit extends Component {
     constructor(props) {
         super(props);
 
@@ -61,4 +61,4 @@ export default class App extends Component {
     }
 }
 
-ReactDOM.render(<App />, document.getElementById('nomination-wrapper'));
+ReactDOM.render(<Edit />, document.getElementById('nomination-wrapper'));

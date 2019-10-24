@@ -140,3 +140,38 @@ export const calendar = function (date) {
         sameElse: 'DD MMM YYYY [at] HH:mm'
     });
 };
+
+export const getUrlByActionTypeId = function (actionTypeId, recordId, NotificationActionType) {
+    let url = '';
+    switch (actionTypeId) {
+        case NotificationActionType.MyPageWithCreatePerformanceCheckin:
+            url = resolveClientUrl('?action=newrecord');
+            break;
+
+        case NotificationActionType.MyPageWithSpecificPerformanceCheckin:
+            url = resolveClientUrl(`?recordId=${recordId}`);
+            break;
+
+        case NotificationActionType.MemberPageWithCreatePerformanceCheckin:
+            url = resolveClientUrl('member?action=newrecord');
+            break;
+
+        case NotificationActionType.MemberPageWithSpecificPerformanceCheckin:
+            url = resolveClientUrl(`member?recordId=${recordId}`);
+            break;
+
+        case NotificationActionType.MemberPageWithActiveNominationTab:
+            url = resolveClientUrl('member?activeTab=2');
+            break;
+
+        case NotificationActionType.MemberPageWithActivePerformanceAppraisalTab:
+            url = resolveClientUrl('member?activeTab=3');
+            break;
+
+        case NotificationActionType.PAFocus:
+            url = resolveClientUrl('pafocus');
+            break;
+    }
+
+    return url;
+}

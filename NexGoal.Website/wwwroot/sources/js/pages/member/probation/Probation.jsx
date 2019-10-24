@@ -24,7 +24,7 @@ export default class Probation extends Component {
 
     componentDidMount() {
         const promises = [
-            axios(resolveClientUrl('Probation/GetEvaluations')),
+            axios(resolveClientUrl('Probation/GetEvaluations'))
         ];
 
         Promise.all(promises)

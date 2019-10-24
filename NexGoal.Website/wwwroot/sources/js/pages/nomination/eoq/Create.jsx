@@ -13,7 +13,7 @@ import { quarterOptions, validateEOQForm } from '../common';
 import getResource from '../../../resourceHelper';
 import { DateFormat, InputErrorCssClass } from '../../../constants';
 
-class CreateEOQ extends Component {
+class Create extends Component {
     constructor(props) {
         super(props);
     }
@@ -215,4 +215,4 @@ class CreateEOQ extends Component {
     }
 }
 
-export default CreateEOQ;
+export default Create;
