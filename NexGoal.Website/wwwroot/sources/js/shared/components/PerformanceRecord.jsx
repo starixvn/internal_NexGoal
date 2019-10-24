@@ -331,41 +331,41 @@ export default class PerformanceRecord extends Component {
         );
     }
 
+    getNominationContent = nominationStatusId => {
+        const record = this.props.data;
+        const nominationPeriod = record.nominationPeriod ? record.nominationPeriod.title : '';
+        const employees = record.employees.map(employee => employee.nickName).join(', ');
+
+        switch (nominationStatusId) {
+            case NominationStatuses[0].value:
+                return this.props.pageType === PageType.MyPage ?
+                    `Congratulations! You were nominated for the ${nominationPeriod} award.`
+                    : this.props.pageType === PageType.MemberProfile ?
+                        `${employees} was nominated for the ${nominationPeriod} award.`
+                        : <Fragment>Here is the list of your members who got into the Nominated round: <span className="bold">{employees}</span></Fragment>;
+
+            case NominationStatuses[1].value:
+                return this.props.pageType === PageType.MyPage ?
+                    `Congratulations! You were shortlisted for the ${nominationPeriod} award.`
+                    : this.props.pageType === PageType.MemberProfile ?
+                        `${employees} was shortlisted for the ${nominationPeriod} award.`
+                        : <Fragment>Here is the list of your members who got into the Shortlisted round: <span className="bold">{employees}</span></Fragment>;
+
+            case NominationStatuses[2].value:
+                return this.props.pageType === PageType.MyPage ?
+                    `Congratulations! You were the Winner of ${nominationPeriod} award.`
+                    : this.props.pageType === PageType.MemberProfile ?
+                        `Congratulations! ${employees} was the Winner of ${nominationPeriod} award.`
+                        : <Fragment>Here is the list of your members who are the Winner of this Award: <span className="bold">{employees}</span></Fragment>;
+        }
+    }
+
     renderSystemNomination = () => {
         const record = this.props.data;
         const nominationStatusId = record.nominationStatusId;
         const nominationStatus = NominationStatuses.find(x => x.value === nominationStatusId);
         const createdDate = record.createdDate ? calendar(record.createdDate) : '';
-        const nominationPeriod = record.nominationPeriod ? record.nominationPeriod.title : '';
-        const employees = record.employees.map(employee => employee.nickName).join(', ');
-        let content = '';
-
-        switch (nominationStatusId) {
-            case NominationStatuses[0].value:
-                content = this.props.pageType === PageType.MyPage ?
-                    `Congratulations! You were nominated for the ${nominationPeriod} award.`
-                    : this.props.pageType === PageType.MemberProfile ?
-                        `${employees} was nominated for the ${nominationPeriod} award.`
-                        : <Fragment>Here is the list of your members who got into the Nominated round: <span className="bold">{employees}</span></Fragment>;
-                break;
-
-            case NominationStatuses[1].value:
-                content = this.props.pageType === PageType.MyPage ?
-                    `Congratulations! You were shortlisted for the ${nominationPeriod} award.`
-                    : this.props.pageType === PageType.MemberProfile ?
-                        `${employees} was shortlisted for the ${nominationPeriod} award.`
-                        : <Fragment>Here is the list of your members who got into the Shortlisted round: <span className="bold">{employees}</span></Fragment>;
-                break;
-
-            case NominationStatuses[2].value:
-                content = this.props.pageType === PageType.MyPage ?
-                    `Congratulations! You were the Winner of ${nominationPeriod} award.`
-                    : this.props.pageType === PageType.MemberProfile ?
-                        `Congratulations! ${employees} was the Winner of ${nominationPeriod} award.`
-                        : <Fragment>Here is the list of your members who are the Winner of this Award: <span className="bold">{employees}</span></Fragment>;
-
-                break;
-        }
+        const content = this.getNominationContent(nominationStatusId);
 
         return (
             <div className={`record record-system ${getNominationClassName(nominationStatusId)} ${this.props.isHighlighted ? 'highlighted' : ''}`}

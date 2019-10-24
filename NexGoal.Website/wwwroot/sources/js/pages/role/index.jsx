@@ -47,19 +47,31 @@ export default class App extends Component {
         this.getAssignPermissions(roleId);
     }
 
+    setFunctionPolicy = (func, target, isChecked) => {
+        if (isChecked) {
+            func.policy = target === 'funcRead' ? Policy.Read : Policy.Host;
+            return;
+        }
+
+        if (target === 'funcRead') {
+            func.policy = Policy.None;
+            return;
+        }
+
+        if (func.policy === Policy.Host) {
+            func.policy = func.onlyPolicy === Policy.Host ? Policy.None : Policy.Read;
+        } else {
+            func.policy = Policy.None;
+        }
+    }
+
     handleOnCheckboxChange = (functionObj, target, isChecked) => {
         let { functionId, parentId } = functionObj;
         const functions = this.state.functions.slice();
         const totalItems = functions.length;
 
         let index = functions.indexOf(functionObj);
-        if (isChecked) {
-            functions[index].policy = target === 'funcRead' ? Policy.Read : Policy.Host;
-        } else {
-            functions[index].policy = target === 'funcRead'
-                ? Policy.None : functions[index].policy === Policy.Host
-                    ? functions[index].onlyPolicy === Policy.Host ? Policy.None : Policy.Read : Policy.None;
-        }
+        this.setFunctionPolicy(functions[index], target, isChecked);
 
         if (parentId) {
             const childs = functions.filter(f => f.parentId === parentId);
@@ -74,13 +86,7 @@ export default class App extends Component {
         } else {
             for (index = 0; index < totalItems; index++) {
                 if (functions[index].parentId === functionId) {
-                    if (isChecked) {
-                        functions[index].policy = target === 'funcRead' ? Policy.Read : Policy.Host;
-                    } else {
-                        functions[index].policy = target === 'funcRead' ?
-                            Policy.None : functions[index].policy === Policy.Host
-                                ? functions[index].onlyPolicy === Policy.Host ? Policy.None : Policy.Read : Policy.None;
-                    }
+                    this.setFunctionPolicy(functions[index], target, isChecked);
                 }
             }
         }
