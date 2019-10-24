@@ -13,7 +13,7 @@ import { validateEOYForm } from '../common';
 import getResource from '../../../resourceHelper';
 import { DateFormat, InputErrorCssClass } from '../../../constants';
 
-class CreateEOY extends Component {
+class Create extends Component {
     constructor(props) {
         super(props);
     }
@@ -201,4 +201,4 @@ class CreateEOY extends Component {
     }
 }
 
-export default CreateEOY;
+export default Create;

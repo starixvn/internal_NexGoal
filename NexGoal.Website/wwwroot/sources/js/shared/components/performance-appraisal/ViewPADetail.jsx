@@ -6,7 +6,7 @@ import getResource from '../../../resourceHelper';
 import PAProcessTab from './PAProcessTab';
 import CustomScrollbars from '../CustomScrollbars';
 
-export default class PADetail extends Component {
+export default class ViewPADetail extends Component {
     constructor(props) {
         super(props);
     }

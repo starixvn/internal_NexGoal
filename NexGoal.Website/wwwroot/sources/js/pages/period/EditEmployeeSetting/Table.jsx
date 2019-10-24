@@ -171,7 +171,7 @@ export default class Table extends Component {
         }
     }
 
-    onSelectAllRows = (isSelect) => {
+    onSelectAllRows = isSelect => {
         if (isSelect) {
             this.selectedIds = this.props.data.map(e => e.paRecordId);
         } else {

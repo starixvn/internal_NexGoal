@@ -53,12 +53,12 @@ export default class Setting extends Component {
         }).catch(axiosError);
     }
 
-    onEditSetting = (event) => {
-        const employeeId = event.target.dataset.employeeid;
+    onEditSetting = event => {
+        const employeeId = parseInt(event.target.dataset.employeeid, 10);
 
         this.setState(prevState => ({
             showEditSettingModal: true,
-            selectedProbationer: prevState.probationers.find(x => x.employeeId == employeeId)
+            selectedProbationer: prevState.probationers.find(x => x.employeeId === employeeId)
         }));
     }
 
