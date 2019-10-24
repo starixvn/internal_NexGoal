@@ -10,7 +10,7 @@ import { camelCase, isEmpty } from 'lodash';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
-import { DateFormat, TargetType , InputErrorCssClass} from '../../constants';
+import { DateFormat, TargetType, InputErrorCssClass } from '../../constants';
 
 export default class CreatePeriod extends Component {
     constructor(props) {
@@ -79,7 +79,7 @@ export default class CreatePeriod extends Component {
     }
 
     onSubmit = (values, { setErrors, setSubmitting }) => {
-        const dateFormat = dateFormat;
+        const dateFormat = 'YYYY-MM-DD';
         axios({
             url: resolveClientUrl(`period/Create`),
             method: 'post',

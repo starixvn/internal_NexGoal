@@ -118,7 +118,6 @@ export default class MyPage extends Component {
     }
 
     checkUrlParams = () => {
-        debugger;
         const params = queryString.parse(location.search);
 
         if (params) {

@@ -65,24 +65,6 @@ export default class CreateNomination extends Component {
         this.setState({ openForm: false });
     }
 
-    validateForm = values => {
-        const errors = {};
-
-        if (!values.period) {
-            errors.period = 'Period is required!';
-        }
-
-        if (!values.employee && this.props.isEmployeeSelectable) {
-            errors.employee = 'Employee is required!';
-        }
-
-        if (!values.comment || values.comment.trim() === '') {
-            errors.comment = 'Comment is required!';
-        }
-
-        return errors;
-    }
-
     handleSubmit = (values, { setErrors, setSubmitting }) => {
         axios({
             url: resolveClientUrl(`MemberNomination/Create`),
@@ -117,6 +99,24 @@ export default class CreateNomination extends Component {
                 }
             }
         }).catch(axiosError).then(() => setSubmitting(false));
+    }
+
+    validateForm = values => {
+        const errors = {};
+
+        if (!values.period) {
+            errors.period = 'Period is required!';
+        }
+
+        if (!values.employee && this.props.isEmployeeSelectable) {
+            errors.employee = 'Employee is required!';
+        }
+
+        if (!values.comment || values.comment.trim() === '') {
+            errors.comment = 'Comment is required!';
+        }
+
+        return errors;
     }
 
     renderForm = ({

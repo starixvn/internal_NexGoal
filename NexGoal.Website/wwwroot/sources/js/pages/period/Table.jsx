@@ -67,9 +67,9 @@ export default class Table extends Component {
             headerStyle: { width: '80px' },
             isDummyField: true,
             formatter: (cell, row, rowIndex) => {
-                if (this.props.isHost) {
-                    const checkboxId = `chb-active-${rowIndex}`;
+                const checkboxId = `chb-active-${rowIndex}`;
 
+                if (this.props.isHost) {
                     return (
                         <div className="checkbox">
                             <input id={checkboxId} type='checkbox' defaultChecked={row.isActive}

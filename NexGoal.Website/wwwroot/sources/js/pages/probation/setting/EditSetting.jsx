@@ -60,7 +60,7 @@ export default class EditSetting extends Component {
     }
 
     schema = object().shape({
-        settings: array().of(Yup.object().shape({
+        settings: array().of(object().shape({
             evaluator: object().required(),
             fromDate: object().required(),
             toDate: object().required()
