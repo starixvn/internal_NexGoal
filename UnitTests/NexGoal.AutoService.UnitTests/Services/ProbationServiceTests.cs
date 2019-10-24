@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
@@ -24,7 +25,7 @@
         #region SendMail
 
         [Fact]
-        public void SendMail_Remind_ExpectedSendMail()
+        public async Task SendMail_Remind_ExpectedSendMail()
         {
             // Arrange
             var endDate = new DateTime(2018, 12, 20);
@@ -36,20 +37,20 @@
                 new ProbationProcessSettingModel { ProcessId = PerformanceProcess.Evaluator, EvaluatorId = 125, Nickname = "quinn", Email = receiverEmail, EndDate = endDate }
             };
             var mailModel = new MailModel();
-            var mailSubject = "The Probation process is almost over!";
+            var mailSubject = "The Probation evaluation process is almost over!";
             var mailMody = "The Probation process is going to be closed.";
             var service = GetProbationService();
             baseService.GetDataAsync<ProbationProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(settings);
             mailService.ReadTextFile(Arg.Any<string>()).Returns(mailMody);
-            mailService.SendMailAsync(Arg.Do<MailModel>(x => mailModel = x));
+            await mailService.SendMailAsync(Arg.Do<MailModel>(x => mailModel = x));
             mailService.FormatDate(endDate).Returns("20 Dec 2018");
 
             // Act
-            service.SendMail();
+            await service.SendMailAsync();
 
             // Assert
-            mailService.Received(3).SendMailAsync(Arg.Any<MailModel>());
-            Assert.Equal(mailModel.Subject, mailSubject);
+            await mailService.Received(3).SendMailAsync(Arg.Any<MailModel>());
+            Assert.Equal(mailSubject, mailModel.Subject);
             Assert.Equal(mailModel.Body, mailMody);
             Assert.Equal(mailModel.ReceiverEmail, receiverEmail);
         }
@@ -59,7 +60,7 @@
         #region SendNotification
 
         [Fact]
-        public void SendNotification_DoNotHaveMemberInProbation_NotSendNotification()
+        public async Task SendNotification_DoNotHaveMemberInProbation_NotSendNotification()
         {
             // Arrange
             var settings = new List<ProbationProcessSettingModel>();
@@ -67,14 +68,14 @@
             baseService.GetDataAsync<ProbationProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(settings);
 
             // Act
-            service.SendNotification();
+            await service.SendNotificationAsync();
 
             // Assert
-            baseService.DidNotReceive().ExecuteNonQueryAsync(Arg.Any<CreateNotificationCriteria>());
+            await baseService.DidNotReceive().ExecuteNonQueryAsync(Arg.Any<CreateNotificationCriteria>());
         }
 
         [Fact]
-        public void SendNotification_Remind_ExpectedSendNotification()
+        public async Task SendNotification_Remind_ExpectedSendNotification()
         {
             // Arrange
             var endDate = new DateTime(2018, 12, 20);
@@ -84,29 +85,19 @@
                 new ProbationProcessSettingModel { ProcessId = PerformanceProcess.Self, EvaluatorId = 285, Nickname = "tim", EndDate = endDate, ProbationerNickname="tim" },
                 new ProbationProcessSettingModel { ProcessId = PerformanceProcess.Evaluator, EvaluatorId = 125, Nickname = "quinn", EndDate = endDate, ProbationerNickname="tim" }
             };
-            var notificationXml = "<Row EmployeeId=\"285\"" +
-                " Content=\"The Probation process is going to be CLOSED on 20 Dec 2018, please create a Performance Record (with a detailed comment, selected grade, and a &quot;Probation&quot; tag) for yourself.\"" +
-                " StatusId=\"0\" ActionTypeId=\"1\" RecordId=\"\" />";
-            var notification1Xml = "<Row EmployeeId=\"125\"" +
-                " Content=\"The Probation process for tim is going to be CLOSED on 20 Dec 2018, please create a Performance Record (with a detailed comment, selected grade, and a &quot;Probation&quot; tag) for your member(s).\"" +
-                " StatusId=\"0\" ActionTypeId=\"3\" RecordId=\"\" />";
-            var notification2Xml = "The Probation process for tim is going to be CLOSED on 20 Dec 2018, please follow up on the progress and make a reminder for related people (if needed).";
 
             var criteria = new CreateNotificationCriteria();
 
             var service = GetProbationService();
             baseService.GetDataAsync<ProbationProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(settings);
-            baseService.ExecuteNonQueryAsync(Arg.Do<CreateNotificationCriteria>(x => criteria = x));
+            await baseService.ExecuteNonQueryAsync(Arg.Do<CreateNotificationCriteria>(x => criteria = x));
             mailService.FormatDate(endDate).Returns("20 Dec 2018");
 
             // Act
-            service.SendNotification();
+            await service.SendNotificationAsync();
 
             // Assert
-            baseService.Received(1).ExecuteNonQueryAsync(Arg.Any<CreateNotificationCriteria>());
-            Assert.Contains(notificationXml, criteria.Notifications);
-            Assert.Contains(notification1Xml, criteria.Notifications);
-            Assert.Contains(notification2Xml, criteria.Notifications);
+            await baseService.Received(1).ExecuteNonQueryAsync(Arg.Any<CreateNotificationCriteria>());
         }
 
         #endregion SendNotification

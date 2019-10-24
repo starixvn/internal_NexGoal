@@ -5,15 +5,15 @@
 
     public interface IPAService
     {
-        CommandResult EditGrade();
+        Task<CommandResult> EditGradeAsync();
 
-        CommandResult EditWhenEvaluationFinished();
+        Task<CommandResult> EditWhenEvaluationFinishedAsync();
 
-        CommandResult EditStatus();
+        Task<CommandResult> EditStatusAsync();
 
-        void SendMail();
+        Task SendMailAsync();
 
-        void SendNotification();
+        Task SendNotificationAsync();
 
         Task SendSkypeMessage();
     }

@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.AutoService.Services
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using NexGoal.AutoService.Criterias.Period;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
@@ -14,40 +15,40 @@
             this.baseService = baseService;
         }
 
-        public CommandResult CreatePeriod()
+        public async Task<CommandResult> CreatePeriodAsync()
         {
             var criteria = new CreatePeriodCriteria();
 
-            return baseService.ExecuteNonQueryAsync(criteria).Result;
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
-        public CommandResult CreateEmployeeSettings()
+        public async Task<CommandResult> CreateEmployeeSettingsAsync()
         {
-            IEnumerable<int> periodIds = GetPeriodStarted();
+            IEnumerable<int> periodIds = await GetPeriodStartedAsync();
             var criteria = new CreateEmployeeSettingsCriteria
             {
                 PeriodIds = string.Join(',', periodIds)
             };
 
-            return baseService.ExecuteNonQueryAsync(criteria).Result;
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
-        public CommandResult GeneratePA()
+        public async Task<CommandResult> GeneratePAAsync()
         {
-            IEnumerable<int> periodIds = GetPeriodStarted();
+            IEnumerable<int> periodIds = await GetPeriodStartedAsync();
             var criteria = new GeneratePACriteria
             {
                 PeriodIds = string.Join(',', periodIds)
             };
 
-            return baseService.ExecuteNonQueryAsync(criteria).Result;
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
-        private IEnumerable<int> GetPeriodStarted()
+        private async Task<IEnumerable<int>> GetPeriodStartedAsync()
         {
             var criteria = new GetPeriodStartedCriteria();
 
-            return baseService.GetDataAsync<int>(criteria).Result;
+            return await baseService.GetDataAsync<int>(criteria);
         }
     }
 }

@@ -50,38 +50,38 @@
             this.chatbotService = chatbotService;
         }
 
-        public CommandResult EditGrade()
+        public async Task<CommandResult> EditGradeAsync()
         {
             var commandResult = new CommandResult();
-            IEnumerable<EditPAGradeDto> records = GetDataToEditGrade();
+            IEnumerable<EditPAGradeDto> records = await GetDataToEditGradeAsync();
 
             if (records != null && records.Any())
             {
                 var criteria = new EditGradeCriteria { Value = records.ToXML().ToString() };
 
-                commandResult = baseService.ExecuteNonQueryAsync(criteria).Result;
+                commandResult = await baseService.ExecuteNonQueryAsync(criteria);
             }
 
             return commandResult;
         }
 
-        public CommandResult EditWhenEvaluationFinished()
+        public async Task<CommandResult> EditWhenEvaluationFinishedAsync()
         {
             var criteria = new EditWhenEvaluationFinishedCriteria();
 
-            return baseService.ExecuteNonQueryAsync(criteria).Result;
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
-        public CommandResult EditStatus()
+        public async Task<CommandResult> EditStatusAsync()
         {
             var criteria = new EditStatusCriteria();
 
-            return baseService.ExecuteNonQueryAsync(criteria).Result;
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
-        public void SendMail()
+        public async Task SendMailAsync()
         {
-            Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = GetSettingToSendNotification(ReceiveNotificationType.Email);
+            Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Email);
 
             var remindStartEvaluationToSelfPath = Path.Combine(hostingEnvironment.WebRootPath, RemindStartEvaluationMailTemplateToSelf);
             var remindStartEvaluationToSupervisorPath = Path.Combine(hostingEnvironment.WebRootPath, RemindStartEvaluationMailTemplateToSupervisor);
@@ -112,7 +112,7 @@
                                 period.Name,
                                 mailService.FormatDate(period.StartDate),
                                 configuration.Value.ApplicationDomain);
-                            SendEmail(subjectRemindStartEvaluationMail, body, setting);
+                            await SendEmailAsync(subjectRemindStartEvaluationMail, body, setting);
                             break;
 
                         case MailMode.Start:
@@ -122,7 +122,7 @@
                                 period.Name,
                                 mailService.FormatDate(setting.EndDate),
                                 $"{ configuration.Value.ApplicationDomain}/member?activeTab=3");
-                            SendEmail(subjectStartMail, body, setting);
+                            await SendEmailAsync(subjectStartMail, body, setting);
                             break;
 
                         case MailMode.Remind:
@@ -132,7 +132,7 @@
                                 period.Name,
                                 mailService.FormatDate(setting.EndDate),
                                 $"{ configuration.Value.ApplicationDomain}/member?activeTab=3");
-                            SendEmail(subjectRemindMail, body, setting);
+                            await SendEmailAsync(subjectRemindMail, body, setting);
                             break;
 
                         case MailMode.EndEvaluation:
@@ -141,7 +141,7 @@
                                 setting.Nickname,
                                 period.Name,
                                 configuration.Value.ApplicationDomain);
-                            SendEmail(subjectEndEvaluationMail, body, setting);
+                            await SendEmailAsync(subjectEndEvaluationMail, body, setting);
                             break;
 
                         default:
@@ -153,7 +153,7 @@
 
         public async Task SendSkypeMessage()
         {
-            Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = GetSettingToSendNotification(ReceiveNotificationType.SkypeMessage);
+            Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.SkypeMessage);
 
             foreach (PeriodModel period in tuple.Item1)
             {
@@ -216,10 +216,10 @@
             }
         }
 
-        public void SendNotification()
+        public async Task SendNotificationAsync()
         {
             var notifications = new List<NotificationModel>();
-            Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = GetSettingToSendNotification(ReceiveNotificationType.Notification);
+            Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Notification);
 
             foreach (PeriodModel period in tuple.Item1)
             {
@@ -292,15 +292,15 @@
                     Notifications = notifications.ToXML().ToString()
                 };
 
-                baseService.ExecuteNonQueryAsync(criteria).Wait();
+                await baseService.ExecuteNonQueryAsync(criteria);
             }
         }
 
-        private IEnumerable<EditPAGradeDto> GetDataToEditGrade()
+        private async Task<IEnumerable<EditPAGradeDto>> GetDataToEditGradeAsync()
         {
             var criteria = new GetDataToEditGradeCriteria();
-            var records = baseService.GetDataAsync<EditPAGradeDto>(criteria).Result;
-            var grades = baseService.GetDataAsync<PerformanceGrade>(new GetPerformanceGradeCriteria()).Result;
+            var records = await baseService.GetDataAsync<EditPAGradeDto>(criteria);
+            var grades = await baseService.GetDataAsync<PerformanceGrade>(new GetPerformanceGradeCriteria());
 
             foreach (EditPAGradeDto record in records)
             {
@@ -352,17 +352,17 @@
             record.GradeId = cryptoService.Encrypt(minGradeId.ToString());
         }
 
-        private Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> GetSettingToSendNotification(ReceiveNotificationType receiveType)
+        private async Task<Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>>> GetSettingToSendNotificationAsync(ReceiveNotificationType receiveType)
         {
             var criteria = new GetSettingToSendNotificationCriteria
             {
                 ReceiveType = (int)receiveType
             };
 
-            return baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(criteria).Result;
+            return await baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(criteria);
         }
 
-        private void SendEmail(string subject, string body, ProcessSettingModel setting)
+        private async Task SendEmailAsync(string subject, string body, ProcessSettingModel setting)
         {
             var email = new MailModel
             {
@@ -371,7 +371,7 @@
                 ReceiverEmail = setting.Email
             };
 
-            mailService.SendMailAsync(email).Wait();
+            await mailService.SendMailAsync(email);
         }
     }
 }

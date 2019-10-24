@@ -5,11 +5,11 @@
 
     public interface IPAFocusService
     {
-        CommandResult Generate();
+        Task<CommandResult> GenerateAsync();
 
-        void SendMail();
+        Task SendMailAsync();
 
-        void SendNotification();
+        Task SendNotificationAsync();
 
         Task SendSkypeMessage();
     }

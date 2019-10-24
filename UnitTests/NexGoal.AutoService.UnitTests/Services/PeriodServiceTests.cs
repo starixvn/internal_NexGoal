@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.AutoService.UnitTests.Services
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using NexGoal.AutoService.Criterias.Period;
     using NexGoal.AutoService.Services;
     using NexGoal.Core.Models;
@@ -13,7 +14,7 @@
         private IBaseService baseService;
 
         [Fact]
-        public void CreatePeriod_WhenCalled_ReturnAsExpectedCommandResult()
+        public async Task CreatePeriod_WhenCalled_ReturnAsExpectedCommandResult()
         {
             // Arrange
             var expected = new CommandResult
@@ -24,14 +25,14 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<CreatePeriodCriteria>()).Returns(expected);
 
             // Act
-            var actual = service.CreatePeriod();
+            var actual = await service.CreatePeriodAsync();
 
             // Assert
             Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void CreateEmployeeSettings_WhenCalled__ReturnAsExpectedCommandResult()
+        public async Task CreateEmployeeSettings_WhenCalled__ReturnAsExpectedCommandResult()
         {
             // Arrange
             var periodIds = new List<int> { 1, 2, 3 };
@@ -44,14 +45,14 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<CreateEmployeeSettingsCriteria>()).Returns(expected);
 
             // Act
-            var actual = service.CreateEmployeeSettings();
+            var actual = await service.CreateEmployeeSettingsAsync();
 
             // Assert
             Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void GeneratePA_WhenCalled__ReturnAsExpectedCommandResult()
+        public async Task GeneratePA_WhenCalled__ReturnAsExpectedCommandResult()
         {
             // Arrange
             var periodIds = new List<int> { 1, 2, 3 };
@@ -64,7 +65,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<GeneratePACriteria>()).Returns(expected);
 
             // Act
-            var actual = service.GeneratePA();
+            var actual = await service.GeneratePAAsync();
 
             // Assert
             Assert.Equal(expected, actual);

@@ -1,13 +1,14 @@
 ﻿namespace NexGoal.AutoService.Services
 {
+    using System.Threading.Tasks;
     using NexGoal.Core.Models;
 
     public interface IPeriodService
     {
-        CommandResult CreatePeriod();
+        Task<CommandResult> CreatePeriodAsync();
 
-        CommandResult CreateEmployeeSettings();
+        Task<CommandResult> CreateEmployeeSettingsAsync();
 
-        CommandResult GeneratePA();
+        Task<CommandResult> GeneratePAAsync();
     }
 }

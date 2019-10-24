@@ -43,20 +43,20 @@
             this.chatbotService = chatbotService;
         }
 
-        public CommandResult Generate()
+        public async Task<CommandResult> GenerateAsync()
         {
-            IEnumerable<int> periodIds = GetPeriodStarted();
+            IEnumerable<int> periodIds = await GetPeriodStartedAsync();
             var criteria = new GenerateCriteria
             {
                 PeriodIds = string.Join(',', periodIds)
             };
 
-            return baseService.ExecuteNonQueryAsync(criteria).Result;
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
-        public void SendMail()
+        public async Task SendMailAsync()
         {
-            Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = GetSettingToSendNotification(ReceiveNotificationType.Email);
+            Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Email);
 
             var startMailPath = Path.Combine(hostingEnvironment.WebRootPath, StartMailTemplateToEvaluator);
             var remindMailPath = Path.Combine(hostingEnvironment.WebRootPath, RemindMailTemplateToEvaluator);
@@ -79,7 +79,7 @@
                                 period.Name,
                                 mailService.FormatDate(period.FocusEndDate),
                                 $"{configuration.Value.ApplicationDomain}/pafocus");
-                            SendEmail(subjectStartMail, body, focusSetting.Email);
+                            await SendEmailAsync(subjectStartMail, body, focusSetting.Email);
                             break;
 
                         case MailMode.Remind:
@@ -89,7 +89,7 @@
                                 period.Name,
                                 mailService.FormatDate(period.FocusEndDate),
                                 $"{configuration.Value.ApplicationDomain}/pafocus");
-                            SendEmail(subjectRemindMail, body, focusSetting.Email);
+                            await SendEmailAsync(subjectRemindMail, body, focusSetting.Email);
                             break;
 
                         default:
@@ -99,10 +99,10 @@
             }
         }
 
-        public void SendNotification()
+        public async Task SendNotificationAsync()
         {
             var notifications = new List<NotificationModel>();
-            Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = GetSettingToSendNotification(ReceiveNotificationType.Notification);
+            Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Notification);
 
             foreach (PeriodModel period in tuple.Item1)
             {
@@ -125,13 +125,13 @@
                     Notifications = notifications.ToXML().ToString()
                 };
 
-                baseService.ExecuteNonQueryAsync(criteria).Wait();
+                await baseService.ExecuteNonQueryAsync(criteria);
             }
         }
 
         public async Task SendSkypeMessage()
         {
-            Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = GetSettingToSendNotification(ReceiveNotificationType.SkypeMessage);
+            Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.SkypeMessage);
             var message = string.Empty;
 
             foreach (PeriodModel period in tuple.Item1)
@@ -167,24 +167,24 @@
             }
         }
 
-        private IEnumerable<int> GetPeriodStarted()
+        private async Task<IEnumerable<int>> GetPeriodStartedAsync()
         {
             var criteria = new GetPeriodStartedCriteria();
 
-            return baseService.GetDataAsync<int>(criteria).Result;
+            return await baseService.GetDataAsync<int>(criteria);
         }
 
-        private Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> GetSettingToSendNotification(ReceiveNotificationType receiveType)
+        private async Task<Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>>> GetSettingToSendNotificationAsync(ReceiveNotificationType receiveType)
         {
             var criteria = new GetSettingToSendNotificationCriteria
             {
                 ReceiveType = (int)receiveType
             };
 
-            return baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(criteria).Result;
+            return await baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(criteria);
         }
 
-        private void SendEmail(string subject, string body, string receiverEmail)
+        private async Task SendEmailAsync(string subject, string body, string receiverEmail)
         {
             var email = new MailModel
             {
@@ -193,7 +193,7 @@
                 ReceiverEmail = receiverEmail
             };
 
-            mailService.SendMailAsync(email).Wait();
+            await mailService.SendMailAsync(email);
         }
     }
 }

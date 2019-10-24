@@ -5,12 +5,12 @@
 
     public interface INominationService
     {
-        void SendMail();
+        Task SendMailAsync();
 
-        void SendNotification();
+        Task SendNotificationAsync();
 
-        CommandResult EditWhenFinished();
+        Task<CommandResult> EditWhenFinishedAsync();
 
-        Task SendSkypeMessage();
+        Task SendSkypeMessageAsync();
     }
 }

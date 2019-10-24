@@ -38,8 +38,6 @@
         private const int ReviewerResultColumn = 12;
         private const int ReviewerCommentColumn = 13;
 
-        private const string PDFStylePath = @"dist\\styles\\probation-report-pdf.css";
-
         private readonly IProbationRepository probationRepository;
         private readonly IBaseService baseService;
         private readonly ICryptoService cryptoService;

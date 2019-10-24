@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
@@ -22,7 +23,7 @@
         private IChatbotService chatbotService;
 
         [Fact]
-        public void EditWhenFinished_WhenCalled_ReturnAsExpectedCommandResult()
+        public async Task EditWhenFinished_WhenCalled_ReturnAsExpectedCommandResult()
         {
             // Arrange
             var expected = new CommandResult
@@ -33,7 +34,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<EditWhenFinishedCriteria>()).Returns(expected);
 
             // Act
-            var actual = service.EditWhenFinished();
+            var actual = await service.EditWhenFinishedAsync();
 
             // Assert
             Assert.Equal(expected, actual);
@@ -42,7 +43,7 @@
         #region SendMail
 
         [Fact]
-        public void SendMail_Start_ExpectedSendMail()
+        public async Task SendMail_Start_ExpectedSendMail()
         {
             // Arrange
             var periods = new List<NominationPeriodModel>
@@ -61,20 +62,20 @@
             var service = GetNominationService();
             baseService.FetchMultipleAsync<NominationPeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(tuple);
             mailService.ReadTextFile(Arg.Any<string>()).Returns(mailMody);
-            mailService.SendMailAsync(Arg.Do<MailModel>(x => mailModel = x));
+            await mailService.SendMailAsync(Arg.Do<MailModel>(x => mailModel = x));
 
             // Act
-            service.SendMail();
+            await service.SendMailAsync();
 
             // Assert
-            mailService.Received(1).SendMailAsync(Arg.Any<MailModel>());
+            await mailService.Received(1).SendMailAsync(Arg.Any<MailModel>());
             Assert.Equal(mailModel.Subject, mailSubject);
             Assert.Equal(mailModel.Body, mailMody);
             Assert.Equal(mailModel.ReceiverEmail, receiverEmail);
         }
 
         [Fact]
-        public void SendMail_Remind_ExpectedSendMail()
+        public async Task SendMail_Remind_ExpectedSendMail()
         {
             // Arrange
             var periods = new List<NominationPeriodModel>
@@ -93,13 +94,13 @@
             var service = GetNominationService();
             baseService.FetchMultipleAsync<NominationPeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(tuple);
             mailService.ReadTextFile(Arg.Any<string>()).Returns(mailMody);
-            mailService.SendMailAsync(Arg.Do<MailModel>(x => mailModel = x));
+            await mailService.SendMailAsync(Arg.Do<MailModel>(x => mailModel = x));
 
             // Act
-            service.SendMail();
+            await service.SendMailAsync();
 
             // Assert
-            mailService.Received(1).SendMailAsync(Arg.Any<MailModel>());
+            await mailService.Received(1).SendMailAsync(Arg.Any<MailModel>());
             Assert.Equal(mailModel.Subject, mailSubject);
             Assert.Equal(mailModel.Body, mailMody);
             Assert.Equal(mailModel.ReceiverEmail, receiverEmail);
@@ -110,7 +111,7 @@
         #region SendNotification
 
         [Fact]
-        public void SendNotification_DoNotHaveData_NotSendNotification()
+        public async Task SendNotification_DoNotHaveData_NotSendNotification()
         {
             // Arrange
             var tuple = new Tuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>>
@@ -119,14 +120,14 @@
             baseService.FetchMultipleAsync<NominationPeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(tuple);
 
             // Act
-            service.SendNotification();
+            await service.SendNotificationAsync();
 
             // Assert
-            baseService.DidNotReceive().ExecuteNonQueryAsync(Arg.Any<CreateNotificationCriteria>());
+            await baseService.DidNotReceive().ExecuteNonQueryAsync(Arg.Any<CreateNotificationCriteria>());
         }
 
         [Fact]
-        public void SendNotification_HasData_ExpectedSendNotification()
+        public async Task SendNotification_HasData_ExpectedSendNotification()
         {
             // Arrange
             var endDate = new DateTime(2018, 12, 20);
@@ -152,14 +153,14 @@
             var tuple = new Tuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>>(periods, settings);
             var service = GetNominationService();
             baseService.FetchMultipleAsync<NominationPeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(tuple);
-            baseService.ExecuteNonQueryAsync(Arg.Do<CreateNotificationCriteria>(x => criteria = x));
+            await baseService.ExecuteNonQueryAsync(Arg.Do<CreateNotificationCriteria>(x => criteria = x));
             mailService.FormatDate(endDate).Returns("20 Dec 2018");
 
             // Act
-            service.SendNotification();
+            await service.SendNotificationAsync();
 
             // Assert
-            baseService.Received(1).ExecuteNonQueryAsync(Arg.Any<CreateNotificationCriteria>());
+            await baseService.Received(1).ExecuteNonQueryAsync(Arg.Any<CreateNotificationCriteria>());
             Assert.Contains(notificationXml, criteria.Notifications);
             Assert.Contains(notification1Xml, criteria.Notifications);
         }

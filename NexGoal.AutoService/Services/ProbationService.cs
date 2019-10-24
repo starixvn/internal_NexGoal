@@ -48,9 +48,9 @@
             probationSettingPage = $"{configuration.Value.ApplicationDomain}/Probation/Setting";
         }
 
-        public void SendMail()
+        public async Task SendMailAsync()
         {
-            IEnumerable<ProbationProcessSettingModel> settings = GetSettingToSendNotification(ReceiveNotificationType.Email);
+            IEnumerable<ProbationProcessSettingModel> settings = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Email);
 
             var startToHRPath = Path.Combine(hostingEnvironment.WebRootPath, StartMailTemplateToHR);
             var startToMemberPath = Path.Combine(hostingEnvironment.WebRootPath, StartMailTemplateToMember);
@@ -67,7 +67,7 @@
                             mailService.ReadTextFile(startToHRPath),
                             setting.ProbationerNickname,
                             probationSettingPage);
-                        SendEmail(Message.EmailSubject_Probation_StartToHR, body, setting.Email);
+                        await SendEmailAsync(Message.EmailSubject_Probation_StartToHR, body, setting.Email);
                         break;
 
                     case PerformanceProcess.Self:
@@ -76,7 +76,7 @@
                             setting.Nickname,
                             configuration.Value.ApplicationDomain,
                             mailService.FormatDate(setting.EndDate));
-                        SendEmail(Message.EmailSubject_Probation_StartToEvaluator, body, setting.Email);
+                        await SendEmailAsync(Message.EmailSubject_Probation_StartToEvaluator, body, setting.Email);
                         break;
 
                     case PerformanceProcess.Evaluator:
@@ -91,7 +91,7 @@
                                 setting.ProbationerNickname,
                                 mailService.FormatDate(setting.EndDate),
                                 memberPage);
-                        SendEmail(
+                        await SendEmailAsync(
                             setting.NotificationMode == MailMode.Start ? Message.EmailSubject_Probation_StartToEvaluator : Message.EmailSubject_Probation_RemindToEvaluator,
                             body, setting.Email);
                         break;
@@ -102,7 +102,7 @@
                                   setting.ProbationerNickname,
                                   mailService.FormatDate(setting.EndDate),
                                   memberPage);
-                        SendEmail(Message.EmailSubject_Probation_RemindToEvaluator, body, setting.Email);
+                        await SendEmailAsync(Message.EmailSubject_Probation_RemindToEvaluator, body, setting.Email);
                         break;
 
                     default:
@@ -111,10 +111,10 @@
             }
         }
 
-        public void SendNotification()
+        public async Task SendNotificationAsync()
         {
             var notifications = new List<NotificationModel>();
-            IEnumerable<ProbationProcessSettingModel> settings = GetSettingToSendNotification(ReceiveNotificationType.Notification);
+            IEnumerable<ProbationProcessSettingModel> settings = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Notification);
 
             notifications.AddRange(settings.Select(x => new NotificationModel
             {
@@ -131,13 +131,13 @@
                     Notifications = notifications.ToXML().ToString()
                 };
 
-                baseService.ExecuteNonQueryAsync(criteria).Wait();
+                await baseService.ExecuteNonQueryAsync(criteria);
             }
         }
 
         public async Task SendSkypeMessage()
         {
-            IEnumerable<ProbationProcessSettingModel> settings = GetSettingToSendNotification(ReceiveNotificationType.SkypeMessage);
+            IEnumerable<ProbationProcessSettingModel> settings = await GetSettingToSendNotificationAsync(ReceiveNotificationType.SkypeMessage);
             var message = string.Empty;
             foreach (ProbationProcessSettingModel setting in settings)
             {
@@ -196,14 +196,14 @@
             await baseService.ExecuteNonQueryAsync(criteria);
         }
 
-        private IEnumerable<ProbationProcessSettingModel> GetSettingToSendNotification(ReceiveNotificationType receiveType)
+        private async Task<IEnumerable<ProbationProcessSettingModel>> GetSettingToSendNotificationAsync(ReceiveNotificationType receiveType)
         {
             var criteria = new GetSettingToSendNotificationCriteria
             {
                 ReceiveType = (int)receiveType
             };
 
-            var result = baseService.GetDataAsync<ProbationProcessSettingModel>(criteria).Result;
+            var result = await baseService.GetDataAsync<ProbationProcessSettingModel>(criteria);
 
             return result.GroupBy(x => new
             {
@@ -230,7 +230,7 @@
             });
         }
 
-        private void SendEmail(string subject, string body, string receiverEmail)
+        private async Task SendEmailAsync(string subject, string body, string receiverEmail)
         {
             var email = new MailModel
             {
@@ -239,7 +239,7 @@
                 ReceiverEmail = receiverEmail
             };
 
-            mailService.SendMailAsync(email).Wait();
+            await mailService.SendMailAsync(email);
         }
 
         private string GetNotificationContent(ProbationProcessSettingModel model)

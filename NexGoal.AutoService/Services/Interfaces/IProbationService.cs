@@ -4,9 +4,9 @@
 
     public interface IProbationService
     {
-        void SendMail();
+        Task SendMailAsync();
 
-        void SendNotification();
+        Task SendNotificationAsync();
 
         Task SendSkypeMessage();
 

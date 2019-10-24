@@ -35,42 +35,25 @@
             this.probationService = probationService;
         }
 
-        public ActionResult Run()
+        public async Task<ActionResult> Run()
         {
-            RunProbation();
-            RunPeriod();
-            RunPA();
-            RunPAFocus();
-            RunNomination();
+            await RunProbationAsync();
+            await RunPeriodAsync();
+            await RunPAAsync();
+            await RunPAFocusAsync();
+            await RunNominationAsync();
 
             return Ok("Successfully!");
         }
 
-        private void RunProbation()
-        {
-            Task.Run(async () =>
-           {
-               try
-               {
-                   await probationService.AddNewEmployeeToProbation();
-                   await probationService.SendSkypeMessage();
-                   probationService.SendMail();
-                   probationService.SendNotification();
-               }
-               catch (Exception ex)
-               {
-                   logger.Error(ex.Message, ex);
-               }
-           }).ConfigureAwait(false);
-        }
-
-        private void RunPeriod()
+        private async Task RunProbationAsync()
         {
             try
             {
-                periodService.CreatePeriod();
-                periodService.CreateEmployeeSettings();
-                periodService.GeneratePA();
+                await probationService.AddNewEmployeeToProbation();
+                await probationService.SendSkypeMessage();
+                await probationService.SendMailAsync();
+                await probationService.SendNotificationAsync();
             }
             catch (Exception ex)
             {
@@ -78,16 +61,13 @@
             }
         }
 
-        private void RunPA()
+        private async Task RunPeriodAsync()
         {
             try
             {
-                paService.EditStatus();
-                paService.EditGrade();
-                paService.EditWhenEvaluationFinished();
-                paService.SendMail();
-                paService.SendNotification();
-                Task.Run(() => paService.SendSkypeMessage());
+                await periodService.CreatePeriodAsync();
+                await periodService.CreateEmployeeSettingsAsync();
+                await periodService.GeneratePAAsync();
             }
             catch (Exception ex)
             {
@@ -95,14 +75,16 @@
             }
         }
 
-        private void RunPAFocus()
+        private async Task RunPAAsync()
         {
             try
             {
-                focusService.Generate();
-                focusService.SendMail();
-                focusService.SendNotification();
-                Task.Run(() => focusService.SendSkypeMessage());
+                await paService.EditStatusAsync();
+                await paService.EditGradeAsync();
+                await paService.EditWhenEvaluationFinishedAsync();
+                await paService.SendMailAsync();
+                await paService.SendNotificationAsync();
+                await paService.SendSkypeMessage();
             }
             catch (Exception ex)
             {
@@ -110,14 +92,29 @@
             }
         }
 
-        private void RunNomination()
+        private async Task RunPAFocusAsync()
         {
             try
             {
-                nominationService.SendMail();
-                nominationService.SendNotification();
-                nominationService.EditWhenFinished();
-                Task.Run(() => nominationService.SendSkypeMessage());
+                await focusService.GenerateAsync();
+                await focusService.SendMailAsync();
+                await focusService.SendNotificationAsync();
+                await focusService.SendSkypeMessage();
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message, ex);
+            }
+        }
+
+        private async Task RunNominationAsync()
+        {
+            try
+            {
+                await nominationService.SendMailAsync();
+                await nominationService.SendNotificationAsync();
+                await nominationService.EditWhenFinishedAsync();
+                await nominationService.SendSkypeMessageAsync();
             }
             catch (Exception ex)
             {
