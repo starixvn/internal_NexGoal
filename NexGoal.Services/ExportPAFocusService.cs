@@ -57,7 +57,7 @@
             IEnumerable<ReferenceResourceModel> referenceResources = await commonService.GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
             var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.WebRootPath, ExcelTemplatePath));
 
-            var headerRowExpand = 3;
+            const int headerRowExpand = 3;
 
             using (var templatePackage = new ExcelPackage(fileInfo))
             {
