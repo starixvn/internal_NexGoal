@@ -97,6 +97,7 @@ export default class EditBasicInformation extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 periodId: values.periodId,
                 name: values.name,
+                description: values.description,
                 targetTypeId: values.targetTypeId,
                 startDate: values.startDate ? values.startDate.format(dateFormat) : null,
                 endDate: values.endDate ? values.endDate.format(dateFormat) : null,
@@ -104,7 +105,6 @@ export default class EditBasicInformation extends Component {
                 disciplineEndDate: values.disciplineEndDate ? values.disciplineEndDate.format(dateFormat) : null,
                 focusStartDate: values.targetTypeId === TargetType.SemiAnnual ? values.focusStartDate.format(dateFormat) : null,
                 focusEndDate: values.targetTypeId === TargetType.SemiAnnual ? values.focusEndDate.format(dateFormat) : null,
-                description: values.description,
                 isActive: values.isActive
             }),
             headers: {

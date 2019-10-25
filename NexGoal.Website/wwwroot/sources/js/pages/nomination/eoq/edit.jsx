@@ -19,16 +19,16 @@ export default class Edit extends Component {
         };
     }
 
+    handleBackClick() {
+        window.location = resolveClientUrl('NominationPeriod/index?tab=eoq');
+    }
+
     handleSelect = key => {
         this.setState({ activeKey: key });
 
         if (key === 2 && !this.state.isFirstLoad) {
             this.setState({ isFirstLoad: true });
         }
-    }
-
-    handleBackClick() {
-        window.location = resolveClientUrl('NominationPeriod/index?tab=eoq');
     }
 
     render() {
