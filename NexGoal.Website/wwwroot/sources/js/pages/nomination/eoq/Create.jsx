@@ -18,49 +18,6 @@ class Create extends Component {
         super(props);
     }
 
-    handleSubmit = (values, { setErrors }) => {
-        const eoq = stringify({
-            __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-            quarter: values.quarter.value,
-            year: values.year.value,
-            startDateForNominator: values.startDateForNominator.toDate(),
-            endDateForNominator: values.endDateForNominator.toDate(),
-            remindDateForNominator: values.remindDateForNominator.toDate(),
-            endDateForCommittee: values.endDateForCommittee.toDate(),
-            description: values.description
-        });
-
-        axios({
-            url: resolveClientUrl('EOQ/Create'),
-            method: 'POST',
-            data: eoq,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }).then(response => {
-            const data = response.data;
-
-            if (data.isSuccessful) {
-                toast.success(getResource('CreatedSuccessfully'));
-
-                this.props.closeModal();
-                this.props.handleFilterSubmit();
-            } else {
-                if (data.errors) {
-                    const errors = {};
-                    data.errors.map(error => {
-                        errors[camelCase(error.key)] = error.errorMessage;
-                    });
-
-                    setErrors(errors);
-                } else {
-                    toast.error(data.message);
-                }
-            }
-        }).catch(axiosError);
-    }
-
     renderForm = ({
         values,
         errors,
@@ -182,6 +139,49 @@ class Create extends Component {
                 </Modal.Footer>
             </Form>
         );
+    }
+
+    handleSubmit = (values, { setErrors }) => {
+        const eoq = stringify({
+            __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+            quarter: values.quarter.value,
+            year: values.year.value,
+            startDateForNominator: values.startDateForNominator.toDate(),
+            endDateForNominator: values.endDateForNominator.toDate(),
+            remindDateForNominator: values.remindDateForNominator.toDate(),
+            endDateForCommittee: values.endDateForCommittee.toDate(),
+            description: values.description
+        });
+
+        axios({
+            url: resolveClientUrl('EOQ/Create'),
+            method: 'POST',
+            data: eoq,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            const data = response.data;
+
+            if (data.isSuccessful) {
+                toast.success(getResource('CreatedSuccessfully'));
+
+                this.props.closeModal();
+                this.props.handleFilterSubmit();
+            } else {
+                if (data.errors) {
+                    const errors = {};
+                    data.errors.map(error => {
+                        errors[camelCase(error.key)] = error.errorMessage;
+                    });
+
+                    setErrors(errors);
+                } else {
+                    toast.error(data.message);
+                }
+            }
+        }).catch(axiosError);
     }
 
     render() {

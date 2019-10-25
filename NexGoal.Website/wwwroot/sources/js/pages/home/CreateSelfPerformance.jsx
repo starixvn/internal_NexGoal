@@ -116,55 +116,6 @@ export default class CreateSelfPerformance extends Component {
         });
     }
 
-    handleSubmit = event => {
-        event.preventDefault();
-
-        if (this.state.isSubmitting) {
-            return;
-        }
-
-        if (this.validateForm()) {
-            this.setSubmitting(true);
-
-            const performanceRecord = stringify({
-                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                gradeId: this.state.performanceRecord.grade ? this.state.performanceRecord.grade.value : null,
-                comment: this.state.performanceRecord.comment.trim(),
-                projectIds: this.state.performanceRecord.projects.map(project => project.value).join(',')
-            });
-
-            axios({
-                url: resolveClientUrl('Self/Performance/Create'),
-                method: 'POST',
-                data: performanceRecord,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            }).then(response => {
-                const data = response.data;
-
-                if (data.isSuccessful) {
-                    toast.success(getResource('CreatedSuccessfully'));
-
-                    this.handleCancel();
-                    this.props.onSubmitSuccess(data.objectIds);
-                } else {
-                    if (data.errors) {
-                        const errors = {};
-                        data.errors.map(error => {
-                            errors[camelCase(error.key)] = error.errorMessage;
-                        });
-
-                        this.setState({ errors });
-                    } else {
-                        toast.error(data.message);
-                    }
-                }
-            }).catch(axiosError).then(() => this.setSubmitting(false));
-        }
-    }
-
     handleSaveAsDraft = event => {
         event.preventDefault();
 
@@ -198,6 +149,55 @@ export default class CreateSelfPerformance extends Component {
 
                     this.handleCancel();
                     this.props.onSubmitDraftSuccess(data.objectIds);
+                } else {
+                    if (data.errors) {
+                        const errors = {};
+                        data.errors.map(error => {
+                            errors[camelCase(error.key)] = error.errorMessage;
+                        });
+
+                        this.setState({ errors });
+                    } else {
+                        toast.error(data.message);
+                    }
+                }
+            }).catch(axiosError).then(() => this.setSubmitting(false));
+        }
+    }
+
+    handleSubmit = event => {
+        event.preventDefault();
+
+        if (this.state.isSubmitting) {
+            return;
+        }
+
+        if (this.validateForm()) {
+            this.setSubmitting(true);
+
+            const performanceRecord = stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                gradeId: this.state.performanceRecord.grade ? this.state.performanceRecord.grade.value : null,
+                comment: this.state.performanceRecord.comment.trim(),
+                projectIds: this.state.performanceRecord.projects.map(project => project.value).join(',')
+            });
+
+            axios({
+                url: resolveClientUrl('Self/Performance/Create'),
+                method: 'POST',
+                data: performanceRecord,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }).then(response => {
+                const data = response.data;
+
+                if (data.isSuccessful) {
+                    toast.success(getResource('CreatedSuccessfully'));
+
+                    this.handleCancel();
+                    this.props.onSubmitSuccess(data.objectIds);
                 } else {
                     if (data.errors) {
                         const errors = {};

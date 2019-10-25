@@ -16,25 +16,24 @@ class Filter extends Component {
         return false;
     }
 
-    onKeywordChange = event => {
-        this.props.onChange('keyword', event.target.value);
-    }
-
     handleGroupChange = selectedOptions => {
         this.props.onChange('groups', selectedOptions);
+    }
+
+    onKeywordChange = event => {
+        this.props.onChange('keyword', event.target.value);
     }
 
     handleRoleChange = selectedOption => {
         this.props.onChange('role', selectedOption);
     }
 
-    handleCheckboxChange = event => {
-        this.props.onChange('isShowAll', event.target.checked);
-    }
-
     handleSubmit = event => {
         event.preventDefault();
         this.props.onSubmit();
+    }
+    handleCheckboxChange = event => {
+        this.props.onChange('isShowAll', event.target.checked);
     }
 
     render() {

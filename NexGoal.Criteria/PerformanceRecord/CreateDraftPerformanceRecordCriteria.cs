@@ -5,10 +5,10 @@
     public class CreateDraftPerformanceRecordCriteria : CommandBaseCriteria
     {
         public string PerformanceRecordIds { get; set; }
-        public string EmployeeIds { get; set; }
-        public int CreatorId { get; set; }
-        public string GradeId { get; set; }
         public string Comment { get; set; }
+        public int CreatorId { get; set; }
+        public string EmployeeIds { get; set; }
+        public string GradeId { get; set; }
         public string ProjectIds { get; set; }
         public int TypeId { get; set; }
 

@@ -10,15 +10,6 @@ import getResource from '../../../../resourceHelper';
 const { SearchBar } = Search;
 
 class Table extends Component {
-    shouldComponentUpdate(nextProps) {
-        if (this.props.nominators !== nextProps.nominators
-            || this.props.isHost !== nextProps.isHost) {
-            return true;
-        }
-
-        return false;
-    }
-
     handleCheckboxChange = (event, nominator) => {
         const name = event.target.name;
 
@@ -41,6 +32,14 @@ class Table extends Component {
         }
 
         this.props.onEdit(nominator);
+    }
+    shouldComponentUpdate(nextProps) {
+        if (this.props.nominators !== nextProps.nominators
+            || this.props.isHost !== nextProps.isHost) {
+            return true;
+        }
+
+        return false;
     }
 
     render() {

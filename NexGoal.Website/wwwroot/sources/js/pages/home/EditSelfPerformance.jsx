@@ -32,11 +32,15 @@ export default class EditSelfPerformance extends Component {
 
         this.state = {
             performanceRecord: {},
-            initialPerformanceRecord: {},
-            errors: {},
             isSubmitting: false,
+            errors: {},
+            initialPerformanceRecord: {},
             showGradeInfo: false
         };
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('beforeunload', this.onLeavingPageEventListener);
     }
 
     componentDidMount() {
@@ -58,10 +62,6 @@ export default class EditSelfPerformance extends Component {
         window.addEventListener('beforeunload', this.onLeavingPageEventListener);
     }
 
-    componentWillUnmount() {
-        window.removeEventListener('beforeunload', this.onLeavingPageEventListener);
-    }
-
     onLeavingPageEventListener = event => {
         let { performanceRecord, initialPerformanceRecord } = this.state;
 
@@ -72,12 +72,6 @@ export default class EditSelfPerformance extends Component {
         }
 
         return null;
-    }
-
-    handleGradeChange = selectedOption => {
-        this.setState({
-            performanceRecord: Object.assign({}, this.state.performanceRecord, { grade: selectedOption })
-        });
     }
 
     handleCommentChange = event => {
@@ -93,24 +87,16 @@ export default class EditSelfPerformance extends Component {
         });
     }
 
+    handleGradeChange = selectedOption => {
+        this.setState({
+            performanceRecord: Object.assign({}, this.state.performanceRecord, { grade: selectedOption })
+        });
+    }
+
     handleProjectChange = selectedOptions => {
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { projects: selectedOptions })
         });
-    }
-
-    validateForm = () => {
-        const errors = {};
-        let isValid = true;
-
-        if (!this.state.performanceRecord.comment || this.state.performanceRecord.comment.trim() === '') {
-            errors.comment = getResource('CommentRequired');
-            isValid = false;
-        }
-
-        this.setState({ errors });
-
-        return isValid;
     }
 
     handleSubmit = event => {
@@ -164,6 +150,20 @@ export default class EditSelfPerformance extends Component {
         }
     }
 
+    validateForm = () => {
+        const errors = {};
+        let isValid = true;
+
+        if (!this.state.performanceRecord.comment || this.state.performanceRecord.comment.trim() === '') {
+            errors.comment = getResource('CommentRequired');
+            isValid = false;
+        }
+
+        this.setState({ errors });
+
+        return isValid;
+    }
+
     handleSaveAsDraft = event => {
         event.preventDefault();
 
@@ -214,11 +214,11 @@ export default class EditSelfPerformance extends Component {
         }
     }
 
-    handleOpenGradeInfo = () => this.setState({ showGradeInfo: true })
+    setSubmitting = isSubmitting => this.setState({ isSubmitting })
 
     handleCloseGradeInfo = () => this.setState({ showGradeInfo: false })
 
-    setSubmitting = isSubmitting => this.setState({ isSubmitting })
+    handleOpenGradeInfo = () => this.setState({ showGradeInfo: true })
 
     render() {
         const { performanceGradeOptions, projectOptions, currentUser } = this.props;

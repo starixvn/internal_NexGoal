@@ -15,9 +15,9 @@ export default class RoleManagement extends Component {
 
         this.state = {
             filter: {
+                role: nominationRoleOptions[0],
                 keyword: '',
                 groups: [],
-                role: nominationRoleOptions[0],
                 isShowAll: false
             },
             groupOptions: [],
@@ -44,22 +44,6 @@ export default class RoleManagement extends Component {
 
                 this.getRoleSetting(filter);
             }).catch(axiosError);
-    }
-
-    getRoleSetting = filter => {
-        const groupIds = this.state.filter.groups.map(group => group.value).join(',');
-
-        axios.get(resolveClientUrl('nominationPeriod/GetRoleSetting'), {
-            params: {
-                nominationPeriodId: this.eoyId,
-                keyword: filter.keyword,
-                groupIds: groupIds,
-                roleId: filter.role.value,
-                isShowAll: filter.isShowAll
-            }
-        }).then(response => {
-            this.setState({ nominators: response.data });
-        }).catch(axiosError);
     }
 
     editNominatorSetting = nominator => {
@@ -91,14 +75,30 @@ export default class RoleManagement extends Component {
         }).catch(axiosError);
     }
 
-    handleFilterChange = (name, value) => {
-        this.setState({
-            filter: Object.assign({}, this.state.filter, { [name]: value })
-        });
+    getRoleSetting = filter => {
+        const groupIds = this.state.filter.groups.map(group => group.value).join(',');
+
+        axios.get(resolveClientUrl('nominationPeriod/GetRoleSetting'), {
+            params: {
+                nominationPeriodId: this.eoyId,
+                keyword: filter.keyword,
+                groupIds: groupIds,
+                roleId: filter.role.value,
+                isShowAll: filter.isShowAll
+            }
+        }).then(response => {
+            this.setState({ nominators: response.data });
+        }).catch(axiosError);
     }
 
     handleSubmit = () => {
         this.getRoleSetting(this.state.filter);
+    }
+
+    handleFilterChange = (name, value) => {
+        this.setState({
+            filter: Object.assign({}, this.state.filter, { [name]: value })
+        });
     }
 
     render() {

@@ -10,20 +10,20 @@ export default class SearchForm extends Component {
         super(props);
     }
 
-    handleStatusChange = selectedOption => {
-        this.props.onFilterChange('status', selectedOption);
-    }
-
     handleGroupChange = selectedOption => {
         this.props.onFilterChange('groups', selectedOption);
     }
 
-    handlePeriodChange = selectedOption => {
-        this.props.onFilterChange('periods', selectedOption);
+    handleStatusChange = selectedOption => {
+        this.props.onFilterChange('status', selectedOption);
     }
 
     handleEmployeeChange = selectedOption => {
         this.props.onFilterChange('employees', selectedOption);
+    }
+
+    handlePeriodChange = selectedOption => {
+        this.props.onFilterChange('periods', selectedOption);
     }
 
     handleSubmit = event => {

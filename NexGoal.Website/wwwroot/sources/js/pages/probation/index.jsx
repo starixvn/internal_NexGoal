@@ -18,7 +18,7 @@ import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import ProbationProcess from './ProbationProcess';
 import HRM from './HRM';
-import PerformanceAppraisalResult from './PerformanceAppraisalResult';
+import PerformanceAppraisalResult from '../home/PerformanceAppraisalResult';
 import Description from './Description';
 import EvaluationDetailTooltip from './EvaluationDetailTooltip';
 import { emptySymbol, fullSymbol } from './RatingSymbol';
