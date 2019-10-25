@@ -211,6 +211,22 @@ export default class Details extends Component {
         }
     }
 
+    handleCreateDraftPerformanceRecordSuccess = performanceRecordId => {
+        axios(resolveClientUrl(`Performance/GetDraftById/${performanceRecordId}`))
+            .then(response => {
+                const performanceRecords = this.state.performanceRecords.slice();
+                performanceRecords.unshift(response.data);
+                const pageIndex = this.refs.infiniteScrollRef ? this.refs.infiniteScrollRef.pageLoaded : 1;
+                const displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
+
+                this.setState({
+                    performanceRecords: performanceRecords,
+                    displayedPerformanceRecords: displayedPerformanceRecords,
+                    hasMore: displayedPerformanceRecords.length < performanceRecords.length
+                });
+            }).catch(axiosError);
+    }
+
     handleCreatePerformanceRecordSuccess = performanceRecordIds => {
         axios(resolveClientUrl(`Performance/GetByIds/${performanceRecordIds}`))
             .then(response => {
@@ -239,20 +255,14 @@ export default class Details extends Component {
             }).catch(axiosError);
     }
 
-    handleCreateDraftPerformanceRecordSuccess = performanceRecordId => {
-        axios(resolveClientUrl(`Performance/GetDraftById/${performanceRecordId}`))
-            .then(response => {
-                const performanceRecords = this.state.performanceRecords.slice();
-                performanceRecords.unshift(response.data);
-                const pageIndex = this.refs.infiniteScrollRef ? this.refs.infiniteScrollRef.pageLoaded : 1;
-                const displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
-
-                this.setState({
-                    performanceRecords: performanceRecords,
-                    displayedPerformanceRecords: displayedPerformanceRecords,
-                    hasMore: displayedPerformanceRecords.length < performanceRecords.length
-                });
-            }).catch(axiosError);
+    handleClickEditDraftPerformanceRecord = performanceRecordId => {
+        this.setState({
+            editPerformanceRecord: {
+                isShowModal: true,
+                performanceRecordId: performanceRecordId,
+                isDraft: true
+            }
+        });
     }
 
     handleClickEditPerformanceRecord = performanceRecordId => {
@@ -261,16 +271,6 @@ export default class Details extends Component {
                 isShowModal: true,
                 performanceRecordId: performanceRecordId,
                 isDraft: false
-            }
-        });
-    }
-
-    handleClickEditDraftPerformanceRecord = performanceRecordId => {
-        this.setState({
-            editPerformanceRecord: {
-                isShowModal: true,
-                performanceRecordId: performanceRecordId,
-                isDraft: true
             }
         });
     }
@@ -317,6 +317,15 @@ export default class Details extends Component {
             }).catch(axiosError);
     }
 
+    handleClickDeletePerformanceRecord = performanceRecordId => {
+        this.setState({
+            deletePerformanceRecord: {
+                isShowModal: true,
+                performanceRecordId: performanceRecordId
+            }
+        });
+    }
+
     handleEditDraftPerformanceRecordSuccess = performanceRecordId => {
         axios(resolveClientUrl(`Performance/GetDraftById/${performanceRecordId}`))
             .then(response => {
@@ -338,11 +347,11 @@ export default class Details extends Component {
             }).catch(axiosError);
     }
 
-    handleClickDeletePerformanceRecord = performanceRecordId => {
+    handleCancelDeletePerformanceRecord = () => {
         this.setState({
             deletePerformanceRecord: {
-                isShowModal: true,
-                performanceRecordId: performanceRecordId
+                isShowModal: false,
+                performanceRecordId: 0
             }
         });
     }
@@ -388,18 +397,9 @@ export default class Details extends Component {
         }).catch(axiosError);
     }
 
-    handleCancelDeletePerformanceRecord = () => {
-        this.setState({
-            deletePerformanceRecord: {
-                isShowModal: false,
-                performanceRecordId: 0
-            }
-        });
-    }
+    handleOpenAnnouncementModal = () => this.setState({ showAnnouncementModal: true })
 
     handleCloseAnnouncementModal = () => this.setState({ showAnnouncementModal: false })
-
-    handleOpenAnnouncementModal = () => this.setState({ showAnnouncementModal: true })
 
     render() {
         const { nominations, performanceAppraisals } = this.state;

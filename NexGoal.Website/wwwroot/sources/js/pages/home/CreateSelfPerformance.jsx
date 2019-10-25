@@ -65,11 +65,11 @@ export default class CreateSelfPerformance extends Component {
         if (JSON.stringify(this.props.currentUser) !== JSON.stringify(nextProps.currentUser)
             || JSON.stringify(this.props.performanceGradeOptions) !== JSON.stringify(nextProps.performanceGradeOptions)
             || JSON.stringify(this.props.projectOptions) !== JSON.stringify(nextProps.projectOptions)
-            || JSON.stringify(this.state.performanceRecord) !== JSON.stringify(nextState.performanceRecord)
             || JSON.stringify(this.state.errors) !== JSON.stringify(nextState.errors)
+            || JSON.stringify(this.state.performanceRecord) !== JSON.stringify(nextState.performanceRecord)
             || this.state.isOpenForm !== nextState.isOpenForm
-            || this.state.isSubmitting !== nextState.isSubmitting
-            || this.state.showGradeInfo !== nextState.showGradeInfo) {
+            || this.state.showGradeInfo !== nextState.showGradeInfo
+            || this.state.isSubmitting !== nextState.isSubmitting) {
             return true;
         }
 
@@ -85,15 +85,15 @@ export default class CreateSelfPerformance extends Component {
         return null;
     }
 
-    handleOpenForm = () => {
-        this.setState({ isOpenForm: true }, () => {
-            this.textareaEditor.current.textareaEditor.current.focus();
-        });
-    }
-
     handleGradeChange = selectedOption => {
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { grade: selectedOption })
+        });
+    }
+
+    handleOpenForm = () => {
+        this.setState({ isOpenForm: true }, () => {
+            this.textareaEditor.current.textareaEditor.current.focus();
         });
     }
 
@@ -114,20 +114,6 @@ export default class CreateSelfPerformance extends Component {
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { projects: selectedOptions })
         });
-    }
-
-    validateForm = () => {
-        const errors = {};
-        let isValid = true;
-
-        if (!this.state.performanceRecord.comment || this.state.performanceRecord.comment.trim() === '') {
-            errors.comment = getResource('CommentRequired');
-            isValid = false;
-        }
-
-        this.setState({ errors });
-
-        return isValid;
     }
 
     handleSubmit = event => {
@@ -226,6 +212,20 @@ export default class CreateSelfPerformance extends Component {
                 }
             }).catch(axiosError).then(() => this.setSubmitting(false));
         }
+    }
+
+    validateForm = () => {
+        const errors = {};
+        let isValid = true;
+
+        if (!this.state.performanceRecord.comment || this.state.performanceRecord.comment.trim() === '') {
+            errors.comment = getResource('CommentRequired');
+            isValid = false;
+        }
+
+        this.setState({ errors });
+
+        return isValid;
     }
 
     handleCancel = () => {

@@ -99,23 +99,6 @@ export default class EmployeeFlowSetting extends Component {
         });
     };
 
-    handleEvaluatorChange = selectedEvaluator => {
-        this.getEmployee(selectedEvaluator.value, employee => {
-            const evaluator = {
-                ...this.state.evaluator,
-                ...{
-                    processId: PerformanceProcess.Evaluator,
-                    evaluatorId: employee.employeeId,
-                    nickName: employee.nickName,
-                    fullName: employee.fullName,
-                    code: employee.code,
-                    avatar: employee.avatar
-                }
-            };
-            this.setState({ evaluator });
-        });
-    };
-
     handleReviewerChange = selectedReviewer => {
         this.getEmployee(selectedReviewer.value, employee => {
             const reviewer = {
@@ -133,6 +116,23 @@ export default class EmployeeFlowSetting extends Component {
         });
     };
 
+    handleEvaluatorChange = selectedEvaluator => {
+        this.getEmployee(selectedEvaluator.value, employee => {
+            const evaluator = {
+                ...this.state.evaluator,
+                ...{
+                    processId: PerformanceProcess.Evaluator,
+                    evaluatorId: employee.employeeId,
+                    nickName: employee.nickName,
+                    fullName: employee.fullName,
+                    code: employee.code,
+                    avatar: employee.avatar
+                }
+            };
+            this.setState({ evaluator });
+        });
+    };
+
     handleSaveFlowSetting = () => {
         if (!this.state.submit) {
             this.setState({ submit: true });
@@ -140,12 +140,12 @@ export default class EmployeeFlowSetting extends Component {
 
         const errorFields = [];
 
-        if (!this.state.member) {
-            errorFields.push('Member');
-        }
-
         if (!this.state.evaluator) {
             errorFields.push('Evaluator');
+        }
+
+        if (!this.state.member) {
+            errorFields.push('Member');
         }
 
         if (!this.state.reviewer) {
