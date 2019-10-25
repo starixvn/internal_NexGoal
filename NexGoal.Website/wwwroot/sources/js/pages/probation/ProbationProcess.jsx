@@ -7,6 +7,17 @@ import { DateFormat } from '../../constants';
 export default class ProbationProcess extends PureComponent {
     today = moment();
 
+    getStatusClass = process => {
+        if (this.today.isSameOrAfter(process.fromDate, 'day') && this.today.isSameOrBefore(process.toDate, 'day')) {
+            return 'in-process';
+        }
+        if (this.today.isAfter(process.toDate, 'day')) {
+            return 'end-process';
+        }
+
+        return 'open';
+    }
+
     renderEvaluator = process => {
         return (
             <td key={process.processId} className="text-center ">
@@ -16,8 +27,7 @@ export default class ProbationProcess extends PureComponent {
     }
 
     renderProcess = process => {
-        const status = this.today.isSameOrAfter(process.fromDate, 'day') && this.today.isSameOrBefore(process.toDate, 'day') ?
-            'in-process' : this.today.isAfter(process.toDate, 'day') ? 'end-process' : 'open';
+        const status = this.getStatusClass(process);
 
         return (
             <td key={process.processId} className="text-center">
