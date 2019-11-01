@@ -412,7 +412,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The NexGoal system will capture all the Performace Records on {0}. For a better evaluation result, you are recommended to create a neat &amp; clean Performance Record for yourself before that day..
+        ///   Looks up a localized string similar to The NexGoal system will capture all the performance records on {0}. You are recommended to create a neat &amp; clean Performance Record for yourself BEFORE {0}. Please be advised that any record created after that time will NOT be valid for this PA period..
         /// </summary>
         public static string NotificationTemplate_PA_RemindStartEvaluationToMember {
             get {
@@ -421,7 +421,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The NexGoal system will capture all the Performace Records on {0}. For a better evaluation result, you are recommended to create a neat &amp; clean Performance Record for your members (with a detailed comment and also selected grade) before that day..
+        ///   Looks up a localized string similar to The NexGoal system will capture all the performance records on {0}. You are recommended to create a Performance Record for your members (with a detailed comment and also selected grade) BEFORE {0}. Please be advised that any record created after that time will NOT be valid for this PA period..
         /// </summary>
         public static string NotificationTemplate_PA_RemindStartEvaluationToSupervisor {
             get {
@@ -573,9 +573,9 @@ namespace NexGoal.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to Dear *{0}*,
-        ///The NexGoal system will capture all the Performace Records on *{1}*. It will be used for the upcoming Performance Appraisal evaluation.
-        ///Therefore, for a better evaluation result, you are recommended to create a neat &amp; clean Performance Record for yourself before that day.
-        ///Please log in to *{2}* to create a Performance Record.
+        ///The NexGoal system will capture all the performance records on {1}. It will be used for the upcoming Performance Appraisal evaluation.
+        ///Therefore, for a better evaluation result, you are recommended to create a neat &amp; clean Performance Record for yourself BEFORE {1}. Please be advised that any record created after that time will NOT be valid for this PA period.
+        ///
         ///Thank you,
         ///NexGoal.
         /// </summary>
@@ -587,9 +587,10 @@ namespace NexGoal.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to Dear *{0}*,
-        ///The NexGoal system will capture all the Performace Records on *{1}*. It will be used for the upcoming Performance Appraisal evaluation.
-        ///Therefore, for a better evaluation result, you are recommended to create a neat &amp; clean Performance Record for your members (with a detailed comment and also selected grade) before that day.
-        ///Please log in to *{2}* to create a Performance Record.
+        ///The NexGoal system will capture all the performance records on {1}. It will be used for the upcoming Performance Appraisal evaluation.
+        ///
+        ///Therefore, for a better evaluation result, you are recommended to create a Performance Record for your members (with a detailed comment and also selected grade) BEFORE {1}. Please be advised that any record created after that time will NOT be valid for this PA period.
+        ///
         ///Thank you,
         ///NexGoal..
         /// </summary>

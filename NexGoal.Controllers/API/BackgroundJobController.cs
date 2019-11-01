@@ -84,7 +84,9 @@
                 await paService.EditWhenEvaluationFinishedAsync();
                 await paService.SendMailAsync();
                 await paService.SendNotificationAsync();
-                await paService.SendSkypeMessage();
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                Task.Run(async () => await paService.SendSkypeMessage()).ConfigureAwait(false);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             }
             catch (Exception ex)
             {

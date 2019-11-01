@@ -109,8 +109,7 @@
                                     ? remindStartEvaluationToSelfPath
                                     : remindStartEvaluationToSupervisorPath),
                                 setting.Nickname,
-                                mailService.FormatDate(period.StartDate),
-                                configuration.Value.ApplicationDomain);
+                                mailService.FormatDate(period.StartDate));
                             await SendEmailAsync(subjectRemindStartEvaluationMail, body, setting);
                             break;
 
@@ -164,15 +163,9 @@
                     switch (setting.NotificationMode)
                     {
                         case MailMode.RemindStartEvaluation:
-                            message = setting.ProcessId == PerformanceProcess.Self ?
-                                        string.Format(Message.SkypeMessageTemplate_PA_RemindStartEvaluationToSelf,
-                                        setting.Nickname,
-                                        mailService.FormatDate(period.StartDate),
-                                        configuration.Value.ApplicationDomain) :
-                                        string.Format(Message.SkypeMessageTemplate_PA_RemindStartEvaluationToSupervisor,
-                                        setting.Nickname,
-                                        mailService.FormatDate(period.StartDate),
-                                        configuration.Value.ApplicationDomain);
+                            var template = setting.ProcessId == PerformanceProcess.Self ? Message.SkypeMessageTemplate_PA_RemindStartEvaluationToSelf
+                                : Message.SkypeMessageTemplate_PA_RemindStartEvaluationToSupervisor;
+                            message = string.Format(template, setting.Nickname, mailService.FormatDate(period.StartDate));
 
                             await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
                             break;
