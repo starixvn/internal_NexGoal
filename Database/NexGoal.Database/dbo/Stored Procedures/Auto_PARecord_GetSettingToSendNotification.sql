@@ -7,6 +7,7 @@ DB: bodb_NexGoal
 Original:
 
 Revisions:
+	20190411@elton.ton: change date to send notifications before period start date
 Param's Explanation:
 */
 BEGIN
@@ -143,7 +144,7 @@ BEGIN
 		,dbo.Period AS period WITH (NOLOCK)
 	WHERE emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
-		AND DATEADD(DAY, -21, period.StartDate) = @Today
+		AND DATEADD(DAY, -28, period.StartDate) = @Today
 		AND (
 			EXISTS (
 				SELECT 1
@@ -156,12 +157,7 @@ BEGIN
 				WHERE gfs.GroupId = gr.GroupId
 				)
 			)
-		AND NOT EXISTS (
-			SELECT 1
-			FROM #tblProcessSetting AS tbl WITH (NOLOCK)
-			WHERE period.PeriodId = tbl.PeriodId
-				AND emp.EmployeeId = tbl.EvaluatorId
-			)
+
 
 	INSERT INTO #tblProcessSetting (
 		PeriodId
@@ -192,6 +188,7 @@ BEGIN
 		,process.EndDate
 	FROM dbo.Period AS period WITH (NOLOCK)
 		INNER JOIN dbo.PARecord AS pa WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+		AND pa.StatusId = @InProgress
 		INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
 		AND process.ProcessId = @ReviewerProcessId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON process.EvaluatorId = emp.EmployeeId

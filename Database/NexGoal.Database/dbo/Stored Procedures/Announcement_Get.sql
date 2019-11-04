@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[Announcement_Get] @EmployeeId INT
+﻿CREATE PROCEDURE [dbo].[Announcement_Get] @EmployeeId INT
 AS
 /*
 Created: 20181221@elton.ton
@@ -8,6 +7,7 @@ DB: bodb_NexGoal
 Original:
 
 Revisions:
+	20190411@elton.ton: change date to send notifications before period start date
 Param's Explanation:
 */
 BEGIN
@@ -16,6 +16,7 @@ BEGIN
 	DECLARE @today DATE = GETDATE()
 		,@dateFormat VARCHAR(11) = 'dd MMM yyyy'
 		,@EvaluatorProcessId TINYINT = 4
+		,@SelfProcessId TINYINT = 2
 		,@ReviewerProcessId TINYINT = 5
 		,@NominatorRoleId TINYINT = 1
 		,@CommitteeRoleId TINYINT = 2
@@ -29,17 +30,51 @@ BEGIN
 		[Message]
 		,StartDate
 		)
-	SELECT CONCAT ('The Performance Appraisal Process for the ', p.[Name], ' will begin on ', FORMAT(p.StartDate, @dateFormat), ', you are recommended to create a neat & clean Performance Record (a detailed comment & selected grade) for a better evaluation result.')
+	SELECT CONCAT ('The NexGoal system will capture all the performance records on ', FORMAT(p.StartDate, @dateFormat), '. You are recommended to create a neat & clean Performance Record for yourself BEFORE ', FORMAT(p.StartDate, @dateFormat), '. Please be advised that any record created after that time will NOT be valid for this PA period.')
+		,DATEADD(DAY, - 28, p.StartDate)
+	FROM dbo.Period AS p WITH (NOLOCK)
+	WHERE @today >= DATEADD(DAY, - 28, p.StartDate)
+		AND @today < p.StartDate
+		AND (
+			EXISTS (
+				SELECT 1
+				FROM dbo.EmployeeFlowSetting AS efs WITH (NOLOCK)
+				WHERE efs.EmployeeId = @EmployeeId
+			)
+			OR EXISTS (
+				SELECT 1
+				FROM dbo.GroupFlowSetting AS gfs WITH (NOLOCK)
+					INNER JOIN dbo.Employee e WITH (NOLOCK) ON gfs.GroupId = e.GroupId AND e.EmployeeId = @EmployeeId
+			)
+		)
+	
+	INSERT INTO #tblAnnouncement (
+		[Message]
+		,StartDate
+		)
+	SELECT CONCAT ('The NexGoal system will capture all the performance records on ', FORMAT(p.StartDate, @dateFormat), '. You are recommended to create a Performance Record for your members (with a detailed comment and also selected grade) BEFORE ', FORMAT(p.StartDate, @dateFormat), '. Please be advised that any record created after that time will NOT be valid for this PA period.')
 		,DATEADD(DAY, - 7, p.StartDate)
 	FROM dbo.Period AS p WITH (NOLOCK)
 	WHERE @today >= DATEADD(DAY, - 7, p.StartDate)
 		AND @today < p.StartDate
+		AND (
+			EXISTS (
+				SELECT 1
+				FROM dbo.EmployeeFlowSetting AS efs WITH (NOLOCK)
+				WHERE efs.EvaluatorId = @EmployeeId AND efs.ProcessId > @SelfProcessId
+			)
+			OR EXISTS (
+				SELECT 1
+				FROM dbo.GroupFlowSetting AS gfs WITH (NOLOCK)
+				WHERE gfs.EvaluatorId = @EmployeeId AND gfs.ProcessId > @SelfProcessId
+			)
+		)	
 
 	INSERT INTO #tblAnnouncement (
 		[Message]
 		,StartDate
 		)
-	SELECT CONCAT ('The Performance Appraisal Process for the ', p.[Name], ' is IN PROGRESS, please revise and submit the PA for your members.')
+	SELECT CONCAT ('The Performance Appraisal Process for the ', p.[Name], ' is IN PROGRESS and will end on ', FORMAT(p.EndDate, @dateFormat), ', please revise and submit the PA for your members.')
 		,p.StartDate
 	FROM dbo.Period AS p WITH (NOLOCK)
 	WHERE @today BETWEEN p.StartDate
@@ -57,7 +92,7 @@ BEGIN
 		[Message]
 		,StartDate
 		)
-	SELECT CONCAT ('The PA Focus for the ', p.[Name], ' is IN PROGRESS, please set the objectives for your members.')
+	SELECT CONCAT ('The PA Focus for the ', p.[Name], ' is IN PROGRESS and will end on ', FORMAT(p.FocusEndDate, @dateFormat), ', please set the objectives for your members.')
 		,p.FocusStartDate
 	FROM dbo.Period AS p WITH (NOLOCK)
 	WHERE @today BETWEEN p.FocusStartDate
@@ -81,7 +116,7 @@ BEGIN
 			WHEN 2 THEN CONCAT ('Employee of the Quarter - II ', e.[Year])
 			WHEN 3 THEN CONCAT ('Employee of the Quarter - III ', e.[Year])
 			WHEN 4 THEN CONCAT ('Employee of the Quarter - IV ', e.[Year])
-			ELSE CONCAT ('Employee of the Year - ', e.[Year]) END, ' process is IN PROGRESS, please submit the vote for your nominee.'
+			ELSE CONCAT ('Employee of the Year - ', e.[Year]) END, ' process is IN PROGRESS and will end on ', FORMAT(e.EndDateForNominator, @dateFormat), ', please submit the vote for your nominee.'
 			)
 		,e.StartDateForNominator
 	FROM dbo.EOQY AS e WITH (NOLOCK)
@@ -181,4 +216,4 @@ BEGIN
 
 	DROP TABLE #tblAnnouncement
 END
-
+ 
