@@ -13,6 +13,7 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Resources;
     using NSubstitute;
     using Xunit;
 
@@ -170,10 +171,10 @@
                 new ProcessSettingModel { PeriodId = 1, EvaluatorId = 285, Nickname = "tim", NotificationMode = MailMode.EndEvaluation, PerformanceRecordId = 1 }
             };
             var notificationXml = "<Row EmployeeId=\"285\"" +
-                " Content=\"The Performance Appraisal for the 2h 2018 will begin on 20 Dec 2018, you are recommended to create a neat &amp; clean Performance Record (with a detailed comment &amp; selected grade) for a better evaluation result.\"" +
+                $" Content=\"{string.Format(Message.NotificationTemplate_PA_RemindStartEvaluationToMember, "20 Dec 2018").Replace("&", "&amp;")}\"" +
                 " StatusId=\"0\" ActionTypeId=\"1\" RecordId=\"\" />";
             var notification1Xml = "<Row EmployeeId=\"125\"" +
-                " Content=\"The Performance Appraisal for the 2h 2018 will begin on 20 Dec 2018, you are recommended to create a neat &amp; clean Performance Record for yourself and your members (with a detailed comment &amp; selected grade) for a better evaluation result.\"" +
+                $" Content=\"{string.Format(Message.NotificationTemplate_PA_RemindStartEvaluationToSupervisor, "20 Dec 2018").Replace("&", "&amp;")}\"" +
                 " StatusId=\"0\" ActionTypeId=\"1\" RecordId=\"\" />";
             var notification2Xml = "<Row EmployeeId=\"285\"" +
                 " Content=\"The Performance Appraisal for the 2h 2018 is IN PROGRESS and will end on 31 Dec 2018, please revise and submit the PA for your members.\"" +

@@ -51,9 +51,11 @@
             try
             {
                 await probationService.AddNewEmployeeToProbation();
-                await probationService.SendSkypeMessage();
                 await probationService.SendMailAsync();
                 await probationService.SendNotificationAsync();
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                Task.Run(async () => await probationService.SendSkypeMessage());
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             }
             catch (Exception ex)
             {
@@ -85,7 +87,7 @@
                 await paService.SendMailAsync();
                 await paService.SendNotificationAsync();
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                Task.Run(async () => await paService.SendSkypeMessage()).ConfigureAwait(false);
+                Task.Run(async () => await paService.SendSkypeMessage());
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             }
             catch (Exception ex)
@@ -101,7 +103,9 @@
                 await focusService.GenerateAsync();
                 await focusService.SendMailAsync();
                 await focusService.SendNotificationAsync();
-                await focusService.SendSkypeMessage();
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                Task.Run(async () => await focusService.SendSkypeMessage());
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             }
             catch (Exception ex)
             {
@@ -116,7 +120,9 @@
                 await nominationService.SendMailAsync();
                 await nominationService.SendNotificationAsync();
                 await nominationService.EditWhenFinishedAsync();
-                await nominationService.SendSkypeMessageAsync();
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                Task.Run(async () => await nominationService.SendSkypeMessageAsync());
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             }
             catch (Exception ex)
             {
