@@ -1,8 +1,8 @@
 ﻿import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { getNominationClassName, getRoleClassName, resolveClientUrl, calendar } from '../../common-functions';
-import { NominationStatuses, PerformanceRecordType } from '../../constants';
+import { getNominationClassName, getRoleClassName, resolveClientUrl, calendar, getPAGradeClassName, groupBy } from '../../common-functions';
+import { NominationStatuses, PerformanceRecordType, PerformanceProcess } from '../../constants';
 import getResource from '../../resourceHelper';
 
 const PageType = {
@@ -309,9 +309,42 @@ export default class PerformanceRecord extends Component {
         );
     }
 
+    renderPAProcesGrades = gradeDetails => {
+        const groupedPMProcess = groupBy(gradeDetails.filter(x => x.processId === PerformanceProcess.ProjectManager && x.grade), x => x.grade.name);
+
+        const renderGradeDetails = gradeDetails.filter(x => x.processId !== PerformanceProcess.ProjectManager);
+        renderGradeDetails.splice(1, 0, {
+            processId: PerformanceProcess.ProjectManager,
+            process: getResource('ProjectManager'),
+            grade: groupedPMProcess.map(g => `${g[1].length}${g[0]}`).join(', ')
+        });
+
+        return renderGradeDetails.map(x => (
+            <div className={`process-${x.processId}`} key={x.processId}>
+                {x.process}:
+                        <div className="grade-detail">
+                    {x.processId === PerformanceProcess.ProjectManager ? x.grade : x.grade && x.grade.name}
+                </div>
+            </div>)
+        );
+    }
+
+    renderToeicBonus = (toeicPolicy) => {
+        if (toeicPolicy !== null && toeicPolicy > 0) {
+            return '(+1 grade)';
+        }
+
+        if (toeicPolicy === null || toeicPolicy < 0) {
+            return '(-1 grade)';
+        }
+        return '';
+    }
+
     renderSystemPerformanceAppraisal = () => {
         const record = this.props.data;
         const grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : getResource('N/A');
+        const originalGradeId = record.originalGrade ? record.originalGrade.gradeId : null;
+        const gradeChangeClass = getPAGradeClassName(originalGradeId, record.grade ? record.grade.gradeId : null);
         const createdDate = record.createdDate ? calendar(record.createdDate) : '';
 
         return (
@@ -323,9 +356,14 @@ export default class PerformanceRecord extends Component {
                         <div className="submit-date">{createdDate}</div>
                     </div>
                 </div>
-
+                {this.renderPAProcesGrades(record.paSummary.gradeDetails)}
+                <div className="toeic">TOEIC: {record.paSummary.toeic} {this.renderToeicBonus(record.paSummary.toeicPolicy)}</div>
                 <div className="grade">
-                    {`${getResource('Grade')}:`} <div className="grade-detail">{grade}</div>
+                    {`${getResource('FinalGrade')}:`}
+                    <div className="grade-detail">
+                        {grade}
+                        <span className={gradeChangeClass} />
+                    </div>
                 </div>
             </div>
         );

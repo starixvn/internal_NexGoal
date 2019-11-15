@@ -14,6 +14,7 @@
 
         [JsonIgnore]
         public string GradeId { get; set; }
+
         public PerformanceGrade Grade { get; set; }
 
         public string Comment { get; set; }
@@ -38,5 +39,7 @@
         public int TypeId { get; set; }
 
         public bool IsHost { get; set; }
+
+        public PASummaryModel PASummary { get; set; }
     }
 }

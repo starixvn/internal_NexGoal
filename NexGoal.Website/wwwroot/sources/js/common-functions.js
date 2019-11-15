@@ -174,4 +174,22 @@ export const getUrlByActionTypeId = function (actionTypeId, recordId, Notificati
     }
 
     return url;
-}
+};
+
+export const groupBy = function (array, keyGetter) {
+    const map = new Map();
+
+    for (let i = 0; i < array.length; i++) {
+        const item = array[i];
+        const key = keyGetter(item);
+
+        const collection = map.get(key);
+        if (!collection) {
+            map.set(key, [item]);
+        } else {
+            collection.push(item);
+        }
+    }
+
+    return [...map];
+};

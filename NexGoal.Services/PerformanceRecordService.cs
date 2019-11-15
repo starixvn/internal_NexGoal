@@ -51,6 +51,10 @@
             foreach (PerformanceRecord performanceRecord in performanceRecords)
             {
                 MappingDataForPerformanceRecord(performanceRecord, performanceGrades, employeeId);
+                if (performanceRecord.TypeId == (int)PerformanceRecordType.SystemPerformanceAppraisal)
+                {
+                    DecryptPAGrade(performanceRecord.PASummary, performanceGrades);
+                }
             }
 
             return performanceRecords;
@@ -105,6 +109,11 @@
             foreach (PerformanceRecord performanceRecord in performanceRecords)
             {
                 MappingDataForPerformanceRecord(performanceRecord, performanceGrades, actorId);
+
+                if (performanceRecord.TypeId == (int)PerformanceRecordType.SystemPerformanceAppraisal)
+                {
+                    DecryptPAGrade(performanceRecord.PASummary, performanceGrades);
+                }
             }
 
             return performanceRecords;
@@ -332,6 +341,23 @@
             if (performanceRecord.Creator.EmployeeId == Constants.NexGoalSystemId)
             {
                 performanceRecord.Creator = NexGoalSystemInfo.NexGoal;
+            }
+        }
+
+        private void DecryptPAGrade(PASummaryModel paSummary, IEnumerable<PerformanceGrade> performanceGrades)
+        {
+            paSummary.OriginalGradeId = cryptoService.Decrypt(paSummary.OriginalGradeId);
+            int.TryParse(paSummary.OriginalGradeId, out int gradeId);
+            paSummary.OriginalGrade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+
+            foreach (var detail in paSummary.GradeDetails)
+            {
+                detail.GradeId = cryptoService.Decrypt(detail.GradeId);
+
+                if (int.TryParse(detail.GradeId, out gradeId))
+                {
+                    detail.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+                }
             }
         }
     }

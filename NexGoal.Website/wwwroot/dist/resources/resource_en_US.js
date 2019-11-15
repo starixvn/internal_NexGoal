@@ -64,6 +64,7 @@ window.resource_en_US = {
     'EvaluatorProcess': 'Evaluator Process',
     'Excel': 'Excel',
     'Explanation': 'Explanation',
+    'FinalGrade': 'Final Grade',
     'FinalResult': 'Final Result',
     'FlowList': 'Flow List',
     'ForCommittee': 'For Committee',

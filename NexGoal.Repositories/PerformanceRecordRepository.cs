@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using Fanex.Data;
     using Fanex.Data.Repository;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.NominationPeriod;
@@ -36,9 +37,22 @@
 
                     var projects = multi.Read<ProjectModel>();
 
+                    var paSummaries = multi.Read<PASummaryModel>();
+
+                    var paGradeDetails = multi.Read<PAGradeDetailModel>();
+
+                    foreach (var summary in paSummaries)
+                    {
+                        summary.GradeDetails = paGradeDetails.Where(x => x.PARecordId == summary.PARecordId);
+                    }
+
                     foreach (PerformanceRecord performanceRecord in performanceRecords)
                     {
                         performanceRecord.Projects = projects.Where(t => t.PerformanceRecordId == performanceRecord.PerformanceRecordId);
+                        if (performanceRecord.TypeId == (int)PerformanceRecordType.SystemPerformanceAppraisal)
+                        {
+                            performanceRecord.PASummary = paSummaries.FirstOrDefault(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
+                        }
                     }
 
                     return performanceRecords;
@@ -160,11 +174,24 @@
 
                     var members = multi.Read<Employee>();
                     var projects = multi.Read<ProjectModel>();
+                    var paSummaries = multi.Read<PASummaryModel>();
+
+                    var paGradeDetails = multi.Read<PAGradeDetailModel>();
+
+                    foreach (var summary in paSummaries)
+                    {
+                        summary.GradeDetails = paGradeDetails.Where(x => x.PARecordId == summary.PARecordId);
+                    }
 
                     foreach (PerformanceRecord performanceRecord in performanceRecords)
                     {
                         performanceRecord.Employees = members.Where(t => t.LinkObjectId == performanceRecord.PerformanceRecordId);
                         performanceRecord.Projects = projects.Where(t => t.PerformanceRecordId == performanceRecord.PerformanceRecordId);
+
+                        if (performanceRecord.TypeId == (int)PerformanceRecordType.SystemPerformanceAppraisal)
+                        {
+                            performanceRecord.PASummary = paSummaries.FirstOrDefault(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
+                        }
                     }
 
                     return performanceRecords;
