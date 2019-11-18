@@ -9,8 +9,8 @@ import TextareaFullscreenEditor from '../../../shared/components/textarea-fullsc
 import CustomScrollbars from '../../../shared/components/CustomScrollbars';
 import getResource from '../../../resourceHelper';
 import axios from 'axios';
-import { axiosError, getCurrentUserInfo, resolveClientUrl } from '../../../common-functions';
-import { PAStatus, DateFormat, PerformanceProcess } from '../../../constants';
+import { axiosError, getCurrentUserInfo, resolveClientUrl, groupBy } from '../../../common-functions';
+import { PAStatus, DateFormat, PerformanceProcess, PerformanceRecordType } from '../../../constants';
 import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 import PAProcessTab from '../../../shared/components/performance-appraisal/PAProcessTab';
 import PerformanceGradeInfo from '../../../shared/components/PerformanceGradeInfo';
@@ -45,7 +45,9 @@ export default class EditPAForm extends Component {
                         comment: pa.comment,
                         creator: pa.processes.filter(process => process.processId === PerformanceProcess.Reviewer)[0].evaluator,
                         modifiedDate: pa.modifiedDate,
-                        paStatus: pa.statusId
+                        paStatus: pa.statusId,
+                        toeic: pa.toeic,
+                        toeicPolicy: pa.toeicPolicy
                     },
                     employee: pa.employee,
                     paProcesses: pa.processes
@@ -138,7 +140,7 @@ export default class EditPAForm extends Component {
 
     renderViewPA = paRecord => {
         const data = {
-            typeId: 1,
+            typeId: PerformanceRecordType.PerformanceAppraisal,
             roleId: PerformanceProcess.Reviewer,
             creator: paRecord.creator,
             createdDate: paRecord.modifiedDate ? paRecord.modifiedDate : null,
@@ -146,15 +148,49 @@ export default class EditPAForm extends Component {
             grade: paRecord.grade
         };
         return (
-            <div className="record record-your-mind">
-                <PerformanceRecord data={data} isHideProjectTag />
-            </div>
+            <div className="record record-your-mind" >
+                <PerformanceRecord data={data} isHideProjectTag gradeSummary={this.renderGradeSummary()} />
+            </div >
         );
     }
 
     handleOpenGradeInfo = () => this.setState({ showGradeInfo: true })
 
     handleCloseGradeInfo = () => this.setState({ showGradeInfo: false })
+
+    renderGradeSummary = () => {
+        const processes = this.state.paProcesses;
+        const groupedPMProcess = groupBy(processes.filter(x => x.processId === PerformanceProcess.ProjectManager && x.performanceRecord && x.performanceRecord.grade), x => x.performanceRecord.grade.name);
+
+        const renderGradeSummary = processes.filter(x => x.processId !== PerformanceProcess.ProjectManager);
+        renderGradeSummary.splice(1, 0, {
+            processId: PerformanceProcess.ProjectManager,
+            process: getResource('ProjectManager'),
+            grade: groupedPMProcess.length > 0 ? groupedPMProcess.map(g => `${g[1].length}${g[0]}`).join(', ') : getResource('N/A')
+        });
+
+        return (
+            <div className='grade-summary'>
+                {
+                    renderGradeSummary.map(x => (
+                        <span key={x.processId} className='grade-summary-item'>
+                            {x.process}: <strong>
+                                {x.processId === PerformanceProcess.ProjectManager ? x.grade : (x.performanceRecord && x.performanceRecord.grade && x.performanceRecord.grade.name) || getResource('N/A')}
+                            </strong>
+                        </span>
+                    ))
+                }
+                {this.renderToeic()}
+            </div>
+        );
+    }
+
+    renderToeic = () => {
+        const toeicPolicy = this.state.paRecord.toeicPolicy;
+        return (
+            <span>TOEIC: {this.state.paRecord.toeic} {toeicPolicy !== 0 && `(${toeicPolicy > 0 && '+'}${toeicPolicy} grade)`}</span>
+        );
+    }
 
     renderEditPA = paRecord => {
         const { errors, currentUserInfo } = this.state;
@@ -193,6 +229,7 @@ export default class EditPAForm extends Component {
                                     isDisabled={this.state.paRecord.paStatus === PAStatus.Closed}
                                 />
                             </div>
+                            {this.renderGradeSummary()}
                         </FormGroup>
                     </form>
                 </div>

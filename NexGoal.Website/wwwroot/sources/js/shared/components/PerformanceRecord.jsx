@@ -150,6 +150,7 @@ export default class PerformanceRecord extends Component {
                 <div className="grade">
                     {`${getResource('Grade')}:`} <div className="grade-detail">{grade}</div>
                 </div>
+                {record.typeId === PerformanceRecordType.PerformanceAppraisal && this.props.gradeSummary}
                 {
                     !this.props.isHideProjectTag &&
                     <div className="project">
@@ -316,20 +317,20 @@ export default class PerformanceRecord extends Component {
         renderGradeDetails.splice(1, 0, {
             processId: PerformanceProcess.ProjectManager,
             process: getResource('ProjectManager'),
-            grade: groupedPMProcess.map(g => `${g[1].length}${g[0]}`).join(', ')
+            grade: groupedPMProcess.length > 0 ? groupedPMProcess.map(g => `${g[1].length}${g[0]}`).join(', ') : getResource('N/A')
         });
 
         return renderGradeDetails.map(x => (
             <div className={`process-${x.processId}`} key={x.processId}>
                 {x.process}:
                         <div className="grade-detail">
-                    {x.processId === PerformanceProcess.ProjectManager ? x.grade : x.grade && x.grade.name}
+                    {x.processId === PerformanceProcess.ProjectManager ? x.grade : (x.grade && x.grade.name) || getResource('N/A')}
                 </div>
             </div>)
         );
     }
 
-    renderToeicBonus = (toeicPolicy) => {
+    renderToeicBonus = toeicPolicy => {
         if (toeicPolicy !== null && toeicPolicy > 0) {
             return '(+1 grade)';
         }

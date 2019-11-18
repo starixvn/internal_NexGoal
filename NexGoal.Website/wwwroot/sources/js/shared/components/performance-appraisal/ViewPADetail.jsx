@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { PerformanceProcess } from '../../../constants';
+import { PerformanceProcess, PerformanceRecordType } from '../../../constants';
 import PerformanceRecord from '../PerformanceRecord';
 import getResource from '../../../resourceHelper';
 import PAProcessTab from './PAProcessTab';
@@ -14,7 +14,7 @@ export default class ViewPADetail extends Component {
     render() {
         const pa = this.props.paRecord;
         const paRecord = {
-            typeId: 1,
+            typeId: PerformanceRecordType.PerformanceAppraisal,
             roleId: PerformanceProcess.Reviewer,
             creator: pa.reviewer,
             createdDate: pa.modifiedDate ? pa.modifiedDate : null,
@@ -26,7 +26,7 @@ export default class ViewPADetail extends Component {
         return (
             <Modal
                 show={this.props.isShowModal} onHide={this.props.onCloseModal}
-                dialogClassName="custom-modal modal-md form-performance edit performance-appraisal"
+                dialogClassName="custom-modal modal-md performance-appraisal"
             >
                 <Modal.Header>
                     <Modal.Title>{title}</Modal.Title>

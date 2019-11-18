@@ -62,6 +62,24 @@
         .record-your-mind {
             grid-template-rows: 1fr;
             padding: 16px 20px;
+
+            .form-performance {
+                .grade-summary {
+                    display: inline-block;
+                    margin-top: 22px;
+                    width: calc(100% - 276px);
+                }
+            }
+        }
+
+        .grade-summary {
+            background-color: #E1EEF7;
+            border: 1px solid #e5e5e5;
+            padding: 4px;
+
+            .grade-summary-item {
+                margin-right: 10px;
+            }
         }
 
         #tabs {
