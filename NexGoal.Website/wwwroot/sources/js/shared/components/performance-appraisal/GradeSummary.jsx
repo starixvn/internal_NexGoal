@@ -25,9 +25,23 @@ export default class GradeSummary extends PureComponent {
         );
     }
 
+    getGrade = pr => {
+        if (pr.processId === PerformanceProcess.ProjectManager) {
+            return pr.grade;
+        }
+
+        if (pr.performanceRecord && pr.performanceRecord.grade) {
+            return pr.performanceRecord.grade.name;
+        }
+
+        return getResource('N/A');
+    }
+
     render() {
         const processes = this.props.processes;
-        const groupedPMProcess = groupBy(processes.filter(x => x.processId === PerformanceProcess.ProjectManager && x.performanceRecord && x.performanceRecord.grade), x => x.performanceRecord.grade.name);
+        const groupedPMProcess = groupBy(
+            processes.filter(x => x.processId === PerformanceProcess.ProjectManager && x.performanceRecord && x.performanceRecord.grade),
+            x => x.performanceRecord.grade.name);
 
         const renderGradeSummary = processes.filter(x => x.processId !== PerformanceProcess.ProjectManager);
         renderGradeSummary.splice(1, 0, {
@@ -42,7 +56,7 @@ export default class GradeSummary extends PureComponent {
                     renderGradeSummary.map(x => (
                         <span key={x.processId} className='grade-summary-item'>
                             {x.process}: <strong>
-                                {x.processId === PerformanceProcess.ProjectManager ? x.grade : (x.performanceRecord && x.performanceRecord.grade && x.performanceRecord.grade.name) || getResource('N/A')}
+                                {this.getGrade(x)}
                             </strong>
                         </span>
                     ))
