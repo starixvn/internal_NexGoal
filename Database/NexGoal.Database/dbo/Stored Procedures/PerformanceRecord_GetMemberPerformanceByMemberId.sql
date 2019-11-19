@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[PerformanceRecord_GetMemberPerformanceByMemberId] @ActorId INT
+﻿CREATE PROCEDURE [dbo].[PerformanceRecord_GetMemberPerformanceByMemberId] @ActorId INT
 	,@EmployeeId INT
 AS
 /*
@@ -9,6 +8,7 @@ DB: bodb_NexGoal
 Original:
 
 Revisions:
+	20191118@elton.ton: get more information for system pa
 Param's Explanation:
 
 */
@@ -165,16 +165,16 @@ BEGIN
 					AND p.PeriodId IS NOT NULL
 					)
 				)
-			AND (
-				@IsHost = 1
-				OR (
-					@IsHost = 0
-					AND (
-						record.CreatorId = @EmployeeId
-						OR record.CreatorId = @ActorId
-						)
-					)
-				)
+			--AND (
+			--	@IsHost = 1
+			--	OR (
+			--		@IsHost = 0
+			--		AND (
+			--			record.CreatorId = @EmployeeId
+			--			OR record.CreatorId = @ActorId
+			--			)
+			--		)
+			--	)
 		
 		UNION
 		SELECT record.PerformanceRecordId
@@ -246,6 +246,26 @@ BEGIN
 	FROM #tblPerformanceRecord AS record
 		OUTER APPLY [dbo].[func_SplitString](record.ProjectIds, ',') a
 		INNER JOIN dbo.ProjectTag AS prj WITH (NOLOCK) ON a.val = prj.ProjectId
+
+	SELECT pa.PARecordId
+		,pa.PerformanceRecordId
+		,pa.OriginalGradeId
+		,pa.Toeic
+		,pa.ToeicPolicy
+	FROM dbo.PARecord AS pa WITH (NOLOCK)		
+		INNER JOIN dbo.Period AS p WITH (NOLOCK) ON pa.PeriodId = p.PeriodId AND p.IsActive = 1
+	WHERE pa.StatusId = @PAClosed AND pa.PerformanceRecordId IS NOT NULL
+
+	SELECT pa.PARecordId
+		,pap.ProcessId
+		,rr.Value AS Process
+		,pr.GradeId
+	FROM dbo.PARecord AS pa WITH (NOLOCK)		
+		INNER JOIN dbo.Period AS p WITH (NOLOCK) ON pa.PeriodId = p.PeriodId AND p.IsActive = 1
+		INNER JOIN dbo.PAProcess pap WITH (NOLOCK) ON pa.PARecordId = pap.PARecordId
+		INNER JOIN dbo.RefResource rr WITH (NOLOCK) ON  pap.ProcessId = rr.ResourceId AND rr.RefName='PerformanceProcess'
+		LEFT JOIN dbo.PerformanceRecord pr WITH (NOLOCK) ON pap.PerformanceRecordId = pr.PerformanceRecordId
+	WHERE pa.StatusId = @PAClosed AND pa.PerformanceRecordId IS NOT NULL AND pap.ProcessId > 1
 
 	DROP TABLE #tblPerformanceRecord
 END

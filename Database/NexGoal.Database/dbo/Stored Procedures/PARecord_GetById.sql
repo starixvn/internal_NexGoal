@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[PARecord_GetById] @ActorId INT
+﻿CREATE PROCEDURE [dbo].[PARecord_GetById] @ActorId INT
 	,@PARecordId INT
 AS
 /*
@@ -10,6 +9,7 @@ Original:
 
 Revisions:
     20190129@Oliver.Dang: fix bugs
+    20191118@elton.ton: get process name
 Param's Explanation:
 
 */
@@ -59,6 +59,7 @@ BEGIN
 
 	SELECT process.PARecordId
 		,process.ProcessId
+		,rr.Value AS Process
 		,process.EvaluatorId
 		,emp.NickName
 		,emp.FullName
@@ -76,6 +77,7 @@ BEGIN
 		,creator.Code
 	FROM dbo.PAProcess AS process WITH (NOLOCK)
 	INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON process.EvaluatorId = emp.EmployeeId
+	INNER JOIN dbo.RefResource rr WITH (NOLOCK) ON process.ProcessId = rr.ResourceId AND rr.RefName='PerformanceProcess'
 	LEFT JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON process.PerformanceRecordId = record.PerformanceRecordId
 	LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 	WHERE process.PARecordId = @PARecordId
