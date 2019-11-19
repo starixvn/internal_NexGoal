@@ -120,7 +120,7 @@ export default class PerformanceRecord extends Component {
                     <img src={creator.avatar} alt="avatar" className="avatar" />
                     <div className="person-info">
                         <span className={getRoleClassName(record.roleId)}>
-                            {employees.some(x => x.employeeId === creator.employeeId) ?
+                            {this.props.pageType === PageType.MemberPage && employees && employees.some(x => x.employeeId === creator.employeeId) ?
                                 <a href={resolveClientUrl(`member/details/${creator.employeeId}`)} >{creator.nickName}</a>
                                 : creator.nickName
                             }</span>
