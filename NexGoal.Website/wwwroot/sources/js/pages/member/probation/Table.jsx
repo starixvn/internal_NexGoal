@@ -30,7 +30,7 @@ export default class Table extends Component {
     }
 
     renderRow = probationer => {
-        let evaluatorResult, finalResult = '-';
+        let evaluatorResult = '-', finalResult = '-';
 
         if (probationer.isQualifiedByEvaluator !== null) {
             evaluatorResult = probationer.isQualifiedByEvaluator ? 'Passed' : 'Failed';
@@ -53,7 +53,9 @@ export default class Table extends Component {
                     }
                 </td>
                 <td className="text-center">{probationer.evaluatorScore || '-'}</td>
-                <td className="text-center"><span className={evaluatorResult.toLowerCase()} >{evaluatorResult}</span></td>
+                <td className="text-center">
+                    <span className={evaluatorResult.toLowerCase()} >{evaluatorResult}</span>
+                </td>
                 <td className="text-center">
                     {probationer.evaluatorComment ?
                         <span className="icon-search" data-processid={PerformanceProcess.Evaluator}
