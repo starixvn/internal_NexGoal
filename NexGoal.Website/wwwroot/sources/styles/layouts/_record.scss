@@ -219,6 +219,14 @@
             .role-member {
                 flex-basis: 0;
                 flex-grow: 1;
+
+                a {
+                    color: inherit;
+
+                    &:hover {
+                        color: inherit;
+                    }
+                }
             }
 
             .icon-checkin {

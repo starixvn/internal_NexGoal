@@ -106,7 +106,9 @@ export default class App extends Component {
                             grade: pa.grade,
                             comment: pa.comment,
                             reviewer: reviewer,
-                            modifiedDate: pa.modifiedDate
+                            modifiedDate: pa.modifiedDate,
+                            toeic: pa.toeic,
+                            toeicPolicy: pa.toeicPolicy
                         },
                         employee: pa.employee,
                         paProcesses: pa.processes

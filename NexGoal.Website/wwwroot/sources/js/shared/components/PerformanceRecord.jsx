@@ -4,6 +4,7 @@ import moment from 'moment';
 import { getNominationClassName, getRoleClassName, resolveClientUrl, calendar, getPAGradeClassName, groupBy } from '../../common-functions';
 import { NominationStatuses, PerformanceRecordType, PerformanceProcess } from '../../constants';
 import getResource from '../../resourceHelper';
+import GradeSummary from '../../shared/components/performance-appraisal/GradeSummary';
 
 const PageType = {
     MyPage: 1,
@@ -86,6 +87,16 @@ export default class PerformanceRecord extends Component {
 
     handleDelete = () => this.props.onDelete(this.props.data.performanceRecordId);
 
+    renderMembers = (employee, i) =>
+        (
+            <Fragment key={employee.employeeId}>
+                <a href={resolveClientUrl(`member/details/${employee.employeeId}`)}>
+                    {employee.nickName}
+                </a>
+                {i < this.props.data.employees.length - 1 && ', '}
+            </Fragment>
+        )
+
     renderPerformanceCheckin = () => {
         const record = this.props.data;
         let { employees, creator } = record;
@@ -108,13 +119,19 @@ export default class PerformanceRecord extends Component {
                 <div className={`avatar-user ${record.createdDate ? '' : 'small'}`}>
                     <img src={creator.avatar} alt="avatar" className="avatar" />
                     <div className="person-info">
-                        <span className={getRoleClassName(record.roleId)}>{creator.nickName}</span>
+                        <span className={getRoleClassName(record.roleId)}>
+                            {employees.some(x => x.employeeId === creator.employeeId) ?
+                                <a href={resolveClientUrl(`member/details/${creator.employeeId}`)} >{creator.nickName}</a>
+                                : creator.nickName
+                            }</span>
                         {
                             employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
                             <Fragment>
                                 <span className="icon-checkin" />
                                 <img src={employees[0].avatar} alt="avatar" className="avatar" />
-                                <span className="role-member">{employees.map(employee => employee.nickName).join(', ')}</span>
+                                <span className="role-member">
+                                    {employees.map(this.renderMembers)}
+                                </span>
                             </Fragment>
                         }
                     </div>
@@ -150,7 +167,9 @@ export default class PerformanceRecord extends Component {
                 <div className="grade">
                     {`${getResource('Grade')}:`} <div className="grade-detail">{grade}</div>
                 </div>
-                {record.typeId === PerformanceRecordType.PerformanceAppraisal && this.props.gradeSummary}
+                {record.typeId === PerformanceRecordType.PerformanceAppraisal &&
+                    <GradeSummary processes={this.props.processes} toeic={this.props.toeic} toeicPolicy={this.props.toeicPolicy} />
+                }
                 {
                     !this.props.isHideProjectTag &&
                     <div className="project">
@@ -189,7 +208,7 @@ export default class PerformanceRecord extends Component {
                                 <span className="icon-checkin" />
                                 {employees.length === 1 && <img src={employees[0].avatar} alt="avatar" className="avatar" />}
                                 {employees.length > 1 && <i className="avatar icon-draft-member" />}
-                                <span className="role-member">{employees.map(employee => employee.nickName).join(', ')}</span>
+                                <span className="role-member">{employees.map(this.renderMembers)}</span>
                             </Fragment>
                         }
                     </div>

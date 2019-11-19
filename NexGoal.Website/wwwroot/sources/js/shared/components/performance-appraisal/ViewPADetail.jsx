@@ -33,7 +33,11 @@ export default class ViewPADetail extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <CustomScrollbars>
-                        <PerformanceRecord data={paRecord} isHideProjectTag />
+                        <PerformanceRecord data={paRecord} isHideProjectTag
+                            processes={this.props.paProcesses}
+                            toeic={pa.toeic}
+                            toeicPolicy={pa.toeicPolicy}
+                        />
                         <PAProcessTab processes={this.props.paProcesses} />
                     </CustomScrollbars>
                 </Modal.Body>
