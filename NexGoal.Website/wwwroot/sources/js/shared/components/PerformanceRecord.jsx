@@ -90,6 +90,7 @@ export default class PerformanceRecord extends Component {
     renderMembers = (employee, i) =>
         (
             <Fragment key={employee.employeeId}>
+
                 <a href={resolveClientUrl(`member/details/${employee.employeeId}`)}>
                     {employee.nickName}
                 </a>
@@ -130,7 +131,10 @@ export default class PerformanceRecord extends Component {
                                 <span className="icon-checkin" />
                                 <img src={employees[0].avatar} alt="avatar" className="avatar" />
                                 <span className="role-member">
-                                    {employees.map(this.renderMembers)}
+                                    {this.props.pageType === PageType.MemberPage ?
+                                        employees.map(this.renderMembers) :
+                                        employees.map(e => e.nickName).join(', ')
+                                    }
                                 </span>
                             </Fragment>
                         }
@@ -208,7 +212,12 @@ export default class PerformanceRecord extends Component {
                                 <span className="icon-checkin" />
                                 {employees.length === 1 && <img src={employees[0].avatar} alt="avatar" className="avatar" />}
                                 {employees.length > 1 && <i className="avatar icon-draft-member" />}
-                                <span className="role-member">{employees.map(this.renderMembers)}</span>
+                                <span className="role-member">
+                                    {this.props.pageType === PageType.MemberPage ?
+                                        employees.map(this.renderMembers) :
+                                        employees.map(e => e.nickName).join(', ')
+                                    }
+                                </span>
                             </Fragment>
                         }
                     </div>
@@ -330,23 +339,41 @@ export default class PerformanceRecord extends Component {
     }
 
     renderPAProcesGrades = gradeDetails => {
-        const groupedPMProcess = groupBy(gradeDetails.filter(x => x.processId === PerformanceProcess.ProjectManager && x.grade), x => x.grade.name);
-
         const renderGradeDetails = gradeDetails.filter(x => x.processId !== PerformanceProcess.ProjectManager);
-        renderGradeDetails.splice(1, 0, {
-            processId: PerformanceProcess.ProjectManager,
-            process: getResource('ProjectManager'),
-            grade: groupedPMProcess.length > 0 ? groupedPMProcess.map(g => `${g[1].length}${g[0]}`).join(', ') : getResource('N/A')
-        });
+        if (gradeDetails.some(x => x.processId === PerformanceProcess.ProjectManager)) {
+            const groupedPMProcess = groupBy(gradeDetails.filter(x => x.processId === PerformanceProcess.ProjectManager && x.grade), x => x.grade.name);
+            renderGradeDetails.splice(1, 0, {
+                processId: PerformanceProcess.ProjectManager,
+                process: getResource('ProjectManager'),
+                grade: groupedPMProcess.length > 0 ? groupedPMProcess.map(g => `${g[1].length}${g[0]}`).join(', ') : getResource('N/A')
+            });
+        } else {
+            renderGradeDetails.splice(1, 0, {
+                processId: PerformanceProcess.ProjectManager,
+                process: getResource('ProjectManager'),
+                grade: ''
+            });
+        }
 
-        return renderGradeDetails.map(x => (
-            <div className={`process-${x.processId}`} key={x.processId}>
-                {x.process}:
+        return renderGradeDetails.map(x => {
+            let grade = '';
+
+            if (x.processId === PerformanceProcess.ProjectManager) {
+                grade = x.grade;
+            } else {
+                if (x.performanceRecordId) {
+                    grade = x.grade ? x.grade.name : getResource('N/A');
+                }
+            }
+
+            return (
+                <div className={`process-${x.processId}`} key={x.processId}>
+                    {x.process}:
                         <div className="grade-detail">
-                    {x.processId === PerformanceProcess.ProjectManager ? x.grade : (x.grade && x.grade.name) || getResource('N/A')}
-                </div>
-            </div>)
-        );
+                        {grade}
+                    </div>
+                </div>);
+        });
     }
 
     renderToeicBonus = toeicPolicy => {

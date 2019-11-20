@@ -222,6 +222,7 @@ BEGIN
 	SELECT pa.PARecordId
 		,pap.ProcessId
 		,rr.Value AS Process
+		,pap.PerformanceRecordId
 		,pr.GradeId
 	FROM dbo.PARecord AS pa WITH (NOLOCK)		
 		INNER JOIN dbo.Period AS p WITH (NOLOCK) ON pa.PeriodId = p.PeriodId AND p.IsActive = 1

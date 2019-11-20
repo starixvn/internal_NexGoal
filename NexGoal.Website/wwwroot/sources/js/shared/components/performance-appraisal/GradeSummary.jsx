@@ -21,7 +21,7 @@ export default class GradeSummary extends PureComponent {
         }
 
         return (
-            <span>TOEIC: {this.props.toeic} {toeicBonus}</span>
+            <span>TOEIC: {this.props.toeic ? `${this.props.toeic} ${toeicBonus}` : getResource('N/A')}</span>
         );
     }
 
@@ -30,37 +30,62 @@ export default class GradeSummary extends PureComponent {
             return pr.grade;
         }
 
-        if (pr.performanceRecord && pr.performanceRecord.grade) {
-            return pr.performanceRecord.grade.name;
+        if (pr.performanceRecord) {
+            return pr.performanceRecord.grade ? pr.performanceRecord.grade.name : getResource('N/A');
         }
 
-        return getResource('N/A');
+        return '--';
+    }
+
+    compare = (process1, process2) => {
+        if (process1.processId < process2.processId) {
+            return -1;
+        }
+
+        if (process1.processId > process2.processId) {
+            return 1;
+        }
+
+        return 0;
+    }
+
+    renderGradeSummary = () => {
+        const processes = this.props.processes;
+
+        const gradeSummary = processes.filter(x => x.processId !== PerformanceProcess.ProjectManager);
+        if (processes.some(x => x.processId === PerformanceProcess.ProjectManager)) {
+            const groupedPMProcess = groupBy(
+                processes.filter(x => x.processId === PerformanceProcess.ProjectManager && x.performanceRecord && x.performanceRecord.grade),
+                x => x.performanceRecord.grade.name);
+
+            gradeSummary.push({
+                processId: PerformanceProcess.ProjectManager,
+                process: getResource('ProjectManager'),
+                grade: groupedPMProcess.length > 0 ? groupedPMProcess.map(g => `${g[1].length}${g[0]}`).join(', ') : getResource('N/A')
+            });
+        } else {
+            gradeSummary.push({
+                processId: PerformanceProcess.ProjectManager,
+                process: getResource('ProjectManager'),
+                grade: '--'
+            });
+        }
+
+        gradeSummary.sort(this.compare);
+
+        return gradeSummary.map(x => (
+            <span key={x.processId} className='grade-summary-item'>
+                {x.process}: <strong>
+                    {this.getGrade(x)}
+                </strong>
+            </span>
+        ));
     }
 
     render() {
-        const processes = this.props.processes;
-        const groupedPMProcess = groupBy(
-            processes.filter(x => x.processId === PerformanceProcess.ProjectManager && x.performanceRecord && x.performanceRecord.grade),
-            x => x.performanceRecord.grade.name);
-
-        const renderGradeSummary = processes.filter(x => x.processId !== PerformanceProcess.ProjectManager);
-        renderGradeSummary.splice(1, 0, {
-            processId: PerformanceProcess.ProjectManager,
-            process: getResource('ProjectManager'),
-            grade: groupedPMProcess.length > 0 ? groupedPMProcess.map(g => `${g[1].length}${g[0]}`).join(', ') : getResource('N/A')
-        });
-
         return (
             <div className='grade-summary'>
-                {
-                    renderGradeSummary.map(x => (
-                        <span key={x.processId} className='grade-summary-item'>
-                            {x.process}: <strong>
-                                {this.getGrade(x)}
-                            </strong>
-                        </span>
-                    ))
-                }
+                {this.renderGradeSummary()}
                 {this.renderToeic()}
             </div>
         );

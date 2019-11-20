@@ -46,11 +46,6 @@ BEGIN
 				FROM dbo.GroupFlowSetting AS gfs WITH (NOLOCK)
 					INNER JOIN dbo.Employee e WITH (NOLOCK) ON gfs.GroupId = e.GroupId AND e.EmployeeId = @EmployeeId
 			)
-			OR EXISTS (
-				SELECT 1
-				FROM dbo.PMSetting AS pmsetting WITH (NOLOCK)
-				WHERE pmsetting.ProjectManagerId = @EmployeeId
-			)
 		)
 	
 	INSERT INTO #tblAnnouncement (
@@ -72,6 +67,11 @@ BEGIN
 				SELECT 1
 				FROM dbo.GroupFlowSetting AS gfs WITH (NOLOCK)
 				WHERE gfs.EvaluatorId = @EmployeeId AND gfs.ProcessId > @SelfProcessId
+			)
+			OR EXISTS (
+				SELECT 1
+				FROM dbo.PMSetting AS pmsetting WITH (NOLOCK)
+				WHERE pmsetting.ProjectManagerId = @EmployeeId
 			)
 		)	
 
@@ -221,4 +221,3 @@ BEGIN
 
 	DROP TABLE #tblAnnouncement
 END
- 
