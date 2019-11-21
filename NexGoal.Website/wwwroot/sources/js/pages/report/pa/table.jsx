@@ -1,7 +1,7 @@
 ﻿import React, { Component, Fragment } from 'react';
 import getResource from '../../../resourceHelper';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
-import { PerformanceProcess } from '../../../constants';
+import { PerformanceProcess, EmptyPlaceHolder } from '../../../constants';
 import { noDataIndication, getPAGradeClassName, resolveClientUrl } from '../../../common-functions';
 import StickyBlock from '../../../shared/components/StickyBlock';
 
@@ -120,7 +120,7 @@ export default class Table extends Component {
                         <td className="text-center">{this.renderGradeByProcess(record.processes, PerformanceProcess.Evaluator)}</td>
                         <td className="text-center">{this.renderGradeByProcess(record.processes, PerformanceProcess.Reviewer)}</td>
                         <td className="text-center">{this.renderPAGrade(record)}</td>
-                        <td className="text-center">{record.isRevised ? <span className="icon-check" /> : ''}</td>
+                        <td className="text-center">{record.isRevised ? <span className="icon-check" /> : EmptyPlaceHolder}</td>
                         <td className="text-center">
                             <span className="icon-search"
                                 onClick={() => this.showPADetails(record.paRecordId)}
@@ -166,6 +166,11 @@ export default class Table extends Component {
     renderPMGrades = (paProcesses, paRecordId) => {
         const processes = paProcesses.filter(process => process.performanceRecord &&
             process.processId === PerformanceProcess.ProjectManager);
+
+        if (process.length === 0) {
+            return EmptyPlaceHolder;
+        }
+
         const grades = processes.map(process => {
             return process.performanceRecord.grade ?
                 process.performanceRecord.grade.name : getResource('N/A');
@@ -197,7 +202,7 @@ export default class Table extends Component {
     renderGradeByProcess = (processes, processId, paRecordId) => {
         const processRecords = processes.filter(process => process.performanceRecord && process.processId === processId);
         if (!processRecords.length) {
-            return '';
+            return EmptyPlaceHolder;
         }
 
         if (processId !== PerformanceProcess.ProjectManager) {
@@ -213,7 +218,7 @@ export default class Table extends Component {
             return process.performanceRecord.grade ? process.performanceRecord.grade.name : getResource('N/A');
         }
 
-        return '';
+        return EmptyPlaceHolder;
     }
 
     render() {
@@ -237,9 +242,9 @@ export default class Table extends Component {
                                 <th width="10%" rowSpan="2">
                                     {getResource('PAFinal')}
                                     <div className="pa-final">
-                                        <i className="icon-info"></i>
+                                        <i className="icon-info" />
                                         <div className="description">
-                                            <i className="arrow"></i>
+                                            <i className="arrow" />
                                             <p>PA Final = Evaluator’s grade + Toeic Policy</p>
                                             <p>If the Evaluator's grade is N/A or Null (empty):</p>
                                             <ul>
@@ -272,9 +277,9 @@ export default class Table extends Component {
                             <th width="10%" rowSpan="2">
                                 {getResource('PAFinal')}
                                 <div className="pa-final">
-                                    <i className="icon-info"></i>
+                                    <i className="icon-info" />
                                     <div className="description">
-                                        <i className="arrow"></i>
+                                        <i className="arrow" />
                                         <p>PA Final = Evaluator’s grade + Toeic Policy</p>
                                         <p>If the Evaluator's grade is N/A or Null (empty):</p>
                                         <ul>

@@ -3,7 +3,7 @@ import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 
 import getResource from '../../../resourceHelper';
 import StickyBlock from '../../../shared/components/StickyBlock';
-import { PerformanceProcess } from '../../../constants';
+import { PerformanceProcess, EmptyPlaceHolder } from '../../../constants';
 import { noDataIndication } from '../../../common-functions';
 
 export default class Table extends Component {
@@ -24,21 +24,21 @@ export default class Table extends Component {
             <td className="text-center">{index + 1}</td>
             <td>{employee.nickName} ({employee.fullName})</td>
             <td>{employee.jobTitle}</td>
-            <td className="text-center">{employee.selfPRQuantity > 0 ? employee.selfPRQuantity : '-'}</td>
+            <td className="text-center">{employee.selfPRQuantity > 0 ? employee.selfPRQuantity : EmptyPlaceHolder}</td>
             <td className="text-center">
                 <OverlayTrigger placement="bottom" overlay={this.getOverlay(employee.details.filter(d => d.roleId === PerformanceProcess.ProjectManager))}>
-                    <span className="pr-quantity">{employee.pmPRQuantity > 0 ? employee.pmPRQuantity : '-'}</span>
+                    <span className="pr-quantity">{employee.pmPRQuantity > 0 ? employee.pmPRQuantity : EmptyPlaceHolder}</span>
                 </OverlayTrigger>
             </td>
 
             <td className="text-center">
                 <OverlayTrigger placement="bottom" overlay={this.getOverlay(employee.details.filter(d => d.roleId === PerformanceProcess.Evaluator))}>
-                    <span className="pr-quantity">{employee.evaluatorPRQuantity > 0 ? employee.evaluatorPRQuantity : '-'}</span>
+                    <span className="pr-quantity">{employee.evaluatorPRQuantity > 0 ? employee.evaluatorPRQuantity : EmptyPlaceHolder}</span>
                 </OverlayTrigger>
             </td>
             <td className="text-center">
                 <OverlayTrigger placement="bottom" overlay={this.getOverlay(employee.details.filter(d => d.roleId === PerformanceProcess.Reviewer))}>
-                    <span className="pr-quantity">{employee.reviewerPRQuantity > 0 ? employee.reviewerPRQuantity : '-'}</span>
+                    <span className="pr-quantity">{employee.reviewerPRQuantity > 0 ? employee.reviewerPRQuantity : EmptyPlaceHolder}</span>
                 </OverlayTrigger>
             </td>
 

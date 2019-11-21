@@ -1,6 +1,7 @@
 ﻿import React, { Component, Fragment } from 'react';
 
 import { getPAGradeClassName } from '../../../common-functions';
+import { EmptyPlaceHolder } from '../../../constants';
 import ObjectiveModal from './ObjectiveModal';
 
 export default class Row extends Component {
@@ -50,7 +51,7 @@ export default class Row extends Component {
             return this.props.focusEvaluationLevelOptions[index].name;
         }
 
-        return '-';
+        return EmptyPlaceHolder;
     }
 
     renderContribution = () => {
@@ -118,7 +119,7 @@ export default class Row extends Component {
     renderReadyPromotion = () => {
         const pafocus = this.props.data;
         let cssClass = '';
-        let label = '-';
+        let label = EmptyPlaceHolder;
 
         if (pafocus.isReadyPromotion) {
             cssClass = pafocus.isReadyPromotion === 'true' ? 'good' : 'normal';

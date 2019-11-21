@@ -1,6 +1,8 @@
 ﻿import React, { Component } from 'react';
 import { Scatter } from 'react-chartjs-2';
 
+import { EmptyPlaceHolder } from '../../../constants';
+
 export default class ScatterChart extends Component {
     shouldComponentUpdate(nextProps) {
         if (this.props.period !== nextProps.period
@@ -28,7 +30,7 @@ export default class ScatterChart extends Component {
             return this.props.focusEvaluationLevelOptions[index].name;
         }
 
-        return '-';
+        return EmptyPlaceHolder;
     }
 
     checkExistPoint = (x, y) => {
@@ -94,7 +96,7 @@ export default class ScatterChart extends Component {
     }
 
     renderReadyPromotion = value => {
-        let text = '-';
+        let text = EmptyPlaceHolder;
 
         if (value) {
             text = value === 'true' ? 'Yes' : 'No';

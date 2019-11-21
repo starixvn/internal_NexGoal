@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import getResource from '../../../resourceHelper';
 import { noDataIndication, resolveClientUrl } from '../../../common-functions';
-import { PerformanceProcess, DateFormat } from '../../../constants';
+import { PerformanceProcess, DateFormat, EmptyPlaceHolder } from '../../../constants';
 
 export default class Table extends Component {
     constructor(props) {
@@ -17,8 +17,8 @@ export default class Table extends Component {
     }
 
     renderRow = (probationer, index) => {
-        let evaluatorResult = '-';
-        let finalResult = '-';
+        let evaluatorResult = EmptyPlaceHolder;
+        let finalResult = EmptyPlaceHolder;
 
         if (probationer.canViewEvaluatorResult && probationer.isQualifiedByEvaluator !== null) {
             evaluatorResult = probationer.isQualifiedByEvaluator ? 'Passed' : 'Failed';
@@ -36,15 +36,15 @@ export default class Table extends Component {
                 <td>{probationer.joinedDate.format(DateFormat)}</td>
                 <td>{probationer.groupName}</td>
                 <td>{probationer.jobTitle}</td>
-                <td className="text-center">{probationer.selfScore || '-'}</td>
+                <td className="text-center">{probationer.selfScore || EmptyPlaceHolder}</td>
                 <td className="text-center">
                     {probationer.selfComment ?
                         <span className="icon-search" data-processid={PerformanceProcess.Self}
                             data-comment={probationer.selfComment} onClick={this.handleShowComment}
                         />
-                        : '-'}
+                        : EmptyPlaceHolder}
                 </td>
-                <td className="text-center">{probationer.evaluatorScore || '-'}</td>
+                <td className="text-center">{probationer.evaluatorScore || EmptyPlaceHolder}</td>
                 {this.props.showEvaluatorResult &&
                     <td className="text-center"><span className={evaluatorResult.toLowerCase()} >{evaluatorResult}</span></td>
                 }
@@ -53,7 +53,7 @@ export default class Table extends Component {
                         <span className="icon-search" data-processid={PerformanceProcess.Evaluator}
                             data-comment={probationer.evaluatorComment} onClick={this.handleShowComment}
                         />
-                        : '-'}
+                        : EmptyPlaceHolder}
                 </td>
                 <td className="text-center">
                     <span className={finalResult.toLowerCase()}>{finalResult}</span>
@@ -63,7 +63,7 @@ export default class Table extends Component {
                         <span className="icon-search" data-processid={PerformanceProcess.Reviewer}
                             data-comment={probationer.reviewerComment} onClick={this.handleShowComment}
                         />
-                        : '-'}
+                        : EmptyPlaceHolder}
                 </td>
                 <td className="text-center">
                     <a href={resolveClientUrl(`ProbationReport/Detail/${probationer.employeeId}`)} >

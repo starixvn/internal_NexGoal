@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { getNominationClassName, getRoleClassName, resolveClientUrl, calendar, getPAGradeClassName, groupBy } from '../../common-functions';
-import { NominationStatuses, PerformanceRecordType, PerformanceProcess } from '../../constants';
+import { NominationStatuses, PerformanceRecordType, PerformanceProcess, EmptyPlaceHolder } from '../../constants';
 import getResource from '../../resourceHelper';
 import GradeSummary from '../../shared/components/performance-appraisal/GradeSummary';
 
@@ -351,12 +351,12 @@ export default class PerformanceRecord extends Component {
             renderGradeDetails.splice(1, 0, {
                 processId: PerformanceProcess.ProjectManager,
                 process: getResource('ProjectManager'),
-                grade: ''
+                grade: EmptyPlaceHolder
             });
         }
 
         return renderGradeDetails.map(x => {
-            let grade = '';
+            let grade = EmptyPlaceHolder;
 
             if (x.processId === PerformanceProcess.ProjectManager) {
                 grade = x.grade;

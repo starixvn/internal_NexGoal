@@ -1,5 +1,5 @@
 ﻿import React, { Component, Fragment } from 'react';
-import { PerformanceProcess, PAStatus, notAvailableGradeTooltip } from '../../../../constants';
+import { PerformanceProcess, PAStatus, notAvailableGradeTooltip, EmptyPlaceHolder } from '../../../../constants';
 import { getPAGradeClassName } from '../../../../common-functions';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import getResource from '../../../../resourceHelper';
@@ -74,7 +74,7 @@ class Rows extends Component {
 
     renderSelfGrade = paProcesses => {
         const processes = paProcesses.filter(process => process.processId === PerformanceProcess.Self);
-        let grade = '';
+        let grade = EmptyPlaceHolder;
         if (processes[0].performanceRecord) {
             grade = processes[0].performanceRecord.grade ? processes[0].performanceRecord.grade.name : getResource('N/A');
         }
@@ -84,6 +84,10 @@ class Rows extends Component {
 
     renderPMGrades = (paProcesses, paRecordId) => {
         const processes = paProcesses.filter(process => process.processId === PerformanceProcess.ProjectManager);
+        if (processes.length === 0) {
+            return EmptyPlaceHolder;
+        }
+
         const grades = processes.map(process => {
             if (process.performanceRecord) {
                 return process.performanceRecord.grade ?
@@ -124,14 +128,14 @@ class Rows extends Component {
     renderEvaluatorGrade = (paProcesses, statusId) => {
         const evaluatorProcess = paProcesses.filter(process => process.processId === PerformanceProcess.Evaluator)[0];
         const naClass = statusId === PAStatus.InProgress ? 'red' : '';
-        let grade = <span />;
+        let grade = EmptyPlaceHolder;
 
         if (evaluatorProcess.performanceRecord && evaluatorProcess.performanceRecord.grade) {
-            grade = <span>{evaluatorProcess.performanceRecord.grade.name}</span>;
+            grade = evaluatorProcess.performanceRecord.grade.name;
         }
 
         if (evaluatorProcess.performanceRecord && !evaluatorProcess.performanceRecord.grade) {
-            grade = <span className={naClass}>{getResource('N/A')}</span>;
+            grade = getResource('N/A');
         }
 
         return grade;
@@ -182,12 +186,12 @@ class Rows extends Component {
 
     renderReviewerGrade = paProcesses => {
         const processes = paProcesses.filter(process => process.processId === PerformanceProcess.Reviewer);
-        let grade = '';
+        let grade = EmptyPlaceHolder;
         if (processes[0].performanceRecord) {
             grade = processes[0].performanceRecord.grade ? processes[0].performanceRecord.grade.name : getResource('N/A');
         }
 
-        return <span>{grade}</span>;
+        return grade;
     }
 
     renderNickName = record => {

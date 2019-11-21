@@ -1,6 +1,6 @@
 ﻿import React, { PureComponent } from 'react';
 import { groupBy } from '../../../common-functions';
-import { PerformanceProcess } from '../../../constants';
+import { PerformanceProcess, EmptyPlaceHolder } from '../../../constants';
 import getResource from '../../../resourceHelper';
 
 export default class GradeSummary extends PureComponent {
@@ -34,7 +34,7 @@ export default class GradeSummary extends PureComponent {
             return pr.performanceRecord.grade ? pr.performanceRecord.grade.name : getResource('N/A');
         }
 
-        return '--';
+        return EmptyPlaceHolder;
     }
 
     compare = (process1, process2) => {
@@ -67,7 +67,7 @@ export default class GradeSummary extends PureComponent {
             gradeSummary.push({
                 processId: PerformanceProcess.ProjectManager,
                 process: getResource('ProjectManager'),
-                grade: '--'
+                grade: EmptyPlaceHolder
             });
         }
 

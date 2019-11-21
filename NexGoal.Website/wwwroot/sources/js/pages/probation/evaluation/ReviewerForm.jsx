@@ -14,7 +14,7 @@ import ProbationResultOptions from './ProbationResultOptions';
 import SingleValue from './SingleValue';
 import EvaluationDetailTooltip from '../EvaluationDetailTooltip';
 import NexPanel from '../../../shared/components/NexPanel';
-import { DateFormat, PerformanceProcess } from '../../../constants';
+import { DateFormat, PerformanceProcess, EmptyPlaceHolder } from '../../../constants';
 import Announcement from './Announcement';
 import Paragraph from './Paragraph';
 
@@ -106,7 +106,8 @@ export default class ReviewerForm extends Component {
                                 <td className="text-center text-title">{getResource('Result')}</td>
                                 <td className="text-center text-score">
                                     <span className={this.props.probationer.isQualifiedByEvaluator ? 'passed' : 'failed'}>
-                                        {this.props.probationer.isQualifiedByEvaluator !== null ? this.props.probationer.isQualifiedByEvaluator ? 'Passed' : 'Failed' : '-'}
+                                        {this.props.probationer.isQualifiedByEvaluator !== null ?
+                                            this.props.probationer.isQualifiedByEvaluator ? 'Passed' : 'Failed' : EmptyPlaceHolder}
                                     </span>
                                 </td>
                             </tr>
