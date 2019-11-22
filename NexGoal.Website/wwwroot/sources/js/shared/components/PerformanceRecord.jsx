@@ -390,7 +390,8 @@ export default class PerformanceRecord extends Component {
     renderSystemPerformanceAppraisal = () => {
         const record = this.props.data;
         const grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : getResource('N/A');
-        const originalGradeId = record.originalGrade ? record.originalGrade.gradeId : null;
+        const originalGradeId = record.paSummary.originalGrade ? record.paSummary.originalGrade.gradeId : null;
+
         const gradeChangeClass = getPAGradeClassName(originalGradeId, record.grade ? record.grade.gradeId : null);
         const createdDate = record.createdDate ? calendar(record.createdDate) : '';
 
@@ -404,7 +405,12 @@ export default class PerformanceRecord extends Component {
                     </div>
                 </div>
                 {this.renderPAProcesGrades(record.paSummary.gradeDetails)}
-                <div className="toeic">TOEIC: {record.paSummary.toeic} {this.renderToeicBonus(record.paSummary.toeicPolicy)}</div>
+                <div className="toeic">
+                    TOEIC: {record.paSummary.toeic ?
+                        `${record.paSummary.toeic} ${this.renderToeicBonus(record.paSummary.toeicPolicy)}`
+                        : EmptyPlaceHolder
+                    }
+                </div>
                 <div className="grade">
                     {`${getResource('FinalGrade')}:`}
                     <div className="grade-detail">

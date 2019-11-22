@@ -26,7 +26,7 @@ class Rows extends Component {
         if (toeicPolicy === null || toeicPolicy < 0) {
             toeicClass = 'toeic-failed';
         }
-        return <span className={`bold ${toeicClass}`}>{toeic ? toeic : getResource('N/A')}</span>;
+        return <span className={`bold ${toeicClass}`}>{toeic ? toeic : EmptyPlaceHolder}</span>;
     }
 
     parseIntGradeId = gradeId => gradeId !== null ? gradeId : 0
@@ -127,7 +127,6 @@ class Rows extends Component {
 
     renderEvaluatorGrade = (paProcesses, statusId) => {
         const evaluatorProcess = paProcesses.filter(process => process.processId === PerformanceProcess.Evaluator)[0];
-        const naClass = statusId === PAStatus.InProgress ? 'red' : '';
         let grade = EmptyPlaceHolder;
 
         if (evaluatorProcess.performanceRecord && evaluatorProcess.performanceRecord.grade) {
@@ -135,7 +134,8 @@ class Rows extends Component {
         }
 
         if (evaluatorProcess.performanceRecord && !evaluatorProcess.performanceRecord.grade) {
-            grade = getResource('N/A');
+            const naClass = statusId === PAStatus.InProgress ? 'red' : '';
+            grade = <span className={naClass}>{getResource('N/A')}</span>;
         }
 
         return grade;

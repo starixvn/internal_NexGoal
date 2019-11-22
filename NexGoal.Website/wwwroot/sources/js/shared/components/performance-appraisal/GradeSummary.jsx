@@ -21,7 +21,7 @@ export default class GradeSummary extends PureComponent {
         }
 
         return (
-            <span>TOEIC: {this.props.toeic ? `${this.props.toeic} ${toeicBonus}` : getResource('N/A')}</span>
+            <span>TOEIC: {this.props.toeic ? `${this.props.toeic} ${toeicBonus}` : EmptyPlaceHolder}</span>
         );
     }
 

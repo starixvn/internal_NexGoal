@@ -29,7 +29,7 @@ export default class Table extends Component {
         if (toeicPolicy === null || toeicPolicy < 0) {
             toeicClass = 'toeic-failed';
         }
-        return <span className={`bold ${toeicClass}`}>{toeic ? toeic : getResource('N/A')}</span>;
+        return <span className={`bold ${toeicClass}`}>{toeic ? toeic : EmptyPlaceHolder}</span>;
     }
 
     renderGroupRecords = groups => {
