@@ -165,16 +165,16 @@ BEGIN
 					AND p.PeriodId IS NOT NULL
 					)
 				)
-			--AND (
-			--	@IsHost = 1
-			--	OR (
-			--		@IsHost = 0
-			--		AND (
-			--			record.CreatorId = @EmployeeId
-			--			OR record.CreatorId = @ActorId
-			--			)
-			--		)
-			--	)
+			AND (
+				@IsHost = 1
+				OR (
+					@IsHost = 0
+					AND (
+						record.CreatorId = @EmployeeId
+						OR record.CreatorId = @ActorId
+						)
+					)
+				)
 		
 		UNION
 		SELECT record.PerformanceRecordId
