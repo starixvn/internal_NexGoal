@@ -91,6 +91,7 @@ BEGIN
 			,NULL
 			,NULL
 
+		SET @lastObjectiveId = NULL
 		SET @rowIndex = @rowIndex + 1
 	END
 
