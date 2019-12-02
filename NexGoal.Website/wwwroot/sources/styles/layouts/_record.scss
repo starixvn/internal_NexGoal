@@ -530,6 +530,18 @@
         grid-row: 8;
         grid-column: 1/3;
         border-top: 1px solid #5191DF;
+        margin-top: 4px;
+        padding-top: 4px;
+
+        .grade-detail {
+            .icon-increase-arrow, .icon-descrease-arrow {
+                margin-left: 6px;
+
+                &:before {
+                    font-size: 12px;
+                }
+            }
+        }
     }
 
     &[class*="status"] {
