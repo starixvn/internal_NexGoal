@@ -33,7 +33,7 @@ BEGIN
 		,ISNULL(toeic.Score, 0) AS ToeicPolicy
 	FROM dbo.PARecord AS pa WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
-		AND @PeriodId = @PeriodId
+		AND pa.PeriodId = @PeriodId
 		LEFT JOIN dbo.ToeicPolicy AS toeic WITH (NOLOCK) ON pa.EmployeeId = toeic.EmployeeId
 	WHERE pa.StatusId = @PAClosed
 		AND (
@@ -54,7 +54,7 @@ BEGIN
 		,ISNULL(toeic.Score, 0) AS ToeicPolicy
 	FROM dbo.PARecord AS pa WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
-		AND @PeriodId = @PeriodId
+		AND pa.PeriodId = @PeriodId
 		INNER JOIN dbo.PAProcess AS paprocess WITH (NOLOCK) ON pa.PARecordId = paprocess.PARecordId
 		AND paprocess.ProcessId = @EvaluatorProcessId
 		LEFT JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON paprocess.PerformanceRecordId = record.PerformanceRecordId
