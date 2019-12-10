@@ -111,11 +111,16 @@
                 ModifiedBy = actorId
             };
 
-            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            PeriodModel period = await GetByIdAsync(model.PeriodId);
+            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria);
 
-            if (commandResult.IsSuccessful && model.EndDate.HasValue && model.EndDate.Value.Date < DateTime.Now.Date)
+            bool isChangeEndDate = model.EndDate.HasValue
+                && period.EndDate.HasValue
+                && period.EndDate.Value.Date != model.EndDate.Value.Date
+                && model.EndDate.Value.Date < DateTime.Now.Date;
+            if (commandResult.IsSuccessful && isChangeEndDate)
             {
-                commandResult = await EditFinalPAGradeAsync(actorId, criteria.PeriodId).ConfigureAwait(false);
+                commandResult = await EditFinalPAGradeAsync(actorId, criteria.PeriodId);
             }
 
             return commandResult;
