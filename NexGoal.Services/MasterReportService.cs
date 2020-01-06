@@ -18,6 +18,7 @@
     using OfficeOpenXml;
     using OfficeOpenXml.Style;
 
+#pragma warning disable S109 // Magic numbers should not be used
     public class MasterReportService : IMasterReportService
     {
         private const string ExcelTemplatePath = @"ExcelTemplates\\MasterReport.xlsx";

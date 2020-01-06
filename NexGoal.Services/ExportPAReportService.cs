@@ -18,6 +18,7 @@
     using OfficeOpenXml;
     using OfficeOpenXml.Style;
 
+#pragma warning disable S109 // Magic numbers should not be used
     public class ExportPAReportService : IExportPAReportService
     {
         private const string ExcelTemplatePath = @"ExcelTemplates\\PAReport.xlsx";
@@ -105,7 +106,8 @@
                         WriteCellForPeriod(templateWorksheet, worksheet, period, ref currentRow);
                     }
 
-                    worksheet.View.FreezePanes(4, 1);
+                    const byte BodyRowIndex = 4;
+                    worksheet.View.FreezePanes(BodyRowIndex, 1);
 
                     return package.GetAsByteArray();
                 }

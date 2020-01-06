@@ -13,6 +13,7 @@
     using OfficeOpenXml;
     using OfficeOpenXml.Style;
 
+#pragma warning disable S109 // Magic numbers should not be used
     public class ExportPAFocusService : IExportPAFocusService
     {
         private enum TemplateRowIndex
@@ -56,9 +57,6 @@
             string[] refNames = { ReferenceResource.FocusEvaluationLevel };
             IEnumerable<ReferenceResourceModel> referenceResources = await commonService.GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
             var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.WebRootPath, ExcelTemplatePath));
-
-            const int headerRowExpand = 3;
-
             using (var templatePackage = new ExcelPackage(fileInfo))
             {
                 using (var package = new ExcelPackage())
@@ -67,7 +65,8 @@
                     ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("PA Focus Report");
 
                     // write header
-                    templateWorksheet.Cells[1, 1, headerRowExpand, TotalCells].Copy(worksheet.Cells[1, 1, headerRowExpand, TotalCells]);
+                    const byte HeaderRowExpand = 3;
+                    templateWorksheet.Cells[1, 1, HeaderRowExpand, TotalCells].Copy(worksheet.Cells[1, 1, HeaderRowExpand, TotalCells]);
                     worksheet.Cells[1, 1].Value = string.Format("PA Focus of {0}", period != null ? period.Name : string.Empty);
 
                     // write data
@@ -108,7 +107,8 @@
                     worksheet.Column(CurrentObjectiveColumn).Width = PAFocusColumnWidth;
                     worksheet.Column(NextObjectiveColumn).Width = PAFocusColumnWidth;
 
-                    worksheet.View.FreezePanes(4, 1);
+                    const byte BodyRowIndex = 4;
+                    worksheet.View.FreezePanes(BodyRowIndex, 1);
 
                     return package.GetAsByteArray();
                 }
@@ -123,14 +123,14 @@
             int currentRow)
         {
             TemplateRowIndex templateRowIndex;
-            const int minStone = 3;
-            const int maxStone = 9;
+            const byte MinStone = 3;
+            const byte MaxStone = 9;
             int.TryParse(paFocus.BonusGiven, out int bonusGiven);
             int.TryParse(paFocus.Contribution, out int contribution);
             var condition = bonusGiven + contribution;
             var isReadyPromotion = !string.IsNullOrWhiteSpace(paFocus.IsReadyPromotion) ? paFocus.IsReadyPromotion.ToLowerInvariant() : string.Empty;
 
-            if (condition >= maxStone)
+            if (condition >= MaxStone)
             {
                 if (isReadyPromotion == "true")
                 {
@@ -145,7 +145,7 @@
                         .Copy(worksheet.Cells[currentRow, 1, currentRow, TotalCells]);
                 }
             }
-            else if (bonusGiven > 0 && contribution > 0 && condition <= minStone)
+            else if (bonusGiven > 0 && contribution > 0 && condition <= MinStone)
             {
                 templateRowIndex = TemplateRowIndex.Poor;
                 templateWorksheet.Cells[(int)TemplateRowIndex.Poor, 1, (int)TemplateRowIndex.Poor, TotalCells]

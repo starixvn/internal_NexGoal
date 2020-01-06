@@ -24,15 +24,15 @@
                 {
                     switch (Quarter)
                     {
-                        case 1:
+                        case (byte)Core.Enumerations.Quarter.First:
                             title = $"Employee of the Quarter - I {Year}";
                             break;
 
-                        case 2:
+                        case (byte)Core.Enumerations.Quarter.Second:
                             title = $"Employee of the Quarter - II {Year}";
                             break;
 
-                        case 3:
+                        case (byte)Core.Enumerations.Quarter.Third:
                             title = $"Employee of the Quarter - III {Year}";
                             break;
 

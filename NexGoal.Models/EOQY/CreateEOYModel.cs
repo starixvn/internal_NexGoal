@@ -8,9 +8,11 @@
 
     public class CreateEOYModel
     {
+        private const byte DecriptionMaxLength = 200;
+
         public int Year { get; set; }
 
-        [StringLength(200, ErrorMessageResourceType = typeof(Message), ErrorMessageResourceName = nameof(Message.StringMaxLengthErrorMessage))]
+        [StringLength(DecriptionMaxLength, ErrorMessageResourceType = typeof(Message), ErrorMessageResourceName = nameof(Message.StringMaxLengthErrorMessage))]
         public string Description { get; set; }
 
         [Display(Name = "Start Date For Nominator")]

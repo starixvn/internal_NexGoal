@@ -15,7 +15,8 @@
 
         private static string ZeroPrefix(object value)
         {
-            return value.ToString().PadLeft(2, '0');
+            const byte TotalWidth = 2;
+            return value.ToString().PadLeft(TotalWidth, paddingChar: '0');
         }
     }
 }
