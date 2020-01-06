@@ -26,8 +26,4 @@
     <ProjectReference Include="..\NexGoal.Resources\NexGoal.Resources.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="NewFolder\" />
-  </ItemGroup>
-
 </Project>

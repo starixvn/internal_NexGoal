@@ -26,6 +26,7 @@
     <TargetFrameworkProfile />
     <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
     <DefaultFilegroup>NexGoal_Data</DefaultFilegroup>
+	<SonarQubeExclude>true</SonarQubeExclude>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
