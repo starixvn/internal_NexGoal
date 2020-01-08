@@ -18,7 +18,7 @@ class Row extends Component {
         const currentYear = new Date().getFullYear();
         const eoy = this.props.eoy;
 
-        if (eoy.year >= currentYear && this.props.isHost) {
+        if (eoy.year + 1 >= currentYear && this.props.isHost) {
             return (
                 <Fragment>
                     <a className="fa fa-pencil-square-o" title="Edit"
