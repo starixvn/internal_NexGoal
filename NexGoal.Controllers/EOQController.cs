@@ -65,7 +65,7 @@
             }
 
             bool isHost = sessionService.HasPermissionOnFunction(FunctionKey.NominationPeriod, Policy.Host);
-            ViewData["IsHost"] = isHost && eoq.Year >= DateTime.Now.Year;
+            ViewData["IsHost"] = isHost && (eoq.Year + 1) >= DateTime.Now.Year;
 
             return View(id);
         }
