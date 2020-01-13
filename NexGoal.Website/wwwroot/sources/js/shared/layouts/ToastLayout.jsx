@@ -9,7 +9,8 @@ const ToastLayout = props => (
             hideProgressBar={false}
             transition={Slide}
             closeOnClick={false}
-            draggable={false} />
+            draggable={false}
+        />
         {props.children}
     </Fragment>
 );

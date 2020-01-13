@@ -1,15 +1,15 @@
-﻿import React from 'react';
+﻿import React, { PureComponent } from 'react';
 import { Button, FormGroup } from 'react-bootstrap';
 
-const SubmitForm = props => {
-    return (
-        props.isHost &&
-        <form className="form-inline form-filter">
-            <FormGroup>
-                <Button type="button" bsStyle="primary" onClick={props.onSubmit}>Submit</Button>
-            </FormGroup>
-        </form>
-    );
-};
-
-export default SubmitForm;
+export default class SubmitForm extends PureComponent {
+    render() {
+        return (
+            this.props.isHost &&
+            <form className="form-inline form-filter">
+                <FormGroup>
+                    <Button type="button" bsStyle="primary" onClick={this.props.onSubmit}>Submit</Button>
+                </FormGroup>
+            </form>
+        );
+    }
+}
