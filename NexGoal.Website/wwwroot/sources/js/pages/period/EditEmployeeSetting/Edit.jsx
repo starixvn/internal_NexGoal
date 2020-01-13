@@ -10,7 +10,7 @@ import { camelCase, isEmpty, uniqBy } from 'lodash';
 import Select from 'react-select';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import { DateFormat, PerformanceProcess } from '../../../constants';
+import { DateFormat, PerformanceProcess, PostRequestHeaders } from '../../../constants';
 import getResource from '../../../resourceHelper';
 
 export default class Edit extends Component {
@@ -42,10 +42,7 @@ export default class Edit extends Component {
                 paRecordIds: this.props.paRecordIds,
                 processes: processes
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

@@ -5,12 +5,13 @@ import { camelCase, isEmpty } from 'lodash';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
 import moment from 'moment';
+import axios from 'axios';
+
 import TextareaFullscreenEditor from '../../../shared/components/textarea-fullscreen/index';
 import CustomScrollbars from '../../../shared/components/CustomScrollbars';
 import getResource from '../../../resourceHelper';
-import axios from 'axios';
 import { axiosError, getCurrentUserInfo, resolveClientUrl } from '../../../common-functions';
-import { PAStatus, DateFormat, PerformanceProcess, PerformanceRecordType } from '../../../constants';
+import { PAStatus, DateFormat, PerformanceProcess, PerformanceRecordType, PostRequestHeaders } from '../../../constants';
 import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 import PAProcessTab from '../../../shared/components/performance-appraisal/PAProcessTab';
 import GradeSummary from '../../../shared/components/performance-appraisal/GradeSummary';
@@ -112,10 +113,7 @@ export default class EditPAForm extends Component {
                 url: resolveClientUrl('Review/Edit'),
                 method: 'POST',
                 data: paRecord,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
+                headers: PostRequestHeaders
             }).then(response => {
                 const data = response.data;
 

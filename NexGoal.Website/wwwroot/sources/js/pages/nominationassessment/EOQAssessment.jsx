@@ -6,7 +6,7 @@ import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
-import { NominationStatuses } from '../../constants';
+import { NominationStatuses, PostRequestHeaders } from '../../constants';
 import SearchForm from './SearchForm';
 import NominationProcess from './NominationProcess';
 import Table from './table/Table';
@@ -82,10 +82,7 @@ export default class EOQAssessment extends Component {
                 nominationId: nominationId,
                 statusId: statusId
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

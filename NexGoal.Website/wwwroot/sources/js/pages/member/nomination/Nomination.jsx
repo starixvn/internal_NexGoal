@@ -4,6 +4,7 @@ import { stringify } from 'qs';
 import { toast } from 'react-toastify';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
+import { PostRequestHeaders } from '../../../constants';
 import getResource from '../../../resourceHelper';
 import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
@@ -119,10 +120,7 @@ export default class Nomination extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 performanceRecordId: this.state.deletedRecordId
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

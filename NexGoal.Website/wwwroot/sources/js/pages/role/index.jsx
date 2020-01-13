@@ -6,6 +6,7 @@ import { stringify } from 'qs';
 
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import { axiosError, resolveClientUrl } from '../../common-functions';
+import { PostRequestHeaders } from '../../constants';
 import getResource from '../../resourceHelper';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import { Policy } from '../../constants';
@@ -110,10 +111,7 @@ export default class App extends Component {
                 roleId: roleId,
                 permissions: permissions
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

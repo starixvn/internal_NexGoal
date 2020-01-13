@@ -5,6 +5,7 @@ import { stringify } from 'qs';
 import moment from 'moment';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
+import { PostRequestHeaders } from '../../../constants';
 import getResource from '../../../resourceHelper';
 import SearchForm from './SearchForm';
 import Table from './Table';
@@ -215,10 +216,7 @@ export default class PAFocus extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 paFocuses: pafocuses
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

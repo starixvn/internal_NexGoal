@@ -8,7 +8,7 @@ import Select from 'react-select';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
-import { PerformanceProcess, InputErrorCssClass } from '../../../constants';
+import { PerformanceProcess, InputErrorCssClass, PostRequestHeaders } from '../../../constants';
 import ConfiguredEmployeeList from './ConfiguredEmployeeList';
 
 export default class EmployeeFlowSetting extends Component {
@@ -177,10 +177,7 @@ export default class EmployeeFlowSetting extends Component {
                     employeeId: this.state.member.employeeId,
                     settings: settings
                 }),
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
+                headers: PostRequestHeaders
             }).then(response => {
                 const data = response.data;
 
@@ -234,10 +231,7 @@ export default class EmployeeFlowSetting extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 employeeId: this.state.selectedEmployeeId
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

@@ -11,7 +11,7 @@ import Select from 'react-select';
 import { object, array } from 'yup';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import { DateFormat, PerformanceProcess, InputErrorCssClass } from '../../../constants';
+import { DateFormat, PerformanceProcess, InputErrorCssClass, PostRequestHeaders } from '../../../constants';
 import getResource from '../../../resourceHelper';
 
 export default class EditSetting extends Component {
@@ -34,10 +34,7 @@ export default class EditSetting extends Component {
                 settings: settings,
                 employeeId: this.props.probationer.employeeId
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

@@ -10,7 +10,7 @@ import { camelCase, isEmpty } from 'lodash';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
-import { DateFormat, TargetType, InputErrorCssClass } from '../../constants';
+import { DateFormat, TargetType, InputErrorCssClass, PostRequestHeaders } from '../../constants';
 
 export default class CreatePeriod extends Component {
     constructor(props) {
@@ -96,10 +96,7 @@ export default class CreatePeriod extends Component {
                 description: values.description,
                 isActive: values.isActive
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

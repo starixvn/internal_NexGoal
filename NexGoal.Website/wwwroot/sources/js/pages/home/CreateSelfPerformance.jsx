@@ -9,7 +9,7 @@ import { stringify } from 'qs';
 import isEqual from 'react-fast-compare';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
-import { ProbationTag } from '../../constants';
+import { ProbationTag, PostRequestHeaders } from '../../constants';
 import getResource from '../../resourceHelper';
 import TextareaFullscreenEditor from '../../shared/components/textarea-fullscreen/index';
 import PerformanceGradeInfo from '../../shared/components/PerformanceGradeInfo';
@@ -125,10 +125,7 @@ export default class CreateSelfPerformance extends Component {
                 url: resolveClientUrl('Self/Performance/CreateDraft'),
                 method: 'POST',
                 data: performanceRecord,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
+                headers: PostRequestHeaders
             }).then(response => {
                 const data = response.data;
 
@@ -174,10 +171,7 @@ export default class CreateSelfPerformance extends Component {
                 url: resolveClientUrl('Self/Performance/Create'),
                 method: 'POST',
                 data: performanceRecord,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
+                headers: PostRequestHeaders
             }).then(response => {
                 const data = response.data;
 

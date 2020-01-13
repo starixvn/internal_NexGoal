@@ -7,9 +7,9 @@ import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 import { camelCase, isEmpty } from 'lodash';
 
-import { axiosError, resolveClientUrl } from '../../common-functions';
+import { axiosError, resolveClientUrl, validateFormikField } from '../../common-functions';
 import getResource from '../../resourceHelper';
-import { DateFormat, InputErrorCssClass } from '../../constants';
+import { DateFormat, InputErrorCssClass, PostRequestHeaders } from '../../constants';
 
 export default class Edit extends Component {
     validateForm = values => {
@@ -37,10 +37,7 @@ export default class Edit extends Component {
                 effectiveDate: values.effectiveDate.format('YYYY-MM-DD'),
                 content: values.description
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 
@@ -70,8 +67,8 @@ export default class Edit extends Component {
         handleChange,
         handleSubmit,
         setFieldValue }) => {
-        const isEffectiveDateInvalid = touched.effectiveDate && errors.effectiveDate;
-        const isDescriptionInvalid = touched.description && errors.description;
+        const isValidEffectiveDate = validateFormikField(touched, errors, 'effectiveDate');
+        const isValidDescription = validateFormikField(touched, errors, 'description');
 
         return (
             <Form className="discipline-form" id="edit-form" inline onSubmit={handleSubmit}>
@@ -79,8 +76,8 @@ export default class Edit extends Component {
                     {
                         !isEmpty(errors) && !isEmpty(touched) &&
                         <ul className="list-message-error">
-                            {isEffectiveDateInvalid && <li>{errors.effectiveDate}</li>}
-                            {isDescriptionInvalid && <li>{errors.description}</li>}
+                            {!isValidEffectiveDate && <li>{errors.effectiveDate}</li>}
+                            {!isValidDescription && <li>{errors.description}</li>}
                         </ul>
                     }
 
@@ -88,7 +85,7 @@ export default class Edit extends Component {
                         <FormGroup>
                             <label className="control-label required-label">{getResource('IssueDate')}</label>
                             <div className="control-content">
-                                <DatePicker className={`form-control  ${isEffectiveDateInvalid && InputErrorCssClass}`}
+                                <DatePicker className={`form-control  ${!isValidEffectiveDate && InputErrorCssClass}`}
                                     dateFormat={DateFormat} selected={values.effectiveDate}
                                     onChange={value => setFieldValue('effectiveDate', value)}
                                     onChangeRaw={this.onChangeRaw}
@@ -99,7 +96,7 @@ export default class Edit extends Component {
                         <FormGroup className="description-group">
                             <label className="control-label required-label">{getResource('Content')}</label>
                             <div className="control-content">
-                                <textarea className={`form-control none-resize ${isDescriptionInvalid && InputErrorCssClass}`}
+                                <textarea className={`form-control none-resize ${!isValidDescription && InputErrorCssClass}`}
                                     name="description" rows="10"
                                     onChange={handleChange}
                                     value={values.description}

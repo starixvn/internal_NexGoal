@@ -107,4 +107,9 @@ export const InputErrorCssClass = 'input-validation-error';
 
 export const TextCenterCssClass = 'text-center';
 
-export const EmptyPlaceHolder = '--'
+export const EmptyPlaceHolder = '--';
+
+export const PostRequestHeaders = {
+    'X-Requested-With': 'XMLHttpRequest',
+    'Content-Type': 'application/x-www-form-urlencoded'
+};

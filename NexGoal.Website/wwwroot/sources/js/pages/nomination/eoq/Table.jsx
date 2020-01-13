@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
+import { PostRequestHeaders } from '../../../constants';
 import getResource from '../../../resourceHelper';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import Row from './Row';
@@ -46,10 +47,7 @@ class Table extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 id: this.state.eoqSelected.eoqyId
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

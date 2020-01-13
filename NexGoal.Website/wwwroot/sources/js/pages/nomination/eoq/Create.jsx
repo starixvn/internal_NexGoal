@@ -8,10 +8,10 @@ import { Formik } from 'formik';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 
-import { axiosError, resolveClientUrl } from '../../../common-functions';
+import { axiosError, resolveClientUrl, validateFormikField } from '../../../common-functions';
 import { quarterOptions, validateEOQForm } from '../common';
 import getResource from '../../../resourceHelper';
-import { DateFormat, InputErrorCssClass } from '../../../constants';
+import { DateFormat, InputErrorCssClass, PostRequestHeaders } from '../../../constants';
 
 class Create extends Component {
     constructor(props) {
@@ -30,6 +30,13 @@ class Create extends Component {
             { value: currentYear, label: currentYear },
             { value: currentYear + 1, label: currentYear + 1 }
         ];
+        const isValidQuarter = validateFormikField(touched, errors, 'quarter'),
+            isValidYear = validateFormikField(touched, errors, 'year'),
+            isValidStartDateForMominator = validateFormikField(touched, errors, 'startDateForNominator'),
+            isValidEndDateForNominator = validateFormikField(touched, errors, 'endDateForNominator'),
+            isValidRemindDateForNominator = validateFormikField(touched, errors, 'remindDateForNominator'),
+            isValidEndDateForCommittee = validateFormikField(touched, errors, 'endDateForCommittee'),
+            isValidDescription = validateFormikField(touched, errors, 'description');
 
         return (
             <Form id="create-eoq-form" inline onSubmit={handleSubmit}>
@@ -37,13 +44,13 @@ class Create extends Component {
                     {
                         !isEmpty(errors) && !isEmpty(touched) &&
                         <ul className="list-message-error">
-                            {touched.quarter && errors.quarter && <li>{errors.quarter}</li>}
-                            {touched.year && errors.year && <li>{errors.year}</li>}
-                            {touched.startDateForNominator && errors.startDateForNominator && <li>{errors.startDateForNominator}</li>}
-                            {touched.endDateForNominator && errors.endDateForNominator && <li>{errors.endDateForNominator}</li>}
-                            {touched.remindDateForNominator && errors.remindDateForNominator && <li>{errors.remindDateForNominator}</li>}
-                            {touched.endDateForCommittee && errors.endDateForCommittee && <li>{errors.endDateForCommittee}</li>}
-                            {touched.description && errors.description && <li>{errors.description}</li>}
+                            {!isValidQuarter && <li>{errors.quarter}</li>}
+                            {!isValidYear && <li>{errors.year}</li>}
+                            {!isValidStartDateForMominator && <li>{errors.startDateForNominator}</li>}
+                            {!isValidEndDateForNominator && <li>{errors.endDateForNominator}</li>}
+                            {!isValidRemindDateForNominator && <li>{errors.remindDateForNominator}</li>}
+                            {!isValidEndDateForCommittee && <li>{errors.endDateForCommittee}</li>}
+                            {!isValidDescription && <li>{errors.description}</li>}
                         </ul>
                     }
                     <div className="line-group">
@@ -76,7 +83,7 @@ class Create extends Component {
                             <label className="control-label">{getResource('StartDate')}</label>
                             <div className="field control-content">
                                 <DatePicker name="startDateForNominator" autoComplete="off"
-                                    className={`form-control ${touched.startDateForNominator && errors.startDateForNominator && InputErrorCssClass}`}
+                                    className={`form-control ${!isValidStartDateForMominator && InputErrorCssClass}`}
                                     dateFormat={DateFormat}
                                     selected={values.startDateForNominator}
                                     onChange={value => setFieldValue('startDateForNominator', value)}
@@ -87,7 +94,7 @@ class Create extends Component {
                             <label className="control-label">{getResource('EndDate')}</label>
                             <div className="field control-content">
                                 <DatePicker name="endDateForNominator" autoComplete="off"
-                                    className={`form-control ${touched.endDateForNominator && errors.endDateForNominator && InputErrorCssClass}`}
+                                    className={`form-control ${!isValidEndDateForNominator && InputErrorCssClass}`}
                                     dateFormat={DateFormat}
                                     selected={values.endDateForNominator}
                                     onChange={value => setFieldValue('endDateForNominator', value)}
@@ -98,7 +105,7 @@ class Create extends Component {
                             <label className="control-label">{getResource('RemindDate')}</label>
                             <div className="field control-content">
                                 <DatePicker name="remindDateForNominator" autoComplete="off"
-                                    className={`form-control ${touched.remindDateForNominator && errors.remindDateForNominator && InputErrorCssClass}`}
+                                    className={`form-control ${!isValidRemindDateForNominator && InputErrorCssClass}`}
                                     dateFormat={DateFormat}
                                     selected={values.remindDateForNominator}
                                     onChange={value => setFieldValue('remindDateForNominator', value)}
@@ -112,7 +119,7 @@ class Create extends Component {
                             <label className="control-label">{getResource('EndDate')}</label>
                             <div className="field control-content">
                                 <DatePicker name="endDateForCommittee" autoComplete="off"
-                                    className={`form-control ${touched.endDateForCommittee && errors.endDateForCommittee && InputErrorCssClass}`}
+                                    className={`form-control ${!isValidEndDateForCommittee && InputErrorCssClass}`}
                                     dateFormat={DateFormat}
                                     selected={values.endDateForCommittee}
                                     onChange={value => setFieldValue('endDateForCommittee', value)}
@@ -124,7 +131,7 @@ class Create extends Component {
                         <FormGroup className="description-group">
                             <label className="control-label">{getResource('Description')} (optional)</label>
                             <div className="field control-content">
-                                <textarea className={`form-control none-resize ${touched.description && errors.description && InputErrorCssClass}`}
+                                <textarea className={`form-control none-resize ${!isValidDescription && InputErrorCssClass}`}
                                     rows="5" maxLength="200"
                                     name="description" value={values.description}
                                     onChange={handleChange}
@@ -157,10 +164,7 @@ class Create extends Component {
             url: resolveClientUrl('EOQ/Create'),
             method: 'POST',
             data: eoq,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

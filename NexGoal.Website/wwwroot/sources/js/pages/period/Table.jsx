@@ -7,7 +7,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 
 import { axiosError, noDataIndication, resolveClientUrl } from '../../common-functions';
-import { TextCenterCssClass } from '../../constants';
+import { TextCenterCssClass, PostRequestHeaders } from '../../constants';
 import getResource from '../../resourceHelper';
 import ConfirmationModal from '../../shared/components/ConfirmationModal';
 import CreatePeriod from './CreatePeriod';
@@ -119,10 +119,7 @@ export default class Table extends Component {
                 periodId: period.periodId,
                 isActive: isActive
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 
@@ -151,10 +148,7 @@ export default class Table extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 periodId: this.state.periodSelected.periodId
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

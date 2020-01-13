@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { camelCase, range } from 'lodash';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
+import { PostRequestHeaders } from '../../constants';
 import getResource from '../../resourceHelper';
 
 export default class EditProcessSetting extends Component {
@@ -64,10 +65,7 @@ export default class EditProcessSetting extends Component {
                 settings: this.state.settings,
                 periodId: this.props.periodId
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import { OverlayTrigger } from 'react-bootstrap';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import { InputErrorCssClass, TextCenterCssClass } from '../../../constants';
+import { InputErrorCssClass, TextCenterCssClass, PostRequestHeaders } from '../../../constants';
 import getResource from '../../../resourceHelper';
 import ProbationResultOptions from './ProbationResultOptions';
 import SingleValue from './SingleValue';
@@ -182,10 +182,7 @@ export default class EvaluatorForm extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 ...submitData
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

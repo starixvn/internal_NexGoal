@@ -10,7 +10,7 @@ import moment from 'moment';
 import isEqual from 'react-fast-compare';
 
 import { axiosError, getRoleClassName, resolveClientUrl, compareArray } from '../../common-functions';
-import { DateFormat, ProbationTag } from '../../constants';
+import { DateFormat, ProbationTag, PostRequestHeaders } from '../../constants';
 import getResource from '../../resourceHelper';
 import TextareaFullscreenEditor from '../../shared/components/textarea-fullscreen/index';
 import PerformanceGradeInfo from '../../shared/components/PerformanceGradeInfo';
@@ -189,10 +189,7 @@ export default class EditMemberPerformance extends Component {
                 url: resolveClientUrl('Member/Performance/Edit'),
                 method: 'POST',
                 data: performanceRecord,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
+                headers: PostRequestHeaders
             }).then(response => {
                 const data = response.data;
 
@@ -241,10 +238,7 @@ export default class EditMemberPerformance extends Component {
                 url: resolveClientUrl('Member/Performance/EditDraft'),
                 method: 'POST',
                 data: performanceRecord,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
+                headers: PostRequestHeaders
             }).then(response => {
                 const data = response.data;
 

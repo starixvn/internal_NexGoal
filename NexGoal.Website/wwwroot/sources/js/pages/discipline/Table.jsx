@@ -8,7 +8,7 @@ import { stringify } from 'qs';
 import { toast } from 'react-toastify';
 import isEqual from 'react-fast-compare';
 
-import { PaginationOptions, TextCenterCssClass } from '../../constants';
+import { PaginationOptions, TextCenterCssClass, PostRequestHeaders } from '../../constants';
 import { axiosError, noDataIndication, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
 
@@ -34,10 +34,7 @@ export default class Table extends Component {
                 disciplineId: discipline.disciplineId,
                 isActive: isActive
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

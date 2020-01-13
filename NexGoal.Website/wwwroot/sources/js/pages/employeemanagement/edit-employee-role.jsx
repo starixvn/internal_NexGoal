@@ -4,7 +4,7 @@ import axios from 'axios';
 import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
-import { EmployeeRoleId } from '../../constants';
+import { EmployeeRoleId, PostRequestHeaders } from '../../constants';
 import getResource from '../../resourceHelper';
 
 export default class EditEmployeeRole extends Component {
@@ -47,10 +47,7 @@ export default class EditEmployeeRole extends Component {
             url: resolveClientUrl('employee/EditEmployeeRoles'),
             method: 'POST',
             data: employeeRole,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             this.props.callback(response.data);
         }).catch(error => axiosError(error));

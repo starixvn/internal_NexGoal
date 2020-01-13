@@ -7,6 +7,7 @@ import { Formik } from 'formik';
 import Select from 'react-select';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
+import { PostRequestHeaders } from '../../../constants';
 import getResource from '../../../resourceHelper';
 
 export default class AddEmployee extends Component {
@@ -36,10 +37,7 @@ export default class AddEmployee extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 employeeIds: values.employees.map(e => e.value)
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

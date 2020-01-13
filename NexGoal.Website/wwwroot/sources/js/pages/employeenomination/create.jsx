@@ -8,7 +8,8 @@ import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 import { Formik } from 'formik';
 
-import { axiosError, resolveClientUrl } from '../../common-functions';
+import { axiosError, resolveClientUrl, validateFormikField } from '../../common-functions';
+import { PostRequestHeaders } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
@@ -66,10 +67,7 @@ export default class Create extends Component {
                 nomineeId: values.employee.value,
                 comment: values.comment
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 
@@ -97,28 +95,28 @@ export default class Create extends Component {
         handleChange,
         handleSubmit,
         setFieldValue }) => {
-        const isPeriodInvalid = touched.period && errors.period;
-        const isEmployeeInvalid = touched.employee && errors.employee;
+        const isValidPeriod = validateFormikField(touched, errors, 'period');
+        const isValidEmployee = validateFormikField(touched, errors, 'employee');
 
         return (
             <form onSubmit={handleSubmit} >
                 {!isEmpty(errors) && !isEmpty(touched) &&
                     <ul className="list-message-error">
-                        {isPeriodInvalid && <li>{errors.period}</li>}
-                        {isEmployeeInvalid && <li>{errors.employee}</li>}
+                        {!isValidPeriod && <li>{errors.period}</li>}
+                        {!isValidEmployee && <li>{errors.employee}</li>}
                     </ul>
                 }
 
                 <FormGroup>
                     <ControlLabel className="required-label" >{getResource('NominationPeriod')}</ControlLabel>
-                    <Select name="period" className={`react-select-container ${isPeriodInvalid && 'input-validation-error'}`} classNamePrefix="react-select"
+                    <Select name="period" className={`react-select-container ${!isValidPeriod && 'input-validation-error'}`} classNamePrefix="react-select"
                         value={values.period} onChange={value => setFieldValue('period', value)}
                         options={this.state.nominationPeriodOptions}
                     />
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel className="required-label">{getResource('Employee')}</ControlLabel>
-                    <Select name="employee" className={`react-select-container ${isEmployeeInvalid && 'input-validation-error'}`} classNamePrefix="react-select"
+                    <Select name="employee" className={`react-select-container ${!isValidEmployee && 'input-validation-error'}`} classNamePrefix="react-select"
                         value={values.employee} onChange={value => setFieldValue('employee', value)}
                         options={this.state.employeeOptions}
                     />

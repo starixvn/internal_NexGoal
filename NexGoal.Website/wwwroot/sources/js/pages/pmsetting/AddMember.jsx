@@ -7,6 +7,7 @@ import { Formik } from 'formik';
 import Select from 'react-select';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
+import { PostRequestHeaders } from '../../constants';
 import getResource from '../../resourceHelper';
 
 export default class AddMember extends Component {
@@ -37,10 +38,7 @@ export default class AddMember extends Component {
                 projectManagerId: this.props.pm.employeeId,
                 memberIds: values.members.map(e => e.value).toString()
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

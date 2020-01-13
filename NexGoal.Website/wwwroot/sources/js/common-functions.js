@@ -193,3 +193,5 @@ export const groupBy = function (array, keyGetter) {
 
     return [...map];
 };
+
+export const validateFormikField = (touched, errors, fieldName) => touched[fieldName] && errors[fieldName] ? false : true;

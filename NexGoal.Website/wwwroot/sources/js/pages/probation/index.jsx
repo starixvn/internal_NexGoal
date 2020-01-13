@@ -13,7 +13,7 @@ import { OverlayTrigger } from 'react-bootstrap';
 
 import NexPanel from '../../shared/components/NexPanel';
 import { axiosError, resolveClientUrl } from '../../common-functions';
-import { DateFormat, PerformanceProcess } from '../../constants';
+import { DateFormat, PerformanceProcess, PostRequestHeaders } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import ProbationProcess from './ProbationProcess';
@@ -188,10 +188,7 @@ export default class MyProbation extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 ...submitData
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

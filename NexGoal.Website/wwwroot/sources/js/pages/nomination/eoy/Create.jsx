@@ -11,7 +11,7 @@ import { stringify } from 'qs';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { validateEOYForm } from '../common';
 import getResource from '../../../resourceHelper';
-import { DateFormat, InputErrorCssClass } from '../../../constants';
+import { DateFormat, InputErrorCssClass, PostRequestHeaders } from '../../../constants';
 
 class Create extends Component {
     constructor(props) {
@@ -33,10 +33,7 @@ class Create extends Component {
             url: resolveClientUrl('EOY/Create'),
             method: 'POST',
             data: eoy,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

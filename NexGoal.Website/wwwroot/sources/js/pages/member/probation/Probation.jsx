@@ -5,6 +5,7 @@ import moment from 'moment';
 import { toast } from 'react-toastify';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
+import { PostRequestHeaders } from '../../../constants';
 import getResource from '../../../resourceHelper';
 import Table from './Table';
 import CommentModal from './CommentModal';
@@ -65,10 +66,7 @@ export default class Probation extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 employeeId: probationer.employeeId
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

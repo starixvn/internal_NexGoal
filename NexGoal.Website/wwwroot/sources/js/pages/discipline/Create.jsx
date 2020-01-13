@@ -9,9 +9,9 @@ import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 import { camelCase, isEmpty } from 'lodash';
 
-import { axiosError, resolveClientUrl } from '../../common-functions';
+import { axiosError, resolveClientUrl, validateFormikField } from '../../common-functions';
 import getResource from '../../resourceHelper';
-import { DateFormat, InputErrorCssClass } from '../../constants';
+import { DateFormat, InputErrorCssClass, PostRequestHeaders } from '../../constants';
 
 export default class Create extends Component {
     validateForm = values => {
@@ -43,10 +43,7 @@ export default class Create extends Component {
                 effectiveDate: values.effectiveDate.format('YYYY-MM-DD'),
                 content: values.description
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 
@@ -69,8 +66,6 @@ export default class Create extends Component {
         }).catch(axiosError);
     }
 
-    checkIsInvalid = (touched, errors, fieldName) => touched[fieldName] && errors[fieldName];
-
     renderForm = ({
         values,
         errors,
@@ -78,9 +73,9 @@ export default class Create extends Component {
         handleChange,
         handleSubmit,
         setFieldValue }) => {
-        const isEmployeeInvalid = this.checkIsInvalid(touched, errors, 'employee');
-        const isEffectiveDateInvalid = this.checkIsInvalid(touched, errors, 'effectiveDate');
-        const isDescriptionInvalid = this.checkIsInvalid(touched, errors, 'description');
+        const isValidEmployee = validateFormikField(touched, errors, 'employee');
+        const isValidEffectiveDate = validateFormikField(touched, errors, 'effectiveDate');
+        const isValidDescription = validateFormikField(touched, errors, 'description');
 
         return (
             <Form className="discipline-form" id="create-form" inline onSubmit={handleSubmit}>
@@ -88,9 +83,9 @@ export default class Create extends Component {
                     {
                         !isEmpty(errors) && !isEmpty(touched) &&
                         <ul className="list-message-error">
-                            {isEmployeeInvalid && <li>{errors.employee}</li>}
-                            {isEffectiveDateInvalid && <li>{errors.effectiveDate}</li>}
-                            {isDescriptionInvalid && <li>{errors.description}</li>}
+                            {!isValidEmployee && <li>{errors.employee}</li>}
+                            {!isValidEffectiveDate && <li>{errors.effectiveDate}</li>}
+                            {!isValidDescription && <li>{errors.description}</li>}
                         </ul>
                     }
                     <div className="line-group">
@@ -98,7 +93,7 @@ export default class Create extends Component {
                             <label className="control-label required-label">{getResource('Employee')}</label>
                             <div className="control-content">
                                 <Select name="employee"
-                                    className={`react-select-container ${isEmployeeInvalid && InputErrorCssClass}`}
+                                    className={`react-select-container ${!isValidEmployee && InputErrorCssClass}`}
                                     classNamePrefix="react-select"
                                     isDisabled={values.disciplineId > 0} isClearable
                                     options={this.props.employeeOptions}
@@ -110,7 +105,7 @@ export default class Create extends Component {
                         <FormGroup>
                             <label className="required-label control-label">{getResource('IssueDate')}</label>
                             <div className="control-content">
-                                <DatePicker className={`form-control  ${isEffectiveDateInvalid && InputErrorCssClass}`}
+                                <DatePicker className={`form-control  ${!isValidEffectiveDate && InputErrorCssClass}`}
                                     dateFormat={DateFormat} selected={values.effectiveDate}
                                     onChange={value => setFieldValue('effectiveDate', value)}
                                     onChangeRaw={this.onChangeRaw}
@@ -121,7 +116,7 @@ export default class Create extends Component {
                         <FormGroup className="description-group">
                             <label className="required-label control-label">{getResource('Content')}</label>
                             <div className="control-content">
-                                <textarea className={`form-control none-resize ${isDescriptionInvalid && InputErrorCssClass}`}
+                                <textarea className={`form-control none-resize ${!isValidDescription && InputErrorCssClass}`}
                                     name="description" rows="10"
                                     onChange={handleChange}
                                     value={values.description}

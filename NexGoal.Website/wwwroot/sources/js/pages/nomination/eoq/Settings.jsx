@@ -12,7 +12,7 @@ import { stringify } from 'qs';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { quarterOptions, validateEOQForm } from '../common';
 import getResource from '../../../resourceHelper';
-import { DateFormat, InputErrorCssClass } from '../../../constants';
+import { DateFormat, InputErrorCssClass, PostRequestHeaders } from '../../../constants';
 
 class Settings extends Component {
     constructor(props) {
@@ -76,10 +76,7 @@ class Settings extends Component {
             url: resolveClientUrl('EOQ/Edit'),
             method: 'POST',
             data: eoq,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

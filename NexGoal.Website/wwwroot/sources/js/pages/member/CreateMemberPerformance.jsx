@@ -10,7 +10,7 @@ import moment from 'moment';
 import isEqual from 'react-fast-compare';
 
 import { axiosError, getRoleClassName, resolveClientUrl } from '../../common-functions';
-import { ProbationTag } from '../../constants';
+import { ProbationTag, PostRequestHeaders } from '../../constants';
 import getResource from '../../resourceHelper';
 import TextareaFullscreenEditor from '../../shared/components/textarea-fullscreen/index';
 import PerformanceGradeInfo from '../../shared/components/PerformanceGradeInfo';
@@ -189,10 +189,7 @@ export default class CreateMemberPerformance extends Component {
                 url: resolveClientUrl('Member/Performance/Create'),
                 method: 'POST',
                 data: performanceRecord,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
+                headers: PostRequestHeaders
             }).then(response => {
                 const data = response.data;
                 if (data.isSuccessful) {
@@ -240,10 +237,7 @@ export default class CreateMemberPerformance extends Component {
                 url: resolveClientUrl('Member/Performance/CreateDraft'),
                 method: 'POST',
                 data: performanceRecord,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
+                headers: PostRequestHeaders
             }).then(response => {
                 const data = response.data;
                 if (data.isSuccessful) {

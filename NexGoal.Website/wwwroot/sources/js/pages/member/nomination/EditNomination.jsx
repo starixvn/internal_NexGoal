@@ -9,7 +9,7 @@ import { Formik } from 'formik';
 import moment from 'moment';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import { InputErrorCssClass, DateFormat } from '../../../constants';
+import { InputErrorCssClass, DateFormat, PostRequestHeaders } from '../../../constants';
 import getResource from '../../../resourceHelper';
 import TextareaFullscreenEditor from '../../../shared/components/textarea-fullscreen/index';
 
@@ -77,10 +77,7 @@ export default class EditNomination extends Component {
                 nomineeId: values.employee.value,
                 comment: values.comment.trim()
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

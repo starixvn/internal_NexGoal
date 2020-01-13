@@ -8,7 +8,7 @@ import { stringify } from 'qs';
 import { Formik } from 'formik';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import { InputErrorCssClass } from '../../../constants';
+import { InputErrorCssClass, PostRequestHeaders } from '../../../constants';
 import getResource from '../../../resourceHelper';
 import TextareaFullscreenEditor from '../../../shared/components/textarea-fullscreen/index';
 
@@ -75,10 +75,7 @@ export default class CreateNomination extends Component {
                 nomineeId: this.props.isEmployeeSelectable ? values.employee.value : this.props.nomineeId,
                 comment: values.comment.trim()
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

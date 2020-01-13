@@ -8,7 +8,7 @@ import { stringify } from 'qs';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
-import { PerformanceProcess } from '../../../constants';
+import { PerformanceProcess, PostRequestHeaders } from '../../../constants';
 import GroupList from './GroupList';
 
 class GroupFlowSetting extends Component {
@@ -136,10 +136,7 @@ class GroupFlowSetting extends Component {
                     groupId: this.state.selectedGroup.groupId,
                     settings: settings
                 }),
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
+                headers: PostRequestHeaders
             }).then(response => {
                 const data = response.data;
 
@@ -182,10 +179,7 @@ class GroupFlowSetting extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 groupId: this.state.selectedGroup.groupId
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

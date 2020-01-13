@@ -14,7 +14,7 @@ import ProbationResultOptions from './ProbationResultOptions';
 import SingleValue from './SingleValue';
 import EvaluationDetailTooltip from '../EvaluationDetailTooltip';
 import NexPanel from '../../../shared/components/NexPanel';
-import { DateFormat, PerformanceProcess, EmptyPlaceHolder } from '../../../constants';
+import { DateFormat, PerformanceProcess, EmptyPlaceHolder, PostRequestHeaders } from '../../../constants';
 import Announcement from './Announcement';
 import Paragraph from './Paragraph';
 
@@ -188,10 +188,7 @@ export default class ReviewerForm extends Component {
                 comment: values.comment,
                 isQualified: values.isQualified.value
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

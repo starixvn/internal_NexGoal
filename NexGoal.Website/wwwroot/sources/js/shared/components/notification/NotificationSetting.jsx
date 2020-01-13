@@ -3,7 +3,9 @@ import { Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
+
 import { resolveClientUrl, axiosError } from '../../../common-functions';
+import { PostRequestHeaders } from '../../../constants';
 import getResource from '../../../resourceHelper';
 
 export default class NotificationSetting extends Component {
@@ -40,10 +42,7 @@ export default class NotificationSetting extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 settings: this.state.notificationSettings
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const result = response.data;
             if (result.isSuccessful) {

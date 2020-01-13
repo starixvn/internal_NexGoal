@@ -5,6 +5,7 @@ import { stringify } from 'qs';
 import { toast } from 'react-toastify';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
+import { PostRequestHeaders } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
@@ -145,10 +146,7 @@ export default class PMSetting extends Component {
                 projectManagerId: this.state.removeMember.member.projectManagerId,
                 memberId: this.state.removeMember.member.employeeId
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

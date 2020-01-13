@@ -12,7 +12,7 @@ import { axiosError, noDataIndication, resolveClientUrl } from '../../../common-
 import getResource from '../../../resourceHelper';
 import Multiselect from '../../../shared/components/multi-select/multi-select';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
-import { PaginationOptions, PAStatus, PerformanceProcess, TextCenterCssClass } from '../../../constants';
+import { PaginationOptions, PAStatus, PerformanceProcess, TextCenterCssClass, PostRequestHeaders } from '../../../constants';
 import Edit from './Edit';
 
 export default class Table extends Component {
@@ -147,10 +147,7 @@ export default class Table extends Component {
                 groupIds: groupIds,
                 employeeId: employeeId
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 
@@ -201,10 +198,7 @@ export default class Table extends Component {
                     periodId: this.props.periodId,
                     paRecordIds: this.selectedIds.toString()
                 }),
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
+                headers: PostRequestHeaders
             }).then(response => {
                 const data = response.data;
 
@@ -230,10 +224,7 @@ export default class Table extends Component {
                 paRecordId: this.state.selectedSettingToUpdateStatus.paRecordId,
                 isExcluded: this.state.selectedSettingToUpdateStatus.statusId !== PAStatus.Rejected
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

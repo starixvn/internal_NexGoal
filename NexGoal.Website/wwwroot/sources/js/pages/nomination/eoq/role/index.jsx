@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl } from '../../../../common-functions';
+import { PostRequestHeaders } from '../../../../constants';
 import { nominationRoleOptions } from '../../common';
 import getResource from '../../../../resourceHelper';
 import Filter from './Filter';
@@ -74,10 +75,7 @@ export default class RoleManagement extends Component {
             url: resolveClientUrl('NominationPeriod/EditRoleSetting'),
             method: 'POST',
             data: setting,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 

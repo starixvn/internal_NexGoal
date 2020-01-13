@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import isEqual from 'react-fast-compare';
 
 import { axiosError, resolveClientUrl, noDataIndication } from '../../../../common-functions';
+import { PostRequestHeaders } from '../../../../constants';
 import getResource from '../../../../resourceHelper';
 import Rows from './Rows';
 import EditMemberPA from '../EditPAForm';
@@ -32,10 +33,7 @@ class Table extends Component {
                 paRecordId: paRecordId,
                 isRevised: !isRevised
             }),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
             if (data.isSuccessful) {
