@@ -1,6 +1,8 @@
 ﻿import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import isEqual from 'react-fast-compare';
+
 import { getNominationClassName, getRoleClassName, resolveClientUrl, calendar, getPAGradeClassName, groupBy } from '../../common-functions';
 import { NominationStatuses, PerformanceRecordType, PerformanceProcess, EmptyPlaceHolder } from '../../constants';
 import getResource from '../../resourceHelper';
@@ -54,15 +56,7 @@ export default class PerformanceRecord extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)
-            || this.props.pageType !== nextProps.pageType
-            || this.props.isHighlighted !== nextProps.isHighlighted
-            || this.state.showCollapseExpandButton !== nextState.showCollapseExpandButton
-            || this.state.isExpanded !== nextState.isExpanded) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.state, nextState) || !isEqual(this.props, nextProps);
     }
 
     collapseExpandComment = () => {

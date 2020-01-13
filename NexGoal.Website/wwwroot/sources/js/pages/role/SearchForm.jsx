@@ -1,17 +1,13 @@
 ﻿import React, { Component } from 'react';
 import { Form, ControlLabel, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
+import isEqual from 'react-fast-compare';
 
 import getResource from '../../resourceHelper';
 
 class SearchForm extends Component {
     shouldComponentUpdate(nextProps) {
-        if (this.props.roleSelected !== nextProps.roleSelected
-            || JSON.stringify(this.props.roleOptions) !== JSON.stringify(nextProps.roleOptions)) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.props, nextProps);
     }
 
     handleOnChange = selectedOption => {

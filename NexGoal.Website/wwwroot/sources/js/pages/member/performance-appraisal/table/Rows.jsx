@@ -1,20 +1,14 @@
 ﻿import React, { Component, Fragment } from 'react';
+import isEqual from 'react-fast-compare';
+
 import { PerformanceProcess, PAStatus, notAvailableGradeTooltip, EmptyPlaceHolder } from '../../../../constants';
 import { getPAGradeClassName } from '../../../../common-functions';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import getResource from '../../../../resourceHelper';
 
 class Rows extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     shouldComponentUpdate(nextProps) {
-        if (JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.props, nextProps);
     }
 
     renderToeic = (toeicPolicy, toeic) => {

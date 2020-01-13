@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
+import isEqual from 'react-fast-compare';
 
 import DropdownIndicator from './DropdownIndicator';
 import MenuList from './MenuList';
@@ -34,13 +35,7 @@ export default class MultiSelectSearchbox extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (JSON.stringify(this.props.value) !== JSON.stringify(nextProps.value)
-            || JSON.stringify(this.props.options) !== JSON.stringify(nextProps.options)
-            || this.state.isOpen !== nextState.isOpen) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.state, nextState) || !isEqual(this.props, nextProps);
     }
 
     componentWillUnmount() {

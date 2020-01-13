@@ -1,6 +1,8 @@
 ﻿import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import InfiniteScroll from 'react-infinite-scroller';
+import isEqual from 'react-fast-compare';
+
 import getResource from '../../../resourceHelper';
 import { NotificationStatus } from '../../../constants';
 import { calendar } from '../../../common-functions';
@@ -23,14 +25,7 @@ export default class Notification extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (nextState.isShowSettingModal !== this.state.isShowSettingModal
-            || nextState.notiBodyHeight !== this.state.notiBodyHeight
-            || JSON.stringify(nextProps.notifications) !== this.props.notifications
-            || nextProps.hasMore !== this.props.hasMore) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.state, nextState) || !isEqual(this.props, nextProps);
     }
 
     calculateNotiBodyHeight = () => {

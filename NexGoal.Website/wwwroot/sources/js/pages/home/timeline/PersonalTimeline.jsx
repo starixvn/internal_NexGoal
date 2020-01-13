@@ -1,4 +1,6 @@
 ﻿import React, { Component } from 'react';
+import isEqual from 'react-fast-compare';
+
 import { calculateTimelineNode } from '../../../common-functions';
 import TimelineNode from './TimelineNode';
 
@@ -18,13 +20,7 @@ export default class PersonalTimeline extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)
-            || nextState.totalNodes !== this.state.totalNodes
-            || nextState.windowWidth !== this.state.windowWidth) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.state, nextState) || !isEqual(this.props, nextProps);
     }
 
     componentWillUnmount() {

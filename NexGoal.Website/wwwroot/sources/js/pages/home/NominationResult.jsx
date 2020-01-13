@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import isEqual from 'react-fast-compare';
 
 import { getNominationClassName } from '../../common-functions';
 import { NominationStatuses } from '../../constants';
@@ -15,11 +16,7 @@ export default class NominationResult extends Component {
     };
 
     shouldComponentUpdate(nextProps) {
-        if (JSON.stringify(this.props.nominations) !== JSON.stringify(nextProps.nominations)) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.props, nextProps);
     }
 
     groupNominationByStatusId = nominations => {

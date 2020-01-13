@@ -1,6 +1,8 @@
 ﻿import React, { Fragment, Component } from 'react';
 import moment from 'moment';
 import axios from 'axios';
+import isEqual from 'react-fast-compare';
+
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { DateFormat } from '../../../constants';
 import getResource from '../../../resourceHelper';
@@ -27,12 +29,7 @@ export default class HRMSummary extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (JSON.stringify(nextState.hrmDetail) !== JSON.stringify(this.state.hrmDetail)
-            || nextState.isShowModal !== this.state.isShowModal
-            || nextProps.memberId !== this.props.memberId) {
-            return true;
-        }
-        return false;
+        return !isEqual(this.state, nextState) || !isEqual(this.props, nextProps);
     }
 
     onShowModal = () => {

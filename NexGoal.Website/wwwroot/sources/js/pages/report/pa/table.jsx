@@ -1,6 +1,8 @@
 ﻿import React, { Component, Fragment } from 'react';
-import getResource from '../../../resourceHelper';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
+import isEqual from 'react-fast-compare';
+
+import getResource from '../../../resourceHelper';
 import { PerformanceProcess, EmptyPlaceHolder } from '../../../constants';
 import { noDataIndication, getPAGradeClassName, resolveClientUrl } from '../../../common-functions';
 import StickyBlock from '../../../shared/components/StickyBlock';
@@ -13,10 +15,7 @@ export default class Table extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        if (JSON.stringify(nextProps.periodRecords) !== JSON.stringify(this.props.periodRecords)) {
-            return true;
-        }
-        return false;
+        return !isEqual(this.props, nextProps);
     }
 
     parseIntGradeId = gradeId => gradeId !== null ? gradeId : 0

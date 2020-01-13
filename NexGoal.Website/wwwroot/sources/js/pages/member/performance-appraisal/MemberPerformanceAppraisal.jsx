@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import axios from 'axios';
+import isEqual from 'react-fast-compare';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import Filter from './filter';
@@ -25,15 +26,7 @@ export default class MemberPerformanceAppraisal extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (JSON.stringify(nextProps.periodOptions) !== JSON.stringify(this.props.periodOptions)
-            || JSON.stringify(nextProps.gradeOptions) !== JSON.stringify(this.props.gradeOptions)
-            || JSON.stringify(nextProps.groupOptions) !== JSON.stringify(this.props.groupOptions)
-            || JSON.stringify(nextState.performanceAppraisals) !== JSON.stringify(this.state.performanceAppraisals)
-            || JSON.stringify(nextState.filter) !== JSON.stringify(this.state.filter)) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.state, nextState) || !isEqual(this.props, nextProps);
     }
 
     handleFilterChange = (name, value) => {

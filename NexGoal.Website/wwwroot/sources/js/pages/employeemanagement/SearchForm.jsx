@@ -1,19 +1,14 @@
 ﻿import React, { Component } from 'react';
 import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import Select from 'react-select';
+import isEqual from 'react-fast-compare';
 
 import Multiselect from '../../shared/components/multi-select/multi-select';
 import getResource from '../../resourceHelper';
 
 export default class SearchForm extends Component {
     shouldComponentUpdate(nextProps) {
-        if (JSON.stringify(this.props.filter) !== JSON.stringify(nextProps.filter)
-            || JSON.stringify(this.props.groupOptions) !== JSON.stringify(nextProps.groupOptions)
-            || JSON.stringify(this.props.roleOptions) !== JSON.stringify(nextProps.roleOptions)) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.props, nextProps);
     }
 
     handleKeywordChange = event => {

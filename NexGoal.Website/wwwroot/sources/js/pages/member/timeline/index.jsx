@@ -1,5 +1,6 @@
 ﻿import React, { Component, Fragment } from 'react';
 import axios from 'axios';
+import isEqual from 'react-fast-compare';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
@@ -26,23 +27,15 @@ export default class Timeline extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (JSON.stringify(this.props.groupOptions) !== JSON.stringify(nextProps.groupOptions)
-            || JSON.stringify(this.props.currentPerformancePeriod) !== JSON.stringify(nextProps.currentPerformancePeriod)
-            || JSON.stringify(this.state.filter) !== JSON.stringify(nextState.filter)
-            || this.state.pageSize !== nextState.pageSize
-            || JSON.stringify(this.state.memberPerformances) !== JSON.stringify(nextState.memberPerformances)) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.state, nextState) || !isEqual(this.props, nextProps);
     }
 
     componentDidUpdate(prevProps) {
-        if (JSON.stringify(this.props.groupOptions) !== JSON.stringify(prevProps.groupOptions)) {
+        if (!isEqual(this.props.groupOptions, prevProps.groupOptions)) {
             this.updateFilter('groups', this.props.groupOptions);
         }
 
-        if (JSON.stringify(this.props.currentPerformancePeriod) !== JSON.stringify(prevProps.currentPerformancePeriod)) {
+        if (!isEqual(this.props.currentPerformancePeriod, prevProps.currentPerformancePeriod)) {
             this.getMemberPerformanceTimeline(this.state.pageSize);
         }
     }

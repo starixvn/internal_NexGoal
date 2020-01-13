@@ -1,5 +1,6 @@
 ﻿import React, { Component, Fragment } from 'react';
 import axios from 'axios';
+import isEqual from 'react-fast-compare';
 
 import { axiosError, getNominationClassName, resolveClientUrl } from '../../common-functions';
 import { NominationStatuses } from '../../constants';
@@ -33,13 +34,7 @@ export default class NominationResult extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (JSON.stringify(this.state.yearOptions) !== JSON.stringify(nextState.yearOptions)
-            || JSON.stringify(this.state.filter) !== JSON.stringify(nextState.filter)
-            || JSON.stringify(this.state.memberNominations) !== JSON.stringify(nextState.memberNominations)) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.state, nextState) || !isEqual(this.props, nextProps);
     }
 
     getMemberNominations = year => {

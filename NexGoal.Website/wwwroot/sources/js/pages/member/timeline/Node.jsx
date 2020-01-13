@@ -1,15 +1,12 @@
 ﻿import React, { Component, Fragment } from 'react';
+import isEqual from 'react-fast-compare';
+
 import getResource from '../../../resourceHelper';
 import { getRoleClassName } from '../../../common-functions';
 
 export default class Node extends Component {
     shouldComponentUpdate(nextProps) {
-        if (this.props.position !== nextProps.position
-            || JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.props, nextProps);
     }
 
     handleClick = () => {

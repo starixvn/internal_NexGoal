@@ -1,19 +1,14 @@
 ﻿import React, { Component } from 'react';
 import { Form, ControlLabel, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
+import isEqual from 'react-fast-compare';
 
 import { statusOptions } from '../common';
 import getResource from '../../../resourceHelper';
 
 class Filter extends Component {
     shouldComponentUpdate(nextProps) {
-        if (this.props.year !== nextProps.year
-            || this.props.statusId !== nextProps.statusId
-            || JSON.stringify(this.props.years) !== JSON.stringify(nextProps.years)) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.props, nextProps);
     }
 
     handleYearChange = selectedOption => {

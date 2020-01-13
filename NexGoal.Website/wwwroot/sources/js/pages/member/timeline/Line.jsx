@@ -1,16 +1,12 @@
 ﻿import React, { Component } from 'react';
+import isEqual from 'react-fast-compare';
 
 import Node from './Node';
 import { resolveClientUrl } from '../../../common-functions';
 
 export default class Line extends Component {
     shouldComponentUpdate(nextProps) {
-        if (this.props.timelineWidth !== nextProps.timelineWidth
-            || JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.props, nextProps);
     }
 
     onClickPrevious = () => {

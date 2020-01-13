@@ -6,7 +6,6 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
-import moment from 'moment';
 import isEqual from 'react-fast-compare';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
@@ -62,18 +61,7 @@ export default class CreateSelfPerformance extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (JSON.stringify(this.props.currentUser) !== JSON.stringify(nextProps.currentUser)
-            || JSON.stringify(this.props.performanceGradeOptions) !== JSON.stringify(nextProps.performanceGradeOptions)
-            || JSON.stringify(this.props.projectOptions) !== JSON.stringify(nextProps.projectOptions)
-            || JSON.stringify(this.state.errors) !== JSON.stringify(nextState.errors)
-            || JSON.stringify(this.state.performanceRecord) !== JSON.stringify(nextState.performanceRecord)
-            || this.state.isOpenForm !== nextState.isOpenForm
-            || this.state.showGradeInfo !== nextState.showGradeInfo
-            || this.state.isSubmitting !== nextState.isSubmitting) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.state, nextState) || !isEqual(this.props, nextProps);
     }
 
     onLeavingPageEventListener = event => {

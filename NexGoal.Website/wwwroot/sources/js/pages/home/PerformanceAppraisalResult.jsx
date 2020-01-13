@@ -1,14 +1,12 @@
 ﻿import React, { Component } from 'react';
 import moment from 'moment';
+import isEqual from 'react-fast-compare';
+
 import getResource from '../../resourceHelper';
 
 export default class PerformanceAppraisalResult extends Component {
     shouldComponentUpdate(nextProps) {
-        if (JSON.stringify(this.props.performanceAppraisals) !== JSON.stringify(nextProps.performanceAppraisals)) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.props, nextProps);
     }
 
     groupPerformanceAppraisals = performanceAppraisals => {

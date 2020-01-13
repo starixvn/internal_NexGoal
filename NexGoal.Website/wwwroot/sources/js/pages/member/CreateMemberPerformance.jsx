@@ -75,21 +75,7 @@ export default class CreateMemberPerformance extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (JSON.stringify(this.props.currentUser) !== JSON.stringify(nextProps.currentUser)
-            || JSON.stringify(this.props.memberOptions) !== JSON.stringify(nextProps.memberOptions)
-            || JSON.stringify(this.props.performanceGradeOptions) !== JSON.stringify(nextProps.performanceGradeOptions)
-            || JSON.stringify(this.props.projectOptions) !== JSON.stringify(nextProps.projectOptions)
-            || JSON.stringify(this.props.selectedMemberInfo) !== JSON.stringify(nextProps.selectedMemberInfo)
-            || this.props.isMultiple !== nextProps.isMultiple
-            || JSON.stringify(this.state.performanceRecord) !== JSON.stringify(nextState.performanceRecord)
-            || JSON.stringify(this.state.errors) !== JSON.stringify(nextState.errors)
-            || this.state.isOpenForm !== nextState.isOpenForm
-            || this.state.isSubmitting !== nextState.isSubmitting
-            || this.state.showGradeInfo !== nextState.showGradeInfo) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.state, nextState) || !isEqual(this.props, nextProps);
     }
 
     onLeavingPageEventListener = event => {

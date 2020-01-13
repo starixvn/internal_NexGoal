@@ -1,17 +1,14 @@
 ﻿import React, { Component, Fragment } from 'react';
 import moment from 'moment';
+import isEqual from 'react-fast-compare';
+
 import getResource from '../../../resourceHelper';
 import { getRoleClassName, getNominationClassName } from '../../../common-functions';
 import { DateFormat, PerformanceRecordType, NominationStatuses } from '../../../constants';
 
 export default class TimelineNode extends Component {
     shouldComponentUpdate(nextProps) {
-        if (this.props.position !== nextProps.position
-            || JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.props, nextProps);
     }
 
     handleClick = () => this.props.onClick(this.props.data.performanceRecordId)

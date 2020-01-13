@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { stringify } from 'qs';
 import { toast } from 'react-toastify';
+import isEqual from 'react-fast-compare';
 
 import { axiosError, resolveClientUrl, noDataIndication } from '../../../../common-functions';
 import getResource from '../../../../resourceHelper';
@@ -19,14 +20,7 @@ class Table extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (JSON.stringify(nextProps.data) !== JSON.stringify(this.props.data)
-            || JSON.stringify(nextProps.gradeOptions) !== JSON.stringify(this.props.gradeOptions)
-            || nextState.isShowModal !== this.state.isShowEditModal
-            || nextState.paRecordId !== this.state.paRecordId) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.state, nextState) || !isEqual(this.props, nextProps);
     }
 
     onQuickEditPA = (paRecordId, isRevised) => {

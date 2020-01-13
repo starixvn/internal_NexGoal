@@ -6,6 +6,7 @@ import moment from 'moment';
 import axios from 'axios';
 import { stringify } from 'qs';
 import { toast } from 'react-toastify';
+import isEqual from 'react-fast-compare';
 
 import { PaginationOptions, TextCenterCssClass } from '../../constants';
 import { axiosError, noDataIndication, resolveClientUrl } from '../../common-functions';
@@ -15,12 +16,7 @@ const { SearchBar } = Search;
 
 export default class Table extends Component {
     shouldComponentUpdate(nextProps) {
-        if (JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)
-            || this.props.isHost !== nextProps.isHost) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.props, nextProps);
     }
 
     handleEdit = (event, discipline) => {

@@ -2,6 +2,7 @@
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
+import isEqual from 'react-fast-compare';
 
 import { noDataIndication } from '../../../../common-functions';
 import { PaginationOptions, TextCenterCssClass } from '../../../../constants';
@@ -11,12 +12,7 @@ const { SearchBar } = Search;
 
 class Table extends Component {
     shouldComponentUpdate(nextProps) {
-        if (JSON.stringify(this.props.nominators) !== JSON.stringify(nextProps.nominators)
-            || this.props.isHost !== nextProps.isHost) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.props, nextProps);
     }
 
     handleCheckboxChange = (event, nominator) => {

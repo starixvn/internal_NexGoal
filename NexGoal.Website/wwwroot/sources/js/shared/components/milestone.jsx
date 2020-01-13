@@ -1,5 +1,6 @@
 ﻿import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import isEqual from 'react-fast-compare';
 
 export default class Milestone extends Component {
     static propTypes = {
@@ -26,15 +27,7 @@ export default class Milestone extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (JSON.stringify(nextProps.options) !== JSON.stringify(this.props.options)
-            || nextState.currentIndex !== this.state.currentIndex
-            || nextState.maxIndex !== this.state.maxIndex
-            || nextState.nextDisabled !== this.state.nextDisabled
-            || nextState.prevDisabled !== this.state.prevDisabled) {
-            return true;
-        }
-
-        return false;
+        return !isEqual(this.state, nextState) || !isEqual(this.props, nextProps);
     }
 
     onClickComplete = () => {

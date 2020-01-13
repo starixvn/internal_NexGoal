@@ -1,19 +1,14 @@
 ﻿import React, { Component } from 'react';
 import { Button, ControlLabel, Form, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
+import isEqual from 'react-fast-compare';
 
 import MultiSelect from '../../../../shared/components/multi-select/multi-select';
 import getResource from '../../../../resourceHelper';
 
 class Filter extends Component {
-    shouldComponentUpdate(nextProps, nextState) {
-        if (JSON.stringify(this.props.filter) !== JSON.stringify(nextProps.filter)
-            || JSON.stringify(this.props.groupOptions) !== JSON.stringify(nextProps.groupOptions)
-            || JSON.stringify(this.props.nominationRoleOptions) !== JSON.stringify(nextProps.nominationRoleOptions)) {
-            return true;
-        }
-
-        return false;
+    shouldComponentUpdate(nextProps) {
+        return !isEqual(this.props, nextProps);
     }
 
     onKeywordChange = event => {
