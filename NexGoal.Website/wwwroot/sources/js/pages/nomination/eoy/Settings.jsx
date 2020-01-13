@@ -9,7 +9,7 @@ import { Formik } from 'formik';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 
-import { axiosError, resolveClientUrl } from '../../../common-functions';
+import { axiosError, resolveClientUrl, validateFormikField } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import { validateEOYForm } from '../common';
 import { DateFormat, InputErrorCssClass, PostRequestHeaders } from '../../../constants';
@@ -106,18 +106,24 @@ class Settings extends Component {
         const yearOptions = [
             { value: values.year, label: values.year }
         ];
+        const isValidYear = validateFormikField(touched, errors, 'year'),
+            isValidStartDateForMominator = validateFormikField(touched, errors, 'startDateForNominator'),
+            isValidEndDateForNominator = validateFormikField(touched, errors, 'endDateForNominator'),
+            isValidRemindDateForNominator = validateFormikField(touched, errors, 'remindDateForNominator'),
+            isValidEndDateForCommittee = validateFormikField(touched, errors, 'endDateForCommittee'),
+            isValidDescription = validateFormikField(touched, errors, 'description');
 
         return (
             <Form id="edit-eoy-form" inline className="settings-form" onSubmit={handleSubmit}>
                 {
                     !isEmpty(errors) && !isEmpty(touched) &&
                     <ul className="list-message-error">
-                        {touched.year && errors.year && <li>{errors.year}</li>}
-                        {touched.startDateForNominator && errors.startDateForNominator && <li>{errors.startDateForNominator}</li>}
-                        {touched.endDateForNominator && errors.endDateForNominator && <li>{errors.endDateForNominator}</li>}
-                        {touched.remindDateForNominator && errors.remindDateForNominator && <li>{errors.remindDateForNominator}</li>}
-                        {touched.endDateForCommittee && errors.endDateForCommittee && <li>{errors.endDateForCommittee}</li>}
-                        {touched.description && errors.description && <li>{errors.description}</li>}
+                        {!isValidYear && <li>{errors.year}</li>}
+                        {!isValidStartDateForMominator && <li>{errors.startDateForNominator}</li>}
+                        {!isValidEndDateForNominator && <li>{errors.endDateForNominator}</li>}
+                        {!isValidRemindDateForNominator && <li>{errors.remindDateForNominator}</li>}
+                        {!isValidEndDateForCommittee && <li>{errors.endDateForCommittee}</li>}
+                        {!isValidDescription && <li>{errors.description}</li>}
                     </ul>
                 }
                 <div className="line-group">
@@ -136,7 +142,7 @@ class Settings extends Component {
                         <label className="control-label">{getResource('StartDate')}</label>
                         <div className="control-content field">
                             <DatePicker name="startDateForNominator" autoComplete="off" disabled={!isHost}
-                                className={`form-control ${touched.startDateForNominator && errors.startDateForNominator && InputErrorCssClass}`}
+                                className={`form-control ${!isValidStartDateForMominator && InputErrorCssClass}`}
                                 dateFormat={DateFormat}
                                 selected={values.startDateForNominator}
                                 onChange={value => setFieldValue('startDateForNominator', value)}
@@ -147,7 +153,7 @@ class Settings extends Component {
                         <label className="control-label">{getResource('EndDate')}</label>
                         <div className="control-content field">
                             <DatePicker name="endDateForNominator" autoComplete="off" disabled={!isHost}
-                                className={`form-control ${touched.endDateForNominator && errors.endDateForNominator && InputErrorCssClass}`}
+                                className={`form-control ${!isValidEndDateForNominator && InputErrorCssClass}`}
                                 dateFormat={DateFormat}
                                 selected={values.endDateForNominator}
                                 onChange={value => setFieldValue('endDateForNominator', value)}
@@ -158,7 +164,7 @@ class Settings extends Component {
                         <label className="control-label">{getResource('RemindDate')}</label>
                         <div className="control-content field">
                             <DatePicker name="remindDateForNominator" autoComplete="off" disabled={!isHost}
-                                className={`form-control ${touched.remindDateForNominator && errors.remindDateForNominator && InputErrorCssClass}`}
+                                className={`form-control ${!isValidRemindDateForNominator && InputErrorCssClass}`}
                                 dateFormat={DateFormat}
                                 selected={values.remindDateForNominator}
                                 onChange={value => setFieldValue('remindDateForNominator', value)}
@@ -172,7 +178,7 @@ class Settings extends Component {
                         <label className="control-label">{getResource('EndDate')}</label>
                         <div className="field control-content">
                             <DatePicker name="endDateForCommittee" autoComplete="off" disabled={!isHost}
-                                className={`form-control ${touched.endDateForCommittee && errors.endDateForCommittee && InputErrorCssClass}`}
+                                className={`form-control ${!isValidEndDateForCommittee && InputErrorCssClass}`}
                                 dateFormat={DateFormat}
                                 selected={values.endDateForCommittee}
                                 onChange={value => setFieldValue('endDateForCommittee', value)}
@@ -184,7 +190,7 @@ class Settings extends Component {
                     <FormGroup>
                         <label className="control-label">{getResource('Description')} (optional)</label>
                         <div className="field control-content description-content">
-                            <textarea className={`form-control none-resize ${touched.description && errors.description && InputErrorCssClass}`}
+                            <textarea className={`form-control none-resize ${!isValidDescription && InputErrorCssClass}`}
                                 rows="3" maxLength="200"
                                 name="description" value={values.description || ''}
                                 onChange={handleChange} disabled={isHost ? false : true}

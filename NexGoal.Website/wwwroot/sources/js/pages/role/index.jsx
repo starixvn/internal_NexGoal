@@ -6,10 +6,9 @@ import { stringify } from 'qs';
 
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import { axiosError, resolveClientUrl } from '../../common-functions';
-import { PostRequestHeaders } from '../../constants';
+import { Policy, PostRequestHeaders } from '../../constants';
 import getResource from '../../resourceHelper';
 import Breadcrumb from '../../shared/components/Breadcrumb';
-import { Policy } from '../../constants';
 import SearchForm from './SearchForm';
 import Table from './table/Table';
 import SubmitForm from './SubmitForm';

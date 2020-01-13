@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 import { camelCase, isEmpty } from 'lodash';
 
-import { axiosError, resolveClientUrl } from '../../common-functions';
+import { axiosError, resolveClientUrl, validateFormikField } from '../../common-functions';
 import getResource from '../../resourceHelper';
 import { DateFormat, TargetType, InputErrorCssClass, PostRequestHeaders } from '../../constants';
 
@@ -133,19 +133,26 @@ export default class CreatePeriod extends Component {
                 setFieldValue(event.target.name, date);
             }
         };
+        const isValidName = validateFormikField(touched, errors, 'name'),
+            isValidStartDate = validateFormikField(touched, errors, 'startDate'),
+            isValidEndDate = validateFormikField(touched, errors, 'endDate'),
+            isValidDisciplineStartDate = validateFormikField(touched, errors, 'disciplineStartDate'),
+            isValidDisciplineEndDate = validateFormikField(touched, errors, 'disciplineEndDate'),
+            isValidFocusStartDate = validateFormikField(touched, errors, 'focusStartDate'),
+            isValidFocusEndDate = validateFormikField(touched, errors, 'focusEndDate');
 
         return (
             <Form inline onSubmit={handleSubmit} className="evaluation-period-form">
                 <Modal.Body>
                     {!isEmpty(errors) && !isEmpty(touched) &&
                         <ul className="list-message-error">
-                            {touched.name && errors.name && <li>{errors.name}</li>}
-                            {touched.startDate && errors.startDate && <li>{errors.startDate}</li>}
-                            {touched.endDate && errors.endDate && <li>{errors.endDate}</li>}
-                            {touched.disciplineStartDate && errors.disciplineStartDate && <li>{errors.disciplineStartDate}</li>}
-                            {touched.disciplineEndDate && errors.disciplineEndDate && <li>{errors.disciplineEndDate}</li>}
-                            {values.targetTypeId === TargetType.SemiAnnual && touched.focusStartDate && errors.focusStartDate && <li>{errors.focusStartDate}</li>}
-                            {values.targetTypeId === TargetType.SemiAnnual && touched.focusEndDate && errors.focusEndDate && <li>{errors.focusEndDate}</li>}
+                            {!isValidName && <li>{errors.name}</li>}
+                            {!isValidStartDate && <li>{errors.startDate}</li>}
+                            {!isValidEndDate && <li>{errors.endDate}</li>}
+                            {!isValidDisciplineStartDate && <li>{errors.disciplineStartDate}</li>}
+                            {!isValidDisciplineEndDate && <li>{errors.disciplineEndDate}</li>}
+                            {values.targetTypeId === TargetType.SemiAnnual && !isValidFocusStartDate && <li>{errors.focusStartDate}</li>}
+                            {values.targetTypeId === TargetType.SemiAnnual && !isValidFocusEndDate && <li>{errors.focusEndDate}</li>}
                         </ul>
                     }
                     <div className="line-group">
@@ -153,7 +160,7 @@ export default class CreatePeriod extends Component {
                             <label className="control-label">{getResource('Name')}</label>
                             <div className="control-content name-content">
                                 <input type="text" name="name" value={values.name} autoComplete="off"
-                                    className={`form-control  ${touched.name && errors.name && InputErrorCssClass}`}
+                                    className={`form-control ${!isValidName && InputErrorCssClass}`}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -166,7 +173,7 @@ export default class CreatePeriod extends Component {
                             </Col>
                             <Col className="control-content">
                                 <DatePicker name="startDate" autoComplete="off"
-                                    className={`form-control  ${touched.startDate && errors.startDate && InputErrorCssClass}`}
+                                    className={`form-control ${!isValidStartDate && InputErrorCssClass}`}
                                     dateFormat={DateFormat} selected={values.startDate}
                                     onChange={value => setFieldValue('startDate', value)} onChangeRaw={onChangeRaw}
                                 />
@@ -178,7 +185,7 @@ export default class CreatePeriod extends Component {
                             </Col>
                             <Col className="control-content">
                                 <DatePicker name="endDate" autoComplete="off"
-                                    className={`form-control  ${touched.endDate && errors.endDate && InputErrorCssClass}`}
+                                    className={`form-control ${!isValidEndDate && InputErrorCssClass}`}
                                     dateFormat={DateFormat} selected={values.endDate}
                                     onChange={value => setFieldValue('endDate', value)} onChangeRaw={onChangeRaw}
                                 />
@@ -192,7 +199,7 @@ export default class CreatePeriod extends Component {
                             </Col>
                             <Col className="control-content">
                                 <DatePicker name="disciplineStartDate" autoComplete="off"
-                                    className={`form-control  ${touched.disciplineStartDate && errors.disciplineStartDate && InputErrorCssClass}`}
+                                    className={`form-control ${!isValidDisciplineStartDate && InputErrorCssClass}`}
                                     dateFormat={DateFormat} selected={values.disciplineStartDate}
                                     onChange={value => setFieldValue('disciplineStartDate', value)} onChangeRaw={onChangeRaw}
                                 />
@@ -204,7 +211,7 @@ export default class CreatePeriod extends Component {
                             </Col>
                             <Col className="control-content">
                                 <DatePicker name="disciplineEndDate" autoComplete="off"
-                                    className={`form-control  ${touched.disciplineEndDate && errors.disciplineEndDate && InputErrorCssClass}`}
+                                    className={`form-control ${!isValidDisciplineEndDate && InputErrorCssClass}`}
                                     dateFormat={DateFormat} selected={values.disciplineEndDate}
                                     onChange={value => setFieldValue('disciplineEndDate', value)} onChangeRaw={onChangeRaw}
                                 />
@@ -217,7 +224,7 @@ export default class CreatePeriod extends Component {
                                 <Col componentClass={ControlLabel} className="">Focus Start Date</Col>
                                 <Col className="control-content">
                                     <DatePicker name="focusStartDate" autoComplete="off"
-                                        className={`form-control  ${touched.focusStartDate && errors.focusStartDate && InputErrorCssClass}`}
+                                        className={`form-control ${!isValidFocusStartDate && InputErrorCssClass}`}
                                         dateFormat={DateFormat} selected={values.focusStartDate}
                                         onChange={value => setFieldValue('focusStartDate', value)} onChangeRaw={onChangeRaw}
                                     />
@@ -227,7 +234,7 @@ export default class CreatePeriod extends Component {
                                 <Col componentClass={ControlLabel} className="">Focus End Date</Col>
                                 <Col className="control-content">
                                     <DatePicker name="disciplineEndDate" autoComplete="off"
-                                        className={`form-control  ${touched.focusEndDate && errors.focusEndDate && InputErrorCssClass}`}
+                                        className={`form-control  ${!isValidFocusEndDate && InputErrorCssClass}`}
                                         dateFormat={DateFormat} selected={values.focusEndDate}
                                         onChange={value => setFieldValue('focusEndDate', value)} onChangeRaw={onChangeRaw}
                                     />
@@ -247,7 +254,7 @@ export default class CreatePeriod extends Component {
                         <FormGroup className="description-group">
                             <Col componentClass={ControlLabel}>{getResource('Description')} (optional)</Col>
                             <Col className="">
-                                <textarea className={`form-control none-resize ${touched.description && errors.description && InputErrorCssClass}`}
+                                <textarea className={`form-control`}
                                     name="description" rows="4"
                                     onChange={handleChange} value={values.description}
                                 />

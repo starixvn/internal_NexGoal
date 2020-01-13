@@ -8,8 +8,9 @@ import Select from 'react-select';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
-import { PerformanceProcess, InputErrorCssClass, PostRequestHeaders } from '../../../constants';
+import { InputErrorCssClass, PostRequestHeaders } from '../../../constants';
 import ConfiguredEmployeeList from './ConfiguredEmployeeList';
+import { getEmployeeById, handleEvaluatorChange, handleReviewerChange } from '../common-functions';
 
 export default class EmployeeFlowSetting extends Component {
     constructor(props) {
@@ -76,15 +77,8 @@ export default class EmployeeFlowSetting extends Component {
         this.getFlowSetting(employee.employeeId);
     }
 
-    getEmployee = (employeeId, callback) => {
-        axios(resolveClientUrl(`Flow/GetEmployeeById?employeeId=${employeeId}`))
-            .then(response => {
-                callback(response.data);
-            }).catch(axiosError);
-    }
-
     handleMemberChange = selectedMember => {
-        this.getEmployee(selectedMember.value, employee => {
+        getEmployeeById(selectedMember.value, employee => {
             const member = {
                 ...this.state.member,
                 ...{
@@ -99,38 +93,12 @@ export default class EmployeeFlowSetting extends Component {
         });
     };
 
-    handleReviewerChange = selectedReviewer => {
-        this.getEmployee(selectedReviewer.value, employee => {
-            const reviewer = {
-                ...this.state.reviewer,
-                ...{
-                    processId: PerformanceProcess.Reviewer,
-                    evaluatorId: employee.employeeId,
-                    nickName: employee.nickName,
-                    fullName: employee.fullName,
-                    code: employee.code,
-                    avatar: employee.avatar
-                }
-            };
-            this.setState({ reviewer });
-        });
+    handleEvaluatorChange = selectedEvaluator => {
+        handleEvaluatorChange(this, selectedEvaluator.value);
     };
 
-    handleEvaluatorChange = selectedEvaluator => {
-        this.getEmployee(selectedEvaluator.value, employee => {
-            const evaluator = {
-                ...this.state.evaluator,
-                ...{
-                    processId: PerformanceProcess.Evaluator,
-                    evaluatorId: employee.employeeId,
-                    nickName: employee.nickName,
-                    fullName: employee.fullName,
-                    code: employee.code,
-                    avatar: employee.avatar
-                }
-            };
-            this.setState({ evaluator });
-        });
+    handleReviewerChange = selectedReviewer => {
+        handleReviewerChange(this, selectedReviewer.value);
     };
 
     handleSaveFlowSetting = () => {

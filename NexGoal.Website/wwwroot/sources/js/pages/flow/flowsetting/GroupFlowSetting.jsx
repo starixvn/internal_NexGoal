@@ -8,8 +8,9 @@ import { stringify } from 'qs';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
-import { PerformanceProcess, PostRequestHeaders } from '../../../constants';
+import { PostRequestHeaders } from '../../../constants';
 import GroupList from './GroupList';
+import { handleEvaluatorChange, handleReviewerChange } from '../common-functions';
 
 class GroupFlowSetting extends Component {
     constructor(props) {
@@ -59,45 +60,12 @@ class GroupFlowSetting extends Component {
         this.getFlowSetting(selectedGroup.groupId);
     }
 
-    getEmployee = (employeeId, callback) => {
-        axios(resolveClientUrl(`Flow/GetEmployeeById?employeeId=${employeeId}`))
-            .then(response => {
-                callback(response.data);
-            }).catch(axiosError);
-    }
-
     handleEvaluatorChange = selectedEvaluator => {
-        this.getEmployee(selectedEvaluator.value, employee => {
-            const evaluator = {
-                ...this.state.evaluator,
-                ...{
-                    processId: PerformanceProcess.Evaluator,
-                    evaluatorId: employee.employeeId,
-                    nickName: employee.nickName,
-                    fullName: employee.fullName,
-                    code: employee.code,
-                    avatar: employee.avatar
-                }
-            };
-            this.setState({ evaluator });
-        });
+        handleEvaluatorChange(this, selectedEvaluator.value);
     };
 
     handleReviewerChange = selectedReviewer => {
-        this.getEmployee(selectedReviewer.value, employee => {
-            const reviewer = {
-                ...this.state.reviewer,
-                ...{
-                    processId: PerformanceProcess.Reviewer,
-                    evaluatorId: employee.employeeId,
-                    nickName: employee.nickName,
-                    fullName: employee.fullName,
-                    code: employee.code,
-                    avatar: employee.avatar
-                }
-            };
-            this.setState({ reviewer });
-        });
+        handleReviewerChange(this, selectedReviewer.value);
     };
 
     handleSaveFlowSetting = () => {
