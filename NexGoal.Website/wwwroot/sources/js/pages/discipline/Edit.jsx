@@ -7,9 +7,10 @@ import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 import { camelCase, isEmpty } from 'lodash';
 
-import { axiosError, resolveClientUrl, validateFormikField } from '../../common-functions';
+import { axiosError, resolveClientUrl, validateFormikField, displayFormikErrors } from '../../common-functions';
 import getResource from '../../resourceHelper';
 import { DateFormat, InputErrorCssClass, PostRequestHeaders } from '../../constants';
+import CreateEditForm from './CreateEditForm';
 
 export default class Edit extends Component {
     validateForm = values => {
@@ -67,49 +68,18 @@ export default class Edit extends Component {
         handleChange,
         handleSubmit,
         setFieldValue }) => {
-        const isValidEffectiveDate = validateFormikField(touched, errors, 'effectiveDate');
-        const isValidDescription = validateFormikField(touched, errors, 'description');
-
         return (
-            <Form className="discipline-form" id="edit-form" inline onSubmit={handleSubmit}>
-                <Modal.Body>
-                    {
-                        !isEmpty(errors) && !isEmpty(touched) &&
-                        <ul className="list-message-error">
-                            {!isValidEffectiveDate && <li>{errors.effectiveDate}</li>}
-                            {!isValidDescription && <li>{errors.description}</li>}
-                        </ul>
-                    }
-
-                    <div className="line-group">
-                        <FormGroup>
-                            <label className="control-label required-label">{getResource('IssueDate')}</label>
-                            <div className="control-content">
-                                <DatePicker className={`form-control  ${!isValidEffectiveDate && InputErrorCssClass}`}
-                                    dateFormat={DateFormat} selected={values.effectiveDate}
-                                    onChange={value => setFieldValue('effectiveDate', value)}
-                                    onChangeRaw={this.onChangeRaw}
-                                    name="effectiveDate" autoComplete="off"
-                                />
-                            </div>
-                        </FormGroup>
-                        <FormGroup className="description-group">
-                            <label className="control-label required-label">{getResource('Content')}</label>
-                            <div className="control-content">
-                                <textarea className={`form-control none-resize ${!isValidDescription && InputErrorCssClass}`}
-                                    name="description" rows="10"
-                                    onChange={handleChange}
-                                    value={values.description}
-                                />
-                            </div>
-                        </FormGroup>
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button className="btn btn-cancel" onClick={this.props.onClose}>{getResource('Cancel')}</Button>
-                    <Button type="submit" className="btn btn-primary">{getResource('Submit')}</Button>
-                </Modal.Footer>
-            </Form>
+            <CreateEditForm
+                isCreate={false}
+                values={values}
+                touched={touched}
+                errors={errors}
+                employeeOptions={this.props.employeeOptions}
+                setFieldValue={setFieldValue}
+                onChange={handleChange}
+                onSubmit={handleSubmit}
+                onClose={this.props.onClose}
+            />
         );
     }
 
