@@ -1,5 +1,6 @@
 ﻿import React from 'react';
 import moment from 'moment';
+import { isEmpty } from 'lodash';
 
 const _rootUrl = document.getElementById('RootURL').value ? document.getElementById('RootURL').value : '/';
 
@@ -195,3 +196,18 @@ export const groupBy = function (array, keyGetter) {
 };
 
 export const validateFormikField = (touched, errors, fieldName) => touched[fieldName] && errors[fieldName] ? false : true;
+
+export const displayFormikErrors = (touched, errors, fieldNames = []) => {
+    return (
+        !isEmpty(errors)
+        && !isEmpty(touched)
+        && <ul className="list-message-error">
+            {
+                fieldNames.map(field => {
+                    const isValid = validateFormikField(touched, errors, field);
+                    return !isValid && <li>{errors[field]}</li>;
+                })
+            }
+        </ul>
+    );
+};

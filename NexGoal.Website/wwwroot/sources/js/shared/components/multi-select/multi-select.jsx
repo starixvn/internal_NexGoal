@@ -20,4 +20,4 @@ export default class MultiSelect extends PureComponent {
             />
         );
     }
-};
+}

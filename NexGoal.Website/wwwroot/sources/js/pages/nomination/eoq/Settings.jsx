@@ -6,10 +6,10 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import Select from 'react-select';
 import { Formik } from 'formik';
-import { camelCase, isEmpty } from 'lodash';
+import { camelCase } from 'lodash';
 import { stringify } from 'qs';
 
-import { axiosError, resolveClientUrl, validateFormikField } from '../../../common-functions';
+import { axiosError, resolveClientUrl, validateFormikField, displayFormikErrors } from '../../../common-functions';
 import { quarterOptions, validateEOQForm } from '../common';
 import getResource from '../../../resourceHelper';
 import { DateFormat, InputErrorCssClass, PostRequestHeaders } from '../../../constants';
@@ -53,7 +53,7 @@ class Settings extends Component {
                         endDateForNominator: moment(data.endDateForNominator),
                         remindDateForNominator: moment(data.remindDateForNominator),
                         endDateForCommittee: moment(data.endDateForCommittee),
-                        description: data.description
+                        description: data.description || ''
                     }
                 });
             }).catch(axiosError);
@@ -109,9 +109,7 @@ class Settings extends Component {
         const yearOptions = [
             { value: values.year, label: values.year }
         ];
-        const isValidQuarter = validateFormikField(touched, errors, 'quarter'),
-            isValidYear = validateFormikField(touched, errors, 'year'),
-            isValidStartDateForMominator = validateFormikField(touched, errors, 'startDateForNominator'),
+        const isValidStartDateForMominator = validateFormikField(touched, errors, 'startDateForNominator'),
             isValidEndDateForNominator = validateFormikField(touched, errors, 'endDateForNominator'),
             isValidRemindDateForNominator = validateFormikField(touched, errors, 'remindDateForNominator'),
             isValidEndDateForCommittee = validateFormikField(touched, errors, 'endDateForCommittee'),
@@ -120,17 +118,12 @@ class Settings extends Component {
         return (
             <Form id="edit-eoq-form" inline className="settings-form" onSubmit={handleSubmit}>
                 {
-                    !isEmpty(errors) && !isEmpty(touched) &&
-                    <ul className="list-message-error">
-                        {!isValidQuarter && <li>{errors.quarter}</li>}
-                        {!isValidYear && <li>{errors.year}</li>}
-                        {!isValidStartDateForMominator && <li>{errors.startDateForNominator}</li>}
-                        {!isValidEndDateForNominator && <li>{errors.endDateForNominator}</li>}
-                        {!isValidRemindDateForNominator && <li>{errors.remindDateForNominator}</li>}
-                        {!isValidEndDateForCommittee && <li>{errors.endDateForCommittee}</li>}
-                        {!isValidDescription && <li>{errors.description}</li>}
-                    </ul>
+                    displayFormikErrors(
+                        touched,
+                        errors,
+                        ['quarter', 'year', 'startDateForNominator', 'endDateForNominator', 'remindDateForNominator', 'endDateForCommittee', 'description'])
                 }
+
                 <div className="line-group">
                     <FormGroup>
                         <label className="control-label">{getResource('Quarter')}</label>
@@ -205,7 +198,7 @@ class Settings extends Component {
                         <div className="field control-content description-content">
                             <textarea className={`form-control none-resize ${!isValidDescription && InputErrorCssClass}`}
                                 rows="3" maxLength="200"
-                                name="description" value={values.description || ''}
+                                name="description" value={values.description}
                                 onChange={handleChange} disabled={isHost ? false : true}
                             />
                         </div>

@@ -9,7 +9,7 @@ import { Formik } from 'formik';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 
-import { axiosError, resolveClientUrl, validateFormikField } from '../../../common-functions';
+import { axiosError, resolveClientUrl, validateFormikField, displayFormikErrors } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import { validateEOYForm } from '../common';
 import { DateFormat, InputErrorCssClass, PostRequestHeaders } from '../../../constants';
@@ -106,8 +106,7 @@ class Settings extends Component {
         const yearOptions = [
             { value: values.year, label: values.year }
         ];
-        const isValidYear = validateFormikField(touched, errors, 'year'),
-            isValidStartDateForMominator = validateFormikField(touched, errors, 'startDateForNominator'),
+        const isValidStartDateForMominator = validateFormikField(touched, errors, 'startDateForNominator'),
             isValidEndDateForNominator = validateFormikField(touched, errors, 'endDateForNominator'),
             isValidRemindDateForNominator = validateFormikField(touched, errors, 'remindDateForNominator'),
             isValidEndDateForCommittee = validateFormikField(touched, errors, 'endDateForCommittee'),
@@ -116,16 +115,12 @@ class Settings extends Component {
         return (
             <Form id="edit-eoy-form" inline className="settings-form" onSubmit={handleSubmit}>
                 {
-                    !isEmpty(errors) && !isEmpty(touched) &&
-                    <ul className="list-message-error">
-                        {!isValidYear && <li>{errors.year}</li>}
-                        {!isValidStartDateForMominator && <li>{errors.startDateForNominator}</li>}
-                        {!isValidEndDateForNominator && <li>{errors.endDateForNominator}</li>}
-                        {!isValidRemindDateForNominator && <li>{errors.remindDateForNominator}</li>}
-                        {!isValidEndDateForCommittee && <li>{errors.endDateForCommittee}</li>}
-                        {!isValidDescription && <li>{errors.description}</li>}
-                    </ul>
+                    displayFormikErrors(
+                        touched,
+                        errors,
+                        ['year', 'startDateForNominator', 'endDateForNominator', 'remindDateForNominator', 'endDateForCommittee', 'description'])
                 }
+
                 <div className="line-group">
                     <FormGroup>
                         <label className="control-label">{getResource('Year')}</label>

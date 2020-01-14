@@ -5,19 +5,15 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import Select from 'react-select';
 import { Formik } from 'formik';
-import { camelCase, isEmpty } from 'lodash';
+import { camelCase } from 'lodash';
 import { stringify } from 'qs';
 
-import { axiosError, resolveClientUrl, validateFormikField } from '../../../common-functions';
+import { axiosError, resolveClientUrl, validateFormikField, displayFormikErrors } from '../../../common-functions';
 import { quarterOptions, validateEOQForm } from '../common';
 import getResource from '../../../resourceHelper';
 import { DateFormat, InputErrorCssClass, PostRequestHeaders } from '../../../constants';
 
-class Create extends Component {
-    constructor(props) {
-        super(props);
-    }
-
+export default class Create extends Component {
     renderForm = ({
         values,
         errors,
@@ -30,9 +26,7 @@ class Create extends Component {
             { value: currentYear, label: currentYear },
             { value: currentYear + 1, label: currentYear + 1 }
         ];
-        const isValidQuarter = validateFormikField(touched, errors, 'quarter'),
-            isValidYear = validateFormikField(touched, errors, 'year'),
-            isValidStartDateForMominator = validateFormikField(touched, errors, 'startDateForNominator'),
+        const isValidStartDateForMominator = validateFormikField(touched, errors, 'startDateForNominator'),
             isValidEndDateForNominator = validateFormikField(touched, errors, 'endDateForNominator'),
             isValidRemindDateForNominator = validateFormikField(touched, errors, 'remindDateForNominator'),
             isValidEndDateForCommittee = validateFormikField(touched, errors, 'endDateForCommittee'),
@@ -42,17 +36,12 @@ class Create extends Component {
             <Form id="create-eoq-form" inline onSubmit={handleSubmit}>
                 <Modal.Body>
                     {
-                        !isEmpty(errors) && !isEmpty(touched) &&
-                        <ul className="list-message-error">
-                            {!isValidQuarter && <li>{errors.quarter}</li>}
-                            {!isValidYear && <li>{errors.year}</li>}
-                            {!isValidStartDateForMominator && <li>{errors.startDateForNominator}</li>}
-                            {!isValidEndDateForNominator && <li>{errors.endDateForNominator}</li>}
-                            {!isValidRemindDateForNominator && <li>{errors.remindDateForNominator}</li>}
-                            {!isValidEndDateForCommittee && <li>{errors.endDateForCommittee}</li>}
-                            {!isValidDescription && <li>{errors.description}</li>}
-                        </ul>
+                        displayFormikErrors(
+                            touched,
+                            errors,
+                            ['quarter', 'year', 'startDateForNominator', 'endDateForNominator', 'remindDateForNominator', 'endDateForCommittee', 'description'])
                     }
+
                     <div className="line-group">
                         <FormGroup>
                             <label className="control-label">{getResource('Quarter')}</label>
@@ -218,5 +207,3 @@ class Create extends Component {
         );
     }
 }
-
-export default Create;

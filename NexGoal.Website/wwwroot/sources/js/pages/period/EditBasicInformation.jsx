@@ -6,11 +6,12 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
-import { camelCase, isEmpty } from 'lodash';
+import { camelCase } from 'lodash';
 
-import { axiosError, resolveClientUrl, validateFormikField } from '../../common-functions';
+import { axiosError, resolveClientUrl, validateFormikField, displayFormikErrors } from '../../common-functions';
 import getResource from '../../resourceHelper';
 import { DateFormat, TargetType, InputErrorCssClass, PostRequestHeaders } from '../../constants';
+import { validateForm } from './common-functions';
 
 export default class EditBasicInformation extends Component {
     constructor(props) {
@@ -37,54 +38,6 @@ export default class EditBasicInformation extends Component {
                 data.focusEndDate = data.focusEndDate ? moment(data.focusEndDate) : null;
                 this.setState({ basicInformation: data });
             }).catch(axiosError);
-    }
-
-    validateForm = values => {
-        const errors = {};
-
-        if (!values.name) {
-            errors.name = getResource('NameRequired');
-        }
-
-        if (values.targetTypeId === TargetType.SemiAnnual) {
-            if (!values.startDate) {
-                errors.startDate = 'Start Date is required';
-            }
-
-            if (!values.endDate) {
-                errors.endDate = 'End Date is required';
-            }
-
-            if (values.startDate && values.endDate && values.startDate.isAfter(values.endDate)) {
-                errors.startDate = 'Start Date must be before End Date';
-            }
-
-            if (!values.disciplineStartDate) {
-                errors.disciplineStartDate = 'Discipline Start Date is required';
-            }
-
-            if (!values.disciplineEndDate) {
-                errors.disciplineEndDate = 'Discipline End Date is required';
-            }
-
-            if (values.disciplineStartDate && values.disciplineEndDate && values.disciplineStartDate.isAfter(values.disciplineEndDate)) {
-                errors.disciplineStartDate = 'Discipline Start Date must be before Discipline End Date';
-            }
-
-            if (!values.focusStartDate) {
-                errors.focusStartDate = 'Focus Start Date is required';
-            }
-
-            if (!values.focusEndDate) {
-                errors.focusEndDate = 'Focus End Date is required';
-            }
-
-            if (values.focusStartDate && values.focusEndDate && values.focusStartDate.isAfter(values.focusEndDate)) {
-                errors.focusStartDate = 'Focus Start Date must be before Focus End Date';
-            }
-        }
-
-        return errors;
     }
 
     onSubmit = (values, { setErrors, setSubmitting }) => {
@@ -148,21 +101,16 @@ export default class EditBasicInformation extends Component {
             isValidDisciplineStartDate = validateFormikField(touched, errors, 'disciplineStartDate'),
             isValidDisciplineEndDate = validateFormikField(touched, errors, 'disciplineEndDate'),
             isValidFocusStartDate = validateFormikField(touched, errors, 'focusStartDate'),
-            isValidFocusEndDate = validateFormikField(touched, errors, 'focusEndDate');
+            isValidFocusEndDate = validateFormikField(touched, errors, 'focusEndDate'),
+            isValidDescription = validateFormikField(touched, errors, 'description');
 
         return (
             <Form inline className="settings-form evaluation-period-form" onSubmit={handleSubmit} >
                 {
-                    !isEmpty(errors) && !isEmpty(touched) &&
-                    <ul className="list-message-error">
-                        {!isValidName && <li>{errors.name}</li>}
-                        {!isValidStartDate && <li>{errors.startDate}</li>}
-                        {!isValidEndDate && <li>{errors.endDate}</li>}
-                        {!isValidDisciplineStartDate && <li>{errors.disciplineStartDate}</li>}
-                        {!isValidDisciplineEndDate && <li>{errors.disciplineEndDate}</li>}
-                        {values.targetTypeId === TargetType.SemiAnnual && !isValidFocusStartDate && <li>{errors.focusStartDate}</li>}
-                        {values.targetTypeId === TargetType.SemiAnnual && !isValidFocusEndDate && <li>{errors.focusEndDate}</li>}
-                    </ul>
+                    displayFormikErrors(
+                        touched,
+                        errors,
+                        ['name', 'startDate', 'endDate', 'disciplineStartDate', 'disciplineEndDate', 'focusStartDate', 'focusEndDate', 'description'])
                 }
                 <div className="line-group">
                     <FormGroup>
@@ -260,7 +208,7 @@ export default class EditBasicInformation extends Component {
                     <FormGroup>
                         <Col componentClass={ControlLabel}>{getResource('Description')}</Col>
                         <Col className="description-content">
-                            <textarea className={`form-control none-resize`}
+                            <textarea className={`form-control none-resize ${!isValidDescription && InputErrorCssClass}`}
                                 name="description" rows="4"
                                 onChange={handleChange} value={values.description}
                             />
@@ -279,7 +227,7 @@ export default class EditBasicInformation extends Component {
     render() {
         if (this.state.basicInformation) {
             return (
-                <Formik initialValues={this.state.basicInformation} validate={this.validateForm} onSubmit={this.onSubmit} render={this.renderForm} />
+                <Formik initialValues={this.state.basicInformation} validate={validateForm} onSubmit={this.onSubmit} render={this.renderForm} />
             );
         } else {
             return '';
