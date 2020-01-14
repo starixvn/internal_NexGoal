@@ -1,23 +1,23 @@
-﻿import React from 'react';
+﻿import React, { PureComponent } from 'react';
 import { default as ReactSelect } from 'react-select';
 
 import MenuList from './MenuList';
 import Option from './Option';
 
-const MultiSelect = props => {
-    return (
-        <ReactSelect {...props}
-            isMulti
-            hideSelectedOptions={false}
-            closeMenuOnSelect={false}
-            isClearable={false}
-            menuPlacement="auto"
-            backspaceRemovesValue={false}
-            controlShouldRenderValue={false}
-            placeholder={`${props.value.length} item(s) selected`}
-            components={{ MenuList, Option }}
-        />
-    );
+export default class MultiSelect extends PureComponent {
+    render() {
+        return (
+            <ReactSelect {...this.props}
+                isMulti
+                hideSelectedOptions={false}
+                closeMenuOnSelect={false}
+                isClearable={false}
+                menuPlacement="auto"
+                backspaceRemovesValue={false}
+                controlShouldRenderValue={false}
+                placeholder={`${this.props.value.length} item(s) selected`}
+                components={{ MenuList, Option }}
+            />
+        );
+    }
 };
-
-export default MultiSelect;

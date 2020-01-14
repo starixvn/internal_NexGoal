@@ -1,34 +1,34 @@
-﻿import React from 'react';
+﻿import React, { PureComponent } from 'react';
 import { components } from 'react-select';
 
-const MenuList = props => {
-    const selected = props.getValue();
+export default class MenuList extends PureComponent {
+    render() {
+        const selected = this.props.getValue();
 
-    return (
-        <components.MenuList {...props}>
-            {
-                props.options.length > 0 &&
-                <div className="react-select__option"
-                    onClick={() => {
-                        if (selected.length === props.options.length) {
-                            props.setValue([]);
-                        } else {
-                            props.setValue(props.options);
-                        }
-                    }}
-                >
-                    <div className="checkbox">
-                        <input className="checkbox-custom" type="checkbox" checked={selected.length === props.options.length}
-                            onChange={() => {
-                                //empty
-                            }}
-                        /> <label>Select All</label>
+        return (
+            <components.MenuList {...this.props}>
+                {
+                    this.props.options.length > 0 &&
+                    <div className="react-select__option"
+                        onClick={() => {
+                            if (selected.length === this.props.options.length) {
+                                this.props.setValue([]);
+                            } else {
+                                this.props.setValue(this.props.options);
+                            }
+                        }}
+                    >
+                        <div className="checkbox">
+                            <input className="checkbox-custom" type="checkbox" checked={selected.length === this.props.options.length}
+                                onChange={() => {
+                                    //empty
+                                }}
+                            /> <label>Select All</label>
+                        </div>
                     </div>
-                </div>
-            }
-            {props.children}
-        </components.MenuList >
-    );
-};
-
-export default MenuList;
+                }
+                {this.props.children}
+            </components.MenuList>
+        );
+    }
+}

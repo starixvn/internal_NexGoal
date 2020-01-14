@@ -1,14 +1,14 @@
-﻿import React from 'react';
+﻿import React, { PureComponent } from 'react';
 import { components } from 'react-select';
 
 import { getNominationClassName } from '../../../common-functions';
 
-const SingleValue = ({ children, ...props }) => {
-    return (
-        <components.SingleValue {...props}>
-            <span className={getNominationClassName(props.selectProps.value.value)} >{children}</span>
-        </components.SingleValue>
-    );
-};
-
-export default SingleValue;
+export default class SingleValue extends PureComponent {
+    render() {
+        return (
+            <components.SingleValue {...this.props}>
+                <span className={getNominationClassName(this.props.selectProps.value.value)}>{this.props.children}</span>
+            </components.SingleValue>
+        );
+    }
+}

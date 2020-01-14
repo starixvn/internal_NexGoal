@@ -1,5 +1,4 @@
 ﻿import React, { Component, Fragment } from 'react';
-
 import Select from 'react-select';
 import axios from 'axios';
 import { object, array, number, string } from 'yup';

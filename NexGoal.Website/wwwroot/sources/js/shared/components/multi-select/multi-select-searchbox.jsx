@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Select from 'react-select';
 import isEqual from 'react-fast-compare';
 
-import DropdownIndicator from './DropdownIndicator';
 import MenuList from './MenuList';
 import Option from './Option';
 
@@ -85,7 +84,12 @@ export default class MultiSelectSearchbox extends Component {
                         isClearable={false}
                         menuPlacement="auto"
                         placeholder="Search..."
-                        components={{ MenuList, Option, DropdownIndicator, IndicatorSeparator: null }}
+                        components={{
+                            MenuList,
+                            Option,
+                            DropdownIndicator: <div className="fa fa-search" />,
+                            IndicatorSeparator: null
+                        }}
                         onChange={this.handleChange}
                         styles={{ multiValue: base => ({ ...base, backgroundColor: 'none', border: 'unset' }) }}
                     />

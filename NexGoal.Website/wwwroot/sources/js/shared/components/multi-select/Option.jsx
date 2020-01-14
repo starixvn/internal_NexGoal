@@ -1,19 +1,19 @@
-﻿import React from 'react';
+﻿import React, { PureComponent } from 'react';
 import { components } from 'react-select';
 
-const Option = props => {
-    return (
-        <components.Option {...props}>
-            <div className="checkbox">
-                <input className="checkbox-custom" type="checkbox" checked={props.isSelected}
-                    onChange={() => {
-                        //empty
-                    }}
-                />
-                <label>{props.data.label}</label>
-            </div>
-        </components.Option>
-    );
-};
-
-export default Option;
+export default class Option extends PureComponent {
+    render() {
+        return (
+            <components.Option {...this.props}>
+                <div className="checkbox">
+                    <input className="checkbox-custom" type="checkbox" checked={this.props.isSelected}
+                        onChange={() => {
+                            //empty
+                        }}
+                    />
+                    <label>{this.props.data.label}</label>
+                </div>
+            </components.Option>
+        );
+    }
+}
