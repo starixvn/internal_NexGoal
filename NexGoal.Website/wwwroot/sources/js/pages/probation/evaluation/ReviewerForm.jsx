@@ -7,7 +7,7 @@ import { stringify } from 'qs';
 import { toast } from 'react-toastify';
 import { OverlayTrigger } from 'react-bootstrap';
 
-import { axiosError, resolveClientUrl } from '../../../common-functions';
+import { axiosError, resolveClientUrl, validateFormikField } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import ProbationResultOptions from './ProbationResultOptions';
 import SingleValue from './SingleValue';
@@ -65,6 +65,14 @@ export default class ReviewerForm extends Component {
         comment: string().required()
     })
 
+    renderPerformanceResult = probationer => {
+        return (
+            <span className={probationer.isQualifiedByEvaluator ? 'passed' : 'failed'}>
+                {probationer.isQualifiedByEvaluator !== null ? probationer.isQualifiedByEvaluator ? 'Passed' : 'Failed' : EmptyPlaceHolder}
+            </span>
+        );
+    }
+
     renderForm = ({
         values,
         errors,
@@ -74,6 +82,7 @@ export default class ReviewerForm extends Component {
         setFieldValue,
         isSubmitting
     }) => {
+        const probationer = this.props.probationer;
         return (
             <Fragment>
                 <NexPanel title="Performance Result">
@@ -85,42 +94,38 @@ export default class ReviewerForm extends Component {
                             <tr>
                                 <td className="text-center text-title">{getResource('Self')}</td>
                                 <td className="text-center text-title">{getResource('Score')}</td>
-                                <td className="text-center text-score">{this.props.probationer.selfScore && `${this.props.probationer.selfScore} pts`}</td>
+                                <td className="text-center text-score">{probationer.selfScore && `${probationer.selfScore} pts`}</td>
                                 <td className="comment-cell comment-text">
-                                    <Paragraph content={this.props.probationer.selfComment} />
+                                    <Paragraph content={probationer.selfComment} />
                                 </td>
                             </tr>
                             <tr>
                                 <td className="text-center text-title" rowSpan="2">
                                     {getResource('Evaluator')}
-                                    <div>({this.props.probationer.settings.find(x => x.processId === PerformanceProcess.Evaluator).evaluatorNickName})</div>
+                                    <div>({probationer.settings.find(x => x.processId === PerformanceProcess.Evaluator).evaluatorNickName})</div>
                                 </td>
                                 <td className="text-center text-title">{getResource('Score')}</td>
-                                <td className="text-center text-score">{this.props.probationer.evaluatorScore && `${this.props.probationer.evaluatorScore} pts`}</td>
+                                <td className="text-center text-score">{probationer.evaluatorScore && `${probationer.evaluatorScore} pts`}</td>
                                 <td className="comment-cell comment-text" rowSpan="2">
-                                    <Paragraph content={this.props.probationer.evaluatorComment} />
+                                    <Paragraph content={probationer.evaluatorComment} />
                                 </td>
                             </tr>
                             <tr>
                                 <td className="text-center text-title">{getResource('Result')}</td>
-                                <td className="text-center text-score">
-                                    <span className={this.props.probationer.isQualifiedByEvaluator ? 'passed' : 'failed'}>
-                                        {this.props.probationer.isQualifiedByEvaluator !== null ?
-                                            this.props.probationer.isQualifiedByEvaluator ? 'Passed' : 'Failed' : EmptyPlaceHolder}
-                                    </span>
-                                </td>
+                                <td className="text-center text-score">{this.renderPerformanceResult(probationer)}</td>
                             </tr>
                             <tr>
                                 <td className="text-center text-title">
                                     {getResource('Reviewer')}
-                                    <div>({this.props.probationer.settings.find(x => x.processId === PerformanceProcess.Reviewer).evaluatorNickName})</div>
+                                    <div>({probationer.settings.find(x => x.processId === PerformanceProcess.Reviewer).evaluatorNickName})</div>
                                 </td>
                                 <td className="text-center text-title">{getResource('FinalResult')}</td>
                                 <td className="text-score">
-                                    {this.props.probationer.canEdit &&
+                                    {
+                                        probationer.canEdit &&
                                         <Select name="isQualified"
-                                            className={`react-select-container ${touched.isQualified && errors.isQualified && 'input-validation-error'}`}
-                                            classNamePrefix="react-select" isDisabled={!this.props.probationer.canEdit}
+                                            className={`react-select-container ${!validateFormikField(touched, errors, 'isQualified') && 'input-validation-error'}`}
+                                            classNamePrefix="react-select" isDisabled={!probationer.canEdit}
                                             value={values.isQualified}
                                             options={ProbationResultOptions} placeholder=""
                                             isClearable={false} isSearchable={false}
@@ -130,8 +135,9 @@ export default class ReviewerForm extends Component {
                                     }
                                 </td>
                                 <td className="comment-cell input-comment">
-                                    {this.props.probationer.canEdit &&
-                                        <textarea className={touched.comment && errors.comment && 'input-validation-error'}
+                                    {
+                                        probationer.canEdit &&
+                                        <textarea className={!validateFormikField(touched, errors, 'comment') && 'input-validation-error'}
                                             value={values.comment} onChange={handleChange} name="comment" rows="5"
                                         />
                                     }
@@ -141,7 +147,6 @@ export default class ReviewerForm extends Component {
                     </table>
                     <table className="table table-bordered table-striped">
                         <tbody>
-
                             <tr className="group-row">
                                 <td colSpan="3">
                                     B. DETAILS
@@ -152,15 +157,17 @@ export default class ReviewerForm extends Component {
                             </tr>
                             {this.props.evaluationDetails.map(this.renderKPIGroup)}
                             <tr className="score">
-                                <td className="text-center"><strong>Score</strong></td>
+                                <td className="text-center"><strong>{getResource('Score')}</strong></td>
                                 <td className="text-center">
-                                    {this.props.probationer.selfScore &&
-                                        <span className="score-badge"><span>{this.props.probationer.selfScore}</span>/100 pts</span>
+                                    {
+                                        probationer.selfScore &&
+                                        <span className="score-badge"><span>{probationer.selfScore}</span>/100 pts</span>
                                     }
                                 </td>
                                 <td className="text-center">
-                                    {this.props.probationer.evaluatorScore &&
-                                        <span className="score-badge"><span>{this.props.probationer.evaluatorScore}</span>/100 pts</span>
+                                    {
+                                        probationer.evaluatorScore &&
+                                        <span className="score-badge"><span>{probationer.evaluatorScore}</span>/100 pts</span>
                                     }
                                 </td>
                             </tr>
@@ -169,7 +176,8 @@ export default class ReviewerForm extends Component {
                 </NexPanel>
                 <div className="button-group">
                     <a className="btn btn-default btn-cancel" href="/member/index?activeTab=4">{getResource('Back')}</a>
-                    {this.props.probationer.canEdit &&
+                    {
+                        probationer.canEdit &&
                         <button className="btn btn-primary" disabled={isSubmitting} type="button" onClick={handleSubmit}>{getResource('Submit')}</button>
                     }
                 </div>

@@ -81,20 +81,17 @@ export default class PerformanceRecord extends Component {
 
     handleDelete = () => this.props.onDelete(this.props.data.performanceRecordId);
 
-    renderMembers = (employee, i) =>
-        (
-            <Fragment key={employee.employeeId}>
+    renderMembers = (employee, i) => (
+        <Fragment key={employee.employeeId}>
 
-                <a href={resolveClientUrl(`member/details/${employee.employeeId}`)}>
-                    {employee.nickName}
-                </a>
-                {i < this.props.data.employees.length - 1 && ', '}
-            </Fragment>
-        )
+            <a href={resolveClientUrl(`member/details/${employee.employeeId}`)}>
+                {employee.nickName}
+            </a>
+            {i < this.props.data.employees.length - 1 && ', '}
+        </Fragment>
+    );
 
-    renderPerformanceGrade = grade => {
-        return grade ? `(${grade.name}) ${grade.description}` : getResource('N/A');
-    }
+    renderPerformanceGrade = grade => grade ? `(${grade.name}) ${grade.description}` : getResource('N/A');
 
     renderProject = projects => {
         return projects && projects.length > 0 ?
@@ -104,12 +101,9 @@ export default class PerformanceRecord extends Component {
     renderPerformanceCheckin = () => {
         const record = this.props.data;
         let { employees, creator } = record;
-        const createdDate = record.createdDate ? calendar(record.createdDate) : '';
-        const modifiedDate = record.modifiedDate ? calendar(record.modifiedDate) : '';
 
         let commentWrapperClass = 'expanded';
         let expandCommentButtonClass = 'see-less';
-
         if (this.state.isExpanded) {
             commentWrapperClass = 'collapsed';
             expandCommentButtonClass = 'see-more';
@@ -149,13 +143,14 @@ export default class PerformanceRecord extends Component {
                     }
                 </div>
                 <div className="date-time">
-                    <span className="submit-date">{createdDate}</span>
-                    {modifiedDate &&
+                    <span className="submit-date">{calendar(record.createdDate)}</span>
+                    {
+                        record.modifiedDate &&
                         <div className="edited-date">
                             <span className="icon-edited-date" />
                             <span className="edited-tooltip">
                                 <i className="arrow" />
-                                Edited on {modifiedDate}
+                                Edited on {calendar(record.modifiedDate)}
                             </span>
                         </div>
                     }
@@ -190,11 +185,9 @@ export default class PerformanceRecord extends Component {
     renderDraftPerformanceCheckin = () => {
         const record = this.props.data;
         let { employees, creator } = record;
-        const createdDate = record.createdDate ? calendar(record.createdDate) : '';
 
         let commentWrapperClass = 'expanded';
         let expandCommentButtonClass = 'see-less';
-
         if (this.state.isExpanded) {
             commentWrapperClass = 'collapsed';
             expandCommentButtonClass = 'see-more';
@@ -238,8 +231,7 @@ export default class PerformanceRecord extends Component {
                     {
                         <span className="draft">draft</span>
                     }
-                    <span className="submit-date">{createdDate}</span>
-
+                    <span className="submit-date">{calendar(record.createdDate)}</span>
                 </div>
                 <div className="comment" >
                     <p className={commentWrapperClass} ref={element => this.element = element}>{record.comment}</p>
@@ -267,7 +259,6 @@ export default class PerformanceRecord extends Component {
     renderNomination = () => {
         const record = this.props.data;
         let { employees, creator } = record;
-        const createdDate = record.createdDate ? calendar(record.createdDate) : '';
         const modifiedDate = record.modifiedDate ? calendar(record.modifiedDate) : '';
         const status = NominationStatuses.find(x => x.value === record.nominationStatusId);
         const endDateForNominator = moment(record.nominationPeriod.endDateForNominator);
@@ -275,7 +266,6 @@ export default class PerformanceRecord extends Component {
 
         let commentWrapperClass = 'expanded';
         let expandCommentButtonClass = 'see-less';
-
         if (this.state.isExpanded) {
             commentWrapperClass = 'collapsed';
             expandCommentButtonClass = 'see-more';
@@ -318,7 +308,7 @@ export default class PerformanceRecord extends Component {
                     </div>
                 </div>
                 <div className="date-time">
-                    <span className="submit-date">{createdDate}</span>
+                    <span className="submit-date">{calendar(record.createdDate)}</span>
                     {
                         modifiedDate && endDateForNominator >= currentDate &&
                         <div className="edited-date">
@@ -386,12 +376,12 @@ export default class PerformanceRecord extends Component {
         if (toeicPolicy === null || toeicPolicy < 0) {
             return '(-1 grade)';
         }
+
         return '';
     }
 
     renderSystemPerformanceAppraisal = () => {
         const record = this.props.data;
-        const grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : getResource('N/A');
         const originalGradeId = record.paSummary.originalGrade ? record.paSummary.originalGrade.gradeId : null;
 
         const gradeChangeClass = getPAGradeClassName(originalGradeId, record.grade ? record.grade.gradeId : null);
@@ -416,7 +406,7 @@ export default class PerformanceRecord extends Component {
                 <div className="grade">
                     {`${getResource('FinalGrade')}:`}
                     <div className="grade-detail">
-                        {grade}
+                        {this.renderPerformanceGrade(record.grade)}
                         <span className={gradeChangeClass} />
                     </div>
                 </div>
@@ -522,16 +512,12 @@ export default class PerformanceRecord extends Component {
                 return this.renderSystemNomination();
         }
 
-        return (<Fragment />);
+        return <Fragment />;
     }
 
     render() {
         return (
-            <Fragment>
-                {
-                    this.props.data && this.renderRecord()
-                }
-            </Fragment>
+            <Fragment>{this.props.data && this.renderRecord()}</Fragment>
         );
     }
 }

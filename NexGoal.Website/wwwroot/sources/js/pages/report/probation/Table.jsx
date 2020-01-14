@@ -16,16 +16,18 @@ export default class Table extends Component {
         this.props.onShowComment(event.target.dataset.comment, parseInt(event.target.dataset.processid, 10));
     }
 
+    renderPerformanceResult = isQualified => {
+        return (
+            <span className={isQualified ? 'passed' : 'failed'}>
+                {isQualified !== null ? isQualified ? 'Passed' : 'Failed' : EmptyPlaceHolder}
+            </span>
+        );
+    }
+
     renderRow = (probationer, index) => {
         let evaluatorResult = EmptyPlaceHolder;
-        let finalResult = EmptyPlaceHolder;
-
-        if (probationer.canViewEvaluatorResult && probationer.isQualifiedByEvaluator !== null) {
-            evaluatorResult = probationer.isQualifiedByEvaluator ? 'Passed' : 'Failed';
-        }
-
-        if (probationer.isQualified !== null) {
-            finalResult = probationer.isQualified ? 'Passed' : 'Failed';
+        if (probationer.canViewEvaluatorResult) {
+            evaluatorResult = this.renderPerformanceResult(probationer.isQualifiedByEvaluator);
         }
 
         return (
@@ -38,32 +40,37 @@ export default class Table extends Component {
                 <td>{probationer.jobTitle}</td>
                 <td className="text-center">{probationer.selfScore || EmptyPlaceHolder}</td>
                 <td className="text-center">
-                    {probationer.selfComment ?
-                        <span className="icon-search" data-processid={PerformanceProcess.Self}
-                            data-comment={probationer.selfComment} onClick={this.handleShowComment}
-                        />
-                        : EmptyPlaceHolder}
+                    {
+                        probationer.selfComment ?
+                            <span className="icon-search" data-processid={PerformanceProcess.Self}
+                                data-comment={probationer.selfComment} onClick={this.handleShowComment}
+                            />
+                            : EmptyPlaceHolder
+                    }
                 </td>
                 <td className="text-center">{probationer.evaluatorScore || EmptyPlaceHolder}</td>
-                {this.props.showEvaluatorResult &&
-                    <td className="text-center"><span className={evaluatorResult.toLowerCase()} >{evaluatorResult}</span></td>
+                {
+                    this.props.showEvaluatorResult &&
+                    <td className="text-center">{evaluatorResult}</td>
                 }
                 <td className="text-center">
-                    {probationer.evaluatorComment ?
-                        <span className="icon-search" data-processid={PerformanceProcess.Evaluator}
-                            data-comment={probationer.evaluatorComment} onClick={this.handleShowComment}
-                        />
-                        : EmptyPlaceHolder}
+                    {
+                        probationer.evaluatorComment ?
+                            <span className="icon-search" data-processid={PerformanceProcess.Evaluator}
+                                data-comment={probationer.evaluatorComment} onClick={this.handleShowComment}
+                            />
+                            : EmptyPlaceHolder
+                    }
                 </td>
+                <td className="text-center">{this.renderPerformanceResult(probationer.isQualified)}</td>
                 <td className="text-center">
-                    <span className={finalResult.toLowerCase()}>{finalResult}</span>
-                </td>
-                <td className="text-center">
-                    {probationer.reviewerComment ?
-                        <span className="icon-search" data-processid={PerformanceProcess.Reviewer}
-                            data-comment={probationer.reviewerComment} onClick={this.handleShowComment}
-                        />
-                        : EmptyPlaceHolder}
+                    {
+                        probationer.reviewerComment ?
+                            <span className="icon-search" data-processid={PerformanceProcess.Reviewer}
+                                data-comment={probationer.reviewerComment} onClick={this.handleShowComment}
+                            />
+                            : EmptyPlaceHolder
+                    }
                 </td>
                 <td className="text-center">
                     <a href={resolveClientUrl(`ProbationReport/Detail/${probationer.employeeId}`)} >

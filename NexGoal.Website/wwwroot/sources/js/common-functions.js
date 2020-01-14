@@ -134,12 +134,12 @@ export const compareArray = function (a, b, compareOnProp) {
 };
 
 export const calendar = function (date) {
-    return moment(date).calendar(null, {
+    return date ? moment(date).calendar(null, {
         sameDay: '[Today at] HH:mm',
         lastDay: '[Yesterday at] HH:mm',
         lastWeek: '[Last] dddd [at] HH:mm',
         sameElse: 'DD MMM YYYY [at] HH:mm'
-    });
+    }) : '';
 };
 
 export const getUrlByActionTypeId = function (actionTypeId, recordId, NotificationActionType) {
