@@ -81,15 +81,56 @@ export default class PerformanceRecord extends Component {
 
     handleDelete = () => this.props.onDelete(this.props.data.performanceRecordId);
 
-    renderMembers = (employee, i) => (
-        <Fragment key={employee.employeeId}>
+    renderMembers = (employee, i) => {
+        return (
+            <Fragment key={employee.employeeId}>
+                <a href={resolveClientUrl(`member/details/${employee.employeeId}`)}>
+                    {employee.nickName}
+                </a>
+                {i < this.props.data.employees.length - 1 && ', '}
+            </Fragment>
+        );
+    }
 
-            <a href={resolveClientUrl(`member/details/${employee.employeeId}`)}>
-                {employee.nickName}
-            </a>
-            {i < this.props.data.employees.length - 1 && ', '}
-        </Fragment>
-    );
+    getHighlightedCssClass = () => this.props.isHighlighted ? 'highlighted' : '';
+
+    renderCreatorForPerformanceCheckin = (employees, creator) => {
+        return this.props.pageType === PageType.MemberPage && employees && employees.some(x => x.employeeId === creator.employeeId) ?
+            <a href={resolveClientUrl(`member/details/${creator.employeeId}`)} >{creator.nickName}</a>
+            : creator.nickName;
+    }
+
+    renderMemberForPerformanceCheckin = (employees, creator) => {
+        return employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
+            <Fragment>
+                <span className="icon-checkin" />
+                <img src={employees[0].avatar} alt="avatar" className="avatar" />
+                <span className="role-member">
+                    {this.props.pageType === PageType.MemberPage ? employees.map(this.renderMembers) : employees.map(e => e.nickName).join(', ')}
+                </span>
+            </Fragment>;
+    }
+
+    renderMemberForDraftPerformanceCheckin = (employees, creator) => {
+        return employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
+            <Fragment>
+                <span className="icon-checkin" />
+                {employees.length === 1 && <img src={employees[0].avatar} alt="avatar" className="avatar" />}
+                {employees.length > 1 && <i className="avatar icon-draft-member" />}
+                <span className="role-member">
+                    {this.props.pageType === PageType.MemberPage ? employees.map(this.renderMembers) : employees.map(e => e.nickName).join(', ')}
+                </span>
+            </Fragment>;
+    }
+
+    renderMemberForNomination = (employees, creator) => {
+        return employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
+            <Fragment>
+                <span className="icon-nomination" />
+                <img src={employees[0].avatar} alt="avatar" className="avatar" />
+                <span className="role-member">{employees.map(employee => employee.nickName).join(', ')}</span>
+            </Fragment>;
+    }
 
     renderPerformanceGrade = grade => grade ? `(${grade.name}) ${grade.description}` : getResource('N/A');
 
@@ -110,28 +151,14 @@ export default class PerformanceRecord extends Component {
         }
 
         return (
-            <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${record.performanceRecordId}`}>
+            <div className={`record ${this.getHighlightedCssClass()}`} id={`record-${record.performanceRecordId}`}>
                 <div className={`avatar-user ${record.createdDate ? '' : 'small'}`}>
                     <img src={creator.avatar} alt="avatar" className="avatar" />
                     <div className="person-info">
                         <span className={getRoleClassName(record.roleId)}>
-                            {this.props.pageType === PageType.MemberPage && employees && employees.some(x => x.employeeId === creator.employeeId) ?
-                                <a href={resolveClientUrl(`member/details/${creator.employeeId}`)} >{creator.nickName}</a>
-                                : creator.nickName
-                            }</span>
-                        {
-                            employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
-                            <Fragment>
-                                <span className="icon-checkin" />
-                                <img src={employees[0].avatar} alt="avatar" className="avatar" />
-                                <span className="role-member">
-                                    {this.props.pageType === PageType.MemberPage ?
-                                        employees.map(this.renderMembers) :
-                                        employees.map(e => e.nickName).join(', ')
-                                    }
-                                </span>
-                            </Fragment>
-                        }
+                            {this.renderCreatorForPerformanceCheckin(employees, creator)}
+                        </span>
+                        {this.renderMemberForPerformanceCheckin(employees, creator)}
                     </div>
                     {
                         record.isHost &&
@@ -194,43 +221,24 @@ export default class PerformanceRecord extends Component {
         }
 
         return (
-            <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-draft-${record.performanceRecordId}`}>
+            <div className={`record ${this.getHighlightedCssClass()}`} id={`record-draft-${record.performanceRecordId}`}>
                 <div className="avatar-user">
                     <img src={creator.avatar} alt="avatar" className="avatar" />
                     <div className="person-info">
                         <span className={getRoleClassName(record.roleId)}>{creator.nickName}</span>
-                        {
-                            employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
-                            <Fragment>
-                                <span className="icon-checkin" />
-                                {employees.length === 1 && <img src={employees[0].avatar} alt="avatar" className="avatar" />}
-                                {employees.length > 1 && <i className="avatar icon-draft-member" />}
-                                <span className="role-member">
-                                    {this.props.pageType === PageType.MemberPage ?
-                                        employees.map(this.renderMembers) :
-                                        employees.map(e => e.nickName).join(', ')
-                                    }
-                                </span>
-                            </Fragment>
-                        }
+                        {this.renderMemberForDraftPerformanceCheckin(employees, creator)}
                     </div>
                     {
                         <div className="date">
                             <div className="edit-date">
-                                {
-                                    <a className="icon-edit" title={getResource('Edit')} onClick={this.handleEditDraft} />
-                                }
-                                {
-                                    <a className="icon-delete" title={getResource('Delete')} onClick={this.handleDelete} />
-                                }
+                                {<a className="icon-edit" title={getResource('Edit')} onClick={this.handleEditDraft} />}
+                                {<a className="icon-delete" title={getResource('Delete')} onClick={this.handleDelete} />}
                             </div>
                         </div>
                     }
                 </div>
                 <div className="date-time">
-                    {
-                        <span className="draft">draft</span>
-                    }
+                    {<span className="draft">draft</span>}
                     <span className="submit-date">{calendar(record.createdDate)}</span>
                 </div>
                 <div className="comment" >
@@ -272,26 +280,17 @@ export default class PerformanceRecord extends Component {
         }
 
         return (
-            <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${record.performanceRecordId}`}>
+            <div className={`record ${this.getHighlightedCssClass()}`} id={`record-${record.performanceRecordId}`}>
                 <div className="avatar-user">
                     <img src={creator.avatar} alt="avatar" className="avatar" />
                     <div className="person-info">
                         <span className={getRoleClassName(record.roleId)}>{creator.nickName}</span>
-                        {
-                            employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
-                            <Fragment>
-                                <span className="icon-nomination" />
-                                <img src={employees[0].avatar} alt="avatar" className="avatar" />
-                                <span className="role-member">{employees.map(employee => employee.nickName).join(', ')}</span>
-                            </Fragment>
-                        }
-
+                        {this.renderMemberForNomination(employees, creator)}
                     </div>
                     <div className="date">
                         <div className="edit-date">
                             <div className="nomination-info">
                                 <div className="nomination-period">{record.nominationPeriod && record.nominationPeriod.title}</div>
-
                             </div>
                             {
                                 record.isHost &&
@@ -317,7 +316,6 @@ export default class PerformanceRecord extends Component {
                         </div>
                     }
                 </div>
-
                 <div className="comment" >
                     <p className={commentWrapperClass} ref={element => this.element = element}>{record.comment}</p>
                     {
@@ -388,7 +386,7 @@ export default class PerformanceRecord extends Component {
         const createdDate = record.createdDate ? calendar(record.createdDate) : '';
 
         return (
-            <div className={`record record-system ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${record.performanceRecordId}`}>
+            <div className={`record record-system ${this.getHighlightedCssClass()}`} id={`record-${record.performanceRecordId}`}>
                 <div className="avatar-user">
                     <div className="avatar nexgoal-system"><img src={resolveClientUrl('dist/avatars/icon-nexgoal.svg')} alt="avatar" /></div>
                     <div className="person-info">
@@ -414,6 +412,51 @@ export default class PerformanceRecord extends Component {
         );
     }
 
+    getNominatedContent = (nominationPeriod, employees) => {
+        switch (this.props.pageType) {
+            case PageType.MyPage:
+                return `Congratulations! You were nominated for the ${nominationPeriod} award.`;
+
+            case PageType.MemberProfile:
+                return `${employees} was nominated for the ${nominationPeriod} award.`;
+
+            default:
+                return <Fragment>
+                    Here is the list of your members who got into the Nominated round: <span className="bold">{employees}</span>
+                </Fragment>;
+        }
+    }
+
+    getShortlistedContent = (nominationPeriod, employees) => {
+        switch (this.props.pageType) {
+            case PageType.MyPage:
+                return `Congratulations! You were shortlisted for the ${nominationPeriod} award.`;
+
+            case PageType.MemberProfile:
+                return `${employees} was shortlisted for the ${nominationPeriod} award.`;
+
+            default:
+                return <Fragment>
+                    Here is the list of your members who got into the Shortlisted round: <span className="bold">{employees}</span>
+                </Fragment>;
+        }
+    }
+
+    getWinnerContent = (nominationPeriod, employees) => {
+        switch (this.props.pageType) {
+            case PageType.MyPage:
+                return `Congratulations! You were the Winner of ${nominationPeriod} award.`;
+
+            case PageType.MemberProfile:
+                return `Congratulations! ${employees} was the Winner of ${nominationPeriod} award.`;
+
+            default:
+                return <Fragment>
+                    Here is the list of your members who are the Winner of this Award: <span className="bold">{employees}</span>
+                </Fragment>;
+        }
+    }
+
     getNominationContent = nominationStatusId => {
         const record = this.props.data;
         const nominationPeriod = record.nominationPeriod ? record.nominationPeriod.title : '';
@@ -421,25 +464,14 @@ export default class PerformanceRecord extends Component {
 
         switch (nominationStatusId) {
             case NominationStatuses[0].value:
-                return this.props.pageType === PageType.MyPage ?
-                    `Congratulations! You were nominated for the ${nominationPeriod} award.`
-                    : this.props.pageType === PageType.MemberProfile ?
-                        `${employees} was nominated for the ${nominationPeriod} award.`
-                        : <Fragment>Here is the list of your members who got into the Nominated round: <span className="bold">{employees}</span></Fragment>;
+                return this.getNominatedContent(nominationPeriod, employees);
 
             case NominationStatuses[1].value:
-                return this.props.pageType === PageType.MyPage ?
-                    `Congratulations! You were shortlisted for the ${nominationPeriod} award.`
-                    : this.props.pageType === PageType.MemberProfile ?
-                        `${employees} was shortlisted for the ${nominationPeriod} award.`
-                        : <Fragment>Here is the list of your members who got into the Shortlisted round: <span className="bold">{employees}</span></Fragment>;
+                return this.getShortlistedContent(nominationPeriod, employees);
 
             case NominationStatuses[2].value:
-                return this.props.pageType === PageType.MyPage ?
-                    `Congratulations! You were the Winner of ${nominationPeriod} award.`
-                    : this.props.pageType === PageType.MemberProfile ?
-                        `Congratulations! ${employees} was the Winner of ${nominationPeriod} award.`
-                        : <Fragment>Here is the list of your members who are the Winner of this Award: <span className="bold">{employees}</span></Fragment>;
+                return this.getWinnerContent(nominationPeriod, employees);
+
             default: return '';
         }
     }
@@ -452,7 +484,7 @@ export default class PerformanceRecord extends Component {
         const content = this.getNominationContent(nominationStatusId);
 
         return (
-            <div className={`record record-system ${getNominationClassName(nominationStatusId)} ${this.props.isHighlighted ? 'highlighted' : ''}`}
+            <div className={`record record-system ${getNominationClassName(nominationStatusId)} ${this.getHighlightedCssClass()}`}
                 id={`record-${record.performanceRecordId}`}
             >
                 {
