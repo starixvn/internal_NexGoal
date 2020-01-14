@@ -9,7 +9,7 @@ import { stringify } from 'qs';
 import moment from 'moment';
 import isEqual from 'react-fast-compare';
 
-import { axiosError, getRoleClassName, resolveClientUrl, compareArray } from '../../common-functions';
+import { axiosError, getRoleClassName, resolveClientUrl } from '../../common-functions';
 import { DateFormat, ProbationTag, PostRequestHeaders } from '../../constants';
 import getResource from '../../resourceHelper';
 import TextareaFullscreenEditor from '../../shared/components/textarea-fullscreen/index';
@@ -83,10 +83,7 @@ export default class EditMemberPerformance extends Component {
     onLeavingPageEventListener = event => {
         let { performanceRecord, initialPerformanceRecord } = this.state;
 
-        if (!isEqual(performanceRecord.grade, initialPerformanceRecord.grade)
-            || performanceRecord.comment !== initialPerformanceRecord.comment
-            || !compareArray(performanceRecord.projects, initialPerformanceRecord.projects, 'value')
-            || (initialPerformanceRecord.isDraft && !compareArray(performanceRecord.employees, initialPerformanceRecord.employees, 'value'))) {
+        if (!isEqual(performanceRecord, initialPerformanceRecord)) {
             event.returnValue = ' ';
             return ' ';
         }

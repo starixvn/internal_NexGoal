@@ -9,7 +9,7 @@ import { stringify } from 'qs';
 import { toast } from 'react-toastify';
 import { OverlayTrigger } from 'react-bootstrap';
 
-import { axiosError, resolveClientUrl } from '../../../common-functions';
+import { axiosError, resolveClientUrl, validateFormikField } from '../../../common-functions';
 import { InputErrorCssClass, TextCenterCssClass, PostRequestHeaders } from '../../../constants';
 import getResource from '../../../resourceHelper';
 import ProbationResultOptions from './ProbationResultOptions';
@@ -112,7 +112,7 @@ export default class EvaluatorForm extends Component {
                                 <td className={TextCenterCssClass}>
                                     {this.props.probationer.canEdit ?
                                         <Select name="isQualifiedByEvaluator"
-                                            className={`react-select-container ${touched.isQualifiedByEvaluator && errors.isQualifiedByEvaluator && InputErrorCssClass}`}
+                                            className={`react-select-container ${!validateFormikField(touched, errors, 'isQualifiedByEvaluator') && InputErrorCssClass}`}
                                             classNamePrefix="react-select"
                                             value={values.isQualifiedByEvaluator}
                                             options={ProbationResultOptions} placeholder=""
@@ -139,7 +139,7 @@ export default class EvaluatorForm extends Component {
                             </tr>
                             <tr>
                                 <td colSpan="3" className="comment-cell">
-                                    <textarea className={touched.comment && errors.comment && InputErrorCssClass} rows="7"
+                                    <textarea className={!validateFormikField(touched, errors, 'comment') && InputErrorCssClass} rows="7"
                                         value={values.comment} onChange={handleChange} name="comment" readOnly={!this.props.probationer.canEdit}
                                     />
                                 </td>

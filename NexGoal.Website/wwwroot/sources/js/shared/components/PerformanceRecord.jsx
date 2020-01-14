@@ -92,12 +92,18 @@ export default class PerformanceRecord extends Component {
             </Fragment>
         )
 
+    renderPerformanceGrade = grade => {
+        return grade ? `(${grade.name}) ${grade.description}` : getResource('N/A');
+    }
+
+    renderProject = projects => {
+        return projects && projects.length > 0 ?
+            projects.map(project => <span key={project.projectId} className="tag">{project.name}</span>) : getResource('N/A');
+    }
+
     renderPerformanceCheckin = () => {
         const record = this.props.data;
         let { employees, creator } = record;
-        const grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : getResource('N/A');
-        const projects = record.projects && record.projects.length > 0 ?
-            record.projects.map(project => <span key={project.projectId} className="tag">{project.name}</span>) : getResource('N/A');
         const createdDate = record.createdDate ? calendar(record.createdDate) : '';
         const modifiedDate = record.modifiedDate ? calendar(record.modifiedDate) : '';
 
@@ -163,15 +169,18 @@ export default class PerformanceRecord extends Component {
                     }
                 </div>
                 <div className="grade">
-                    {`${getResource('Grade')}:`} <div className="grade-detail">{grade}</div>
+                    {`${getResource('Grade')}:`} <div className="grade-detail">{this.renderPerformanceGrade(record.grade)}</div>
                 </div>
-                {record.typeId === PerformanceRecordType.PerformanceAppraisal &&
+                {
+                    record.typeId === PerformanceRecordType.PerformanceAppraisal &&
                     <GradeSummary processes={this.props.processes} toeic={this.props.toeic} toeicPolicy={this.props.toeicPolicy} />
                 }
                 {
                     !this.props.isHideProjectTag &&
                     <div className="project">
-                        <div className="lb-project">{`${getResource('ProjectTag')}:`}</div> <div className="project-detail">{projects}</div>
+                        <div className="lb-project">{`${getResource('ProjectTag')}:`}</div> <div className="project-detail">
+                            {this.renderProject(record.projects)}
+                        </div>
                     </div>
                 }
             </div>
@@ -181,9 +190,6 @@ export default class PerformanceRecord extends Component {
     renderDraftPerformanceCheckin = () => {
         const record = this.props.data;
         let { employees, creator } = record;
-        const grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : getResource('N/A');
-        const projects = record.projects && record.projects.length > 0 ?
-            record.projects.map(project => <span key={project.projectId} className="tag">{project.name}</span>) : getResource('N/A');
         const createdDate = record.createdDate ? calendar(record.createdDate) : '';
 
         let commentWrapperClass = 'expanded';
@@ -244,12 +250,14 @@ export default class PerformanceRecord extends Component {
                     }
                 </div>
                 <div className="grade">
-                    {`${getResource('Grade')}:`} <div className="grade-detail">{grade}</div>
+                    {`${getResource('Grade')}:`} <div className="grade-detail">{this.renderPerformanceGrade(record.grade)}</div>
                 </div>
                 {
                     !this.props.isHideProjectTag &&
                     <div className="project">
-                        <div className="lb-project">{`${getResource('ProjectTag')}:`}</div> <div className="project-detail">{projects}</div>
+                        <div className="lb-project">{`${getResource('ProjectTag')}:`}</div> <div className="project-detail">
+                            {this.renderProject(record.projects)}
+                        </div>
                     </div>
                 }
             </div>
