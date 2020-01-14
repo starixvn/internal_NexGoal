@@ -1,15 +1,14 @@
 ﻿import React, { Component } from 'react';
-import { Modal, Button, FormGroup, Form } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import axios from 'axios';
 import { stringify } from 'qs';
-import DatePicker from 'react-datepicker';
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
-import { camelCase, isEmpty } from 'lodash';
+import { camelCase } from 'lodash';
 
-import { axiosError, resolveClientUrl, validateFormikField, displayFormikErrors } from '../../common-functions';
+import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
-import { DateFormat, InputErrorCssClass, PostRequestHeaders } from '../../constants';
+import { PostRequestHeaders } from '../../constants';
 import CreateEditForm from './CreateEditForm';
 
 export default class Edit extends Component {

@@ -9,7 +9,7 @@ import getResource from '../../../resourceHelper';
 import Breadcrumb from '../../../shared/components/Breadcrumb';
 import SearchForm from './SearchForm';
 import Table from './Table';
-import CommentModal from './CommentModal';
+import CommentModal from '../../member/probation/CommentModal';
 
 const ProbationResultOptions = [
     { label: 'All', value: '' },
