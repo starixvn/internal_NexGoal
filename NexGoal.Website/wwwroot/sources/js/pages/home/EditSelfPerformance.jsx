@@ -4,16 +4,17 @@ import { Button, ControlLabel, Modal } from 'react-bootstrap';
 import Select from 'react-select';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { camelCase, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import { stringify } from 'qs';
 import moment from 'moment';
 import isEqual from 'react-fast-compare';
 
-import { axiosError, resolveClientUrl, compareArray } from '../../common-functions';
+import { axiosError, resolveClientUrl } from '../../common-functions';
 import { DateFormat, PostRequestHeaders } from '../../constants';
 import getResource from '../../resourceHelper';
 import TextareaFullscreenEditor from '../../shared/components/textarea-fullscreen/index';
 import PerformanceGradeInfo from '../../shared/components/PerformanceGradeInfo';
+import { validateCreateEditSelfPerformance, axiosEditPerformanceResponse } from './common-functions';
 
 export default class EditSelfPerformance extends Component {
     static propTypes = {
@@ -65,8 +66,7 @@ export default class EditSelfPerformance extends Component {
     onLeavingPageEventListener = event => {
         let { performanceRecord, initialPerformanceRecord } = this.state;
 
-        if (!isEqual(performanceRecord.grade, initialPerformanceRecord.grade) || performanceRecord.comment !== initialPerformanceRecord.comment
-            || !compareArray(performanceRecord.projects, initialPerformanceRecord.projects, 'value')) {
+        if (!isEqual(performanceRecord, initialPerformanceRecord)) {
             event.returnValue = ' ';
             return ' ';
         }
@@ -106,7 +106,8 @@ export default class EditSelfPerformance extends Component {
             return;
         }
 
-        if (this.validateForm()) {
+        const isValid = validateCreateEditSelfPerformance(this);
+        if (isValid) {
             this.setSubmitting(true);
 
             const record = this.state.performanceRecord;
@@ -125,40 +126,11 @@ export default class EditSelfPerformance extends Component {
                 data: performanceRecord,
                 headers: PostRequestHeaders
             }).then(response => {
-                const data = response.data;
-
-                if (data.isSuccessful) {
-                    toast.success(getResource('UpdatedSuccessfully'));
-
-                    this.props.onSubmitSuccess(data.objectIds);
-                } else {
-                    if (data.errors) {
-                        const errors = {};
-                        data.errors.map(error => {
-                            errors[camelCase(error.key)] = error.errorMessage;
-                        });
-
-                        this.setState({ errors });
-                    } else {
-                        toast.error(data.message);
-                    }
-                }
+                axiosEditPerformanceResponse(this, toast, response, () => {
+                    this.props.onSubmitSuccess(response.data.objectIds);
+                });
             }).catch(axiosError).then(() => this.setSubmitting(false));
         }
-    }
-
-    validateForm = () => {
-        const errors = {};
-        let isValid = true;
-
-        if (!this.state.performanceRecord.comment || this.state.performanceRecord.comment.trim() === '') {
-            errors.comment = getResource('CommentRequired');
-            isValid = false;
-        }
-
-        this.setState({ errors });
-
-        return isValid;
     }
 
     handleSaveAsDraft = event => {
@@ -168,7 +140,8 @@ export default class EditSelfPerformance extends Component {
             return;
         }
 
-        if (this.validateForm()) {
+        const isValid = validateCreateEditSelfPerformance(this);
+        if (isValid) {
             this.setSubmitting(true);
 
             const record = this.state.performanceRecord;
@@ -186,24 +159,9 @@ export default class EditSelfPerformance extends Component {
                 data: performanceRecord,
                 headers: PostRequestHeaders
             }).then(response => {
-                const data = response.data;
-
-                if (data.isSuccessful) {
-                    toast.success(getResource('UpdatedSuccessfully'));
-
+                axiosEditPerformanceResponse(this, toast, response, () => {
                     this.props.onSubmitDraftSuccess(record.performanceRecordId);
-                } else {
-                    if (data.errors) {
-                        const errors = {};
-                        data.errors.map(error => {
-                            errors[camelCase(error.key)] = error.errorMessage;
-                        });
-
-                        this.setState({ errors });
-                    } else {
-                        toast.error(data.message);
-                    }
-                }
+                });
             }).catch(axiosError).then(() => this.setSubmitting(false));
         }
     }

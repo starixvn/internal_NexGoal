@@ -4,7 +4,7 @@ import { FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import Select from 'react-select';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { camelCase, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import { stringify } from 'qs';
 import moment from 'moment';
 import isEqual from 'react-fast-compare';
@@ -14,6 +14,7 @@ import { ProbationTag, PostRequestHeaders } from '../../constants';
 import getResource from '../../resourceHelper';
 import TextareaFullscreenEditor from '../../shared/components/textarea-fullscreen/index';
 import PerformanceGradeInfo from '../../shared/components/PerformanceGradeInfo';
+import { validateCreateEditMemberPerformance, axiosCreatePerformanceResponse } from '../home/common-functions';
 
 export default class CreateMemberPerformance extends Component {
     static propTypes = {
@@ -144,26 +145,6 @@ export default class CreateMemberPerformance extends Component {
         });
     }
 
-    validateForm = () => {
-        const errors = {};
-        let isValid = true;
-        const performanceRecord = this.state.performanceRecord;
-
-        if (performanceRecord.employees.length === 0 && this.props.isMultiple) {
-            errors.employee = getResource('EmployeeRequired');
-            isValid = false;
-        }
-
-        if (!performanceRecord.comment || performanceRecord.comment.trim() === '') {
-            errors.comment = getResource('CommentRequired');
-            isValid = false;
-        }
-
-        this.setState({ errors });
-
-        return isValid;
-    }
-
     getAxiosData = () => {
         const record = this.state.performanceRecord;
         const employeeIds = this.props.isMultiple
@@ -184,33 +165,20 @@ export default class CreateMemberPerformance extends Component {
             return;
         }
 
-        if (this.validateForm()) {
+        const isValid = validateCreateEditMemberPerformance(this);
+        if (isValid) {
             this.setSubmitting(true);
 
             axios({
                 url: resolveClientUrl('Member/Performance/Create'),
                 method: 'POST',
-                data: getAxiosData(),
+                data: this.getAxiosData(),
                 headers: PostRequestHeaders
             }).then(response => {
-                const data = response.data;
-                if (data.isSuccessful) {
-                    toast.success(getResource('CreatedSuccessfully'));
-
-                    this.props.onSubmitSuccess(data.objectIds);
+                axiosCreatePerformanceResponse(this, toast, response, () => {
+                    this.props.onSubmitSuccess(response.data.objectIds);
                     this.handleCancel();
-                } else {
-                    if (data.errors) {
-                        const errors = {};
-                        data.errors.map(error => {
-                            errors[camelCase(error.key)] = error.errorMessage;
-                        });
-
-                        this.setState({ errors });
-                    } else {
-                        toast.error(data.message);
-                    }
-                }
+                });
             }).catch(axiosError).then(() => this.setSubmitting(false));
         }
     }
@@ -222,33 +190,20 @@ export default class CreateMemberPerformance extends Component {
             return;
         }
 
-        if (this.validateForm()) {
+        const isValid = validateCreateEditMemberPerformance(this);
+        if (isValid) {
             this.setSubmitting(true);
 
             axios({
                 url: resolveClientUrl('Member/Performance/CreateDraft'),
                 method: 'POST',
-                data: getAxiosData(),
+                data: this.getAxiosData(),
                 headers: PostRequestHeaders
             }).then(response => {
-                const data = response.data;
-                if (data.isSuccessful) {
-                    toast.success(getResource('CreatedSuccessfully'));
-
-                    this.props.onSubmitDraftSuccess(data.objectIds);
+                axiosCreatePerformanceResponse(this, toast, response, () => {
+                    this.props.onSubmitDraftSuccess(response.data.objectIds);
                     this.handleCancel();
-                } else {
-                    if (data.errors) {
-                        const errors = {};
-                        data.errors.map(error => {
-                            errors[camelCase(error.key)] = error.errorMessage;
-                        });
-
-                        this.setState({ errors });
-                    } else {
-                        toast.error(data.message);
-                    }
-                }
+                });
             }).catch(axiosError).then(() => this.setSubmitting(false));
         }
     }

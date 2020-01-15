@@ -4,7 +4,7 @@ import { FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import Select from 'react-select';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { camelCase, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import { stringify } from 'qs';
 import isEqual from 'react-fast-compare';
 
@@ -13,6 +13,7 @@ import { ProbationTag, PostRequestHeaders } from '../../constants';
 import getResource from '../../resourceHelper';
 import TextareaFullscreenEditor from '../../shared/components/textarea-fullscreen/index';
 import PerformanceGradeInfo from '../../shared/components/PerformanceGradeInfo';
+import { validateCreateEditSelfPerformance, axiosCreatePerformanceResponse } from './common-functions';
 
 export default class CreateSelfPerformance extends Component {
     static propTypes = {
@@ -121,34 +122,20 @@ export default class CreateSelfPerformance extends Component {
             return;
         }
 
-        if (this.validateForm()) {
+        const isValid = validateCreateEditSelfPerformance(this);
+        if (isValid) {
             this.setSubmitting(true);
 
             axios({
                 url: resolveClientUrl('Self/Performance/CreateDraft'),
                 method: 'POST',
-                data: getAxiosData(),
+                data: this.getAxiosData(),
                 headers: PostRequestHeaders
             }).then(response => {
-                const data = response.data;
-
-                if (data.isSuccessful) {
-                    toast.success(getResource('CreatedSuccessfully'));
-
+                axiosCreatePerformanceResponse(this, toast, response, () => {
                     this.handleCancel();
-                    this.props.onSubmitDraftSuccess(data.objectIds);
-                } else {
-                    if (data.errors) {
-                        const errors = {};
-                        data.errors.map(error => {
-                            errors[camelCase(error.key)] = error.errorMessage;
-                        });
-
-                        this.setState({ errors });
-                    } else {
-                        toast.error(data.message);
-                    }
-                }
+                    this.props.onSubmitDraftSuccess(response.data.objectIds);
+                });
             }).catch(axiosError).then(() => this.setSubmitting(false));
         }
     }
@@ -160,50 +147,22 @@ export default class CreateSelfPerformance extends Component {
             return;
         }
 
-        if (this.validateForm()) {
+        const isValid = validateCreateEditSelfPerformance(this);
+        if (isValid) {
             this.setSubmitting(true);
 
             axios({
                 url: resolveClientUrl('Self/Performance/Create'),
                 method: 'POST',
-                data: getAxiosData(),
+                data: this.getAxiosData(),
                 headers: PostRequestHeaders
             }).then(response => {
-                const data = response.data;
-
-                if (data.isSuccessful) {
-                    toast.success(getResource('CreatedSuccessfully'));
-
+                axiosCreatePerformanceResponse(this, toast, response, () => {
                     this.handleCancel();
                     this.props.onSubmitSuccess(data.objectIds);
-                } else {
-                    if (data.errors) {
-                        const errors = {};
-                        data.errors.map(error => {
-                            errors[camelCase(error.key)] = error.errorMessage;
-                        });
-
-                        this.setState({ errors });
-                    } else {
-                        toast.error(data.message);
-                    }
-                }
+                });
             }).catch(axiosError).then(() => this.setSubmitting(false));
         }
-    }
-
-    validateForm = () => {
-        const errors = {};
-        let isValid = true;
-
-        if (!this.state.performanceRecord.comment || this.state.performanceRecord.comment.trim() === '') {
-            errors.comment = getResource('CommentRequired');
-            isValid = false;
-        }
-
-        this.setState({ errors });
-
-        return isValid;
     }
 
     handleCancel = () => {

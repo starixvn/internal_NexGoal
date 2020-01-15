@@ -4,7 +4,7 @@ import { Button, ControlLabel, Modal, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { camelCase, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import { stringify } from 'qs';
 import moment from 'moment';
 import isEqual from 'react-fast-compare';
@@ -14,6 +14,7 @@ import { DateFormat, ProbationTag, PostRequestHeaders } from '../../constants';
 import getResource from '../../resourceHelper';
 import TextareaFullscreenEditor from '../../shared/components/textarea-fullscreen/index';
 import PerformanceGradeInfo from '../../shared/components/PerformanceGradeInfo';
+import { validateCreateEditMemberPerformance, axiosEditPerformanceResponse } from '../home/common-functions';
 
 export default class EditMemberPerformance extends Component {
     static propTypes = {
@@ -140,26 +141,6 @@ export default class EditMemberPerformance extends Component {
         });
     }
 
-    validateForm = () => {
-        const errors = {};
-        let isValid = true;
-        const performanceRecord = this.state.performanceRecord;
-
-        if (performanceRecord.employees.length === 0) {
-            errors.employee = getResource('EmployeeRequired');
-            isValid = false;
-        }
-
-        if (!performanceRecord.comment || performanceRecord.comment.trim() === '') {
-            errors.comment = getResource('CommentRequired');
-            isValid = false;
-        }
-
-        this.setState({ errors });
-
-        return isValid;
-    }
-
     handleSubmit = event => {
         event.preventDefault();
 
@@ -167,7 +148,8 @@ export default class EditMemberPerformance extends Component {
             return;
         }
 
-        if (this.validateForm()) {
+        const isValid = validateCreateEditMemberPerformance(this);
+        if (isValid) {
             this.setSubmitting(true);
 
             const record = this.state.performanceRecord;
@@ -188,24 +170,9 @@ export default class EditMemberPerformance extends Component {
                 data: performanceRecord,
                 headers: PostRequestHeaders
             }).then(response => {
-                const data = response.data;
-
-                if (data.isSuccessful) {
-                    toast.success(getResource('UpdatedSuccessfully'));
-
-                    this.props.onSubmitSuccess(data.objectIds);
-                } else {
-                    if (data.errors) {
-                        const errors = {};
-                        data.errors.map(error => {
-                            errors[camelCase(error.key)] = error.errorMessage;
-                        });
-
-                        this.setState({ errors });
-                    } else {
-                        toast.error(data.message);
-                    }
-                }
+                axiosEditPerformanceResponse(this, toast, response, () => {
+                    this.props.onSubmitSuccess(response.data.objectIds);
+                });
             }).catch(axiosError).then(() => this.setSubmitting(false));
         }
     }
@@ -217,7 +184,8 @@ export default class EditMemberPerformance extends Component {
             return;
         }
 
-        if (this.validateForm()) {
+        const isValid = validateCreateEditMemberPerformance(this);
+        if (isValid) {
             this.setSubmitting(true);
 
             const record = this.state.performanceRecord;
@@ -237,24 +205,9 @@ export default class EditMemberPerformance extends Component {
                 data: performanceRecord,
                 headers: PostRequestHeaders
             }).then(response => {
-                const data = response.data;
-
-                if (data.isSuccessful) {
-                    toast.success(getResource('UpdatedSuccessfully'));
-
+                axiosEditPerformanceResponse(this, toast, response, () => {
                     this.props.onSubmitDraftSuccess(record.performanceRecordId);
-                } else {
-                    if (data.errors) {
-                        const errors = {};
-                        data.errors.map(error => {
-                            errors[camelCase(error.key)] = error.errorMessage;
-                        });
-
-                        this.setState({ errors });
-                    } else {
-                        toast.error(data.message);
-                    }
-                }
+                });
             }).catch(axiosError).then(() => this.setSubmitting(false));
         }
     }
