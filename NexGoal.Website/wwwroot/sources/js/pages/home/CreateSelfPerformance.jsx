@@ -159,7 +159,7 @@ export default class CreateSelfPerformance extends Component {
             }).then(response => {
                 axiosCreatePerformanceResponse(this, toast, response, () => {
                     this.handleCancel();
-                    this.props.onSubmitSuccess(data.objectIds);
+                    this.props.onSubmitSuccess(response.data.objectIds);
                 });
             }).catch(axiosError).then(() => this.setSubmitting(false));
         }
