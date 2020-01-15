@@ -27,6 +27,7 @@ class Filter extends Component {
         event.preventDefault();
         this.props.onSubmit();
     }
+
     handleCheckboxChange = event => {
         this.props.onChange('isShowAll', event.target.checked);
     }
@@ -35,7 +36,7 @@ class Filter extends Component {
         const filter = this.props.filter;
 
         return (
-            <Form inline className="form-filter filter-role-management" onSubmit={this.handleSubmit}>
+            <Form inline className="form-filter" onSubmit={this.handleSubmit}>
                 <FormGroup>
                     <ControlLabel>{getResource('Employee')}</ControlLabel>
                     <div className="control-content">

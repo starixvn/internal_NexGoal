@@ -7,8 +7,8 @@ import { axiosError, resolveClientUrl } from '../../../../common-functions';
 import { PostRequestHeaders } from '../../../../constants';
 import { nominationRoleOptions } from '../../common';
 import getResource from '../../../../resourceHelper';
-import Filter from './Filter';
-import Table from './Table';
+import Filter from '../../eoq/role/Filter';
+import Table from '../../eoq/role/Table';
 
 export default class RoleManagement extends Component {
     constructor(props) {
