@@ -13,7 +13,6 @@
             services.AddScoped<IEmployeeNominationRepository, EmployeeNominationRepository>();
             services.AddScoped<IPAReportRepository, PAReportRepository>();
             services.AddScoped<IPerformanceRecordRepository, PerformanceRecordRepository>();
-            services.AddScoped<INominationReportRepository, NominationReportRepository>();
             services.AddScoped<IPRTrackingRepository, PRTrackingRepository>();
             services.AddScoped<IProbationRepository, ProbationRepository>();
         }

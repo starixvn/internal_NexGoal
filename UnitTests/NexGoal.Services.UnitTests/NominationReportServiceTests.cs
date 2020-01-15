@@ -14,7 +14,7 @@
     public class NominationReportServiceTests
     {
         private IBaseService baseService;
-        private INominationReportRepository reportRepository;
+        private IEmployeeNominationRepository repository;
 
         [Fact]
         public async Task GetNominationPeriodAsync_WhenCalled_ReturnExpectedResult()
@@ -52,7 +52,7 @@
                 }
             };
             var service = GetService();
-            reportRepository.GetNominationAsync(Arg.Any<GetNominationsCriteria>()).Returns(nominations);
+            repository.GetNominationByPeriodIdsAsync(Arg.Any<GetNominationsCriteria>()).Returns(nominations);
 
             // Act
             var actual = await service.GetNominationAsync(1, "1", null, null, null);
@@ -64,9 +64,9 @@
         private NominationReportService GetService()
         {
             baseService = Substitute.For<IBaseService>();
-            reportRepository = Substitute.For<INominationReportRepository>();
+            repository = Substitute.For<IEmployeeNominationRepository>();
 
-            var service = new NominationReportService(baseService, reportRepository);
+            var service = new NominationReportService(baseService, repository);
 
             return service;
         }

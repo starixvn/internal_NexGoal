@@ -12,14 +12,14 @@
     public class NominationReportService : INominationReportService
     {
         private readonly IBaseService baseService;
-        private readonly INominationReportRepository reportRepository;
+        private readonly IEmployeeNominationRepository repository;
 
         public NominationReportService(
             IBaseService baseService,
-            INominationReportRepository reportRepository)
+            IEmployeeNominationRepository repository)
         {
             this.baseService = baseService;
-            this.reportRepository = reportRepository;
+            this.repository = repository;
         }
 
         public async Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodAsync()
@@ -45,7 +45,7 @@
                 StatusId = statusId
             };
 
-            IEnumerable<NominationModel> nominations = await reportRepository.GetNominationAsync(criteria).ConfigureAwait(false);
+            IEnumerable<NominationModel> nominations = await repository.GetNominationByPeriodIdsAsync(criteria).ConfigureAwait(false);
 
             return nominations.OrderByDescending(x => x.StatusId).ThenBy(x => x.Nominee.NickName);
         }
