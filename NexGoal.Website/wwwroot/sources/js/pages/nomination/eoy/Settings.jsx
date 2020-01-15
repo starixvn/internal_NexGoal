@@ -6,7 +6,6 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import Select from 'react-select';
 import { Formik } from 'formik';
-import { camelCase } from 'lodash';
 import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl, validateFormikField, displayFormikErrors, axiosEditResponseWithFormik } from '../../../common-functions';

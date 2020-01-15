@@ -4,7 +4,7 @@ import { FormGroup, ControlLabel } from 'react-bootstrap';
 import Select from 'react-select';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { camelCase, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import { stringify } from 'qs';
 import { Formik } from 'formik';
 
