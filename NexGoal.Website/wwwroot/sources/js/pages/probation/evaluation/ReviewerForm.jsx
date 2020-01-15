@@ -13,7 +13,7 @@ import ProbationResultOptions from './ProbationResultOptions';
 import SingleValue from './SingleValue';
 import EvaluationDetailTooltip from '../EvaluationDetailTooltip';
 import NexPanel from '../../../shared/components/NexPanel';
-import { DateFormat, PerformanceProcess, EmptyPlaceHolder, PostRequestHeaders } from '../../../constants';
+import { DateFormat, PerformanceProcess, PostRequestHeaders } from '../../../constants';
 import Announcement from './Announcement';
 import Paragraph from './Paragraph';
 
@@ -68,7 +68,7 @@ export default class ReviewerForm extends Component {
     renderPerformanceResult = probationer => {
         return (
             <span className={probationer.isQualifiedByEvaluator ? 'passed' : 'failed'}>
-                {probationer.isQualifiedByEvaluator !== null ? probationer.isQualifiedByEvaluator ? 'Passed' : 'Failed' : EmptyPlaceHolder}
+                {probationer.isQualifiedByEvaluator ? 'Passed' : 'Failed'}
             </span>
         );
     }

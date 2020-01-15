@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import moment from 'moment';
-import { isEmpty } from 'lodash';
+import { isEmpty, camelCase } from 'lodash';
+import getResource from './resourceHelper';
 
 const _rootUrl = document.getElementById('RootURL').value ? document.getElementById('RootURL').value : '/';
 
@@ -210,4 +211,48 @@ export const displayFormikErrors = (touched, errors, fieldNames = []) => {
             }
         </ul>
     );
+};
+
+export const axiosCreateResponseWithFormik = (setErrors, toastObj, axiosResponse, successCallback) => {
+    const data = axiosResponse.data;
+    if (data.isSuccessful) {
+        toastObj.success(getResource('CreatedSuccessfully'));
+
+        if (successCallback && typeof successCallback === 'function') {
+            successCallback();
+        }
+    } else {
+        if (data.errors) {
+            const errors = {};
+            data.errors.map(error => {
+                errors[camelCase(error.key)] = error.errorMessage;
+            });
+
+            setErrors(errors);
+        } else {
+            toastObj.error(data.message);
+        }
+    }
+};
+
+export const axiosEditResponseWithFormik = (setErrors, toastObj, axiosResponse, successCallback) => {
+    const data = axiosResponse.data;
+    if (data.isSuccessful) {
+        toastObj.success(getResource('UpdatedSuccessfully'));
+
+        if (successCallback && typeof successCallback === 'function') {
+            successCallback();
+        }
+    } else {
+        if (data.errors) {
+            const errors = {};
+            data.errors.map(error => {
+                errors[camelCase(error.key)] = error.errorMessage;
+            });
+
+            setErrors(errors);
+        } else {
+            toastObj.error(data.message);
+        }
+    }
 };

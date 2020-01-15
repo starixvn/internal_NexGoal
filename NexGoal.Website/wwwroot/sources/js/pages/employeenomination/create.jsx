@@ -8,7 +8,7 @@ import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 import { Formik } from 'formik';
 
-import { axiosError, resolveClientUrl, validateFormikField } from '../../common-functions';
+import { axiosError, resolveClientUrl, validateFormikField, axiosCreateResponseWithFormik } from '../../common-functions';
 import { PostRequestHeaders } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
@@ -69,22 +69,7 @@ export default class Create extends Component {
             }),
             headers: PostRequestHeaders
         }).then(response => {
-            const data = response.data;
-
-            if (data.isSuccessful) {
-                toast.success(getResource('CreatedSuccessfully'));
-            } else {
-                if (data.errors) {
-                    const errors = {};
-                    data.errors.map(error => {
-                        errors[camelCase(error.key)] = error.errorMessage;
-                    });
-
-                    setErrors(errors);
-                } else {
-                    toast.error(data.message);
-                }
-            }
+            axiosCreateResponseWithFormik(setErrors, toast, response);
         }).catch(axiosError);
     }
 

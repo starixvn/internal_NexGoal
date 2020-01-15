@@ -19,10 +19,6 @@ import { emptySymbol, fullSymbol } from '../RatingSymbol';
 import NexPanel from '../../../shared/components/NexPanel';
 
 export default class EvaluatorForm extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     schema = object().shape({
         comment: string().required(),
         evaluations: array().of(
@@ -43,6 +39,8 @@ export default class EvaluatorForm extends Component {
             <i className="icon-info" />
         </OverlayTrigger>
     </Fragment>
+
+    renderPerformanceResult = qualified => <span className={qualified.value ? 'passed' : 'failed'}>{qualified.label}</span>;
 
     renderForm = ({
         values,
@@ -121,8 +119,7 @@ export default class EvaluatorForm extends Component {
                                             onChange={value => setFieldValue('isQualifiedByEvaluator', value)}
                                         />
                                         :
-                                        values.isQualifiedByEvaluator &&
-                                        <span className={values.isQualifiedByEvaluator.value ? 'passed' : 'failed'}>{values.isQualifiedByEvaluator.label}</span>
+                                        values.isQualifiedByEvaluator && this.renderPerformanceResult(values.isQualifiedByEvaluator)
                                     }
                                 </td>
                             </tr>
