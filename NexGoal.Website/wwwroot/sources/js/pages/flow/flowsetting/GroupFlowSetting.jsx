@@ -82,19 +82,15 @@ class GroupFlowSetting extends Component {
         if (errorFields.length > 0) {
             toast.error(`Please select ${errorFields.join(', ')}`);
         } else {
-            const settings = [];
-
-            settings.push({
+            const settings = [{
                 processId: this.state.evaluator.processId,
                 evaluatorId: this.state.evaluator.evaluatorId,
                 priority: 0
-            });
-
-            settings.push({
+            }, {
                 processId: this.state.reviewer.processId,
                 evaluatorId: this.state.reviewer.evaluatorId,
                 priority: 0
-            });
+            }];
 
             axios({
                 url: resolveClientUrl('GroupFlowSetting/Edit'),
@@ -172,61 +168,67 @@ class GroupFlowSetting extends Component {
         }).catch(axiosError);
     }
 
-    renderSelf = () => (
-        <td className="col-self">
-            {this.state.selectedGroup &&
-                <div className="flow-item">
-                    <i className="avatar icon-draft-member" />
-                    <div className="personal-info">
-                        <span className="txt-bold">{this.state.selectedGroup.name}</span></div>
-                </div>
-            }
-        </td>
-    )
-
-    renderEvaluator = () => (
-        <td className="col-evaluator">
-            {this.props.isHost && this.state.selectedGroup &&
-                <Select className="react-select-container" classNamePrefix="react-select"
-                    value={null} options={this.props.employeeOptions}
-                    isClearable={false} placeholder="Nickname or full name"
-                    onChange={this.handleEvaluatorChange}
-                    backspaceRemovesValue={false}
-                />
-            }
-            {this.state.evaluator &&
-                <div className="flow-item">
-                    <img className="avatar" src={this.state.evaluator.avatar} />
-                    <div className="personal-info">
-                        <span className="txt-bold">{this.state.evaluator.nickName}</span>
-                        <p>{this.state.evaluator.fullName}</p>
+    renderSelf = () => {
+        return (
+            <td className="col-self">
+                {this.state.selectedGroup &&
+                    <div className="flow-item">
+                        <i className="avatar icon-draft-member" />
+                        <div className="personal-info">
+                            <span className="txt-bold">{this.state.selectedGroup.name}</span></div>
                     </div>
-                </div>
-            }
-        </td>
-    )
+                }
+            </td>
+        );
+    }
 
-    renderReviewer = () => (
-        <td className="col-reviewer">
-            {this.props.isHost && this.state.selectedGroup &&
-                <Select className="react-select-container" classNamePrefix="react-select"
-                    value={null} options={this.props.employeeOptions}
-                    isClearable={false} placeholder="Nickname or full name"
-                    onChange={this.handleReviewerChange}
-                    backspaceRemovesValue={false}
-                />
-            }
-            {this.state.reviewer &&
-                <div className="flow-item">
-                    <img className="avatar" src={this.state.reviewer.avatar} />
-                    <div className="personal-info">
-                        <span className="txt-bold">{this.state.reviewer.nickName}</span>
-                        <p>{this.state.reviewer.fullName}</p>
+    renderEvaluator = () => {
+        return (
+            <td className="col-evaluator">
+                {this.props.isHost && this.state.selectedGroup &&
+                    <Select className="react-select-container" classNamePrefix="react-select"
+                        value={null} options={this.props.employeeOptions}
+                        isClearable={false} placeholder="Nickname or full name"
+                        onChange={this.handleEvaluatorChange}
+                        backspaceRemovesValue={false}
+                    />
+                }
+                {this.state.evaluator &&
+                    <div className="flow-item">
+                        <img className="avatar" src={this.state.evaluator.avatar} />
+                        <div className="personal-info">
+                            <span className="txt-bold">{this.state.evaluator.nickName}</span>
+                            <p>{this.state.evaluator.fullName}</p>
+                        </div>
                     </div>
-                </div>
-            }
-        </td>
-    )
+                }
+            </td>
+        );
+    }
+
+    renderReviewer = () => {
+        return (
+            <td className="col-reviewer">
+                {this.props.isHost && this.state.selectedGroup &&
+                    <Select className="react-select-container" classNamePrefix="react-select"
+                        value={null} options={this.props.employeeOptions}
+                        isClearable={false} placeholder="Nickname or full name"
+                        onChange={this.handleReviewerChange}
+                        backspaceRemovesValue={false}
+                    />
+                }
+                {this.state.reviewer &&
+                    <div className="flow-item">
+                        <img className="avatar" src={this.state.reviewer.avatar} />
+                        <div className="personal-info">
+                            <span className="txt-bold">{this.state.reviewer.nickName}</span>
+                            <p>{this.state.reviewer.fullName}</p>
+                        </div>
+                    </div>
+                }
+            </td>
+        );
+    }
 
     render() {
         const { isHost } = this.props;

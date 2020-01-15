@@ -20,7 +20,7 @@ export default class Paragraph extends PureComponent {
         }));
     }
 
-    checkElementHeight() {
+    checkElementHeight = () => {
         const height = this.refs.element.offsetHeight;
         if (height > 80) {
             this.setState({
@@ -31,13 +31,15 @@ export default class Paragraph extends PureComponent {
     }
 
     render() {
+        const seeMoreLessCssClass = this.state.isExpanded ? 'see-more' : 'see-less',
+            seeMoreLessText = this.state.isExpanded ? '... see more' : '... see less';
         return (
             <div className="paragraph-wrapper" >
                 <p className={this.state.isExpanded ? 'collapsed' : 'expanded'} ref="element">{this.props.content}</p>
                 {
                     this.state.showCollapseExpandButton ?
-                        <span className={this.state.isExpanded ? 'see-more' : 'see-less'} onClick={this.toggleCollapseExpand}>
-                            {this.state.isExpanded ? '... see more' : '... see less'}
+                        <span className={seeMoreLessCssClass} onClick={this.toggleCollapseExpand}>
+                            {seeMoreLessText}
                         </span>
                         : null
                 }

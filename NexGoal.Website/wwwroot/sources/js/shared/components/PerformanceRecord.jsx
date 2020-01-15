@@ -16,7 +16,7 @@ const PageType = {
 
 export default class PerformanceRecord extends Component {
     static propTypes = {
-        data: PropTypes.object,
+        data: PropTypes.objectOf(PropTypes.object),
         isHighlighted: PropTypes.bool,
         onDelete: PropTypes.func,
         onEdit: PropTypes.func,

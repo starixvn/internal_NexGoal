@@ -12,6 +12,8 @@ import ToastLayout from '../../shared/layouts/ToastLayout';
 import ConfirmationModal from '../../shared/components/ConfirmationModal';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
 import CustomScrollbars from '../../shared/components/CustomScrollbars';
+import Announcement from '../../shared/components/Announcement';
+import Marquee from '../../shared/components/Marquee';
 import HrmSummary from './hrm/HRMSummary';
 import NominationResult from './NominationResult';
 import CreateSelfPerformance from './CreateSelfPerformance';
@@ -20,8 +22,8 @@ import WorkLoad from './workload';
 import PerformanceAppraisalResult from './PerformanceAppraisalResult';
 import PersonalTimeline from './timeline/PersonalTimeline';
 import EmployeeInfo from './EmployeeInfo';
-import Announcement from '../../shared/components/Announcement';
-import Marquee from '../../shared/components/Marquee';
+import { loadMorePerformanceRecord } from './common-functions';
+
 const queryString = require('query-string');
 
 export default class MyPage extends Component {
@@ -336,15 +338,7 @@ export default class MyPage extends Component {
     }
 
     loadMorePerformanceRecord = (page, callback) => {
-        const records = this.state.performanceRecords.slice(0, page * this.itemPerPage);
-        this.setState({
-            displayedPerformanceRecords: records,
-            hasMore: records.length < this.state.performanceRecords.length
-        }, () => {
-            if (callback) {
-                callback();
-            }
-        });
+        loadMorePerformanceRecord(this, page, callback);
     }
 
     renderPerformanceRecord = performanceRecord => {

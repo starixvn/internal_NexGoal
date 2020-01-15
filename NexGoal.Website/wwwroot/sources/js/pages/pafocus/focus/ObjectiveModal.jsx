@@ -8,7 +8,7 @@ import getResource from '../../../resourceHelper';
 export default class ObjectiveModal extends Component {
     static propTypes = {
         isHost: PropTypes.bool,
-        objective: PropTypes.object,
+        objective: PropTypes.objectOf(PropTypes.object),
         isShow: PropTypes.bool,
         onClose: PropTypes.func,
         onSubmit: PropTypes.func

@@ -6,11 +6,11 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import { Formik, getIn } from 'formik';
-import { camelCase, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import Select from 'react-select';
 import { object, array } from 'yup';
 
-import { axiosError, resolveClientUrl } from '../../../common-functions';
+import { axiosError, resolveClientUrl, axiosEditResponseWithFormik } from '../../../common-functions';
 import { DateFormat, PerformanceProcess, InputErrorCssClass, PostRequestHeaders } from '../../../constants';
 import getResource from '../../../resourceHelper';
 
@@ -36,23 +36,9 @@ export default class EditSetting extends Component {
             }),
             headers: PostRequestHeaders
         }).then(response => {
-            const data = response.data;
-
-            if (data.isSuccessful) {
+            axiosEditResponseWithFormik(setErrors, toast, response, () => {
                 this.props.onEditSuccess();
-                toast.success(getResource('UpdatedSuccessfully'));
-            } else {
-                if (data.errors) {
-                    const errors = {};
-                    data.errors.map(error => {
-                        errors[camelCase(error.key)] = error.errorMessage;
-                    });
-
-                    setErrors(errors);
-                } else {
-                    toast.error(data.message);
-                }
-            }
+            });
         }).catch(axiosError);
     }
 

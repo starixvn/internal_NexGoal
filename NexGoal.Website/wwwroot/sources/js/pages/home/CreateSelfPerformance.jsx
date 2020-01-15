@@ -16,7 +16,7 @@ import PerformanceGradeInfo from '../../shared/components/PerformanceGradeInfo';
 
 export default class CreateSelfPerformance extends Component {
     static propTypes = {
-        currentUser: PropTypes.object,
+        currentUser: PropTypes.objectOf(PropTypes.object),
         performanceGradeOptions: PropTypes.arrayOf(PropTypes.object),
         projectOptions: PropTypes.arrayOf(PropTypes.object),
         onSubmitSuccess: PropTypes.func
@@ -104,6 +104,16 @@ export default class CreateSelfPerformance extends Component {
         });
     }
 
+    getAxiosData = () => {
+        const performanceRecord = this.state.performanceRecord;
+        return stringify({
+            __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+            gradeId: performanceRecord.grade ? performanceRecord.grade.value : null,
+            comment: performanceRecord.comment.trim(),
+            projectIds: performanceRecord.projects.map(project => project.value).join(',')
+        });
+    };
+
     handleSaveAsDraft = event => {
         event.preventDefault();
 
@@ -114,17 +124,10 @@ export default class CreateSelfPerformance extends Component {
         if (this.validateForm()) {
             this.setSubmitting(true);
 
-            const performanceRecord = stringify({
-                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                gradeId: this.state.performanceRecord.grade ? this.state.performanceRecord.grade.value : null,
-                comment: this.state.performanceRecord.comment.trim(),
-                projectIds: this.state.performanceRecord.projects.map(project => project.value).join(',')
-            });
-
             axios({
                 url: resolveClientUrl('Self/Performance/CreateDraft'),
                 method: 'POST',
-                data: performanceRecord,
+                data: getAxiosData(),
                 headers: PostRequestHeaders
             }).then(response => {
                 const data = response.data;
@@ -160,17 +163,10 @@ export default class CreateSelfPerformance extends Component {
         if (this.validateForm()) {
             this.setSubmitting(true);
 
-            const performanceRecord = stringify({
-                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                gradeId: this.state.performanceRecord.grade ? this.state.performanceRecord.grade.value : null,
-                comment: this.state.performanceRecord.comment.trim(),
-                projectIds: this.state.performanceRecord.projects.map(project => project.value).join(',')
-            });
-
             axios({
                 url: resolveClientUrl('Self/Performance/Create'),
                 method: 'POST',
-                data: performanceRecord,
+                data: getAxiosData(),
                 headers: PostRequestHeaders
             }).then(response => {
                 const data = response.data;

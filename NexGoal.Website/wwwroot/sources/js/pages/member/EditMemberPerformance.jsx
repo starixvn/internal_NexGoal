@@ -17,7 +17,7 @@ import PerformanceGradeInfo from '../../shared/components/PerformanceGradeInfo';
 
 export default class EditMemberPerformance extends Component {
     static propTypes = {
-        currentUser: PropTypes.object,
+        currentUser: PropTypes.objectOf(PropTypes.object),
         performanceRecordId: PropTypes.number,
         memberOptions: PropTypes.arrayOf(PropTypes.object),
         performanceGradeOptions: PropTypes.arrayOf(PropTypes.object),

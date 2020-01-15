@@ -6,9 +6,8 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
-import { camelCase } from 'lodash';
 
-import { axiosError, resolveClientUrl, validateFormikField, displayFormikErrors } from '../../common-functions';
+import { axiosError, resolveClientUrl, validateFormikField, displayFormikErrors, axiosCreateResponseWithFormik } from '../../common-functions';
 import getResource from '../../resourceHelper';
 import { DateFormat, TargetType, InputErrorCssClass, PostRequestHeaders } from '../../constants';
 import { validateForm } from './common-functions';
@@ -47,24 +46,10 @@ export default class CreatePeriod extends Component {
             }),
             headers: PostRequestHeaders
         }).then(response => {
-            const data = response.data;
-
-            if (data.isSuccessful) {
-                toast.success(getResource('CreatedSuccessfully'));
+            axiosCreateResponseWithFormik(setErrors, toast, response, () => {
                 this.props.onCreateSuccess();
                 this.props.closeModal();
-            } else {
-                if (data.errors) {
-                    const errors = {};
-                    data.errors.map(error => {
-                        errors[camelCase(error.key)] = error.errorMessage;
-                    });
-
-                    setErrors(errors);
-                } else {
-                    toast.error(data.message);
-                }
-            }
+            });
         }).catch(axiosError).then(() => setSubmitting(false));
     }
 

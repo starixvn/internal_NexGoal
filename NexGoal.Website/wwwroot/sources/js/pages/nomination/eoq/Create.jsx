@@ -5,10 +5,9 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import Select from 'react-select';
 import { Formik } from 'formik';
-import { camelCase } from 'lodash';
 import { stringify } from 'qs';
 
-import { axiosError, resolveClientUrl, validateFormikField, displayFormikErrors } from '../../../common-functions';
+import { axiosError, resolveClientUrl, validateFormikField, displayFormikErrors, axiosCreateResponseWithFormik } from '../../../common-functions';
 import { quarterOptions, validateEOQForm } from '../common';
 import getResource from '../../../resourceHelper';
 import { DateFormat, InputErrorCssClass, PostRequestHeaders } from '../../../constants';
@@ -155,25 +154,10 @@ export default class Create extends Component {
             data: eoq,
             headers: PostRequestHeaders
         }).then(response => {
-            const data = response.data;
-
-            if (data.isSuccessful) {
-                toast.success(getResource('CreatedSuccessfully'));
-
+            axiosCreateResponseWithFormik(setErrors, toast, response, () => {
                 this.props.closeModal();
                 this.props.handleFilterSubmit();
-            } else {
-                if (data.errors) {
-                    const errors = {};
-                    data.errors.map(error => {
-                        errors[camelCase(error.key)] = error.errorMessage;
-                    });
-
-                    setErrors(errors);
-                } else {
-                    toast.error(data.message);
-                }
-            }
+            });
         }).catch(axiosError);
     }
 

@@ -101,41 +101,48 @@ export default class EmployeeFlowSetting extends Component {
         handleReviewerChange(this, selectedReviewer.value);
     };
 
-    handleSaveFlowSetting = () => {
-        if (!this.state.submit) {
-            this.setState({ submit: true });
-        }
-
+    validate = () => {
         const errorFields = [];
+        const { member, evaluator, reviewer } = this.state;
+        let isValid = true;
 
-        if (!this.state.evaluator) {
-            errorFields.push('Evaluator');
-        }
-
-        if (!this.state.member) {
+        if (!member) {
             errorFields.push('Member');
         }
 
-        if (!this.state.reviewer) {
+        if (!evaluator) {
+            errorFields.push('Evaluator');
+        }
+
+        if (!reviewer) {
             errorFields.push('Reviewer');
         }
 
         if (errorFields.length > 0) {
             toast.error(`Please select ${errorFields.join(', ')}`);
-        } else {
-            const settings = [];
+            isValid = false;
+        }
 
-            settings.push({
+        return isValid;
+    }
+
+    handleSaveFlowSetting = () => {
+        if (!this.state.submit) {
+            this.setState({ submit: true });
+        }
+
+        const isValid = this.validate();
+
+        if (isValid) {
+            const settings = [{
                 processId: this.state.evaluator.processId,
                 evaluatorId: this.state.evaluator.evaluatorId,
                 priority: 0
-            });
-
-            settings.push({
+            }, {
                 processId: this.state.reviewer.processId,
                 evaluatorId: this.state.reviewer.evaluatorId,
                 priority: 0
-            });
+            }];
 
             axios({
                 url: resolveClientUrl('EmployeeFlowSetting/Edit'),
@@ -216,29 +223,31 @@ export default class EmployeeFlowSetting extends Component {
         }).catch(axiosError);
     }
 
-    renderSelf = () => (
-        <td className="col-self">
-            {this.props.isHost &&
-                <Select className={`react-select-container ${this.state.submit && !this.state.member && InputErrorCssClass}`}
-                    classNamePrefix="react-select"
-                    value={null} options={this.state.unconfiguredEmployeeOptions}
-                    isClearable={false} placeholder="Nickname or full name"
-                    onChange={this.handleMemberChange}
-                    isDisabled={this.state.selectedEmployeeId !== null}
-                    backspaceRemovesValue={false}
-                />
-            }
-            {this.state.member &&
-                <div className="flow-item">
-                    <img className="avatar" src={this.state.member.avatar} />
-                    <div className="personal-info">
-                        <span className="txt-bold">{this.state.member.nickName}</span>
-                        <p>{this.state.member.fullName}</p>
+    renderSelf = () => {
+        return (
+            <td className="col-self">
+                {this.props.isHost &&
+                    <Select className={`react-select-container ${this.state.submit && !this.state.member && InputErrorCssClass}`}
+                        classNamePrefix="react-select"
+                        value={null} options={this.state.unconfiguredEmployeeOptions}
+                        isClearable={false} placeholder="Nickname or full name"
+                        onChange={this.handleMemberChange}
+                        isDisabled={this.state.selectedEmployeeId !== null}
+                        backspaceRemovesValue={false}
+                    />
+                }
+                {this.state.member &&
+                    <div className="flow-item">
+                        <img className="avatar" src={this.state.member.avatar} />
+                        <div className="personal-info">
+                            <span className="txt-bold">{this.state.member.nickName}</span>
+                            <p>{this.state.member.fullName}</p>
+                        </div>
                     </div>
-                </div>
-            }
-        </td>
-    )
+                }
+            </td>
+        );
+    }
 
     renderEvaluator = () => {
         const employeeOptions = this.state.member ?
@@ -295,23 +304,25 @@ export default class EmployeeFlowSetting extends Component {
         );
     }
 
-    renderButtonGroup = () => (
-        <div className="button-group" >
-            <Button type="button" disabled={this.state.selectedEmployeeId === null} className="btn btn-cancel" onClick={this.handleDeleteSetting}>
-                {getResource('Delete')}
-            </Button>
-            <Button type="button" disabled={!this.state.member && !this.state.evaluator && !this.state.reviewer}
-                className="btn btn-cancel" onClick={this.handleCancel}
-            >
-                {getResource('Cancel')}
-            </Button>
-            <Button type="button" bsStyle="primary" onClick={this.handleSaveFlowSetting}
-                disabled={!this.state.member && !this.state.evaluator && !this.state.reviewer}
-            >
-                {getResource('Submit')}
-            </Button>
-        </div>
-    )
+    renderButtonGroup = () => {
+        return (
+            <div className="button-group" >
+                <Button type="button" disabled={this.state.selectedEmployeeId === null} className="btn btn-cancel" onClick={this.handleDeleteSetting}>
+                    {getResource('Delete')}
+                </Button>
+                <Button type="button" disabled={!this.state.member && !this.state.evaluator && !this.state.reviewer}
+                    className="btn btn-cancel" onClick={this.handleCancel}
+                >
+                    {getResource('Cancel')}
+                </Button>
+                <Button type="button" bsStyle="primary" onClick={this.handleSaveFlowSetting}
+                    disabled={!this.state.member && !this.state.evaluator && !this.state.reviewer}
+                >
+                    {getResource('Submit')}
+                </Button>
+            </div>
+        );
+    }
 
     render() {
         const { isHost } = this.props;

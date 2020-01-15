@@ -20,7 +20,7 @@ export default class EditSelfPerformance extends Component {
         performanceRecordId: PropTypes.number,
         performanceGradeOptions: PropTypes.arrayOf(PropTypes.object),
         projectOptions: PropTypes.arrayOf(PropTypes.object),
-        currentUser: PropTypes.object,
+        currentUser: PropTypes.objectOf(PropTypes.object),
         showModal: PropTypes.bool,
         onCloseModal: PropTypes.func,
         onSubmitSuccess: PropTypes.func,
@@ -37,10 +37,6 @@ export default class EditSelfPerformance extends Component {
             initialPerformanceRecord: {},
             showGradeInfo: false
         };
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('beforeunload', this.onLeavingPageEventListener);
     }
 
     componentDidMount() {
@@ -60,6 +56,10 @@ export default class EditSelfPerformance extends Component {
             }).catch(axiosError);
 
         window.addEventListener('beforeunload', this.onLeavingPageEventListener);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('beforeunload', this.onLeavingPageEventListener);
     }
 
     onLeavingPageEventListener = event => {

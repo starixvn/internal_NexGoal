@@ -5,19 +5,14 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import Select from 'react-select';
 import { Formik } from 'formik';
-import { camelCase } from 'lodash';
 import { stringify } from 'qs';
 
-import { axiosError, resolveClientUrl, validateFormikField, displayFormikErrors } from '../../../common-functions';
+import { axiosError, resolveClientUrl, validateFormikField, displayFormikErrors, axiosCreateResponseWithFormik } from '../../../common-functions';
 import { validateEOYForm } from '../common';
 import getResource from '../../../resourceHelper';
 import { DateFormat, InputErrorCssClass, PostRequestHeaders } from '../../../constants';
 
 class Create extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     handleSubmit = (values, { setErrors }) => {
         const eoy = stringify({
             __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -35,25 +30,10 @@ class Create extends Component {
             data: eoy,
             headers: PostRequestHeaders
         }).then(response => {
-            const data = response.data;
-
-            if (data.isSuccessful) {
-                toast.success(getResource('CreatedSuccessfully'));
-
+            axiosCreateResponseWithFormik(setErrors, toast, response, () => {
                 this.props.closeModal();
                 this.props.handleFilterSubmit();
-            } else {
-                if (data.errors) {
-                    const errors = {};
-                    data.errors.map(error => {
-                        errors[camelCase(error.key)] = error.errorMessage;
-                    });
-
-                    setErrors(errors);
-                } else {
-                    toast.error(data.message);
-                }
-            }
+            });
         }).catch(axiosError);
     }
 

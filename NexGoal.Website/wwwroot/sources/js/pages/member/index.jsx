@@ -13,6 +13,8 @@ import ToastLayout from '../../shared/layouts/ToastLayout';
 import ConfirmationModal from '../../shared/components/ConfirmationModal';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
 import CustomScrollbars from '../../shared/components/CustomScrollbars';
+import Announcement from '../../shared/components/Announcement';
+import Marquee from '../../shared/components/Marquee';
 import NominationResult from './NominationResult';
 import CreateMemberPerformance from './CreateMemberPerformance';
 import EditMemberPerformance from './EditMemberPerformance';
@@ -20,9 +22,8 @@ import MemberWorkload from './MemberWorkload';
 import Timeline from './timeline/index';
 import Nomination from './nomination/Nomination';
 import MemberPerformanceAppraisal from './performance-appraisal/MemberPerformanceAppraisal';
-import Announcement from '../../shared/components/Announcement';
-import Marquee from '../../shared/components/Marquee';
 import Probation from './probation/Probation';
+import { loadMorePerformanceRecord } from '../home/common-functions';
 
 const queryString = require('query-string');
 
@@ -158,16 +159,7 @@ export default class App extends Component {
     }
 
     loadMorePerformanceRecord = (page, callback) => {
-        const records = this.state.performanceRecords.slice(0, page * this.itemPerPage);
-
-        this.setState({
-            displayedPerformanceRecords: records,
-            hasMore: records.length < this.state.performanceRecords.length
-        }, () => {
-            if (callback) {
-                callback();
-            }
-        });
+        loadMorePerformanceRecord(this, page, callback);
     }
 
     handleClickTimelineNode = performanceRecordId => {

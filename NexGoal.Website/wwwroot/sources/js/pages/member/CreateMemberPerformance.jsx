@@ -17,11 +17,11 @@ import PerformanceGradeInfo from '../../shared/components/PerformanceGradeInfo';
 
 export default class CreateMemberPerformance extends Component {
     static propTypes = {
-        currentUser: PropTypes.object,
+        currentUser: PropTypes.objectOf(PropTypes.object),
         memberOptions: PropTypes.arrayOf(PropTypes.object),
         performanceGradeOptions: PropTypes.arrayOf(PropTypes.object),
         projectOptions: PropTypes.arrayOf(PropTypes.object),
-        selectedMemberInfo: PropTypes.object,
+        selectedMemberInfo: PropTypes.objectOf(PropTypes.object),
         isMultiple: PropTypes.bool,
         onSubmitSuccess: PropTypes.func,
         onSubmitDraftSuccess: PropTypes.func
@@ -164,6 +164,19 @@ export default class CreateMemberPerformance extends Component {
         return isValid;
     }
 
+    getAxiosData = () => {
+        const record = this.state.performanceRecord;
+        const employeeIds = this.props.isMultiple
+            ? record.employees.map(employee => employee.value).join(',') : this.props.selectedMemberInfo.id;
+        return stringify({
+            __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+            employeeIds: employeeIds,
+            gradeId: record.grade ? record.grade.value : null,
+            comment: record.comment.trim(),
+            projectIds: record.projects.map(project => project.value).join(',')
+        });
+    };
+
     handleSubmit = event => {
         event.preventDefault();
 
@@ -174,21 +187,10 @@ export default class CreateMemberPerformance extends Component {
         if (this.validateForm()) {
             this.setSubmitting(true);
 
-            const record = this.state.performanceRecord;
-            const employeeIds = this.props.isMultiple
-                ? record.employees.map(employee => employee.value).join(',') : this.props.selectedMemberInfo.id;
-            const performanceRecord = stringify({
-                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                employeeIds: employeeIds,
-                gradeId: record.grade ? record.grade.value : null,
-                comment: record.comment.trim(),
-                projectIds: record.projects.map(project => project.value).join(',')
-            });
-
             axios({
                 url: resolveClientUrl('Member/Performance/Create'),
                 method: 'POST',
-                data: performanceRecord,
+                data: getAxiosData(),
                 headers: PostRequestHeaders
             }).then(response => {
                 const data = response.data;
@@ -222,21 +224,11 @@ export default class CreateMemberPerformance extends Component {
 
         if (this.validateForm()) {
             this.setSubmitting(true);
-            const record = this.state.performanceRecord;
-            const employeeIds = this.props.isMultiple ? record.employees.map(employee => employee.value).join(',') :
-                this.props.selectedMemberInfo.id;
-            const performanceRecord = stringify({
-                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                employeeIds: employeeIds,
-                gradeId: record.grade ? record.grade.value : null,
-                comment: record.comment.trim(),
-                projectIds: record.projects.map(project => project.value).join(',')
-            });
 
             axios({
                 url: resolveClientUrl('Member/Performance/CreateDraft'),
                 method: 'POST',
-                data: performanceRecord,
+                data: getAxiosData(),
                 headers: PostRequestHeaders
             }).then(response => {
                 const data = response.data;
@@ -328,7 +320,7 @@ export default class CreateMemberPerformance extends Component {
                             </FormGroup>
                             <FormGroup>
                                 <div className="grade">
-                                    <ControlLabel>{getResource('Grade')} <a className="grade-info" onClick={this.handleOpenGradeInfo}></a></ControlLabel>
+                                    <ControlLabel>{getResource('Grade')} <a className="grade-info" onClick={this.handleOpenGradeInfo} /></ControlLabel>
                                     <Select name="grade" className="react-select-container grade-field" classNamePrefix="react-select"
                                         placeholder="Select Grade"
                                         value={performanceRecord.grade}
