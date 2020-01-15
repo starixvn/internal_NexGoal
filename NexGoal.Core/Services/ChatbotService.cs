@@ -36,7 +36,7 @@
             request.AddParameter("message", message);
             request.AddParameter("conversationId", conversationId);
 
-            await webClient.ExecutePostTaskAsync(request).ConfigureAwait(false);
+            await webClient.ExecutePostAsync(request);
         }
 
         private async Task<ChatbotToken> GetTokenAsync()
@@ -51,7 +51,7 @@
 
             request.AddHeader("Content-type", "application/x-www-form-urlencoded");
 
-            var response = await webClient.ExecutePostTaskAsync<ChatbotToken>(request).ConfigureAwait(false);
+            var response = await webClient.ExecutePostAsync<ChatbotToken>(request);
 
             return response.Data;
         }
