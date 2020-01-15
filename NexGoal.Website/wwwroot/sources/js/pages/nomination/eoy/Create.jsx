@@ -1,16 +1,15 @@
 ﻿import React, { Component } from 'react';
-import { Button, Form, FormGroup, Modal } from 'react-bootstrap';
-import DatePicker from 'react-datepicker';
+import { Modal } from 'react-bootstrap';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import Select from 'react-select';
 import { Formik } from 'formik';
 import { stringify } from 'qs';
 
-import { axiosError, resolveClientUrl, validateFormikField, displayFormikErrors, axiosCreateResponseWithFormik } from '../../../common-functions';
+import { axiosError, resolveClientUrl, axiosCreateResponseWithFormik } from '../../../common-functions';
 import { validateEOYForm } from '../common';
 import getResource from '../../../resourceHelper';
-import { DateFormat, InputErrorCssClass, PostRequestHeaders } from '../../../constants';
+import { PostRequestHeaders } from '../../../constants';
+import CreateNominationPeriodForm from '../CreateNominationPeriodForm';
 
 class Create extends Component {
     handleSubmit = (values, { setErrors }) => {
@@ -44,108 +43,14 @@ class Create extends Component {
         handleChange,
         handleSubmit,
         setFieldValue }) => {
-        const currentYear = new Date().getFullYear();
-        const yearOptions = [
-            { value: currentYear, label: currentYear },
-            { value: currentYear + 1, label: currentYear + 1 }
-        ];
-        const isValidStartDateForMominator = validateFormikField(touched, errors, 'startDateForNominator'),
-            isValidEndDateForNominator = validateFormikField(touched, errors, 'endDateForNominator'),
-            isValidRemindDateForNominator = validateFormikField(touched, errors, 'remindDateForNominator'),
-            isValidEndDateForCommittee = validateFormikField(touched, errors, 'endDateForCommittee'),
-            isValidDescription = validateFormikField(touched, errors, 'description');
-
         return (
-            <Form id="create-eoy-form" inline onSubmit={handleSubmit}>
-                <Modal.Body>
-                    {
-                        displayFormikErrors(
-                            touched,
-                            errors,
-                            ['year', 'startDateForNominator', 'endDateForNominator', 'remindDateForNominator', 'endDateForCommittee', 'description'])
-                    }
-
-                    <div className="line-group">
-                        <FormGroup>
-                            <label className="control-label">{getResource('Year')}</label>
-                            <div className="field control-content">
-                                <Select name="year" isSearchable={false} isClearable={false}
-                                    className="react-select-container" classNamePrefix="react-select"
-                                    value={values.year}
-                                    options={yearOptions}
-                                    onChange={selectedOption => setFieldValue('year', selectedOption)}
-                                />
-                            </div>
-                        </FormGroup>
-                    </div>
-                    <div className="line-group">
-                        <div className="title-group"><strong>{getResource('ForNominator')}</strong></div>
-                        <FormGroup>
-                            <label className="control-label">{getResource('StartDate')}</label>
-                            <div className="field  control-content">
-                                <DatePicker name="startDateForNominator" autoComplete="off"
-                                    className={`form-control ${!isValidStartDateForMominator && InputErrorCssClass}`}
-                                    dateFormat={DateFormat}
-                                    selected={values.startDateForNominator}
-                                    onChange={value => setFieldValue('startDateForNominator', value)}
-                                />
-                            </div>
-                        </FormGroup>
-                        <FormGroup>
-                            <label className="control-label">{getResource('EndDate')}</label>
-                            <div className="field  control-content">
-                                <DatePicker name="endDateForNominator" autoComplete="off"
-                                    className={`form-control ${!isValidEndDateForNominator && InputErrorCssClass}`}
-                                    dateFormat={DateFormat}
-                                    selected={values.endDateForNominator}
-                                    onChange={value => setFieldValue('endDateForNominator', value)}
-                                />
-                            </div>
-                        </FormGroup>
-                        <FormGroup>
-                            <label className="control-label">{getResource('RemindDate')}</label>
-                            <div className="field control-content">
-                                <DatePicker name="remindDateForNominator" autoComplete="off"
-                                    className={`form-control ${!isValidRemindDateForNominator && InputErrorCssClass}`}
-                                    dateFormat={DateFormat}
-                                    selected={values.remindDateForNominator}
-                                    onChange={value => setFieldValue('remindDateForNominator', value)}
-                                />
-                            </div>
-                        </FormGroup>
-                    </div>
-                    <div className="line-group">
-                        <div className="title-group"><strong>{getResource('ForCommittee')}</strong></div>
-                        <FormGroup>
-                            <label className="control-label">{getResource('EndDate')}</label>
-                            <div className="field control-content">
-                                <DatePicker name="endDateForCommittee" autoComplete="off"
-                                    className={`form-control ${!isValidEndDateForCommittee && InputErrorCssClass}`}
-                                    dateFormat={DateFormat}
-                                    selected={values.endDateForCommittee}
-                                    onChange={value => setFieldValue('endDateForCommittee', value)}
-                                />
-                            </div>
-                        </FormGroup>
-                    </div>
-                    <div className="line-group">
-                        <FormGroup className="description-group">
-                            <label className="control-label">{getResource('Description')} (optional)</label>
-                            <div className="field control-content">
-                                <textarea className={`form-control none-resize ${!isValidDescription && InputErrorCssClass}`}
-                                    rows="5" maxLength="200"
-                                    name="description" value={values.description}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                        </FormGroup>
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button className="btn-cancel" onClick={this.props.closeModal}>{getResource('Cancel')}</Button>
-                    <Button type="submit" bsStyle="primary">{getResource('Submit')}</Button>
-                </Modal.Footer>
-            </Form>
+            <CreateNominationPeriodForm isEOQ={false}
+                values={values} errors={errors} touched={touched}
+                setFieldValue={setFieldValue}
+                onChange={handleChange}
+                onSubmit={handleSubmit}
+                onClose={this.props.closeModal}
+            />
         );
     }
 
