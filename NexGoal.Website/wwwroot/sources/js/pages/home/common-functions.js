@@ -36,6 +36,53 @@ export function validateCreateEditMemberPerformance(vm) {
     return isValid;
 }
 
+export function handleClickEditPerformanceRecord(vm, performanceRecordId) {
+    vm.setState({
+        editPerformanceRecord: {
+            isShowModal: true,
+            performanceRecordId: performanceRecordId,
+            isDraft: false
+        }
+    });
+}
+
+export function handleCancelEditPerformanceRecord(vm) {
+    vm.setState({
+        editPerformanceRecord: {
+            isShowModal: false,
+            performanceRecordId: 0
+        }
+    });
+}
+
+export function handleClickEditDraftPerformanceRecord(vm, performanceRecordId) {
+    vm.setState({
+        editPerformanceRecord: {
+            isShowModal: true,
+            performanceRecordId: performanceRecordId,
+            isDraft: true
+        }
+    });
+}
+
+export function handleClickDeletePerformanceRecord(vm, performanceRecordId) {
+    vm.setState({
+        deletePerformanceRecord: {
+            isShowModal: true,
+            performanceRecordId: performanceRecordId
+        }
+    });
+}
+
+export function handleCancelDeletePerformanceRecord(vm) {
+    vm.setState({
+        deletePerformanceRecord: {
+            isShowModal: false,
+            performanceRecordId: 0
+        }
+    });
+}
+
 export const axiosCreatePerformanceResponse = (vm, toastObj, axiosResponse, successCallback) => {
     const data = axiosResponse.data;
     if (data.isSuccessful) {

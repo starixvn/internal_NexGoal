@@ -2,7 +2,6 @@
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import Select from 'react-select';
 import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
@@ -10,6 +9,7 @@ import getResource from '../../../resourceHelper';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import { PostRequestHeaders } from '../../../constants';
 import GroupList from './GroupList';
+import EvaluatorCol from './EvaluatorCol';
 import { handleEvaluatorChange, handleReviewerChange } from '../common-functions';
 
 class GroupFlowSetting extends Component {
@@ -22,7 +22,8 @@ class GroupFlowSetting extends Component {
             reviewer: null,
             selectedGroup: null,
             enableDeleteButton: false,
-            showDeleteModal: false
+            showDeleteModal: false,
+            isSubmit: false
         };
     }
 
@@ -69,8 +70,11 @@ class GroupFlowSetting extends Component {
     };
 
     handleSaveFlowSetting = () => {
-        const errorFields = [];
+        if (!this.state.isSubmit) {
+            this.setState({ isSubmit: true });
+        }
 
+        const errorFields = [];
         if (!this.state.evaluator) {
             errorFields.push('Evaluator');
         }
@@ -103,7 +107,7 @@ class GroupFlowSetting extends Component {
                 headers: PostRequestHeaders
             }).then(response => {
                 const data = response.data;
-
+                this.setState({ isSubmit: false });
                 if (data.isSuccessful) {
                     toast.success(getResource('UpdatedSuccessfully'));
 
@@ -182,56 +186,9 @@ class GroupFlowSetting extends Component {
         );
     }
 
-    renderEvaluator = () => {
-        return (
-            <td className="col-evaluator">
-                {this.props.isHost && this.state.selectedGroup &&
-                    <Select className="react-select-container" classNamePrefix="react-select"
-                        value={null} options={this.props.employeeOptions}
-                        isClearable={false} placeholder="Nickname or full name"
-                        onChange={this.handleEvaluatorChange}
-                        backspaceRemovesValue={false}
-                    />
-                }
-                {this.state.evaluator &&
-                    <div className="flow-item">
-                        <img className="avatar" src={this.state.evaluator.avatar} />
-                        <div className="personal-info">
-                            <span className="txt-bold">{this.state.evaluator.nickName}</span>
-                            <p>{this.state.evaluator.fullName}</p>
-                        </div>
-                    </div>
-                }
-            </td>
-        );
-    }
-
-    renderReviewer = () => {
-        return (
-            <td className="col-reviewer">
-                {this.props.isHost && this.state.selectedGroup &&
-                    <Select className="react-select-container" classNamePrefix="react-select"
-                        value={null} options={this.props.employeeOptions}
-                        isClearable={false} placeholder="Nickname or full name"
-                        onChange={this.handleReviewerChange}
-                        backspaceRemovesValue={false}
-                    />
-                }
-                {this.state.reviewer &&
-                    <div className="flow-item">
-                        <img className="avatar" src={this.state.reviewer.avatar} />
-                        <div className="personal-info">
-                            <span className="txt-bold">{this.state.reviewer.nickName}</span>
-                            <p>{this.state.reviewer.fullName}</p>
-                        </div>
-                    </div>
-                }
-            </td>
-        );
-    }
-
     render() {
-        const { isHost } = this.props;
+        const { isSubmit, evaluator, reviewer } = this.state;
+        const { isHost, employeeOptions } = this.props;
 
         return (
             <div className="row group-flow">
@@ -248,8 +205,18 @@ class GroupFlowSetting extends Component {
                         <tbody>
                             <tr>
                                 {this.renderSelf()}
-                                {this.renderEvaluator()}
-                                {this.renderReviewer()}
+                                <td className="col-evaluator">
+                                    <EvaluatorCol isHost={isHost} evaluator={evaluator}
+                                        isSubmit={isSubmit} options={employeeOptions}
+                                        onChange={this.handleEvaluatorChange}
+                                    />
+                                </td>
+                                <td className="col-reviewer">
+                                    <EvaluatorCol isHost={isHost} evaluator={reviewer}
+                                        isSubmit={isSubmit} options={employeeOptions}
+                                        onChange={this.handleReviewerChange}
+                                    />
+                                </td>
                             </tr>
                         </tbody>
                     </table>

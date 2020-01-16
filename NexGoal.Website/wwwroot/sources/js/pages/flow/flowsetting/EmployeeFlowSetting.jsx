@@ -10,6 +10,7 @@ import getResource from '../../../resourceHelper';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import { InputErrorCssClass, PostRequestHeaders } from '../../../constants';
 import ConfiguredEmployeeList from './ConfiguredEmployeeList';
+import EvaluatorCol from './EvaluatorCol';
 import { getEmployeeById, handleEvaluatorChange, handleReviewerChange } from '../common-functions';
 
 export default class EmployeeFlowSetting extends Component {
@@ -25,7 +26,7 @@ export default class EmployeeFlowSetting extends Component {
             configuredEmployees: [],
             unconfiguredEmployees: [],
             unconfiguredEmployeeOptions: [],
-            submit: false
+            isSubmit: false
         };
     }
 
@@ -127,12 +128,11 @@ export default class EmployeeFlowSetting extends Component {
     }
 
     handleSaveFlowSetting = () => {
-        if (!this.state.submit) {
-            this.setState({ submit: true });
+        if (!this.state.isSubmit) {
+            this.setState({ isSubmit: true });
         }
 
         const isValid = this.validate();
-
         if (isValid) {
             const settings = [{
                 processId: this.state.evaluator.processId,
@@ -178,7 +178,7 @@ export default class EmployeeFlowSetting extends Component {
             evaluator: null,
             reviewer: null,
             selectedEmployeeId: null,
-            submit: false
+            isSubmit: false
         });
     }
 
@@ -227,7 +227,7 @@ export default class EmployeeFlowSetting extends Component {
         return (
             <td className="col-self">
                 {this.props.isHost &&
-                    <Select className={`react-select-container ${this.state.submit && !this.state.member && InputErrorCssClass}`}
+                    <Select className={`react-select-container ${this.state.isSubmit && !this.state.member && InputErrorCssClass}`}
                         classNamePrefix="react-select"
                         value={null} options={this.state.unconfiguredEmployeeOptions}
                         isClearable={false} placeholder="Nickname or full name"
@@ -242,61 +242,6 @@ export default class EmployeeFlowSetting extends Component {
                         <div className="personal-info">
                             <span className="txt-bold">{this.state.member.nickName}</span>
                             <p>{this.state.member.fullName}</p>
-                        </div>
-                    </div>
-                }
-            </td>
-        );
-    }
-
-    renderEvaluator = () => {
-        const employeeOptions = this.state.member ?
-            this.props.employeeOptions.filter(e => e.value !== this.state.member.employeeId) : this.props.employeeOptions;
-
-        return (
-            <td className="col-evaluator">
-                {this.props.isHost &&
-                    <Select className={`react-select-container ${this.state.submit && !this.state.evaluator && InputErrorCssClass}`}
-                        classNamePrefix="react-select"
-                        value={null} options={employeeOptions}
-                        isClearable={false} placeholder="Nickname or full name"
-                        onChange={this.handleEvaluatorChange}
-                        backspaceRemovesValue={false}
-                    />
-                }
-                {this.state.evaluator &&
-                    <div className="flow-item">
-                        <img className="avatar" src={this.state.evaluator.avatar} />
-                        <div className="personal-info">
-                            <span className="txt-bold">{this.state.evaluator.nickName}</span>
-                            <p>{this.state.evaluator.fullName}</p>
-                        </div>
-                    </div>}
-            </td>
-        );
-    }
-
-    renderReviewer = () => {
-        const employeeOptions = this.state.member ?
-            this.props.employeeOptions.filter(e => e.value !== this.state.member.employeeId) : this.props.employeeOptions;
-
-        return (
-            <td className="col-reviewer">
-                {this.props.isHost &&
-                    <Select className={`react-select-container ${this.state.submit && !this.state.reviewer && InputErrorCssClass}`}
-                        classNamePrefix="react-select"
-                        value={null} options={employeeOptions}
-                        isClearable={false} placeholder="Nickname or full name"
-                        onChange={this.handleReviewerChange}
-                        backspaceRemovesValue={false}
-                    />
-                }
-                {this.state.reviewer &&
-                    <div className="flow-item">
-                        <img className="avatar" src={this.state.reviewer.avatar} />
-                        <div className="personal-info">
-                            <span className="txt-bold">{this.state.reviewer.nickName}</span>
-                            <p>{this.state.reviewer.fullName}</p>
                         </div>
                     </div>
                 }
@@ -325,7 +270,9 @@ export default class EmployeeFlowSetting extends Component {
     }
 
     render() {
+        const { isSubmit, member, evaluator, reviewer } = this.state;
         const { isHost } = this.props;
+        const employeeOptions = member ? this.props.employeeOptions.filter(e => e.value !== member.employeeId) : this.props.employeeOptions;
 
         return (
             <div className="row employee-flow">
@@ -346,8 +293,18 @@ export default class EmployeeFlowSetting extends Component {
                         <tbody>
                             <tr>
                                 {this.renderSelf()}
-                                {this.renderEvaluator()}
-                                {this.renderReviewer()}
+                                <td className="col-evaluator">
+                                    <EvaluatorCol isHost={isHost} evaluator={evaluator}
+                                        isSubmit={isSubmit} options={employeeOptions}
+                                        onChange={this.handleEvaluatorChange}
+                                    />
+                                </td>
+                                <td className="col-reviewer">
+                                    <EvaluatorCol isHost={isHost} evaluator={reviewer}
+                                        isSubmit={isSubmit} options={employeeOptions}
+                                        onChange={this.handleReviewerChange}
+                                    />
+                                </td>
                             </tr>
                         </tbody>
                     </table>

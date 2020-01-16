@@ -23,7 +23,10 @@ import Timeline from './timeline/index';
 import Nomination from './nomination/Nomination';
 import MemberPerformanceAppraisal from './performance-appraisal/MemberPerformanceAppraisal';
 import Probation from './probation/Probation';
-import { loadMorePerformanceRecord } from '../home/common-functions';
+import {
+    loadMorePerformanceRecord, handleClickEditPerformanceRecord, handleCancelEditPerformanceRecord,
+    handleClickEditDraftPerformanceRecord, handleClickDeletePerformanceRecord, handleCancelDeletePerformanceRecord
+} from '../home/common-functions';
 
 const queryString = require('query-string');
 
@@ -232,32 +235,15 @@ export default class App extends Component {
     }
 
     handleClickEditPerformanceRecord = performanceRecordId => {
-        this.setState({
-            editPerformanceRecord: {
-                isShowModal: true,
-                performanceRecordId: performanceRecordId,
-                isDraft: false
-            }
-        });
+        handleClickEditPerformanceRecord(this, performanceRecordId);
     }
 
     handleClickEditDraftPerformanceRecord = performanceRecordId => {
-        this.setState({
-            editPerformanceRecord: {
-                isShowModal: true,
-                performanceRecordId: performanceRecordId,
-                isDraft: true
-            }
-        });
+        handleClickEditDraftPerformanceRecord(this, performanceRecordId);
     }
 
     handleCancelEditPerformanceRecord = () => {
-        this.setState({
-            editPerformanceRecord: {
-                isShowModal: false,
-                performanceRecordId: 0
-            }
-        });
+        handleCancelEditPerformanceRecord(this);
     }
 
     handleEditPerformanceRecordSuccess = performanceRecordIds => {
@@ -315,12 +301,7 @@ export default class App extends Component {
     }
 
     handleClickDeletePerformanceRecord = performanceRecordId => {
-        this.setState({
-            deletePerformanceRecord: {
-                isShowModal: true,
-                performanceRecordId: performanceRecordId
-            }
-        });
+        handleClickDeletePerformanceRecord(this, performanceRecordId);
     }
 
     handleDeletePerformanceRecord = () => {
@@ -362,12 +343,7 @@ export default class App extends Component {
     }
 
     handleCancelDeletePerformanceRecord = () => {
-        this.setState({
-            deletePerformanceRecord: {
-                isShowModal: false,
-                performanceRecordId: 0
-            }
-        });
+        handleCancelDeletePerformanceRecord(this);
     }
 
     handleCloseAnnouncementModal = () => this.setState({ showAnnouncementModal: false })
