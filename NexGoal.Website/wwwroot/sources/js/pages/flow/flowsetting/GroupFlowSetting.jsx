@@ -9,7 +9,7 @@ import getResource from '../../../resourceHelper';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import { PostRequestHeaders } from '../../../constants';
 import GroupList from './GroupList';
-import EvaluatorCol from './EvaluatorCol';
+import FlowSettingTable from './FlowSettingTable';
 import { handleEvaluatorChange, handleReviewerChange } from '../common-functions';
 
 class GroupFlowSetting extends Component {
@@ -194,32 +194,13 @@ class GroupFlowSetting extends Component {
             <div className="row group-flow">
                 <GroupList groups={this.state.groupSettings} onClick={this.handleSelectGroup} />
                 <div className="flow-settings">
-                    <table className="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>{getResource('Team')}</th>
-                                <th className="evaluator">{getResource('Evaluator')}</th>
-                                <th className="reviewer">{getResource('Reviewer')}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                {this.renderSelf()}
-                                <td className="col-evaluator">
-                                    <EvaluatorCol isHost={isHost} evaluator={evaluator}
-                                        isSubmit={isSubmit} options={employeeOptions}
-                                        onChange={this.handleEvaluatorChange}
-                                    />
-                                </td>
-                                <td className="col-reviewer">
-                                    <EvaluatorCol isHost={isHost} evaluator={reviewer}
-                                        isSubmit={isSubmit} options={employeeOptions}
-                                        onChange={this.handleReviewerChange}
-                                    />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <FlowSettingTable isHost={isHost} isSubmit={isSubmit} isGroup
+                        evaluator={evaluator} reviewer={reviewer}
+                        employeeOptions={employeeOptions}
+                        selfColContent={this.renderSelf()}
+                        onChangeEvaluator={this.handleEvaluatorChange}
+                        onChangeReviewer={this.handleReviewerChange}
+                    />
                     {
                         isHost && this.state.selectedGroup &&
                         <div className="button-group" >

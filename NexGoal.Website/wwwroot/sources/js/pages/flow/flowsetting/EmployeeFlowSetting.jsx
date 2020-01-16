@@ -10,7 +10,7 @@ import getResource from '../../../resourceHelper';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import { InputErrorCssClass, PostRequestHeaders } from '../../../constants';
 import ConfiguredEmployeeList from './ConfiguredEmployeeList';
-import EvaluatorCol from './EvaluatorCol';
+import FlowSettingTable from './FlowSettingTable';
 import { getEmployeeById, handleEvaluatorChange, handleReviewerChange } from '../common-functions';
 
 export default class EmployeeFlowSetting extends Component {
@@ -282,32 +282,13 @@ export default class EmployeeFlowSetting extends Component {
                     onClick={this.handleSelectEmployee}
                 />
                 <div className="flow-settings">
-                    <table className="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th className="member">{getResource('Member')}</th>
-                                <th className="evaluator">{getResource('Evaluator')}</th>
-                                <th className="reviewer">{getResource('Reviewer')}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                {this.renderSelf()}
-                                <td className="col-evaluator">
-                                    <EvaluatorCol isHost={isHost} evaluator={evaluator}
-                                        isSubmit={isSubmit} options={employeeOptions}
-                                        onChange={this.handleEvaluatorChange}
-                                    />
-                                </td>
-                                <td className="col-reviewer">
-                                    <EvaluatorCol isHost={isHost} evaluator={reviewer}
-                                        isSubmit={isSubmit} options={employeeOptions}
-                                        onChange={this.handleReviewerChange}
-                                    />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <FlowSettingTable isHost={isHost} isSubmit={isSubmit} isGroup={false}
+                        evaluator={evaluator} reviewer={reviewer}
+                        employeeOptions={employeeOptions}
+                        selfColContent={this.renderSelf()}
+                        onChangeEvaluator={this.handleEvaluatorChange}
+                        onChangeReviewer={this.handleReviewerChange}
+                    />
                     {isHost && this.renderButtonGroup()}
                 </div>
                 {
