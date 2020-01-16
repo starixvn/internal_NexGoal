@@ -310,7 +310,7 @@ export default class MyPage extends Component {
     }
 
     handleCancelDeletePerformanceRecord = () => {
-        handleCancelDeletePerformanceRecord(vm);
+        handleCancelDeletePerformanceRecord(this);
     }
 
     loadMorePerformanceRecord = (page, callback) => {

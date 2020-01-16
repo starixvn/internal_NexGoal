@@ -323,7 +323,7 @@ export default class Details extends Component {
     }
 
     handleCancelDeletePerformanceRecord = () => {
-        handleCancelDeletePerformanceRecord(vm);
+        handleCancelDeletePerformanceRecord(this);
     }
 
     handleDeletePerformanceRecord = () => {
