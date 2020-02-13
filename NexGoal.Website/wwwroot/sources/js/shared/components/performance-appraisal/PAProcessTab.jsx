@@ -14,15 +14,12 @@ export default class PAProcessTab extends Component {
     }
 
     renderRecordByProcess = processId => {
-        const paProcesses = this.props.processes.filter(p => p.performanceRecord && p.processId === processId);
-        if (paProcesses.length > 0) {
-            return paProcesses.map((process, index) => {
-                process.performanceRecord.employees = null;
-                process.performanceRecord.typeId = 1;
-                process.performanceRecord.isHost = false;
-                return (
-                    <PerformanceRecord key={index} data={process.performanceRecord} isHideProjectTag />
-                );
+        const processes = this.props.processes.filter(p => p.processId === processId && p.relatedPerformanceRecords.length > 0);
+        if (processes.length > 0) {
+            return processes.map(process => {
+                return process.relatedPerformanceRecords.map(record => {
+                    return <PerformanceRecord key={record.performanceRecordId} data={record} />;
+                });
             });
         }
 

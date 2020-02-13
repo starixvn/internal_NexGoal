@@ -6,6 +6,8 @@
     [Priority]            TINYINT NULL,
     [StartDate]           DATE    NULL,
     [EndDate]             DATE    NULL,
+    [GradeId] VARCHAR(MAX) NULL, 
+    [RelatedPerformanceRecordIds] VARCHAR(MAX) NULL, 
     CONSTRAINT [PK_PAProcess] PRIMARY KEY CLUSTERED ([PARecordId] ASC, [ProcessId] ASC, [EvaluatorId] ASC)
 );
 

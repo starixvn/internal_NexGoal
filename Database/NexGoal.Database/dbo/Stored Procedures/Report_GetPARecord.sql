@@ -50,31 +50,23 @@ BEGIN
 	FROM dbo.func_SplitString(@EmployeeIds, ',')
 	WHERE ISNUMERIC(val) = 1
 
-	IF (
-			EXISTS (
-				SELECT 1
-				FROM dbo.Employee AS emp WITH (NOLOCK)
+	IF EXISTS (
+			SELECT 1
+			FROM dbo.Employee AS emp WITH (NOLOCK)
 				INNER JOIN dbo.EmployeeRole AS er WITH (NOLOCK) ON er.EmployeeId = emp.EmployeeId
-					AND er.RoleId IN (
-						@HRRoleId
-						,@ManagementRoleId
-						)
-				WHERE emp.EmployeeId = @ActorId
-				)
+				AND er.RoleId IN (@HRRoleId, @ManagementRoleId)
+			WHERE emp.EmployeeId = @ActorId
 			)
 	BEGIN
 		INSERT INTO #tblPARecordId (PARecordId)
 		SELECT pa.PARecordId
 		FROM dbo.PARecord AS pa WITH (NOLOCK)
-		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
-		INNER JOIN #tblPeriodId AS p WITH (NOLOCK) ON period.PeriodId = p.PeriodId
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
-		INNER JOIN #tblGroupId AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		INNER JOIN #tblEmployee AS e WITH (NOLOCK) ON e.EmpId = emp.EmployeeId
-		WHERE pa.StatusId IN (
-				@PAInProgress
-				,@PAClosed
-				)
+			INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+			INNER JOIN #tblPeriodId AS p WITH (NOLOCK) ON period.PeriodId = p.PeriodId
+			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
+			INNER JOIN #tblGroupId AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+			INNER JOIN #tblEmployee AS e WITH (NOLOCK) ON e.EmpId = emp.EmployeeId
+		WHERE pa.StatusId IN (@PAInProgress, @PAClosed)
 			AND (
 				@IsRevised IS NULL
 				OR ISNULL(pa.IsRevised, 0) = @IsRevised
@@ -88,24 +80,15 @@ BEGIN
 		INSERT INTO #tblPARecordId (PARecordId)
 		SELECT pa.PARecordId
 		FROM dbo.PARecord AS pa WITH (NOLOCK)
-		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
-		INNER JOIN #tblPeriodId AS p WITH (NOLOCK) ON period.PeriodId = p.PeriodId
-		INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
+			INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+			INNER JOIN #tblPeriodId AS p WITH (NOLOCK) ON period.PeriodId = p.PeriodId
+			INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
 			AND process.EvaluatorId = @ActorId
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
-		INNER JOIN #tblGroupId AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		INNER JOIN #tblEmployee AS e WITH (NOLOCK) ON e.EmpId = emp.EmployeeId
-		WHERE pa.StatusId IN (
-				@PAInProgress
-				,@PAClosed
-				)
-			AND (
-				process.ProcessId IN (
-					@EvaluatorProcessId
-					,@ReviewerProcessId
-					,@SelfProcessId
-					)
-				)
+			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
+			INNER JOIN #tblGroupId AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+			INNER JOIN #tblEmployee AS e WITH (NOLOCK) ON e.EmpId = emp.EmployeeId
+		WHERE pa.StatusId IN (@PAInProgress, @PAClosed)
+			AND (process.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId, @SelfProcessId))
 			AND (
 				@IsRevised IS NULL
 				OR ISNULL(pa.IsRevised, 0) = @IsRevised
@@ -132,49 +115,38 @@ BEGIN
 		,period.PeriodId
 		,period.[Name]
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
-	INNER JOIN #tblPARecordId AS tbl WITH (NOLOCK) ON pa.PARecordId = tbl.PARecordId
-	INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
-	INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-	INNER JOIN dbo.JobTitle AS jobtitle WITH (NOLOCK) ON emp.JobTitleId = jobtitle.JobTitleId
-	INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
-	INNER JOIN dbo.func_GetSortedEmployee(@ActorId) AS ee ON emp.EmployeeId = ee.EmployeeId
+		INNER JOIN #tblPARecordId AS tbl WITH (NOLOCK) ON pa.PARecordId = tbl.PARecordId
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pa.EmployeeId = emp.EmployeeId
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		INNER JOIN dbo.JobTitle AS jobtitle WITH (NOLOCK) ON emp.JobTitleId = jobtitle.JobTitleId
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+		INNER JOIN dbo.func_GetSortedEmployee(@ActorId) AS ee ON emp.EmployeeId = ee.EmployeeId
 	ORDER BY ee.RankIndex
 
 	SELECT process.PARecordId
 		,process.ProcessId
+		,process.GradeId
+		,process.RelatedPerformanceRecordIds
 		,process.EvaluatorId
 		,emp.NickName
 		,emp.FullName
 		,emp.Code
-		,record.PerformanceRecordId
-		,record.GradeId
-		,record.CreatedDate
-		,record.ModifiedDate
-		,record.Comment
-		,process.ProcessId AS RoleId
-		,record.TypeId
-		,record.CreatorId
-		,creator.NickName
-		,creator.FullName
-		,creator.Code
 	FROM dbo.PAProcess AS process WITH (NOLOCK)
-	INNER JOIN #tblPARecordId AS tbl WITH (NOLOCK) ON process.PARecordId = tbl.PARecordId
-	INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON process.EvaluatorId = emp.EmployeeId
-	LEFT JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON process.PerformanceRecordId = record.PerformanceRecordId
-	LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
+		INNER JOIN #tblPARecordId AS tbl WITH (NOLOCK) ON process.PARecordId = tbl.PARecordId
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON process.EvaluatorId = emp.EmployeeId
+		LEFT JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON process.PerformanceRecordId = record.PerformanceRecordId
+		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
+	WHERE process.ProcessId >= @SelfProcessId
 
 	SELECT p.PeriodId
-		,p.Name
-		,(
-			CASE 
-				WHEN p.EndDate >= @ToDay
-					THEN 1
-				ELSE 0
-				END
+		,p.[Name]
+		,(CASE 
+			WHEN p.EndDate >= @ToDay THEN 1
+			ELSE 0 END
 			) AS IsInProgress
 		,p.EndDate
 	FROM dbo.Period AS p WITH (NOLOCK)
-	INNER JOIN #tblPeriodId AS tpl WITH (NOLOCK) ON p.PeriodId = tpl.PeriodId
+		INNER JOIN #tblPeriodId AS tpl WITH (NOLOCK) ON p.PeriodId = tpl.PeriodId
 	ORDER BY p.EndDate DESC
 
 	DROP TABLE #tblGroupId

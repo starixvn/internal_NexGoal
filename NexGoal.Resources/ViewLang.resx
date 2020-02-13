@@ -294,9 +294,6 @@
   <data name="PRReport" xml:space="preserve">
     <value>PR Report</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value>My Probation</value>
-  </data>
   <data name="MyProbation" xml:space="preserve">
     <value>My Probation</value>
   </data>
@@ -308,5 +305,8 @@
   </data>
   <data name="ReportDetail" xml:space="preserve">
     <value>Report Detail</value>
+  </data>
+  <data name="NA" xml:space="preserve">
+    <value>N/A</value>
   </data>
 </root>

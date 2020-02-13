@@ -8,6 +8,7 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
+    using NexGoal.Models.Report;
     using NexGoal.Services;
     using NexGoal.Web.Core.Filters;
     using NexGoal.Web.Core.Services;
@@ -37,16 +38,14 @@
 
         public async Task<JsonResult> GetGroupAndMember()
         {
-            Tuple<IEnumerable<Group>, IEnumerable<Employee>> tuple = await reportService.GetGroupAndMemberAsync(sessionService.EmployeeId).ConfigureAwait(false);
-
+            Tuple<IEnumerable<Group>, IEnumerable<Employee>> tuple = await reportService.GetGroupAndMemberAsync(sessionService.EmployeeId);
             return Json(new { Groups = tuple.Item1, Members = tuple.Item2 });
         }
 
         public async Task<JsonResult> GetPARecords(GetPARecordMultiPeriodParam model)
         {
             model.ActorId = sessionService.EmployeeId;
-
-            var paRecords = await reportService.GetPAReportAsync(model).ConfigureAwait(false);
+            var paRecords = await reportService.GetPAReportAsync(model);
 
             return Json(paRecords);
         }
@@ -54,7 +53,7 @@
         public async Task<IActionResult> ExportExcel(GetPARecordMultiPeriodParam model)
         {
             model.ActorId = sessionService.EmployeeId;
-            byte[] fileContent = await exportService.ExportExcelAsync(model).ConfigureAwait(false);
+            byte[] fileContent = await exportService.ExportExcelAsync(model);
             const string fileName = "PA Report";
 
             return File(fileContent, MimeType.XLSX, fileName);
@@ -62,18 +61,16 @@
 
         public async Task<IActionResult> ExportPdf(int id)
         {
-            Policy permission = await paService.GetPermissionOnPerformanceAppraisalAsync(sessionService.EmployeeId, id).ConfigureAwait(false);
-
+            Policy permission = await paService.GetPermissionOnPerformanceAppraisalAsync(sessionService.EmployeeId, id);
             if (permission == Policy.None)
             {
                 return RedirectToAction("AccessDenied", "Error");
             }
 
-            var paDetails = await reportService.GetPAReportDetailAsync(sessionService.EmployeeId, id).ConfigureAwait(false);
-
+            PAReportDetail paDetails = await reportService.GetPAReportDetailAsync(sessionService.EmployeeId, id);
             if (paDetails.PARecord != null)
             {
-                var tuple = await exportService.ExportPdfAsync(paDetails).ConfigureAwait(false);
+                var tuple = await exportService.ExportPdfAsync(paDetails);
                 return File(tuple.Item2, MimeType.PDF, tuple.Item1);
             }
 

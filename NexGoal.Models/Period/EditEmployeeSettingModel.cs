@@ -7,7 +7,7 @@
     [XMLName("Row")]
     public class EditEmployeeSettingModel
     {
-        public int ProcessId { get; set; }
+        public byte ProcessId { get; set; }
 
         [XmlIgnore]
         public int? EvaluatorId { get; set; }

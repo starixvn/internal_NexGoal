@@ -20,22 +20,18 @@ class Rows extends Component {
         if (toeicPolicy === null || toeicPolicy < 0) {
             toeicClass = 'toeic-failed';
         }
+
         return <span className={`bold ${toeicClass}`}>{toeic ? toeic : EmptyPlaceHolder}</span>;
     }
 
-    parseIntGradeId = gradeId => gradeId !== null ? gradeId : 0
-
     renderNotAvailableGrade = paRecordId => {
-        const tooltip = (
-            <Tooltip className="focus-note" id={`notAvailable-${paRecordId}`}>
-                <p>{notAvailableGradeTooltip}</p>
-            </Tooltip>
-        );
-        return (
-            <OverlayTrigger placement="top" overlay={tooltip} >
-                <span className="pointer red">{getResource('N/A')}</span>
-            </OverlayTrigger>
-        );
+        const tooltip = <Tooltip className="focus-note" id={`notAvailable-${paRecordId}`}>
+            <p>{notAvailableGradeTooltip}</p>
+        </Tooltip>;
+
+        return <OverlayTrigger placement="top" overlay={tooltip} >
+            <span className="pointer red">{getResource('N/A')}</span>
+        </OverlayTrigger>;
     }
 
     quickEditPA = (paRecordId, isRevised) => {
@@ -67,69 +63,41 @@ class Rows extends Component {
     }
 
     renderSelfGrade = paProcesses => {
-        const processes = paProcesses.filter(process => process.processId === PerformanceProcess.Self);
-        let grade = EmptyPlaceHolder;
-        if (processes[0].performanceRecord) {
-            grade = processes[0].performanceRecord.grade ? processes[0].performanceRecord.grade.name : getResource('N/A');
-        }
-
-        return <span>{grade}</span>;
+        const process = paProcesses.filter(process => process.processId === PerformanceProcess.Self)[0];
+        return <span>{process.grade ? process.grade : EmptyPlaceHolder}</span>;
     }
 
     renderPMGrades = (paProcesses, paRecordId) => {
-        const processes = paProcesses.filter(process => process.processId === PerformanceProcess.ProjectManager);
+        const processes = paProcesses.filter(process => process.grade && process.processId === PerformanceProcess.ProjectManager);
         if (processes.length === 0) {
             return EmptyPlaceHolder;
         }
 
-        const grades = processes.map(process => {
-            if (process.performanceRecord) {
-                return process.performanceRecord.grade ?
-                    process.performanceRecord.grade.name : getResource('N/A');
+        const grades = processes.map(process => process.grade);
+        const tooltip = <Tooltip className="focus-note" id={`pmProcess-${paRecordId}`}>
+            {
+                processes.map((process, index) => {
+                    if (process.grade) {
+                        return <p key={index}>{`${process.evaluator.nickName}: ${process.grade}`}</p>;
+                    }
+
+                    return null;
+                })
             }
+        </Tooltip>;
 
-            return getResource('N/A');
-        });
-
-        const tooltip = (
-            <Tooltip className="focus-note" id={`pmProcess-${paRecordId}`}>
-                {
-                    processes.map((process, index) => {
-                        if (process.performanceRecord) {
-                            return (
-                                <p key={index}>
-                                    {
-                                        `${process.evaluator.nickName}: ${process.performanceRecord.grade
-                                            ? process.performanceRecord.grade.name : getResource('N/A')} `
-                                    }
-                                </p>
-                            );
-                        }
-
-                        return null;
-                    })
-                }
-            </Tooltip>
-        );
-
-        return (
-            <OverlayTrigger placement="top" overlay={tooltip}>
-                <span className="pointer">{this.countDuplicateGrades(grades)}</span>
-            </OverlayTrigger>
-        );
+        return <OverlayTrigger placement="top" overlay={tooltip}>
+            <span className="pointer">{this.countDuplicateGrades(grades)}</span>
+        </OverlayTrigger>;
     }
 
     renderEvaluatorGrade = (paProcesses, statusId) => {
         const evaluatorProcess = paProcesses.filter(process => process.processId === PerformanceProcess.Evaluator)[0];
         let grade = EmptyPlaceHolder;
 
-        if (evaluatorProcess.performanceRecord && evaluatorProcess.performanceRecord.grade) {
-            grade = evaluatorProcess.performanceRecord.grade.name;
-        }
-
-        if (evaluatorProcess.performanceRecord && !evaluatorProcess.performanceRecord.grade) {
+        if (evaluatorProcess.grade) {
             const naClass = statusId === PAStatus.InProgress ? 'red' : '';
-            grade = <span className={naClass}>{getResource('N/A')}</span>;
+            grade = <span className={naClass}>{evaluatorProcess.grade}</span>;
         }
 
         return grade;
@@ -138,7 +106,6 @@ class Rows extends Component {
     renderPAGrade = record => {
         const gradeId = record.grade ? record.grade.gradeId : null;
         const originalGradeId = record.originalGrade ? record.originalGrade.gradeId : null;
-
         const gradeChangeClass = getPAGradeClassName(originalGradeId, gradeId);
 
         let paGrade = <span>{record.grade ? record.grade.name : getResource('N/A')}</span>;
@@ -147,13 +114,9 @@ class Rows extends Component {
             paGrade = <a onClick={() => this.handleClick(record.paRecordId)}>{displayGrade}</a>;
         }
 
-        return (
-            <Fragment>
-                <span className="pa-grade text-center">{paGrade}
-                    <span className={gradeChangeClass} />
-                </span>
-            </Fragment>
-        );
+        return <span className="pa-grade text-center">{paGrade}
+            <span className={gradeChangeClass} />
+        </span>;
     };
 
     renderStatus = (isRevised, paRecordId, paStatusId) => {
@@ -163,16 +126,14 @@ class Rows extends Component {
             const checked = isRevised ? 'icon-check' : '';
             status = <span className={checked} />;
         } else {
-            status = (
-                <div>
-                    <input type="checkbox" className="checkbox-custom"
-                        id={`chb-${paRecordId}`}
-                        checked={isRevised}
-                        onChange={() => this.quickEditPA(paRecordId, isRevised)}
-                    />
-                    <label htmlFor={`chb-${paRecordId}`} />
-                </div>
-            );
+            status = <div>
+                <input type="checkbox" className="checkbox-custom"
+                    id={`chb-${paRecordId}`}
+                    checked={isRevised}
+                    onChange={() => this.quickEditPA(paRecordId, isRevised)}
+                />
+                <label htmlFor={`chb-${paRecordId}`} />
+            </div>;
         }
 
         return status;
@@ -193,6 +154,7 @@ class Rows extends Component {
         if (record.statusId !== PAStatus.InProgress) {
             displayNickname = <a onClick={() => this.handleClick(record.paRecordId)}>{record.employee.nickName}</a>;
         }
+
         return displayNickname;
     }
 

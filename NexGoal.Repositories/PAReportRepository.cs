@@ -8,7 +8,6 @@
     using Fanex.Data.Repository;
     using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
-    using NexGoal.Models.PerformanceRecord;
 
     public class PAReportRepository : IPAReportRepository
     {
@@ -16,7 +15,7 @@
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria).ConfigureAwait(false))
+                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria))
                 {
                     var performanceAppraisals = multi.Read<PARecordModel, Employee, PeriodBaseModel, PARecordModel>(
                         (pa, employee, period) =>
@@ -27,14 +26,13 @@
                         },
                         "EmployeeId, PeriodId");
 
-                    var processes = multi.Read<PAProcessModel, Employee, PerformanceRecord, PAProcessModel>(
-                            (process, evaluator, performance) =>
+                    var processes = multi.Read<PAProcessModel, Employee, PAProcessModel>(
+                            (process, evaluator) =>
                             {
                                 process.Evaluator = evaluator;
-                                process.PerformanceRecord = performance;
                                 return process;
                             },
-                            "EvaluatorId, PerformanceRecordId");
+                            "EvaluatorId");
 
                     var selectedPeriods = multi.Read<PeriodBaseModel>();
                     MappingData(performanceAppraisals, processes);

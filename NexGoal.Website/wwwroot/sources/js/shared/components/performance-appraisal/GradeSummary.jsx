@@ -30,11 +30,7 @@ export default class GradeSummary extends PureComponent {
             return pr.grade;
         }
 
-        if (pr.performanceRecord) {
-            return pr.performanceRecord.grade ? pr.performanceRecord.grade.name : getResource('N/A');
-        }
-
-        return EmptyPlaceHolder;
+        return pr.grade ? pr.grade : EmptyPlaceHolder;
     }
 
     compare = (process1, process2) => {
@@ -54,9 +50,7 @@ export default class GradeSummary extends PureComponent {
 
         const gradeSummary = processes.filter(x => x.processId !== PerformanceProcess.ProjectManager);
         if (processes.some(x => x.processId === PerformanceProcess.ProjectManager)) {
-            const groupedPMProcess = groupBy(
-                processes.filter(x => x.processId === PerformanceProcess.ProjectManager && x.performanceRecord && x.performanceRecord.grade),
-                x => x.performanceRecord.grade.name);
+            const groupedPMProcess = groupBy(processes.filter(x => x.processId === PerformanceProcess.ProjectManager && x.grade), x => x.grade);
 
             gradeSummary.push({
                 processId: PerformanceProcess.ProjectManager,
@@ -73,13 +67,15 @@ export default class GradeSummary extends PureComponent {
 
         gradeSummary.sort(this.compare);
 
-        return gradeSummary.map(x => (
-            <span key={x.processId} className='grade-summary-item'>
-                {x.process}: <strong>
-                    {this.getGrade(x)}
-                </strong>
-            </span>
-        ));
+        return gradeSummary.map(x => {
+            return (
+                <span key={x.processId} className='grade-summary-item'>
+                    {x.process}: <strong>
+                        {this.getGrade(x)}
+                    </strong>
+                </span>
+            );
+        });
     }
 
     render() {

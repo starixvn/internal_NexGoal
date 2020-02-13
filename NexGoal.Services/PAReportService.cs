@@ -14,6 +14,7 @@
     using NexGoal.Models.PARecord;
     using NexGoal.Models.Report;
     using NexGoal.Repositories;
+    using NexGoal.Resources;
 
     public class PAReportService : IPAReportService
     {
@@ -43,7 +44,7 @@
             {
                 ActorId = actorId
             };
-            return await baseService.FetchMultipleAsync<Group, Employee>(criteria).ConfigureAwait(false);
+            return await baseService.FetchMultipleAsync<Group, Employee>(criteria);
         }
 
         public async Task<IEnumerable<PARecordGroupByPeriod>> GetPAReportAsync(GetPARecordMultiPeriodParam param)
@@ -57,8 +58,8 @@
                 IsRevised = param.IsRevised
             };
 
-            var tuple = await reportRepository.GetPAReportAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            var tuple = await reportRepository.GetPAReportAsync(criteria);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
             var periods = tuple.Item2;
 
             MappingData(tuple.Item1, performanceGrades);
@@ -107,35 +108,27 @@
 
                 foreach (PAProcessModel process in performanceAppraisal.Processes)
                 {
-                    if (process.PerformanceRecord != null)
-                    {
-                        process.PerformanceRecord.Creator = process.Evaluator;
-                        process.PerformanceRecord.GradeId = cryptoService.Decrypt(process.PerformanceRecord.GradeId);
-                        int.TryParse(process.PerformanceRecord.GradeId, out gradeId);
-                        process.PerformanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
-                    }
+                    process.Grade = GetGradeOfPAProcess(process, performanceGrades);
                 }
             }
         }
 
         public async Task<PAReportDetail> GetPAReportDetailAsync(int actorId, int paRecordId)
         {
-            var paRecord = await paRecordService.GetPARecordByIdAsync(paRecordId, actorId).ConfigureAwait(false);
+            var paRecord = await paRecordService.GetPARecordByIdAsync(paRecordId, actorId);
             var employeeInfo = new Employee();
             if (paRecord != null)
             {
-                employeeInfo = await commonService.GetEmployeeByIdAsync(paRecord.Employee.EmployeeId).ConfigureAwait(false);
+                employeeInfo = await commonService.GetEmployeeByIdAsync(paRecord.Employee.EmployeeId);
             }
 
-            var grades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
-
-            Tuple<IEnumerable<DisciplineModel>, IEnumerable<HRMInfo>, string> hrmAndPrevGrade = await GetPARecordDetailAsync(actorId, paRecordId).ConfigureAwait(false);
+            var grades = await commonService.GetPerformanceGradeAsync();
+            Tuple<IEnumerable<DisciplineModel>, IEnumerable<HRMInfo>, string> hrmAndPrevGrade = await GetPARecordDetailAsync(actorId, paRecordId);
 
             var previousGrade = hrmAndPrevGrade.Item3;
             previousGrade = cryptoService.Decrypt(previousGrade);
             int.TryParse(previousGrade, out int gradeId);
-            var achievements = await GetAchievementAsync(paRecordId).ConfigureAwait(false);
-
+            var achievements = await GetAchievementAsync(paRecordId);
             var paDetails = new PAReportDetail
             {
                 Employee = employeeInfo,
@@ -161,8 +154,7 @@
                 ActorId = actorId,
                 PARecordId = paRecordId
             };
-
-            var details = await baseService.FetchMultipleAsync<DisciplineModel, HRMInfo, string>(criteria).ConfigureAwait(false);
+            var details = await baseService.FetchMultipleAsync<DisciplineModel, HRMInfo, string>(criteria);
 
             return new Tuple<IEnumerable<DisciplineModel>,
                 IEnumerable<HRMInfo>,
@@ -178,15 +170,27 @@
             {
                 PARecordId = paRecordId
             };
-
-            var tuple = await baseService.FetchMultipleAsync<EmployeeNominationModel, NominationPeriodModel>(criteria).ConfigureAwait(false);
-
+            var tuple = await baseService.FetchMultipleAsync<EmployeeNominationModel, NominationPeriodModel>(criteria);
             foreach (EmployeeNominationModel nomination in tuple.Item1)
             {
                 nomination.Period = tuple.Item2.FirstOrDefault(x => x.NominationPeriodId == nomination.NominationPeriodId);
             }
 
             return tuple.Item1;
+        }
+
+        private string GetGradeOfPAProcess(PAProcessModel process, IEnumerable<PerformanceGrade> performanceGrades)
+        {
+            process.GradeId = cryptoService.Decrypt(process.GradeId);
+            int.TryParse(process.GradeId, out int gradeId);
+            PerformanceGrade grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+
+            if (grade != null)
+            {
+                return grade.Name;
+            }
+
+            return !string.IsNullOrWhiteSpace(process.RelatedPerformanceRecordIds) ? ViewLang.NA : string.Empty;
         }
     }
 }

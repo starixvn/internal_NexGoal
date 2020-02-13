@@ -18,8 +18,6 @@ export default class Table extends Component {
         return !isEqual(this.props, nextProps);
     }
 
-    parseIntGradeId = gradeId => gradeId !== null ? gradeId : 0
-
     renderToeic = (toeicPolicy, toeic) => {
         let toeicClass = '';
         if (toeicPolicy !== null && toeicPolicy > 0) {
@@ -163,61 +161,44 @@ export default class Table extends Component {
     }
 
     renderPMGrades = (paProcesses, paRecordId) => {
-        const processes = paProcesses.filter(process => process.performanceRecord &&
-            process.processId === PerformanceProcess.ProjectManager);
-
+        const processes = paProcesses.filter(process => process.grade && process.processId === PerformanceProcess.ProjectManager);
         if (process.length === 0) {
             return EmptyPlaceHolder;
         }
 
-        const grades = processes.map(process => {
-            return process.performanceRecord.grade ?
-                process.performanceRecord.grade.name : getResource('N/A');
-        });
-        const tooltip = (
-            <Tooltip className="focus-note" id={`pmGrade-${paRecordId}`}>
-                {
-                    processes.map((process, index) => {
-                        return (
-                            <p key={index}>
-                                {
-                                    `${process.evaluator.nickName}: ${process.performanceRecord.grade
-                                        ? process.performanceRecord.grade.name : getResource('N/A')} `
-                                }
-                            </p>
-                        );
-                    })
-                }
-            </Tooltip>
-        );
+        const grades = processes.map(process => process.grade);
+        const tooltip = <Tooltip className="focus-note" id={`pmGrade-${paRecordId}`}>
+            {
+                processes.map((process, index) => {
+                    if (process.grade) {
+                        return <p key={index}>{`${process.evaluator.nickName}: ${process.grade}`}</p>;
+                    }
 
-        return (
-            <OverlayTrigger placement="top" overlay={tooltip}>
-                <span className="pointer">{this.countDuplicateGrades(grades)}</span>
-            </OverlayTrigger>
-        );
+                    return null;
+                })
+            }
+        </Tooltip>;
+
+        return <OverlayTrigger placement="top" overlay={tooltip}>
+            <span className="pointer">{this.countDuplicateGrades(grades)}</span>
+        </OverlayTrigger>;
     }
 
     renderGradeByProcess = (processes, processId, paRecordId) => {
-        const processRecords = processes.filter(process => process.performanceRecord && process.processId === processId);
+        const processRecords = processes.filter(process => process.grade && process.processId === processId);
         if (!processRecords.length) {
             return EmptyPlaceHolder;
         }
 
         if (processId !== PerformanceProcess.ProjectManager) {
-            const grade = this.renderGrade(processRecords[0]);
-            return grade;
+            return this.renderGrade(processRecords[0]);
         } else {
             return this.renderPMGrades(processRecords, paRecordId);
         }
     }
 
     renderGrade = process => {
-        if (process.performanceRecord) {
-            return process.performanceRecord.grade ? process.performanceRecord.grade.name : getResource('N/A');
-        }
-
-        return EmptyPlaceHolder;
+        return process.grade ? process.grade : EmptyPlaceHolder;
     }
 
     render() {

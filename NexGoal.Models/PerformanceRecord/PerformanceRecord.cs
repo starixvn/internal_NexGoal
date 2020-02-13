@@ -14,7 +14,6 @@
 
         [JsonIgnore]
         public string GradeId { get; set; }
-
         public PerformanceGrade Grade { get; set; }
 
         public string Comment { get; set; }
@@ -41,5 +40,9 @@
         public bool IsHost { get; set; }
 
         public PASummaryModel PASummary { get; set; }
+
+        [JsonIgnore]
+        public string RelatedRecordIds { get; set; }
+        public IEnumerable<PerformanceRecord> RelatedRecords { get; set; } = new List<PerformanceRecord>();
     }
 }

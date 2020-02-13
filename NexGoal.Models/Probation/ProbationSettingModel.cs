@@ -6,8 +6,7 @@
     {
         public int EmployeeId { get; set; }
 
-        public int ProcessId { get; set; }
-
+        public byte ProcessId { get; set; }
         public string Process { get; set; }
 
         public int EvaluatorId { get; set; }

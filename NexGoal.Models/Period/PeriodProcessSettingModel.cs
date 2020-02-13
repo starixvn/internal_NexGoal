@@ -2,7 +2,7 @@
 {
     public class PeriodProcessSettingModel
     {
-        public int ProcessId { get; set; }
+        public byte ProcessId { get; set; }
 
         public int PeriodId { get; set; }
 

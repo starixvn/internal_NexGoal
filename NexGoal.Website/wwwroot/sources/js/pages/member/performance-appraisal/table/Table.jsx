@@ -81,7 +81,6 @@ class Table extends Component {
 
     render() {
         let content = '';
-
         if (this.props.data) {
             content = this.props.data.length > 0 ? this.renderRow(this.props.data)
                 : <tr><td className="text-center" colSpan={10}>{noDataIndication()}</td></tr>;

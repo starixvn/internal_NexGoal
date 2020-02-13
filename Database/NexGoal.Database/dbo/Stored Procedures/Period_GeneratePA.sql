@@ -13,6 +13,7 @@ DB: bodb_NexGoal
 Original:
 
 Revisions:
+	20200212@Tim.Trinh: get related performance record
 Param's Explanation:
 */
 BEGIN
@@ -23,15 +24,14 @@ BEGIN
 		,@periodEndDate DATE
 		,@workingFromDate DATETIME
 		,@workingToDate DATETIME
-		,@separator NVARCHAR(42) = CHAR(10) + '----------------------------------------' + CHAR(10)
-		,@separatorLength TINYINT = 42
-		,@dateFormat VARCHAR(11) = 'dd MMM yyyy'
+		,@separator NVARCHAR(42) = ','
 		-- process
 		,@SelfProcessId TINYINT = 2
 		,@PMProcessId TINYINT = 3
 		,@EvaluatorProcessId TINYINT = 4
 		,@ReviewerProcessId TINYINT = 5
 		-- Performance Status
+		,@NotGenerated TINYINT = 1
 		,@PAOpened TINYINT = 2
 		,@PAInProgress TINYINT = 3
 		,@PAClosed TINYINT = 4
@@ -50,21 +50,25 @@ BEGIN
 	CREATE TABLE #tblPARecord (
 		PARecordId INT PRIMARY KEY
 		,EmployeeId INT
+		,StatusId TINYINT
 		)
 
-	CREATE TABLE #tblPerformanceRecord (
-		PerformanceRecordId INT PRIMARY KEY
-		,EmployeeId INT
+	CREATE TABLE #tblPAProcess (
+		PARecordId INT
 		,EvaluatorId INT
 		,ProcessId TINYINT
+		,GradeId VARCHAR(MAX)
+		,RelatedPerformanceRecordIds VARCHAR(MAX)
 		)
 
 	INSERT INTO #tblPARecord (
 		PARecordId
 		,EmployeeId
+		,StatusId
 		)
 	SELECT pa.PARecordId
 		,pa.EmployeeId
+		,pa.StatusId
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
 		INNER JOIN dbo.func_SplitString(@PARecordIds, ',') AS func ON ISNUMERIC(func.val) = 1
 		AND func.val = pa.PARecordId
@@ -78,40 +82,18 @@ BEGIN
 	WHERE PeriodId = @PeriodId
 
 	SET @xml = (
-			SELECT process.PARecordId AS '@pari'
-				,process.ProcessId AS '@pi'
-				,process.EvaluatorId AS '@ei'
-				,pr.PerformanceRecordId AS '@pri'
-				,pr.EmployeeId AS '@pei'
-				,pr.GradeId AS '@pgi'
-				,pr.Comment AS '@pc'
-				,pr.CreatedDate AS '@pcd'
-				,pr.ModifiedDate AS '@pmd'
+			SELECT process.PARecordId AS '@parid'
+				,process.ProcessId AS '@pid'
+				,process.EvaluatorId AS '@eid'
+				,process.GradeId AS '@gid'
+				,process.RelatedPerformanceRecordIds AS '@prids'
 			FROM dbo.PAProcess AS process WITH (NOLOCK)
 				INNER JOIN #tblPARecord AS pa ON process.PARecordId = pa.PARecordId
-				LEFT JOIN dbo.PerformanceRecord AS pr WITH (NOLOCK) ON process.PerformanceRecordId = pr.PerformanceRecordId
 			WHERE process.ProcessId >= @SelfProcessId
 			FOR XML PATH('r')
 				,TYPE
 			)
 	SET @oldLogData = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
-
-	DELETE record
-	FROM dbo.PerformanceRecord AS record
-	WHERE record.TypeId = @PATypeId
-		AND EXISTS (
-			SELECT 1
-			FROM dbo.PAProcess AS process WITH (NOLOCK)
-				INNER JOIN #tblPARecord AS pa ON process.PARecordId = pa.PARecordId
-			WHERE process.PerformanceRecordId = record.PerformanceRecordId
-				AND process.ProcessId = @PMProcessId
-				AND NOT EXISTS (
-					SELECT 1
-					FROM dbo.PMSetting AS pm WITH (NOLOCK)
-					WHERE process.EvaluatorId = pm.ProjectManagerId
-						AND pm.MemberId = pa.EmployeeId
-					)
-			)
 
 	DELETE process
 	FROM dbo.PAProcess AS process
@@ -125,25 +107,19 @@ BEGIN
 			)
 
 	-- capture for PM
-	INSERT INTO dbo.PerformanceRecord (
-		EmployeeId
-		,CreatorId
+	INSERT INTO #tblPAProcess (
+		PARecordId
+		,EvaluatorId
+		,ProcessId
 		,GradeId
-		,Comment
-		,CreatedDate
-		,TypeId
-		,RoleId
+		,RelatedPerformanceRecordIds
 		)
-	OUTPUT INSERTED.PerformanceRecordId
-		,INSERTED.EmployeeId
-		,INSERTED.CreatorId
-		,INSERTED.RoleId
-	INTO #tblPerformanceRecord(PerformanceRecordId, EmployeeId, EvaluatorId, ProcessId)
-	SELECT pa.EmployeeId
+	SELECT pa.PARecordId
 		,pm.ProjectManagerId
+		,@PMProcessId
 		,lg.GradeId
 		,STUFF((
-				SELECT @separator + FORMAT(prcmt.CreatedDate, @dateFormat) + CHAR(10) + prcmt.Comment
+				SELECT @separator + CAST(prcmt.PerformanceRecordId AS VARCHAR(20))
 				FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
 				WHERE prcmt.CreatorId = pm.ProjectManagerId
 					AND prcmt.EmployeeId = pa.EmployeeId
@@ -152,12 +128,8 @@ BEGIN
 						AND @workingToDate
 					AND prcmt.RoleId = @PMProcessId
 				ORDER BY prcmt.CreatedDate DESC
-				FOR XML PATH
-					,TYPE
-				).value(N'.[1]', N'NVARCHAR(MAX)'), 1, @separatorLength, N'')
-		,GETDATE()
-		,@PATypeId
-		,@PMProcessId
+				FOR XML PATH('')
+				), 1, 1, N'')
 	FROM #tblPARecord AS pa
 		INNER JOIN dbo.PMSetting AS pm WITH (NOLOCK) ON pa.EmployeeId = pm.MemberId
 		OUTER APPLY (
@@ -187,112 +159,86 @@ BEGIN
 			FROM dbo.PAProcess AS process WITH (NOLOCK)
 			WHERE pa.PARecordId = process.PARecordId
 				AND process.EvaluatorId = pm.ProjectManagerId
-				AND (
-					process.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
-					OR (
-						process.ProcessId = @PMProcessId
-						AND process.PerformanceRecordId IS NOT NULL
-						)
-					)
+				AND process.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
 			)
 
 	-- Capture for Self, Reviewer
-	INSERT INTO dbo.PerformanceRecord (
-		EmployeeId
-		,CreatorId
+	INSERT INTO #tblPAProcess (
+		PARecordId
+		,EvaluatorId
+		,ProcessId
 		,GradeId
-		,Comment
-		,CreatedDate
-		,TypeId
-		,RoleId
+		,RelatedPerformanceRecordIds
 		)
-	OUTPUT INSERTED.PerformanceRecordId
-		,INSERTED.EmployeeId
-		,INSERTED.CreatorId
-		,INSERTED.RoleId
-	INTO #tblPerformanceRecord(PerformanceRecordId, EmployeeId, EvaluatorId, ProcessId)
-	SELECT pa.EmployeeId
-		,paprocess.EvaluatorId
+	SELECT pa.PARecordId
+		,process.EvaluatorId
+		,process.ProcessId
 		,lg.GradeId
 		,STUFF((
-				SELECT @separator + FORMAT(prcmt.CreatedDate, @dateFormat) + CHAR(10) + prcmt.Comment
+				SELECT @separator + CAST(prcmt.PerformanceRecordId AS VARCHAR(20))
 				FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
-				WHERE prcmt.CreatorId = paprocess.EvaluatorId
+				WHERE prcmt.CreatorId = process.EvaluatorId
 					AND prcmt.EmployeeId = pa.EmployeeId
 					AND prcmt.TypeId = @CheckinTypeId
 					AND prcmt.CreatedDate BETWEEN @workingFromDate
 						AND @workingToDate
-					AND prcmt.RoleId = paprocess.ProcessId
+					AND prcmt.RoleId = process.ProcessId
 				ORDER BY prcmt.CreatedDate DESC
-				FOR XML PATH
-					,TYPE
-				).value(N'.[1]', N'NVARCHAR(MAX)'), 1, @separatorLength, N'')
-		,GETDATE()
-		,@PATypeId
-		,paprocess.ProcessId
+				FOR XML PATH('')
+				), 1, 1, N'')
 	FROM #tblPARecord AS pa
-		INNER JOIN dbo.PAProcess AS paprocess WITH (NOLOCK) ON pa.PARecordId = paprocess.PARecordId
+		INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
+		AND process.ProcessId IN (@SelfProcessId, @ReviewerProcessId)
 		OUTER APPLY (
 		SELECT TOP 1 record.GradeId
 		FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
 		WHERE record.TypeId = @CheckinTypeId
-			AND record.CreatorId = paprocess.EvaluatorId
+			AND record.CreatorId = process.EvaluatorId
 			AND record.EmployeeId = pa.EmployeeId
 			AND record.CreatedDate BETWEEN @workingFromDate
 				AND @workingToDate
-			AND record.RoleId = paprocess.ProcessId
+			AND record.RoleId = process.ProcessId
 			AND ISNULL(record.GradeId, '') <> ''
 		ORDER BY record.CreatedDate DESC
 		) AS lg
-	WHERE paprocess.ProcessId IN (@SelfProcessId, @ReviewerProcessId)
-		AND paprocess.PerformanceRecordId IS NULL
-		AND EXISTS (
+	WHERE EXISTS (
 			SELECT 1
 			FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
 			WHERE record.TypeId = @CheckinTypeId
-				AND record.CreatorId = paprocess.EvaluatorId
+				AND record.CreatorId = process.EvaluatorId
 				AND record.EmployeeId = pa.EmployeeId
 				AND record.CreatedDate BETWEEN @workingFromDate
 					AND @workingToDate
-				AND record.RoleId = paprocess.ProcessId
+				AND record.RoleId = process.ProcessId
 			)
 
 	-- Capture for Evaluator
-	INSERT INTO dbo.PerformanceRecord (
-		EmployeeId
-		,CreatorId
+	INSERT INTO #tblPAProcess (
+		PARecordId
+		,EvaluatorId
+		,ProcessId
 		,GradeId
-		,Comment
-		,CreatedDate
-		,TypeId
-		,RoleId
+		,RelatedPerformanceRecordIds
 		)
-	OUTPUT INSERTED.PerformanceRecordId
-		,INSERTED.EmployeeId
-		,INSERTED.CreatorId
-		,INSERTED.RoleId
-	INTO #tblPerformanceRecord(PerformanceRecordId, EmployeeId, EvaluatorId, ProcessId)
-	SELECT pa.EmployeeId
-		,paprocess.EvaluatorId
+	SELECT pa.PARecordId
+		,process.EvaluatorId
+		,process.ProcessId
 		,lg.GradeId
 		,STUFF((
-				SELECT @separator + FORMAT(prcmt.CreatedDate, @dateFormat) + CHAR(10) + prcmt.Comment
+				SELECT @separator + CAST(prcmt.PerformanceRecordId AS VARCHAR(20))
 				FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
-				WHERE prcmt.CreatorId = paprocess.EvaluatorId
+				WHERE prcmt.CreatorId = process.EvaluatorId
 					AND prcmt.EmployeeId = pa.EmployeeId
 					AND prcmt.TypeId = @CheckinTypeId
 					AND prcmt.CreatedDate BETWEEN @workingFromDate
 						AND @workingToDate
-					AND prcmt.RoleId = paprocess.ProcessId
+					AND prcmt.RoleId = process.ProcessId
 				ORDER BY prcmt.CreatedDate DESC
-				FOR XML PATH
-					,TYPE
-				).value(N'.[1]', N'NVARCHAR(MAX)'), 1, @separatorLength, N'')
-		,GETDATE()
-		,@PATypeId
-		,paprocess.ProcessId
+				FOR XML PATH('')
+				), 1, 1, N'')
 	FROM #tblPARecord AS pa
-		INNER JOIN dbo.PAProcess AS paprocess WITH (NOLOCK) ON pa.PARecordId = paprocess.PARecordId
+		INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
+		AND process.ProcessId = @EvaluatorProcessId
 		OUTER APPLY (
 		SELECT TOP 1 record.GradeId
 		FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
@@ -303,9 +249,7 @@ BEGIN
 			AND ISNULL(record.GradeId, '') <> ''
 		ORDER BY record.CreatedDate DESC
 		) AS lg
-	WHERE paprocess.ProcessId = @EvaluatorProcessId
-		AND paprocess.PerformanceRecordId IS NULL
-		AND EXISTS (
+	WHERE EXISTS (
 			SELECT 1
 			FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
 			WHERE record.TypeId = @CheckinTypeId
@@ -313,7 +257,7 @@ BEGIN
 				AND record.RoleId = @EvaluatorProcessId
 				AND (
 					(
-						record.CreatorId = paprocess.EvaluatorId
+						record.CreatorId = process.EvaluatorId
 						AND record.CreatedDate BETWEEN @workingFromDate
 							AND @workingToDate
 						)
@@ -329,30 +273,35 @@ BEGIN
 		PARecordId
 		,ProcessId
 		,EvaluatorId
-		,PerformanceRecordId
+		,GradeId
+		,RelatedPerformanceRecordIds
 		)
 	SELECT pa.PARecordId
-		,@PMProcessId
-		,record.EvaluatorId
-		,record.PerformanceRecordId
-	FROM #tblPerformanceRecord AS record
-		INNER JOIN #tblPARecord AS pa ON record.EmployeeId = pa.EmployeeId
-	WHERE record.ProcessId = @PMProcessId
+		,process.ProcessId
+		,process.EvaluatorId
+		,process.GradeId
+		,process.RelatedPerformanceRecordIds
+	FROM #tblPAProcess AS process
+		INNER JOIN #tblPARecord AS pa ON process.PARecordId = pa.PARecordId
+		AND pa.StatusId = @NotGenerated
+	WHERE process.ProcessId = @PMProcessId
 		AND NOT EXISTS (
 			SELECT 1
 			FROM dbo.PAProcess AS process WITH (NOLOCK)
 			WHERE pa.PARecordId = process.PARecordId
 				AND process.ProcessId = @PMProcessId
-				AND process.EvaluatorId = record.EvaluatorId
+				AND process.EvaluatorId = process.EvaluatorId
 			)
 
-	UPDATE paprocess
-	SET paprocess.PerformanceRecordId = record.PerformanceRecordId
-	FROM dbo.PAProcess AS paprocess WITH (ROWLOCK, UPDLOCK)
-		INNER JOIN #tblPARecord AS pa ON paprocess.PARecordId = pa.PARecordId
-		INNER JOIN #tblPerformanceRecord AS record ON pa.EmployeeId = record.EmployeeId
-		AND paprocess.EvaluatorId = record.EvaluatorId
-		AND paprocess.ProcessId = record.ProcessId
+	UPDATE process
+	SET process.GradeId = tblprocess.GradeId
+		,process.RelatedPerformanceRecordIds = tblprocess.RelatedPerformanceRecordIds
+	FROM dbo.PAProcess AS process WITH (ROWLOCK, UPDLOCK)
+		INNER JOIN #tblPARecord AS pa ON process.PARecordId = pa.PARecordId
+		AND pa.StatusId = @NotGenerated
+		INNER JOIN #tblPAProcess AS tblprocess ON pa.PARecordId = tblprocess.PARecordId
+		AND process.EvaluatorId = tblprocess.EvaluatorId
+		AND process.ProcessId = tblprocess.ProcessId
 
 	UPDATE pa
 	SET StatusId = (CASE 
@@ -378,157 +327,27 @@ BEGIN
 	-- update if @overide = 1
 	IF @Override = 1
 	BEGIN
-		UPDATE record
-		SET record.RoleId = paprocess.ProcessId
-		FROM dbo.PerformanceRecord AS record WITH (ROWLOCK, UPDLOCK)
-			INNER JOIN dbo.PAProcess AS paprocess WITH (NOLOCK) ON record.PerformanceRecordId = paprocess.PerformanceRecordId
-		WHERE record.RoleId IS NULL
-			AND EXISTS (
-				SELECT 1
-				FROM #tblPARecord AS pa
-				WHERE paprocess.PARecordId = pa.PARecordId
-				)
-
-		-- update for Self, PM, Reviewer
-		DELETE record
-		FROM dbo.PerformanceRecord AS record
-			INNER JOIN dbo.PAProcess AS paprocess WITH (NOLOCK) ON record.PerformanceRecordId = paprocess.PerformanceRecordId
-			AND paprocess.ProcessId IN (@SelfProcessId, @PMProcessId, @ReviewerProcessId)
-			INNER JOIN #tblPARecord AS pa ON paprocess.PARecordId = pa.PARecordId
-		WHERE NOT EXISTS (
-				SELECT 1
-				FROM dbo.PerformanceRecord AS record1 WITH (NOLOCK)
-				WHERE record1.TypeId = @CheckinTypeId
-					AND record1.CreatorId = paprocess.EvaluatorId
-					AND record1.EmployeeId = pa.EmployeeId
-					AND record1.CreatedDate BETWEEN @workingFromDate
-						AND @workingToDate
-					AND record1.RoleId = paprocess.ProcessId
-				)
-
-		UPDATE paprocess
-		SET paprocess.PerformanceRecordId = NULL
-		FROM dbo.PAProcess AS paprocess WITH (ROWLOCK, UPDLOCK)
-		WHERE EXISTS (
-				SELECT 1
-				FROM #tblPARecord AS pa
-				WHERE paprocess.PARecordId = pa.PARecordId
-				)
-			AND NOT EXISTS (
-				SELECT 1
-				FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
-				WHERE paprocess.PerformanceRecordId = record.PerformanceRecordId
-				)
-
-		UPDATE pr
-		SET pr.GradeId = lg.GradeId
-			,pr.Comment = STUFF((
-					SELECT @separator + FORMAT(prcmt.CreatedDate, @dateFormat) + CHAR(10) + prcmt.Comment
-					FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
-					WHERE prcmt.EmployeeId = pa.EmployeeId
-						AND prcmt.CreatorId = paprocess.EvaluatorId
-						AND prcmt.TypeId = @CheckinTypeId
-						AND prcmt.CreatedDate BETWEEN @workingFromDate
-							AND @workingToDate
-						AND prcmt.RoleId = paprocess.ProcessId
-					ORDER BY prcmt.CreatedDate DESC
-					FOR XML PATH
-						,TYPE
-					).value(N'.[1]', N'NVARCHAR(MAX)'), 1, @separatorLength, N'')
-		FROM dbo.PerformanceRecord AS pr WITH (ROWLOCK, UPDLOCK)
-			INNER JOIN dbo.PAProcess AS paprocess WITH (NOLOCK) ON pr.PerformanceRecordId = paprocess.PerformanceRecordId
-			AND paprocess.ProcessId IN (@SelfProcessId, @PMProcessId, @ReviewerProcessId)
-			AND pr.RoleId = paprocess.ProcessId
-			INNER JOIN #tblPARecord AS pa ON pa.PARecordId = paprocess.PARecordId
-			OUTER APPLY (
-			SELECT TOP 1 record.GradeId
-			FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
-			WHERE record.TypeId = @CheckinTypeId
-				AND record.CreatorId = paprocess.EvaluatorId
-				AND record.EmployeeId = pa.EmployeeId
-				AND record.CreatedDate BETWEEN @workingFromDate
-					AND @workingToDate
-				AND record.RoleId = paprocess.ProcessId
-				AND ISNULL(record.GradeId, '') <> ''
-			ORDER BY record.CreatedDate DESC
-			) AS lg
-		WHERE EXISTS (
-				SELECT 1
-				FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
-				WHERE record.TypeId = @CheckinTypeId
-					AND record.CreatorId = paprocess.EvaluatorId
-					AND record.EmployeeId = pa.EmployeeId
-					AND record.CreatedDate BETWEEN @workingFromDate
-						AND @workingToDate
-					AND record.RoleId = paprocess.ProcessId
-				)
-
-		-- update for Evaluator
-		UPDATE pr
-		SET pr.GradeId = lg.GradeId
-			,pr.Comment = STUFF((
-					SELECT @separator + FORMAT(prcmt.CreatedDate, @dateFormat) + CHAR(10) + prcmt.Comment
-					FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
-					WHERE prcmt.EmployeeId = pa.EmployeeId
-						AND prcmt.CreatorId = paprocess.EvaluatorId
-						AND prcmt.TypeId = @CheckinTypeId
-						AND prcmt.CreatedDate BETWEEN @workingFromDate
-							AND @workingToDate
-						AND prcmt.RoleId = paprocess.ProcessId
-					ORDER BY prcmt.CreatedDate DESC
-					FOR XML PATH
-						,TYPE
-					).value(N'.[1]', N'NVARCHAR(MAX)'), 1, @separatorLength, N'')
-		FROM dbo.PerformanceRecord AS pr WITH (ROWLOCK, UPDLOCK)
-			INNER JOIN dbo.PAProcess AS paprocess WITH (NOLOCK) ON pr.PerformanceRecordId = paprocess.PerformanceRecordId
-			AND paprocess.ProcessId = @EvaluatorProcessId
-			INNER JOIN #tblPARecord AS pa ON pa.PARecordId = paprocess.PARecordId
-			OUTER APPLY (
-			SELECT TOP 1 record.GradeId
-			FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
-			WHERE record.TypeId = @CheckinTypeId
-				AND record.EmployeeId = pa.EmployeeId
-				AND record.RoleId = @EvaluatorProcessId
-				AND record.CreatedDate <= @workingToDate
-				AND ISNULL(record.GradeId, '') <> ''
-			ORDER BY record.CreatedDate DESC
-			) AS lg
-		WHERE EXISTS (
-				SELECT 1
-				FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
-				WHERE record.TypeId = @CheckinTypeId
-					AND record.EmployeeId = pa.EmployeeId
-					AND record.RoleId = paprocess.ProcessId
-					AND (
-						(
-							record.CreatorId = paprocess.EvaluatorId
-							AND record.CreatedDate BETWEEN @workingFromDate
-								AND @workingToDate
-							)
-						OR (
-							record.CreatedDate < @workingFromDate
-							AND ISNULL(record.GradeId, '') <> ''
-							)
-						)
-				)
+		UPDATE process
+		SET process.GradeId = tblprocess.GradeId
+			,process.RelatedPerformanceRecordIds = tblprocess.RelatedPerformanceRecordIds
+		FROM dbo.PAProcess AS process WITH (ROWLOCK, UPDLOCK)
+			INNER JOIN #tblPARecord AS pa ON process.PARecordId = pa.PARecordId
+			INNER JOIN #tblPAProcess AS tblprocess ON pa.PARecordId = tblprocess.PARecordId
+			AND process.EvaluatorId = tblprocess.EvaluatorId
+			AND process.ProcessId = tblprocess.ProcessId
 	END
 
 	SET @endRun = GETDATE()
 	SET @duration = DATEDIFF(millisecond, @startRun, @endRun)
 	SET @xml = (
-			SELECT paprocess.PARecordId AS '@pari'
-				,paprocess.ProcessId AS '@pi'
-				,paprocess.EvaluatorId AS '@ei'
-				,pr.PerformanceRecordId AS '@pri'
-				,pr.EmployeeId AS '@pei'
-				,pr.GradeId AS '@pgi'
-				,pr.Comment AS '@pc'
-				,pr.CreatedDate AS '@pcd'
-				,pr.ModifiedDate AS '@pmd'
-			FROM dbo.PAProcess AS paprocess WITH (NOLOCK)
-				INNER JOIN #tblPARecord AS pa ON paprocess.PARecordId = pa.PARecordId
-				LEFT JOIN dbo.PerformanceRecord AS pr WITH (NOLOCK) ON paprocess.PerformanceRecordId = pr.PerformanceRecordId
-			WHERE paprocess.ProcessId >= @SelfProcessId
+			SELECT process.PARecordId AS '@parid'
+				,process.ProcessId AS '@pid'
+				,process.EvaluatorId AS '@eid'
+				,process.GradeId AS '@gid'
+				,process.RelatedPerformanceRecordIds AS '@prids'
+			FROM dbo.PAProcess AS process WITH (NOLOCK)
+				INNER JOIN #tblPARecord AS pa ON process.PARecordId = pa.PARecordId
+			WHERE process.ProcessId >= @SelfProcessId
 			FOR XML PATH('r')
 				,TYPE
 			)
@@ -542,5 +361,5 @@ BEGIN
 
 	DROP TABLE #tblPARecord
 
-	DROP TABLE #tblPerformanceRecord
+	DROP TABLE #tblPAProcess
 END

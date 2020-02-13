@@ -34,6 +34,6 @@
 
         public IEnumerable<ProbationSettingModel> Settings { get; set; }
 
-        public IEnumerable<int> ProcessIds { get; set; }
+        public IEnumerable<byte> ProcessIds { get; set; }
     }
 }

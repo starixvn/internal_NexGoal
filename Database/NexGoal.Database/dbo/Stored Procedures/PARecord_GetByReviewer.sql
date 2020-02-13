@@ -86,12 +86,12 @@ BEGIN
 
 	SELECT process.PARecordId
 		,process.ProcessId
+		,process.GradeId
+		,process.RelatedPerformanceRecordIds
 		,process.EvaluatorId
 		,emp.NickName
 		,emp.FullName
 		,emp.Code
-		,record.PerformanceRecordId
-		,record.GradeId
 	FROM dbo.PAProcess AS process WITH (NOLOCK)
 	INNER JOIN #tblPARecordId AS tbl WITH (NOLOCK) ON process.PARecordId = tbl.PARecordId
 	INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON process.EvaluatorId = emp.EmployeeId

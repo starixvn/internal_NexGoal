@@ -21,13 +21,13 @@
 
         public async Task<ActionResult> GetById(int id)
         {
-            Policy permission = await paRecordService.GetPermissionOnPerformanceAppraisalAsync(sessionService.EmployeeId, id).ConfigureAwait(false);
+            Policy permission = await paRecordService.GetPermissionOnPerformanceAppraisalAsync(sessionService.EmployeeId, id);
             if (permission == Policy.None)
             {
                 return StatusCode(StatusCodes.Status405MethodNotAllowed);
             }
 
-            PARecordModel paRecord = await paRecordService.GetPARecordByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
+            PARecordModel paRecord = await paRecordService.GetPARecordByIdAsync(id, sessionService.EmployeeId);
             if (paRecord == null)
             {
                 return StatusCode(StatusCodes.Status404NotFound);

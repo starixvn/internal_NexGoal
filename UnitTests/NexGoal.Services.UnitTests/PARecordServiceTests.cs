@@ -282,7 +282,7 @@
                 new PAProcessModel
                 {
                     PARecordId = 1,
-                    PerformanceRecord = performanceRecord
+                    RelatedPerformanceRecords = new List<PerformanceRecord> { performanceRecord }
                 }
             };
             return paProcess;

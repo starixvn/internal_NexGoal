@@ -2,13 +2,11 @@
 @using NexGoal.Web.Core.Extensions
 @using NexGoal.Core.Enumerations
 @using NexGoal.Models.Report
-@using NexGoal.Models.PARecord
 @using NexGoal.Models.PerformanceRecord
-
 @model PAReportDetail
 @{
     Layout = null;
-    var paRecordPartialView = "PAReport/_PARecord";
+    var partialViewName = "PAReport/_PARecord";
 }
 <!DOCTYPE html>
 <html>
@@ -101,9 +99,8 @@
                                                     <td class="text-center" rowspan="@Model.HRM.Count()">
                                                         <div class="@cssClass">@Model.PARecord.Toeic</div>
                                                         <div>
-                                                            @(Model.PARecord.ToeicExpiredDate.HasValue ?
-                                                                                $"(exp {Model.PARecord.ToeicExpiredDate.Value.ToString("dd MMM yyyy")})"
-                                                                                : string.Empty)
+                                                            @(Model.PARecord.ToeicExpiredDate.HasValue
+                                                                        ? $"(exp {Model.PARecord.ToeicExpiredDate.Value.ToString("dd MMM yyyy")})" : string.Empty)
                                                         </div>
                                                     </td>
                                                 }
@@ -219,23 +216,36 @@
                         <div class="title">1. @ViewLang.Self</div>
                         <div class="sub-content">
                             @{
-                                var selfPA = Model.PARecord.Processes
-                                    .FirstOrDefault(x => x.ProcessId == (int)PerformanceProcess.Self);
+                                var records = Model.PARecord.Processes
+                                    .Where(x => x.ProcessId == (int)PerformanceProcess.Self && x.RelatedPerformanceRecords.Any())
+                                    .SelectMany(x => x.RelatedPerformanceRecords);
+                                if (records.Any())
+                                {
+                                    foreach (PerformanceRecord record in records)
+                                    {
+                                        @await Html.PartialAsync(partialViewName, record)
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="record-list">
+                                        <p class="text-center">@ViewLang.NoRecordFound</p>
+                                    </div>
+                                }
                             }
-                            @await Html.PartialAsync(@paRecordPartialView, selfPA)
                         </div>
                         <div class="title">2. @ViewLang.ProjectManager</div>
                         <div class="sub-content">
                             <div class="list-pci">
                                 @{
-                                    var pmProcesses = Model.PARecord.Processes
-                                        .Where(p => p.ProcessId == (int)PerformanceProcess.ProjectManager && p.PerformanceRecord != null);
-
-                                    if (pmProcesses.Any())
+                                    records = Model.PARecord.Processes
+                                        .Where(x => x.ProcessId == (int)PerformanceProcess.ProjectManager && x.RelatedPerformanceRecords.Any())
+                                        .SelectMany(x => x.RelatedPerformanceRecords);
+                                    if (records.Any())
                                     {
-                                        foreach (var pm in pmProcesses)
+                                        foreach (PerformanceRecord record in records)
                                         {
-                                            @await Html.PartialAsync(@paRecordPartialView, pm)
+                                            @await Html.PartialAsync(partialViewName, record)
                                         }
                                     }
                                     else
@@ -251,19 +261,46 @@
                         <div class="sub-content">
                             <div class="list-pci">
                                 @{
-                                    var evaluatorProcess = Model.PARecord.Processes
-                                        .FirstOrDefault(x => x.ProcessId == (int)PerformanceProcess.Evaluator);
+                                    records = Model.PARecord.Processes
+                                        .Where(x => x.ProcessId == (int)PerformanceProcess.Evaluator && x.RelatedPerformanceRecords.Any())
+                                        .SelectMany(x => x.RelatedPerformanceRecords);
+                                    if (records.Any())
+                                    {
+                                        foreach (PerformanceRecord record in records)
+                                        {
+                                            @await Html.PartialAsync(partialViewName, record)
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="record-list">
+                                            <p class="text-center">@ViewLang.NoRecordFound</p>
+                                        </div>
+                                    }
                                 }
-                                @await Html.PartialAsync(@paRecordPartialView, evaluatorProcess)
                             </div>
                         </div>
                         <div class="title">4. @ViewLang.Reviewer</div>
                         <div class="sub-content">
                             @{
-                                var reviewerProcess = Model.PARecord.Processes
-                                    .FirstOrDefault(x => x.ProcessId == (int)PerformanceProcess.Reviewer);
+                                var reviewer = Model.PARecord.Processes.First(x => x.ProcessId == (int)PerformanceProcess.Reviewer);
+                                records = Model.PARecord.Processes
+                                    .Where(x => x.ProcessId == (int)PerformanceProcess.Reviewer && x.RelatedPerformanceRecords.Any())
+                                    .SelectMany(x => x.RelatedPerformanceRecords);
+                                if (records.Any())
+                                {
+                                    foreach (PerformanceRecord record in records)
+                                    {
+                                        @await Html.PartialAsync(partialViewName, record)
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="record-list">
+                                        <p class="text-center">@ViewLang.NoRecordFound</p>
+                                    </div>
+                                }
                             }
-                            @await Html.PartialAsync(@paRecordPartialView, reviewerProcess)
                         </div>
                     </div>
                 </div>
@@ -273,19 +310,15 @@
             <div class="title final">@ViewLang.FinalResult</div>
             <div class="sub-content">
                 @{
-                    var finalResult = new PAProcessModel
+                    var performanceRecord = new PerformanceRecord
                     {
-                        Evaluator = reviewerProcess.Evaluator,
-                        PerformanceRecord = new PerformanceRecord
-                        {
-                            ModifiedDate = Model.PARecord.ModifiedDate,
-                            Grade = Model.PARecord.Grade,
-                            Comment = Model.PARecord.Comment
-                        },
-
+                        Creator = reviewer.Evaluator,
+                        ModifiedDate = Model.PARecord.ModifiedDate,
+                        Grade = Model.PARecord.Grade,
+                        Comment = Model.PARecord.Comment,
+                        RoleId = (byte)PerformanceProcess.Reviewer
                     };
-
-                    @await Html.PartialAsync(@paRecordPartialView, finalResult)
+                    @await Html.PartialAsync(partialViewName, performanceRecord)
                 }
             </div>
         </div>

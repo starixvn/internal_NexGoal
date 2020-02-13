@@ -1,6 +1,8 @@
 ﻿namespace NexGoal.Models.PARecord
 {
     using System;
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
     using NexGoal.Models.Common;
     using NexGoal.Models.PerformanceRecord;
 
@@ -8,7 +10,7 @@
     {
         public int PARecordId { get; set; }
 
-        public int ProcessId { get; set; }
+        public byte ProcessId { get; set; }
         public string Process { get; set; }
 
         public int EvaluatorId { get; set; }
@@ -20,7 +22,12 @@
         public int? StatusId { get; set; }
         public string Status { get; set; }
 
-        public int PerformanceRecordId { get; set; }
-        public PerformanceRecord PerformanceRecord { get; set; }
+        [JsonIgnore]
+        public string GradeId { get; set; }
+        public string Grade { get; set; }
+
+        [JsonIgnore]
+        public string RelatedPerformanceRecordIds { get; set; }
+        public IEnumerable<PerformanceRecord> RelatedPerformanceRecords { get; set; } = new List<PerformanceRecord>();
     }
 }

@@ -19,7 +19,7 @@
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria).ConfigureAwait(false))
+                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria))
                 {
                     var performanceRecords = multi.Read<PerformanceRecord, Employee,
                             Employee, NominationPeriodModel, PeriodBaseModel, PerformanceRecord>(
@@ -32,13 +32,10 @@
 
                             return performanceRecord;
                         },
-                         "EmployeeId, EmployeeId, NominationPeriodId, PeriodId"
-                        );
+                        "EmployeeId, EmployeeId, NominationPeriodId, PeriodId");
 
                     var projects = multi.Read<ProjectModel>();
-
                     var paSummaries = multi.Read<PASummaryModel>();
-
                     var paGradeDetails = multi.Read<PAGradeDetailModel>();
 
                     foreach (var summary in paSummaries)
@@ -64,7 +61,7 @@
         {
             using (IObjectDb objectDb = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                var performanceRecords = await objectDb.QueryAsync<PerformanceRecord, Employee, NominationPeriodModel, PerformanceRecord>(
+                return await objectDb.QueryAsync<PerformanceRecord, Employee, NominationPeriodModel, PerformanceRecord>(
                         (performanceRecord, creator, nomination) =>
                         {
                             performanceRecord.Creator = creator;
@@ -72,10 +69,8 @@
 
                             return performanceRecord;
                         },
-                         "EmployeeId, NominationPeriodId",
-                         criteria).ConfigureAwait(false);
-
-                return performanceRecords;
+                        "EmployeeId, NominationPeriodId",
+                        criteria);
             }
         }
 
@@ -83,7 +78,7 @@
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria).ConfigureAwait(false))
+                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria))
                 {
                     var performanceRecord = multi.Read<PerformanceRecord, Employee, Employee, PerformanceRecord>(
                         (record, employee, creator) =>
@@ -93,10 +88,12 @@
 
                             return record;
                         },
-                         "EmployeeId, EmployeeId"
-                        ).FirstOrDefault();
+                        "EmployeeId, EmployeeId").FirstOrDefault();
 
-                    performanceRecord.Projects = multi.Read<ProjectModel>();
+                    if (performanceRecord != null)
+                    {
+                        performanceRecord.Projects = multi.Read<ProjectModel>();
+                    }
 
                     return performanceRecord;
                 }
@@ -107,7 +104,7 @@
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria).ConfigureAwait(false))
+                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria))
                 {
                     var performanceRecord = multi.Read<PerformanceRecord, Employee, PerformanceRecord>(
                         (record, creator) =>
@@ -116,11 +113,13 @@
 
                             return record;
                         },
-                         "EmployeeId"
-                        ).FirstOrDefault();
+                        "EmployeeId").FirstOrDefault();
 
-                    performanceRecord.Projects = multi.Read<ProjectModel>();
-                    performanceRecord.Employees = multi.Read<Employee>();
+                    if (performanceRecord != null)
+                    {
+                        performanceRecord.Projects = multi.Read<ProjectModel>();
+                        performanceRecord.Employees = multi.Read<Employee>();
+                    }
 
                     return performanceRecord;
                 }
@@ -131,7 +130,7 @@
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria).ConfigureAwait(false))
+                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria))
                 {
                     var performanceRecords = multi.Read<PerformanceRecord, Employee, Employee, PerformanceRecord>(
                         (performanceRecord, employee, creator) =>
@@ -141,9 +140,7 @@
 
                             return performanceRecord;
                         },
-                         "EmployeeId, EmployeeId"
-                        );
-
+                        "EmployeeId, EmployeeId");
                     var projects = multi.Read<ProjectModel>();
 
                     foreach (PerformanceRecord performanceRecord in performanceRecords)
@@ -160,7 +157,7 @@
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria).ConfigureAwait(false))
+                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria))
                 {
                     var performanceRecords = multi.Read<PerformanceRecord, Employee, NominationPeriodModel, PeriodBaseModel, PerformanceRecord>(
                         (performanceRecord, creator, nomination, period) =>
@@ -170,12 +167,12 @@
                             performanceRecord.Period = period;
 
                             return performanceRecord;
-                        }, "EmployeeId, NominationPeriodId, PeriodId");
+                        },
+                        "EmployeeId, NominationPeriodId, PeriodId");
 
                     var members = multi.Read<Employee>();
                     var projects = multi.Read<ProjectModel>();
                     var paSummaries = multi.Read<PASummaryModel>();
-
                     var paGradeDetails = multi.Read<PAGradeDetailModel>();
 
                     foreach (var summary in paSummaries)
@@ -203,14 +200,15 @@
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria).ConfigureAwait(false))
+                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria))
                 {
                     var performanceRecords = multi.Read<PerformanceRecord, Employee, PerformanceRecord>(
                         (performanceRecord, creator) =>
                         {
                             performanceRecord.Creator = creator;
                             return performanceRecord;
-                        }, "EmployeeId");
+                        },
+                        "EmployeeId");
 
                     var members = multi.Read<Employee>();
                     var projects = multi.Read<ProjectModel>();
@@ -230,7 +228,7 @@
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria).ConfigureAwait(false))
+                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria))
                 {
                     var members = multi.Read<MemberPerformanceTimelineModel>();
 

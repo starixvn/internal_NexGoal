@@ -27,14 +27,14 @@
 
         public async Task<JsonResult> GetPeriods()
         {
-            IEnumerable<PeriodBaseModel> periods = await paRecordService.GetPeriodByActorAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<PeriodBaseModel> periods = await paRecordService.GetPeriodByActorAsync(sessionService.EmployeeId);
 
             return Json(periods);
         }
 
         public async Task<JsonResult> GetGroups(int periodId)
         {
-            IEnumerable<Group> groups = await paRecordService.GetGroupByActorAsync(sessionService.EmployeeId, periodId).ConfigureAwait(false);
+            IEnumerable<Group> groups = await paRecordService.GetGroupByActorAsync(sessionService.EmployeeId, periodId);
 
             return Json(groups);
         }
@@ -42,7 +42,7 @@
         public async Task<JsonResult> GetPARecords(GetPARecordParam param)
         {
             param.ActorId = sessionService.EmployeeId;
-            IEnumerable<PARecordGroupModel> paRecords = await paRecordService.GetPARecordByReviewerAsync(param).ConfigureAwait(false);
+            IEnumerable<PARecordGroupModel> paRecords = await paRecordService.GetPARecordByReviewerAsync(param);
 
             return Json(paRecords);
         }
@@ -52,7 +52,7 @@
         {
             if (ModelState.IsValid)
             {
-                CommandResult commandResult = await paRecordService.EditPARecordByReviewerAsync(sessionService.EmployeeId, paRecord).ConfigureAwait(false);
+                CommandResult commandResult = await paRecordService.EditPARecordByReviewerAsync(sessionService.EmployeeId, paRecord);
 
                 return Json(commandResult);
             }
@@ -64,7 +64,7 @@
         [HttpPost]
         public async Task<IActionResult> QuickEdit(int paRecordId, bool isRevised)
         {
-            CommandResult commandResult = await paRecordService.QuickEditPARecordByReviewerAsync(sessionService.EmployeeId, paRecordId, isRevised).ConfigureAwait(false);
+            CommandResult commandResult = await paRecordService.QuickEditPARecordByReviewerAsync(sessionService.EmployeeId, paRecordId, isRevised);
 
             return Json(commandResult);
         }

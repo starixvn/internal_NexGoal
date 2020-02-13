@@ -64,7 +64,7 @@
 
         public async Task<byte[]> ExportExcelAsync(GetPARecordMultiPeriodParam param)
         {
-            var paRecords = await reportService.GetPAReportAsync(param).ConfigureAwait(false);
+            var paRecords = await reportService.GetPAReportAsync(param);
             var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.WebRootPath, ExcelTemplatePath));
 
             using (var templatePackage = new ExcelPackage(fileInfo))
@@ -218,7 +218,8 @@
             toeicCell.Value = toeic != null ? toeic.ToString() : "N/A";
         }
 
-        private static void WritePerformanceRecordByProcess(ExcelRange cell,
+        private static void WritePerformanceRecordByProcess(
+            ExcelRange cell,
             IEnumerable<PAProcessModel> paProcesses,
             PerformanceProcess processId)
         {
@@ -228,7 +229,7 @@
             {
                 foreach (var process in processes)
                 {
-                    WritePerformanceRecordContent(cell, process.PerformanceRecord);
+                    WritePerformanceRecordContent(cell, process);
                 }
             }
         }
@@ -272,32 +273,26 @@
             }
         }
 
-        private static void WritePerformanceRecordContent(ExcelRange cell, PerformanceRecord record)
+        private static void WritePerformanceRecordContent(ExcelRange cell, PAProcessModel process)
         {
-            if (record != null)
+            if (!string.IsNullOrWhiteSpace(process.Grade))
             {
                 cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                 cell.Style.VerticalAlignment = ExcelVerticalAlignment.Top;
                 var richTextCollection = cell.RichText;
-                var assessorText = richTextCollection.Add(record.Creator.NickName);
+                var assessorText = richTextCollection.Add(process.Evaluator.NickName);
                 assessorText.Bold = true;
 
                 richTextCollection.Add(Environment.NewLine);
 
-                var grade = record.Grade != null ? record.Grade.Name : "N/A";
-                var gradeText = richTextCollection.Add($"Grade: {grade} ");
+                var gradeText = richTextCollection.Add($"Grade: {process.Grade} ");
                 gradeText.Bold = false;
-
-                richTextCollection.Add(Environment.NewLine);
-                richTextCollection.Add(record.Comment);
-                richTextCollection.Add(Environment.NewLine);
-                richTextCollection.Add(Environment.NewLine);
             }
         }
 
         public async Task<Tuple<string, byte[]>> ExportPdfAsync(PAReportDetail reportDetail)
         {
-            var pdf = await GetPdfSettingAsync(reportDetail).ConfigureAwait(false);
+            var pdf = await GetPdfSettingAsync(reportDetail);
             var fileName = $"{reportDetail.Employee.NickName}_PA_{reportDetail.PARecord.Period.Name}.pdf";
             var file = converter.Convert(pdf);
 
@@ -306,8 +301,7 @@
 
         private async Task<HtmlToPdfDocument> GetPdfSettingAsync(PAReportDetail reportDetail)
         {
-            string htmlString = await viewRenderService.RenderToStringAsync(PADetailView, reportDetail).ConfigureAwait(false);
-
+            string htmlString = await viewRenderService.RenderToStringAsync(PADetailView, reportDetail);
             var globalSettings = new GlobalSettings
             {
                 ColorMode = ColorMode.Color,

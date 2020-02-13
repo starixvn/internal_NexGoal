@@ -15,7 +15,7 @@
         [XmlIgnore]
         public int EmployeeId { get; set; }
 
-        public int ProcessId { get; set; }
+        public byte ProcessId { get; set; }
         public int Priority { get; set; }
         public int EvaluatorId { get; set; }
 

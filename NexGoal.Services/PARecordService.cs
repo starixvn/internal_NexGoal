@@ -10,7 +10,9 @@
     using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
+    using NexGoal.Models.PerformanceRecord;
     using NexGoal.Repositories;
+    using NexGoal.Resources;
 
     public class PARecordService : IPARecordService
     {
@@ -38,7 +40,7 @@
                 ActorId = actorId
             };
 
-            return await baseService.GetDataAsync<PeriodBaseModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<PeriodBaseModel>(criteria);
         }
 
         public async Task<IEnumerable<Group>> GetGroupByActorAsync(int actorId, int periodId)
@@ -59,8 +61,8 @@
                 EmployeeId = employeeId
             };
 
-            IEnumerable<PerformanceAppraisalResult> performanceAppraisals = await paRepository.GetPerformanceAppraisalResultAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceAppraisalResult> performanceAppraisals = await paRepository.GetPerformanceAppraisalResultAsync(criteria);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
 
             foreach (PerformanceAppraisalResult performanceAppraisal in performanceAppraisals)
             {
@@ -84,8 +86,8 @@
                 EmployeeId = employeeId
             };
 
-            IEnumerable<PerformanceAppraisalResult> performanceAppraisals = await paRepository.GetMemberPerformanceAppraisalResultAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceAppraisalResult> performanceAppraisals = await paRepository.GetMemberPerformanceAppraisalResultAsync(criteria);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
 
             foreach (PerformanceAppraisalResult performanceAppraisal in performanceAppraisals)
             {
@@ -104,11 +106,11 @@
                 PARecordId = paRecordId,
                 ActorId = actorId
             };
-            PARecordModel performanceAppraisal = await paRepository.GetPARecordByIdAsync(criteria).ConfigureAwait(false);
+            PARecordModel performanceAppraisal = await paRepository.GetPARecordByIdAsync(criteria);
 
             if (performanceAppraisal != null)
             {
-                IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+                IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
                 MappingData(performanceAppraisal, performanceGrades);
             }
 
@@ -136,8 +138,8 @@
                 GroupIds = param.GroupIds,
                 IsRevised = param.IsRevised
             };
-            IEnumerable<PARecordModel> performanceAppraisals = await paRepository.GetPARecordByReviewerAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PARecordModel> performanceAppraisals = await paRepository.GetPARecordByReviewerAsync(criteria);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
 
             foreach (PARecordModel performanceAppraisal in performanceAppraisals)
             {
@@ -164,7 +166,7 @@
                 ActorId = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<Policy> GetPermissionOnPerformanceAppraisalAsync(int actorId, int recordId)
@@ -175,7 +177,7 @@
                 PARecordId = recordId
             };
 
-            return await baseService.GetDataEntityAsync<Policy>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataEntityAsync<Policy>(criteria);
         }
 
         private void MappingData(
@@ -185,11 +187,12 @@
             int gradeId;
             foreach (PAProcessModel process in performanceAppraisal.Processes)
             {
-                if (process.PerformanceRecord != null)
+                process.Grade = GetGradeOfPAProcess(process, performanceGrades);
+                foreach (PerformanceRecord performanceRecord in process.RelatedPerformanceRecords)
                 {
-                    process.PerformanceRecord.GradeId = cryptoService.Decrypt(process.PerformanceRecord.GradeId);
-                    int.TryParse(process.PerformanceRecord.GradeId, out gradeId);
-                    process.PerformanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+                    performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
+                    int.TryParse(performanceRecord.GradeId, out gradeId);
+                    performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
                 }
             }
 
@@ -200,6 +203,20 @@
             performanceAppraisal.OriginalGradeId = cryptoService.Decrypt(performanceAppraisal.OriginalGradeId);
             int.TryParse(performanceAppraisal.OriginalGradeId, out gradeId);
             performanceAppraisal.OriginalGrade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+        }
+
+        private string GetGradeOfPAProcess(PAProcessModel process, IEnumerable<PerformanceGrade> performanceGrades)
+        {
+            process.GradeId = cryptoService.Decrypt(process.GradeId);
+            int.TryParse(process.GradeId, out int gradeId);
+            PerformanceGrade grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+
+            if (grade != null)
+            {
+                return grade.Name;
+            }
+
+            return !string.IsNullOrWhiteSpace(process.RelatedPerformanceRecordIds) ? ViewLang.NA : string.Empty;
         }
     }
 }

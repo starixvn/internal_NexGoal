@@ -1,31 +1,31 @@
 ﻿@using NexGoal.Resources
 @using NexGoal.Core.Enumerations
-@using NexGoal.Models.PARecord
-@model PAProcessModel
+@using NexGoal.Models.PerformanceRecord
+@model PerformanceRecord
 
-@if (Model.PerformanceRecord != null)
+@if (Model != null)
 {
     <div class="record">
         <div class="avatar-user">
-            <img src=@Model.Evaluator.Avatar class="avatar" alt="avatar" />
+            <img src=@Model.Creator.Avatar class="avatar" alt="avatar" />
             <div class="person-info">
                 @{
                     string roleClass = "";
-                    switch (Model.ProcessId)
+                    switch (Model.RoleId)
                     {
-                        case (int)PerformanceProcess.Self:
+                        case (byte)PerformanceProcess.Self:
                             roleClass = "role-member";
                             break;
 
-                        case (int)PerformanceProcess.Evaluator:
+                        case (byte)PerformanceProcess.Evaluator:
                             roleClass = "role-evaluator";
                             break;
 
-                        case (int)PerformanceProcess.ProjectManager:
+                        case (byte)PerformanceProcess.ProjectManager:
                             roleClass = "role-pm";
                             break;
 
-                        case (int)PerformanceProcess.Reviewer:
+                        case (byte)PerformanceProcess.Reviewer:
                             roleClass = "role-reviewer";
                             break;
 
@@ -34,23 +34,15 @@
                             break;
                     }
                 }
-                <span class="@roleClass">@Model.Evaluator.NickName</span>
+                <span class="@roleClass">@Model.Creator.NickName</span>
             </div>
         </div>
         @{
-            var grade = Model.PerformanceRecord.Grade != null ?
-           $"({Model.PerformanceRecord.Grade.Name }) {Model.PerformanceRecord.Grade.Description}" : "N/A";
+            var grade = Model.Grade != null ? $"({Model.Grade.Name}) {Model.Grade.Description}" : ViewLang.NA;
         }
-
         <div class="comment">
-            <p>@Model.PerformanceRecord.Comment</p>
+            <p>@Model.Comment</p>
         </div>
         <div class="grade">@ViewLang.Grade: <div class="grade-detail">@grade</div></div>
-    </div>
-}
-else
-{
-    <div class="record-list">
-        <p class="text-center">@ViewLang.NoRecordFound</p>
     </div>
 }
