@@ -10,7 +10,7 @@
         public string EmployeeIds { get; set; }
         public string GradeId { get; set; }
         public string ProjectIds { get; set; }
-        public int TypeId { get; set; }
+        public byte TypeId { get; set; }
 
         public override string GetSettingKey() => "PerformanceRecord_InsertDraft";
 

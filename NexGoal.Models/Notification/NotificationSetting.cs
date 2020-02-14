@@ -12,7 +12,7 @@
         [XmlIgnore]
         public NotificationType Type { get; set; }
 
-        public int TypeId => (int)Type;
+        public byte TypeId => (byte)Type;
 
         [XmlIgnore]
         public string Description { get; set; }

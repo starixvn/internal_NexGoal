@@ -9,6 +9,9 @@
     using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
     using NexGoal.Models.PerformanceRecord;
+    using NexGoal.Models.PRFeedback;
+    using NexGoal.Models.PRFeedbackReaction;
+    using NexGoal.Models.PRReaction;
 
     public class PARepository : IPARepository
     {
@@ -75,7 +78,29 @@
                             },
                             "EmployeeId, EmployeeId");
                         var projects = multi.Read<ProjectModel>();
-                        MappingData(performanceAppraisal, performanceRecords, projects);
+                        var reactions = multi.Read<PRReactionModel, Employee, PRReactionModel>(
+                            (reaction, creator) =>
+                            {
+                                reaction.Creator = creator;
+                                return reaction;
+                            },
+                            "EmployeeId");
+                        var feedbacks = multi.Read<PRFeedbackModel, Employee, PRFeedbackModel>(
+                            (feedback, creator) =>
+                            {
+                                feedback.Creator = creator;
+                                return feedback;
+                            },
+                            "EmployeeId");
+                        var feedbackReactions = multi.Read<PRFeedbackReactionModel, Employee, PRFeedbackReactionModel>(
+                            (reaction, creator) =>
+                            {
+                                reaction.Creator = creator;
+                                return reaction;
+                            },
+                            "EmployeeId");
+
+                        MappingData(performanceAppraisal, performanceRecords, projects, reactions, feedbacks, feedbackReactions);
                     }
 
                     return performanceAppraisal;
@@ -114,11 +139,21 @@
         private static void MappingData(
             PARecordModel performanceAppraisal,
             IEnumerable<PerformanceRecord> performanceRecords,
-            IEnumerable<ProjectModel> projects)
+            IEnumerable<ProjectModel> projects,
+            IEnumerable<PRReactionModel> reactions,
+            IEnumerable<PRFeedbackModel> feedbacks,
+            IEnumerable<PRFeedbackReactionModel> feedbackReactions)
         {
+            foreach (PRFeedbackModel feedback in feedbacks)
+            {
+                feedback.Reactions = feedbackReactions.Where(x => x.PRFeedbackId == feedback.PRFeedbackId);
+            }
+
             foreach (PerformanceRecord performanceRecord in performanceRecords)
             {
                 performanceRecord.Projects = projects.Where(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
+                performanceRecord.Reactions = reactions.Where(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
+                performanceRecord.Feedbacks = feedbacks.Where(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
             }
 
             foreach (PAProcessModel process in performanceAppraisal.Processes)
