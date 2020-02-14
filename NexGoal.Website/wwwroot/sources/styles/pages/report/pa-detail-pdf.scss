@@ -26,19 +26,18 @@
 }
 
 .record {
-    display: block;
-
     .avatar-user {
         display: block;
-        height: 45px;
-    }
 
-    .comment, .grade {
-        margin-top: 8px;
-    }
+        &::after {
+            display: block;
+            content: "";
+            clear: both;
+        }
 
-    .comment {
-        padding: 6px 16px;
+        .person-info, .avatar {
+            float: left;
+        }
     }
 }
 
@@ -270,18 +269,4 @@ $last-pci: #46607F;
 
 .col-120 {
     width: 120px;
-}
-
-.record {
-    .avatar-user {
-        &::after {
-            display: block;
-            content: "";
-            clear: both;
-        }
-
-        .person-info, .avatar {
-            float: left;
-        }
-    }
 }

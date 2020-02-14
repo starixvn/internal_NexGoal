@@ -218,7 +218,7 @@
                             @{
                                 var records = Model.PARecord.Processes
                                     .Where(x => x.ProcessId == (int)PerformanceProcess.Self && x.RelatedPerformanceRecords.Any())
-                                    .SelectMany(x => x.RelatedPerformanceRecords);
+                                    .SelectMany(x => x.RelatedPerformanceRecords).OrderByDescending(x => x.CreatedDate);
                                 if (records.Any())
                                 {
                                     foreach (PerformanceRecord record in records)
@@ -240,7 +240,7 @@
                                 @{
                                     records = Model.PARecord.Processes
                                         .Where(x => x.ProcessId == (int)PerformanceProcess.ProjectManager && x.RelatedPerformanceRecords.Any())
-                                        .SelectMany(x => x.RelatedPerformanceRecords);
+                                        .SelectMany(x => x.RelatedPerformanceRecords).OrderByDescending(x => x.CreatedDate);
                                     if (records.Any())
                                     {
                                         foreach (PerformanceRecord record in records)
@@ -263,7 +263,7 @@
                                 @{
                                     records = Model.PARecord.Processes
                                         .Where(x => x.ProcessId == (int)PerformanceProcess.Evaluator && x.RelatedPerformanceRecords.Any())
-                                        .SelectMany(x => x.RelatedPerformanceRecords);
+                                        .SelectMany(x => x.RelatedPerformanceRecords).OrderByDescending(x => x.CreatedDate);
                                     if (records.Any())
                                     {
                                         foreach (PerformanceRecord record in records)
@@ -286,7 +286,7 @@
                                 var reviewer = Model.PARecord.Processes.First(x => x.ProcessId == (int)PerformanceProcess.Reviewer);
                                 records = Model.PARecord.Processes
                                     .Where(x => x.ProcessId == (int)PerformanceProcess.Reviewer && x.RelatedPerformanceRecords.Any())
-                                    .SelectMany(x => x.RelatedPerformanceRecords);
+                                    .SelectMany(x => x.RelatedPerformanceRecords).OrderByDescending(x => x.CreatedDate);
                                 if (records.Any())
                                 {
                                     foreach (PerformanceRecord record in records)
