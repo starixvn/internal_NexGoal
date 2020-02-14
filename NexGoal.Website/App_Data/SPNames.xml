@@ -206,4 +206,16 @@
     <Setting Key="ProbationReport_Get" SpName="ProbationReport_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="ProbationReport_GetByEmployeeId" SpName="ProbationReport_GetByEmployeeId" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
+  <Function name="PRFeedback">
+    <Setting Key="PRFeedback_Insert" SpName="PRFeedback_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PRFeedback_Delete" SpName="PRFeedback_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
+  <Function name="PRReaction">
+    <Setting Key="PRReaction_Insert" SpName="PRReaction_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PRReaction_Delete" SpName="PRReaction_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
+  <Function name="PRFeedbackReaction">
+    <Setting Key="PRFeedbackReaction_Insert" SpName="PRFeedbackReaction_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PRFeedbackReaction_Delete" SpName="PRFeedbackReaction_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
 </Functions>

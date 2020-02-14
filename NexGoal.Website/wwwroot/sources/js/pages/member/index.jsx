@@ -157,6 +157,7 @@ export default class App extends Component {
                 onEditDraft={this.handleClickEditDraftPerformanceRecord}
                 onDelete={this.handleClickDeletePerformanceRecord}
                 isHighlighted={this.state.performanceRecordIdHighlighted === performanceRecord.performanceRecordId}
+                enableInteraction="true"
             />
         );
     }

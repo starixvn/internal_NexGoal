@@ -325,6 +325,7 @@ export default class MyPage extends Component {
                 onEditDraft={this.handleClickEditDraftPerformanceRecord}
                 onDelete={this.handleClickDeletePerformanceRecord}
                 isHighlighted={this.state.performanceRecordIdHighlighted === performanceRecord.performanceRecordId}
+                feedbackReadOnly="true"
             />
         );
     }

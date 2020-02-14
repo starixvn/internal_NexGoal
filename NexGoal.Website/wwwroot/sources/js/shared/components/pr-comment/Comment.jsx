@@ -1,0 +1,168 @@
+﻿import React, { Component, Fragment } from 'react';
+import { Modal, Button, FormGroup } from 'react-bootstrap';
+import { isEmpty } from 'lodash';
+import CommentList from './CommentList';
+import getResource from '../../../resourceHelper';
+import TextareaFullscreenEditor from '../textarea-fullscreen/index';
+import { getRoleClassName, getCurrentUserInfo } from '../../../common-functions';
+
+export default class Comment extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isEnabled: false,
+            isLiked: false,
+            showLikeModal: false,
+            isOpenForm: false,
+            prComment: {
+                content: ''
+            }
+        };
+
+        this.textareaEditor = React.createRef();
+    };
+
+    handleLikeEvent = event => {
+        event.preventDefault();
+        this.setState({ isLiked: !this.state.isLiked });
+    }
+
+    handleCloseLikeModal = () => {
+        this.setState({ showLikeModal: false });
+    }
+
+    handleOpenLikeModalEvent = event => {
+        event.preventDefault();
+        this.setState({ showLikeModal: true });
+    }
+
+    handleOpenForm = () => {
+        this.setState({ isOpenForm: true }, () => {
+            this.textareaEditor.current.textareaEditor.current.focus();
+        });
+    }
+
+    handleCancel = () => {
+        this.setState({
+            isOpenForm: false,
+            prComment: {
+                content: ''
+            },
+            errors: {}
+        });
+    }
+
+    handleCommentChange = event => {
+        const errors = {};
+
+        if (!event.target.value) {
+            errors.comment = getResource('CommentRequired');
+        }
+
+        this.setState({
+            prComment: event.target.value,
+            errors: errors
+        });
+    }
+
+    render() {
+        const { isLiked, showLikeModal, isOpenForm, errors, prComment } = this.state;
+        const currentUserInfo = getCurrentUserInfo();
+        const { isReadOnly } = this.props;
+
+        return (
+            <Fragment>
+                <Modal
+                    size="sm"
+                    aria-labelledby="example-modal-sizes-title-sm"
+                    show={showLikeModal}
+                    onHide={this.handleCloseLikeModal}
+                    className="like-statistic-modal"
+                    dialogClassName="like-dialog">
+                    <Modal.Header className="custom-model-header">
+                        <h4 className="likes-counter">2 LIKES</h4>
+                    </Modal.Header>
+                    <Modal.Body className="custom-modal-content">
+                        <div className="avatar-user">
+                            <img src={currentUserInfo.avatar} alt="avatar" className="avatar" />
+                            <div className="person-info">
+                                <span className={getRoleClassName(currentUserInfo.roleId)}> {currentUserInfo.nickName} </span>
+                            </div>
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button className="btn-cancel" onClick={this.handleCloseLikeModal}> Close </Button>
+                    </Modal.Footer>
+                </Modal>
+                <div className="comment-pr">
+                    <div className="interaction-statistic">
+                        <div className="likes-interaction">
+                            {
+                                !isReadOnly &&
+                                <a className={`fa fa-thumbs-up ${isLiked ? 'active' : ''}`}
+                                    name="like-button"
+                                    onClick={this.handleLikeEvent}
+                                ></a>
+                            }
+                            <a className="likes-statistic" onClick={this.handleOpenLikeModalEvent}>2 Likes</a>
+                        </div>
+                        {
+                            isReadOnly ?
+                            <div className="comments-interaction">
+                                <a className="comments-statistic">3 Comments</a>
+                            </div>
+                                :
+                            <div className="comments-interaction">
+                                <a className="fa icon-comment-text-outline custom-comment-icon"
+                                    name="comment-button"
+                                    onClick={this.handleOpenForm}>
+                                </a>
+                                <a className="comments-statistic" onClick={this.handleOpenForm}>3 Comments</a>
+                            </div>
+                        }
+                        
+                    </div>
+                    {
+                        !isReadOnly &&
+                        <div className="comment-box">
+                            <div className="avatar-user custom-avatar small">
+                                <img src={currentUserInfo.avatar} alt="avatar" className="avatar" />
+                                <div className="input-comment-pr">
+                                    {
+                                        !isOpenForm &&
+                                        <input className="form-control"
+                                            style={{ height: 30 }}
+                                            placeholder="Add a comment..."
+                                            onClick={this.handleOpenForm}
+                                        />
+                                    }
+                                    {
+                                        isOpenForm &&
+                                        <form className="form-performance create">
+                                            <FormGroup>
+                                                <TextareaFullscreenEditor ref={this.textareaEditor}
+                                                    className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
+                                                    disableFullScreenMode="true"
+                                                    name="comment"
+                                                    value={prComment.content}
+                                                    onChange={this.handleCommentChange}
+                                                />
+                                            </FormGroup>
+
+                                            <FormGroup className="text-right">
+                                                <Button className="btn-cancel" onClick={this.handleCancel}>Cancle</Button>
+                                                <Button bsStyle="primary" name="save" onClick={this.handleSubmit} disabled={this.state.isSubmitting}>Send</Button>
+                                            </FormGroup>
+                                        </form>
+                                    }
+                                </div>
+                            </div>
+                        </div>      
+                    }
+                    <CommentList></CommentList>
+                </div>
+            </Fragment>
+        );
+    };
+}

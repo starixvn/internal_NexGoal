@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 export default class TextareaFullscreenEditor extends Component {
     static propTypes = {
         className: PropTypes.string,
+        fullSreenMode: PropTypes.bool,
         name: PropTypes.string,
         value: PropTypes.string,
         onChange: PropTypes.func
@@ -52,6 +53,7 @@ export default class TextareaFullscreenEditor extends Component {
 
     render() {
         const isFullscreen = this.state.isFullscreen;
+        const disableFullScreenMode = this.props.disableFullScreenMode;
 
         return (
             <div className="textarea-fullscreen-wrapper">
@@ -69,7 +71,10 @@ export default class TextareaFullscreenEditor extends Component {
                     </div>
 
                 </div>
-                < span className="icon-fullmode" onClick={this.handleChangeMode} title={isFullscreen ? 'Minimize' : 'Maximize'} />
+                {
+                    !disableFullScreenMode &&
+                    < span className="icon-fullmode" onClick={this.handleChangeMode} title={isFullscreen ? 'Minimize' : 'Maximize'} />
+                }
             </div>
         );
     }

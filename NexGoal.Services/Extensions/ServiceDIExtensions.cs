@@ -38,6 +38,9 @@
             services.AddScoped<IPRTrackingService, PRTrackingService>();
             services.AddScoped<IProbationService, ProbationService>();
             services.AddScoped<IProbationReportService, ProbationReportService>();
+            services.AddScoped<IPRReactionService, PRReactionService>();
+            services.AddScoped<IPRFeedbackService, PRFeedbackService>();
+
         }
     }
 }
