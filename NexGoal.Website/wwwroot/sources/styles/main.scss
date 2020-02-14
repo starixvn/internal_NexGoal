@@ -104,8 +104,12 @@ $fa-font-path: "~font-awesome/fonts";
     &.page {
         width: 100%;
         min-width: 760px;
-        padding-top: 50px;
-        //padding-bottom: 20px;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
         .sub-header {
             position: relative;
 
@@ -155,14 +159,21 @@ $fa-font-path: "~font-awesome/fonts";
     }
 }
 
-#loading-overlay {
-    background: rgba(255, 255, 255, 0) url('images/loading.gif') 50% 50% no-repeat;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+.loading-process {
+    background: rgba(255, 255, 255, 0.7) no-repeat;
+    height: 100%;
+    width: 100%;
+    position: fixed;
     z-index: 9999;
+
+    .icon-loading {
+        position: absolute;
+        top: 40%;
+        width: 64px;
+        height: 64px;
+        left: 50%;
+        margin: -10px 0 0 -70px;
+    }
 }
 
 .toeic-passed {

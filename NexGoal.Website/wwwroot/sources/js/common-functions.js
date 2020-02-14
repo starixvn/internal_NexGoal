@@ -256,3 +256,11 @@ export const axiosEditResponseWithFormik = (setErrors, toastObj, axiosResponse, 
         }
     }
 };
+
+export const blockUI = () => {
+    document.getElementById('loadingProcess').style.display = 'block';
+};
+
+export const unblockUI = () => {
+    document.getElementById('loadingProcess').style.display = 'none';
+};
