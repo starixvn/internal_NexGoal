@@ -184,9 +184,41 @@ $fa-font-path: "~font-awesome/fonts";
     color: red;
 }
 
-.modal-content {
-    .avatar-user {
-        img {
+
+
+.like-statistic-modal {
+    .custom-modal-content {
+        border: 0;
+        margin: 0;
+
+        .avatar-user {
+            display: inline;
+            grid-row: auto;
+            padding: 0;
+        }
+
+        .person-info {
+            display: inline;
+            font-weight: 700;
+            font-size: 16px;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+    }
+
+    .likes-counter {
+        margin: 5px 0;
+        color: #e26509;
+    }
+
+    .custom-modal-header {
+        padding: 10px 0 0 0;
+        margin: 0 15px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .modal-content {
+        .avatar-user img {
             vertical-align: middle;
             width: 32px;
             height: 32px;
@@ -198,4 +230,12 @@ $fa-font-path: "~font-awesome/fonts";
             object-position: 0 20%;
         }
     }
+
+    .custom-modal-footer {
+        border-top: none;
+    }
+}
+
+.like-dialog {
+    width: 350px;
 }

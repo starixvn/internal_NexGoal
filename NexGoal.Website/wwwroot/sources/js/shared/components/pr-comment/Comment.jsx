@@ -1,10 +1,13 @@
 ﻿import React, { Component, Fragment } from 'react';
 import { Modal, Button, FormGroup } from 'react-bootstrap';
 import { isEmpty } from 'lodash';
+import axios from 'axios';
+import { stringify } from 'qs';
 import CommentList from './CommentList';
 import getResource from '../../../resourceHelper';
 import TextareaFullscreenEditor from '../textarea-fullscreen/index';
-import { getRoleClassName, getCurrentUserInfo } from '../../../common-functions';
+import { PostRequestHeaders } from '../../../constants';
+import { axiosError, getRoleClassName, getCurrentUserInfo, resolveClientUrl } from '../../../common-functions';
 
 export default class Comment extends Component {
     constructor(props) {
@@ -25,7 +28,28 @@ export default class Comment extends Component {
 
     handleLikeEvent = event => {
         event.preventDefault();
-        this.setState({ isLiked: !this.state.isLiked });
+        var isLike = !this.state.isLiked;
+
+        var url = 'PRReaction/' + (isLike ? 'Create' : 'Remove');
+
+        axios({
+            url: resolveClientUrl(url),
+            method: 'post',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                PerformanceRecordId: this.props.recordId
+            }),
+            headers: PostRequestHeaders
+        }).then(response => {
+            if (response.data.IsSucessfull)
+                this.setState({ isLiked: isLike });
+            else {
+
+            }
+        }).catch(axiosError => {
+
+        });
+        
     }
 
     handleCloseLikeModal = () => {
@@ -80,7 +104,7 @@ export default class Comment extends Component {
                     onHide={this.handleCloseLikeModal}
                     className="like-statistic-modal"
                     dialogClassName="like-dialog">
-                    <Modal.Header className="custom-model-header">
+                    <Modal.Header className="custom-modal-header">
                         <h4 className="likes-counter">2 LIKES</h4>
                     </Modal.Header>
                     <Modal.Body className="custom-modal-content">
@@ -91,7 +115,7 @@ export default class Comment extends Component {
                             </div>
                         </div>
                     </Modal.Body>
-                    <Modal.Footer>
+                    <Modal.Footer className="custom-modal-footer">
                         <Button className="btn-cancel" onClick={this.handleCloseLikeModal}> Close </Button>
                     </Modal.Footer>
                 </Modal>

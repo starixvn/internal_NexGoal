@@ -165,35 +165,3 @@
         border-bottom-color: #324373;
     }
 }
-
-.like-statistic-modal {
-    .custom-modal-content {
-        border: 0;
-        margin: 0;
-
-        .avatar-user {
-            display: inline;
-            grid-row: auto;
-            padding: 0;
-        }
-
-        .person-info {
-            display: inline;
-        }
-    }
-
-    .likes-counter {
-        margin: 5px 0;
-        color: #e26509;
-    }
-
-    .custom-model-header {
-        padding: 10px 0 0 0;
-        margin: 0 15px;
-        border-bottom: 1px solid #ccc;
-    }
-}
-
-.like-dialog {
-    width: 350px;
-}
