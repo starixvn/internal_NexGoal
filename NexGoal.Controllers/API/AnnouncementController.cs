@@ -5,25 +5,29 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Services;
+    using NexGoal.Web.Core.Services;
+    using NexGoal.Controllers;
 
     [Route("api/[controller]/[action]")]
     [ApiController]
     [AllowAnonymous]
-    public class AnnouncementController : ControllerBase
+    public class AnnouncementController : BaseController
     {
         private readonly ICommonService _commonService;
 
-        public AnnouncementController(ICommonService commonService)
+        public AnnouncementController(
+            ISessionService sessionService,
+            ICommonService commonService) : base(sessionService)
         {
             _commonService = commonService;
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAnnouncements(int id)
+        public async Task<JsonResult> GetAnnouncements(int id)
         {
             IEnumerable<string> annoucements = await _commonService.GetAnnouncementAsync(id).ConfigureAwait(false);
 
-            return Ok(annoucements);
+            return Json(annoucements);
         }
     }
 }
