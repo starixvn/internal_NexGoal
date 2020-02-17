@@ -4,9 +4,9 @@
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using NexGoal.Controllers;
     using NexGoal.Services;
     using NexGoal.Web.Core.Services;
-    using NexGoal.Controllers;
 
     [Route("api/[controller]/[action]")]
     [ApiController]
