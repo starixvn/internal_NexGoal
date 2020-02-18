@@ -210,7 +210,10 @@ export default class PerformanceRecord extends Component {
                 <Comment className="pr-comment"
                     creator={creator}
                     isReadOnly={this.props.feedbackReadOnly}
-                    recordId={record.performanceRecordId}/>
+                    recordId={record.performanceRecordId}
+                    reactions={record.reactions}
+                    feedbacks={record.feedbacks}
+                />
             </div>
         );
     }

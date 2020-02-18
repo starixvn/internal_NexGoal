@@ -2,7 +2,7 @@
 {
     public class RemovePRReactionDto
     {
-        public int PRReactionId { get; set; }
+        public int PerformanceRecordId { get; set; }
 
         public int CreatorId { get; set; }
     }

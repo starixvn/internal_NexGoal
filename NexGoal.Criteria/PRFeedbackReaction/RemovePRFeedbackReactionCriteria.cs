@@ -4,7 +4,7 @@
 
     public class RemovePRFeedbackReactionCriteria : CommandBaseCriteria
     {
-        public int PRFeedbackReactionId { get; set; }
+        public int PRFeedbackId { get; set; }
 
         public int CreatorId { get; set; }
 
@@ -12,7 +12,7 @@
 
         public override bool IsValid()
         {
-            return PRFeedbackReactionId > 0 && CreatorId > 0;
+            return PRFeedbackId > 0 && CreatorId > 0;
         }
     }
 }

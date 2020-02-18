@@ -213,6 +213,7 @@
   <Function name="PRReaction">
     <Setting Key="PRReaction_Insert" SpName="PRReaction_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PRReaction_Delete" SpName="PRReaction_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PRReaction_GetByPRId" SpName="PRReaction_GetByPRId" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function name="PRFeedbackReaction">
     <Setting Key="PRFeedbackReaction_Insert" SpName="PRFeedbackReaction_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>

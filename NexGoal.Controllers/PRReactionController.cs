@@ -1,7 +1,9 @@
 ﻿namespace NexGoal.Controllers
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
@@ -54,6 +56,21 @@
             var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
 
             return Json(new { isSucessful = false, errors });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetByPRId(GetPRReactionParam param)
+        {
+            param.ActorId = sessionService.EmployeeId;
+
+            var result = await prReactionService.GetByPRId(param);
+
+            if(result == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+
+            return Json(result);
         }
     }
 }

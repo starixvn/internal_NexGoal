@@ -45,8 +45,8 @@
             {
                 EmployeeId = employeeId
             };
-            IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetPerformanceRecordByEmployeeAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetPerformanceRecordByEmployeeAsync(criteria);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
 
             foreach (PerformanceRecord performanceRecord in performanceRecords)
             {

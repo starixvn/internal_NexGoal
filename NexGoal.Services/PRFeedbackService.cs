@@ -62,7 +62,7 @@
         {
             var criteria = new RemovePRFeedbackReactionCriteria
             {
-                PRFeedbackReactionId = prFeedbackReaction.PRFeedbackReactionId,
+                PRFeedbackId = prFeedbackReaction.PRFeedbackId,
                 CreatorId = prFeedbackReaction.CreatorId
             };
 

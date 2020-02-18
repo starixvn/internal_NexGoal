@@ -2,19 +2,23 @@
 
 namespace NexGoal.Services
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PRReaction;
     using NexGoal.Models.PRReaction;
+    using NexGoal.Repositories;
 
     public class PRReactionService : IPRReactionService
     {
         private readonly IBaseService baseService;
+        private readonly IPRReactionRepository prReactionRepository;
 
-        public PRReactionService(IBaseService baseService)
+        public PRReactionService(IBaseService baseService, IPRReactionRepository prReactionRepository)
         {
             this.baseService = baseService;
+            this.prReactionRepository = prReactionRepository;
         }
 
         public async Task<CommandResult> CreatePRReaction(AddPRReactionDto prReaction)
@@ -25,7 +29,7 @@ namespace NexGoal.Services
                 CreatorId = prReaction.CreatorId
             };
 
-            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria);
 
             return commandResult;
         }
@@ -34,13 +38,26 @@ namespace NexGoal.Services
         {
             var criteria = new RemovePRReactionCriteria
             {
-                PRReactionId = prReaction.PRReactionId,
+                PerformanceRecordId = prReaction.PerformanceRecordId,
                 CreatorId = prReaction.CreatorId
             };
 
-            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria);
 
             return commandResult;
+        }
+
+        public async Task<IEnumerable<PRReactionModel>> GetByPRId(GetPRReactionParam param)
+        {
+            var criteria = new GetPRReactionByPRIdCriteria
+            {
+                PerformanceRecordId = param.PerformanceRecordId,
+                ActorID = param.ActorId
+            };
+
+            var reactions = await prReactionRepository.GetPRReactionByPRId(criteria);
+
+            return reactions;
         }
     }
 }

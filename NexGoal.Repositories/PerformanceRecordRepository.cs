@@ -11,6 +11,9 @@
     using NexGoal.Models.Common;
     using NexGoal.Models.NominationPeriod;
     using NexGoal.Models.PerformanceRecord;
+    using NexGoal.Models.PRFeedback;
+    using NexGoal.Models.PRFeedbackReaction;
+    using NexGoal.Models.PRReaction;
     using NexGoal.Repositories.Interfaces;
 
     public class PerformanceRecordRepository : IPerformanceRecordRepository
@@ -38,6 +41,30 @@
                     var paSummaries = multi.Read<PASummaryModel>();
                     var paGradeDetails = multi.Read<PAGradeDetailModel>();
 
+                    var reactions = multi.Read<PRReactionModel, Employee, PRReactionModel>(
+                            (reaction, creator) =>
+                            {
+                                reaction.Creator = creator;
+                                return reaction;
+                            },
+                            "EmployeeId");
+
+                    var feedbacks = multi.Read<PRFeedbackModel, Employee, PRFeedbackModel>(
+                        (feedback, creator) =>
+                        {
+                            feedback.Creator = creator;
+                            return feedback;
+                        },
+                        "EmployeeId");
+
+                    var feedbackReactions = multi.Read<PRFeedbackReactionModel, Employee, PRFeedbackReactionModel>(
+                        (reaction, creator) =>
+                        {
+                            reaction.Creator = creator;
+                            return reaction;
+                        },
+                        "EmployeeId");
+
                     foreach (var summary in paSummaries)
                     {
                         summary.GradeDetails = paGradeDetails.Where(x => x.PARecordId == summary.PARecordId);
@@ -45,11 +72,19 @@
 
                     foreach (PerformanceRecord performanceRecord in performanceRecords)
                     {
-                        performanceRecord.Projects = projects.Where(t => t.PerformanceRecordId == performanceRecord.PerformanceRecordId);
                         if (performanceRecord.TypeId == (int)PerformanceRecordType.SystemPerformanceAppraisal)
                         {
                             performanceRecord.PASummary = paSummaries.FirstOrDefault(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
                         }
+
+                        performanceRecord.Projects = projects.Where(t => t.PerformanceRecordId == performanceRecord.PerformanceRecordId);
+                        performanceRecord.Reactions = reactions.Where(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
+                        performanceRecord.Feedbacks = feedbacks.Where(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
+                    }
+
+                    foreach (PRFeedbackModel feedback in feedbacks)
+                    {
+                        feedback.Reactions = feedbackReactions.Where(x => x.PRFeedbackId == feedback.PRFeedbackId);
                     }
 
                     return performanceRecords;
@@ -175,6 +210,30 @@
                     var paSummaries = multi.Read<PASummaryModel>();
                     var paGradeDetails = multi.Read<PAGradeDetailModel>();
 
+                    var reactions = multi.Read<PRReactionModel, Employee, PRReactionModel>(
+                            (reaction, creator) =>
+                            {
+                                reaction.Creator = creator;
+                                return reaction;
+                            },
+                            "EmployeeId");
+
+                    var feedbacks = multi.Read<PRFeedbackModel, Employee, PRFeedbackModel>(
+                        (feedback, creator) =>
+                        {
+                            feedback.Creator = creator;
+                            return feedback;
+                        },
+                        "EmployeeId");
+
+                    var feedbackReactions = multi.Read<PRFeedbackReactionModel, Employee, PRFeedbackReactionModel>(
+                        (reaction, creator) =>
+                        {
+                            reaction.Creator = creator;
+                            return reaction;
+                        },
+                        "EmployeeId");
+
                     foreach (var summary in paSummaries)
                     {
                         summary.GradeDetails = paGradeDetails.Where(x => x.PARecordId == summary.PARecordId);
@@ -184,11 +243,18 @@
                     {
                         performanceRecord.Employees = members.Where(t => t.LinkObjectId == performanceRecord.PerformanceRecordId);
                         performanceRecord.Projects = projects.Where(t => t.PerformanceRecordId == performanceRecord.PerformanceRecordId);
+                        performanceRecord.Reactions = reactions.Where(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
+                        performanceRecord.Feedbacks = feedbacks.Where(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
 
                         if (performanceRecord.TypeId == (int)PerformanceRecordType.SystemPerformanceAppraisal)
                         {
                             performanceRecord.PASummary = paSummaries.FirstOrDefault(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
                         }
+                    }
+
+                    foreach (PRFeedbackModel feedback in feedbacks)
+                    {
+                        feedback.Reactions = feedbackReactions.Where(x => x.PRFeedbackId == feedback.PRFeedbackId);
                     }
 
                     return performanceRecords;
@@ -213,10 +279,41 @@
                     var members = multi.Read<Employee>();
                     var projects = multi.Read<ProjectModel>();
 
+                    var reactions = multi.Read<PRReactionModel, Employee, PRReactionModel>(
+                            (reaction, creator) =>
+                            {
+                                reaction.Creator = creator;
+                                return reaction;
+                            },
+                            "EmployeeId");
+
+                    var feedbacks = multi.Read<PRFeedbackModel, Employee, PRFeedbackModel>(
+                        (feedback, creator) =>
+                        {
+                            feedback.Creator = creator;
+                            return feedback;
+                        },
+                        "EmployeeId");
+
+                    var feedbackReactions = multi.Read<PRFeedbackReactionModel, Employee, PRFeedbackReactionModel>(
+                        (reaction, creator) =>
+                        {
+                            reaction.Creator = creator;
+                            return reaction;
+                        },
+                        "EmployeeId");
+
                     foreach (PerformanceRecord performanceRecord in performanceRecords)
                     {
                         performanceRecord.Employees = members.Where(t => t.LinkObjectId == performanceRecord.PerformanceRecordId);
                         performanceRecord.Projects = projects.Where(t => t.PerformanceRecordId == performanceRecord.PerformanceRecordId);
+                        performanceRecord.Reactions = reactions.Where(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
+                        performanceRecord.Feedbacks = feedbacks.Where(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
+                    }
+
+                    foreach (PRFeedbackModel feedback in feedbacks)
+                    {
+                        feedback.Reactions = feedbackReactions.Where(x => x.PRFeedbackId == feedback.PRFeedbackId);
                     }
 
                     return performanceRecords;

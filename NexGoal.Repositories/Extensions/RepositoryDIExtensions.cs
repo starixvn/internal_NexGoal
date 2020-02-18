@@ -15,6 +15,7 @@
             services.AddScoped<IPerformanceRecordRepository, PerformanceRecordRepository>();
             services.AddScoped<IPRTrackingRepository, PRTrackingRepository>();
             services.AddScoped<IProbationRepository, ProbationRepository>();
+            services.AddScoped<IPRReactionRepository, PRReactionRepository>();
         }
     }
 }

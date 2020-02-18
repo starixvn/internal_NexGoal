@@ -26,9 +26,22 @@ export default class Comment extends Component {
         this.textareaEditor = React.createRef();
     };
 
+    componentWillMount = () => {
+        const currentUserCode = document.getElementById('employeeInfo-code').value;
+        const reactions = this.props.reactions;
+
+        const isLiked = reactions.some(reaction => reaction.creator.code == currentUserCode);
+        const numOfLikes = reactions ? reactions.length : 0;
+
+        this.setState({ isLiked: isLiked, numOfLikes: numOfLikes, reactions: reactions });
+    }
+
     handleLikeEvent = event => {
         event.preventDefault();
         var isLike = !this.state.isLiked;
+        var numOfLikes = isLike ? this.state.numOfLikes + 1 : this.state.numOfLikes - 1;
+
+        this.setState({ numOfLikes: numOfLikes, isLiked: isLike });
 
         var url = 'PRReaction/' + (isLike ? 'Create' : 'Remove');
 
@@ -41,13 +54,15 @@ export default class Comment extends Component {
             }),
             headers: PostRequestHeaders
         }).then(response => {
-            if (response.data.IsSucessfull)
-                this.setState({ isLiked: isLike });
-            else {
-
+            if (!response.data.isSuccessful)
+            {
+                var numOfLikes = isLike ? this.state.numOfLikes - 1 : this.state.numOfLikes + 1;
+                this.setState({ numOfLikes: numOfLikes, isLiked: !isLike });
             }
         }).catch(axiosError => {
-
+            var numOfLikes = this.state.isLiked ? this.state.numOfLikes - 1
+                : this.state.numOfLikes + 1;
+            this.setState({ numOfLikes: numOfLikes, isLiked: !this.state.isLiked });
         });
         
     }
@@ -58,7 +73,16 @@ export default class Comment extends Component {
 
     handleOpenLikeModalEvent = event => {
         event.preventDefault();
-        this.setState({ showLikeModal: true });
+        axios.get(
+            resolveClientUrl("PRReaction/GetByPRId"),
+            { params: { PerformanceRecordId: this.props.recordId, ActorId: 0 } }
+        ).then(response => {
+            const reactions = response.data;
+            const numOfLikes = reactions ? reactions.length : 0;
+
+            this.setState({ showLikeModal: true, reactions: reactions, numOfLikes: numOfLikes });
+        }).catch(axiosError => {
+        });
     }
 
     handleOpenForm = () => {
@@ -90,10 +114,21 @@ export default class Comment extends Component {
         });
     }
 
+    renderUserLiked = (reaction) => {
+        return (
+            <div className="avatar-user">
+                <img src={reaction.creator.avatar} alt="avatar" className="avatar" />
+                <div className="person-info">
+                    <span className={getRoleClassName(reaction.roleId)}> {reaction.creator.nickName} </span>
+                </div>
+            </div>
+            );
+    }
+
     render() {
-        const { isLiked, showLikeModal, isOpenForm, errors, prComment } = this.state;
+        const { isLiked, showLikeModal, isOpenForm, errors, prComment, numOfLikes, reactions } = this.state;
         const currentUserInfo = getCurrentUserInfo();
-        const { isReadOnly } = this.props;
+        const { isReadOnly, feedbacks} = this.props;
 
         return (
             <Fragment>
@@ -105,15 +140,12 @@ export default class Comment extends Component {
                     className="like-statistic-modal"
                     dialogClassName="like-dialog">
                     <Modal.Header className="custom-modal-header">
-                        <h4 className="likes-counter">2 LIKES</h4>
+                        <h4 className="likes-counter">{numOfLikes} LIKES</h4>
                     </Modal.Header>
                     <Modal.Body className="custom-modal-content">
-                        <div className="avatar-user">
-                            <img src={currentUserInfo.avatar} alt="avatar" className="avatar" />
-                            <div className="person-info">
-                                <span className={getRoleClassName(currentUserInfo.roleId)}> {currentUserInfo.nickName} </span>
-                            </div>
-                        </div>
+                        {
+                            reactions.map(this.renderUserLiked)
+                        }
                     </Modal.Body>
                     <Modal.Footer className="custom-modal-footer">
                         <Button className="btn-cancel" onClick={this.handleCloseLikeModal}> Close </Button>
@@ -129,7 +161,7 @@ export default class Comment extends Component {
                                     onClick={this.handleLikeEvent}
                                 ></a>
                             }
-                            <a className="likes-statistic" onClick={this.handleOpenLikeModalEvent}>2 Likes</a>
+                            <a className="likes-statistic" onClick={this.handleOpenLikeModalEvent}>{numOfLikes} Likes</a>
                         </div>
                         {
                             isReadOnly ?
