@@ -1,0 +1,87 @@
+﻿@import "../abstracts/variables";
+
+.feedback {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+
+    .avatar-user, feedback-content {
+        display: inline;
+    }
+
+    .avatar-user {
+        grid-column: 1;
+        padding: 16px 0 0 0;
+    }
+
+    .feedback-reaction {
+        grid-column: 2;
+    }
+
+    .feedback-content {
+        grid-column: 2;
+        padding: 16px;
+        color: #333;
+        position: relative;
+        font-size: 14px;
+
+        .person-info {
+            padding: 5px 0;
+            font-weight: 700;
+            font-size: 16px;
+            vertical-align: middle;
+        }
+
+        .icon-fullmode {
+            position: absolute;
+            right: 16px;
+            top: 8px;
+            cursor: pointer;
+            color: #BFBFBF;
+
+            &:hover {
+                color: #959595;
+            }
+        }
+
+        p {
+            overflow: hidden;
+            white-space: pre-wrap;
+            margin: 0;
+
+            &.collapsed {
+                max-height: 40px;
+
+                &:after {
+                    content: '...see more';
+                    color: #2475D7;
+                    font-size: 12px;
+                    display: block;
+                    text-align: right;
+                    cursor: pointer;
+                }
+            }
+
+            &.expanded {
+                max-height: 10000px;
+                transition: max-height 1.5s ease-in-out;
+            }
+        }
+
+        .see-more, .see-less {
+            color: #2475D7;
+            font-size: 12px;
+            display: inline-block;
+            text-align: right;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .see-more:before {
+            content: '...see more';
+        }
+
+        .see-less:before {
+            content: '...see less';
+        }
+    }
+}

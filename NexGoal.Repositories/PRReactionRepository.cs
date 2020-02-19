@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Fanex.Data;
-using Fanex.Data.Repository;
-using NexGoal.Models.Common;
-using NexGoal.Models.PRReaction;
-
-namespace NexGoal.Repositories
+﻿namespace NexGoal.Repositories
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Fanex.Data;
+    using Fanex.Data.Repository;
+    using NexGoal.Models.Common;
+    using NexGoal.Models.PRReaction;
+
     public class PRReactionRepository : IPRReactionRepository
     {
         public async Task<IEnumerable<PRReactionModel>> GetPRReactionByPRId(ICriteria criteria)

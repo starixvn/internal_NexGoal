@@ -7,7 +7,7 @@ import { getNominationClassName, getRoleClassName, resolveClientUrl, calendar, g
 import { NominationStatuses, PerformanceRecordType, PerformanceProcess, EmptyPlaceHolder } from '../../constants';
 import getResource from '../../resourceHelper';
 import GradeSummary from '../../shared/components/performance-appraisal/GradeSummary';
-import Comment from '../../shared/components/pr-comment/Comment';
+import Interaction from '../../shared/components/pr-interaction/Interaction';
 
 
 const PageType = {
@@ -207,7 +207,7 @@ export default class PerformanceRecord extends Component {
                         </div>
                     </div>
                 }
-                <Comment className="pr-comment"
+                <Interaction className="pr-comment"
                     creator={creator}
                     isReadOnly={this.props.feedbackReadOnly}
                     recordId={record.performanceRecordId}

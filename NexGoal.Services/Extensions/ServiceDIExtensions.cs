@@ -40,7 +40,7 @@
             services.AddScoped<IProbationReportService, ProbationReportService>();
             services.AddScoped<IPRReactionService, PRReactionService>();
             services.AddScoped<IPRFeedbackService, PRFeedbackService>();
-
+            services.AddScoped<IPRFeedbackReactionService, PRFeedbackReactionService>();
         }
     }
 }

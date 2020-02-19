@@ -1,15 +1,16 @@
 ﻿import React, { Component, Fragment } from 'react';
 import { Modal, Button, FormGroup } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { isEmpty } from 'lodash';
 import axios from 'axios';
 import { stringify } from 'qs';
-import CommentList from './CommentList';
+import Feedback from './Feedback';
 import getResource from '../../../resourceHelper';
 import TextareaFullscreenEditor from '../textarea-fullscreen/index';
 import { PostRequestHeaders } from '../../../constants';
 import { axiosError, getRoleClassName, getCurrentUserInfo, resolveClientUrl } from '../../../common-functions';
 
-export default class Comment extends Component {
+export default class Interaction extends Component {
     constructor(props) {
         super(props);
 
@@ -18,9 +19,7 @@ export default class Comment extends Component {
             isLiked: false,
             showLikeModal: false,
             isOpenForm: false,
-            prComment: {
-                content: ''
-            }
+            feedbackContent: ""
         };
 
         this.textareaEditor = React.createRef();
@@ -28,22 +27,30 @@ export default class Comment extends Component {
 
     componentWillMount = () => {
         const currentUserCode = document.getElementById('employeeInfo-code').value;
-        const reactions = this.props.reactions;
-
-        const isLiked = reactions.some(reaction => reaction.creator.code == currentUserCode);
+        const { reactions, feedbacks } = this.props;
+        
+        const isLiked = reactions && reactions.some(reaction => reaction.creator.code == currentUserCode);
         const numOfLikes = reactions ? reactions.length : 0;
+        const numOfFeedbacks = feedbacks ? feedbacks.length : 0;
 
-        this.setState({ isLiked: isLiked, numOfLikes: numOfLikes, reactions: reactions });
+        this.setState(
+            {
+                isLiked: isLiked,
+                numOfLikes: numOfLikes,
+                reactions: reactions,
+                numOfFeedbacks: numOfFeedbacks,
+                feedbacks: feedbacks
+            }
+        );
     }
 
     handleLikeEvent = event => {
         event.preventDefault();
-        var isLike = !this.state.isLiked;
-        var numOfLikes = isLike ? this.state.numOfLikes + 1 : this.state.numOfLikes - 1;
+        const isLike = !this.state.isLiked;
+        const numOfLikes = isLike ? this.state.numOfLikes + 1 : this.state.numOfLikes - 1;
+        const url = 'PRReaction/' + (isLike ? 'Create' : 'Remove');
 
         this.setState({ numOfLikes: numOfLikes, isLiked: isLike });
-
-        var url = 'PRReaction/' + (isLike ? 'Create' : 'Remove');
 
         axios({
             url: resolveClientUrl(url),
@@ -94,27 +101,60 @@ export default class Comment extends Component {
     handleCancel = () => {
         this.setState({
             isOpenForm: false,
-            prComment: {
-                content: ''
-            },
+            feedbackContent: "",
             errors: {}
         });
+    }
+
+    handleSubmit = () => {
+        const { feedbackContent } = this.state; 
+
+        if (feedbackContent == "") {
+            this.setState({
+                errors: {
+                    feedbackContent: "Comment can't be empty"
+                }
+            });
+
+            return;
+        }
+
+        axios({
+            url: resolveClientUrl("PRFeedback/Create"),
+            method: 'post',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                PerformanceRecordId: this.props.recordId,
+                Content: feedbackContent
+            }),
+            headers: PostRequestHeaders
+        }).then(response => {
+            if (response.data.isSuccessful) {
+                let numOfFeedbacks = this.state.numOfFeedbacks + 1;
+
+                this.handleCancel();
+                this.setState({ numOfFeedbacks: numOfFeedbacks });
+            }
+            else {
+                toast.error(response.data.message);
+            }
+        }).catch(axiosError);
     }
 
     handleCommentChange = event => {
         const errors = {};
 
         if (!event.target.value) {
-            errors.comment = getResource('CommentRequired');
+            errors.feedbackContent = getResource('CommentRequired');
         }
 
         this.setState({
-            prComment: event.target.value,
+            feedbackContent: event.target.value,
             errors: errors
         });
     }
 
-    renderUserLiked = (reaction) => {
+    renderUserLiked = reaction => {
         return (
             <div className="avatar-user">
                 <img src={reaction.creator.avatar} alt="avatar" className="avatar" />
@@ -125,10 +165,28 @@ export default class Comment extends Component {
             );
     }
 
+    renderFeedback = feedback => {
+        return (
+            <Feedback
+                feedback={feedback}
+                isReadOnly={this.props.isReadOnly}
+            />
+            );
+    }
+
     render() {
-        const { isLiked, showLikeModal, isOpenForm, errors, prComment, numOfLikes, reactions } = this.state;
+        const {
+            isLiked,
+            isOpenForm,
+            showLikeModal,
+            feedbackContent,
+            numOfLikes,
+            reactions,
+            numOfFeedbacks,
+            feedbacks,
+            errors } = this.state;
+        const { isReadOnly } = this.props;
         const currentUserInfo = getCurrentUserInfo();
-        const { isReadOnly, feedbacks} = this.props;
 
         return (
             <Fragment>
@@ -144,6 +202,7 @@ export default class Comment extends Component {
                     </Modal.Header>
                     <Modal.Body className="custom-modal-content">
                         {
+                            reactions &&
                             reactions.map(this.renderUserLiked)
                         }
                     </Modal.Body>
@@ -156,7 +215,7 @@ export default class Comment extends Component {
                         <div className="likes-interaction">
                             {
                                 !isReadOnly &&
-                                <a className={`fa fa-thumbs-up ${isLiked ? 'active' : ''}`}
+                                <a className={`fa ${isLiked ? 'icon-thumb-up active' : 'icon-thumb-up-line'}`}
                                     name="like-button"
                                     onClick={this.handleLikeEvent}
                                 ></a>
@@ -166,7 +225,7 @@ export default class Comment extends Component {
                         {
                             isReadOnly ?
                             <div className="comments-interaction">
-                                <a className="comments-statistic">3 Comments</a>
+                                <a className="comments-statistic">{numOfFeedbacks} Comments</a>
                             </div>
                                 :
                             <div className="comments-interaction">
@@ -174,7 +233,7 @@ export default class Comment extends Component {
                                     name="comment-button"
                                     onClick={this.handleOpenForm}>
                                 </a>
-                                <a className="comments-statistic" onClick={this.handleOpenForm}>3 Comments</a>
+                                    <a className="comments-statistic" onClick={this.handleOpenForm}>{numOfFeedbacks} Comments</a>
                             </div>
                         }
                         
@@ -198,16 +257,16 @@ export default class Comment extends Component {
                                         <form className="form-performance create">
                                             <FormGroup>
                                                 <TextareaFullscreenEditor ref={this.textareaEditor}
-                                                    className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
+                                                    className={`form-control comment-field ${!isEmpty(errors) && errors.feedbackContent ? 'input-validation-error' : ''}`}
                                                     disableFullScreenMode="true"
                                                     name="comment"
-                                                    value={prComment.content}
+                                                    value={feedbackContent}
                                                     onChange={this.handleCommentChange}
                                                 />
                                             </FormGroup>
 
                                             <FormGroup className="text-right">
-                                                <Button className="btn-cancel" onClick={this.handleCancel}>Cancle</Button>
+                                                <Button className="btn-cancel" onClick={this.handleCancel}>Cancel</Button>
                                                 <Button bsStyle="primary" name="save" onClick={this.handleSubmit} disabled={this.state.isSubmitting}>Send</Button>
                                             </FormGroup>
                                         </form>
@@ -216,7 +275,10 @@ export default class Comment extends Component {
                             </div>
                         </div>      
                     }
-                    <CommentList></CommentList>
+                    {
+                        feedbacks &&
+                        feedbacks.map(this.renderFeedback)
+                    }
                 </div>
             </Fragment>
         );
