@@ -209,7 +209,7 @@ export default class PerformanceRecord extends Component {
                 }
                 <Interaction className="pr-comment"
                     creator={creator}
-                    isReadOnly={this.props.feedbackReadOnly}
+                    isReadOnly={this.props.feedbackReadOnly || !record.isInCurrentPeriod}
                     recordId={record.performanceRecordId}
                     reactions={record.reactions}
                     feedbacks={record.feedbacks}

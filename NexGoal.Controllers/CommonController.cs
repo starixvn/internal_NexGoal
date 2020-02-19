@@ -107,7 +107,7 @@
         [HttpGet]
         public async Task<JsonResult> GetCurrentPerformancePeriod()
         {
-            PeriodBaseModel period = await commonService.GetCurrentPerformancePeriodAsync().ConfigureAwait(false);
+            PeriodModel period = await commonService.GetCurrentPerformancePeriodAsync();
 
             return Json(period);
         }

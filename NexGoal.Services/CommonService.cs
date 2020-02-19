@@ -14,6 +14,7 @@
     using NexGoal.Criteria.Report;
     using NexGoal.Models;
     using NexGoal.Models.Common;
+    using NexGoal.Models.Period;
 
     public class CommonService : ICommonService
     {
@@ -119,11 +120,11 @@
             return await baseService.GetDataAsync<PeriodBaseModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<PeriodBaseModel> GetCurrentPerformancePeriodAsync()
+        public async Task<PeriodModel> GetCurrentPerformancePeriodAsync()
         {
             var criteria = new GetCurrentPerformancePeriodCriteria();
 
-            return await baseService.GetDataEntityAsync<PeriodBaseModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataEntityAsync<PeriodModel>(criteria).ConfigureAwait(false);
         }
 
         public async Task<HRMSummaryModel> GetHRMSummaryAsync(int employeeId)

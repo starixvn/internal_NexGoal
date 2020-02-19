@@ -6,7 +6,6 @@
     public class PeriodModel : PeriodBaseModel
     {
         public int TargetTypeId { get; set; }
-        public string TargetType { get; set; }
         public DateTime? DisciplineStartDate { get; set; }
         public DateTime? DisciplineEndDate { get; set; }
         public int? TotalEmployees { get; set; }

@@ -30,6 +30,7 @@ export default class Interaction extends Component {
         const { reactions, feedbacks } = this.props;
         
         const isLiked = reactions && reactions.some(reaction => reaction.creator.code == currentUserCode);
+        const isCommented = feedbacks && feedbacks.some(feedback => feedback.creator.code == currentUserCode);
         const numOfLikes = reactions ? reactions.length : 0;
         const numOfFeedbacks = feedbacks ? feedbacks.length : 0;
 
@@ -39,7 +40,8 @@ export default class Interaction extends Component {
                 numOfLikes: numOfLikes,
                 reactions: reactions,
                 numOfFeedbacks: numOfFeedbacks,
-                feedbacks: feedbacks
+                feedbacks: feedbacks,
+                isCommented: isCommented
             }
         );
     }
@@ -131,9 +133,12 @@ export default class Interaction extends Component {
         }).then(response => {
             if (response.data.isSuccessful) {
                 let numOfFeedbacks = this.state.numOfFeedbacks + 1;
+                
+                this.setState({
+                    numOfFeedbacks: numOfFeedbacks
+                });
 
                 this.handleCancel();
-                this.setState({ numOfFeedbacks: numOfFeedbacks });
             }
             else {
                 toast.error(response.data.message);
@@ -145,7 +150,7 @@ export default class Interaction extends Component {
         const errors = {};
 
         if (!event.target.value) {
-            errors.feedbackContent = getResource('CommentRequired');
+            this.handleCancel();
         }
 
         this.setState({
@@ -184,6 +189,7 @@ export default class Interaction extends Component {
             reactions,
             numOfFeedbacks,
             feedbacks,
+            isCommented,
             errors } = this.state;
         const { isReadOnly } = this.props;
         const currentUserInfo = getCurrentUserInfo();
@@ -223,7 +229,7 @@ export default class Interaction extends Component {
                             <a className="likes-statistic" onClick={this.handleOpenLikeModalEvent}>{numOfLikes} Likes</a>
                         </div>
                         {
-                            isReadOnly ?
+                            (isReadOnly || isCommented) ?
                             <div className="comments-interaction">
                                 <a className="comments-statistic">{numOfFeedbacks} Comments</a>
                             </div>
@@ -239,7 +245,8 @@ export default class Interaction extends Component {
                         
                     </div>
                     {
-                        !isReadOnly &&
+                        (!isReadOnly && !isCommented)
+                        &&
                         <div className="comment-box">
                             <div className="avatar-user custom-avatar small">
                                 <img src={currentUserInfo.avatar} alt="avatar" className="avatar" />
@@ -266,8 +273,7 @@ export default class Interaction extends Component {
                                             </FormGroup>
 
                                             <FormGroup className="text-right">
-                                                <Button className="btn-cancel" onClick={this.handleCancel}>Cancel</Button>
-                                                <Button bsStyle="primary" name="save" onClick={this.handleSubmit} disabled={this.state.isSubmitting}>Send</Button>
+                                                <Button bsStyle="primary" name="save" onClick={this.handleSubmit} disabled={this.state.isSubmitting}>Publish</Button>
                                             </FormGroup>
                                         </form>
                                     }

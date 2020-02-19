@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Mvc.Rendering;
     using NexGoal.Models;
     using NexGoal.Models.Common;
+    using NexGoal.Models.Period;
 
     public interface ICommonService
     {
@@ -27,7 +28,7 @@
 
         Task<IEnumerable<PeriodBaseModel>> GetAllPeriodAsync();
 
-        Task<PeriodBaseModel> GetCurrentPerformancePeriodAsync();
+        Task<PeriodModel> GetCurrentPerformancePeriodAsync();
 
         Task<HRMSummaryModel> GetHRMSummaryAsync(int employeeId);
 

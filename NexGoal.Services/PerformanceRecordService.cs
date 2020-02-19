@@ -11,7 +11,9 @@
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PerformanceRecord;
     using NexGoal.Models;
+    using NexGoal.Models.Common;
     using NexGoal.Models.PerformanceRecord;
+    using NexGoal.Models.Period;
     using NexGoal.Repositories.Interfaces;
 
     public class PerformanceRecordService : IPerformanceRecordService
@@ -48,9 +50,11 @@
             IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetPerformanceRecordByEmployeeAsync(criteria);
             IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
 
+            var currentPeriod = await commonService.GetCurrentPerformancePeriodAsync();
+
             foreach (PerformanceRecord performanceRecord in performanceRecords)
             {
-                MappingDataForPerformanceRecord(performanceRecord, performanceGrades, employeeId);
+                MappingDataForPerformanceRecordAsync(performanceRecord, performanceGrades, employeeId, currentPeriod);
                 if (performanceRecord.TypeId == (int)PerformanceRecordType.SystemPerformanceAppraisal)
                 {
                     DecryptPAGrade(performanceRecord.PASummary, performanceGrades);
@@ -71,9 +75,11 @@
             IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetPerformanceTimelineAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
+            var currentPeriod = await commonService.GetCurrentPerformancePeriodAsync();
+
             foreach (PerformanceRecord performanceRecord in performanceRecords)
             {
-                MappingDataForPerformanceRecord(performanceRecord, performanceGrades, param.EmployeeId);
+                MappingDataForPerformanceRecordAsync(performanceRecord, performanceGrades, param.EmployeeId, currentPeriod);
             }
 
             return new Tuple<IEnumerable<PerformanceRecord>, int>(performanceRecords, criteria.TotalItems);
@@ -88,9 +94,11 @@
             IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetMemberPerformanceAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
+            var currentPeriod = await commonService.GetCurrentPerformancePeriodAsync();
+
             foreach (PerformanceRecord performanceRecord in performanceRecords)
             {
-                MappingDataForPerformanceRecord(performanceRecord, performanceGrades, actorId);
+                MappingDataForPerformanceRecordAsync(performanceRecord, performanceGrades, actorId, currentPeriod);
             }
 
             return performanceRecords;
@@ -106,9 +114,11 @@
             IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetMemberPerformanceDetailAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
+            var currentPeriod = await commonService.GetCurrentPerformancePeriodAsync();
+
             foreach (PerformanceRecord performanceRecord in performanceRecords)
             {
-                MappingDataForPerformanceRecord(performanceRecord, performanceGrades, actorId);
+                MappingDataForPerformanceRecordAsync(performanceRecord, performanceGrades, actorId, currentPeriod);
 
                 if (performanceRecord.TypeId == (int)PerformanceRecordType.SystemPerformanceAppraisal)
                 {
@@ -134,9 +144,11 @@
                 await performanceRecordRepository.GetMemberPerformanceTimelineAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
+            var currentPeriod = await commonService.GetCurrentPerformancePeriodAsync();
+
             foreach (PerformanceRecord performanceRecord in tuple.Item2)
             {
-                MappingDataForPerformanceRecord(performanceRecord, performanceGrades, param.ActorId);
+                MappingDataForPerformanceRecordAsync(performanceRecord, performanceGrades, param.ActorId, currentPeriod);
             }
 
             foreach (MemberPerformanceTimelineModel member in tuple.Item1)
@@ -159,9 +171,11 @@
                 CreatorId = creatorId
             };
 
+            var currentPeriod = await commonService.GetCurrentPerformancePeriodAsync();
+
             PerformanceRecord performanceRecord = await performanceRecordRepository.GetPerformanceRecordByIdAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
-            MappingDataForPerformanceRecord(performanceRecord, performanceGrades, creatorId);
+            MappingDataForPerformanceRecordAsync(performanceRecord, performanceGrades, creatorId, currentPeriod);
 
             return performanceRecord;
         }
@@ -173,9 +187,11 @@
                 PerformanceRecordId = performanceRecordId
             };
 
+            var currentPeriod = await commonService.GetCurrentPerformancePeriodAsync();
+
             PerformanceRecord performanceRecord = await performanceRecordRepository.GetDraftPerformanceRecordByIdAsync(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
-            MappingDataForPerformanceRecord(performanceRecord, performanceGrades, creatorId);
+            MappingDataForPerformanceRecordAsync(performanceRecord, performanceGrades, creatorId, currentPeriod);
 
             return performanceRecord;
         }
@@ -189,11 +205,12 @@
             };
 
             IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetPerformanceRecordByIdsAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
+            var currentPeriod = await commonService.GetCurrentPerformancePeriodAsync();
 
             foreach (PerformanceRecord performanceRecord in performanceRecords)
             {
-                MappingDataForPerformanceRecord(performanceRecord, performanceGrades, creatorId);
+                MappingDataForPerformanceRecordAsync(performanceRecord, performanceGrades, creatorId, currentPeriod);
             }
 
             return performanceRecords;
@@ -327,8 +344,10 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        private void MappingDataForPerformanceRecord(PerformanceRecord performanceRecord, IEnumerable<PerformanceGrade> performanceGrades, int actorId)
+        private void MappingDataForPerformanceRecordAsync(PerformanceRecord performanceRecord, IEnumerable<PerformanceGrade> performanceGrades, int actorId, PeriodModel currentPeriod)
         {
+            performanceRecord.IsInCurrentPeriod = performanceRecord.CreatedDate >= currentPeriod.DisciplineStartDate
+                && performanceRecord.CreatedDate <= currentPeriod.DisciplineEndDate;
             performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
             int.TryParse(performanceRecord.GradeId, out int gradeId);
             performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);

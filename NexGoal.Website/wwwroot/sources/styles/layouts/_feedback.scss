@@ -1,5 +1,67 @@
 ﻿@import "../abstracts/variables";
 
+.comment-pr {
+    grid-row: 5;
+    grid-column: 1 / 3;
+    position: relative;
+    margin: 0 16px;
+    border-top: 1px solid #e5e5e5;
+    padding-bottom: 12px;
+
+    .custom-comment-icon {
+        position: relative;
+        color: #0f0f0f;
+        top: 2px;
+        padding: 5px;
+    }
+
+    .custom-avatar {
+        padding: 16px 0 0 0;
+
+        .avatar {
+            align-self: normal;
+        }
+    }
+
+    .input-comment-pr {
+        grid-column: 2 / 4;
+
+        input {
+            padding: 0 12px;
+        }
+
+        textarea {
+            max-height: 80px;
+        }
+    }
+
+    .interaction-statistic {
+
+        .likes-interaction, .comments-interaction {
+            font-weight: bold;
+            display: inline;
+            padding-right: 15px;
+
+            a {
+                color: $text-color;
+            }
+
+            .active {
+                color: #2475d7;
+            }
+        }
+    }
+
+    .pr-comment-box {
+        .send-comment {
+            grid-row: 1;
+            position: absolute;
+            right: 5px;
+            margin-top: 2px;
+        }
+    }
+}
+
 .feedback {
     display: grid;
     grid-template-columns: 40px 1fr;
@@ -19,10 +81,14 @@
 
     .feedback-content {
         grid-column: 2;
-        padding: 16px;
+        padding: 0 12px 12px 12px;
+        margin: 16px 0 4px 0;
         color: #333;
         position: relative;
         font-size: 14px;
+        background-color: #eaedef;
+        border-radius: 10px;
+
 
         .person-info {
             padding: 5px 0;
@@ -41,6 +107,36 @@
             &:hover {
                 color: #959595;
             }
+        }
+
+        .icon-edit {
+            margin-left: 5px;
+
+            &:before {
+                color: #545454;
+            }
+
+            &:hover {
+                background: #0789D1;
+
+                &:before {
+                    color: #fff;
+                }
+            }
+        }
+
+        .custom-icon-edit,
+        .published-time {
+            display: inline;
+            float: right;
+        }
+
+        .published-time {
+            margin-top: 6px;
+            line-height: 100%;
+            font-size: 10px;
+            font-weight: normal;
+            color: #757575;
         }
 
         p {

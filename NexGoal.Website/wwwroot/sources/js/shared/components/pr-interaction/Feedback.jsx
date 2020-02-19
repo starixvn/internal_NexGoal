@@ -1,5 +1,5 @@
-﻿import React, { Component, Fragment } from 'react';
-import { axiosError, getRoleClassName, getCurrentUserInfo, resolveClientUrl } from '../../../common-functions';
+﻿import React, { Component } from 'react';
+import { getRoleClassName, calendar } from '../../../common-functions';
 
 
 export default class Feedback extends Component {
@@ -13,7 +13,6 @@ export default class Feedback extends Component {
 
     componentWillMount = () => {
         this.setState({
-            feedbacks: this.props.feedbacks,
             isLiked: false,
             showCollapseExpandButton: false,
             isExpanded: false
@@ -43,7 +42,9 @@ export default class Feedback extends Component {
 
     render() {
         const { isLiked, showCollapseExpandButton } = this.state;
-        const { feedback } = this.props;
+        const { feedback, isReadOnly } = this.props;
+        const curUserCode = document.getElementById('employeeInfo-code').value;
+        const isOwner = (curUserCode == feedback.creator.code); 
 
         let commentWrapperClass = 'expanded';
         let expandCommentButtonClass = 'see-less';
@@ -60,6 +61,11 @@ export default class Feedback extends Component {
                 <div className="feedback-content">
                     <div className="person-info">
                         <span className={getRoleClassName(feedback.roleId)}> {feedback.creator.nickName} </span>
+                        {
+                            isOwner && !isReadOnly &&
+                            <a class="fa icon-edit custom-icon-edit"></a>
+                        }
+                        <span class="published-time">{calendar(feedback.createdDate)}</span>
                     </div>
                     <p className={commentWrapperClass} ref={element => this.element = element}>{feedback.content}</p>
                     {
