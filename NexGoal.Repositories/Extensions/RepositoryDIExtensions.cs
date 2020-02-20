@@ -17,6 +17,7 @@
             services.AddScoped<IProbationRepository, ProbationRepository>();
             services.AddScoped<IPRReactionRepository, PRReactionRepository>();
             services.AddScoped<IPRFeedbackReactionRepository, PRFeedbackReactionRepository>();
+            services.AddScoped<IPRFeedbackRepository, PRFeedbackRepository>();
         }
     }
 }

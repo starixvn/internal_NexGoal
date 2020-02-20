@@ -63,8 +63,8 @@ class Rows extends Component {
     }
 
     renderSelfGrade = paProcesses => {
-        const process = paProcesses.filter(process => process.processId === PerformanceProcess.Self)[0];
-        return <span>{process.grade ? process.grade : EmptyPlaceHolder}</span>;
+        const selfProcess = paProcesses.filter(process => process.processId === PerformanceProcess.Self)[0];
+        return <span>{selfProcess.grade ? selfProcess.grade : EmptyPlaceHolder}</span>;
     }
 
     renderPMGrades = (paProcesses, paRecordId) => {

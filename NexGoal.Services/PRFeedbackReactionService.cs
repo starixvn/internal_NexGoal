@@ -46,7 +46,7 @@
             return commandResult;
         }
 
-        public async Task<IEnumerable<PRFeedbackReactionModel>> GetPRFeedbackReaction(GetPRFeedbackReactionParam param)
+        public async Task<IEnumerable<PRFeedbackReactionModel>> GetByFeedbackId(GetPRFeedbackReactionParam param)
         {
             var criteria = new GetPRFeedbackReactionCriteria
             {

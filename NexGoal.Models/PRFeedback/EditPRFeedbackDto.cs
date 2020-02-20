@@ -1,4 +1,4 @@
-﻿namespace NexGoal.Models.PRReaction
+﻿namespace NexGoal.Models.PRFeedback
 {
     public class EditPRFeedbackDto
     {

@@ -5,7 +5,6 @@ import { isEmpty } from 'lodash';
 import axios from 'axios';
 import { stringify } from 'qs';
 import Feedback from './Feedback';
-import getResource from '../../../resourceHelper';
 import TextareaFullscreenEditor from '../textarea-fullscreen/index';
 import { PostRequestHeaders } from '../../../constants';
 import { axiosError, getRoleClassName, getCurrentUserInfo, resolveClientUrl } from '../../../common-functions';
@@ -19,7 +18,7 @@ export default class Interaction extends Component {
             isLiked: false,
             showLikeModal: false,
             isOpenForm: false,
-            feedbackContent: ""
+            feedbackContent: ''
         };
 
         this.textareaEditor = React.createRef();
@@ -28,9 +27,8 @@ export default class Interaction extends Component {
     componentWillMount = () => {
         const currentUserCode = document.getElementById('employeeInfo-code').value;
         const { reactions, feedbacks } = this.props;
-        
-        const isLiked = reactions && reactions.some(reaction => reaction.creator.code == currentUserCode);
-        const isCommented = feedbacks && feedbacks.some(feedback => feedback.creator.code == currentUserCode);
+        const isLiked = reactions && reactions.some(reaction => reaction.creator.code === currentUserCode);
+        const isCommented = feedbacks && feedbacks.some(feedback => feedback.creator.code === currentUserCode);
         const numOfLikes = reactions ? reactions.length : 0;
         const numOfFeedbacks = feedbacks ? feedbacks.length : 0;
 
@@ -63,17 +61,11 @@ export default class Interaction extends Component {
             }),
             headers: PostRequestHeaders
         }).then(response => {
-            if (!response.data.isSuccessful)
-            {
-                var numOfLikes = isLike ? this.state.numOfLikes - 1 : this.state.numOfLikes + 1;
+            if (!response.data.isSuccessful) {
+                const numOfLikes = isLike ? this.state.numOfLikes - 1 : this.state.numOfLikes + 1;
                 this.setState({ numOfLikes: numOfLikes, isLiked: !isLike });
             }
-        }).catch(axiosError => {
-            var numOfLikes = this.state.isLiked ? this.state.numOfLikes - 1
-                : this.state.numOfLikes + 1;
-            this.setState({ numOfLikes: numOfLikes, isLiked: !this.state.isLiked });
-        });
-        
+        }).catch(axiosError);
     }
 
     handleCloseLikeModal = () => {
@@ -82,16 +74,20 @@ export default class Interaction extends Component {
 
     handleOpenLikeModalEvent = event => {
         event.preventDefault();
+
+        if (this.state.numOfLikes == 0) {
+            return;
+        }
+
         axios.get(
-            resolveClientUrl("PRReaction/GetByPRId"),
+            resolveClientUrl('PRReaction/GetByPRId'),
             { params: { PerformanceRecordId: this.props.recordId, ActorId: 0 } }
         ).then(response => {
             const reactions = response.data;
             const numOfLikes = reactions ? reactions.length : 0;
 
             this.setState({ showLikeModal: true, reactions: reactions, numOfLikes: numOfLikes });
-        }).catch(axiosError => {
-        });
+        }).catch(axiosError);
     }
 
     handleOpenForm = () => {
@@ -103,18 +99,18 @@ export default class Interaction extends Component {
     handleCancel = () => {
         this.setState({
             isOpenForm: false,
-            feedbackContent: "",
+            feedbackContent: '',
             errors: {}
         });
     }
 
     handleSubmit = () => {
-        const { feedbackContent } = this.state; 
+        const { feedbackContent } = this.state;
 
-        if (feedbackContent == "") {
+        if (feedbackContent === '') {
             this.setState({
                 errors: {
-                    feedbackContent: "Comment can't be empty"
+                    feedbackContent: 'Comment can\'t be empty'
                 }
             });
 
@@ -122,7 +118,7 @@ export default class Interaction extends Component {
         }
 
         axios({
-            url: resolveClientUrl("PRFeedback/Create"),
+            url: resolveClientUrl('PRFeedback/Create'),
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -133,9 +129,11 @@ export default class Interaction extends Component {
         }).then(response => {
             if (response.data.isSuccessful) {
                 let numOfFeedbacks = this.state.numOfFeedbacks + 1;
-                
+                this.getNewFeedback();
+
                 this.setState({
-                    numOfFeedbacks: numOfFeedbacks
+                    numOfFeedbacks: numOfFeedbacks,
+                    isCommented: true
                 });
 
                 this.handleCancel();
@@ -175,8 +173,21 @@ export default class Interaction extends Component {
             <Feedback
                 feedback={feedback}
                 isReadOnly={this.props.isReadOnly}
+                recordId={this.props.recordId}
+                
             />
             );
+    }
+
+    getNewFeedback = () => {
+        axios.get(resolveClientUrl('PRFeedback/GetByPRId'),
+            {
+                params: {
+                    PerformanceRecordId: this.props.recordId
+                }
+            }).then(response => {
+                this.setState({ feedbacks: response.data });
+            }).catch(axiosError);
     }
 
     render() {
@@ -191,7 +202,7 @@ export default class Interaction extends Component {
             feedbacks,
             isCommented,
             errors } = this.state;
-        const { isReadOnly } = this.props;
+        const { isReadOnly, isDisableComment } = this.props;
         const currentUserInfo = getCurrentUserInfo();
 
         return (
@@ -229,23 +240,24 @@ export default class Interaction extends Component {
                             <a className="likes-statistic" onClick={this.handleOpenLikeModalEvent}>{numOfLikes} Likes</a>
                         </div>
                         {
-                            (isReadOnly || isCommented) ?
-                            <div className="comments-interaction">
-                                <a className="comments-statistic">{numOfFeedbacks} Comments</a>
-                            </div>
-                                :
-                            <div className="comments-interaction">
-                                <a className="fa icon-comment-text-outline custom-comment-icon"
-                                    name="comment-button"
-                                    onClick={this.handleOpenForm}>
-                                </a>
-                                    <a className="comments-statistic" onClick={this.handleOpenForm}>{numOfFeedbacks} Comments</a>
-                            </div>
+                            !isDisableComment && (
+                                (isReadOnly || isCommented) ?
+                                    <div className="comments-interaction">
+                                        <a className="comments-statistic">{numOfFeedbacks} Comments</a>
+                                    </div>
+                                    :
+                                    <div className="comments-interaction">
+                                        <a className="fa icon-comment-text-outline custom-comment-icon"
+                                            name="comment-button"
+                                            onClick={this.handleOpenForm}>
+                                        </a>
+                                        <a className="comments-statistic" onClick={this.handleOpenForm}>{numOfFeedbacks} Comments</a>
+                                    </div>
+                                )
                         }
-                        
                     </div>
                     {
-                        (!isReadOnly && !isCommented)
+                        (!isReadOnly && !isCommented && !isDisableComment)
                         &&
                         <div className="comment-box">
                             <div className="avatar-user custom-avatar small">
@@ -279,7 +291,7 @@ export default class Interaction extends Component {
                                     }
                                 </div>
                             </div>
-                        </div>      
+                        </div>
                     }
                     {
                         feedbacks &&

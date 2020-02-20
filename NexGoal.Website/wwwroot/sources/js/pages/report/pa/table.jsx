@@ -197,9 +197,7 @@ export default class Table extends Component {
         }
     }
 
-    renderGrade = process => {
-        return process.grade ? process.grade : EmptyPlaceHolder;
-    }
+    renderGrade = process => process.grade ? process.grade : EmptyPlaceHolder;
 
     render() {
         let content = '';

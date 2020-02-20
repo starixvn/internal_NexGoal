@@ -1,20 +1,24 @@
 ﻿namespace NexGoal.Services
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PRFeedback;
-    using NexGoal.Criteria.PRFeedbackReaction;
-    using NexGoal.Models.PRFeedbackReaction;
+    using NexGoal.Criteria.PRReaction;
+    using NexGoal.Models.PRFeedback;
     using NexGoal.Models.PRReaction;
+    using NexGoal.Repositories;
 
     public class PRFeedbackService : IPRFeedbackService
     {
         private readonly IBaseService baseService;
+        private readonly IPRFeedbackRepository prFeedbackRepository;
 
-        public PRFeedbackService(IBaseService baseService)
+        public PRFeedbackService(IBaseService baseService, IPRFeedbackRepository prFeedbackRepository)
         {
             this.baseService = baseService;
+            this.prFeedbackRepository = prFeedbackRepository;
         }
 
         public async Task<CommandResult> CreatePRFeedback(AddPRFeedbackDto prFeedback)
@@ -45,30 +49,17 @@
             return commandResult;
         }
 
-        public async Task<CommandResult> CreatePRFeedbackReaction(AddPRFeedbackReactionDto prFeedbackReaction)
+        public async Task<IEnumerable<PRFeedbackModel>> GetPRFeedback(GetPRFeedbackParam param)
         {
-            var criteria = new AddPRFeedbackReactionCriteria
+            var criteria = new GetPRFeedbackByPRIdCriteria
             {
-                PRFeedbackId = prFeedbackReaction.PRFeedbackId,
-                CreatorId = prFeedbackReaction.CreatorId
+                PerformanceRecordId = param.PerformanceRecordId,
+                ActorID = param.ActorId
             };
 
-            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            var feedbacks = await prFeedbackRepository.GetPRFeedbacks(criteria);
 
-            return commandResult;
-        }
-
-        public async Task<CommandResult> RemovePRFeedbackReaction(RemovePRFeedbackReactionDto prFeedbackReaction)
-        {
-            var criteria = new RemovePRFeedbackReactionCriteria
-            {
-                PRFeedbackId = prFeedbackReaction.PRFeedbackId,
-                CreatorId = prFeedbackReaction.CreatorId
-            };
-
-            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
-
-            return commandResult;
+            return feedbacks;
         }
     }
 }

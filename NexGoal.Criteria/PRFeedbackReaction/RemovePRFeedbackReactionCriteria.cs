@@ -8,7 +8,7 @@
 
         public int CreatorId { get; set; }
 
-        public override string GetSettingKey() => "PRFeedbackReation_Delete";
+        public override string GetSettingKey() => "PRFeedbackReaction_Delete";
 
         public override bool IsValid()
         {
