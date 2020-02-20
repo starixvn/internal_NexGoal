@@ -218,7 +218,7 @@
         public async Task GetCurrentPerformancePeriod_WhenCalled_ReturnAsExpectedPeriod()
         {
             // Arrange
-            var period = new PeriodBaseModel { PeriodId = 1, Name = "1h-2018" };
+            var period = new PeriodModel { PeriodId = 1, Name = "1h-2018" };
             var controller = GetCommonController();
             commonService.GetCurrentPerformancePeriodAsync().Returns(period);
 
@@ -227,7 +227,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
-            var result = Assert.IsAssignableFrom<PeriodBaseModel>(jsonResult.Value);
+            var result = Assert.IsAssignableFrom<PeriodModel>(jsonResult.Value);
             Assert.Equal(period, result);
         }
 

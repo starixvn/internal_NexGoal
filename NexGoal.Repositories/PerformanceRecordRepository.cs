@@ -16,6 +16,7 @@
     using NexGoal.Models.PRReaction;
     using NexGoal.Repositories.Interfaces;
 
+#pragma warning disable S1192 // String literals should not be duplicated
     public class PerformanceRecordRepository : IPerformanceRecordRepository
     {
         public async Task<IEnumerable<PerformanceRecord>> GetPerformanceRecordByEmployeeAsync(ICriteria criteria)

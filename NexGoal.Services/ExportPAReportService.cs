@@ -223,14 +223,10 @@
             IEnumerable<PAProcessModel> paProcesses,
             PerformanceProcess processId)
         {
-            var processes = paProcesses.Where(p => p.ProcessId == (int)processId);
-
-            if (processes.Any())
+            var processes = paProcesses.Where(p => p.ProcessId == (byte)processId);
+            foreach (PAProcessModel process in processes)
             {
-                foreach (var process in processes)
-                {
-                    WritePerformanceRecordContent(cell, process);
-                }
+                WritePerformanceRecordContent(cell, process);
             }
         }
 

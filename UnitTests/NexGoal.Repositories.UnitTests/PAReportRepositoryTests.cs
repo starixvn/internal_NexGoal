@@ -69,7 +69,7 @@ namespace NexGoal.Repositories.UnitTests
             var actual = await repository.GetPAReportAsync(criteria);
 
             // Assert
-            Assert.Equal(performanceAppraisals, actual.Item1);
+            Assert.Equal(performanceAppraisals, actual.Item2);
             Assert.Equal(performanceAppraisals.First().Processes, processes.Where(x => x.PARecordId == performanceAppraisals.First().PARecordId));
             Assert.Equal(performanceAppraisals[1].Processes, processes.Where(x => x.PARecordId == performanceAppraisals[1].PARecordId));
         }

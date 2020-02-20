@@ -11,5 +11,7 @@
         public string EmployeeIds { get; set; }
 
         public bool? IsRevised { get; set; }
+
+        public bool IsExportExcel { get; set; }
     }
 }

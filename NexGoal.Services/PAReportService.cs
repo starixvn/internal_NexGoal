@@ -12,6 +12,7 @@
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.NominationPeriod;
     using NexGoal.Models.PARecord;
+    using NexGoal.Models.PerformanceRecord;
     using NexGoal.Models.Report;
     using NexGoal.Repositories;
     using NexGoal.Resources;
@@ -55,20 +56,21 @@
                 PeriodIds = param.PeriodIds,
                 GroupIds = param.GroupIds,
                 EmployeeIds = param.EmployeeIds,
-                IsRevised = param.IsRevised
+                IsRevised = param.IsRevised,
+                IsExportExcel = param.IsExportExcel
             };
 
-            var tuple = await reportRepository.GetPAReportAsync(criteria);
+            Tuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>> tuple = param.IsExportExcel
+                ? await reportRepository.GetDataForExportPAReportAsync(criteria) : await reportRepository.GetPAReportAsync(criteria);
             IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
-            var periods = tuple.Item2;
 
-            MappingData(tuple.Item1, performanceGrades);
+            MappingData(tuple.Item2, performanceGrades);
 
-            var groupRecords = tuple.Item1.GroupBy(r => r.Period.PeriodId)
+            var groupRecords = tuple.Item2.GroupBy(r => r.PeriodId)
                 .Select(item => new PARecordGroupByPeriod
                 {
                     PeriodId = item.Key,
-                    Period = periods.FirstOrDefault(p => p.PeriodId == item.Key),
+                    Period = tuple.Item1.FirstOrDefault(p => p.PeriodId == item.Key),
                     Groups = item.GroupBy(g => new { g.Employee.GroupCode, g.Employee.GroupName })
                         .Select(group => new PAReportModel
                         {
@@ -77,7 +79,7 @@
                         })
                 }).ToList();
 
-            var emptyPeriods = periods.Where(p => !groupRecords.Any(g => g.PeriodId == p.PeriodId))
+            var emptyPeriods = tuple.Item1.Where(p => !groupRecords.Any(g => g.PeriodId == p.PeriodId))
                 .Select(x => new PARecordGroupByPeriod
                 {
                     PeriodId = x.PeriodId,
@@ -109,6 +111,12 @@
                 foreach (PAProcessModel process in performanceAppraisal.Processes)
                 {
                     process.Grade = GetGradeOfPAProcess(process, performanceGrades);
+                    foreach (PerformanceRecord performanceRecord in process.RelatedPerformanceRecords)
+                    {
+                        performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
+                        int.TryParse(performanceRecord.GradeId, out gradeId);
+                        performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+                    }
                 }
             }
         }

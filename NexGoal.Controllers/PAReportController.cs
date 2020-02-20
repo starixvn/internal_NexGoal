@@ -53,6 +53,7 @@
         public async Task<IActionResult> ExportExcel(GetPARecordMultiPeriodParam model)
         {
             model.ActorId = sessionService.EmployeeId;
+            model.IsExportExcel = true;
             byte[] fileContent = await exportService.ExportExcelAsync(model);
             const string fileName = "PA Report";
 

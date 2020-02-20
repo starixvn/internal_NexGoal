@@ -13,6 +13,7 @@
     using NexGoal.Models.PRFeedbackReaction;
     using NexGoal.Models.PRReaction;
 
+#pragma warning disable S1192 // String literals should not be duplicated
     public class PARepository : IPARepository
     {
         public async Task<IEnumerable<PerformanceAppraisalResult>> GetPerformanceAppraisalResultAsync(ICriteria criteria)
@@ -76,7 +77,7 @@
                                 record.Creator = creator;
                                 return record;
                             },
-                            "EmployeeId, EmployeeId");
+                            "EmployeeId");
                         var projects = multi.Read<ProjectModel>();
                         var reactions = multi.Read<PRReactionModel, Employee, PRReactionModel>(
                             (reaction, creator) =>
@@ -160,7 +161,8 @@
             {
                 var recordIds = !string.IsNullOrWhiteSpace(process.RelatedPerformanceRecordIds)
                     ? process.RelatedPerformanceRecordIds.Split(',') : new string[] { };
-                process.RelatedPerformanceRecords = performanceRecords.Where(x => recordIds.Any(y => y == x.PerformanceRecordId.ToString()));
+                process.RelatedPerformanceRecords = performanceRecords.Where(x => recordIds.Any(y => y == x.PerformanceRecordId.ToString()))
+                    .OrderByDescending(x => x.CreatedDate);
             }
         }
 

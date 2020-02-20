@@ -1,4 +1,5 @@
-﻿@import "../../abstracts/mixins";
+﻿@import '~react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+@import "../../abstracts/mixins";
 @import "../../abstracts/variables";
 @import "../../components/buttons";
 @import "../../components/form-filter";
@@ -10,12 +11,12 @@
 @import "../../components/messages";
 @import "../../components/tables";
 @import "../../components/table-search";
+@import "../../components/toast";
+@import "../../components/sticky-block";
 @import "../../layouts/record";
 @import "../../layouts/role";
-@import '~react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-@import "../../components/toast";
+@import "../../layouts/feedback";
 @import "../member/performance-appraisal";
-@import "../../components/sticky-block";
 
 .pa-report-table {
     margin-bottom: 24px;
