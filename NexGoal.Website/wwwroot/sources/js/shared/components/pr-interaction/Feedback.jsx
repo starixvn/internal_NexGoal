@@ -1,9 +1,10 @@
 ﻿import React, { Component, Fragment } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, FormGroup } from 'react-bootstrap';
 import axios from 'axios';
 import { stringify } from 'qs';
+import { isEmpty } from 'lodash';
 import { PostRequestHeaders } from '../../../constants';
-import { getRoleClassName, calendar, resolveClientUrl } from '../../../common-functions';
+import { getRoleClassName, calendar, resolveClientUrl, axiosError } from '../../../common-functions';
 
 
 export default class Feedback extends Component {
@@ -15,7 +16,10 @@ export default class Feedback extends Component {
             showLikeModal: false,
             showCollapseExpandButton: false,
             isExpanded: false,
-            numOfLikes: 0
+            numOfLikes: 0,
+            isEditing: false,
+            content: '',
+            enableSaveChange: false
         };
     };
 
@@ -27,7 +31,8 @@ export default class Feedback extends Component {
 
         this.setState({
             isLiked: isLiked,
-            numOfLikes: numOfLikes
+            numOfLikes: numOfLikes,
+            content: this.props.feedback.content
         })
     }
 
@@ -83,6 +88,46 @@ export default class Feedback extends Component {
         }).catch(axiosError);
     }
 
+    handleEditFeedback = () => {
+        this.setState({
+            isEditing: true,
+            enableSaveChange: false,
+            newContent: this.state.content
+        })
+    }
+
+    handleCancelChange = () => {
+        this.setState({
+            isEditing: false,
+            enableSaveChange: false,
+            newContent: this.state.content
+        })
+    }
+
+    handleChangeFeedbackContent = event => {
+        const newContent = event.target.value;
+        const oldContent = this.state.content;
+        const enableSaveChange = (newContent !== oldContent);
+
+        this.setState({
+            newContent: newContent,
+            enableSaveChange: enableSaveChange
+        })
+
+    }
+
+    handleSaveChange = event => {
+        event.preventDefault();
+
+        if (this.state.newContent === '') {
+            this.setState({
+                errors: {
+                    feedbackContent : 'Content cant be empty'
+                }
+            })
+        }
+    }
+
     collapseExpandComment = () => {
         this.setState({
             isExpanded: !this.state.isExpanded
@@ -90,6 +135,10 @@ export default class Feedback extends Component {
     }
 
     detectCollapseExpandComment() {
+        if (!this.element) {
+            return;
+        }
+
         const height = this.element.offsetHeight;
         if (height > 40) {
             this.setState({
@@ -111,7 +160,16 @@ export default class Feedback extends Component {
     }
 
     render() {
-        const { isLiked, showCollapseExpandButton, showLikeModal, numOfLikes } = this.state;
+
+        const { isLiked,
+            showCollapseExpandButton,
+            showLikeModal,
+            numOfLikes,
+            isEditing,
+            newContent,
+            enableSaveChange,
+            content,
+            errors} = this.state;
         const { feedback, isReadOnly } = this.props;
         const reactions = feedback.reactions;
         const curUserCode = document.getElementById('employeeInfo-code').value;
@@ -155,16 +213,33 @@ export default class Feedback extends Component {
                             <span className={getRoleClassName(feedback.roleId)}> {feedback.creator.nickName} </span>
                             {
                                 isOwner && !isReadOnly &&
-                                <a class="fa icon-edit custom-icon-edit"></a>
+                                <a class="fa icon-edit custom-icon-edit" onClick={this.handleEditFeedback}></a>
                             }
                             <span class="published-time">{calendar(feedback.createdDate)}</span>
                         </div>
-                        <p className={commentWrapperClass} ref={element => this.element = element}>{feedback.content}</p>
                         {
-                            showCollapseExpandButton ?
-                                <span className={expandCommentButtonClass} onClick={this.collapseExpandComment} />
-                                : null
+                            !isEditing ?
+                            <div>
+                                    <p className={commentWrapperClass} ref={element => this.element = element}>{content}</p>
+                                {
+                                    showCollapseExpandButton ?
+                                        <span className={expandCommentButtonClass} onClick={this.collapseExpandComment} />
+                                        : null
+                                }
+                            </div>
+                            :
+                            <div className="editFeedback">
+                                    <textarea className={`form-control comment-field ${!isEmpty(errors) && errors.feedbackContent ? 'input-validation-error' : ''}`}
+                                        onChange={this.handleChangeFeedbackContent}
+                                        value={newContent}
+                                        autoFocus />
+                                    <FormGroup className="text-right">
+                                        <Button className="btn-cancel btn btn-default" name="cancel" onClick={this.handleCancelChange}>Cancel</Button>
+                                        <Button bsStyle="primary" name="save" onClick={this.handleSaveChange} disabled={!enableSaveChange}>Save Change</Button>
+                                    </FormGroup>
+                            </div>
                         }
+                        
                     </div>
                     <div className="feedback-reaction">
                         <div className="interaction-statistic">

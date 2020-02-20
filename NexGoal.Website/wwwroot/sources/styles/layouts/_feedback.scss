@@ -89,6 +89,21 @@
         background-color: #eaedef;
         border-radius: 10px;
 
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .comment-field {
+            height: 60px;
+            resize: vertical;
+            margin-bottom: 8px;
+        }
+
+        .editFeedback {
+            .btn-cancel {
+                margin-right: 16px;
+            }
+        }
 
         .person-info {
             padding: 5px 0;
