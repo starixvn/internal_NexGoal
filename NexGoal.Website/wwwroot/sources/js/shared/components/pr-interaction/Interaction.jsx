@@ -48,7 +48,8 @@ export default class Interaction extends Component {
     handleLikeEvent = event => {
         event.preventDefault();
         const isLike = !this.state.isLiked;
-        const numOfLikes = isLike ? this.state.numOfLikes + 1 : this.state.numOfLikes - 1;
+        const oldNumOfLikes = this.state.numOfLikes;
+        const numOfLikes = isLike ? oldNumOfLikes + 1 : oldNumOfLikes - 1;
         const url = 'PRReaction/' + (isLike ? 'Create' : 'Remove');
 
         this.setState({ numOfLikes: numOfLikes, isLiked: isLike });
@@ -63,8 +64,7 @@ export default class Interaction extends Component {
             headers: PostRequestHeaders
         }).then(response => {
             if (!response.data.isSuccessful) {
-                const numOfLikes = isLike ? this.state.numOfLikes - 1 : this.state.numOfLikes + 1;
-                this.setState({ numOfLikes: numOfLikes, isLiked: !isLike });
+                this.setState({ numOfLikes: oldNumOfLikes, isLiked: !isLike });
             }
         }).catch(axiosError);
     }
@@ -76,7 +76,7 @@ export default class Interaction extends Component {
     handleOpenLikeModalEvent = event => {
         event.preventDefault();
 
-        if (this.state.numOfLikes == 0) {
+        if (this.state.numOfLikes === 0) {
             return;
         }
 
@@ -129,7 +129,7 @@ export default class Interaction extends Component {
             headers: PostRequestHeaders
         }).then(response => {
             if (response.data.isSuccessful) {
-                let numOfFeedbacks = this.state.numOfFeedbacks + 1;
+                const numOfFeedbacks = this.state.numOfFeedbacks + 1;
                 this.getNewFeedback();
 
                 this.setState({
@@ -175,8 +175,95 @@ export default class Interaction extends Component {
                 feedback={feedback}
                 isReadOnly={this.props.isReadOnly}
                 recordId={this.props.recordId}
-                
             />
+            );
+    }
+
+    renderFeedbackInputBox = () => {
+        const {
+            isOpenForm,
+            feedbackContent,
+            isCommented,
+            errors } = this.state;
+        const { isReadOnly, isDisableComment } = this.props;
+        const currentUserInfo = getCurrentUserInfo();
+
+        return (
+            (!isReadOnly && !isCommented && !isDisableComment)
+            &&
+            <div className="comment-box">
+                <div className="avatar-user custom-avatar small">
+                    <img src={currentUserInfo.avatar} alt="avatar" className="avatar" />
+                    <div className="input-comment-pr">
+                        {
+                            !isOpenForm &&
+                            <input className="form-control"
+                                style={{ height: 30 }}
+                                placeholder="Add a comment..."
+                                onClick={this.handleOpenForm}
+                            />
+                        }
+                        {
+                            isOpenForm &&
+                            <form className="form-performance create">
+                                <FormGroup>
+                                    <TextareaFullscreenEditor ref={this.textareaEditor}
+                                        className={`form-control comment-field ${!isEmpty(errors) && errors.feedbackContent ? 'input-validation-error' : ''}`}
+                                        disableFullScreenMode="true"
+                                        name="comment"
+                                        value={feedbackContent}
+                                        onChange={this.handleCommentChange}
+                                    />
+                                </FormGroup>
+
+                                <FormGroup className="text-right">
+                                    <Button bsStyle="primary" name="save" onClick={this.handleSubmit} disabled={this.state.isSubmitting}>Publish</Button>
+                                </FormGroup>
+                            </form>
+                        }
+                    </div>
+                </div>
+            </div>
+            );
+    }
+
+    renderInteractionBar = () => {
+        const {
+            isLiked,
+            numOfLikes,
+            numOfFeedbacks,
+            isCommented } = this.state;
+        const { isReadOnly, isDisableComment } = this.props;
+
+        return (
+            <div className="interaction-statistic">
+                <div className="likes-interaction">
+                    {
+                        !isReadOnly &&
+                        <a className={`fa ${isLiked ? 'icon-thumb-up active' : 'icon-thumb-up-line'}`}
+                            name="like-button"
+                            onClick={this.handleLikeEvent}
+                        ></a>
+                    }
+                    <a className="likes-statistic" onClick={this.handleOpenLikeModalEvent}>{numOfLikes} Likes</a>
+                </div>
+                {
+                    !isDisableComment && (
+                        (isReadOnly || isCommented) ?
+                            <div className="comments-interaction">
+                                <a className="comments-statistic">{numOfFeedbacks} Comments</a>
+                            </div>
+                            :
+                            <div className="comments-interaction">
+                                <a className="fa icon-comment-text-outline custom-comment-icon"
+                                    name="comment-button"
+                                    onClick={this.handleOpenForm}>
+                                </a>
+                                <a className="comments-statistic" onClick={this.handleOpenForm}>{numOfFeedbacks} Comments</a>
+                            </div>
+                    )
+                }
+            </div>
             );
     }
 
@@ -192,19 +279,7 @@ export default class Interaction extends Component {
     }
 
     render() {
-        const {
-            isLiked,
-            isOpenForm,
-            showLikeModal,
-            feedbackContent,
-            numOfLikes,
-            reactions,
-            numOfFeedbacks,
-            feedbacks,
-            isCommented,
-            errors } = this.state;
-        const { isReadOnly, isDisableComment } = this.props;
-        const currentUserInfo = getCurrentUserInfo();
+        const { showLikeModal, numOfLikes, reactions, feedbacks} = this.state;
 
         return (
             <Fragment>
@@ -229,71 +304,8 @@ export default class Interaction extends Component {
                     </Modal.Footer>
                 </Modal>
                 <div className="comment-pr">
-                    <div className="interaction-statistic">
-                        <div className="likes-interaction">
-                            {
-                                !isReadOnly &&
-                                <a className={`fa ${isLiked ? 'icon-thumb-up active' : 'icon-thumb-up-line'}`}
-                                    name="like-button"
-                                    onClick={this.handleLikeEvent}
-                                ></a>
-                            }
-                            <a className="likes-statistic" onClick={this.handleOpenLikeModalEvent}>{numOfLikes} Likes</a>
-                        </div>
-                        {
-                            !isDisableComment && (
-                                (isReadOnly || isCommented) ?
-                                    <div className="comments-interaction">
-                                        <a className="comments-statistic">{numOfFeedbacks} Comments</a>
-                                    </div>
-                                    :
-                                    <div className="comments-interaction">
-                                        <a className="fa icon-comment-text-outline custom-comment-icon"
-                                            name="comment-button"
-                                            onClick={this.handleOpenForm}>
-                                        </a>
-                                        <a className="comments-statistic" onClick={this.handleOpenForm}>{numOfFeedbacks} Comments</a>
-                                    </div>
-                                )
-                        }
-                    </div>
-                    {
-                        (!isReadOnly && !isCommented && !isDisableComment)
-                        &&
-                        <div className="comment-box">
-                            <div className="avatar-user custom-avatar small">
-                                <img src={currentUserInfo.avatar} alt="avatar" className="avatar" />
-                                <div className="input-comment-pr">
-                                    {
-                                        !isOpenForm &&
-                                        <input className="form-control"
-                                            style={{ height: 30 }}
-                                            placeholder="Add a comment..."
-                                            onClick={this.handleOpenForm}
-                                        />
-                                    }
-                                    {
-                                        isOpenForm &&
-                                        <form className="form-performance create">
-                                            <FormGroup>
-                                                <TextareaFullscreenEditor ref={this.textareaEditor}
-                                                    className={`form-control comment-field ${!isEmpty(errors) && errors.feedbackContent ? 'input-validation-error' : ''}`}
-                                                    disableFullScreenMode="true"
-                                                    name="comment"
-                                                    value={feedbackContent}
-                                                    onChange={this.handleCommentChange}
-                                                />
-                                            </FormGroup>
-
-                                            <FormGroup className="text-right">
-                                                <Button bsStyle="primary" name="save" onClick={this.handleSubmit} disabled={this.state.isSubmitting}>Publish</Button>
-                                            </FormGroup>
-                                        </form>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    }
+                    { this.renderInteractionBar() }
+                    { this.renderFeedbackInputBox() }
                     {
                         feedbacks &&
                         feedbacks.map(this.renderFeedback)

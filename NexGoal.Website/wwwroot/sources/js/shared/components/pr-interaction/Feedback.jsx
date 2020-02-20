@@ -26,7 +26,7 @@ export default class Feedback extends Component {
     componentWillMount = () => {
         const reactions = this.props.feedback.reactions;
         const curUserCode = document.getElementById('employeeInfo-code').value;
-        const isLiked = reactions && reactions.some(reaction => reaction.creator.code == curUserCode);
+        const isLiked = reactions && reactions.some(reaction => reaction.creator.code === curUserCode);
         const numOfLikes = reactions ? reactions.length : 0;
 
         this.setState({
@@ -60,7 +60,7 @@ export default class Feedback extends Component {
             headers: PostRequestHeaders
         }).then(response => {
             if (!response.data.isSuccessful) {
-                var numOfLikes = isLike ? this.state.numOfLikes - 1 : this.state.numOfLikes + 1;
+                const numOfLikes = isLike ? this.state.numOfLikes - 1 : this.state.numOfLikes + 1;
                 this.setState({ numOfLikes: numOfLikes, isLiked: !isLike });
             }
         }).catch(axiosError);
@@ -73,7 +73,7 @@ export default class Feedback extends Component {
     handleOpenLikeModalEvent = event => {
         event.preventDefault();
 
-        if (this.state.numOfLikes == 0) {
+        if (this.state.numOfLikes === 0) {
             return;
         }
 
@@ -93,7 +93,7 @@ export default class Feedback extends Component {
             isEditing: true,
             enableSaveChange: false,
             newContent: this.state.content
-        })
+        });
     }
 
     handleCancelChange = () => {
@@ -173,7 +173,7 @@ export default class Feedback extends Component {
         const { feedback, isReadOnly } = this.props;
         const reactions = feedback.reactions;
         const curUserCode = document.getElementById('employeeInfo-code').value;
-        const isOwner = (curUserCode == feedback.creator.code); 
+        const isOwner = (curUserCode === feedback.creator.code); 
 
         let commentWrapperClass = 'expanded';
         let expandCommentButtonClass = 'see-less';
