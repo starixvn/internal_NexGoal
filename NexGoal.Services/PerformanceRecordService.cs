@@ -15,6 +15,7 @@
     using NexGoal.Models.PerformanceRecord;
     using NexGoal.Models.Period;
     using NexGoal.Repositories.Interfaces;
+    using NexGoal.Resources;
 
     public class PerformanceRecordService : IPerformanceRecordService
     {
@@ -369,15 +370,24 @@
             int.TryParse(paSummary.OriginalGradeId, out int gradeId);
             paSummary.OriginalGrade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
 
-            foreach (var detail in paSummary.GradeDetails)
+            foreach (PAGradeDetailModel detail in paSummary.GradeDetails)
             {
-                detail.GradeId = cryptoService.Decrypt(detail.GradeId);
-
-                if (int.TryParse(detail.GradeId, out gradeId))
-                {
-                    detail.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
-                }
+                detail.Grade = GetGradeOfPAProcess(detail, performanceGrades);
             }
+        }
+
+        private string GetGradeOfPAProcess(PAGradeDetailModel process, IEnumerable<PerformanceGrade> performanceGrades)
+        {
+            process.GradeId = cryptoService.Decrypt(process.GradeId);
+            int.TryParse(process.GradeId, out int gradeId);
+            PerformanceGrade grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+
+            if (grade != null)
+            {
+                return grade.Name;
+            }
+
+            return !string.IsNullOrWhiteSpace(process.RelatedPerformanceRecordIds) ? ViewLang.NA : string.Empty;
         }
     }
 }

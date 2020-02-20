@@ -9,7 +9,6 @@ import getResource from '../../resourceHelper';
 import GradeSummary from '../../shared/components/performance-appraisal/GradeSummary';
 import Interaction from '../../shared/components/pr-interaction/Interaction';
 
-
 const PageType = {
     MyPage: 1,
     MemberPage: 2,
@@ -337,10 +336,10 @@ export default class PerformanceRecord extends Component {
         );
     }
 
-    renderPAProcesGrades = gradeDetails => {
+    renderPAProcessGrades = gradeDetails => {
         const renderGradeDetails = gradeDetails.filter(x => x.processId !== PerformanceProcess.ProjectManager);
         if (gradeDetails.some(x => x.processId === PerformanceProcess.ProjectManager)) {
-            const groupedPMProcess = groupBy(gradeDetails.filter(x => x.processId === PerformanceProcess.ProjectManager && x.grade), x => x.grade.name);
+            const groupedPMProcess = groupBy(gradeDetails.filter(x => x.processId === PerformanceProcess.ProjectManager && x.grade), x => x.grade);
             renderGradeDetails.splice(1, 0, {
                 processId: PerformanceProcess.ProjectManager,
                 process: getResource('ProjectManager'),
@@ -360,18 +359,12 @@ export default class PerformanceRecord extends Component {
             if (x.processId === PerformanceProcess.ProjectManager) {
                 grade = x.grade;
             } else {
-                if (x.performanceRecordId) {
-                    grade = x.grade ? x.grade.name : getResource('N/A');
-                }
+                grade = x.grade ? x.grade : EmptyPlaceHolder;
             }
 
-            return (
-                <div className={`process-${x.processId}`} key={x.processId}>
-                    {x.process}:
-                        <div className="grade-detail">
-                        {grade}
-                    </div>
-                </div>);
+            return <div className={`process-${x.processId}`} key={x.processId}>
+                {x.process}: <div className="grade-detail">{grade}</div>
+            </div>;
         });
     }
 
@@ -403,7 +396,7 @@ export default class PerformanceRecord extends Component {
                         <div className="submit-date">{createdDate}</div>
                     </div>
                 </div>
-                {this.renderPAProcesGrades(record.paSummary.gradeDetails)}
+                {this.renderPAProcessGrades(record.paSummary.gradeDetails)}
                 <div className="toeic">
                     TOEIC: {record.paSummary.toeic ?
                         `${record.paSummary.toeic} ${this.renderToeicBonus(record.paSummary.toeicPolicy)}`
