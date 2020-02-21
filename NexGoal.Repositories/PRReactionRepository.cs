@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Repositories
 {
-    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Fanex.Data;
     using Fanex.Data.Repository;
@@ -9,11 +8,11 @@
 
     public class PRReactionRepository : IPRReactionRepository
     {
-        public async Task<IEnumerable<PRReactionModel>> GetPRReactionByPRId(ICriteria criteria)
+        public async Task<PRReactionModel> GetPRReactionByPRId(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                var reactions = await db.QueryAsync<PRReactionModel, Employee, PRReactionModel>(
+                var reactions = await db.QueryEntityAsync<PRReactionModel, Employee, PRReactionModel>(
                     (reaction, creator) =>
                     {
                         reaction.Creator = creator;

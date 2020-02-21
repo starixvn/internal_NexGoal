@@ -5,5 +5,7 @@
         public int PerformanceRecordId { get; set; }
 
         public int ActorId { get; set; }
+
+        public string ActorCode { get; set; }
     }
 }

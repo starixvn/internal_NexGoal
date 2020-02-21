@@ -1,8 +1,5 @@
-﻿using System;
-
-namespace NexGoal.Services
+﻿namespace NexGoal.Services
 {
-    using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
@@ -47,12 +44,13 @@ namespace NexGoal.Services
             return commandResult;
         }
 
-        public async Task<IEnumerable<PRReactionModel>> GetByPRId(GetPRReactionParam param)
+        public async Task<PRReactionModel> GetByPRId(GetPRReactionParam param)
         {
             var criteria = new GetPRReactionByPRIdCriteria
             {
                 PerformanceRecordId = param.PerformanceRecordId,
-                ActorID = param.ActorId
+                ActorID = param.ActorId,
+                ActorCode = param.ActorCode
             };
 
             var reactions = await prReactionRepository.GetPRReactionByPRId(criteria);

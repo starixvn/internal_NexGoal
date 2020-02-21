@@ -1,12 +1,14 @@
 ﻿import React, { Component, Fragment } from 'react';
 import { Button, FormGroup } from 'react-bootstrap';
 import axios from 'axios';
+import moment from 'moment';
 import { stringify } from 'qs';
 import { isEmpty } from 'lodash';
 import { PostRequestHeaders } from '../../../constants';
 import { getRoleClassName, calendar, resolveClientUrl, axiosError } from '../../../common-functions';
 import LikesStatisticModal from './LikesStatisticModal';
-
+import getResource from '../../../resourceHelper';
+import { toast } from 'react-toastify';
 export default class Feedback extends Component {
     constructor(props) {
         super(props);
@@ -24,7 +26,8 @@ export default class Feedback extends Component {
     };
 
     componentWillMount = () => {
-        const reactions = this.props.feedback.reactions;
+        const feedback = this.props.feedback;
+        const reactions = feedback.reactions;
         const curUserCode = document.getElementById('employeeInfo-code').value;
         const isLiked = reactions && reactions.some(reaction => reaction.creator.code === curUserCode);
         const numOfLikes = reactions ? reactions.length : 0;
@@ -32,7 +35,9 @@ export default class Feedback extends Component {
         this.setState({
             isLiked: isLiked,
             numOfLikes: numOfLikes,
-            content: this.props.feedback.content
+            content: feedback.content,
+            modifiedDate: feedback.modifiedDate,
+            reactions: reactions
         });
     }
 
@@ -44,24 +49,34 @@ export default class Feedback extends Component {
 
     handleLikeEvent = event => {
         event.preventDefault();
-        const isLike = !this.state.isLiked;
-        const oldNumOfLikes = this.state.numOfLikes; 
-        const numOfLikes = isLike ? oldNumOfLikes + 1 : oldNumOfLikes - 1;
-        const url = 'PRFeedbackReaction/' + (isLike ? 'Create' : 'Remove');
+        const isLiked = !this.state.isLiked;
+        const oldNumOfLikes = this.state.numOfLikes;
+        const numOfLikes = isLiked ? oldNumOfLikes + 1 : oldNumOfLikes - 1;
+        const url = 'PRFeedbackReaction/' + (isLiked ? 'Create' : 'Remove');
+        const feedbackId = this.props.feedback.prFeedbackId;
+        const curUserCode = document.getElementById('employeeInfo-code').value;
 
-        this.setState({ numOfLikes: numOfLikes, isLiked: isLike });
+        this.setState({ numOfLikes: numOfLikes, isLiked: isLiked });
 
         axios({
             url: resolveClientUrl(url),
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                PRFeedbackId: this.props.feedback.prFeedbackId
+                PRFeedbackId: feedbackId
             }),
             headers: PostRequestHeaders
         }).then(response => {
-            if (!response.data.isSuccessful) {
-                this.setState({ numOfLikes: oldNumOfLikes, isLiked: !isLike });
+            if (response.data.isSuccessful) {
+                if (isLiked) {
+                    this.addNewReaction(feedbackId, curUserCode);
+                }
+                else {
+                    this.removeReaction(feedbackId, curUserCode);
+                }
+            }
+            else {
+                this.setState({ numOfLikes: oldNumOfLikes, isLiked: !isLiked });
             }
         }).catch(axiosError);
     }
@@ -69,19 +84,11 @@ export default class Feedback extends Component {
     handleOpenLikeModalEvent = event => {
         event.preventDefault();
 
-        if (this.state.numOfLikes === 0) {
-            return;
+        if (this.state.numOfLikes !== 0) {
+            this.setState({
+                showLikeModal: true
+            });
         }
-
-        axios.get(
-            resolveClientUrl('PRFeedbackReaction/GetByFeedbackId'),
-            { params: { PRFeedbackId: this.props.feedback.prFeedbackId } }
-        ).then(response => {
-            const reactions = response.data;
-            const numOfLikes = reactions ? reactions.length : 0;
-
-            this.setState({ showLikeModal: true, reactions: reactions, numOfLikes: numOfLikes });
-        }).catch(axiosError);
     }
 
     handleCloseLikeModal = () => {
@@ -127,6 +134,30 @@ export default class Feedback extends Component {
                 }
             });
         }
+
+        axios({
+            url: resolveClientUrl('PRFeedback/Edit'),
+            method: 'post',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                PRFeedbackId: this.props.feedback.prFeedbackId,
+                Content: this.state.newContent
+            }),
+            headers: PostRequestHeaders
+        }).then(response => {
+            if (response.data.isSuccessful) {
+                this.setState({
+                    content: this.state.newContent,
+                    isEditing: false,
+                    modifiedDate: new Date()
+                });
+                toast.success(getResource('UpdatedSuccessfully'));
+                this.detectCollapseExpandComment()
+            }
+            else {
+                toast.error(response.data.message);
+            }
+        }).catch(axiosError);
     }
 
     collapseExpandComment = () => {
@@ -145,6 +176,12 @@ export default class Feedback extends Component {
             this.setState({
                 showCollapseExpandButton: true,
                 isExpanded: true
+            });
+        }
+        else {
+            this.setState({
+                showCollapseExpandButton: false,
+                isExpanded: false
             });
         }
     }
@@ -192,14 +229,46 @@ export default class Feedback extends Component {
         );
     }
 
+    addNewReaction = (feedbackId, creatorCode) => {
+        axios.get(
+            resolveClientUrl('PRFeedbackReaction/GetByFeedbackId'),
+            {
+                params: {
+                    PRFeedbackId: feedbackId,
+                    ActorCode: creatorCode
+                }
+            }
+        ).then(response => {
+            const newReaction = response.data;
+            let reactions = this.state.reactions;
+            reactions.push(newReaction);
+
+            this.setState({ reactions: reactions });
+        }).catch(axiosError);
+    }
+
+    removeReaction = (feedbackId, creatorCode) => {
+        let reactions = this.props.feedback.reactions;
+
+        reactions = reactions.filter(reaction => (reaction.feedbackId !== feedbackId
+            && reaction.creator.code !== creatorCode));
+
+        this.setState({ reactions: reactions });
+    }
+
     render() {
         const { isLiked,
             showLikeModal,
-            numOfLikes} = this.state;
+            numOfLikes,
+            modifiedDate,
+            reactions} = this.state;
         const { feedback, isReadOnly } = this.props;
-        const reactions = feedback.reactions;
         const curUserCode = document.getElementById('employeeInfo-code').value;
         const isOwner = (curUserCode === feedback.creator.code);
+        const now = moment(new Date());
+        const duration = moment.duration(now.diff(feedback.createdDate));
+        const isExpired = duration._data.days >= 7;
+        const showEditBtn = isOwner && !isReadOnly && !isExpired;
 
         return (
             <Fragment>
@@ -216,8 +285,18 @@ export default class Feedback extends Component {
                         <div className="person-info">
                             <span className={getRoleClassName(feedback.roleId)}> {feedback.creator.nickName} </span>
                             {
-                                isOwner && !isReadOnly &&
+                                showEditBtn &&
                                 <a class="fa icon-edit custom-icon-edit" onClick={this.handleEditFeedback}></a>
+                            }
+                            {
+                                modifiedDate &&
+                                <div className="edited-date">
+                                    <span className="icon-edited-date" />
+                                    <span className={`edited-tooltip ${!showEditBtn ? 'float-right' : ''}`}>
+                                        <i className="arrow" />
+                                        Edited on {calendar(modifiedDate)}
+                                    </span>
+                                </div>
                             }
                             <span class="published-time">{calendar(feedback.createdDate)}</span>
                         </div>

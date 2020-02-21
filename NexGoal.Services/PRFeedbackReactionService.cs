@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services
 {
-    using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
@@ -46,12 +45,13 @@
             return commandResult;
         }
 
-        public async Task<IEnumerable<PRFeedbackReactionModel>> GetByFeedbackId(GetPRFeedbackReactionParam param)
+        public async Task<PRFeedbackReactionModel> GetByFeedbackId(GetPRFeedbackReactionParam param)
         {
             var criteria = new GetPRFeedbackReactionCriteria
             {
                 PRFeedbackId = param.PRFeedbackId,
-                ActorId = param.ActorId
+                ActorId = param.ActorId,
+                ActorCode = param.ActorCode
             };
 
             var reactions = await prFeedbackReactionRepository.GetPRFeedbackReactionByFeedbackId(criteria);

@@ -10,5 +10,7 @@
         Task SendNotificationAsync(string performanceRecordIds, int actorId, ActionOnPerformanceRecord action);
 
         Task SendSkypeMessageAsync(string performanceRecordIds, int actorId, ActionOnPerformanceRecord action);
+
+        Task SendInteractionNotificationAsync(string performanceRecordId, int actorId, InteractionAction action);
     }
 }

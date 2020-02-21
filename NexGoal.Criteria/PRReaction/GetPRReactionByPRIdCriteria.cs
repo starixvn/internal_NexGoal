@@ -8,11 +8,13 @@
 
         public int ActorID { get; set; }
 
+        public string ActorCode { get; set; }
+
         public override string GetSettingKey() => "PRReaction_GetByPRId";
 
         public override bool IsValid()
         {
-            return PerformanceRecordId > 0 && ActorID > 0;
+            return PerformanceRecordId > 0 && ActorID > 0 && !string.IsNullOrEmpty(ActorCode);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Controllers
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http;
@@ -19,7 +18,7 @@
         private readonly IPRReactionService prReactionService;
 
         public PRReactionController(ISessionService secsionService, IPRReactionService prReactionService)
-            :base(secsionService)
+            : base(secsionService)
         {
             this.prReactionService = prReactionService;
         }
@@ -65,7 +64,7 @@
 
             var result = await prReactionService.GetByPRId(param);
 
-            if(result == null)
+            if (result == null)
             {
                 return StatusCode(StatusCodes.Status404NotFound);
             }

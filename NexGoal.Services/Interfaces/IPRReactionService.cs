@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services
 {
-    using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Models.PRReaction;
@@ -11,6 +10,6 @@
 
         Task<CommandResult> RemovePRReaction(RemovePRReactionDto prReaction);
 
-        Task<IEnumerable<PRReactionModel>> GetByPRId(GetPRReactionParam param);
+        Task<PRReactionModel> GetByPRId(GetPRReactionParam param);
     }
 }

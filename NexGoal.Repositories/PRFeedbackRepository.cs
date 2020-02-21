@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Repositories
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Fanex.Data;
@@ -11,7 +10,7 @@
 
     public class PRFeedbackRepository : IPRFeedbackRepository
     {
-        public async Task<IEnumerable<PRFeedbackModel>> GetPRFeedbacks(ICriteria criteria)
+        public async Task<PRFeedbackModel> GetPRFeedbacks(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
@@ -38,7 +37,7 @@
                         feedback.Reactions = feedbackReactions.Where(reaction => reaction.PRFeedbackId == feedback.PRFeedbackId);
                     }
 
-                    return feedbacks;
+                    return feedbacks.FirstOrDefault();
                 }
             }
         }

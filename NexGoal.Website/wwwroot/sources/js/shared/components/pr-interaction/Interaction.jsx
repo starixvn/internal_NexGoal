@@ -1,5 +1,5 @@
 ﻿import React, { Component, Fragment } from 'react';
-import { Modal, Button, FormGroup } from 'react-bootstrap';
+import { Button, FormGroup } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { isEmpty } from 'lodash';
 import axios from 'axios';
@@ -9,6 +9,7 @@ import LikesStatisticModal from './LikesStatisticModal';
 import TextareaFullscreenEditor from '../textarea-fullscreen/index';
 import { PostRequestHeaders } from '../../../constants';
 import { axiosError, getCurrentUserInfo, resolveClientUrl } from '../../../common-functions';
+import getResource from '../../../resourceHelper';
 
 export default class Interaction extends Component {
     constructor(props) {
@@ -19,7 +20,8 @@ export default class Interaction extends Component {
             isLiked: false,
             showLikeModal: false,
             isOpenForm: false,
-            feedbackContent: ''
+            feedbackContent: '',
+            reactions: []
         };
 
         this.textareaEditor = React.createRef();
@@ -47,24 +49,34 @@ export default class Interaction extends Component {
 
     handleLikeEvent = event => {
         event.preventDefault();
-        const isLike = !this.state.isLiked;
+        const recordId = this.props.recordId;
+        const curUserCode = document.getElementById('employeeInfo-code').value;
+        const isLiked = !this.state.isLiked;
         const oldNumOfLikes = this.state.numOfLikes;
-        const numOfLikes = isLike ? oldNumOfLikes + 1 : oldNumOfLikes - 1;
-        const url = 'PRReaction/' + (isLike ? 'Create' : 'Remove');
+        const numOfLikes = isLiked ? oldNumOfLikes + 1 : oldNumOfLikes - 1;
+        const url = 'PRReaction/' + (isLiked ? 'Create' : 'Remove');
 
-        this.setState({ numOfLikes: numOfLikes, isLiked: isLike });
+        this.setState({ numOfLikes: numOfLikes, isLiked: isLiked });
 
         axios({
             url: resolveClientUrl(url),
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                PerformanceRecordId: this.props.recordId
+                PerformanceRecordId: recordId
             }),
             headers: PostRequestHeaders
         }).then(response => {
-            if (!response.data.isSuccessful) {
-                this.setState({ numOfLikes: oldNumOfLikes, isLiked: !isLike });
+            if (response.data.isSuccessful) {
+                if (isLiked) {
+                    this.addNewReaction(recordId, curUserCode);
+                }
+                else {
+                    this.removeReaction(recordId, curUserCode);
+                }
+            }
+            else {
+                this.setState({ numOfLikes: oldNumOfLikes, isLiked: !isLiked });
             }
         }).catch(axiosError);
     }
@@ -76,19 +88,11 @@ export default class Interaction extends Component {
     handleOpenLikeModalEvent = event => {
         event.preventDefault();
 
-        if (this.state.numOfLikes === 0) {
-            return;
+        if (this.state.numOfLikes > 0) {
+            this.setState({
+                showLikeModal: true
+            });
         }
-
-        axios.get(
-            resolveClientUrl('PRReaction/GetByPRId'),
-            { params: { PerformanceRecordId: this.props.recordId } }
-        ).then(response => {
-            const reactions = response.data;
-            const numOfLikes = reactions ? reactions.length : 0;
-
-            this.setState({ showLikeModal: true, reactions: reactions, numOfLikes: numOfLikes });
-        }).catch(axiosError);
     }
 
     handleOpenForm = () => {
@@ -136,7 +140,7 @@ export default class Interaction extends Component {
                     numOfFeedbacks: numOfFeedbacks,
                     isCommented: true
                 });
-
+                toast.success(getResource("CreatedSuccessfully"));
                 this.handleCancel();
             }
             else {
@@ -165,7 +169,7 @@ export default class Interaction extends Component {
                 isReadOnly={this.props.isReadOnly}
                 recordId={this.props.recordId}
             />
-            );
+        );
     }
 
     renderFeedbackInputBox = () => {
@@ -213,7 +217,7 @@ export default class Interaction extends Component {
                     </div>
                 </div>
             </div>
-            );
+        );
     }
 
     renderInteractionBar = () => {
@@ -223,12 +227,15 @@ export default class Interaction extends Component {
             numOfFeedbacks,
             isCommented } = this.state;
         const { isReadOnly, isDisableComment } = this.props;
+        const prCreator = this.props.creator;
+        const currentUserCode = document.getElementById('employeeInfo-code').value;
+        const isOwner = (prCreator.code === currentUserCode);
 
         return (
             <div className="interaction-statistic">
                 <div className="likes-interaction">
                     {
-                        !isReadOnly &&
+                        !isReadOnly && !isOwner &&
                         <a className={`fa ${isLiked ? 'icon-thumb-up active' : 'icon-thumb-up-line'}`}
                             name="like-button"
                             onClick={this.handleLikeEvent}
@@ -253,22 +260,57 @@ export default class Interaction extends Component {
                     )
                 }
             </div>
-            );
+        );
     }
 
     getNewFeedback = () => {
+        const currentUserCode = document.getElementById('employeeInfo-code').value;
+
         axios.get(resolveClientUrl('PRFeedback/GetByPRId'),
             {
                 params: {
-                    PerformanceRecordId: this.props.recordId
+                    PerformanceRecordId: this.props.recordId,
+                    ActorCode: currentUserCode
                 }
             }).then(response => {
-                this.setState({ feedbacks: response.data });
+                const newFeedback = response.data;
+                let feedbacks = this.state.feedbacks;
+                feedbacks.push(newFeedback);
+
+                this.setState({
+                    feedbacks: feedbacks
+                });
             }).catch(axiosError);
     }
 
+    addNewReaction = (recordId, creatorCode) => {
+        axios.get(
+            resolveClientUrl('PRReaction/GetByPRId'),
+            {
+                params: {
+                    PerformanceRecordId: recordId,
+                    ActorCode: creatorCode
+                }
+            }
+        ).then(response => {
+            const newReaction = response.data;
+            let reactions = this.state.reactions;
+            reactions.push(newReaction);
+
+            this.setState({ reactions: reactions });
+        }).catch(axiosError);
+    }
+
+    removeReaction = (recordId, creatorCode) => {
+        let reactions = this.state.reactions;
+        reactions = reactions.filter(reaction => (reaction.PerformanceRecordId !== recordId
+            && reaction.creator.code !== creatorCode));
+
+        this.setState({ reactions: reactions });
+    }
+
     render() {
-        const { showLikeModal, reactions, feedbacks} = this.state;
+        const { showLikeModal, reactions, feedbacks } = this.state;
 
         return (
             <Fragment>
@@ -278,8 +320,8 @@ export default class Interaction extends Component {
                     handleCloseLikeModal={this.handleCloseLikeModal}
                 />
                 <div className="comment-pr">
-                    { this.renderInteractionBar() }
-                    { this.renderFeedbackInputBox() }
+                    {this.renderInteractionBar()}
+                    {this.renderFeedbackInputBox()}
                     {
                         feedbacks &&
                         feedbacks.map(this.renderFeedback)
