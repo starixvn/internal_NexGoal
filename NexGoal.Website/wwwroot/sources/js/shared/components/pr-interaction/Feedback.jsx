@@ -75,7 +75,7 @@ export default class Feedback extends Component {
 
         axios.get(
             resolveClientUrl('PRFeedbackReaction/GetByFeedbackId'),
-            { params: { PRFeedbackId: this.props.feedback.prFeedbackId, ActorId: 0 } }
+            { params: { PRFeedbackId: this.props.feedback.prFeedbackId } }
         ).then(response => {
             const reactions = response.data;
             const numOfLikes = reactions ? reactions.length : 0;

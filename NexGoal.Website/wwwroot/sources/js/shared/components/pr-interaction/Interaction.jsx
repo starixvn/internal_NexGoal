@@ -82,7 +82,7 @@ export default class Interaction extends Component {
 
         axios.get(
             resolveClientUrl('PRReaction/GetByPRId'),
-            { params: { PerformanceRecordId: this.props.recordId, ActorId: 0 } }
+            { params: { PerformanceRecordId: this.props.recordId } }
         ).then(response => {
             const reactions = response.data;
             const numOfLikes = reactions ? reactions.length : 0;

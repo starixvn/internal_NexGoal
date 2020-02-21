@@ -1,7 +1,39 @@
 ﻿@using NexGoal.Resources
 @using NexGoal.Core.Enumerations
 @using NexGoal.Models.PerformanceRecord
+@using NexGoal.Models.PRFeedback
 @model PerformanceRecord
+
+@{
+    string getRoleClass(int roleId)
+    {
+        var roleClass = string.Empty;
+        switch (roleId)
+        {
+            case (byte)PerformanceProcess.Self:
+                roleClass = "role-member";
+                break;
+
+            case (byte)PerformanceProcess.Evaluator:
+                roleClass = "role-evaluator";
+                break;
+
+            case (byte)PerformanceProcess.ProjectManager:
+                roleClass = "role-pm";
+                break;
+
+            case (byte)PerformanceProcess.Reviewer:
+                roleClass = "role-reviewer";
+                break;
+
+            default:
+                roleClass = "role-member";
+                break;
+        }
+
+        return roleClass;
+    }
+}
 
 @if (Model != null)
 {
@@ -9,32 +41,7 @@
         <div class="avatar-user">
             <img src=@Model.Creator.Avatar class="avatar" alt="avatar" />
             <div class="person-info">
-                @{
-                    string roleClass = "";
-                    switch (Model.RoleId)
-                    {
-                        case (byte)PerformanceProcess.Self:
-                            roleClass = "role-member";
-                            break;
-
-                        case (byte)PerformanceProcess.Evaluator:
-                            roleClass = "role-evaluator";
-                            break;
-
-                        case (byte)PerformanceProcess.ProjectManager:
-                            roleClass = "role-pm";
-                            break;
-
-                        case (byte)PerformanceProcess.Reviewer:
-                            roleClass = "role-reviewer";
-                            break;
-
-                        default:
-                            roleClass = "role-member";
-                            break;
-                    }
-                }
-                <span class="@roleClass">@Model.Creator.NickName</span>
+                <span class="@getRoleClass(Model.RoleId)">@Model.Creator.NickName</span>
             </div>
         </div>
         @{
@@ -45,5 +52,22 @@
             <p>@Model.Comment</p>
         </div>
         <div class="grade">@ViewLang.Grade: <div class="grade-detail">@grade</div></div>
+        @if (Model.Reactions.Any() || Model.Feedbacks.Any())
+        {
+            <div class="interaction">
+                @{var creator = string.Join(", ", Model.Reactions.Select(x => x.Creator.NickName));}
+                <div class="reaction">
+                    <strong>@creator</strong> liked this PR.
+                </div>
+                @foreach (PRFeedbackModel feedback in Model.Feedbacks)
+                {
+                    <div class="feedback">
+                        <strong>@feedback.Creator.NickName</strong> commented:
+                        <br />
+                        @feedback.Content
+                    </div>
+                }
+            </div>
+        }
     </div>
 }

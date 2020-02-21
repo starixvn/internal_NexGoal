@@ -1,6 +1,8 @@
-﻿@using NexGoal.Resources
+﻿@using NexGoal.Core.Constants
+@using NexGoal.Resources
 @using NexGoal.Web.Core.Extensions
 @using NexGoal.Core.Enumerations
+@using NexGoal.Models.Discipline
 @using NexGoal.Models.Report
 @using NexGoal.Models.PerformanceRecord
 @model PAReportDetail
@@ -40,7 +42,7 @@
                         <span class="key">@ViewLang.Team:</span><span class="value">@Model.Employee.GroupName</span>
                     </div>
                     <div class="item">
-                        <span class="key">Joined date:</span><span class="value">@Model.Employee.JoinedDate.ToString("dd MMM yyyy")</span>
+                        <span class="key">Joined date:</span><span class="value">@Model.Employee.JoinedDate.ToString(Constants.DateFormat)</span>
                     </div>
                 </div>
             </div>
@@ -96,11 +98,11 @@
                                                         }
                                                     }
                                                     i++;
-                                                    <td class="text-center" rowspan="@Model.HRM.Count()">
+                                                    <td class="text-center" rowspan="@(Model.HRM.Count())">
                                                         <div class="@cssClass">@Model.PARecord.Toeic</div>
                                                         <div>
                                                             @(Model.PARecord.ToeicExpiredDate.HasValue
-                                                                        ? $"(exp {Model.PARecord.ToeicExpiredDate.Value.ToString("dd MMM yyyy")})" : string.Empty)
+                                                                        ? $"(exp {Model.PARecord.ToeicExpiredDate.Value.ToString(Constants.DateFormat)})" : string.Empty)
                                                         </div>
                                                     </td>
                                                 }
@@ -146,7 +148,7 @@
                                 @if (Model.Disciplines.Any())
                                 {
                                     var index = 0;
-                                    foreach (var discipline in Model.Disciplines)
+                                    foreach (DisciplineModel discipline in Model.Disciplines)
                                     {
                                         index++;
                                         <tr>
