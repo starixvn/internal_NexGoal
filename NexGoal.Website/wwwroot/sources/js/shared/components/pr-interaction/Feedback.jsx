@@ -1,10 +1,11 @@
 ﻿import React, { Component, Fragment } from 'react';
-import { Modal, Button, FormGroup } from 'react-bootstrap';
+import { Button, FormGroup } from 'react-bootstrap';
 import axios from 'axios';
 import { stringify } from 'qs';
 import { isEmpty } from 'lodash';
 import { PostRequestHeaders } from '../../../constants';
 import { getRoleClassName, calendar, resolveClientUrl, axiosError } from '../../../common-functions';
+import LikesStatisticModal from './LikesStatisticModal';
 
 
 export default class Feedback extends Component {
@@ -33,7 +34,7 @@ export default class Feedback extends Component {
             isLiked: isLiked,
             numOfLikes: numOfLikes,
             content: this.props.feedback.content
-        })
+        });
     }
 
     componentDidMount = () => {
@@ -45,7 +46,8 @@ export default class Feedback extends Component {
     handleLikeEvent = event => {
         event.preventDefault();
         const isLike = !this.state.isLiked;
-        const numOfLikes = isLike ? this.state.numOfLikes + 1 : this.state.numOfLikes - 1;
+        const oldNumOfLikes = this.state.numOfLikes; 
+        const numOfLikes = isLike ? oldNumOfLikes + 1 : oldNumOfLikes - 1;
         const url = 'PRFeedbackReaction/' + (isLike ? 'Create' : 'Remove');
 
         this.setState({ numOfLikes: numOfLikes, isLiked: isLike });
@@ -60,14 +62,9 @@ export default class Feedback extends Component {
             headers: PostRequestHeaders
         }).then(response => {
             if (!response.data.isSuccessful) {
-                const numOfLikes = isLike ? this.state.numOfLikes - 1 : this.state.numOfLikes + 1;
-                this.setState({ numOfLikes: numOfLikes, isLiked: !isLike });
+                this.setState({ numOfLikes: oldNumOfLikes, isLiked: !isLike });
             }
         }).catch(axiosError);
-    }
-
-    handleCloseLikeModal = () => {
-        this.setState({ showLikeModal: false });
     }
 
     handleOpenLikeModalEvent = event => {
@@ -88,6 +85,12 @@ export default class Feedback extends Component {
         }).catch(axiosError);
     }
 
+    handleCloseLikeModal = () => {
+        this.setState({
+            showLikeModal: false
+        });
+    }
+
     handleEditFeedback = () => {
         this.setState({
             isEditing: true,
@@ -101,7 +104,7 @@ export default class Feedback extends Component {
             isEditing: false,
             enableSaveChange: false,
             newContent: this.state.content
-        })
+        });
     }
 
     handleChangeFeedbackContent = event => {
@@ -112,8 +115,7 @@ export default class Feedback extends Component {
         this.setState({
             newContent: newContent,
             enableSaveChange: enableSaveChange
-        })
-
+        });
     }
 
     handleSaveChange = event => {
@@ -122,9 +124,9 @@ export default class Feedback extends Component {
         if (this.state.newContent === '') {
             this.setState({
                 errors: {
-                    feedbackContent : 'Content cant be empty'
+                    feedbackContent: 'Content cant be empty'
                 }
-            })
+            });
         }
     }
 
@@ -148,32 +150,14 @@ export default class Feedback extends Component {
         }
     }
 
-    renderUserLiked = reaction => {
-        return (
-            <div className="avatar-user">
-                <img src={reaction.creator.avatar} alt="avatar" className="avatar" />
-                <div className="person-info">
-                    <span className={getRoleClassName(reaction.roleId)}> {reaction.creator.nickName} </span>
-                </div>
-            </div>
-        );
-    }
-
-    render() {
-
-        const { isLiked,
+    renderFeedbackContent = () => {
+        const {
             showCollapseExpandButton,
-            showLikeModal,
-            numOfLikes,
             isEditing,
             newContent,
             enableSaveChange,
             content,
-            errors} = this.state;
-        const { feedback, isReadOnly } = this.props;
-        const reactions = feedback.reactions;
-        const curUserCode = document.getElementById('employeeInfo-code').value;
-        const isOwner = (curUserCode === feedback.creator.code); 
+            errors } = this.state;
 
         let commentWrapperClass = 'expanded';
         let expandCommentButtonClass = 'see-less';
@@ -182,28 +166,49 @@ export default class Feedback extends Component {
             expandCommentButtonClass = 'see-more';
         }
 
+        if (!isEditing) {
+            return (
+                <div>
+                    <p className={commentWrapperClass} ref={element => this.element = element}>{content}</p>
+                    {
+                        showCollapseExpandButton ?
+                            <span className={expandCommentButtonClass} onClick={this.collapseExpandComment} />
+                            : null
+                    }
+                </div>
+            );
+        }
+
+        return (
+            <div className="editFeedback">
+                <textarea className={`form-control comment-field ${!isEmpty(errors) && errors.feedbackContent ? 'input-validation-error' : ''}`}
+                    onChange={this.handleChangeFeedbackContent}
+                    value={newContent}
+                    autoFocus />
+                <FormGroup className="text-right">
+                    <Button className="btn-cancel btn btn-default" name="cancel" onClick={this.handleCancelChange}>Cancel</Button>
+                    <Button bsStyle="primary" name="save" onClick={this.handleSaveChange} disabled={!enableSaveChange}>Save Change</Button>
+                </FormGroup>
+            </div>
+        );
+    }
+
+    render() {
+        const { isLiked,
+            showLikeModal,
+            numOfLikes} = this.state;
+        const { feedback, isReadOnly } = this.props;
+        const reactions = feedback.reactions;
+        const curUserCode = document.getElementById('employeeInfo-code').value;
+        const isOwner = (curUserCode === feedback.creator.code);
+
         return (
             <Fragment>
-                <Modal
-                    size="sm"
-                    aria-labelledby="example-modal-sizes-title-sm"
-                    show={showLikeModal}
-                    onHide={this.handleCloseLikeModal}
-                    className="like-statistic-modal"
-                    dialogClassName="like-dialog">
-                    <Modal.Header className="custom-modal-header">
-                        <h4 className="likes-counter">{numOfLikes} LIKES</h4>
-                    </Modal.Header>
-                    <Modal.Body className="custom-modal-content">
-                        {
-                            reactions &&
-                            reactions.map(this.renderUserLiked)
-                        }
-                    </Modal.Body>
-                    <Modal.Footer className="custom-modal-footer">
-                        <Button className="btn-cancel" onClick={this.handleCloseLikeModal}> Close </Button>
-                    </Modal.Footer>
-                </Modal>
+                <LikesStatisticModal
+                    showLikeModal={showLikeModal}
+                    reactions={reactions}
+                    handleCloseLikeModal={this.handleCloseLikeModal}
+                />
                 <div className="feedback">
                     <div className="avatar-user small">
                         <img src={feedback.creator.avatar} alt="avatar" className="avatar" />
@@ -218,28 +223,8 @@ export default class Feedback extends Component {
                             <span class="published-time">{calendar(feedback.createdDate)}</span>
                         </div>
                         {
-                            !isEditing ?
-                            <div>
-                                    <p className={commentWrapperClass} ref={element => this.element = element}>{content}</p>
-                                {
-                                    showCollapseExpandButton ?
-                                        <span className={expandCommentButtonClass} onClick={this.collapseExpandComment} />
-                                        : null
-                                }
-                            </div>
-                            :
-                            <div className="editFeedback">
-                                    <textarea className={`form-control comment-field ${!isEmpty(errors) && errors.feedbackContent ? 'input-validation-error' : ''}`}
-                                        onChange={this.handleChangeFeedbackContent}
-                                        value={newContent}
-                                        autoFocus />
-                                    <FormGroup className="text-right">
-                                        <Button className="btn-cancel btn btn-default" name="cancel" onClick={this.handleCancelChange}>Cancel</Button>
-                                        <Button bsStyle="primary" name="save" onClick={this.handleSaveChange} disabled={!enableSaveChange}>Save Change</Button>
-                                    </FormGroup>
-                            </div>
+                            this.renderFeedbackContent()
                         }
-                        
                     </div>
                     <div className="feedback-reaction">
                         <div className="interaction-statistic">
