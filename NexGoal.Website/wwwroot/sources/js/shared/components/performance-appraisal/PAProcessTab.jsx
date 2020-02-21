@@ -17,9 +17,7 @@ export default class PAProcessTab extends Component {
         const processes = this.props.processes.filter(p => p.processId === processId && p.relatedPerformanceRecords.length > 0);
         if (processes.length > 0) {
             return processes.map(process => {
-                return process.relatedPerformanceRecords.map(record => {
-                    return <PerformanceRecord key={record.performanceRecordId} data={record} />;
-                });
+                return process.relatedPerformanceRecords.map(record => <PerformanceRecord key={record.performanceRecordId} data={record} />);
             });
         }
 

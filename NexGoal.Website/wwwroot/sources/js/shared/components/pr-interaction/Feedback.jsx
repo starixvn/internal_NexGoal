@@ -7,7 +7,6 @@ import { PostRequestHeaders } from '../../../constants';
 import { getRoleClassName, calendar, resolveClientUrl, axiosError } from '../../../common-functions';
 import LikesStatisticModal from './LikesStatisticModal';
 
-
 export default class Feedback extends Component {
     constructor(props) {
         super(props);
@@ -110,7 +109,7 @@ export default class Feedback extends Component {
     handleChangeFeedbackContent = event => {
         const newContent = event.target.value;
         const oldContent = this.state.content;
-        const enableSaveChange = (newContent !== oldContent);
+        const enableSaveChange = newContent !== oldContent;
 
         this.setState({
             newContent: newContent,
@@ -234,7 +233,7 @@ export default class Feedback extends Component {
                                     <a className={`fa ${isLiked ? 'icon-thumb-up active' : 'icon-thumb-up-line'}`}
                                         name="like-button"
                                         onClick={this.handleLikeEvent}
-                                    ></a>
+                                    />
                                 }
                                 <a className="likes-statistic" onClick={this.handleOpenLikeModalEvent}>{numOfLikes} Likes</a>
                             </div>
@@ -243,5 +242,5 @@ export default class Feedback extends Component {
                 </div>
             </Fragment>
         );
-    };
+    }
 }

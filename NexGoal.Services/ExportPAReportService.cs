@@ -13,6 +13,7 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Models.PARecord;
     using NexGoal.Models.PerformanceRecord;
+    using NexGoal.Models.PRFeedback;
     using NexGoal.Models.Report;
     using NexGoal.Resources;
     using OfficeOpenXml;
@@ -232,7 +233,7 @@
 
         private static void WritePAFinalGrade(ExcelRange paCell, PARecordModel paRecord)
         {
-            paCell.Value = paRecord.Grade != null ? paRecord.Grade.Name : "N/A";
+            paCell.Value = paRecord.Grade != null ? paRecord.Grade.Name : ViewLang.NA;
         }
 
         private static void WritePAAdjustment(ExcelRange paCell, PARecordModel paRecord)
@@ -271,18 +272,50 @@
 
         private static void WritePerformanceRecordContent(ExcelRange cell, PAProcessModel process)
         {
-            if (!string.IsNullOrWhiteSpace(process.Grade))
+            int totalRecords = process.RelatedPerformanceRecords.Count();
+            int recordIndex = 1;
+            foreach (PerformanceRecord record in process.RelatedPerformanceRecords)
             {
                 cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                 cell.Style.VerticalAlignment = ExcelVerticalAlignment.Top;
                 var richTextCollection = cell.RichText;
-                var assessorText = richTextCollection.Add(process.Evaluator.NickName);
-                assessorText.Bold = true;
+                richTextCollection.Add(record.Creator.NickName).Bold = true;
+                richTextCollection.Add(Environment.NewLine).Bold = false;
 
+                var grade = record.Grade != null ? record.Grade.Name : ViewLang.NA;
+                richTextCollection.Add($"Grade: {grade}");
+                richTextCollection.Add(Environment.NewLine);
+                richTextCollection.Add(record.Comment);
+                richTextCollection.Add(Environment.NewLine);
                 richTextCollection.Add(Environment.NewLine);
 
-                var gradeText = richTextCollection.Add($"Grade: {process.Grade} ");
-                gradeText.Bold = false;
+                if (record.Reactions.Any())
+                {
+                    var creator = string.Join(", ", record.Reactions.Select(x => x.Creator.NickName));
+                    richTextCollection.Add($"{creator}").Bold = true;
+                    richTextCollection.Add(" liked this PR.").Bold = false;
+                    richTextCollection.Add(Environment.NewLine);
+                    richTextCollection.Add(Environment.NewLine);
+                }
+
+                foreach (PRFeedbackModel feedback in record.Feedbacks)
+                {
+                    richTextCollection.Add($"{feedback.Creator.NickName}").Bold = true;
+                    richTextCollection.Add(" commented:").Bold = false;
+                    richTextCollection.Add(Environment.NewLine);
+                    richTextCollection.Add(feedback.Content);
+                    richTextCollection.Add(Environment.NewLine);
+                    richTextCollection.Add(Environment.NewLine);
+                }
+
+                if (recordIndex != totalRecords)
+                {
+                    richTextCollection.Add("--------------------");
+                    richTextCollection.Add(Environment.NewLine);
+                    richTextCollection.Add(Environment.NewLine);
+                }
+
+                recordIndex++;
             }
         }
 
