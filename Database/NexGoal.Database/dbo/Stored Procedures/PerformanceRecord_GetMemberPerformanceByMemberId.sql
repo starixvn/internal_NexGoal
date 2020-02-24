@@ -9,6 +9,7 @@ Original:
 
 Revisions:
 	20191118@elton.ton: get more information for system pa
+	20200217@drake.doi: Get PR's feedback, reaction
 Param's Explanation:
 
 */
@@ -205,7 +206,7 @@ BEGIN
 			AND record.CreatorId = - 1
 		) AS data
 
-	SELECT PerformanceRecordId PerformanceRecordId
+	SELECT PerformanceRecordId
 		,GradeId
 		,Comment
 		,IsDraft
@@ -252,21 +253,79 @@ BEGIN
 		,pa.OriginalGradeId
 		,pa.Toeic
 		,pa.ToeicPolicy
-	FROM dbo.PARecord AS pa WITH (NOLOCK)		
-		INNER JOIN dbo.Period AS p WITH (NOLOCK) ON pa.PeriodId = p.PeriodId AND p.IsActive = 1
-	WHERE pa.StatusId = @PAClosed AND pa.PerformanceRecordId IS NOT NULL
+	FROM dbo.PARecord AS pa WITH (NOLOCK)
+		INNER JOIN dbo.Period AS p WITH (NOLOCK) ON pa.PeriodId = p.PeriodId
+		AND p.IsActive = 1
+	WHERE pa.StatusId = @PAClosed
+		AND pa.PerformanceRecordId IS NOT NULL
 
 	SELECT pa.PARecordId
 		,pap.ProcessId
 		,rr.Value AS Process
-		,pap.PerformanceRecordId
-		,pr.GradeId
-	FROM dbo.PARecord AS pa WITH (NOLOCK)		
-		INNER JOIN dbo.Period AS p WITH (NOLOCK) ON pa.PeriodId = p.PeriodId AND p.IsActive = 1
+		,pap.GradeId
+		,pap.RelatedPerformanceRecordIds
+	FROM dbo.PARecord AS pa WITH (NOLOCK)
+		INNER JOIN dbo.Period AS p WITH (NOLOCK) ON pa.PeriodId = p.PeriodId
+		AND p.IsActive = 1
 		INNER JOIN dbo.PAProcess pap WITH (NOLOCK) ON pa.PARecordId = pap.PARecordId
-		INNER JOIN dbo.RefResource rr WITH (NOLOCK) ON  pap.ProcessId = rr.ResourceId AND rr.RefName='PerformanceProcess'
-		LEFT JOIN dbo.PerformanceRecord pr WITH (NOLOCK) ON pap.PerformanceRecordId = pr.PerformanceRecordId
-	WHERE pa.StatusId = @PAClosed AND pa.PerformanceRecordId IS NOT NULL AND pap.ProcessId > 1
+		INNER JOIN dbo.RefResource rr WITH (NOLOCK) ON pap.ProcessId = rr.ResourceId
+		AND rr.RefName = 'PerformanceProcess'
+	WHERE pa.StatusId = @PAClosed
+		AND pa.PerformanceRecordId IS NOT NULL
+		AND pap.ProcessId > 1
+
+	SELECT reaction.PRReactionId
+		,reaction.PerformanceRecordId
+		,reaction.RoleId
+		,reaction.CreatedDate
+		,creator.EmployeeId
+		,creator.Code
+		,creator.FullName
+		,creator.NickName
+	FROM dbo.PRReaction AS reaction WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON creator.EmployeeId = reaction.CreatorId
+		INNER JOIN #tblPerformanceRecord AS record ON record.IsDraft = 0
+		AND reaction.PerformanceRecordId = record.PerformanceRecordId
+	WHERE reaction.CreatorId = @ActorId
+		OR @IsHost = 1
+	ORDER BY reaction.CreatedDate ASC
+
+	SELECT feedback.PRFeedbackId
+		,feedback.PerformanceRecordId
+		,feedback.Content
+		,feedback.RoleId
+		,feedback.CreatedDate
+		,feedback.ModifiedDate
+		,creator.EmployeeId
+		,creator.Code
+		,creator.FullName
+		,creator.NickName
+	FROM dbo.PRFeedback AS feedback WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON creator.EmployeeId = feedback.CreatorId
+		INNER JOIN #tblPerformanceRecord AS record ON record.IsDraft = 0
+		AND feedback.PerformanceRecordId = record.PerformanceRecordId
+	WHERE feedback.CreatorId = @ActorId
+		OR @IsHost = 1
+	ORDER BY feedback.CreatedDate ASC
+
+	SELECT reaction.PRFeedbackReactionId
+		,reaction.PRFeedbackId
+		,reaction.CreatorId
+		,reaction.RoleId
+		,reaction.CreatedDate
+		,creator.EmployeeId
+		,creator.Code
+		,creator.FullName
+		,creator.NickName
+	FROM dbo.PRFeedbackReaction AS reaction WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON creator.EmployeeId = reaction.CreatorId
+		INNER JOIN PRFeedback AS feedback WITH (NOLOCK) ON feedback.PRFeedbackId = reaction.PRFeedbackId
+		INNER JOIN #tblPerformanceRecord AS record ON record.IsDraft = 0
+		AND feedback.PerformanceRecordId = record.PerformanceRecordId
+	WHERE reaction.CreatorId = @ActorId
+		OR feedback.CreatorId = @ActorId
+		OR @IsHost = 1
+	ORDER BY reaction.CreatedDate ASC
 
 	DROP TABLE #tblPerformanceRecord
 END

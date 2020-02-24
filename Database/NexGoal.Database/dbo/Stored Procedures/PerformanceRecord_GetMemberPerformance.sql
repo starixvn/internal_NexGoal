@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[PerformanceRecord_GetMemberPerformance] @ActorId INT
+﻿CREATE PROCEDURE [dbo].[PerformanceRecord_GetMemberPerformance] @ActorId INT
 AS
 /*
 Created: 20181026@Tim.Trinh
@@ -8,6 +7,7 @@ DB: bodb_NexGoal
 Original:
 
 Revisions:
+- 20200217@drake.doi: Get PR's feedback, reaction
 Param's Explanation:
 
 */
@@ -148,6 +148,59 @@ BEGIN
 	FROM #tblPerformanceRecord AS record
 		OUTER APPLY [dbo].[func_SplitString](record.ProjectIds, ',') a
 		INNER JOIN dbo.ProjectTag AS prj WITH (NOLOCK) ON a.val = prj.ProjectId
+
+	SELECT reaction.PRReactionId,
+		reaction.PerformanceRecordId,
+		reaction.RoleId,
+		reaction.CreatedDate,
+		creator.EmployeeId,
+		creator.Code,
+		creator.FullName,
+		creator.NickName
+	FROM PRReaction AS reaction WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON creator.EmployeeId = reaction.CreatorId
+		INNER JOIN #tblPerformanceRecord AS record ON record.IsDraft = 0 AND reaction.PerformanceRecordId = record.PerformanceRecordId 
+		INNER JOIN #tblMember AS mem ON mem.EmployeeId = CAST(record.EmployeeIds AS VARCHAR(20))
+	WHERE reaction.CreatorId = @ActorId
+		OR mem.IsHost = 1
+	ORDER BY reaction.CreatedDate ASC
+
+	SELECT feedback.PRFeedbackId,
+		feedback.PerformanceRecordId,
+		feedback.Content,
+		feedback.RoleId,
+		feedback.CreatedDate,
+		feedback.ModifiedDate,
+		creator.EmployeeId,
+		creator.Code,
+		creator.FullName,
+		creator.NickName
+	FROM PRFeedback AS feedback WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON creator.EmployeeId = feedback.CreatorId
+		INNER JOIN #tblPerformanceRecord AS record ON record.IsDraft = 0 AND feedback.PerformanceRecordId = record.PerformanceRecordId  
+		INNER JOIN #tblMember AS mem ON mem.EmployeeId = CAST(record.EmployeeIds AS VARCHAR(20))
+	WHERE feedback.CreatorId = @ActorId
+		OR mem.IsHost = 1
+	ORDER BY feedback.CreatedDate ASC
+
+	SELECT reaction.PRFeedbackReactionId,
+		reaction.PRFeedbackId,
+		reaction.CreatorId,
+		reaction.RoleId,
+		reaction.CreatedDate,
+		creator.EmployeeId,
+		creator.Code,
+		creator.FullName,
+		creator.NickName
+	FROM PRFeedbackReaction AS reaction WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON creator.EmployeeId = reaction.CreatorId
+		INNER JOIN PRFeedback AS feedback WITH (NOLOCK) ON feedback.PRFeedbackId = reaction.PRFeedbackId
+		INNER JOIN #tblPerformanceRecord AS record ON record.IsDraft = 0 AND feedback.PerformanceRecordId = record.PerformanceRecordId 
+		INNER JOIN #tblMember AS mem ON mem.EmployeeId = CAST(record.EmployeeIds AS VARCHAR(20))
+	WHERE reaction.CreatorId = @ActorId
+		OR feedback.CreatorId = @ActorId
+		OR mem.IsHost = 1
+	ORDER BY reaction.CreatedDate ASC
 
 	DROP TABLE #tblMember
 

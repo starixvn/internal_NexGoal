@@ -6,6 +6,6 @@
 
     public interface IPRFeedbackRepository
     {
-        Task<PRFeedbackModel> GetPRFeedbacks(ICriteria criteria);
+        Task<PRFeedbackModel> GetPRFeedback(ICriteria criteria);
     }
 }

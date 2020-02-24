@@ -26,7 +26,7 @@
     <TargetFrameworkProfile />
     <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
     <DefaultFilegroup>NexGoal_Data</DefaultFilegroup>
-	<SonarQubeExclude>true</SonarQubeExclude>
+    <SonarQubeExclude>true</SonarQubeExclude>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -294,6 +294,18 @@
     <Build Include="dbo\Stored Procedures\Probation_GetEvaluations.sql" />
     <Build Include="dbo\Stored Procedures\Probation_GetEvaluationDetail.sql" />
     <Build Include="dbo\Stored Procedures\Auto_Probation_InsertNewEmployee.sql" />
+    <Build Include="dbo\Stored Procedures\PRFeedback_GetByPRId.sql" />
+    <Build Include="dbo\Stored Procedures\PRFeedback_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\PRFeedback_Update.sql" />
+    <Build Include="dbo\Stored Procedures\PRFeedbackReaction_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\PRFeedbackReaction_GetByFeedbackId.sql" />
+    <Build Include="dbo\Stored Procedures\PRFeedbackReaction_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\PRReaction_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\PRReaction_GetByPRId.sql" />
+    <Build Include="dbo\Stored Procedures\PRReaction_Insert.sql" />
+    <Build Include="dbo\Tables\PRFeedback.sql" />
+    <Build Include="dbo\Tables\PRFeedbackReaction.sql" />
+    <Build Include="dbo\Tables\PRReaction.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">

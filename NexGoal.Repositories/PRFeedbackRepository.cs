@@ -10,7 +10,7 @@
 
     public class PRFeedbackRepository : IPRFeedbackRepository
     {
-        public async Task<PRFeedbackModel> GetPRFeedbacks(ICriteria criteria)
+        public async Task<PRFeedbackModel> GetPRFeedback(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {

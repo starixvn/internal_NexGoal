@@ -56,7 +56,7 @@
                 ActorCode = param.ActorCode
             };
 
-            var feedbacks = await prFeedbackRepository.GetPRFeedbacks(criteria);
+            var feedbacks = await prFeedbackRepository.GetPRFeedback(criteria);
 
             return feedbacks;
         }
