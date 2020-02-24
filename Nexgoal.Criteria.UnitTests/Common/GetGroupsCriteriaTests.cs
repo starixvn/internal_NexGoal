@@ -24,12 +24,12 @@ namespace Nexgoal.Criteria.UnitTests.Common
         {
             // Arrange
             var criteria = new GetGroupsCriteria();
-            var expected = true;
+
             // Act
             var actual = criteria.IsValid();
 
             // Assert
-            Assert.Equal(actual, expected);
+            Assert.True(actual);
         }
     }
 }

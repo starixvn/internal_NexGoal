@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Mvc.Rendering;
     using NexGoal.Models;
     using NexGoal.Models.Common;
+    using NexGoal.Models.PARecord;
     using NexGoal.Models.Period;
 
     public interface ICommonService
@@ -37,5 +38,13 @@
         Task<IEnumerable<PeriodBaseModel>> GetPeriodForReportAsync();
 
         Task<IEnumerable<ProjectModel>> GetProjectTagByEmployeeIdAsync(int employeeId);
+
+        void MappingGrade(IEnumerable<PARecordModel> performanceAppraisals, IEnumerable<PerformanceGrade> performanceGrades);
+
+        void MappingGrade(PARecordModel performanceAppraisal, IEnumerable<PerformanceGrade> performanceGrades);
+
+        void MappingGrade(IEnumerable<PAProcessModel> processes, IEnumerable<PerformanceGrade> performanceGrades);
+
+        void MappingGrade(PAProcessModel process, IEnumerable<PerformanceGrade> performanceGrades);
     }
 }

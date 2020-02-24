@@ -12,10 +12,8 @@
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.NominationPeriod;
     using NexGoal.Models.PARecord;
-    using NexGoal.Models.PerformanceRecord;
     using NexGoal.Models.Report;
     using NexGoal.Repositories;
-    using NexGoal.Resources;
 
     public class PAReportService : IPAReportService
     {
@@ -64,7 +62,7 @@
                 ? await reportRepository.GetDataForExportPAReportAsync(criteria) : await reportRepository.GetPAReportAsync(criteria);
             IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
 
-            MappingData(tuple.Item2, performanceGrades);
+            commonService.MappingGrade(tuple.Item2, performanceGrades);
 
             var groupRecords = tuple.Item2.GroupBy(r => r.PeriodId)
                 .Select(item => new PARecordGroupByPeriod
@@ -92,33 +90,6 @@
             }
 
             return groupRecords.OrderByDescending(g => g.Period.EndDate);
-        }
-
-        private void MappingData(
-            IEnumerable<PARecordModel> performanceAppraisals,
-            IEnumerable<PerformanceGrade> performanceGrades)
-        {
-            foreach (PARecordModel performanceAppraisal in performanceAppraisals)
-            {
-                performanceAppraisal.GradeId = cryptoService.Decrypt(performanceAppraisal.GradeId);
-                int.TryParse(performanceAppraisal.GradeId, out int gradeId);
-                performanceAppraisal.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
-
-                performanceAppraisal.OriginalGradeId = cryptoService.Decrypt(performanceAppraisal.OriginalGradeId);
-                int.TryParse(performanceAppraisal.OriginalGradeId, out gradeId);
-                performanceAppraisal.OriginalGrade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
-
-                foreach (PAProcessModel process in performanceAppraisal.Processes)
-                {
-                    process.Grade = GetGradeOfPAProcess(process, performanceGrades);
-                    foreach (PerformanceRecord performanceRecord in process.RelatedPerformanceRecords)
-                    {
-                        performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
-                        int.TryParse(performanceRecord.GradeId, out gradeId);
-                        performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
-                    }
-                }
-            }
         }
 
         public async Task<PAReportDetail> GetPAReportDetailAsync(int actorId, int paRecordId)
@@ -185,20 +156,6 @@
             }
 
             return tuple.Item1;
-        }
-
-        private string GetGradeOfPAProcess(PAProcessModel process, IEnumerable<PerformanceGrade> performanceGrades)
-        {
-            process.GradeId = cryptoService.Decrypt(process.GradeId);
-            int.TryParse(process.GradeId, out int gradeId);
-            PerformanceGrade grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
-
-            if (grade != null)
-            {
-                return grade.Name;
-            }
-
-            return !string.IsNullOrWhiteSpace(process.RelatedPerformanceRecordIds) ? ViewLang.NA : string.Empty;
         }
     }
 }

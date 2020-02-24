@@ -24,12 +24,12 @@
         {
             // Arrange
             var criteria = new GetDisciplineCriteria();
-            var expected = true;
+
             // Act
             var actual = criteria.IsValid();
 
             // Assert
-            Assert.Equal(actual, expected);
+            Assert.True(actual);
         }
     }
 }

@@ -138,33 +138,10 @@
                 int.TryParse(record.OriginalGradeId, out int originalGradeId);
                 record.OriginalGrade = performanceGrades.FirstOrDefault(x => x.GradeId == originalGradeId)?.Name;
 
-                foreach (PAProcessModel process in record.Processes)
-                {
-                    process.Grade = GetGradeOfPAProcess(process, performanceGrades);
-                    foreach (PerformanceRecord performanceRecord in process.RelatedPerformanceRecords)
-                    {
-                        performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
-                        int.TryParse(performanceRecord.GradeId, out gradeId);
-                        performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
-                    }
-                }
+                commonService.MappingGrade(record.Processes, performanceGrades);
             }
 
             return records;
-        }
-
-        private string GetGradeOfPAProcess(PAProcessModel process, IEnumerable<PerformanceGrade> performanceGrades)
-        {
-            process.GradeId = cryptoService.Decrypt(process.GradeId);
-            int.TryParse(process.GradeId, out int gradeId);
-            PerformanceGrade grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
-
-            if (grade != null)
-            {
-                return grade.Name;
-            }
-
-            return !string.IsNullOrWhiteSpace(process.RelatedPerformanceRecordIds) ? ViewLang.NA : string.Empty;
         }
 
         private static void WriteRecord(ExcelWorksheet worksheet, MasterReportModel record, IEnumerable<PerformanceGrade> performanceGrades, ref int currentRow, ref int rowIndex)

@@ -53,7 +53,7 @@
             var httpContext = new DefaultHttpContext
             {
                 Session = new MockSession(),
-                User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                User = new ClaimsPrincipal(new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.Name, "tim.trinh")
                 }))

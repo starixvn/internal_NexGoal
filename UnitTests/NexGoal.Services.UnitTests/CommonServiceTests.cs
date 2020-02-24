@@ -11,6 +11,7 @@ namespace NexGoal.Services.UnitTests
     using NexGoal.Criteria.Report;
     using NexGoal.Models;
     using NexGoal.Models.Common;
+    using NexGoal.Models.Period;
     using NSubstitute;
     using Xunit;
 
@@ -195,9 +196,9 @@ namespace NexGoal.Services.UnitTests
         public async Task GetCurrentPerformancePeriodAsync_WhenCalled_ReturnAsExpectedPeriod()
         {
             // Arrange
-            var expected = new PeriodBaseModel { PeriodId = 1, Name = "2h 2018" };
+            var expected = new PeriodModel { PeriodId = 1, Name = "2h 2018" };
             var service = GetCommonService();
-            baseService.GetDataEntityAsync<PeriodBaseModel>(Arg.Any<GetCurrentPerformancePeriodCriteria>()).Returns(expected);
+            baseService.GetDataEntityAsync<PeriodModel>(Arg.Any<GetCurrentPerformancePeriodCriteria>()).Returns(expected);
 
             // Act
             var actual = await service.GetCurrentPerformancePeriodAsync();
@@ -279,7 +280,7 @@ namespace NexGoal.Services.UnitTests
         {
             baseService = Helpers.FakeBaseService();
             memoryCache = Substitute.For<IMemoryCache>();
-            var service = new CommonService(baseService, memoryCache);
+            var service = new CommonService(baseService, memoryCache, Helpers.FakeCryptoService());
 
             return service;
         }

@@ -36,12 +36,12 @@
                 ModifiedBy = actorId,
                 Description = description
             };
-            var expected = false;
+
             // Act
             var actual = criteria.IsValid();
 
             // Assert
-            Assert.Equal(actual, expected);
+            Assert.False(actual);
         }
 
         [Fact]
@@ -54,12 +54,12 @@
                 DisciplineId = 2,
                 Description = "Test"
             };
-            var expected = true;
+
             // Act
             var actual = criteria.IsValid();
 
             // Assert
-            Assert.Equal(actual, expected);
+            Assert.True(actual);
         }
     }
 }

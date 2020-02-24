@@ -27,12 +27,11 @@
             {
                 DomainUsername = string.Empty
             };
-            var expected = false;
             // Act
             var actual = criteria.IsValid();
 
             // Assert
-            Assert.Equal(actual, expected);
+            Assert.False(actual);
         }
 
         [Fact]
@@ -43,12 +42,11 @@
             {
                 DomainUsername = "oliver.dang"
             };
-            var expected = true;
             // Act
             var actual = criteria.IsValid();
 
             // Assert
-            Assert.Equal(actual, expected);
+            Assert.True(actual);
         }
     }
 }

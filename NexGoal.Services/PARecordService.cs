@@ -111,7 +111,7 @@
             if (performanceAppraisal != null)
             {
                 IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
-                MappingData(performanceAppraisal, performanceGrades);
+                commonService.MappingGrade(performanceAppraisal, performanceGrades);
             }
 
             return performanceAppraisal;
@@ -140,11 +140,7 @@
             };
             IEnumerable<PARecordModel> performanceAppraisals = await paRepository.GetPARecordByReviewerAsync(criteria);
             IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
-
-            foreach (PARecordModel performanceAppraisal in performanceAppraisals)
-            {
-                MappingData(performanceAppraisal, performanceGrades);
-            }
+            commonService.MappingGrade(performanceAppraisals, performanceGrades);
 
             var paRecords = performanceAppraisals.GroupBy(p => p.Employee.GroupName)
                 .Select(r => new PARecordGroupModel
@@ -178,45 +174,6 @@
             };
 
             return await baseService.GetDataEntityAsync<Policy>(criteria);
-        }
-
-        private void MappingData(
-            PARecordModel performanceAppraisal,
-            IEnumerable<PerformanceGrade> performanceGrades)
-        {
-            int gradeId;
-            foreach (PAProcessModel process in performanceAppraisal.Processes)
-            {
-                process.Grade = GetGradeOfPAProcess(process, performanceGrades);
-                foreach (PerformanceRecord performanceRecord in process.RelatedPerformanceRecords)
-                {
-                    performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
-                    int.TryParse(performanceRecord.GradeId, out gradeId);
-                    performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
-                }
-            }
-
-            performanceAppraisal.GradeId = cryptoService.Decrypt(performanceAppraisal.GradeId);
-            int.TryParse(performanceAppraisal.GradeId, out gradeId);
-            performanceAppraisal.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
-
-            performanceAppraisal.OriginalGradeId = cryptoService.Decrypt(performanceAppraisal.OriginalGradeId);
-            int.TryParse(performanceAppraisal.OriginalGradeId, out gradeId);
-            performanceAppraisal.OriginalGrade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
-        }
-
-        private string GetGradeOfPAProcess(PAProcessModel process, IEnumerable<PerformanceGrade> performanceGrades)
-        {
-            process.GradeId = cryptoService.Decrypt(process.GradeId);
-            int.TryParse(process.GradeId, out int gradeId);
-            PerformanceGrade grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
-
-            if (grade != null)
-            {
-                return grade.Name;
-            }
-
-            return !string.IsNullOrWhiteSpace(process.RelatedPerformanceRecordIds) ? ViewLang.NA : string.Empty;
         }
     }
 }

@@ -11,7 +11,6 @@
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PerformanceRecord;
     using NexGoal.Models;
-    using NexGoal.Models.Common;
     using NexGoal.Models.PerformanceRecord;
     using NexGoal.Models.Period;
     using NexGoal.Repositories.Interfaces;
@@ -372,11 +371,11 @@
 
             foreach (PAGradeDetailModel detail in paSummary.GradeDetails)
             {
-                detail.Grade = GetGradeOfPAProcess(detail, performanceGrades);
+                detail.Grade = MappingGrade(detail, performanceGrades);
             }
         }
 
-        private string GetGradeOfPAProcess(PAGradeDetailModel process, IEnumerable<PerformanceGrade> performanceGrades)
+        private string MappingGrade(PAGradeDetailModel process, IEnumerable<PerformanceGrade> performanceGrades)
         {
             process.GradeId = cryptoService.Decrypt(process.GradeId);
             int.TryParse(process.GradeId, out int gradeId);
