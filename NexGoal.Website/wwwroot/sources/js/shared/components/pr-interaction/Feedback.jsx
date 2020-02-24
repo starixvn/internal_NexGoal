@@ -9,6 +9,7 @@ import { getRoleClassName, calendar, resolveClientUrl, axiosError } from '../../
 import LikesStatisticModal from './LikesStatisticModal';
 import getResource from '../../../resourceHelper';
 import { toast } from 'react-toastify';
+
 export default class Feedback extends Component {
     constructor(props) {
         super(props);
@@ -261,7 +262,7 @@ export default class Feedback extends Component {
             showLikeModal,
             numOfLikes,
             modifiedDate,
-            reactions} = this.state;
+            reactions } = this.state;
         const { feedback, isReadOnly } = this.props;
         const curUserCode = document.getElementById('employeeInfo-code').value;
         const isOwner = (curUserCode === feedback.creator.code);
