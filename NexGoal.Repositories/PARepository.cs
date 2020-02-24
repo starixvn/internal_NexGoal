@@ -101,7 +101,8 @@
                             },
                             "EmployeeId");
 
-                        MappingData(performanceAppraisal, performanceRecords, projects, reactions, feedbacks, feedbackReactions);
+                        CommonMapping.MappingPerformanceRecord(performanceRecords, projects, reactions, feedbacks, feedbackReactions);
+                        CommonMapping.MappingRelatedPerformanceRecord(performanceAppraisal.Processes, performanceRecords);
                     }
 
                     return performanceAppraisal;
@@ -129,48 +130,10 @@
                             return process;
                         },
                         "EvaluatorId");
-
-                    MappingData(performanceAppraisals, processes);
+                    CommonMapping.MappingPerformanceAppraisal(performanceAppraisals, processes);
 
                     return performanceAppraisals;
                 }
-            }
-        }
-
-        private static void MappingData(
-            PARecordModel performanceAppraisal,
-            IEnumerable<PerformanceRecord> performanceRecords,
-            IEnumerable<ProjectModel> projects,
-            IEnumerable<PRReactionModel> reactions,
-            IEnumerable<PRFeedbackModel> feedbacks,
-            IEnumerable<PRFeedbackReactionModel> feedbackReactions)
-        {
-            foreach (PRFeedbackModel feedback in feedbacks)
-            {
-                feedback.Reactions = feedbackReactions.Where(x => x.PRFeedbackId == feedback.PRFeedbackId);
-            }
-
-            foreach (PerformanceRecord performanceRecord in performanceRecords)
-            {
-                performanceRecord.Projects = projects.Where(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
-                performanceRecord.Reactions = reactions.Where(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
-                performanceRecord.Feedbacks = feedbacks.Where(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
-            }
-
-            foreach (PAProcessModel process in performanceAppraisal.Processes)
-            {
-                var recordIds = !string.IsNullOrWhiteSpace(process.RelatedPerformanceRecordIds)
-                    ? process.RelatedPerformanceRecordIds.Split(',') : new string[] { };
-                process.RelatedPerformanceRecords = performanceRecords.Where(x => recordIds.Any(y => y == x.PerformanceRecordId.ToString()))
-                    .OrderByDescending(x => x.CreatedDate);
-            }
-        }
-
-        private static void MappingData(IEnumerable<PARecordModel> performanceAppraisals, IEnumerable<PAProcessModel> processes)
-        {
-            foreach (PARecordModel performanceAppraisal in performanceAppraisals)
-            {
-                performanceAppraisal.Processes = processes.Where(x => x.PARecordId == performanceAppraisal.PARecordId);
             }
         }
     }

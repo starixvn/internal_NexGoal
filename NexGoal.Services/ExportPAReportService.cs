@@ -298,15 +298,7 @@
                     richTextCollection.Add(Environment.NewLine);
                 }
 
-                foreach (PRFeedbackModel feedback in record.Feedbacks)
-                {
-                    richTextCollection.Add($"{feedback.Creator.NickName}").Bold = true;
-                    richTextCollection.Add(" commented:").Bold = false;
-                    richTextCollection.Add(Environment.NewLine);
-                    richTextCollection.Add(feedback.Content);
-                    richTextCollection.Add(Environment.NewLine);
-                    richTextCollection.Add(Environment.NewLine);
-                }
+                WriteFeedback(richTextCollection, record);
 
                 if (recordIndex != totalRecords)
                 {
@@ -360,6 +352,28 @@
             };
 
             return pdf;
+        }
+
+        private static void WriteFeedback(ExcelRichTextCollection richText, PerformanceRecord record)
+        {
+            foreach (PRFeedbackModel feedback in record.Feedbacks)
+            {
+                richText.Add($"{feedback.Creator.NickName}").Bold = true;
+                richText.Add(" commented:").Bold = false;
+                richText.Add(Environment.NewLine);
+                richText.Add(feedback.Content);
+                richText.Add(Environment.NewLine);
+                richText.Add(Environment.NewLine);
+
+                if (feedback.Reactions.Any())
+                {
+                    var creator = string.Join(", ", feedback.Reactions.Select(x => x.Creator.NickName));
+                    richText.Add($"{creator}").Bold = true;
+                    richText.Add(" liked this comment.").Bold = false;
+                    richText.Add(Environment.NewLine);
+                    richText.Add(Environment.NewLine);
+                }
+            }
         }
     }
 }

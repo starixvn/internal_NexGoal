@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[Period_GetEmployeeSettings] @PeriodId INT
 	,@GroupId INT = NULL
 	,@IsEvaluated BIT = NULL
@@ -13,7 +12,7 @@ DB: bodb_NexGoal
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @PARecordTbl TABLE (Id INT PRIMARY KEY);
+	DECLARE @PARecordTbl TABLE (Id INT PRIMARY KEY)
 
 	INSERT INTO @PARecordTbl
 	SELECT par.PARecordId
@@ -32,12 +31,7 @@ BEGIN
 			)
 		AND (
 			@IsEvaluated IS NULL
-			OR EXISTS (
-				SELECT 1
-				FROM dbo.PAProcess AS pap WITH (NOLOCK)
-					INNER JOIN dbo.PerformanceRecord AS pr WITH (NOLOCK) ON pap.PerformanceRecordId = pr.PerformanceRecordId
-					AND pap.PARecordId = par.PARecordId
-				)
+			OR par.IsRevised = @IsEvaluated
 			)
 
 	SELECT par.PARecordId
@@ -52,9 +46,8 @@ BEGIN
 		INNER JOIN dbo.RefResource AS rr WITH (NOLOCK) ON par.StatusId = rr.ResourceId
 		AND rr.RefName = 'PerformanceStatus'
 		INNER JOIN @PARecordTbl AS tbl ON par.PARecordId = tbl.Id
-		INNER JOIN dbo.func_GetSortedEmployee(null) AS ee ON e.EmployeeId = ee.EmployeeId
+		INNER JOIN dbo.func_GetSortedEmployee(NULL) AS ee ON e.EmployeeId = ee.EmployeeId
 	ORDER BY ee.RankIndex
-	
 
 	SELECT pap.PARecordId
 		,pap.ProcessId

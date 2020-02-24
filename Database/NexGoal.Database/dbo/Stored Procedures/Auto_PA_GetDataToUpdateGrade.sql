@@ -21,7 +21,7 @@ BEGIN
 
 	SELECT pa.PARecordId
 		,pa.EmployeeId
-		,record.GradeId
+		,evaluator.GradeId
 		,pa.StatusId
 		,toeic.Score AS ToeicPolicy
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
@@ -29,7 +29,6 @@ BEGIN
 		AND period.IsActive = 1
 		INNER JOIN dbo.PAProcess AS evaluator WITH (NOLOCK) ON pa.PARecordId = evaluator.PARecordId
 		AND evaluator.ProcessId = @EvaluatorProcessId
-		INNER JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON evaluator.PerformanceRecordId = record.PerformanceRecordId
 		LEFT JOIN dbo.ToeicPolicy AS toeic WITH (NOLOCK) ON pa.EmployeeId = toeic.EmployeeId
 	WHERE pa.StatusId = @PAInProgress
 		AND EXISTS (

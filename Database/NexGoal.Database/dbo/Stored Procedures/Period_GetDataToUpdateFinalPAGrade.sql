@@ -49,15 +49,14 @@ BEGIN
 	-- reset grade if reviewer is not revised
 	SELECT pa.PARecordId
 		,NULL AS OriginalGradeId
-		,record.GradeId
+		,process.GradeId
 		,pa.StatusId
 		,ISNULL(toeic.Score, 0) AS ToeicPolicy
 	FROM dbo.PARecord AS pa WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
 		AND pa.PeriodId = @PeriodId
-		INNER JOIN dbo.PAProcess AS paprocess WITH (NOLOCK) ON pa.PARecordId = paprocess.PARecordId
-		AND paprocess.ProcessId = @EvaluatorProcessId
-		LEFT JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON paprocess.PerformanceRecordId = record.PerformanceRecordId
+		INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
+		AND process.ProcessId = @EvaluatorProcessId
 		LEFT JOIN dbo.ToeicPolicy AS toeic WITH (NOLOCK) ON pa.EmployeeId = toeic.EmployeeId
 	WHERE pa.StatusId = @PAInProgress
 		AND pa.ModifiedBy IS NULL

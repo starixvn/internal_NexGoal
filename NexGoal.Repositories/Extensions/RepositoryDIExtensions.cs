@@ -18,6 +18,7 @@
             services.AddScoped<IPRReactionRepository, PRReactionRepository>();
             services.AddScoped<IPRFeedbackReactionRepository, PRFeedbackReactionRepository>();
             services.AddScoped<IPRFeedbackRepository, PRFeedbackRepository>();
+            services.AddScoped<IMasterReportRepository, MasterReportRepository>();
         }
     }
 }

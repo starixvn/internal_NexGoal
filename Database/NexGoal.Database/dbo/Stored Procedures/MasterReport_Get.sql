@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[MasterReport_Get] @PeriodId INT
+﻿
+CREATE PROCEDURE [dbo].[MasterReport_Get] @PeriodId INT
 	,@ActorId INT
 	,@GroupIds VARCHAR(MAX) = NULL
 	,@EmployeeIds VARCHAR(MAX) = NULL
@@ -18,21 +19,43 @@ BEGIN
 
 	DECLARE @Today DATE = GETDATE()
 		,@PARejected TINYINT = 5
+		,@SelfProcessId TINYINT = 2
 	DECLARE @WorkingFromDate DATE
 		,@WorkingToDate DATE
+	DECLARE @tblGroupId TABLE (GroupId INT)
+	DECLARE @tblEmployeeId TABLE (EmpId INT)
+	DECLARE @tblPARecordId TABLE (PARecordId INT)
 
 	SELECT @WorkingFromDate = DisciplineStartDate
 		,@WorkingToDate = DATEADD(DAY, DATEDIFF(DAY, 0, DisciplineEndDate), '23:59:59')
 	FROM dbo.Period WITH (NOLOCK)
 	WHERE PeriodId = @PeriodId
 
+	INSERT INTO @tblGroupId (GroupId)
 	SELECT val
-	INTO #group
 	FROM dbo.func_SplitString(@GroupIds, ',')
 
+	INSERT INTO @tblEmployeeId (EmpId)
 	SELECT val
-	INTO #employee
 	FROM dbo.func_SplitString(@EmployeeIds, ',')
+
+	INSERT INTO @tblPARecordId (PARecordId)
+	SELECT par.PARecordId
+	FROM dbo.PARecord AS par WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS e WITH (NOLOCK) ON par.EmployeeId = e.EmployeeId
+		INNER JOIN dbo.[Group] AS g WITH (NOLOCK) ON e.GroupId = g.GroupId
+	WHERE par.StatusId <> @PARejected
+		AND EXISTS (
+			SELECT 1
+			FROM @tblGroupId AS g
+			WHERE e.GroupId = g.GroupId
+			)
+		AND EXISTS (
+			SELECT 1
+			FROM @tblEmployeeId AS eid
+			WHERE e.EmployeeId = eid.EmpId
+			)
+		AND par.PeriodId = @PeriodId
 
 	SELECT pst.EmployeeId
 		,SUM(pst.[Hours]) AS TotalSpentTime
@@ -42,8 +65,8 @@ BEGIN
 			AND @WorkingToDate
 		AND EXISTS (
 			SELECT 1
-			FROM #employee AS e
-			WHERE e.val = pst.EmployeeId
+			FROM @tblEmployeeId AS e
+			WHERE e.EmpId = pst.EmployeeId
 			)
 	GROUP BY pst.EmployeeId
 
@@ -71,8 +94,8 @@ BEGIN
 			AND @WorkingToDate
 		AND EXISTS (
 			SELECT 1
-			FROM #employee AS e
-			WHERE e.val = ec.EmpId
+			FROM @tblEmployeeId AS e
+			WHERE e.EmpId = ec.EmpId
 			)
 	GROUP BY ec.EmpId
 
@@ -111,18 +134,11 @@ BEGIN
 		AND paf.EmployeeId = par.EmployeeId
 		LEFT JOIN dbo.EmployeeObjective AS l WITH (NOLOCK) ON l.ObjectiveId = paf.LastObjectiveId
 		LEFT JOIN dbo.EmployeeObjective AS n WITH (NOLOCK) ON n.ObjectiveId = paf.NextObjectiveId
-	WHERE par.StatusId <> @PARejected
-		AND EXISTS (
+	WHERE EXISTS (
 			SELECT 1
-			FROM #group AS g
-			WHERE e.GroupId = g.val
+			FROM @tblPARecordId AS tbl
+			WHERE par.PARecordId = tbl.PARecordId
 			)
-		AND EXISTS (
-			SELECT 1
-			FROM #employee AS eid
-			WHERE e.EmployeeId = eid.val
-			)
-		AND par.PeriodId = @PeriodId
 	ORDER BY se.RankIndex
 
 	SELECT n.NomineeId
@@ -144,48 +160,108 @@ BEGIN
 			)
 		AND EXISTS (
 			SELECT 1
-			FROM #group AS g
-			WHERE e.GroupId = g.val
+			FROM @tblGroupId AS g
+			WHERE e.GroupId = g.GroupId
 			)
 		AND EXISTS (
 			SELECT 1
-			FROM #employee AS eid
-			WHERE e.EmployeeId = eid.val
+			FROM @tblEmployeeId AS eid
+			WHERE e.EmployeeId = eid.EmpId
 			)
 		AND eoq.EndDateForCommittee < @Today
 
-	SELECT evaluator.NickName
-		,evaluator.FullName
-		,pap.EvaluatorId
-		,pr.GradeId
-		,pr.Comment
+	CREATE TABLE #tblRelatedPerformanceRecord (
+		PARecordId INT
+		,ProcessId TINYINT
+		,PerformanceRecordId INT
+		)
+
+	SELECT par.PARecordId
 		,pap.ProcessId
-		,par.EmployeeId
-		,pap.PerformanceRecordId
+		,pap.EvaluatorId
+		,evaluator.FullName
+		,evaluator.NickName
+		,pap.GradeId
+		,pap.RelatedPerformanceRecordIds
 	FROM dbo.PARecord AS par WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS e WITH (NOLOCK) ON par.EmployeeId = e.EmployeeId
 		INNER JOIN dbo.PAProcess AS pap WITH (NOLOCK) ON par.PARecordId = pap.PARecordId
+		AND pap.ProcessId > 1
 		INNER JOIN dbo.Employee AS evaluator WITH (NOLOCK) ON pap.EvaluatorId = evaluator.EmployeeId
-		LEFT JOIN dbo.PerformanceRecord AS pr WITH (NOLOCK) ON pap.PerformanceRecordId = pr.PerformanceRecordId
-	WHERE par.PeriodId = @PeriodId
-		AND par.StatusId <> @PARejected
-		AND pap.ProcessId <> 1
-		AND EXISTS (
+	WHERE EXISTS (
 			SELECT 1
-			FROM #group AS g
-			WHERE e.GroupId = g.val
-			)
-		AND EXISTS (
-			SELECT 1
-			FROM #employee AS eid
-			WHERE e.EmployeeId = eid.val
+			FROM @tblPARecordId AS tbl
+			WHERE par.PARecordId = tbl.PARecordId
 			)
 
-	DROP TABLE #group
+	INSERT INTO #tblRelatedPerformanceRecord (
+		PARecordId
+		,ProcessId
+		,PerformanceRecordId
+		)
+	SELECT pa.PARecordId
+		,process.ProcessId
+		,record.val
+	FROM dbo.PARecord AS pa WITH (NOLOCK)
+		INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
+		AND process.ProcessId >= @SelfProcessId
+		CROSS APPLY dbo.func_SplitString(process.RelatedPerformanceRecordIds, ',') AS record
 
-	DROP TABLE #employee
+	SELECT record.PerformanceRecordId
+		,record.GradeId
+		,record.Comment
+		,0 AS IsDraft
+		,record.CreatedDate
+		,record.RoleId
+		,record.TypeId
+		,creator.EmployeeId
+		,creator.Code
+		,creator.NickName
+		,creator.FullName
+	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
+		INNER JOIN #tblRelatedPerformanceRecord AS tbl WITH (NOLOCK) ON record.PerformanceRecordId = tbl.PerformanceRecordId
+		LEFT JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeId = emp.EmployeeId
+		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
+
+	SELECT reaction.PerformanceRecordId
+		,reaction.RoleId
+		,creator.EmployeeId
+		,creator.NickName
+		,creator.FullName
+		,creator.Code
+	FROM dbo.PRReaction AS reaction WITH (NOLOCK)
+		INNER JOIN #tblRelatedPerformanceRecord AS tbl WITH (NOLOCK) ON reaction.PerformanceRecordId = tbl.PerformanceRecordId
+		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON reaction.CreatorId = creator.EmployeeId
+	ORDER BY reaction.CreatedDate ASC
+
+	SELECT fb.PRFeedbackId
+		,fb.PerformanceRecordId
+		,fb.RoleId
+		,fb.Content
+		,fb.CreatedDate
+		,creator.EmployeeId
+		,creator.NickName
+		,creator.FullName
+		,creator.Code
+	FROM dbo.PRFeedback AS fb WITH (NOLOCK)
+		INNER JOIN #tblRelatedPerformanceRecord AS tbl WITH (NOLOCK) ON fb.PerformanceRecordId = tbl.PerformanceRecordId
+		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON fb.CreatorId = creator.EmployeeId
+
+	SELECT reaction.PRFeedbackId
+		,reaction.RoleId
+		,creator.EmployeeId
+		,creator.NickName
+		,creator.FullName
+		,creator.Code
+	FROM dbo.PRFeedbackReaction AS reaction WITH (NOLOCK)
+		INNER JOIN dbo.PRFeedback AS fb WITH (NOLOCK) ON reaction.PRFeedbackId = fb.PRFeedbackId
+		INNER JOIN #tblRelatedPerformanceRecord AS tbl WITH (NOLOCK) ON fb.PerformanceRecordId = tbl.PerformanceRecordId
+		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON reaction.CreatorId = creator.EmployeeId
+	ORDER BY reaction.CreatedDate ASC
 
 	DROP TABLE #employeespenttime
 
 	DROP TABLE #workingday
+
+	DROP TABLE #tblRelatedPerformanceRecord
 END

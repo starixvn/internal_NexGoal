@@ -65,6 +65,15 @@
                         <strong>@feedback.Creator.NickName</strong> commented:
                         <br />
                         @feedback.Content
+
+                        @if (feedback.Reactions.Any())
+                        {
+                            creator = string.Join(", ", feedback.Reactions.Select(x => x.Creator.NickName));
+
+                            <br />
+                            <br />
+                            <span><strong>@creator</strong> liked this comment.</span>
+                        }
                     </div>
                 }
             </div>

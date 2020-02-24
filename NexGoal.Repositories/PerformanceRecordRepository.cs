@@ -71,6 +71,11 @@
                         summary.GradeDetails = paGradeDetails.Where(x => x.PARecordId == summary.PARecordId);
                     }
 
+                    foreach (PRFeedbackModel feedback in feedbacks)
+                    {
+                        feedback.Reactions = feedbackReactions.Where(x => x.PRFeedbackId == feedback.PRFeedbackId);
+                    }
+
                     foreach (PerformanceRecord performanceRecord in performanceRecords)
                     {
                         if (performanceRecord.TypeId == (int)PerformanceRecordType.SystemPerformanceAppraisal)
@@ -81,11 +86,6 @@
                         performanceRecord.Projects = projects.Where(t => t.PerformanceRecordId == performanceRecord.PerformanceRecordId);
                         performanceRecord.Reactions = reactions.Where(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
                         performanceRecord.Feedbacks = feedbacks.Where(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
-                    }
-
-                    foreach (PRFeedbackModel feedback in feedbacks)
-                    {
-                        feedback.Reactions = feedbackReactions.Where(x => x.PRFeedbackId == feedback.PRFeedbackId);
                     }
 
                     return performanceRecords;
@@ -240,6 +240,11 @@
                         summary.GradeDetails = paGradeDetails.Where(x => x.PARecordId == summary.PARecordId);
                     }
 
+                    foreach (PRFeedbackModel feedback in feedbacks)
+                    {
+                        feedback.Reactions = feedbackReactions.Where(x => x.PRFeedbackId == feedback.PRFeedbackId);
+                    }
+
                     foreach (PerformanceRecord performanceRecord in performanceRecords)
                     {
                         performanceRecord.Employees = members.Where(t => t.LinkObjectId == performanceRecord.PerformanceRecordId);
@@ -251,11 +256,6 @@
                         {
                             performanceRecord.PASummary = paSummaries.FirstOrDefault(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
                         }
-                    }
-
-                    foreach (PRFeedbackModel feedback in feedbacks)
-                    {
-                        feedback.Reactions = feedbackReactions.Where(x => x.PRFeedbackId == feedback.PRFeedbackId);
                     }
 
                     return performanceRecords;
@@ -304,17 +304,17 @@
                         },
                         "EmployeeId");
 
+                    foreach (PRFeedbackModel feedback in feedbacks)
+                    {
+                        feedback.Reactions = feedbackReactions.Where(x => x.PRFeedbackId == feedback.PRFeedbackId);
+                    }
+
                     foreach (PerformanceRecord performanceRecord in performanceRecords)
                     {
                         performanceRecord.Employees = members.Where(t => t.LinkObjectId == performanceRecord.PerformanceRecordId);
                         performanceRecord.Projects = projects.Where(t => t.PerformanceRecordId == performanceRecord.PerformanceRecordId);
                         performanceRecord.Reactions = reactions.Where(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
                         performanceRecord.Feedbacks = feedbacks.Where(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
-                    }
-
-                    foreach (PRFeedbackModel feedback in feedbacks)
-                    {
-                        feedback.Reactions = feedbackReactions.Where(x => x.PRFeedbackId == feedback.PRFeedbackId);
                     }
 
                     return performanceRecords;

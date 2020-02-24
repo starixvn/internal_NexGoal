@@ -23,16 +23,15 @@ BEGIN
 		,@duration INT
 		,@logDataOld NVARCHAR(MAX)
 		,@xml XML
+	DECLARE	@PAOpened TINYINT = 2
+		,@PAInProgress TINYINT = 3
+		,@PAClosed TINYINT = 4
 
 	IF EXISTS (
 			SELECT 1
-			FROM dbo.PAProcess pap WITH (NOLOCK)
-			WHERE pap.PerformanceRecordId IS NOT NULL
-				AND EXISTS (
-					SELECT 1
-					FROM dbo.PARecord par WITH (NOLOCK)
-					WHERE par.PeriodId = @PeriodId
-					)
+			FROM dbo.PARecord WITH (NOLOCK)
+			WHERE PeriodId = @PeriodId
+				AND StatusId IN (@PAOpened, @PAInProgress, @PAClosed)
 			)
 	BEGIN
 		SET @ErrCode = 1
@@ -42,32 +41,32 @@ BEGIN
 	END
 
 	SET @xml = (
-			SELECT p.PeriodId AS '@pi'
-				,p.[Name] AS '@n'
-				,p.TargetTypeId AS '@tti'
-				,p.[Description] AS '@d'
-				,p.StartDate AS '@sd'
-				,p.EndDate AS '@ed'
-				,p.DisciplineStartDate AS '@dsd'
-				,p.DisciplineEndDate AS '@ded'
-				,p.FocusStartDate AS '@fsd'
-				,p.IsActive AS '@ia'
-				,p.CreatedBy AS '@cb'
-				,p.CreatedDate AS '@cd'
-				,p.ModifiedBy AS '@mb'
-				,p.ModifiedDate AS '@md'
-			FROM dbo.Period p WITH (NOLOCK)
-			WHERE p.PeriodId = @PeriodId
+			SELECT PeriodId AS '@pi'
+				,[Name] AS '@n'
+				,TargetTypeId AS '@tti'
+				,[Description] AS '@d'
+				,StartDate AS '@sd'
+				,EndDate AS '@ed'
+				,DisciplineStartDate AS '@dsd'
+				,DisciplineEndDate AS '@ded'
+				,FocusStartDate AS '@fsd'
+				,IsActive AS '@ia'
+				,CreatedBy AS '@cb'
+				,CreatedDate AS '@cd'
+				,ModifiedBy AS '@mb'
+				,ModifiedDate AS '@md'
+			FROM dbo.Period WITH (NOLOCK)
+			WHERE PeriodId = @PeriodId
 			FOR XML PATH('r')
 				,TYPE
 			)
 	SET @logDataOld = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
 
 	DELETE pap
-	FROM dbo.PAProcess pap
+	FROM dbo.PAProcess AS pap
 	WHERE EXISTS (
 			SELECT 1
-			FROM dbo.PARecord par WITH (NOLOCK)
+			FROM dbo.PARecord AS par WITH (NOLOCK)
 			WHERE par.PARecordId = pap.PARecordId
 				AND par.PeriodId = @PeriodId
 			)

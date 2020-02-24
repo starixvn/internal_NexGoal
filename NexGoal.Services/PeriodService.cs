@@ -34,21 +34,21 @@
         {
             var criteria = new GetPeriodsCriteria { IsActive = isActive };
 
-            return await baseService.GetDataAsync<PeriodModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<PeriodModel>(criteria);
         }
 
         public async Task<PeriodModel> GetByIdAsync(int periodId)
         {
             var criteria = new GetPeriodCriteria { PeriodId = periodId };
 
-            return await baseService.GetDataEntityAsync<PeriodModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataEntityAsync<PeriodModel>(criteria);
         }
 
         public async Task<IEnumerable<PeriodProcessSettingModel>> GetPeriodProcessSettingAsync(int periodId)
         {
             var criteria = new GetPeriodProcessSettingCriteria { PeriodId = periodId };
 
-            return await baseService.GetDataAsync<PeriodProcessSettingModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<PeriodProcessSettingModel>(criteria);
         }
 
         public async Task<CommandResult> CreateAsync(int actorId, CreatePeriodModel model)
@@ -68,7 +68,7 @@
                 CreatedBy = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<CommandResult> EditStatusAsync(int actorId, int periodId, bool isActive)
@@ -80,7 +80,7 @@
                 ModifiedBy = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<CommandResult> DeleteAsync(int actorId, int periodId)
@@ -91,7 +91,7 @@
                 ModifiedBy = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<CommandResult> EditAsync(int actorId, EditPeriodModel model)
@@ -135,7 +135,7 @@
                 ModifiedBy = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<IEnumerable<PARecordModel>> GetEmployeeSettingAsync(
@@ -152,8 +152,8 @@
                 StatusId = statusId
             };
 
-            var result = await baseService.FetchMultipleAsync<PARecordModel, PAProcessModel>(criteria).ConfigureAwait(false);
-            IEnumerable<Employee> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+            var result = await baseService.FetchMultipleAsync<PARecordModel, PAProcessModel>(criteria);
+            IEnumerable<Employee> employees = await commonService.GetEmployeesAsync(isEnabled: null);
 
             IEnumerable<PARecordModel> paRecords = result.Item1;
             IEnumerable<PAProcessModel> paProcesses = result.Item2;
@@ -182,7 +182,7 @@
                 CreatedBy = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<CommandResult> EditEmployeeSettingAsync(
@@ -199,11 +199,10 @@
                 ModifiedBy = actorId
             };
 
-            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
-
+            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria);
             if (commandResult.IsSuccessful)
             {
-                commandResult = await EditFinalPAGradeAsync(actorId, criteria.PeriodId, criteria.PARecordIds).ConfigureAwait(false);
+                commandResult = await EditFinalPAGradeAsync(actorId, criteria.PeriodId, criteria.PARecordIds);
             }
 
             return commandResult;
@@ -218,7 +217,7 @@
                 ModifiedBy = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<PARecordModel> GetEmployeeSettingByIdAsync(int paRecordId)
@@ -228,12 +227,12 @@
                 PARecordId = paRecordId
             };
 
-            var result = await baseService.FetchMultipleAsync<PARecordModel, PAProcessModel>(criteria).ConfigureAwait(false);
+            var result = await baseService.FetchMultipleAsync<PARecordModel, PAProcessModel>(criteria);
 
             PARecordModel paRecord = result.Item1.FirstOrDefault();
             if (paRecord != null)
             {
-                IEnumerable<Employee> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+                IEnumerable<Employee> employees = await commonService.GetEmployeesAsync(isEnabled: null);
                 paRecord.Employee = employees.FirstOrDefault(x => x.EmployeeId == paRecord.EmployeeId);
 
                 foreach (PAProcessModel process in result.Item2)
@@ -257,11 +256,11 @@
                 Override = true
             };
 
-            CommandResult result = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            CommandResult result = await baseService.ExecuteNonQueryAsync(criteria);
 
             if (result.IsSuccessful)
             {
-                result = await EditPAGradeAsync(paRecordIds).ConfigureAwait(false);
+                result = await EditPAGradeAsync(paRecordIds);
             }
 
             return result;
@@ -273,8 +272,8 @@
             {
                 PARecordIds = paRecordIds
             };
-            var records = await baseService.GetDataAsync<EditPAGradeDto>(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGrade> grades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            var records = await baseService.GetDataAsync<EditPAGradeDto>(criteria);
+            IEnumerable<PerformanceGrade> grades = await commonService.GetPerformanceGradeAsync();
 
             foreach (EditPAGradeDto record in records)
             {
@@ -287,7 +286,7 @@
         private async Task<CommandResult> EditPAGradeAsync(string paRecordIds)
         {
             var commandResult = new CommandResult { Code = 0 };
-            IEnumerable<EditPAGradeDto> records = await GetDataToEditPAGradeAsync(paRecordIds).ConfigureAwait(false);
+            IEnumerable<EditPAGradeDto> records = await GetDataToEditPAGradeAsync(paRecordIds);
 
             if (records.Any())
             {
@@ -296,7 +295,7 @@
                     Value = records.ToXML().ToString()
                 };
 
-                commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+                commandResult = await baseService.ExecuteNonQueryAsync(criteria);
             }
 
             return commandResult;
@@ -309,8 +308,8 @@
                 PeriodId = periodId,
                 PARecordIds = paRecordIds
             };
-            var records = await baseService.GetDataAsync<EditPAGradeDto>(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGrade> grades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            var records = await baseService.GetDataAsync<EditPAGradeDto>(criteria);
+            IEnumerable<PerformanceGrade> grades = await commonService.GetPerformanceGradeAsync();
 
             foreach (EditPAGradeDto record in records)
             {
@@ -335,7 +334,7 @@
         private async Task<CommandResult> EditFinalPAGradeAsync(int actorId, int periodId, string paRecordIds = null)
         {
             var commandResult = new CommandResult { Code = 0 };
-            IEnumerable<EditPAGradeDto> records = await GetDataToEditFinalPAGradeAsync(periodId, paRecordIds).ConfigureAwait(false);
+            IEnumerable<EditPAGradeDto> records = await GetDataToEditFinalPAGradeAsync(periodId, paRecordIds);
 
             if (records.Any())
             {
@@ -345,7 +344,7 @@
                     Value = records.ToXML().ToString()
                 };
 
-                commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+                commandResult = await baseService.ExecuteNonQueryAsync(criteria);
             }
 
             return commandResult;

@@ -60,9 +60,7 @@ export default class Table extends Component {
                 const evaluatorProcess = row.processes.find(p => p.processId === PerformanceProcess.Evaluator);
 
                 return (
-                    <Fragment>
-                        <div>{evaluatorProcess.evaluator.nickName}</div>
-                    </Fragment>
+                    <div>{evaluatorProcess.evaluator.nickName}</div>
                 );
             }
         },

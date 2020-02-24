@@ -67,7 +67,7 @@
             Assert.True(commandResult.IsSuccessful);
         }
 
-        private IEmployeeNominationService FakeEmployeeNominationService()
+        private static IEmployeeNominationService FakeEmployeeNominationService()
         {
             var service = Substitute.For<IEmployeeNominationService>();
 

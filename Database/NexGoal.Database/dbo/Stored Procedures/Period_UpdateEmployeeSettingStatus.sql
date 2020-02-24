@@ -51,7 +51,6 @@ BEGIN
 	UPDATE par
 	SET StatusId = (CASE 
 			WHEN @IsExcluded = 1 THEN @PARejected
-			WHEN reviewer.PerformanceRecordId IS NULL THEN @PANotGenerated
 			WHEN @today >= reviewer.StartDate
 				AND (
 					@today <= reviewer.EndDate
@@ -59,7 +58,8 @@ BEGIN
 					) THEN @PAInProgress
 			WHEN @periodEndDate < @today
 				AND reviewer.EndDate < @today THEN @PAClosed
-			WHEN @today < reviewer.StartDate THEN @PAOpened END
+			WHEN @today < reviewer.StartDate THEN @PAOpened
+			ELSE @PANotGenerated END
 			)
 	FROM dbo.PARecord AS par WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN dbo.PAProcess AS reviewer WITH (NOLOCK) ON par.PARecordId = reviewer.PARecordId

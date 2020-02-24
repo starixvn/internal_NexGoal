@@ -15,14 +15,25 @@
     using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.MasterReport;
+    using NexGoal.Models.PARecord;
+    using NexGoal.Models.PerformanceRecord;
+    using NexGoal.Models.PRFeedback;
+    using NexGoal.Repositories;
+    using NexGoal.Resources;
     using OfficeOpenXml;
     using OfficeOpenXml.Style;
+
+    public interface IMasterReportService
+    {
+        Task<byte[]> ExportAsync(int periodId, string groupIds, string employeeIds, int actorId);
+    }
 
 #pragma warning disable S109 // Magic numbers should not be used
     public class MasterReportService : IMasterReportService
     {
         private const string ExcelTemplatePath = @"ExcelTemplates\\MasterReport.xlsx";
 
+        private readonly IMasterReportRepository reportRepository;
         private readonly IBaseService baseService;
         private readonly ICryptoService cryptoService;
         private readonly ICommonService commonService;
@@ -31,75 +42,33 @@
         private const int unsatisfactoryGradeId = 1;
 
         public MasterReportService(
+            IMasterReportRepository reportRepository,
             IBaseService baseService,
             ICryptoService cryptoService,
             ICommonService commonService,
             IHostingEnvironment hostingEnvironment)
         {
+            this.reportRepository = reportRepository;
             this.baseService = baseService;
             this.cryptoService = cryptoService;
             this.commonService = commonService;
             this.hostingEnvironment = hostingEnvironment;
         }
 
-        private async Task<IEnumerable<MasterReportModel>> GetRecordsAsync(int periodId, string groupIds, string employeeIds, int employeeId)
+        public async Task<byte[]> ExportAsync(int periodId, string groupIds, string employeeIds, int actorId)
         {
-            var result = await baseService.FetchMultipleAsync<MasterReportModel, AwardModel, AssessmentModel>(new GetRecordsCriteria
+            var criteria = new GetMasterReportCriteria
             {
                 PeriodId = periodId,
                 GroupIds = groupIds,
                 EmployeeIds = employeeIds,
-                ActorId = employeeId
-            }).ConfigureAwait(false);
-
-            var performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
-            var focusEvaluationLevels = await commonService.GetReferenceResourcesByNamesAsync(
-                new[] { ReferenceResource.FocusEvaluationLevel }).ConfigureAwait(false);
-
-            var records = result.Item1;
-            var awards = result.Item2;
-            var assessments = result.Item3;
-
-            foreach (var assessment in assessments)
-            {
-                assessment.GradeId = cryptoService.Decrypt(assessment.GradeId);
-                assessment.Grade = performanceGrades.FirstOrDefault(x => x.GradeId.ToString() == assessment.GradeId)?.Name;
-            }
-
-            foreach (var record in records)
-            {
-                record.IsReadyPromotion = cryptoService.Decrypt(record.IsReadyPromotion);
-                var contribution = focusEvaluationLevels.FirstOrDefault(x => x.ResourceId.ToString() == cryptoService.Decrypt(record.Contribution));
-                record.Contribution = contribution?.Value;
-                record.ContributionId = contribution?.ResourceId;
-
-                var bonusGiven = focusEvaluationLevels.FirstOrDefault(x => x.ResourceId.ToString() == cryptoService.Decrypt(record.BonusGiven));
-                record.BonusGivenId = bonusGiven?.ResourceId;
-                record.BonusGiven = bonusGiven?.Value;
-
-                record.GradeId = cryptoService.Decrypt(record.GradeId);
-                int.TryParse(record.GradeId, out int gradeId);
-                record.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId)?.Name;
-
-                record.OriginalGradeId = cryptoService.Decrypt(record.OriginalGradeId);
-                int.TryParse(record.OriginalGradeId, out int originalGradeId);
-                record.OriginalGrade = performanceGrades.FirstOrDefault(x => x.GradeId == originalGradeId)?.Name;
-
-                record.Awards = awards.Where(x => x.NomineeId == record.EmployeeId);
-                record.Assessments = assessments.Where(x => x.EmployeeId == record.EmployeeId);
-            }
-
-            return records;
-        }
-
-        public async Task<byte[]> ExportAsync(int periodId, string groupIds, string employeeIds, int employeeId)
-        {
-            var period = await baseService.GetDataEntityAsync<PeriodBaseModel>(new GetPeriodCriteria { PeriodId = periodId }).ConfigureAwait(false);
-            var records = await GetRecordsAsync(periodId, groupIds, employeeIds, employeeId).ConfigureAwait(false);
+                ActorId = actorId
+            };
+            var period = await baseService.GetDataEntityAsync<PeriodBaseModel>(new GetPeriodCriteria { PeriodId = periodId });
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
+            IEnumerable<MasterReportModel> records = await GetMasterReportAsync(criteria, performanceGrades);
             var groupedRecord = records
                 .GroupBy(x => new { x.GroupId, x.GroupName }, (key, elements) => new { Key = key, Records = elements });
-
-            var performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
             var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.WebRootPath, ExcelTemplatePath));
             using (var package = new ExcelPackage(fileInfo, true))
@@ -143,6 +112,61 @@
             }
         }
 
+        private async Task<IEnumerable<MasterReportModel>> GetMasterReportAsync(
+            GetMasterReportCriteria criteria,
+            IEnumerable<PerformanceGrade> performanceGrades)
+        {
+            IEnumerable<MasterReportModel> records = await reportRepository.GetMasterReportAsync(criteria);
+            IEnumerable<ReferenceResourceModel> focusEvaluationLevels = await commonService.GetReferenceResourcesByNamesAsync(new[] { ReferenceResource.FocusEvaluationLevel });
+
+            foreach (MasterReportModel record in records)
+            {
+                record.IsReadyPromotion = cryptoService.Decrypt(record.IsReadyPromotion);
+                var contribution = focusEvaluationLevels.FirstOrDefault(x => x.ResourceId.ToString() == cryptoService.Decrypt(record.Contribution));
+                record.Contribution = contribution?.Value;
+                record.ContributionId = contribution?.ResourceId;
+
+                var bonusGiven = focusEvaluationLevels.FirstOrDefault(x => x.ResourceId.ToString() == cryptoService.Decrypt(record.BonusGiven));
+                record.BonusGivenId = bonusGiven?.ResourceId;
+                record.BonusGiven = bonusGiven?.Value;
+
+                record.GradeId = cryptoService.Decrypt(record.GradeId);
+                int.TryParse(record.GradeId, out int gradeId);
+                record.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId)?.Name;
+
+                record.OriginalGradeId = cryptoService.Decrypt(record.OriginalGradeId);
+                int.TryParse(record.OriginalGradeId, out int originalGradeId);
+                record.OriginalGrade = performanceGrades.FirstOrDefault(x => x.GradeId == originalGradeId)?.Name;
+
+                foreach (PAProcessModel process in record.Processes)
+                {
+                    process.Grade = GetGradeOfPAProcess(process, performanceGrades);
+                    foreach (PerformanceRecord performanceRecord in process.RelatedPerformanceRecords)
+                    {
+                        performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
+                        int.TryParse(performanceRecord.GradeId, out gradeId);
+                        performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+                    }
+                }
+            }
+
+            return records;
+        }
+
+        private string GetGradeOfPAProcess(PAProcessModel process, IEnumerable<PerformanceGrade> performanceGrades)
+        {
+            process.GradeId = cryptoService.Decrypt(process.GradeId);
+            int.TryParse(process.GradeId, out int gradeId);
+            PerformanceGrade grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+
+            if (grade != null)
+            {
+                return grade.Name;
+            }
+
+            return !string.IsNullOrWhiteSpace(process.RelatedPerformanceRecordIds) ? ViewLang.NA : string.Empty;
+        }
+
         private static void WriteRecord(ExcelWorksheet worksheet, MasterReportModel record, IEnumerable<PerformanceGrade> performanceGrades, ref int currentRow, ref int rowIndex)
         {
             var numberOfAwards = record.Awards.Count();
@@ -155,7 +179,7 @@
 
             var nickNameCell = worksheet.Cells[currentRow, 2, toRow, 2];
             nickNameCell.Merge = merge;
-            nickNameCell.Value = record.NickName;
+            nickNameCell.Value = record.Nickname;
 
             var jobTitleCell = worksheet.Cells[currentRow, 3, toRow, 3];
             jobTitleCell.Merge = merge;
@@ -167,19 +191,19 @@
             var selfCell = worksheet.Cells[currentRow, 5, toRow, 5];
             selfCell.Merge = merge;
             selfCell.Style.WrapText = true;
-            WriteAssessment(selfCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.Self && x.PerformanceRecordId.HasValue));
+            WritePerformanceRecordByProcess(selfCell, record.Processes.Where(x => x.ProcessId == (byte)PerformanceProcess.Self && x.RelatedPerformanceRecords.Any()));
 
             var pmCell = worksheet.Cells[currentRow, 6, toRow, 6];
             pmCell.Merge = merge;
-            WriteAssessment(pmCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.ProjectManager && x.PerformanceRecordId.HasValue));
+            WritePerformanceRecordByProcess(pmCell, record.Processes.Where(x => x.ProcessId == (byte)PerformanceProcess.ProjectManager && x.RelatedPerformanceRecords.Any()));
 
             var evaluatorCell = worksheet.Cells[currentRow, 7, toRow, 7];
             evaluatorCell.Merge = merge;
-            WriteAssessment(evaluatorCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.Evaluator && x.PerformanceRecordId.HasValue));
+            WritePerformanceRecordByProcess(evaluatorCell, record.Processes.Where(x => x.ProcessId == (byte)PerformanceProcess.Evaluator && x.RelatedPerformanceRecords.Any()));
 
             var reviewerCell = worksheet.Cells[currentRow, 8, toRow, 8];
             reviewerCell.Merge = merge;
-            WriteAssessment(reviewerCell, record.Assessments.Where(x => x.ProcessId == PerformanceProcess.Reviewer && x.PerformanceRecordId.HasValue));
+            WritePerformanceRecordByProcess(reviewerCell, record.Processes.Where(x => x.ProcessId == (byte)PerformanceProcess.Reviewer && x.RelatedPerformanceRecords.Any()));
 
             var paCell = worksheet.Cells[currentRow, 9, toRow, 9];
             paCell.Merge = merge;
@@ -198,11 +222,11 @@
             var avgPMGradeWithoutNACell = worksheet.Cells[currentRow, 12, toRow, 12];
             avgPMGradeWithoutNACell.Merge = merge;
             avgPMGradeWithoutNACell.Value =
-                CalculateAverageGrade(record.Assessments.Where(x => x.ProcessId == PerformanceProcess.ProjectManager && !string.IsNullOrWhiteSpace(x.GradeId)), performanceGrades);
+                CalculateAverageGrade(record.Processes.Where(x => x.ProcessId == (byte)PerformanceProcess.ProjectManager && !string.IsNullOrWhiteSpace(x.GradeId)), performanceGrades);
 
             var avgPMGradeWithNACell = worksheet.Cells[currentRow, 13, toRow, 13];
             avgPMGradeWithNACell.Merge = merge;
-            avgPMGradeWithNACell.Value = CalculateAverageGrade(record.Assessments.Where(x => x.ProcessId == PerformanceProcess.ProjectManager), performanceGrades);
+            avgPMGradeWithNACell.Value = CalculateAverageGrade(record.Processes.Where(x => x.ProcessId == (byte)PerformanceProcess.ProjectManager), performanceGrades);
 
             WritePAFocus(worksheet, currentRow, toRow, record, merge);
 
@@ -328,54 +352,94 @@
             }
         }
 
-        private static float CalculateAverageGrade(IEnumerable<AssessmentModel> assessments, IEnumerable<PerformanceGrade> performanceGrades)
+        private static float CalculateAverageGrade(IEnumerable<PAProcessModel> processes, IEnumerable<PerformanceGrade> performanceGrades)
         {
-            var points = assessments.Select(x =>
+            var points = processes.Select(x =>
             {
                 int.TryParse(x.GradeId, out int gradeId);
-                var conversion = performanceGrades.FirstOrDefault(g => g.GradeId == gradeId);
+                var grade = performanceGrades.FirstOrDefault(g => g.GradeId == gradeId);
 
-                return conversion != null ? conversion.Point : 3f;
+                return grade != null ? grade.Point : 3f;
             });
 
             return points.Any() ? points.Average() : 0f;
         }
 
-        private static void WriteAssessment(ExcelRange selfCell, IEnumerable<AssessmentModel> assessments)
+        private static void WritePerformanceRecordByProcess(ExcelRange cell, IEnumerable<PAProcessModel> processes)
         {
-            var richTextCollection = selfCell.RichText;
-
-            foreach (var assessment in assessments)
+            foreach (PAProcessModel process in processes)
             {
-                var assessorText = richTextCollection.Add(assessment.NickName);
-                assessorText.Bold = true;
-
-                richTextCollection.Add(Environment.NewLine);
-
-                var gradeText = richTextCollection.Add($"Grade: {(string.IsNullOrWhiteSpace(assessment.Grade) ? "N/A" : assessment.Grade)} ");
-                gradeText.Bold = false;
-
-                richTextCollection.Add(Environment.NewLine);
-
-                if (!string.IsNullOrWhiteSpace(assessment.Comment))
+                int totalRecords = process.RelatedPerformanceRecords.Count();
+                int recordIndex = 1;
+                foreach (PerformanceRecord record in process.RelatedPerformanceRecords)
                 {
-                    richTextCollection.Add(assessment.Comment);
-                }
+                    cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                    cell.Style.VerticalAlignment = ExcelVerticalAlignment.Top;
+                    var richTextCollection = cell.RichText;
+                    richTextCollection.Add(record.Creator.NickName).Bold = true;
+                    richTextCollection.Add(Environment.NewLine).Bold = false;
 
-                richTextCollection.Add(Environment.NewLine);
-                richTextCollection.Add(Environment.NewLine);
+                    var grade = record.Grade != null ? record.Grade.Name : ViewLang.NA;
+                    richTextCollection.Add($"Grade: {grade}");
+                    richTextCollection.Add(Environment.NewLine);
+                    richTextCollection.Add(record.Comment);
+                    richTextCollection.Add(Environment.NewLine);
+                    richTextCollection.Add(Environment.NewLine);
+
+                    if (record.Reactions.Any())
+                    {
+                        var creator = string.Join(", ", record.Reactions.Select(x => x.Creator.NickName));
+                        richTextCollection.Add($"{creator}").Bold = true;
+                        richTextCollection.Add(" liked this PR.").Bold = false;
+                        richTextCollection.Add(Environment.NewLine);
+                        richTextCollection.Add(Environment.NewLine);
+                    }
+
+                    WriteFeedback(richTextCollection, record);
+
+                    if (recordIndex != totalRecords)
+                    {
+                        richTextCollection.Add("--------------------");
+                        richTextCollection.Add(Environment.NewLine);
+                        richTextCollection.Add(Environment.NewLine);
+                    }
+
+                    recordIndex++;
+                }
             }
         }
 
-        private static void WritePA(ExcelRange paCell, MasterReportModel record)
+        private static void WriteFeedback(ExcelRichTextCollection richText, PerformanceRecord record)
         {
-            var richTextCollection = paCell.RichText;
-            var assessorText = richTextCollection.Add(record.Assessments.FirstOrDefault(x => x.ProcessId == PerformanceProcess.Reviewer)?.NickName);
+            foreach (PRFeedbackModel feedback in record.Feedbacks)
+            {
+                richText.Add($"{feedback.Creator.NickName}").Bold = true;
+                richText.Add(" commented:").Bold = false;
+                richText.Add(Environment.NewLine);
+                richText.Add(feedback.Content);
+                richText.Add(Environment.NewLine);
+                richText.Add(Environment.NewLine);
+
+                if (feedback.Reactions.Any())
+                {
+                    var creator = string.Join(", ", feedback.Reactions.Select(x => x.Creator.NickName));
+                    richText.Add($"{creator}").Bold = true;
+                    richText.Add(" liked this comment.").Bold = false;
+                    richText.Add(Environment.NewLine);
+                    richText.Add(Environment.NewLine);
+                }
+            }
+        }
+
+        private static void WritePA(ExcelRange cell, MasterReportModel record)
+        {
+            var richTextCollection = cell.RichText;
+            var assessorText = richTextCollection.Add(record.Processes.FirstOrDefault(x => x.ProcessId == (byte)PerformanceProcess.Reviewer)?.Evaluator.NickName);
             assessorText.Bold = true;
 
             richTextCollection.Add(Environment.NewLine);
 
-            var gradeText = richTextCollection.Add($"Grade: {(string.IsNullOrWhiteSpace(record.Grade) ? "N/A" : record.Grade)} ");
+            var gradeText = richTextCollection.Add($"Grade: {(string.IsNullOrWhiteSpace(record.Grade) ? ViewLang.NA : record.Grade)}");
             gradeText.Bold = false;
 
             if (record.GradeId != record.OriginalGradeId)
