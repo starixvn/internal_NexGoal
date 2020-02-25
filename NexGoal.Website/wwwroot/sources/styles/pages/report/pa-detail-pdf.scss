@@ -38,6 +38,7 @@
         }
 
         .person-info, .avatar {
+            display: block;
             float: left;
         }
     }
@@ -51,6 +52,12 @@
 
         .feedback {
             padding-top: 12px;
+
+            p {
+                margin: 0;
+                padding: 0;
+                white-space: pre-wrap;
+            }
         }
     }
 }

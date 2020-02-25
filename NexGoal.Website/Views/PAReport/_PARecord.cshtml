@@ -41,7 +41,12 @@
         <div class="avatar-user">
             <img src=@Model.Creator.Avatar class="avatar" alt="avatar" />
             <div class="person-info">
-                <span class="@getRoleClass(Model.RoleId)">@Model.Creator.NickName</span>
+                <div class="@getRoleClass(Model.RoleId)">@Model.Creator.NickName</div>
+                <div>
+                    @(Model.CreatedDate.HasValue
+                    ? string.Format("{0} at {1}", Model.CreatedDate.Value.ToString("dd MMM yyyy"), Model.CreatedDate.Value.ToString("HH:mm"))
+                    : string.Empty)
+                </div>
             </div>
         </div>
         @{
@@ -64,13 +69,12 @@
                     <div class="feedback">
                         <strong>@feedback.Creator.NickName</strong> commented:
                         <br />
-                        @feedback.Content
+                        <p>@feedback.Content</p>
 
                         @if (feedback.Reactions.Any())
                         {
                             creator = string.Join(", ", feedback.Reactions.Select(x => x.Creator.NickName));
 
-                            <br />
                             <br />
                             <span><strong>@creator</strong> liked this comment.</span>
                         }
