@@ -7,6 +7,7 @@
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.Extensions.Caching.Memory;
     using NexGoal.Core.Constants;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Services;
     using NexGoal.Criteria;
     using NexGoal.Criteria.Common;
@@ -196,13 +197,14 @@
         {
             foreach (PAProcessModel process in processes)
             {
-                MappingGrade(process, performanceGrades);
                 foreach (PerformanceRecord performanceRecord in process.RelatedPerformanceRecords)
                 {
                     performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
                     int.TryParse(performanceRecord.GradeId, out int gradeId);
                     performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
                 }
+
+                MappingGrade(process, performanceGrades);
             }
         }
 
@@ -215,6 +217,21 @@
             if (grade != null)
             {
                 process.Grade = grade.Name;
+
+                if (process.ProcessId == (byte)PerformanceProcess.Evaluator && !process.RelatedPerformanceRecords.Any())
+                {
+                    process.RelatedPerformanceRecords = new List<PerformanceRecord>
+                    {
+                        new PerformanceRecord
+                        {
+                            Creator = process.Evaluator,
+                            TypeId = (byte)PerformanceRecordType.PerformanceCheckin,
+                            Grade = grade,
+                            Comment = "NexGoal: This is the last period's grade, as no Performance Record was checked in this period."
+                        }
+                    };
+                }
+
                 return;
             }
 
