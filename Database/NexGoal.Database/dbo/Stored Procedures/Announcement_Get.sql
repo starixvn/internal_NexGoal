@@ -8,6 +8,7 @@ Original:
 
 Revisions:
 	20190411@elton.ton: change date to send notifications before period start date
+	20200226@drake.doi: get announcement for probation
 Param's Explanation:
 */
 BEGIN
@@ -15,11 +16,13 @@ BEGIN
 
 	DECLARE @today DATE = GETDATE()
 		,@dateFormat VARCHAR(11) = 'dd MMM yyyy'
+		,@PARejected TINYINT = 5
 		,@EvaluatorProcessId TINYINT = 4
 		,@SelfProcessId TINYINT = 2
 		,@ReviewerProcessId TINYINT = 5
 		,@NominatorRoleId TINYINT = 1
 		,@CommitteeRoleId TINYINT = 2
+		,@SystemRole_HR TINYINT = 2
 
 	CREATE TABLE #tblAnnouncement (
 		[Message] NVARCHAR(MAX)
@@ -40,14 +43,15 @@ BEGIN
 				SELECT 1
 				FROM dbo.EmployeeFlowSetting AS efs WITH (NOLOCK)
 				WHERE efs.EmployeeId = @EmployeeId
-			)
+				)
 			OR EXISTS (
 				SELECT 1
 				FROM dbo.GroupFlowSetting AS gfs WITH (NOLOCK)
-					INNER JOIN dbo.Employee e WITH (NOLOCK) ON gfs.GroupId = e.GroupId AND e.EmployeeId = @EmployeeId
+					INNER JOIN dbo.Employee e WITH (NOLOCK) ON gfs.GroupId = e.GroupId
+					AND e.EmployeeId = @EmployeeId
+				)
 			)
-		)
-	
+
 	INSERT INTO #tblAnnouncement (
 		[Message]
 		,StartDate
@@ -61,19 +65,30 @@ BEGIN
 			EXISTS (
 				SELECT 1
 				FROM dbo.EmployeeFlowSetting AS efs WITH (NOLOCK)
-				WHERE efs.EvaluatorId = @EmployeeId AND efs.ProcessId > @SelfProcessId
-			)
+				WHERE efs.EvaluatorId = @EmployeeId
+					AND efs.ProcessId > @SelfProcessId
+				)
 			OR EXISTS (
 				SELECT 1
 				FROM dbo.GroupFlowSetting AS gfs WITH (NOLOCK)
-				WHERE gfs.EvaluatorId = @EmployeeId AND gfs.ProcessId > @SelfProcessId
-			)
+				WHERE gfs.EvaluatorId = @EmployeeId
+					AND gfs.ProcessId > @SelfProcessId
+				)
 			OR EXISTS (
 				SELECT 1
 				FROM dbo.PMSetting AS pmsetting WITH (NOLOCK)
 				WHERE pmsetting.ProjectManagerId = @EmployeeId
+				)
+			OR EXISTS (
+				SELECT 1
+				FROM dbo.PAProcess AS pap WITH (NOLOCK)
+					INNER JOIN dbo.PARecord AS par WITH (NOLOCK) ON pap.PARecordId = pap.PARecordId
+				WHERE par.PeriodId = p.PeriodId
+					AND par.StatusId != @PARejected
+					AND pap.ProcessId > @SelfProcessId
+					AND pap.EvaluatorId = @EmployeeId
+				)
 			)
-		)	
 
 	INSERT INTO #tblAnnouncement (
 		[Message]
@@ -89,6 +104,7 @@ BEGIN
 			FROM dbo.PAProcess AS pap WITH (NOLOCK)
 				INNER JOIN dbo.PARecord AS par WITH (NOLOCK) ON pap.PARecordId = pap.PARecordId
 			WHERE par.PeriodId = p.PeriodId
+				AND par.StatusId != @PARejected
 				AND pap.ProcessId = @ReviewerProcessId
 				AND pap.EvaluatorId = @EmployeeId
 			)
@@ -215,6 +231,55 @@ BEGIN
 		END
 	END
 
+
+	DECLARE @EmployeesInProbation NVARCHAR(200) = NULL
+
+	SELECT @EmployeesInProbation = CONCAT(COALESCE(@EmployeesInProbation + ', ', ''), e.NickName)
+	FROM ProbationEvaluation AS p WITH (NOLOCK)
+		INNER JOIN Employee AS e WITH (NOLOCK) ON p.EmployeeId = e.EmployeeId
+		INNER JOIN ProbationSetting  AS ps WITH (NOLOCK) ON p.EmployeeId = ps.EmployeeId AND ps.ProcessId = @EvaluatorProcessId
+	WHERE p.CreatedDate = @today AND e.EmployeeId IS NOT NULL
+		AND (
+			EXISTS (
+			SELECT 1
+			FROM EmployeeRole AS er WITH (NOLOCK)
+				INNER JOIN RefResource AS ref WITH (NOLOCK) 
+					ON ref.RefName = 'SystemRole' AND ref.Value = 'HR' AND er.RoleId = ref.ResourceId
+			WHERE er.EmployeeId = @EmployeeId
+			)
+			OR ps.EvaluatorId = @EmployeeId
+		)
+
+	IF(@EmployeesInProbation IS NOT NULL)
+	BEGIN
+		INSERT INTO #tblAnnouncement ([Message], StartDate)
+			(SELECT CONCAT('The Probation evaluation process for ', @EmployeesInProbation, ' has been created on the system. Please visit the NexGoal site to review the Probation settings.'), @today) 
+	END
+
+	DECLARE @EmployeesStartReviewProbation NVARCHAR(200) = NULL
+
+	SELECT @EmployeesStartReviewProbation = CONCAT(COALESCE(@EmployeesStartReviewProbation + ', ', ''), e.NickName)
+	FROM ProbationEvaluation AS p WITH (NOLOCK)
+		INNER JOIN Employee AS e WITH (NOLOCK) ON p.EmployeeId = e.EmployeeId
+		INNER JOIN ProbationSetting  AS ps WITH (NOLOCK) ON p.EmployeeId = ps.EmployeeId
+	WHERE ps.ProcessId = @ReviewerProcessId
+		AND ps.FromDate = @today
+		AND ps.EvaluatorId = @EmployeeId
+
+	IF(@EmployeesStartReviewProbation IS NOT NULL)
+	BEGIN
+		INSERT INTO #tblAnnouncement ([Message], StartDate)
+			(SELECT CONCAT('Your evaluation period for ', @EmployeesStartReviewProbation, ' has begun. To conduct a member assessment, please visit the NexGoal site and complete the evaluation form(s).'), @today) 
+	END
+
+	INSERT INTO #tblAnnouncement ([Message], StartDate)
+		SELECT CONCAT('Your evaluation period will end at 23:59, ', ps.ToDate,'. Please visit the NexGoal site to complete the evaluation form.')
+			,ps.ToDate
+		FROM ProbationSetting AS ps WITH (NOLOCK)
+		WHERE ps.ProcessId = @SelfProcessId
+			AND ps.EmployeeId = @EmployeeId
+			AND ps.FromDate =  @today
+	
 	SELECT [Message]
 	FROM #tblAnnouncement WITH (NOLOCK)
 	ORDER BY StartDate DESC
