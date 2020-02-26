@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[PRReaction_Insert] @PerformanceRecordId INT
+﻿CREATE PROCEDURE [dbo].[PRReaction_Insert]  @PerformanceRecordId INT
 	,@CreatorId INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(200) = '' OUTPUT
@@ -24,10 +24,13 @@ BEGIN
 
 	DECLARE @Today DATETIME = GETDATE()
 	 ,@EmployeeId INT
-	 ,@CreatorNickName NVARCHAR(20)
+	 ,@ReactionCreatorNickName NVARCHAR(20)
+	 ,@PRCreatorId INT
 	 ,@NotiStatus_Unread TINYINT = 0
-	 ,@NotiAction TINYINT = 2 -- My page with special performance checkin
-	 ,@NotiContent NVARCHAR(MAX) = ' likes your performance record'
+	 ,@NotiAction_MyPage TINYINT = 2 -- My page with special performance checkin
+	 ,@NotiAction_MemberPage TINYINT = 4 -- My page with special performance checkin
+	 ,@NotiAction TINYINT
+	 ,@NotiContent NVARCHAR(MAX) = ' likes your Performance Record '
 
 	-- For write log
 	DECLARE @startRun DATETIME = GETDATE()
@@ -36,7 +39,11 @@ BEGIN
 		,@logData NVARCHAR(MAX)
 		,@xml XML
 
-	SELECT @EmployeeId = pr.EmployeeId
+	SELECT @EmployeeId = pr.EmployeeId, @PRCreatorId = pr.CreatorId,
+		@NotiAction = CASE
+			WHEN pr.RoleId = 2 THEN @NotiAction_MyPage
+			ELSE @NotiAction_MemberPage
+		END
 	FROM PerformanceRecord pr WITH (NOLOCK)
 	WHERE pr.PerformanceRecordId = @PerformanceRecordId
 
@@ -55,10 +62,8 @@ BEGIN
 
 	IF EXISTS (
 		SELECT 1
-		FROM dbo.PRReaction react WITH (NOLOCK)
-			INNER JOIN dbo.PerformanceRecord AS pr WITH (NOLOCK) ON react.PerformanceRecordId = pr.PerformanceRecordId
-		WHERE react.PerformanceRecordId = @PerformanceRecordId
-			AND react.CreatorId = @CreatorId
+		FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
+		WHERE pr.PerformanceRecordId = @PerformanceRecordId
 			AND pr.CreatorId = @CreatorId
 	)
 	BEGIN
@@ -91,15 +96,30 @@ BEGIN
 		RETURN
 	END
 
-	SELECT @CreatorNickName = NickName
+	SELECT @ReactionCreatorNickName = NickName
 	FROM Employee WITH (NOLOCK)
 	WHERE EmployeeId = @CreatorId
+
+	IF(@NotiAction = @NotiAction_MyPage)
+	BEGIN
+		SET @NotiContent = @ReactionCreatorNickName + @NotiContent
+	END
+	ELSE
+	BEGIN
+		DECLARE @EmployeeNickName NVARCHAR(20)
+
+		SELECT @EmployeeNickName = NickName
+		FROM Employee WITH (NOLOCK)
+		WHERE EmployeeId = @EmployeeId
+
+		SET @NotiContent = @ReactionCreatorNickName + @NotiContent + 'for ' + @EmployeeNickName
+	END
 
 	INSERT INTO PRReaction (PerformanceRecordId, CreatorId, RoleId, CreatedDate)
 		VALUES (@PerformanceRecordId, @CreatorId, @RoleId, @Today)
 
 	INSERT INTO [Notification] (RecordId, ActionTypeId, StatusId, CreatorId, EmployeeId, Content, CreatedDate)
-		VALUES (@PerformanceRecordId, @NotiAction, @NotiStatus_Unread, @CreatorId, @EmployeeId, @CreatorNickName + @NotiContent, @Today)
+		VALUES (@PerformanceRecordId, @NotiAction, @NotiStatus_Unread, @CreatorId, @PRCreatorId, @NotiContent , @Today)
 
 	SET @endRun = GETDATE()
 	SET @duration = DATEDIFF(millisecond, @startRun, @endRun)
