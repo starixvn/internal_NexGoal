@@ -67,6 +67,7 @@ export default class TextareaFullscreenEditor extends Component {
                             value={this.props.value}
                             disabled={this.props.disabled}
                             onChange={this.handleOnChange}
+                            onBlur={this.props.onBlurEvent}
                         />
                     </div>
 

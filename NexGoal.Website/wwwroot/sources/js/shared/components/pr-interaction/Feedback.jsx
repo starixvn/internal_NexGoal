@@ -279,7 +279,7 @@ export default class Feedback extends Component {
                     handleCloseLikeModal={this.handleCloseLikeModal}
                 />
                 <div className="feedback">
-                    <div className="avatar-user small">
+                    <div className="avatar-user">
                         <img src={feedback.creator.avatar} alt="avatar" className="avatar" />
                     </div>
                     <div className="feedback-content">

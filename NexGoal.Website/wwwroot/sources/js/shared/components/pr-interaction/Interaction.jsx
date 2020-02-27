@@ -102,11 +102,13 @@ export default class Interaction extends Component {
     }
 
     handleCancel = () => {
-        this.setState({
-            isOpenForm: false,
-            feedbackContent: '',
-            errors: {}
-        });
+        if (this.state.feedbackContent === '') {
+            this.setState({
+                isOpenForm: false,
+                feedbackContent: '',
+                errors: {}
+            });
+        }
     }
 
     handleSubmit = () => {
@@ -185,13 +187,13 @@ export default class Interaction extends Component {
             (!isReadOnly && !isCommented && !isDisableComment)
             &&
             <div className="comment-box">
-                <div className="avatar-user custom-avatar small">
+                <div className="avatar-user custom-avatar">
                     <img src={currentUserInfo.avatar} alt="avatar" className="avatar" />
                     <div className="input-comment-pr">
                         {
                             !isOpenForm &&
                             <input className="form-control"
-                                style={{ height: 30 }}
+                                style={{ height: 36 }}
                                 placeholder="Add a comment..."
                                 onClick={this.handleOpenForm}
                             />
@@ -206,6 +208,7 @@ export default class Interaction extends Component {
                                         name="comment"
                                         value={feedbackContent}
                                         onChange={this.handleCommentChange}
+                                        onBlurEvent={this.handleCancel}
                                     />
                                 </FormGroup>
 
@@ -251,7 +254,7 @@ export default class Interaction extends Component {
                             </div>
                             :
                             <div className="comments-interaction">
-                                <a className="fa icon-comment-text-outline custom-comment-icon"
+                                <a className="fa icon-comment-text-outline"
                                     name="comment-button"
                                     onClick={this.handleOpenForm}>
                                 </a>
