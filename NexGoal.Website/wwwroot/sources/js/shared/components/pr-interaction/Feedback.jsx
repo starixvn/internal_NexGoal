@@ -38,7 +38,8 @@ export default class Feedback extends Component {
             numOfLikes: numOfLikes,
             content: feedback.content,
             modifiedDate: feedback.modifiedDate,
-            reactions: reactions
+            reactions: reactions,
+            curUserCode: curUserCode
         });
     }
 
@@ -55,7 +56,7 @@ export default class Feedback extends Component {
         const numOfLikes = isLiked ? oldNumOfLikes + 1 : oldNumOfLikes - 1;
         const url = 'PRFeedbackReaction/' + (isLiked ? 'Create' : 'Remove');
         const feedbackId = this.props.feedback.prFeedbackId;
-        const curUserCode = document.getElementById('employeeInfo-code').value;
+        const curUserCode = this.state.curUserCode;
 
         this.setState({ numOfLikes: numOfLikes, isLiked: isLiked });
 
@@ -262,9 +263,9 @@ export default class Feedback extends Component {
             showLikeModal,
             numOfLikes,
             modifiedDate,
-            reactions } = this.state;
+            reactions,
+            curUserCode} = this.state;
         const { feedback, isReadOnly } = this.props;
-        const curUserCode = document.getElementById('employeeInfo-code').value;
         const isOwner = (curUserCode === feedback.creator.code);
         const now = moment(new Date());
         const duration = moment.duration(now.diff(feedback.createdDate));

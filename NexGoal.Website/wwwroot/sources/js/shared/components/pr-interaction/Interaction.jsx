@@ -42,7 +42,8 @@ export default class Interaction extends Component {
                 numOfFeedbacks: numOfFeedbacks,
                 feedbacks: feedbacks,
                 isCommented: isCommented,
-                numOfLikes: numOfLikes
+                numOfLikes: numOfLikes,
+                currentUserCode: currentUserCode
             }
         );
     }
@@ -50,7 +51,7 @@ export default class Interaction extends Component {
     handleLikeEvent = event => {
         event.preventDefault();
         const recordId = this.props.recordId;
-        const curUserCode = document.getElementById('employeeInfo-code').value;
+        const curUserCode = this.state.currentUserCode;
         const isLiked = !this.state.isLiked;
         const oldNumOfLikes = this.state.numOfLikes;
         const numOfLikes = isLiked ? oldNumOfLikes + 1 : oldNumOfLikes - 1;
@@ -102,7 +103,7 @@ export default class Interaction extends Component {
     }
 
     handleCancel = () => {
-        if (!this.state.feedbackContent || this.state.feedbackContent === '') {
+        if (!this.state.feedbackContent) {
             this.setState({
                 isOpenForm: false,
                 feedbackContent: '',
@@ -142,7 +143,7 @@ export default class Interaction extends Component {
                     numOfFeedbacks: numOfFeedbacks,
                     isCommented: true
                 });
-                toast.success(getResource("CreatedSuccessfully"));
+                toast.success(getResource('CreatedSuccessfully'));
                 this.handleCancel();
             }
             else {
@@ -228,10 +229,10 @@ export default class Interaction extends Component {
             isLiked,
             numOfLikes,
             numOfFeedbacks,
-            isCommented } = this.state;
+            isCommented,
+            currentUserCode} = this.state;
         const { isReadOnly, isDisableComment } = this.props;
         const prCreator = this.props.creator;
-        const currentUserCode = document.getElementById('employeeInfo-code').value;
         const isOwner = (prCreator.code === currentUserCode);
 
         return (
@@ -267,7 +268,7 @@ export default class Interaction extends Component {
     }
 
     getNewFeedback = () => {
-        const currentUserCode = document.getElementById('employeeInfo-code').value;
+        const currentUserCode = this.state.currentUserCode;
 
         axios.get(resolveClientUrl('PRFeedback/GetByPRId'),
             {
@@ -277,7 +278,7 @@ export default class Interaction extends Component {
                 }
             }).then(response => {
                 const newFeedback = response.data;
-                let feedbacks = this.state.feedbacks;
+                const feedbacks = this.state.feedbacks;
                 feedbacks.push(newFeedback);
 
                 this.setState({
@@ -297,7 +298,7 @@ export default class Interaction extends Component {
             }
         ).then(response => {
             const newReaction = response.data;
-            let reactions = this.state.reactions;
+            const reactions = this.state.reactions;
             reactions.push(newReaction);
 
             this.setState({ reactions: reactions });
