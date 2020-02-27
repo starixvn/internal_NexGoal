@@ -154,7 +154,7 @@ export default class Feedback extends Component {
                     modifiedDate: new Date()
                 });
                 toast.success(getResource('UpdatedSuccessfully'));
-                this.detectCollapseExpandComment()
+                this.detectCollapseExpandComment();
             }
             else {
                 toast.error(response.data.message);
@@ -242,7 +242,7 @@ export default class Feedback extends Component {
             }
         ).then(response => {
             const newReaction = response.data;
-            let reactions = this.state.reactions;
+            const reactions = this.state.reactions;
             reactions.push(newReaction);
 
             this.setState({ reactions: reactions });
