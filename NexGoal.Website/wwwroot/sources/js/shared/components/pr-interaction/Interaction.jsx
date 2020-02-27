@@ -102,7 +102,7 @@ export default class Interaction extends Component {
     }
 
     handleCancel = () => {
-        if (this.state.feedbackContent === '') {
+        if (!this.state.feedbackContent || this.state.feedbackContent === '') {
             this.setState({
                 isOpenForm: false,
                 feedbackContent: '',
