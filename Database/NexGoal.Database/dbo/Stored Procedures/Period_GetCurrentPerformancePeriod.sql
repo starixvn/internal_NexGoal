@@ -7,7 +7,6 @@ DB: bodb_NexGoal
 Original:
 
 Revisions:
-	20200224@drake.doi: get more infomation for PR
 Param's Explanation:
 */
 BEGIN
@@ -21,8 +20,6 @@ BEGIN
 		,EndDate
 		,FocusStartDate
 		,FocusEndDate
-		,DisciplineStartDate
-		,DisciplineEndDate
 	FROM dbo.Period WITH (NOLOCK)
 	WHERE IsActive = 1
 		AND DisciplineStartDate <= @Today

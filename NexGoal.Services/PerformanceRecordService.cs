@@ -346,12 +346,11 @@
 
         private void MappingDataForPerformanceRecordAsync(PerformanceRecord performanceRecord, IEnumerable<PerformanceGrade> performanceGrades, int actorId, PeriodModel currentPeriod)
         {
-            performanceRecord.IsInCurrentPeriod = performanceRecord.CreatedDate >= currentPeriod.DisciplineStartDate
-                && performanceRecord.CreatedDate <= currentPeriod.DisciplineEndDate;
             performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
             int.TryParse(performanceRecord.GradeId, out int gradeId);
             performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
             var createdDate = performanceRecord.CreatedDate ?? DateTime.MinValue;
+            performanceRecord.IsPAStarted = currentPeriod.StartDate <= DateTime.Now;
 
             performanceRecord.IsHost = performanceRecord.Creator.EmployeeId == actorId
                 && (performanceRecord.IsDraft

@@ -238,7 +238,7 @@ BEGIN
 	FROM ProbationEvaluation AS p WITH (NOLOCK)
 		INNER JOIN Employee AS e WITH (NOLOCK) ON p.EmployeeId = e.EmployeeId
 		INNER JOIN ProbationSetting  AS ps WITH (NOLOCK) ON p.EmployeeId = ps.EmployeeId AND ps.ProcessId = @EvaluatorProcessId
-	WHERE p.CreatedDate = @today AND e.EmployeeId IS NOT NULL
+	WHERE e.JoinedDate = @today AND e.EmployeeId IS NOT NULL
 		AND (
 			EXISTS (
 			SELECT 1
