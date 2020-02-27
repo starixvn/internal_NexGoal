@@ -182,8 +182,16 @@
     }
 }
 
-.performance-appraisal .record {
-    margin: 16px 20px;
+.modal-dialog.performance-appraisal {
+    .modal-body .tab-content .record {
+        padding: 0px;
+    }
+
+    .modal-body {
+        .grade-summary {
+            margin-right: 16px;
+        }
+    }
 }
 
 .table > thead > tr > th {

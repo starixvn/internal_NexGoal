@@ -327,6 +327,29 @@ BEGIN
 	-- update if @overide = 1
 	IF @Override = 1
 	BEGIN
+		INSERT INTO dbo.PAProcess (
+			PARecordId
+			,ProcessId
+			,EvaluatorId
+			,GradeId
+			,RelatedPerformanceRecordIds
+			)
+		SELECT pa.PARecordId
+			,process.ProcessId
+			,process.EvaluatorId
+			,process.GradeId
+			,process.RelatedPerformanceRecordIds
+		FROM #tblPAProcess AS process
+			INNER JOIN #tblPARecord AS pa ON process.PARecordId = pa.PARecordId
+		WHERE process.ProcessId = @PMProcessId
+			AND NOT EXISTS (
+				SELECT 1
+				FROM dbo.PAProcess AS process WITH (NOLOCK)
+				WHERE pa.PARecordId = process.PARecordId
+					AND process.ProcessId = @PMProcessId
+					AND process.EvaluatorId = process.EvaluatorId
+				)
+
 		UPDATE process
 		SET process.GradeId = tblprocess.GradeId
 			,process.RelatedPerformanceRecordIds = tblprocess.RelatedPerformanceRecordIds
