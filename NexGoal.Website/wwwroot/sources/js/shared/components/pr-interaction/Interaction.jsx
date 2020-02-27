@@ -103,13 +103,11 @@ export default class Interaction extends Component {
     }
 
     handleCancel = () => {
-        if (!this.state.feedbackContent) {
-            this.setState({
-                isOpenForm: false,
-                feedbackContent: '',
-                errors: {}
-            });
-        }
+        this.setState({
+            isOpenForm: false,
+            feedbackContent: '',
+            errors: {}
+        });
     }
 
     handleSubmit = () => {
@@ -150,6 +148,12 @@ export default class Interaction extends Component {
                 toast.error(response.data.message);
             }
         }).catch(axiosError);
+    }
+
+    handleOnBlurEvent = () => {
+        if (this.state.feedbackContent === '') {
+            this.handleCancel();
+        }
     }
 
     handleCommentChange = event => {
@@ -209,7 +213,7 @@ export default class Interaction extends Component {
                                         name="comment"
                                         value={feedbackContent}
                                         onChange={this.handleCommentChange}
-                                        onBlurEvent={this.handleCancel}
+                                        onBlurEvent={this.handleOnBlurEvent}
                                     />
                                 </FormGroup>
 
