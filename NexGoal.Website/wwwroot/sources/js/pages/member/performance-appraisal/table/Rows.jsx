@@ -96,7 +96,7 @@ class Rows extends Component {
         let grade = EmptyPlaceHolder;
 
         if (evaluatorProcess.grade) {
-            const naClass = statusId === PAStatus.InProgress ? 'red' : '';
+            const naClass = evaluatorProcess.grade === 'N/A' && statusId === PAStatus.InProgress ? 'red' : '';
             grade = <span className={naClass}>{evaluatorProcess.grade}</span>;
         }
 
