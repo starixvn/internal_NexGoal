@@ -141,12 +141,11 @@ class Rows extends Component {
 
     renderReviewerGrade = paProcesses => {
         const processes = paProcesses.filter(process => process.processId === PerformanceProcess.Reviewer);
-        let grade = EmptyPlaceHolder;
-        if (processes[0].performanceRecord) {
-            grade = processes[0].performanceRecord.grade ? processes[0].performanceRecord.grade.name : getResource('N/A');
+        if (!processes.length) {
+            return EmptyPlaceHolder;
         }
 
-        return grade;
+        return processes[0].grade ? processes[0].grade : EmptyPlaceHolder;
     }
 
     renderNickName = record => {

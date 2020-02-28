@@ -15,7 +15,8 @@ export default class HRM extends PureComponent {
                 <td className="text-center">{attendace.unplanAnnualLeave}</td>
                 <td className="text-center">{this.displayTime(attendace.averageWorkingHours)}</td>
                 <td className="text-center">{this.displayTime(attendace.overtime)}</td>
-                {index === 0 &&
+                {
+                    index === 0 &&
                     <td className="text-center" rowSpan={this.props.hrm.attendances.length + 1}>
                         {this.props.hrm.toeic &&
                             <Fragment>
@@ -29,7 +30,6 @@ export default class HRM extends PureComponent {
                                 }
                             </Fragment>
                         }
-
                     </td>
                 }
             </tr>
@@ -37,6 +37,10 @@ export default class HRM extends PureComponent {
     }
 
     displayTime = value => {
+        if (!value) {
+            return '0h0\'';
+        }
+
         const hours = Math.floor(value);
         const hoursString = hours.toString().padStart(2, '0');
         const minutes = Math.round((value - hours) * 60).toString().padStart(2, '0');
@@ -61,9 +65,7 @@ export default class HRM extends PureComponent {
                     </tr>
                 </thead>
                 <tbody>
-
                     {this.props.hrm.attendances.map(this.renderAttendance)}
-
                     <tr className="hrm-total">
                         <td className="text-center">Total</td>
                         <td className="text-center">{sumBy(this.props.hrm.attendances, 'missingCheckInCheckOut')}</td>
@@ -73,6 +75,7 @@ export default class HRM extends PureComponent {
                         <td className="text-center">{sumBy(this.props.hrm.attendances, 'unplanAnnualLeave')}</td>
                         <td className="text-center">{this.displayTime(meanBy(this.props.hrm.attendances, 'averageWorkingHours'))}</td>
                         <td className="text-center">{this.displayTime(sumBy(this.props.hrm.attendances, 'overtime'))}</td>
+                        <td />
                     </tr>
                 </tbody>
             </table>

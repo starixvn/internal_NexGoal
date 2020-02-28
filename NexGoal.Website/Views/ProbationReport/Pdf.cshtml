@@ -114,7 +114,6 @@
                         </tr>
                     </thead>
                     <tbody>
-
                         @for (var i = 0; i < attendances.Count; i++)
                         {
                             var attendance = attendances[i];
@@ -160,6 +159,7 @@
                             <td class="text-center">
                                 @Helper.RenderHour(Model.Hrm.Attendances.Sum(x => x.Overtime))
                             </td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </table>
