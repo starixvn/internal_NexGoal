@@ -75,7 +75,6 @@ export default class HRM extends PureComponent {
                         <td className="text-center">{sumBy(this.props.hrm.attendances, 'unplanAnnualLeave')}</td>
                         <td className="text-center">{this.displayTime(meanBy(this.props.hrm.attendances, 'averageWorkingHours'))}</td>
                         <td className="text-center">{this.displayTime(sumBy(this.props.hrm.attendances, 'overtime'))}</td>
-                        <td />
                     </tr>
                 </tbody>
             </table>

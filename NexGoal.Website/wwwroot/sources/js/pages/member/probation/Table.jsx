@@ -45,11 +45,12 @@ export default class Table extends Component {
                 <td>{probationer.nickName}</td>
                 <td className="text-center">{probationer.selfScore || '-'}</td>
                 <td className="text-center">
-                    {probationer.selfComment ?
-                        <span className="icon-search" data-processid={PerformanceProcess.Self}
-                            data-comment={probationer.selfComment} onClick={this.handleShowComment}
-                        />
-                        : '-'
+                    {
+                        probationer.selfComment ?
+                            <span className="icon-search" data-processid={PerformanceProcess.Self}
+                                data-comment={probationer.selfComment} onClick={this.handleShowComment}
+                            />
+                            : '-'
                     }
                 </td>
                 <td className="text-center">{probationer.evaluatorScore || '-'}</td>
@@ -57,22 +58,24 @@ export default class Table extends Component {
                     <span className={evaluatorResult.toLowerCase()} >{evaluatorResult}</span>
                 </td>
                 <td className="text-center">
-                    {probationer.evaluatorComment ?
-                        <span className="icon-search" data-processid={PerformanceProcess.Evaluator}
-                            data-comment={probationer.evaluatorComment} onClick={this.handleShowComment}
-                        />
-                        : '-'
+                    {
+                        probationer.evaluatorComment ?
+                            <span className="icon-search" data-processid={PerformanceProcess.Evaluator}
+                                data-comment={probationer.evaluatorComment} onClick={this.handleShowComment}
+                            />
+                            : '-'
                     }
                 </td>
                 <td className="text-center">
                     <span className={finalResult.toLowerCase()}>{finalResult}</span>
                 </td>
                 <td className="text-center">
-                    {probationer.reviewerComment ?
-                        <span className="icon-search" data-processid={PerformanceProcess.Reviewer}
-                            data-comment={probationer.reviewerComment} onClick={this.handleShowComment}
-                        />
-                        : '-'
+                    {
+                        probationer.reviewerComment ?
+                            <span className="icon-search" data-processid={PerformanceProcess.Reviewer}
+                                data-comment={probationer.reviewerComment} onClick={this.handleShowComment}
+                            />
+                            : '-'
                     }
                 </td>
                 <td className="text-center">

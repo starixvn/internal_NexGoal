@@ -17,6 +17,10 @@ export default class Table extends Component {
     }
 
     renderPerformanceResult = isQualified => {
+        if (isQualified === null) {
+            return EmptyPlaceHolder;
+        }
+
         return (
             <span className={isQualified ? 'passed' : 'failed'}>
                 {isQualified ? 'Passed' : 'Failed'}
