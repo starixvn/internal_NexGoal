@@ -352,11 +352,11 @@
             performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
             var createdDate = performanceRecord.CreatedDate ?? DateTime.MinValue;
 
-            performanceRecord.IsAllowEditFeedback = performanceRecord.CreatedDate >= currentPeriod.DisciplineStartDate && currentPeriod.StartDate <= today;
+            performanceRecord.IsAllowEditFeedback = performanceRecord.CreatedDate >= currentPeriod.DisciplineStartDate && currentPeriod.StartDate > today;
 
             performanceRecord.IsHost = performanceRecord.Creator.EmployeeId == actorId
                 && (performanceRecord.IsDraft
-                    || ((today - createdDate).Days < Constants.PerformanceCheckinDuration && currentPeriod.StartDate <= today));
+                    || ((today - createdDate).Days < Constants.PerformanceCheckinDuration && currentPeriod.StartDate > today));
 
             if (performanceRecord.Creator.EmployeeId == Constants.NexGoalSystemId)
             {
