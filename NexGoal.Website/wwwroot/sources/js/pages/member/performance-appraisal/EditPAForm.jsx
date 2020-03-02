@@ -148,8 +148,10 @@ export default class EditPAForm extends Component {
         };
         return (
             <div className="record record-your-mind" >
-                <PerformanceRecord data={data} isHideProjectTag processes={this.state.paProcesses}
-                    toeic={this.state.paRecord.toeic} toeicPolicy={this.state.paRecord.toeicPolicy}
+                <PerformanceRecord data={data} isHideProjectTag isHideInteraction
+                    processes={this.state.paProcesses}
+                    toeic={this.state.paRecord.toeic}
+                    toeicPolicy={this.state.paRecord.toeicPolicy}
                 />
             </div >
         );

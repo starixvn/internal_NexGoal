@@ -19,6 +19,7 @@ export default class PerformanceRecord extends Component {
     static propTypes = {
         data: PropTypes.objectOf(PropTypes.object),
         isHighlighted: PropTypes.bool,
+        isHideInteraction: PropTypes.bool,
         onDelete: PropTypes.func,
         onEdit: PropTypes.func,
         onEditDraft: PropTypes.func,
@@ -29,6 +30,7 @@ export default class PerformanceRecord extends Component {
         data: null,
         pageType: PageType.MyPage,
         isHighlighted: false,
+        isHideInteraction: false,
         onEdit: function () {
             //empty
         },
@@ -206,14 +208,17 @@ export default class PerformanceRecord extends Component {
                         </div>
                     </div>
                 }
-                <Interaction className="pr-comment"
-                    creator={creator}
-                    isReadOnly={this.props.feedbackReadOnly || record.isPAStarted}
-                    isDisableComment={record.typeId !== 1 || record.roleId !== 2}
-                    recordId={record.performanceRecordId}
-                    reactions={record.reactions}
-                    feedbacks={record.feedbacks}
-                />
+                {
+                    !this.props.isHideInteraction &&
+                    <Interaction className="pr-comment"
+                        creator={creator}
+                        isReadOnly={this.props.feedbackReadOnly || record.isPAStarted}
+                        isDisableComment={record.typeId !== 1 || record.roleId !== 2}
+                        recordId={record.performanceRecordId}
+                        reactions={record.reactions}
+                        feedbacks={record.feedbacks}
+                    />
+                }
             </div>
         );
     }
