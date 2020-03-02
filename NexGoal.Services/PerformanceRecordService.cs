@@ -346,15 +346,17 @@
 
         private void MappingDataForPerformanceRecordAsync(PerformanceRecord performanceRecord, IEnumerable<PerformanceGrade> performanceGrades, int actorId, PeriodModel currentPeriod)
         {
+            var today = DateTime.Now;
             performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
             int.TryParse(performanceRecord.GradeId, out int gradeId);
             performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
             var createdDate = performanceRecord.CreatedDate ?? DateTime.MinValue;
-            performanceRecord.IsPAStarted = currentPeriod.StartDate <= DateTime.Now;
+
+            performanceRecord.IsAllowEditFeedback = performanceRecord.CreatedDate >= currentPeriod.DisciplineStartDate && currentPeriod.StartDate <= today;
 
             performanceRecord.IsHost = performanceRecord.Creator.EmployeeId == actorId
                 && (performanceRecord.IsDraft
-                    || (!performanceRecord.IsDraft && (DateTime.Now - createdDate).Days < Constants.PerformanceCheckinDuration));
+                    || ((today - createdDate).Days < Constants.PerformanceCheckinDuration && currentPeriod.StartDate <= today));
 
             if (performanceRecord.Creator.EmployeeId == Constants.NexGoalSystemId)
             {

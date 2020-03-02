@@ -164,7 +164,7 @@ export default class PerformanceRecord extends Component {
                         {this.renderMemberForPerformanceCheckin(employees, creator)}
                     </div>
                     {
-                        record.isHost && !record.isPAStarted &&
+                        record.isHost &&
                         <div className="date">
                             <div className="edit-date">
                                 <a className="icon-edit" title={getResource('Edit')} onClick={this.handleEdit} />
@@ -212,7 +212,7 @@ export default class PerformanceRecord extends Component {
                     !this.props.isHideInteraction &&
                     <Interaction className="pr-comment"
                         creator={creator}
-                        isReadOnly={this.props.feedbackReadOnly || record.isPAStarted}
+                        isReadOnly={this.props.feedbackReadOnly || !record.isAllowEditFeedback}
                         isDisableComment={record.typeId !== 1 || record.roleId !== 2}
                         recordId={record.performanceRecordId}
                         reactions={record.reactions}

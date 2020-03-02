@@ -20,6 +20,8 @@ BEGIN
 		,EndDate
 		,FocusStartDate
 		,FocusEndDate
+		,DisciplineStartDate
+		,DisciplineEndDate
 	FROM dbo.Period WITH (NOLOCK)
 	WHERE IsActive = 1
 		AND DisciplineStartDate <= @Today

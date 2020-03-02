@@ -32,7 +32,7 @@
         public byte TypeId { get; set; }
         public bool IsHost { get; set; }
 
-        public bool IsPAStarted { get; set; }
+        public bool IsAllowEditFeedback { get; set; }
 
         public PASummaryModel PASummary { get; set; }
         public IEnumerable<PRReactionModel> Reactions { get; set; } = new List<PRReactionModel>();
