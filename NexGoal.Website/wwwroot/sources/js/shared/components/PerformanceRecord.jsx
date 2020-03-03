@@ -144,8 +144,11 @@ export default class PerformanceRecord extends Component {
 
     renderPerformanceCheckin = () => {
         const record = this.props.data;
-        const isHideInteraction = this.props.isHideInteraction || (record.typeId == 1 && record.roleId == 3);
-        let { employees, creator } = record;
+        const { employees, creator } = record;
+        const currentUserCode = document.getElementById('employeeInfo-code').value;
+        const isHideInteraction = this.props.isHideInteraction
+            || (creator.code == currentUserCode && record.typeId == 1 && record.roleId == 3);
+
 
         let commentWrapperClass = 'expanded';
         let expandCommentButtonClass = 'see-less';
