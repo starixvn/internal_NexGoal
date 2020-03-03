@@ -144,6 +144,7 @@ export default class PerformanceRecord extends Component {
 
     renderPerformanceCheckin = () => {
         const record = this.props.data;
+        const isHideInteraction = this.props.isHideInteraction || (record.typeId == 1 && record.roleId == 3);
         let { employees, creator } = record;
 
         let commentWrapperClass = 'expanded';
@@ -209,7 +210,7 @@ export default class PerformanceRecord extends Component {
                     </div>
                 }
                 {
-                    !this.props.isHideInteraction &&
+                    !isHideInteraction &&
                     <Interaction className="pr-comment"
                         creator={creator}
                         isReadOnly={this.props.feedbackReadOnly || !record.isAllowEditFeedback}
