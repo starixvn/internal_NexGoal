@@ -240,7 +240,7 @@ export default class Interaction extends Component {
         const isOwner = (prCreator.code === currentUserCode);
 
         return (
-            <div className="interaction-statistic">
+            <div className={`interaction-statistic ${isReadOnly || isOwner ? 'expand' : ''}`}>
                 <div className="likes-interaction">
                     {
                         !isReadOnly && !isOwner &&
