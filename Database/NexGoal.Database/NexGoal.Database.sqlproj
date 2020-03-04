@@ -306,6 +306,8 @@
     <Build Include="dbo\Tables\PRFeedback.sql" />
     <Build Include="dbo\Tables\PRFeedbackReaction.sql" />
     <Build Include="dbo\Tables\PRReaction.sql" />
+    <Build Include="scripts\125440_alter_sp.sql" />
+    <Build Include="scripts\125440_script.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">
