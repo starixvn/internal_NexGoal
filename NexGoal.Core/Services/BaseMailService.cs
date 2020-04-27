@@ -61,15 +61,16 @@ namespace NexGoal.Core.Services
 
             using (var mailclient = new SmtpClient())
             {
-                await mailclient.ConnectAsync(configuration.Value.SmtpServer, configuration.Value.SmtpPort, configuration.Value.EnableSsl).ConfigureAwait(false);
-
-                if (configuration.Value.EnableSsl)
-                {
-                    await mailclient.AuthenticateAsync(configuration.Value.Username, configuration.Value.Password).ConfigureAwait(false);
-                }
-
                 try
                 {
+                    mailclient.CheckCertificateRevocation = false;
+                    await mailclient.ConnectAsync(configuration.Value.SmtpServer, configuration.Value.SmtpPort, configuration.Value.EnableSsl).ConfigureAwait(false);
+
+                    if (configuration.Value.EnableSsl)
+                    {
+                        await mailclient.AuthenticateAsync(configuration.Value.Username, configuration.Value.Password).ConfigureAwait(false);
+                    }
+
                     await mailclient.SendAsync(message).ConfigureAwait(false);
 
                     WriteLogSendEmail(email);
