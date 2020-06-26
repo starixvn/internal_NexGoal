@@ -13,6 +13,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <AdditionalFiles Include="..\SonarQube\nexgoal\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.1.1" />
