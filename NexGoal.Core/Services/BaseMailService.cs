@@ -63,6 +63,7 @@ namespace NexGoal.Core.Services
             {
                 try
                 {
+                    mailclient.ServerCertificateValidationCallback = (s, c, h, e) => true;
                     mailclient.CheckCertificateRevocation = false;
                     await mailclient.ConnectAsync(configuration.Value.SmtpServer, configuration.Value.SmtpPort, configuration.Value.EnableSsl).ConfigureAwait(false);
 
