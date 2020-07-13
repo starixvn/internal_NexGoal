@@ -205,7 +205,10 @@
             cell.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
             cell.Style.Font.Size = 15;
             var richTextCollection = cell.RichText;
-            richTextCollection.Add(isRevised ? RevisedIcon : string.Empty).Color = Color.Green;
+            if (isRevised)
+            {
+                richTextCollection.Add(RevisedIcon).Color = Color.Green;
+            }
         }
 
         private static void WriteToeic(ExcelWorksheet templateWorksheet, ExcelRange toeicCell, int toeicPolicy, int? toeic)
