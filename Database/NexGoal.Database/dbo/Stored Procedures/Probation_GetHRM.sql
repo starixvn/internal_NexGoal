@@ -1,5 +1,13 @@
-﻿
-CREATE PROCEDURE [dbo].[Probation_GetHRM]
+﻿USE [NexGoal2]
+GO
+/****** Object:  StoredProcedure [dbo].[Probation_GetHRM]    Script Date: 8/14/2020 4:57:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+ALTER PROCEDURE [dbo].[Probation_GetHRM]
 	@EmployeeId INT
 AS
 /*
@@ -21,6 +29,10 @@ BEGIN
 	WHERE EmployeeId = @EmployeeId
 
 	SET @ToDate = DATEADD(MONTH, 2, @FromDate)
+	IF(@ToDate > DATEADD(DD, -1, GETDATE()))
+	BEGIN
+		SET @ToDate = DATEADD(DD, -1, GETDATE())
+	END
 
 	CREATE TABLE #EmployeeAttendance (
 		EmpId INT
@@ -229,4 +241,7 @@ BEGIN
 		,t.LRExamDate AS 'ExamDate'
 	FROM dbo.TOEIC t 
 	WHERE t.EmpId = @EmployeeId
+
+	DROP TABLE #EmployeeAttendance
 END
+
