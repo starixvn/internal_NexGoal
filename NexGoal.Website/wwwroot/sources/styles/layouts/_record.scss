@@ -199,7 +199,12 @@
                 font-weight: 700;
                 font-size: 15px;
                 vertical-align: middle;
-
+                
+                    &.nextGoalText
+                    {
+                        cursor: pointer;
+                    }
+                    
                 @media screen and (min-width: 1280px) {
                     font-size: 16px;
                 }

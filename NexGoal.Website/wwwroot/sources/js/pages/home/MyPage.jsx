@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { stringify } from 'qs';
 
 import { axiosError, calculateTimelineNode, getCurrentUserInfo, resolveClientUrl } from '../../common-functions';
-import { PostRequestHeaders } from '../../constants';
+import { PostRequestHeaders, PerformanceProcess } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import ConfirmationModal from '../../shared/components/ConfirmationModal';
@@ -22,6 +22,7 @@ import WorkLoad from './workload';
 import PerformanceAppraisalResult from './PerformanceAppraisalResult';
 import PersonalTimeline from './timeline/PersonalTimeline';
 import EmployeeInfo from './EmployeeInfo';
+import ViewPADetail from '../../shared/components/performance-appraisal/ViewPADetail';
 import {
     loadMorePerformanceRecord, handleClickEditPerformanceRecord, handleCancelEditPerformanceRecord,
     handleClickEditDraftPerformanceRecord, handleClickDeletePerformanceRecord, handleCancelDeletePerformanceRecord
@@ -55,7 +56,8 @@ export default class MyPage extends Component {
                 prevDisabled: false
             },
 
-            showAnnouncementModal: false
+            showAnnouncementModal: false,
+            isShowPADetail: false
         };
 
         this.infiniteScrollRef = React.createRef();
@@ -100,7 +102,6 @@ export default class MyPage extends Component {
                 });
 
                 const displayedPerformanceRecords = performanceRecordResponse.data.slice(0, this.itemPerPage);
-
                 this.setState({
                     performanceRecords: performanceRecordResponse.data,
                     periods: periodResponse.data,
@@ -317,6 +318,38 @@ export default class MyPage extends Component {
         loadMorePerformanceRecord(this, page, callback);
     }
 
+    handleClickViewPADetail = paRecordId => {
+        axios(resolveClientUrl(`PA/GetById/${paRecordId}`)).then(response => {
+            if (response.data) {
+                const pa = response.data;
+                const reviewer = pa.processes.filter(x => x.processId === PerformanceProcess.Reviewer)[0].evaluator;
+
+                this.setState({
+                    isShowPADetail: true,
+                    paDetail: {
+                        paRecord: {
+                            paRecordId: pa.paRecordId,
+                            grade: pa.grade,
+                            comment: pa.comment,
+                            reviewer: reviewer,
+                            modifiedDate: pa.modifiedDate,
+                            toeic: pa.toeic,
+                            toeicPolicy: pa.toeicPolicy
+                        },
+                        employee: pa.employee,
+                        paProcesses: pa.processes
+                    }
+                });
+            }
+        }).catch(axiosError);
+    }
+
+    handleClosePADetailModel = () => {
+        this.setState({
+            isShowPADetail: false
+        });
+    }
+
     renderPerformanceRecord = performanceRecord => {
         return (
             <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
@@ -326,6 +359,7 @@ export default class MyPage extends Component {
                 onDelete={this.handleClickDeletePerformanceRecord}
                 isHighlighted={this.state.performanceRecordIdHighlighted === performanceRecord.performanceRecordId}
                 feedbackReadOnly="true"
+                showPaDetail={this.handleClickViewPADetail}
             />
         );
     }
@@ -406,6 +440,16 @@ export default class MyPage extends Component {
                                                 performanceRecords.map(this.renderPerformanceRecord)
                                             }
                                         </div>
+                                        {
+                                            this.state.isShowPADetail &&
+                                            <ViewPADetail
+                                                isShowModal={this.state.isShowPADetail}
+                                                paRecord={this.state.paDetail.paRecord}
+                                                employee={this.state.paDetail.employee}
+                                                paProcesses={this.state.paDetail.paProcesses}
+                                                onCloseModal={this.handleClosePADetailModel}
+                                            />
+                                        }
 
                                     </InfiniteScroll>
                                 }

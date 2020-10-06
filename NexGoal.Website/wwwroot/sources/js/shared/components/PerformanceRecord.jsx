@@ -390,6 +390,10 @@ export default class PerformanceRecord extends Component {
         return '';
     }
 
+    showPADetails = paRecordId => {
+        this.props.showPaDetail(paRecordId);
+    }
+
     renderSystemPerformanceAppraisal = () => {
         const record = this.props.data;
         const originalGradeId = record.paSummary.originalGrade ? record.paSummary.originalGrade.gradeId : null;
@@ -402,7 +406,7 @@ export default class PerformanceRecord extends Component {
                 <div className="avatar-user">
                     <div className="avatar nexgoal-system"><img src={resolveClientUrl('dist/avatars/icon-nexgoal.svg')} alt="avatar" /></div>
                     <div className="person-info">
-                        <span className={getRoleClassName(record.roleId)}>NexGoal - {record.period ? record.period.name : ''}</span>
+                        <span onClick = {() => this.showPADetails(record.paSummary.paRecordId)} className={`${getRoleClassName(record.roleId)} nextGoalText`}>NexGoal - {record.period ? record.period.name : ''}</span>
                         <div className="submit-date">{createdDate}</div>
                     </div>
                 </div>

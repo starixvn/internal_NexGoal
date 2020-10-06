@@ -5,7 +5,7 @@
 
     public class PASummaryModel
     {
-        [JsonIgnore]
+       // [JsonIgnore]
         public int PARecordId { get; set; }
         [JsonIgnore]
         public int PerformanceRecordId { get; set; }
