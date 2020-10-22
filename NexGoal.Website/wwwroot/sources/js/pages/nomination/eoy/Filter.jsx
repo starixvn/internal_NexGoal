@@ -10,7 +10,7 @@ class Filter extends Component {
         this.props.handleStatusChange(selectedOption.value);
     }
 
-    handleSubmit = event => {
+    handleFilterSubmit = event => {
         event.preventDefault();
         this.props.handleFilterSubmit();
     }
@@ -19,15 +19,17 @@ class Filter extends Component {
         const statusSelected = statusOptions.find(option => option.value === this.props.statusId.toString());
 
         return (
-            <Form inline className="form-filter" onSubmit={this.handleSubmit}>
+            <Form inline className="form-filter" onSubmit={this.handleFilterSubmit}>
                 <FormGroup>
                     <ControlLabel>{getResource('Status')}</ControlLabel>
                     <div className="control-content">
-                        <Select name="StatusId" isSearchable={false} isClearable={false}
-                            className="react-select-container" classNamePrefix="react-select"
-                            value={statusSelected}
+                        <Select name="StatusId"
+                            isSearchable={false}
+                            isClearable={false}
                             options={statusOptions}
                             onChange={this.handleStatusChange}
+                            className="react-select-container" classNamePrefix="react-select"
+                            value={statusSelected}
                         />
                     </div>
                 </FormGroup>

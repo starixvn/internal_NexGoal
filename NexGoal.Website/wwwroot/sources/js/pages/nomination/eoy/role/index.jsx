@@ -25,21 +25,21 @@ export default class RoleManagement extends Component {
             nominators: []
         };
 
-        this.eoyId = document.getElementById('EOYId').value;
         this.isHost = document.getElementById('IsHost').checked;
+        this.eoyId = document.getElementById('EOYId').value;
     }
 
     componentDidMount() {
         axios(resolveClientUrl('Common/GetGroups'))
             .then(response => {
-                const groupOptions = response.data.map(group => {
+                const groupSelections = response.data.map(group => {
                     return { value: group.groupId, label: group.name };
                 });
 
-                const filter = Object.assign({}, this.state.filter, { groups: groupOptions });
+                const filter = Object.assign({}, this.state.filter, { groups: groupSelections });
 
                 this.setState({
-                    groupOptions: groupOptions,
+                    groupOptions: groupSelections,
                     filter: filter
                 });
 
@@ -50,25 +50,25 @@ export default class RoleManagement extends Component {
     editNominatorSetting = nominator => {
         const setting = stringify({
             __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+            roleIds: nominator.roles.join(',') ,
             nominationPeriodId: this.eoyId,
-            employeeId: nominator.employeeId,
-            roleIds: nominator.roles.join(',')
+            employeeId: nominator.employeeId
         });
 
         axios({
-            url: resolveClientUrl('NominationPeriod/EditRoleSetting'),
             method: 'POST',
+            url: resolveClientUrl('NominationPeriod/EditRoleSetting'),
             data: setting,
             headers: PostRequestHeaders
         }).then(response => {
-            const data = response.data;
+            const result = response.data;
 
-            if (data.isSuccessful) {
+            if (result.isSuccessful) {
                 toast.success(getResource('UpdatedSuccessfully'));
 
                 this.props.handleFilterSubmit();
             } else {
-                toast.error(data.message);
+                toast.error(result.message);
             }
         }).catch(axiosError);
     }

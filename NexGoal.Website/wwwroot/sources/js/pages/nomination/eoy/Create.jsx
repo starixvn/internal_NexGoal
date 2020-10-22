@@ -58,16 +58,17 @@ class Create extends Component {
         const currentYear = new Date().getFullYear();
         const eoy = {
             year: { value: currentYear, label: currentYear },
-            startDateForNominator: null,
-            endDateForNominator: null,
             remindDateForNominator: null,
             endDateForCommittee: null,
+            startDateForNominator: null,
+            endDateForNominator: null,
             description: ''
         };
 
         return (
-            <Modal keyboard={false} backdrop="static"
-                show={this.props.showModal} onHide={this.props.closeModal}
+            <Modal id="eoy-create-modal" keyboard={false} backdrop="static"
+                show={this.props.showModal}
+                onHide={this.props.closeModal}
                 dialogClassName="custom-modal modal-md"
             >
                 <Modal.Header closeButton>

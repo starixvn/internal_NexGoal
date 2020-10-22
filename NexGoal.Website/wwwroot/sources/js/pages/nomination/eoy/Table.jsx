@@ -21,7 +21,7 @@ class Table extends Component {
         };
     }
 
-    handleShowCreateModal = () => this.setState({ showCreateModal: true });
+    handleShowCreateEoYModal = () => this.setState({ showCreateModal: true });
 
     handleCloseCreateModal = () => this.setState({ showCreateModal: false });
 
@@ -62,6 +62,21 @@ class Table extends Component {
         }).catch(axiosError);
     }
 
+    renderEoYTableHeader = () => {
+        return (
+            <tr>
+                <th>{getResource('SymbolCount')}</th>
+                <th>{getResource('Year')}</th>
+                <th>{getResource('StartDateForNominator')}</th>
+                <th>{getResource('EndDateForNominator')}</th>
+                <th>{getResource('RemindDateForNominator')}</th>
+                <th>{getResource('EndDateForCommittee')}</th>
+                <th>{getResource('Status')}</th>
+                <th>{getResource('Action')}</th>
+            </tr>
+        );
+    }
+
     render() {
         const { isHost, eoys } = this.props;
 
@@ -73,22 +88,15 @@ class Table extends Component {
                             isHost &&
                             <tr className="header-control">
                                 <th colSpan="9">
-                                    <a className="pull-left btn btn-primary" onClick={this.handleShowCreateModal}>
+                                    <a className="pull-left btn btn-primary" onClick={this.handleShowCreateEoYModal}>
                                         {getResource('AddNominationPeriod')}
                                     </a>
                                 </th>
                             </tr>
                         }
-                        <tr>
-                            <th>{getResource('SymbolCount')}</th>
-                            <th>{getResource('Year')}</th>
-                            <th>{getResource('StartDateForNominator')}</th>
-                            <th>{getResource('EndDateForNominator')}</th>
-                            <th>{getResource('RemindDateForNominator')}</th>
-                            <th>{getResource('EndDateForCommittee')}</th>
-                            <th>{getResource('Status')}</th>
-                            <th>{getResource('Action')}</th>
-                        </tr>
+                        {
+                            this.renderEoYTableHeader()
+                        }
                     </thead>
                     <tbody>
                         {
