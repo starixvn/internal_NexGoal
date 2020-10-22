@@ -90,10 +90,10 @@ export default class Table extends Component {
                                 <th colSpan="4">Performance Record Quantity</th>
                             </tr>
                             <tr>
-                                <th className="self">{getResource('Self')}</th>
-                                <th className="pm">{getResource('ProjectManager')}</th>
-                                <th className="evaluator">{getResource('Evaluator')}</th>
-                                <th className="reviewer">{getResource('Reviewer')}</th>
+                                <th className="self pr-tracking-header stick-block">{getResource('Self')}</th>
+                                <th className="pm pr-tracking-header stick-block">{getResource('ProjectManager')}</th>
+                                <th className="evaluator pr-tracking-header stick-block">{getResource('Evaluator')}</th>
+                                <th className="reviewer pr-tracking-header stick-block">{getResource('Reviewer')}</th>
                             </tr>
                         </thead>
                     </table>
@@ -107,10 +107,10 @@ export default class Table extends Component {
                             <th colSpan="4">Performance Record Quantity</th>
                         </tr>
                         <tr>
-                            <th className="self">{getResource('Self')}</th>
-                            <th className="pm">{getResource('ProjectManager')}</th>
-                            <th className="evaluator">{getResource('Evaluator')}</th>
-                            <th className="reviewer">{getResource('Reviewer')}</th>
+                            <th className="self pr-tracking-header">{getResource('Self')}</th>
+                            <th className="pm pr-tracking-header">{getResource('ProjectManager')}</th>
+                            <th className="evaluator pr-tracking-header">{getResource('Evaluator')}</th>
+                            <th className="reviewer pr-tracking-header">{getResource('Reviewer')}</th>
                         </tr>
                     </thead>
                     <tbody>

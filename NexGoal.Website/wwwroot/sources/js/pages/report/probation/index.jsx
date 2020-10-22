@@ -62,22 +62,22 @@ export default class ProbationReport extends Component {
 
                 this.employees = response.data.employees;
 
-                const employeeOptions = response.data.employees.map(item => {
+                const employeeSelections = response.data.employees.map(item => {
                     return {
                         value: item.employeeId,
                         label: `${item.nickName} (${item.fullName})`
                     };
                 });
 
-                const filter = {
+                const probationFilter = {
                     ... this.state.filter,
                     ...{
                         groups: groupOptions,
-                        employees: employeeOptions
+                        employees: employeeSelections
                     }
                 };
 
-                this.setState({ filter, groupOptions, employeeOptions }, this.getProbationers);
+                this.setState({ probationFilter, groupOptions, employeeSelections }, this.getProbationers);
             }).catch(axiosError);
     }
 

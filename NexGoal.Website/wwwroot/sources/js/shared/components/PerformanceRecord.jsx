@@ -97,7 +97,7 @@ export default class PerformanceRecord extends Component {
 
     isHideInteraction = (record, creator) => {
         const currentUserCode = document.getElementById('employeeInfo-code').value;
-        return this.props.isHideInteraction || (creator.code == currentUserCode && record.typeId == 1 && record.roleId == 3);
+        return this.props.isHideInteraction || (creator.code === currentUserCode && record.typeId === 1 && record.roleId === 3);
     }
 
     getHighlightedCssClass = () => this.props.isHighlighted ? 'highlighted' : '';
@@ -413,7 +413,9 @@ export default class PerformanceRecord extends Component {
                 <div className="avatar-user">
                     <div className="avatar nexgoal-system"><img src={resolveClientUrl('dist/avatars/icon-nexgoal.svg')} alt="avatar" /></div>
                     <div className="person-info">
-                        <span onClick={() => this.showPADetails(record.paSummary.paRecordId)} className={`${getRoleClassName(record.roleId)} nextGoalText`}>NexGoal - {record.period ? record.period.name : ''}</span>
+                        <span onClick={() => this.showPADetails(record.paSummary.paRecordId)}
+                                className={`${getRoleClassName(record.roleId)} nextGoalText`}>NexGoal - {record.period ? record.period.name : ''}
+                        </span>
                         <div className="submit-date">{createdDate}</div>
                     </div>
                 </div>
