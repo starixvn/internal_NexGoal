@@ -169,9 +169,10 @@ export default class Interaction extends Component {
         });
     }
 
-    renderFeedback = feedback => {
+    renderFeedback = (feedback, index) => {
         return (
             <Feedback
+                key={`feedback-${index}`}
                 feedback={feedback}
                 isReadOnly={this.props.isReadOnly}
                 recordId={this.props.recordId}

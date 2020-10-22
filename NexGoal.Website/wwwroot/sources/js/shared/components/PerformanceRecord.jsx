@@ -95,6 +95,11 @@ export default class PerformanceRecord extends Component {
         );
     }
 
+    isHideInteraction = (record, creator) => {
+        const currentUserCode = document.getElementById('employeeInfo-code').value;
+        return this.props.isHideInteraction || (creator.code == currentUserCode && record.typeId == 1 && record.roleId == 3);
+    }
+
     getHighlightedCssClass = () => this.props.isHighlighted ? 'highlighted' : '';
 
     renderCreatorForPerformanceCheckin = (employees, creator) => {
@@ -137,6 +142,15 @@ export default class PerformanceRecord extends Component {
 
     renderPerformanceGrade = grade => grade ? `(${grade.name}) ${grade.description}` : getResource('N/A');
 
+    renderExpandCommentButton = () => {
+        if (this.state.showCollapseExpandButton) {
+            const expandCommentButtonClass = this.state.isExpanded ? 'see-more' : 'see-less';
+            return <span className={expandCommentButtonClass} onClick={this.collapseExpandComment} />;
+        }
+
+        return null;
+    }
+
     renderProject = projects => {
         return projects && projects.length > 0 ?
             projects.map(project => <span key={project.projectId} className="tag">{project.name}</span>) : getResource('N/A');
@@ -145,16 +159,11 @@ export default class PerformanceRecord extends Component {
     renderPerformanceCheckin = () => {
         const record = this.props.data;
         const { employees, creator } = record;
-        const currentUserCode = document.getElementById('employeeInfo-code').value;
-        const isHideInteraction = this.props.isHideInteraction
-            || (creator.code == currentUserCode && record.typeId == 1 && record.roleId == 3);
-
+        const isHideInteraction = this.isHideInteraction(record, creator);
 
         let commentWrapperClass = 'expanded';
-        let expandCommentButtonClass = 'see-less';
         if (this.state.isExpanded) {
             commentWrapperClass = 'collapsed';
-            expandCommentButtonClass = 'see-more';
         }
 
         return (
@@ -192,9 +201,7 @@ export default class PerformanceRecord extends Component {
                 <div className="comment" >
                     <p className={commentWrapperClass} ref={element => this.element = element}>{record.comment}</p>
                     {
-                        this.state.showCollapseExpandButton ?
-                            <span className={expandCommentButtonClass} onClick={this.collapseExpandComment} />
-                            : null
+                        this.renderExpandCommentButton()
                     }
                 </div>
                 <div className="grade">
@@ -406,7 +413,7 @@ export default class PerformanceRecord extends Component {
                 <div className="avatar-user">
                     <div className="avatar nexgoal-system"><img src={resolveClientUrl('dist/avatars/icon-nexgoal.svg')} alt="avatar" /></div>
                     <div className="person-info">
-                        <span onClick = {() => this.showPADetails(record.paSummary.paRecordId)} className={`${getRoleClassName(record.roleId)} nextGoalText`}>NexGoal - {record.period ? record.period.name : ''}</span>
+                        <span onClick={() => this.showPADetails(record.paSummary.paRecordId)} className={`${getRoleClassName(record.roleId)} nextGoalText`}>NexGoal - {record.period ? record.period.name : ''}</span>
                         <div className="submit-date">{createdDate}</div>
                     </div>
                 </div>

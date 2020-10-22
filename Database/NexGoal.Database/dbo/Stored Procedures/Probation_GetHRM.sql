@@ -1,13 +1,4 @@
-﻿USE [NexGoal2]
-GO
-/****** Object:  StoredProcedure [dbo].[Probation_GetHRM]    Script Date: 8/14/2020 4:57:18 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-
-
-ALTER PROCEDURE [dbo].[Probation_GetHRM]
+﻿CREATE PROCEDURE [dbo].[Probation_GetHRM]
 	@EmployeeId INT
 AS
 /*

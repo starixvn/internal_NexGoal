@@ -288,7 +288,7 @@ export default class Feedback extends Component {
                             <span className={getRoleClassName(feedback.roleId)}> {feedback.creator.nickName} </span>
                             {
                                 showEditBtn &&
-                                <a class="fa icon-edit custom-icon-edit" onClick={this.handleEditFeedback}></a>
+                                <a className="fa icon-edit custom-icon-edit" onClick={this.handleEditFeedback}></a>
                             }
                             {
                                 modifiedDate &&
@@ -300,7 +300,7 @@ export default class Feedback extends Component {
                                     </span>
                                 </div>
                             }
-                            <span class="published-time">{calendar(feedback.createdDate)}</span>
+                            <span className="published-time">{calendar(feedback.createdDate)}</span>
                         </div>
                         {
                             this.renderFeedbackContent()

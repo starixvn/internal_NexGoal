@@ -7,9 +7,9 @@ export default class LikesStatisticModal extends Component {
         super(props);
     };
 
-    renderUserLiked = reaction => {
+    renderUserLiked = (reaction, index) => {
         return (
-            <div className="avatar-user">
+            <div className="avatar-user" key={`user-like-${index}`}>
                 <img src={reaction.creator.avatar} alt="avatar" className="avatar" />
                 <div className="person-info">
                     <span className={getRoleClassName(reaction.roleId)}> {reaction.creator.nickName} </span>

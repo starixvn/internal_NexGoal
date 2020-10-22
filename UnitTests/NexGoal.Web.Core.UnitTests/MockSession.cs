@@ -19,12 +19,12 @@
             sessionFactory.Clear();
         }
 
-        public Task CommitAsync(CancellationToken cancellationToken)
+        public Task CommitAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
 
-        public Task LoadAsync(CancellationToken cancellationToken)
+        public Task LoadAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
