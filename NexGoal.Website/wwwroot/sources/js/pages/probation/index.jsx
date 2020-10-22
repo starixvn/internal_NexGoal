@@ -175,7 +175,7 @@ export default class MyProbation extends Component {
             point: kpi.selfPoint
         })));
 
-        const submitData = {
+        const data = {
             comment: values.comment,
             evaluations: evaluations,
             totalScore: round(sumBy(evaluations, 'point'))
@@ -184,18 +184,17 @@ export default class MyProbation extends Component {
         axios({
             url: resolveClientUrl('MyProbation/EditSelfEvaluation'),
             method: 'post',
+            headers: PostRequestHeaders,
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                ...submitData
-            }),
-            headers: PostRequestHeaders
-        }).then(response => {
-            const data = response.data;
-
-            if (data.isSuccessful) {
+                ...data
+            })
+        }).then(res => {
+            const result = res.data;
+            if (result.isSuccessful) {
                 toast.success(getResource('UpdatedSuccessfully'));
             } else {
-                toast.error(data.message);
+                toast.error(result.message);
             }
 
             setSubmitting(false);

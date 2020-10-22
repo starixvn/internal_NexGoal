@@ -35,13 +35,13 @@ export default class PAFocus extends Component {
     componentDidMount() {
         const promises = [
             axios(resolveClientUrl('pafocus/getPeriod')),
-            axios(resolveClientUrl('pafocus/getGroup')),
-            axios(resolveClientUrl('pafocus/getFocusEvaluationLevel'))
+            axios(resolveClientUrl('pafocus/getFocusEvaluationLevel')),
+            axios(resolveClientUrl('pafocus/getGroup'))
         ];
 
         Promise.all(promises)
-            .then(([periodResponse, groupResponse, levelResponse]) => {
-                const periodOptions = periodResponse.data.map(period => {
+            .then(([periodResponse, levelResponse, groupResponse]) => {
+                const periodSelections = periodResponse.data.map(period => {
                     return {
                         value: period.periodId,
                         label: period.name,
@@ -50,21 +50,21 @@ export default class PAFocus extends Component {
                     };
                 });
 
-                const groupOptions = groupResponse.data.map(group => {
+                const groupSelections = groupResponse.data.map(group => {
                     return { value: group.groupId, label: group.name };
                 });
 
                 const filter = Object.assign({}, this.state.filter, {
-                    period: periodOptions[0],
-                    groups: groupOptions
+                    period: periodSelections[0],
+                    groups: groupSelections
                 });
 
-                const groupIds = groupOptions && groupOptions.length > 0 ? groupOptions.map(group => group.value).join(',') : null;
+                const groupIds = groupSelections && groupSelections.length > 0 ? groupSelections.map(group => group.value).join(',') : null;
                 this.getMembers(groupIds);
                 this.getPAFocus(filter);
 
-                this.periodOptions = periodOptions;
-                this.groupOptions = groupOptions;
+                this.periodOptions = periodSelections;
+                this.groupOptions = groupSelections;
                 this.focusEvaluationLevelOptions = levelResponse.data;
                 this.setState({ filter: filter });
             }).catch(axiosError);
