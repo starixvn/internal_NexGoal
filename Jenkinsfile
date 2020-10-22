@@ -59,7 +59,7 @@ pipeline {
 
   post{
     unsuccessful{
-      emailext body: '$DEFAULT_CONTENT', subject: '$DEFAULT_SUBJECT', to: 'quinn.vo@starixsoft.com,tim.trinh@starixsoft.com,elton.ton@starixsoft.com,oliver.dang@starixsoft.com'
+      emailext body: '$DEFAULT_CONTENT', subject: '$DEFAULT_SUBJECT', to: 'quinn.vo@starixsoft.com,tim.trinh@starixsoft.com,oliver.dang@starixsoft.com'
     }
   }
 }
