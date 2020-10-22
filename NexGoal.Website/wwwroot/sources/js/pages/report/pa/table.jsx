@@ -136,15 +136,15 @@ export default class Table extends Component {
         this.props.showPaDetail(paRecordId);
     }
 
-    countDuplicateGrades = grades => {
+    countPADuplicateGrades = grades => {
         grades.sort();
-        const displayGrades = [];
+        const displayGradeArray = [];
         let currentGrade = null;
         let count = 0;
         for (let i = 0; i < grades.length; i++) {
             if (grades[i] !== currentGrade) {
                 if (count > 0) {
-                    displayGrades.push(count > 1 ? count + currentGrade : currentGrade);
+                    displayGradeArray.push(count > 1 ? count + currentGrade : currentGrade);
                 }
                 currentGrade = grades[i];
                 count = 1;
@@ -154,10 +154,10 @@ export default class Table extends Component {
         }
 
         if (count > 0) {
-            displayGrades.push(count > 1 ? count + currentGrade : currentGrade);
+            displayGradeArray.push(count > 1 ? count + currentGrade : currentGrade);
         }
 
-        return displayGrades.join(', ');
+        return displayGradeArray.join(', ');
     }
 
     renderPMGrades = (paProcesses, paRecordId) => {
@@ -180,7 +180,7 @@ export default class Table extends Component {
         </Tooltip>;
 
         return <OverlayTrigger placement="top" overlay={tooltip}>
-            <span className="pointer">{this.countDuplicateGrades(grades)}</span>
+            <span className="pointer">{this.countPADuplicateGrades(grades)}</span>
         </OverlayTrigger>;
     }
 

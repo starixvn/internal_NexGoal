@@ -34,7 +34,7 @@ export default class SearchForm extends Component {
                 {this.props.groupOptions.length > 1 &&
                     <FormGroup>
                         <ControlLabel>{getResource('Team')}</ControlLabel>
-                        <div className="control-content team-width">
+                        <div className="control-content team-width pr-tracking-search-form">
                             <MultiSelect name="groups"
                                 className="react-select-container" classNamePrefix="react-select"
                                 value={filter.groups}
@@ -47,7 +47,7 @@ export default class SearchForm extends Component {
 
                 <FormGroup>
                     <ControlLabel>{getResource('Employee')}</ControlLabel>
-                    <div className="control-content employee-width">
+                    <div className="control-content employee-width pr-tracking-search-form">
                         <MultiSelect
                             className="react-select-container" classNamePrefix="react-select"
                             value={filter.employees}

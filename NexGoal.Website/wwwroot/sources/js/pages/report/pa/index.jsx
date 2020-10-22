@@ -95,23 +95,23 @@ export default class App extends Component {
     handleClickViewPADetail = paRecordId => {
         axios(resolveClientUrl(`PA/GetById/${paRecordId}`)).then(response => {
             if (response.data) {
-                const pa = response.data;
-                const reviewer = pa.processes.filter(x => x.processId === PerformanceProcess.Reviewer)[0].evaluator;
+                const paData = response.data;
+                const reviewer = paData.processes.filter(x => x.processId === PerformanceProcess.Reviewer)[0].evaluator;
 
                 this.setState({
                     isShowPADetail: true,
                     paDetail: {
                         paRecord: {
-                            paRecordId: pa.paRecordId,
-                            grade: pa.grade,
-                            comment: pa.comment,
-                            reviewer: reviewer,
-                            modifiedDate: pa.modifiedDate,
-                            toeic: pa.toeic,
-                            toeicPolicy: pa.toeicPolicy
+                            paRecordId: paData.paRecordId,
+                            modifiedDate: paData.modifiedDate,
+                            toeic: paData.toeic,
+                            toeicPolicy: paData.toeicPolicy,
+                            grade: paData.grade,
+                            comment: paData.comment,
+                            reviewer: reviewer
                         },
-                        employee: pa.employee,
-                        paProcesses: pa.processes
+                        employee: paData.employee,
+                        paProcesses: paData.processes
                     }
                 });
             }

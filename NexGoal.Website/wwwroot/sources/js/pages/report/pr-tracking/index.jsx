@@ -65,25 +65,29 @@ export default class PRTracking extends Component {
 
     handleFilterChange = (name, value) => {
         if (name === 'groups') {
-            const employeeOptions = this.employees.filter(e => value.some(v => v.value === e.groupId))
+            const employeeChoosens = this.employees.filter(e => value.some(v => v.value === e.groupId))
                 .map(e => ({
                     value: e.employeeId,
                     label: `${e.nickName} (${e.fullName})`
                 }));
 
             this.setState({
-                employeeOptions: employeeOptions,
+                employeeOptions: employeeChoosens,
                 filter: {
                     ...this.state.filter,
                     ...{
                         [name]: value,
-                        employees: employeeOptions
+                        employees: employeeChoosens
                     }
                 }
             });
         } else {
             this.setState({
-                filter: { ...this.state.filter, ...{ [name]: value } }
+                filter: {
+                ...this.state.filter,
+                ...{
+                    [name]: value }
+                }
             });
         }
     }

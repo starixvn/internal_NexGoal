@@ -56,7 +56,7 @@ export default class Table extends Component {
         );
     }
 
-    renderTableContent = () => {
+    renderPRTrackingTableContent = () => {
         if (this.props.tableData) {
             if (this.props.period) {
                 return (
@@ -106,6 +106,7 @@ export default class Table extends Component {
                             <th className="job-title" rowSpan="2">{getResource('JobTitle')}</th>
                             <th colSpan="4">Performance Record Quantity</th>
                         </tr>
+
                         <tr>
                             <th className="self pr-tracking-header">{getResource('Self')}</th>
                             <th className="pm pr-tracking-header">{getResource('ProjectManager')}</th>
@@ -114,7 +115,9 @@ export default class Table extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.renderTableContent()}
+                        {
+                            this.renderPRTrackingTableContent()
+                        }
                     </tbody>
                 </table>
             </Fragment>
