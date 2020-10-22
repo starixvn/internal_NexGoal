@@ -67,9 +67,9 @@ export default class Table extends Component {
     renderNominateReportStickyBlock = () => {
         return (
              <StickyBlock threshold={236}>
-                    <table className="table table-bordered table-striped tbl-nomination-report">
+                    <table id="nominate-report-sticky-table" className="table table-bordered table-striped tbl-nomination-report">
                         <thead>
-                            <tr>
+                            <tr className="sticky-header">
                                 <th className="order">{getResource('SymbolCount')}</th>
                                 <th className="nominee">{getResource('Nominee')}</th>
                                 <th className="team">{getResource('Team')}</th>

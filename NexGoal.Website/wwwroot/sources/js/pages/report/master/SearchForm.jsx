@@ -54,10 +54,13 @@ export default class SearchForm extends Component {
                     </div>
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel htmlFor="master-report-employee-label">{getResource('Employee')}</ControlLabel>
+                    <ControlLabel htmlFor="master-report-employee-label">
+                        {getResource('Employee')}
+                    </ControlLabel>
                     <div className="control-content employee-width">
                         <MultiSelect
-                            className="react-select-container" classNamePrefix="react-select"
+                            classNamePrefix="react-select"
+                            className="react-select-container"
                             value={filter.employees}
                             options={this.props.employeeOptions}
                             onChange={this.handleEmployeeChange}
