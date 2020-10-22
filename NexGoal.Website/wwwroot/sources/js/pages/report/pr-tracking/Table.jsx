@@ -81,28 +81,28 @@ export default class Table extends Component {
         return (
             <Fragment>
                 <StickyBlock threshold={236}>
-                    <table className="table table-bordered table-striped pr-tracking-table">
+                    <table className="table table-bordered table-striped pr-tracking-table" id="pr-tracking-sticky">
                         <thead>
                             <tr>
-                                <th className="order" rowSpan="2">{getResource('SymbolCount')}</th>
+                                <th rowSpan="2" className="order" >{getResource('SymbolCount')}</th>
                                 <th className="nick-name " rowSpan="2">{getResource('Employee')}</th>
-                                <th className="job-title" rowSpan="2">{getResource('JobTitle')}</th>
+                                <th rowSpan="2" className="job-title">{getResource('JobTitle')}</th>
                                 <th colSpan="4">Performance Record Quantity</th>
                             </tr>
                             <tr>
-                                <th className="self pr-tracking-header stick-block">{getResource('Self')}</th>
-                                <th className="pm pr-tracking-header stick-block">{getResource('ProjectManager')}</th>
-                                <th className="evaluator pr-tracking-header stick-block">{getResource('Evaluator')}</th>
-                                <th className="reviewer pr-tracking-header stick-block">{getResource('Reviewer')}</th>
+                                <th className="self stick-block">{getResource('Self')}</th>
+                                <th className="pm stick-block">{getResource('ProjectManager')}</th>
+                                <th className="evaluator stick-block">{getResource('Evaluator')}</th>
+                                <th className="reviewer stick-block">{getResource('Reviewer')}</th>
                             </tr>
                         </thead>
                     </table>
                 </StickyBlock>
-                <table className="table table-bordered table-striped pr-tracking-table">
+                <table id="pr-tracking-table" className="table table-bordered pr-tracking-table table-striped">
                     <thead>
                         <tr>
                             <th className="order" rowSpan="2">{getResource('SymbolCount')}</th>
-                            <th className="nick-name " rowSpan="2">{getResource('Employee')}</th>
+                            <th rowSpan="2" className="nick-name">{getResource('Employee')}</th>
                             <th className="job-title" rowSpan="2">{getResource('JobTitle')}</th>
                             <th colSpan="4">Performance Record Quantity</th>
                         </tr>

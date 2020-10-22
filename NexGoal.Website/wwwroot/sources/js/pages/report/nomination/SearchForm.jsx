@@ -37,21 +37,22 @@ export default class SearchForm extends Component {
         return (
             <Form inline className="form-filter" onSubmit={this.handleSubmit}>
                 <FormGroup>
-                    <ControlLabel>{getResource('Period')}</ControlLabel>
+                    <ControlLabel htmlFor="nominate-report-period-label">{getResource('Period')}</ControlLabel>
                     <div className="control-content period-width">
                         <MultiSelect name="periods"
                             className="react-select-container" classNamePrefix="react-select"
                             value={filter.periods}
-                            options={this.props.periodOptions}
                             onChange={this.handlePeriodChange}
+                            options={this.props.periodOptions}
                         />
                     </div>
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel>{getResource('Team')}</ControlLabel>
+                    <ControlLabel htmlFor="nominate-report-team-label">{getResource('Team')}</ControlLabel>
                     <div className="control-content team-width">
                         <MultiSelect name="groups"
-                            className="react-select-container" classNamePrefix="react-select"
+                            classNamePrefix="react-select"
+                            className="react-select-container"
                             value={filter.groups}
                             options={this.props.groupOptions}
                             onChange={this.handleGroupChange}
@@ -59,7 +60,7 @@ export default class SearchForm extends Component {
                     </div>
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel>{getResource('Employee')}</ControlLabel>
+                    <ControlLabel htmlFor="nominate-report-employee-label">{getResource('Employee')}</ControlLabel>
                     <div className="control-content employee-width">
                         <MultiSelect
                             className="react-select-container" classNamePrefix="react-select"
@@ -70,10 +71,12 @@ export default class SearchForm extends Component {
                     </div>
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel>{getResource('Status')}</ControlLabel>
+                    <ControlLabel htmlFor="nominate-report-status-label">{getResource('Status')}</ControlLabel>
                     <div className="control-content status-width">
-                        <Select name="status" className="react-select-container" classNamePrefix="react-select"
-                            value={filter.status} options={this.props.statusOptions} onChange={this.handleStatusChange}
+                        <Select name="status"
+                            className="react-select-container" classNamePrefix="react-select"
+                            value={filter.status} options={this.props.statusOptions}
+                            onChange={this.handleStatusChange}
                         />
                     </div>
                 </FormGroup>

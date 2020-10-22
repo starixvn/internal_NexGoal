@@ -35,7 +35,7 @@ export default class Table extends Component {
 
     renderNomination = (nomination, index) => {
         return (
-            <tr key={nomination.nominationId}>
+            <tr key={`nominate-report-${nomination.nominationId}`}>
                 <td className="text-center">{index + 1}</td>
                 <td>{`${nomination.nominee.nickName} (${nomination.nominee.fullName})`}</td>
                 <td>{nomination.nominee.groupName}</td>
@@ -45,8 +45,9 @@ export default class Table extends Component {
                     </a>
                 </td>
                 <td>
-                    {nomination.nominators.map((n, i, arr) =>
-                        <Fragment key={n.performanceRecordId}>
+                    {
+                        nomination.nominators.map((n, i, arr) =>
+                        <Fragment key={`nominate-report-${n.performanceRecordId}-hyperlink`}>
                             <a onClick={this.handleShowNominatorComment.bind(this, nomination, n.performanceRecordId)}>
                                 {`${n.creator.nickName} (${n.creator.fullName})`}
                             </a>
@@ -63,17 +64,9 @@ export default class Table extends Component {
         );
     }
 
-    render() {
-        let content = '';
-
-        if (this.props.tableData) {
-            content = this.props.tableData.length > 0 ? this.props.tableData.map(this.renderData)
-                : <tr><td className="text-center" colSpan={6}>{noDataIndication()}</td></tr>;
-        }
-
+    renderNominateReportStickyBlock = () => {
         return (
-            <Fragment>
-                <StickyBlock threshold={236}>
+             <StickyBlock threshold={236}>
                     <table className="table table-bordered table-striped tbl-nomination-report">
                         <thead>
                             <tr>
@@ -87,6 +80,37 @@ export default class Table extends Component {
                         </thead>
                     </table>
                 </StickyBlock>
+        );
+    }
+
+    renderNominateReportHeaderTable = () => {
+        return (
+            <thead>
+                <tr>
+                    <th className="order">{getResource('SymbolCount')}</th>
+                    <th className="nominee">{getResource('Nominee')}</th>
+                    <th className="team">{getResource('Team')}</th>
+                    <th className="vote">{getResource('Vote')}</th>
+                    <th className="nominator">{getResource('Nominator')}</th>
+                    <th className="status">{getResource('Status')}</th>
+                </tr>
+             </thead>
+        );
+    }
+
+    render() {
+        let nominateReportContent = '';
+
+        if (this.props.tableData) {
+            nominateReportContent = this.props.tableData.length > 0 ? this.props.tableData.map(this.renderData)
+                : <tr><td className="text-center" colSpan={6}>{noDataIndication()}</td></tr>;
+        }
+
+        return (
+            <Fragment>
+                {
+                    this.renderNominateReportStickyBlock()
+                }
                 <table className="table table-bordered table-striped tbl-nomination-report">
                     <colgroup>
                         <col className="order" />
@@ -96,18 +120,13 @@ export default class Table extends Component {
                         <col className="nominator" />
                         <col className="status" />
                     </colgroup>
-                    <thead>
-                        <tr>
-                            <th className="order">{getResource('SymbolCount')}</th>
-                            <th className="nominee">{getResource('Nominee')}</th>
-                            <th className="team">{getResource('Team')}</th>
-                            <th className="vote">{getResource('Vote')}</th>
-                            <th className="nominator">{getResource('Nominator')}</th>
-                            <th className="status">{getResource('Status')}</th>
-                        </tr>
-                    </thead>
+                    {
+                       this.renderNominateReportHeaderTable()
+                    }
                     <tbody>
-                        {content}
+                        {
+                            nominateReportContent
+                        }
                     </tbody>
                 </table>
             </Fragment>

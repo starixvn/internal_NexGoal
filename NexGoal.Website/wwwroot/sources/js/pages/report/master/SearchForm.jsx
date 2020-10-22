@@ -32,7 +32,7 @@ export default class SearchForm extends Component {
         return (
             <Form inline className="form-filter" onSubmit={this.handleSubmit}>
                 <FormGroup>
-                    <ControlLabel>{getResource('Period')}</ControlLabel>
+                    <ControlLabel htmlFor="master-report-period-label">{getResource('Period')}</ControlLabel>
                     <div className="control-content period-width">
                         <Select name="period"
                             className="react-select-container" classNamePrefix="react-select"
@@ -43,7 +43,7 @@ export default class SearchForm extends Component {
                     </div>
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel>{getResource('Team')}</ControlLabel>
+                    <ControlLabel htmlFor="master-report-team-label">{getResource('Team')}</ControlLabel>
                     <div className="control-content team-width">
                         <MultiSelect name="groups"
                             className="react-select-container" classNamePrefix="react-select"
@@ -54,7 +54,7 @@ export default class SearchForm extends Component {
                     </div>
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel>{getResource('Employee')}</ControlLabel>
+                    <ControlLabel htmlFor="master-report-employee-label">{getResource('Employee')}</ControlLabel>
                     <div className="control-content employee-width">
                         <MultiSelect
                             className="react-select-container" classNamePrefix="react-select"

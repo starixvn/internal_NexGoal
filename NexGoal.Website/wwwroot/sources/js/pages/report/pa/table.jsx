@@ -200,16 +200,16 @@ export default class Table extends Component {
     renderGrade = process => process.grade ? process.grade : EmptyPlaceHolder;
 
     render() {
-        let content = '';
+        let paDataContent = '';
         if (this.props.periodRecords) {
-            content = this.props.periodRecords.length > 0 ? this.renderRows(this.props.periodRecords)
+            paDataContent = this.props.periodRecords.length > 0 ? this.renderRows(this.props.periodRecords)
                 : <tr><td className="text-center" colSpan={this.totalColums}>{noDataIndication()}</td></tr>;
         }
 
         return (
             <Fragment>
                 <StickyBlock threshold={236}>
-                    <table className="table table-bordered pa-report-table">
+                    <table className="table table-bordered pa-report-table" id="pa-report-sticky">
                         <thead>
                             <tr>
                                 <th className="order" rowSpan="2">{getResource('SymbolCount')}</th>
@@ -244,12 +244,12 @@ export default class Table extends Component {
                         </thead>
                     </table>
                 </StickyBlock>
-                <table className="table table-bordered pa-report-table">
+                <table id="pa-report-table" className="table table-bordered pa-report-table">
                     <thead>
                         <tr>
                             <th className="order" rowSpan="2">{getResource('SymbolCount')}</th>
                             <th className="nick-name" rowSpan="2">{getResource('NickName')}</th>
-                            <th className="job-title" rowSpan="2">{getResource('JobTitle')}</th>
+                            <th rowSpan="2" className="job-title">{getResource('JobTitle')}</th>
                             <th className="toeic" rowSpan="2">{getResource('Toeic')}</th>
                             <th colSpan="4">{getResource('PerformanceRecord')}</th>
                             <th width="10%" rowSpan="2">
@@ -278,7 +278,9 @@ export default class Table extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {content}
+                        {
+                            paDataContent
+                        }
                     </tbody>
                 </table>
             </Fragment>
