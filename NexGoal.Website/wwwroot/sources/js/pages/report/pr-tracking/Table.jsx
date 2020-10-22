@@ -90,8 +90,8 @@ export default class Table extends Component {
                                 <th colSpan="4">Performance Record Quantity</th>
                             </tr>
                             <tr>
-                                <th className="self stick-block">{getResource('Self')}</th>
-                                <th className="pm stick-block">{getResource('ProjectManager')}</th>
+                                <th className="stick-block self">{getResource('Self')}</th>
+                                <th className="stick-block pm">{getResource('ProjectManager')}</th>
                                 <th className="evaluator stick-block">{getResource('Evaluator')}</th>
                                 <th className="reviewer stick-block">{getResource('Reviewer')}</th>
                             </tr>
