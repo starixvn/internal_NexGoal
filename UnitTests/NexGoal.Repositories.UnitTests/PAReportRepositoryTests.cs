@@ -8,7 +8,6 @@ namespace NexGoal.Repositories.UnitTests
     using NexGoal.Core.Enumerations;
     using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
-    using NexGoal.Models.PerformanceRecord;
     using NSubstitute;
     using Xunit;
 
@@ -58,11 +57,11 @@ namespace NexGoal.Repositories.UnitTests
             var criteria = Helpers.FakeCriteria();
             var repository = new PAReportRepository();
             multiResultReader.Read(
-                Arg.Any<Func<PARecordModel, Employee, PeriodBaseModel, PARecordModel>>(),
-                "EmployeeId, PeriodId").Returns(performanceAppraisals);
+                Arg.Any<Func<PARecordModel, Employee, PARecordModel>>(),
+                "EmployeeId").Returns(performanceAppraisals);
             multiResultReader.Read(
-                Arg.Any<Func<PAProcessModel, Employee, PerformanceRecord, PAProcessModel>>(),
-                "EvaluatorId, PerformanceRecordId").Returns(processes);
+                Arg.Any<Func<PAProcessModel, Employee, PAProcessModel>>(),
+                "EvaluatorId").Returns(processes);
             objectDb.QueryMultipleAsync(criteria).Returns(multiResultReader);
 
             // Act

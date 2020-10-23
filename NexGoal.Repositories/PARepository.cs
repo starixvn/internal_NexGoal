@@ -14,6 +14,7 @@
     using NexGoal.Models.PRReaction;
 
 #pragma warning disable S1192 // String literals should not be duplicated
+
     public class PARepository : IPARepository
     {
         public async Task<IEnumerable<PerformanceAppraisalResult>> GetPerformanceAppraisalResultAsync(ICriteria criteria)
