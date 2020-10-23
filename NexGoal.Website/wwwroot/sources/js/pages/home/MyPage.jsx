@@ -136,7 +136,7 @@ export default class MyPage extends Component {
         }
     }
 
-    handleTimelinePageChange = (pageIndex, pageSize) => {
+    handleMyPageTimelineOnChange = (pageIndex, pageSize) => {
         const size = pageSize ? pageSize : calculateTimelineNode();
         axios.get(resolveClientUrl('Self/Performance/Timeline'), {
             params: {
@@ -155,49 +155,49 @@ export default class MyPage extends Component {
         }).catch(axiosError);
     };
 
-    handleCreatePerformanceRecordSuccess = performanceRecordIds => {
+    handleMyPageCreatePerformanceRecordSuccess = performanceRecordIds => {
         axios(resolveClientUrl(`Performance/GetByIds/${performanceRecordIds}`))
             .then(response => {
-                const performanceRecords = this.state.performanceRecords.slice();
+                const performanceRecordData = this.state.performanceRecords.slice();
 
                 if (this.state.personalTimeline.pageIndex === 0) {
-                    this.handleTimelinePageChange(0);
+                    this.handleMyPageTimelineOnChange(0);
                 }
 
-                if (performanceRecords.length === 0) {
-                    performanceRecords.unshift(...response.data);
+                if (performanceRecordData.length === 0) {
+                    performanceRecordData.unshift(...response.data);
                 } else {
-                    let lastIndex = performanceRecords.map(record => record.isDraft).lastIndexOf(true);
+                    let lastIndex = performanceRecordData.map(record => record.isDraft).lastIndexOf(true);
                     lastIndex = lastIndex >= 0 ? lastIndex + 1 : 0;
 
-                    performanceRecords.splice(lastIndex, 0, ...response.data);
+                    performanceRecordData.splice(lastIndex, 0, ...response.data);
                 }
 
                 const pageIndex = this.refs.infiniteScrollRef ? this.refs.infiniteScrollRef.pageLoaded : 1;
-                const displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
+                const displayedPerformanceRecords = performanceRecordData.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
-                    performanceRecords: performanceRecords,
+                    performanceRecords: performanceRecordData,
                     displayedPerformanceRecords: displayedPerformanceRecords,
-                    hasMore: displayedPerformanceRecords.length < performanceRecords.length
+                    hasMore: displayedPerformanceRecords.length < performanceRecordData.length
                 });
             }).catch(axiosError);
     }
 
-    handleCreateDraftPerformanceRecordSuccess = performanceRecordId => {
+    handleMyPageCreateDraftPerformanceRecordSuccess = performanceRecordId => {
         axios(resolveClientUrl(`Performance/GetDraftById/${performanceRecordId}`))
             .then(response => {
-                const performanceRecords = this.state.performanceRecords.slice();
+                const performanceRecordData = this.state.performanceRecords.slice();
 
-                performanceRecords.unshift(response.data);
+                performanceRecordData.unshift(response.data);
 
                 const pageIndex = this.refs.infiniteScrollRef ? this.refs.infiniteScrollRef.pageLoaded : 1;
-                const displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
+                const displayedPerformanceRecords = performanceRecordData.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
-                    performanceRecords: performanceRecords,
+                    performanceRecords: performanceRecordData,
                     displayedPerformanceRecords: displayedPerformanceRecords,
-                    hasMore: displayedPerformanceRecords.length < performanceRecords.length
+                    hasMore: displayedPerformanceRecords.length < performanceRecordData.length
                 });
             }).catch(axiosError);
     }
@@ -214,40 +214,40 @@ export default class MyPage extends Component {
         handleCancelEditPerformanceRecord(this);
     }
 
-    handleEditPerformanceRecordSuccess = performanceRecordIds => {
+    handleMyPageEditPerformanceRecordSuccess = performanceRecordIds => {
         axios(resolveClientUrl(`Performance/GetByIds/${performanceRecordIds}`))
             .then(response => {
-                const performanceRecords = this.state.performanceRecords.slice();
-                const currentRecordIndex = performanceRecords.findIndex(record => record.performanceRecordId === this.state.editPerformanceRecord.performanceRecordId);
-                const currentRecord = performanceRecords[currentRecordIndex];
+                const performanceRecordData = this.state.performanceRecords.slice();
+                const currentIndex = performanceRecordData.findIndex(record => record.performanceRecordId === this.state.editPerformanceRecord.performanceRecordId);
+                const currentRecord = performanceRecordData[currentIndex];
 
                 if (currentRecord.isDraft) {
-                    performanceRecords.splice(currentRecordIndex, 1);
+                    performanceRecordData.splice(currentIndex, 1);
 
-                    let lastIndex = performanceRecords.map(record => record.isDraft).lastIndexOf(true);
+                    let lastIndex = performanceRecordData.map(record => record.isDraft).lastIndexOf(true);
                     lastIndex = lastIndex >= 0 ? lastIndex + 1 : 0;
 
-                    performanceRecords.splice(lastIndex, 0, ...response.data);
+                    performanceRecordData.splice(lastIndex, 0, ...response.data);
 
-                    this.handleTimelinePageChange(this.state.personalTimeline.pageIndex);
+                    this.handleMyPageTimelineOnChange(this.state.personalTimeline.pageIndex);
                 } else {
-                    performanceRecords.splice(currentRecordIndex, 1, ...response.data);
+                    performanceRecordData.splice(currentIndex, 1, ...response.data);
                 }
 
                 const pageIndex = this.refs.infiniteScrollRef.pageLoaded;
-                const displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
+                const displayedPerformanceRecords = performanceRecordData.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
-                    performanceRecords: performanceRecords,
+                    performanceRecords: performanceRecordData,
                     displayedPerformanceRecords: displayedPerformanceRecords,
-                    hasMore: displayedPerformanceRecords.length < performanceRecords.length
+                    hasMore: displayedPerformanceRecords.length < performanceRecordData.length
                 });
 
                 this.handleCancelEditPerformanceRecord();
             }).catch(axiosError);
     }
 
-    handleEditDraftPerformanceRecordSuccess = performanceRecordId => {
+    handleMyPageEditDraftPerformanceRecordSuccess = performanceRecordId => {
         axios(resolveClientUrl(`Performance/GetDraftById/${performanceRecordId}`))
             .then(response => {
                 const performanceRecords = this.state.performanceRecords.slice();
@@ -272,35 +272,35 @@ export default class MyPage extends Component {
         handleClickDeletePerformanceRecord(this, performanceRecordId);
     }
 
-    handleDeletePerformanceRecord = () => {
+    handleMyPageDeletePerformanceRecord = () => {
         const performanceRecordId = this.state.deletePerformanceRecord.performanceRecordId;
         axios({
-            url: resolveClientUrl('Performance/Delete'),
+            headers: PostRequestHeaders
             method: 'DELETE',
+            url: resolveClientUrl('Performance/Delete'),
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 id: performanceRecordId
             }),
-            headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 
             if (data.isSuccessful) {
                 toast.success(getResource('DeletedSuccessfully'));
 
-                const performanceRecords = this.state.performanceRecords.slice();
-                const index = performanceRecords.findIndex(item => item.performanceRecordId === performanceRecordId);
+                const performanceRecordData = this.state.performanceRecords.slice();
+                const index = performanceRecordData.findIndex(item => item.performanceRecordId === performanceRecordId);
                 if (index >= 0) {
-                    performanceRecords.splice(index, 1);
+                    performanceRecordData.splice(index, 1);
                 }
 
                 const pageIndex = this.refs.infiniteScrollRef.pageLoaded;
-                const displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
+                const displayedPerformanceRecords = performanceRecordData.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
-                    performanceRecords: performanceRecords,
+                    performanceRecords: performanceRecordData,
                     displayedPerformanceRecords: displayedPerformanceRecords,
-                    hasMore: displayedPerformanceRecords.length < performanceRecords.length
+                    hasMore: displayedPerformanceRecords.length < performanceRecordData.length
                 });
 
                 this.handleCancelDeletePerformanceRecord();
@@ -318,39 +318,39 @@ export default class MyPage extends Component {
         loadMorePerformanceRecord(this, page, callback);
     }
 
-    handleClickViewPADetail = paRecordId => {
-        axios(resolveClientUrl(`PA/GetById/${paRecordId}`)).then(response => {
-            if (response.data) {
-                const pa = response.data;
-                const reviewer = pa.processes.filter(x => x.processId === PerformanceProcess.Reviewer)[0].evaluator;
+    handleMyPageClickViewPADetail = paRecordId => {
+        axios(resolveClientUrl(`PA/GetById/${paRecordId}`)).then(res => {
+            if (res.data) {
+                const paRecord = res.data;
+                const reviewer = paRecord.processes.filter(x => x.processId === PerformanceProcess.Reviewer)[0].evaluator;
 
                 this.setState({
                     isShowPADetail: true,
                     paDetail: {
                         paRecord: {
-                            paRecordId: pa.paRecordId,
-                            grade: pa.grade,
-                            comment: pa.comment,
+                            paRecordId: paRecord.paRecordId,
+                            grade: paRecord.grade,
+                            comment: paRecord.comment,
                             reviewer: reviewer,
-                            modifiedDate: pa.modifiedDate,
-                            toeic: pa.toeic,
-                            toeicPolicy: pa.toeicPolicy
+                            modifiedDate: paRecord.modifiedDate,
+                            toeic: paRecord.toeic,
+                            toeicPolicy: paRecord.toeicPolicy
                         },
-                        employee: pa.employee,
-                        paProcesses: pa.processes
+                        employee: paRecord.employee,
+                        paProcesses: paRecord.processes
                     }
                 });
             }
         }).catch(axiosError);
     }
 
-    handleClosePADetailModel = () => {
+    handleMyPageClosePADetailModel = () => {
         this.setState({
             isShowPADetail: false
         });
     }
 
-    renderPerformanceRecord = performanceRecord => {
+    renderMyPagePerformanceRecord = performanceRecord => {
         return (
             <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
                 data={performanceRecord}
@@ -359,7 +359,7 @@ export default class MyPage extends Component {
                 onDelete={this.handleClickDeletePerformanceRecord}
                 isHighlighted={this.state.performanceRecordIdHighlighted === performanceRecord.performanceRecordId}
                 feedbackReadOnly="true"
-                showPaDetail={this.handleClickViewPADetail}
+                showPaDetail={this.handleMyPageClickViewPADetail}
             />
         );
     }
@@ -412,7 +412,7 @@ export default class MyPage extends Component {
                             <PersonalTimeline
                                 data={this.state.personalTimeline}
                                 onNodeClick={this.handleClickTimelineNode}
-                                onPageChange={this.handleTimelinePageChange}
+                                onPageChange={this.handleMyPageTimelineOnChange}
                             />
                         </div>
                         <div className="record-list">
@@ -421,8 +421,8 @@ export default class MyPage extends Component {
                                     currentUser={currentUserInfo}
                                     performanceGradeOptions={this.performanceGradeOptions}
                                     projectOptions={this.projectOptions}
-                                    onSubmitSuccess={this.handleCreatePerformanceRecordSuccess}
-                                    onSubmitDraftSuccess={this.handleCreateDraftPerformanceRecordSuccess}
+                                    onSubmitSuccess={this.handleMyPageCreatePerformanceRecordSuccess}
+                                    onSubmitDraftSuccess={this.handleMyPageCreateDraftPerformanceRecordSuccess}
                                     performanceGradeInfos={this.performanceGradeInfos}
                                 />
                                 {
@@ -437,7 +437,7 @@ export default class MyPage extends Component {
                                     >
                                         <div className="pci-list">
                                             {
-                                                performanceRecords.map(this.renderPerformanceRecord)
+                                                performanceRecords.map(this.renderMyPagePerformanceRecord)
                                             }
                                         </div>
                                         {
@@ -447,7 +447,7 @@ export default class MyPage extends Component {
                                                 paRecord={this.state.paDetail.paRecord}
                                                 employee={this.state.paDetail.employee}
                                                 paProcesses={this.state.paDetail.paProcesses}
-                                                onCloseModal={this.handleClosePADetailModel}
+                                                onCloseModal={this.handleMyPageClosePADetailModel}
                                             />
                                         }
 
@@ -484,20 +484,19 @@ export default class MyPage extends Component {
                         projectOptions={this.projectOptions}
                         showModal={this.state.editPerformanceRecord.isShowModal}
                         onCloseModal={this.handleCancelEditPerformanceRecord}
-                        onSubmitSuccess={this.handleEditPerformanceRecordSuccess}
-                        onSubmitDraftSuccess={this.handleEditDraftPerformanceRecordSuccess}
+                        onSubmitDraftSuccess={this.handleMyPageEditDraftPerformanceRecordSuccess}
                         performanceGradeInfos={this.performanceGradeInfos}
-
+                        onSubmitSuccess={this.handleMyPageEditPerformanceRecordSuccess}
                     />
                 }
                 {
                     this.state.deletePerformanceRecord.isShowModal &&
                     <ConfirmationModal
-                        action="delete"
                         name="this record"
+                        action="delete"
+                        onSubmit={this.handleMyPageDeletePerformanceRecord}
                         showModal={this.state.deletePerformanceRecord.isShowModal}
                         onCloseModal={this.handleCancelDeletePerformanceRecord}
-                        onSubmit={this.handleDeletePerformanceRecord}
                     />
                 }
                 <Announcement showModal={this.state.showAnnouncementModal}

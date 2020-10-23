@@ -108,7 +108,7 @@ export default class EditNomination extends Component {
         setFieldValue,
         isSubmitting
     }) => {
-        const onPeriodChange = value => {
+        const onPeriodEditNominationChange = value => {
             const period = this.props.nominationPeriodOptions.find(x => x.value === value.value);
             let questions = '';
             if (period.quarter) {
@@ -145,7 +145,7 @@ export default class EditNomination extends Component {
                                     <Select name="period"
                                         classNamePrefix="react-select"
                                         className={`react-select-container ${touched.period && errors.period && InputErrorCssClass}`}
-                                        value={values.period} onChange={onPeriodChange}
+                                        value={values.period} onChange={onPeriodEditNominationChange}
                                         options={this.props.nominationPeriodOptions}
                                     />
                                 </div>
