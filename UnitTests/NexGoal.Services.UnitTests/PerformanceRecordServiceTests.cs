@@ -12,6 +12,7 @@
     using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.PerformanceRecord;
+    using NexGoal.Models.Period;
     using NexGoal.Repositories.Interfaces;
     using NSubstitute;
     using Xunit;
@@ -510,7 +511,7 @@
             notificationService = Substitute.For<INotificationPerformanceRecordService>();
             performanceRecordRepository = Substitute.For<IPerformanceRecordRepository>();
             backgroundJob = Substitute.For<IBackgroundJobClient>();
-
+            commonService.GetCurrentPerformancePeriodAsync().Returns(new PeriodModel());
             var service = new PerformanceRecordService(baseService, cryptoService, commonService, notificationService, performanceRecordRepository, backgroundJob);
 
             return service;
