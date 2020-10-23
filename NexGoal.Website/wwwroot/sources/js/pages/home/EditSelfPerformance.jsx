@@ -52,18 +52,17 @@ export default class EditSelfPerformance extends Component {
                 performanceRecord.projects = performanceRecord.projects.map(project => {
                     return { value: project.projectId, label: project.name };
                 });
-
                 this.setState({ performanceRecord: performanceRecord, initialPerformanceRecord: { ...performanceRecord } });
             }).catch(axiosError);
 
-        window.addEventListener('beforeunload', this.onLeavingPageEventListener);
+        window.addEventListener('beforeunload', this.onEditSelfPerformanceLeavingPageEventListener);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('beforeunload', this.onLeavingPageEventListener);
+        window.removeEventListener('beforeunload', this.onEditSelfPerformanceLeavingPageEventListener);
     }
 
-    onLeavingPageEventListener = event => {
+    onEditSelfPerformanceLeavingPageEventListener = event => {
         let { performanceRecord, initialPerformanceRecord } = this.state;
 
         if (!isEqual(performanceRecord, initialPerformanceRecord)) {
@@ -113,18 +112,18 @@ export default class EditSelfPerformance extends Component {
             const record = this.state.performanceRecord;
             const performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                isFromDraft: record.isDraft,
+                projectIds: record.projects.map(project => project.value).join(','),
                 performanceRecordId: record.performanceRecordId,
                 gradeId: record.grade ? record.grade.value : null,
                 comment: record.comment.trim(),
-                isFromDraft: record.isDraft,
-                projectIds: record.projects.map(project => project.value).join(',')
             });
 
             axios({
+                headers: PostRequestHeaders,
                 url: resolveClientUrl('Self/Performance/Edit'),
                 method: 'POST',
-                data: performanceRecord,
-                headers: PostRequestHeaders
+                data: performanceRecord
             }).then(response => {
                 axiosEditPerformanceResponse(this, toast, response, () => {
                     this.props.onSubmitSuccess(response.data.objectIds);
@@ -133,7 +132,7 @@ export default class EditSelfPerformance extends Component {
         }
     }
 
-    handleSaveAsDraft = event => {
+    handleEditSelfPerformanceSaveAsDraft = event => {
         event.preventDefault();
 
         if (this.state.isSubmitting) {
@@ -149,15 +148,15 @@ export default class EditSelfPerformance extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 performanceRecordId: record.performanceRecordId,
                 gradeId: record.grade ? record.grade.value : null,
+                projectIds: record.projects.map(project => project.value).join(','),
                 comment: record.comment.trim(),
-                projectIds: record.projects.map(project => project.value).join(',')
             });
 
             axios({
+                headers: PostRequestHeaders,
                 url: resolveClientUrl('Self/Performance/EditDraft'),
                 method: 'POST',
-                data: performanceRecord,
-                headers: PostRequestHeaders
+                data: performanceRecord
             }).then(response => {
                 axiosEditPerformanceResponse(this, toast, response, () => {
                     this.props.onSubmitDraftSuccess(record.performanceRecordId);
@@ -231,16 +230,20 @@ export default class EditSelfPerformance extends Component {
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button className="btn-cancel" onClick={this.props.onCloseModal}>{getResource('Cancel')}</Button>
+                        <Button id="edit-self-performance-cancel-btn" className="btn-cancel"
+                                onClick={this.props.onCloseModal}>{getResource('Cancel')}</Button>
                         {
                             performanceRecord.isDraft &&
                             <Button type="submit" className="btn-cancel" name="saveAsDraft"
-                                onClick={this.handleSaveAsDraft} disabled={this.state.isSubmitting}
+                                id="edit-self-performance-save-as-draft-btn"
+                                onClick={this.handleEditSelfPerformanceSaveAsDraft}
+                                disabled={this.state.isSubmitting}
                             >
                                 {getResource('SaveAsDraft')}
                             </Button>
                         }
                         <Button type="submit" bsStyle="primary" name="save"
+                            id="edit-self-performance-submit-btn"
                             onClick={this.handleSubmit} disabled={this.state.isSubmitting}
                         >
                             {getResource('Publish')}
