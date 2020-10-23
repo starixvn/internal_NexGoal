@@ -96,14 +96,14 @@ export default class CreateMemberPerformance extends Component {
         });
     }
 
-    handleEmployeeChange = selectedOptions => {
+    handleEmployeeOnChange = selectedOptions => {
         const projects = [...this.state.performanceRecord.projects];
         const index = projects.length > 0 ? projects.findIndex(item => item.value === ProbationTag.value) : -1;
-        const errors = { ...this.state.errors };
-        delete errors['employee'];
+        const errorObject = { ...this.state.errors };
+        delete errorObject['employee'];
 
         if (selectedOptions.length === 0) {
-            errors.employee = getResource('EmployeeRequired');
+            errorObject.employee = getResource('EmployeeRequired');
         }
 
         if (selectedOptions.length === 1 && selectedOptions[0].isProbation && index < 0) {
@@ -116,13 +116,7 @@ export default class CreateMemberPerformance extends Component {
 
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { employees: selectedOptions, projects: projects }),
-            errors: errors
-        });
-    }
-
-    handleGradeChange = selectedOption => {
-        this.setState({
-            performanceRecord: Object.assign({}, this.state.performanceRecord, { grade: selectedOption })
+            errors: errorObject
         });
     }
 
@@ -142,6 +136,12 @@ export default class CreateMemberPerformance extends Component {
     handleProjectChange = selectedOptions => {
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { projects: selectedOptions })
+        });
+    }
+
+    handleGradeChange = selectedOption => {
+        this.setState({
+            performanceRecord: Object.assign({}, this.state.performanceRecord, { grade: selectedOption })
         });
     }
 
@@ -260,7 +260,7 @@ export default class CreateMemberPerformance extends Component {
                                         className={`react-select-container employee-field ${!isEmpty(errors) && errors.employee ? 'input-validation-error' : ''}`}
                                         placeholder="Select Members"
                                         value={performanceRecord.employees} options={memberOptions}
-                                        onChange={this.handleEmployeeChange} isClearable
+                                        onChange={this.handleEmployeeOnChange} isClearable
                                     />
                                 </FormGroup>
                             }

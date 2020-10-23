@@ -58,14 +58,14 @@ export default class CreateSelfPerformance extends Component {
     }
 
     componentDidMount() {
-        window.addEventListener('beforeunload', this.onLeavingPageEventListener);
+        window.addEventListener('beforeunload', this.onCreateSelfPerformanceLeavingPageEventListener);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
         return !isEqual(this.state, nextState) || !isEqual(this.props, nextProps);
     }
 
-    onLeavingPageEventListener = event => {
+    onCreateSelfPerformanceLeavingPageEventListener = event => {
         if (!isEqual(this.state.performanceRecord, this.state.initialPerformanceRecord)) {
             event.returnValue = ' ';
             return ' ';
@@ -211,31 +211,34 @@ export default class CreateSelfPerformance extends Component {
                             <FormGroup>
                                 <ControlLabel>{getResource('Comment')}</ControlLabel>
                                 <TextareaFullscreenEditor ref={this.textareaEditor}
-                                    className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
                                     name="comment"
-                                    value={performanceRecord.comment}
+                                    className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
                                     onChange={this.handleCommentChange}
+                                    value={performanceRecord.comment}
                                 />
                             </FormGroup>
                             <FormGroup>
                                 <div className="grade">
                                     <ControlLabel>{getResource('Grade')} <a className="grade-info" onClick={this.handleOpenGradeInfo} /></ControlLabel>
-                                    <Select name="grade" className="react-select-container grade-field" classNamePrefix="react-select"
+                                    <Select name="grade" className="react-select-container grade-field"
+                                        classNamePrefix="react-select"
                                         placeholder="Select Grade"
-                                        value={performanceRecord.grade}
                                         options={performanceGradeOptions}
+                                        value={performanceRecord.grade}
+                                        onChange={this.handleGradeChange}
                                         isSearchable={false}
                                         isClearable
-                                        onChange={this.handleGradeChange}
                                     />
                                 </div>
                                 <div className="project">
                                     <ControlLabel>{getResource('ProjectTag')}</ControlLabel>
-                                    <Select name="projects" isMulti closeMenuOnSelect={false} placeholder="Projects"
-                                        className="react-select-container project-field" classNamePrefix="react-select"
-                                        value={performanceRecord.projects}
+                                    <Select name="projects" closeMenuOnSelect={false} placeholder="Projects"
+                                        className="react-select-container project-field"
+                                        classNamePrefix="react-select"
                                         options={projectOptions}
+                                        value={performanceRecord.projects}
                                         onChange={this.handleProjectChange}
+                                        isMulti
                                     />
                                 </div>
                             </FormGroup>
