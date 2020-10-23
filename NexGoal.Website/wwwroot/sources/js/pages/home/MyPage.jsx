@@ -275,13 +275,13 @@ export default class MyPage extends Component {
     handleMyPageDeletePerformanceRecord = () => {
         const performanceRecordId = this.state.deletePerformanceRecord.performanceRecordId;
         axios({
-            headers: PostRequestHeaders
+            headers: PostRequestHeaders,
             method: 'DELETE',
             url: resolveClientUrl('Performance/Delete'),
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 id: performanceRecordId
-            }),
+            })
         }).then(response => {
             const data = response.data;
 
