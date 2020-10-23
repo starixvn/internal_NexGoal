@@ -116,7 +116,7 @@ export default class EditSelfPerformance extends Component {
                 projectIds: record.projects.map(project => project.value).join(','),
                 performanceRecordId: record.performanceRecordId,
                 gradeId: record.grade ? record.grade.value : null,
-                comment: record.comment.trim(),
+                comment: record.comment.trim()
             });
 
             axios({
@@ -149,7 +149,7 @@ export default class EditSelfPerformance extends Component {
                 performanceRecordId: record.performanceRecordId,
                 gradeId: record.grade ? record.grade.value : null,
                 projectIds: record.projects.map(project => project.value).join(','),
-                comment: record.comment.trim(),
+                comment: record.comment.trim()
             });
 
             axios({

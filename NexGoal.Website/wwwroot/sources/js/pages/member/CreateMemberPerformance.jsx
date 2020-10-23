@@ -120,20 +120,20 @@ export default class CreateMemberPerformance extends Component {
         });
     }
 
-    handleCommentChange = event => {
-        const errors = { ...this.state.errors };
-        delete errors['comment'];
+    handleCreateFormCommentChange = event => {
+        const errorObject = { ...this.state.errors };
+        delete errorObject['comment'];
         if (!event.target.value) {
-            errors.comment = getResource('CommentRequired');
+            errorObject.comment = getResource('CommentRequired');
         }
 
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { comment: event.target.value }),
-            errors: errors
+            errors: errorObject
         });
     }
 
-    handleProjectChange = selectedOptions => {
+    handleCreateFormProjectChange = selectedOptions => {
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { projects: selectedOptions })
         });
@@ -270,7 +270,7 @@ export default class CreateMemberPerformance extends Component {
                                     className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
                                     name="comment"
                                     value={performanceRecord.comment}
-                                    onChange={this.handleCommentChange}
+                                    onChange={this.handleCreateFormCommentChange}
                                 />
                             </FormGroup>
                             <FormGroup>
@@ -291,7 +291,7 @@ export default class CreateMemberPerformance extends Component {
                                         className="react-select-container project-field" classNamePrefix="react-select"
                                         value={performanceRecord.projects}
                                         options={projectOptions}
-                                        onChange={this.handleProjectChange}
+                                        onChange={this.handleCreateFormProjectChange}
                                     />
                                 </div>
                             </FormGroup>

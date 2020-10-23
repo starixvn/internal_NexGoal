@@ -141,7 +141,7 @@ export default class EditMemberPerformance extends Component {
         });
     }
 
-    handleSubmit = event => {
+    handleEditMemberPerformanceFormSubmit = event => {
         event.preventDefault();
 
         if (this.state.isSubmitting) {
@@ -151,16 +151,14 @@ export default class EditMemberPerformance extends Component {
         const isValid = validateCreateEditMemberPerformance(this);
         if (isValid) {
             this.setSubmitting(true);
-
             const record = this.state.performanceRecord;
-
             const performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 performanceRecordId: record.performanceRecordId,
-                employeeIds: record.employees.map(employee => employee.value).join(','),
-                gradeId: record.grade ? record.grade.value : null,
-                comment: record.comment.trim(),
                 isFromDraft: record.isDraft,
+                gradeId: record.grade ? record.grade.value : null,
+                employeeIds: record.employees.map(employee => employee.value).join(','),
+                comment: record.comment.trim(),
                 projectIds: record.projects.map(project => project.value).join(',')
             });
 
@@ -177,7 +175,7 @@ export default class EditMemberPerformance extends Component {
         }
     }
 
-    handleSaveAsDraft = event => {
+    handleEditMemberPerformanceSaveAsDraft = event => {
         event.preventDefault();
 
         if (this.state.isSubmitting) {
@@ -193,10 +191,10 @@ export default class EditMemberPerformance extends Component {
             const performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 performanceRecordId: record.performanceRecordId,
-                employeeIds: record.employees.map(employee => employee.value).join(','),
+                projectIds: record.projects.map(project => project.value).join(','),
                 gradeId: record.grade ? record.grade.value : null,
                 comment: record.comment.trim(),
-                projectIds: record.projects.map(project => project.value).join(',')
+                employeeIds: record.employees.map(employee => employee.value).join(',')
             });
 
             axios({
@@ -298,13 +296,13 @@ export default class EditMemberPerformance extends Component {
                         {
                             performanceRecord.isDraft &&
                             <Button type="submit" className="btn-cancel" name="saveAsDraft"
-                                onClick={this.handleSaveAsDraft} disabled={this.state.isSubmitting}
+                                onClick={this.handleEditMemberPerformanceSaveAsDraft} disabled={this.state.isSubmitting}
                             >
                                 {getResource('SaveAsDraft')}
                             </Button>
                         }
                         <Button type="submit" bsStyle="primary" name="save"
-                            onClick={this.handleSubmit} disabled={this.state.isSubmitting}
+                            onClick={this.handleEditMemberPerformanceFormSubmit} disabled={this.state.isSubmitting}
                         >
                             {getResource('Publish')}
                         </Button>
