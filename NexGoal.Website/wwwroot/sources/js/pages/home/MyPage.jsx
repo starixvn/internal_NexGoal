@@ -250,18 +250,18 @@ export default class MyPage extends Component {
     handleMyPageEditDraftPerformanceRecordSuccess = performanceRecordId => {
         axios(resolveClientUrl(`Performance/GetDraftById/${performanceRecordId}`))
             .then(response => {
-                const performanceRecords = this.state.performanceRecords.slice();
-                const currentRecordIndex = performanceRecords.findIndex(record => record.performanceRecordId === this.state.editPerformanceRecord.performanceRecordId);
+                const prArray = this.state.performanceRecords.slice();
+                const currentRecordIndex = prArray.findIndex(record => record.performanceRecordId === this.state.editPerformanceRecord.performanceRecordId);
 
-                performanceRecords.splice(currentRecordIndex, 1, response.data);
+                prArray.splice(currentRecordIndex, 1, response.data);
 
                 const pageIndex = this.refs.infiniteScrollRef.pageLoaded;
-                const displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
+                const displayedPerformanceRecords = prArray.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
-                    performanceRecords: performanceRecords,
+                    performanceRecords: prArray,
                     displayedPerformanceRecords: displayedPerformanceRecords,
-                    hasMore: displayedPerformanceRecords.length < performanceRecords.length
+                    hasMore: displayedPerformanceRecords.length < prArray.length
                 });
 
                 this.handleCancelEditPerformanceRecord();
