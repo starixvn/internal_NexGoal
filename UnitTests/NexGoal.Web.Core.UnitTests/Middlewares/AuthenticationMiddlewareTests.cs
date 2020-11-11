@@ -15,6 +15,7 @@
     {
         private RequestDelegate next;
         private IAuthService authService;
+        private LdapSettings ldapSetting;
 
         [Fact]
         public async Task InvokeAsync_Authorized_ReturnAsExpected()
@@ -99,8 +100,13 @@
         {
             next = Substitute.For<RequestDelegate>();
             authService = Substitute.For<IAuthService>();
-
-            return new AuthenticationMiddleware(next, authService);
+            ldapSetting = new LdapSettings
+            {
+                CompanyName = "name",
+                Domain = "domain",
+                LDAPUrl = "server"
+            };
+            return new AuthenticationMiddleware(next, authService, ldapSetting);
         }
     }
 }
