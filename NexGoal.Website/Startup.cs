@@ -4,12 +4,14 @@
     using System.Collections.Generic;
     using System.IO.Compression;
     using System.Linq;
+    using System.Threading.Tasks;
     using DinkToPdf;
     using DinkToPdf.Contracts;
     using Fanex.Data;
     using Fanex.Logging;
     using Fanex.Logging.Sentry;
     using Hangfire;
+    using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -24,6 +26,7 @@
     using NexGoal.Core;
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
+    using NexGoal.Models.Auth;
     using NexGoal.Services.Extensions;
     using NexGoal.Web.Core.Extensions;
     using NexGoal.Web.Core.Middlewares;
@@ -76,7 +79,32 @@
             {
                 options.AutomaticAuthentication = true;
             });
-            services.AddAuthentication(IISDefaults.AuthenticationScheme);
+
+            var modeAuth = Configuration.GetSection("CompanyName").Value;
+            if (string.Equals(modeAuth, "Luminet"))
+            {
+                services.AddAuthentication(options =>
+                {
+                    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                }).AddCookie(options =>
+                {
+                    options.LoginPath = Configuration.GetSection("AuthSettings:LoginPath").Value;
+                    options.LogoutPath = Configuration.GetSection("AuthSettings:LogoutPath").Value;
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(int.Parse(Configuration["AuthSettings:SessionTimeout"]));
+                    options.SlidingExpiration = true;
+                    options.Events.OnSigningOut = context =>
+                    {
+                        context.Response.Redirect(options.LoginPath);
+                        return Task.CompletedTask;
+                    };
+                });
+            }
+            else
+            {
+                services.AddAuthentication(IISDefaults.AuthenticationScheme);
+            }
 
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
             services.AddResponseCompression(options =>
@@ -95,10 +123,15 @@
 
             services.AddSession();
 
+            var settings = Configuration.GetSection("LDAPSettings");
+            services.Configure<LdapSettings>(options => settings.Bind(options));
+            var ldapSettings = settings.Get<LdapSettings>();
+
             // DI
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+            services.AddSingleton(ldapSettings);
             services.ResolveCoreDI();
             services.ResolveServiceDI();
             services.ResolveWebCoreDI();
@@ -122,6 +155,7 @@
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSession();
+            app.UseAuthentication();
             app.UseMiddleware<AuthenticationMiddleware>();
 
             app.UseMvc(routes =>

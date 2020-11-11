@@ -1,5 +1,7 @@
 ﻿@using NexGoal.ViewModels.Auth
 @using NexGoal.Models.Auth
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
 @model HeaderViewModel
 
 @{
@@ -57,6 +59,10 @@
         <span class="user-avatar">
             <img alt="Avatar" src="@employee.Avatar" />
         </span>
+        @if (string.Equals(Configuration["CompanyName"],"Luminet"))
+        {
+            <span class="log-out"><a href="@Url.Action("Logout", "UserAuth")">Log out</a></span>
+        }
     </div>
 </nav>
 

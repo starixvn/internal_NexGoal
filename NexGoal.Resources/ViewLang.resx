@@ -309,4 +309,7 @@
   <data name="NA" xml:space="preserve">
     <value>N/A</value>
   </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
 </root>

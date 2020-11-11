@@ -33,6 +33,7 @@ module.exports = {
         [`${styleDistPath}/probation-report`]: `${styleSourcePath}/pages/report/probation.scss`,
         [`${styleDistPath}/probation-report-pdf`]: `${styleSourcePath}/pages/probation/pdf.scss`,
         [`${styleDistPath}/probation-report-detail`]: `${styleSourcePath}/pages/probation/probation-report-detail.scss`,
+        [`${styleDistPath}/login`]: `${styleSourcePath}/login.scss`,
         //
         [`${jsDistPath}/main`]: './sources/js/main.js',
         [`${jsDistPath}/search-member`]: './sources/js/SearchMember.jsx',

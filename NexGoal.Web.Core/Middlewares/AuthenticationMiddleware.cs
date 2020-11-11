@@ -11,13 +11,16 @@
     {
         private readonly RequestDelegate next;
         private readonly IAuthService authService;
+        private readonly LdapSettings ldapSetting;
 
         public AuthenticationMiddleware(
             RequestDelegate next,
-            IAuthService authService)
+            IAuthService authService,
+            LdapSettings ldapSetting)
         {
             this.next = next;
             this.authService = authService;
+            this.ldapSetting = ldapSetting;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -26,7 +29,9 @@
 
             if (currentSession.EmployeeId <= 0)
             {
-                var domainUsername = context.User.Identity.Name;
+                var domainUsername = string.Equals(ldapSetting.CompanyName, "Luminet")
+                    ? ldapSetting.Domain + context.User.Identity.Name
+                    : context.User.Identity.Name;
                 EmployeeSession employee = await authService.GetEmployeeByDomainUsernameAsync(domainUsername).ConfigureAwait(false);
 
                 if (employee != null)
