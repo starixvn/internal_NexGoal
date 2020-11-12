@@ -2,10 +2,10 @@
 {
     public class LdapSettings
     {
-        public string CompanyName { get; set; }
+        public string CompanyName { get; set; } = string.Empty;
 
-        public string LDAPUrl { get; set; }
+        public string LDAPUrl { get; set; } = string.Empty;
 
-        public string Domain { get; set; }
+        public string Domain { get; set; } = string.Empty;
     }
 }

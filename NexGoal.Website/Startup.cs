@@ -80,8 +80,8 @@
                 options.AutomaticAuthentication = true;
             });
 
-            var modeAuth = Configuration.GetSection("CompanyName").Value;
-            if (string.Equals(modeAuth, "Luminet"))
+            var companyName = Configuration.GetSection("CompanyName").Value;
+            if (string.Equals(companyName, "Luminet"))
             {
                 services.AddAuthentication(options =>
                 {
@@ -126,6 +126,7 @@
             var settings = Configuration.GetSection("LDAPSettings");
             services.Configure<LdapSettings>(options => settings.Bind(options));
             var ldapSettings = settings.Get<LdapSettings>();
+            ldapSettings.CompanyName = companyName;
 
             // DI
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();

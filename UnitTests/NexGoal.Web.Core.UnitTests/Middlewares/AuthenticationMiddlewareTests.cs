@@ -102,7 +102,6 @@
             authService = Substitute.For<IAuthService>();
             ldapSetting = new LdapSettings
             {
-                CompanyName = "name",
                 Domain = "domain",
                 LDAPUrl = "server"
             };
