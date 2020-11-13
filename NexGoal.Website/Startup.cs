@@ -81,30 +81,7 @@
             });
 
             var companyName = Configuration.GetSection("CompanyName").Value;
-            if (string.Equals(companyName, "Luminet"))
-            {
-                services.AddAuthentication(options =>
-                {
-                    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                }).AddCookie(options =>
-                {
-                    options.LoginPath = Configuration.GetSection("AuthSettings:LoginPath").Value;
-                    options.LogoutPath = Configuration.GetSection("AuthSettings:LogoutPath").Value;
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(int.Parse(Configuration["AuthSettings:SessionTimeout"]));
-                    options.SlidingExpiration = true;
-                    options.Events.OnSigningOut = context =>
-                    {
-                        context.Response.Redirect(options.LoginPath);
-                        return Task.CompletedTask;
-                    };
-                });
-            }
-            else
-            {
-                services.AddAuthentication(IISDefaults.AuthenticationScheme);
-            }
+            ConfigureAuthentication(services, companyName);
 
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
             services.AddResponseCompression(options =>
@@ -169,6 +146,34 @@
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        private void ConfigureAuthentication(IServiceCollection services, string companyName)
+        {
+            if (string.Equals(companyName, "Luminet"))
+            {
+                services.AddAuthentication(options =>
+                {
+                    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                }).AddCookie(options =>
+                {
+                    options.LoginPath = Configuration.GetSection("AuthSettings:LoginPath").Value;
+                    options.LogoutPath = Configuration.GetSection("AuthSettings:LogoutPath").Value;
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(int.Parse(Configuration["AuthSettings:SessionTimeout"]));
+                    options.SlidingExpiration = true;
+                    options.Events.OnSigningOut = context =>
+                    {
+                        context.Response.Redirect(options.LoginPath);
+                        return Task.CompletedTask;
+                    };
+                });
+            }
+            else
+            {
+                services.AddAuthentication(IISDefaults.AuthenticationScheme);
+            }
         }
     }
 }
