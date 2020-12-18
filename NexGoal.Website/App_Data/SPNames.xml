@@ -223,4 +223,7 @@
     <Setting Key="PRFeedbackReaction_Delete" SpName="PRFeedbackReaction_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PRFeedbackReaction_GetByFeedbackId" SpName="PRFeedbackReaction_GetByFeedbackId" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
+    <Function name="Sync Data">
+        <Setting Key="SyncData_Flow" SpName="SyncData_Flow" DbName="bodb_NexGoal" Plain="0" />
+    </Function>
 </Functions>
