@@ -12,11 +12,11 @@ export default class Table extends Component {
 
     handleShowNominatorComment = (nomination, performanceRecordId) => {
         this.props.onShowNominatorComment(nomination, performanceRecordId);
-    }
+    };
 
     handleChangeStatus = (nominationId, status) => {
         this.props.onUpdateStatus(nominationId, status.value);
-    }
+    };
 
     renderData = data => {
         return (
@@ -31,7 +31,7 @@ export default class Table extends Component {
                 }
             </Fragment>
         );
-    }
+    };
 
     renderNomination = (nomination, index) => {
         return (
@@ -62,7 +62,7 @@ export default class Table extends Component {
                 </td>
             </tr>
         );
-    }
+    };
 
     renderNominateReportStickyBlock = () => {
         return (
@@ -81,7 +81,7 @@ export default class Table extends Component {
                     </table>
                 </StickyBlock>
         );
-    }
+    };
 
     renderNominateReportHeaderTable = () => {
         return (
@@ -96,7 +96,7 @@ export default class Table extends Component {
                 </tr>
              </thead>
         );
-    }
+    };
 
     render() {
         let nominateReportContent = '';

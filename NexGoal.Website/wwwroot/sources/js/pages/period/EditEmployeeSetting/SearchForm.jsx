@@ -5,20 +5,20 @@ import { Button, ControlLabel, Form, FormGroup } from 'react-bootstrap';
 import getResource from '../../../resourceHelper';
 
 export default class SearchForm extends Component {
-    handleGroupChange = selectedOption => this.props.onFilterChange('group', selectedOption)
+    handleGroupChange = selectedOption => this.props.onFilterChange('group', selectedOption);
 
-    handleEvaluatedStatusChange = selectedOption => this.props.onFilterChange('isEvaluated', selectedOption)
+    handleEvaluatedStatusChange = selectedOption => this.props.onFilterChange('isEvaluated', selectedOption);
 
-    handlePAStatusChange = selectedOption => this.props.onFilterChange('paStatus', selectedOption)
+    handlePAStatusChange = selectedOption => this.props.onFilterChange('paStatus', selectedOption);
 
     handleSubmit = e => {
         e.preventDefault();
         this.props.onSubmit();
-    }
+    };
 
-    renderGroupOption = option => <option key={option.value} value={option.value}>{option.label}</option>
+    renderGroupOption = option => <option key={option.value} value={option.value}>{option.label}</option>;
 
-    renderPerformanceStatusOption = option => <option key={option.id} value={option.id}>{option.name}</option>
+    renderPerformanceStatusOption = option => <option key={option.id} value={option.id}>{option.name}</option>;
 
     render() {
         return (

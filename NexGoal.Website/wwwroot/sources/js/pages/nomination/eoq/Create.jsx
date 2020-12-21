@@ -28,7 +28,7 @@ export default class Create extends Component {
                 onClose={this.props.closeModal}
             />
         );
-    }
+    };
 
     handleSubmit = (values, { setErrors }) => {
         const eoq = stringify({
@@ -53,7 +53,7 @@ export default class Create extends Component {
                 this.props.handleFilterSubmit();
             });
         }).catch(axiosError);
-    }
+    };
 
     render() {
         const currentYear = new Date().getFullYear();

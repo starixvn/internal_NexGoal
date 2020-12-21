@@ -34,7 +34,7 @@ class Create extends Component {
                 this.props.handleFilterSubmit();
             });
         }).catch(axiosError);
-    }
+    };
 
     renderForm = ({
         values,
@@ -52,7 +52,7 @@ class Create extends Component {
                 onClose={this.props.closeModal}
             />
         );
-    }
+    };
 
     render() {
         const currentYear = new Date().getFullYear();

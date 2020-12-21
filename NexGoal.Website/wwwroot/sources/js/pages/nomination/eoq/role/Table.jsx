@@ -37,7 +37,7 @@ class Table extends Component {
         }
 
         this.props.onEdit(nominator);
-    }
+    };
 
     render() {
         const { isHost, nominators } = this.props;

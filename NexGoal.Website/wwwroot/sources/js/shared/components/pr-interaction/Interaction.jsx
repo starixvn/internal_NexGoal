@@ -25,7 +25,7 @@ export default class Interaction extends Component {
         };
 
         this.textareaEditor = React.createRef();
-    };
+    }
 
     componentWillMount = () => {
         const currentUserCode = document.getElementById('employeeInfo-code').value;
@@ -46,7 +46,7 @@ export default class Interaction extends Component {
                 currentUserCode: currentUserCode
             }
         );
-    }
+    };
 
     handleLikeEvent = event => {
         event.preventDefault();
@@ -71,20 +71,18 @@ export default class Interaction extends Component {
             if (response.data.isSuccessful) {
                 if (isLiked) {
                     this.addNewReaction(recordId, curUserCode);
-                }
-                else {
+                } else {
                     this.removeReaction(recordId, curUserCode);
                 }
-            }
-            else {
+            } else {
                 this.setState({ numOfLikes: oldNumOfLikes, isLiked: !isLiked });
             }
         }).catch(axiosError);
-    }
+    };
 
     handleCloseLikeModal = () => {
         this.setState({ showLikeModal: false });
-    }
+    };
 
     handleOpenLikeModalEvent = event => {
         event.preventDefault();
@@ -94,13 +92,13 @@ export default class Interaction extends Component {
                 showLikeModal: true
             });
         }
-    }
+    };
 
     handleOpenForm = () => {
         this.setState({ isOpenForm: true }, () => {
             this.textareaEditor.current.textareaEditor.current.focus();
         });
-    }
+    };
 
     handleCancel = () => {
         this.setState({
@@ -108,7 +106,7 @@ export default class Interaction extends Component {
             feedbackContent: '',
             errors: {}
         });
-    }
+    };
 
     handleSubmit = () => {
         const { feedbackContent } = this.state;
@@ -143,18 +141,17 @@ export default class Interaction extends Component {
                 });
                 toast.success(getResource('CreatedSuccessfully'));
                 this.handleCancel();
-            }
-            else {
+            } else {
                 toast.error(response.data.message);
             }
         }).catch(axiosError);
-    }
+    };
 
     handleOnBlurEvent = () => {
         if (this.state.feedbackContent === '') {
             this.handleCancel();
         }
-    }
+    };
 
     handleCommentChange = event => {
         const errors = {};
@@ -167,7 +164,7 @@ export default class Interaction extends Component {
             feedbackContent: event.target.value,
             errors: errors
         });
-    }
+    };
 
     renderFeedback = (feedback, index) => {
         return (
@@ -178,7 +175,7 @@ export default class Interaction extends Component {
                 recordId={this.props.recordId}
             />
         );
-    }
+    };
 
     renderFeedbackInputBox = () => {
         const {
@@ -227,7 +224,7 @@ export default class Interaction extends Component {
                 </div>
             </div>
         );
-    }
+    };
 
     renderInteractionBar = () => {
         const {
@@ -270,7 +267,7 @@ export default class Interaction extends Component {
                 }
             </div>
         );
-    }
+    };
 
     getNewFeedback = () => {
         const currentUserCode = this.state.currentUserCode;
@@ -290,7 +287,7 @@ export default class Interaction extends Component {
                     feedbacks: feedbacks
                 });
             }).catch(axiosError);
-    }
+    };
 
     addNewReaction = (recordId, creatorCode) => {
         axios.get(
@@ -308,7 +305,7 @@ export default class Interaction extends Component {
 
             this.setState({ reactions: reactions });
         }).catch(axiosError);
-    }
+    };
 
     removeReaction = (recordId, creatorCode) => {
         let reactions = this.state.reactions;
@@ -316,7 +313,7 @@ export default class Interaction extends Component {
             && reaction.creator.code !== creatorCode));
 
         this.setState({ reactions: reactions });
-    }
+    };
 
     render() {
         const { showLikeModal, reactions, feedbacks } = this.state;
@@ -338,5 +335,5 @@ export default class Interaction extends Component {
                 </div>
             </Fragment>
         );
-    };
+    }
 }

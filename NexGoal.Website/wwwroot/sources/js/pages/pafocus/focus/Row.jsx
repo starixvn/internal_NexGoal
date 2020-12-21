@@ -26,7 +26,7 @@ export default class Row extends Component {
         }
 
         return false;
-    }
+    };
 
     getCssClass = () => {
         const pafocus = this.props.data;
@@ -42,7 +42,7 @@ export default class Row extends Component {
         }
 
         return className;
-    }
+    };
 
     getFocusEvaluationLevel = value => {
         const index = this.props.focusEvaluationLevelOptions.findIndex(item => item.value.toString() === value);
@@ -52,7 +52,7 @@ export default class Row extends Component {
         }
 
         return EmptyPlaceHolder;
-    }
+    };
 
     renderContribution = () => {
         const pafocus = this.props.data;
@@ -69,11 +69,9 @@ export default class Row extends Component {
                             <option />
                         }
                         {
-                            this.props.focusEvaluationLevelOptions.map(option => {
-                                return (
+                            this.props.focusEvaluationLevelOptions.map(option => 
                                     <option key={`contribution${option.value}`} value={option.value}>{option.name}</option>
-                                );
-                            })
+                            )
                         }
                     </select>
                 }
@@ -83,7 +81,7 @@ export default class Row extends Component {
                 }
             </Fragment>
         );
-    }
+    };
 
     renderBonusGiven = () => {
         const pafocus = this.props.data;
@@ -100,11 +98,9 @@ export default class Row extends Component {
                             <option />
                         }
                         {
-                            this.props.focusEvaluationLevelOptions.map(option => {
-                                return (
+                            this.props.focusEvaluationLevelOptions.map(option =>
                                     <option key={`bonusGiven${option.value}`} value={option.value}>{option.name}</option>
-                                );
-                            })
+                            )
                         }
                     </select>
                 }
@@ -114,7 +110,7 @@ export default class Row extends Component {
                 }
             </Fragment>
         );
-    }
+    };
 
     renderReadyPromotion = () => {
         const pafocus = this.props.data;
@@ -149,7 +145,7 @@ export default class Row extends Component {
                 }
             </Fragment>
         );
-    }
+    };
 
     renderContentObjective = objective => {
         return (
@@ -162,7 +158,7 @@ export default class Row extends Component {
                 }
             </Fragment>
         );
-    }
+    };
 
     renderActionObjective = propName => {
         const pafocus = this.props.data;
@@ -189,7 +185,7 @@ export default class Row extends Component {
                 }
             </Fragment>
         );
-    }
+    };
 
     renderGrade = (originalGrade, grade) => {
         const gradeId = grade ? grade.gradeId : null;
@@ -198,19 +194,19 @@ export default class Row extends Component {
         const gradeClass = getPAGradeClassName(originalGradeId, gradeId);
 
         return <span>{grade ? grade.name : 'N/A'}<span className={gradeClass} /></span>;
-    }
+    };
 
     handleOnChange = event => {
         const pafocus = this.props.data;
 
         this.props.onChange(pafocus.employee.groupCode, pafocus.paFocusId, event.target.name, event.target.value);
-    }
+    };
 
     handleChangeObjective = objective => {
         const pafocus = this.props.data;
 
         this.props.onChange(pafocus.employee.groupCode, pafocus.paFocusId, objective.name, objective.value);
-    }
+    };
 
     handleShowObjectiveModal = event => {
         const targetName = event.target.name;
@@ -225,11 +221,11 @@ export default class Row extends Component {
             isShowObjectiveModal: true,
             objectiveSelected: objective
         });
-    }
+    };
 
     handleCloseObjectiveModal = () => {
         this.setState({ isShowObjectiveModal: false });
-    }
+    };
 
     render() {
         const pafocus = this.props.data;

@@ -17,7 +17,7 @@ export default class AddEmployee extends Component {
 
     initialObj = {
         employees: []
-    }
+    };
 
     validateForm = values => {
         const errors = {};
@@ -27,7 +27,7 @@ export default class AddEmployee extends Component {
         }
 
         return errors;
-    }
+    };
 
     onSubmit = values => {
         axios({
@@ -48,7 +48,7 @@ export default class AddEmployee extends Component {
             }
             this.props.onAddEmployeesuccess();
         }).catch(axiosError);
-    }
+    };
 
     renderForm = ({
         values,
@@ -74,7 +74,7 @@ export default class AddEmployee extends Component {
                 </Modal.Footer>
             </Form>
         );
-    }
+    };
 
     render() {
         return (

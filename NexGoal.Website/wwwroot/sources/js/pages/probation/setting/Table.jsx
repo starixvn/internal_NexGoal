@@ -46,7 +46,7 @@ export default class Table extends Component {
                 </td>
             </tr>
         );
-    }
+    };
 
     renderTableContent = () => {
         if (this.props.tableData) {
@@ -55,7 +55,7 @@ export default class Table extends Component {
         } else {
             return <Fragment />;
         }
-    }
+    };
 
     render() {
         return (

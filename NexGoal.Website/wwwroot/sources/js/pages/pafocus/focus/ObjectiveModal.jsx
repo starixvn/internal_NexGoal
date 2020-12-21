@@ -17,7 +17,7 @@ export default class ObjectiveModal extends Component {
     handleSubmit = values => {
         this.props.onClose();
         this.props.onSubmit(values);
-    }
+    };
 
     validateForm = values => {
         const errors = {};
@@ -27,7 +27,7 @@ export default class ObjectiveModal extends Component {
         }
 
         return errors;
-    }
+    };
 
     renderForm = ({
         values,
@@ -54,7 +54,7 @@ export default class ObjectiveModal extends Component {
                 </Modal.Footer>
             </Form>
         );
-    }
+    };
 
     render() {
         const isHost = this.props.isHost;

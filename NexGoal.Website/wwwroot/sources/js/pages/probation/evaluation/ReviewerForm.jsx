@@ -31,7 +31,7 @@ export default class ReviewerForm extends Component {
         const reviewerProcess = this.props.probationer.settings.find(x => x.processId === PerformanceProcess.Reviewer);
         const message = 'Please be informed that these information might not be the final one, and you will not be able to make any changes until';
         return `${message} ${reviewerProcess.fromDate.format(DateFormat)}. Thank you for your concern`;
-    }
+    };
 
     updatePoint = (kpi, value) => {
         const evaluationDetails = this.state.evaluationDetails.slice();
@@ -39,7 +39,7 @@ export default class ReviewerForm extends Component {
 
         this.setState({ evaluationDetails });
         this.calcuateAverageGrade();
-    }
+    };
 
     renderKPI = (kpi, index) => (
         <tr key={kpi.kpiId}>
@@ -47,7 +47,7 @@ export default class ReviewerForm extends Component {
             <td className="text-center"><strong>{kpi.selfPoint}</strong></td>
             <td className="text-center"><strong>{kpi.evaluatorPoint}</strong></td>
         </tr>
-    )
+    );
 
     renderKPIGroup = (kpiGroup, index) => (
         <Fragment key={kpiGroup.kpiGroupId}>
@@ -58,12 +58,12 @@ export default class ReviewerForm extends Component {
             </tr>
             {kpiGroup.details.map(this.renderKPI)}
         </Fragment>
-    )
+    );
 
     schema = object().shape({
         isQualified: object().required(),
         comment: string().required()
-    })
+    });
 
     renderPerformanceResult = probationer => {
         return (
@@ -71,7 +71,7 @@ export default class ReviewerForm extends Component {
                 {probationer.isQualifiedByEvaluator ? 'Passed' : 'Failed'}
             </span>
         );
-    }
+    };
 
     renderForm = ({
         values,
@@ -183,7 +183,7 @@ export default class ReviewerForm extends Component {
                 </div>
             </Fragment >
         );
-    }
+    };
 
     handleSubmit = (values, { setErrors, setSubmitting }) => {
         axios({
@@ -207,7 +207,7 @@ export default class ReviewerForm extends Component {
 
             setSubmitting(false);
         }).catch(axiosError);
-    }
+    };
 
     handleCloseAnnouncement = () => this.setState({ showAnnouncement: false });
 

@@ -12,7 +12,7 @@ class Row extends Component {
 
     handleDeleteClick = () => {
         this.props.onShowDeleteModal(this.props.eoq);
-    }
+    };
 
     renderCellAction = () => {
         const currentYear = new Date().getFullYear();
@@ -37,7 +37,7 @@ class Row extends Component {
                 href={resolveClientUrl('EOQ/Details/' + eoq.eoqyId)}
             />
         );
-    }
+    };
 
     render() {
         const eoq = this.props.eoq;

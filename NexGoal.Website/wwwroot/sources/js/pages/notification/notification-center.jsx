@@ -87,7 +87,7 @@ export default class NotificationCenter extends Component {
                 hasMore: notifications.length < data.total
             });
         }).catch(axiosError);
-    }
+    };
 
     triggerNotificationBell = notificationId => {
         const notiBell = document.getElementById('trigger-notification-bell');
@@ -95,7 +95,7 @@ export default class NotificationCenter extends Component {
             notiBell.setAttribute('notificationId', notificationId);
             notiBell.click();
         }
-    }
+    };
 
     addEventListener = () => {
         const notiTrigger = document.getElementById('trigger-notification-center');
@@ -109,14 +109,14 @@ export default class NotificationCenter extends Component {
                 }
             }, false);
         }
-    }
+    };
 
     removeEventListener = () => {
         const notiTrigger = document.getElementById('trigger-notification-center');
         if (notiTrigger) {
             notiTrigger.removeEventListener('click');
         }
-    }
+    };
 
     handleLoadMoreNotification = () => {
         if (this.state.hasMore) {
@@ -128,13 +128,13 @@ export default class NotificationCenter extends Component {
                 }
             });
         }
-    }
+    };
 
     handleRedirectToAction = notificationId => {
         const notifications = this.state.notifications.slice();
         const notiIndex = notifications.findIndex(noti => noti.notificationId === notificationId);
         if (notiIndex !== -1) {
-            let { actionTypeId, recordId } = notifications[notiIndex];
+            const { actionTypeId, recordId } = notifications[notiIndex];
 
             const url = getUrlByActionTypeId(actionTypeId, recordId, NotificationActionType);
 
@@ -142,7 +142,7 @@ export default class NotificationCenter extends Component {
                 window.location = url;
             }
         }
-    }
+    };
 
     markAsReadSuccess = () => {
         const notifications = this.state.notifications.slice();
@@ -156,7 +156,7 @@ export default class NotificationCenter extends Component {
         });
 
         this.triggerNotificationBell();
-    }
+    };
 
     handleMarkAsRead = () => {
         if (this.state.unreadNoti > 0) {
@@ -170,7 +170,7 @@ export default class NotificationCenter extends Component {
                     }
                 }).catch(axiosError);
         }
-    }
+    };
 
     handleChangeStatusSuccess = notificationId => {
         const notifications = this.state.notifications.slice();
@@ -185,7 +185,7 @@ export default class NotificationCenter extends Component {
 
             this.triggerNotificationBell(notificationId);
         }
-    }
+    };
 
     handleChangeStatus = (notificationId, statusId, isRedirect) => {
         if (statusId === NotificationStatus.Unread) {
@@ -208,11 +208,11 @@ export default class NotificationCenter extends Component {
         } else if (isRedirect) {
             this.handleRedirectToAction(notificationId);
         }
-    }
+    };
 
-    handleCloseAnnouncementModal = () => this.setState({ showAnnouncementModal: false })
+    handleCloseAnnouncementModal = () => this.setState({ showAnnouncementModal: false });
 
-    handleOpenAnnouncementModal = () => this.setState({ showAnnouncementModal: true })
+    handleOpenAnnouncementModal = () => this.setState({ showAnnouncementModal: true });
 
     render() {
         const currentUserInfo = getCurrentUserInfo();

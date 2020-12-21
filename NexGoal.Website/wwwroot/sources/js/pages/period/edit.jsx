@@ -32,7 +32,7 @@ export default class Edit extends Component {
         if (key === 3 && !this.state.loadEmployeeTab) {
             this.setState({ loadEmployeeTab: true });
         }
-    }
+    };
 
     render() {
         return (

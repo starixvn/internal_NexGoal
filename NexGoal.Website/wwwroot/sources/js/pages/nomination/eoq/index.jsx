@@ -34,7 +34,7 @@ export default class EOQ extends Component {
                     year: data[0]
                 });
             }).catch(axiosError);
-    }
+    };
 
     getAllEOQ = () => {
         axios.get(resolveClientUrl(`EOQ/GetAll?year=${this.state.year}&statusId=${this.state.statusId}`))
@@ -43,19 +43,19 @@ export default class EOQ extends Component {
 
                 this.setState({ eoqs: data });
             }).catch(axiosError);
-    }
+    };
 
     handleYearChange = year => {
         this.setState({ year });
-    }
+    };
 
     handleStatusChange = statusId => {
         this.setState({ statusId });
-    }
+    };
 
     handleSubmit = () => {
         this.getAllEOQ();
-    }
+    };
 
     render() {
         return (

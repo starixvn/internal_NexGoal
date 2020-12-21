@@ -37,7 +37,7 @@ export default class EditBasicInformation extends Component {
                 data.focusEndDate = data.focusEndDate ? moment(data.focusEndDate) : null;
                 this.setState({ basicInformation: data });
             }).catch(axiosError);
-    }
+    };
 
     onSubmit = (values, { setErrors, setSubmitting }) => {
         const dateFormat = 'YYYY-MM-DD';
@@ -63,7 +63,7 @@ export default class EditBasicInformation extends Component {
         }).then(response => {
             axiosEditResponseWithFormik(setErrors, toast, response);
         }).catch(axiosError).then(() => setSubmitting(false));
-    }
+    };
 
     renderForm = ({
         values,
@@ -113,8 +113,8 @@ export default class EditBasicInformation extends Component {
                         </Col>
                         <Col className="control-content">
                             <DatePicker name="startDate" autoComplete="off"
-                                className={`form-control  ${!isValidStartDate && InputErrorCssClass}`}
                                 dateFormat={DateFormat} selected={values.startDate}
+                                className={`form-control  ${!isValidStartDate && InputErrorCssClass}`}
                                 onChange={value => setFieldValue('startDate', value)} onChangeRaw={onChangeRaw}
                             />
                         </Col>
@@ -125,9 +125,9 @@ export default class EditBasicInformation extends Component {
                         </Col>
                         <Col className="control-content">
                             <DatePicker name="endDate" autoComplete="off"
-                                className={`form-control  ${!isValidEndDate && InputErrorCssClass}`}
                                 dateFormat={DateFormat} selected={values.endDate}
                                 onChange={value => setFieldValue('endDate', value)} onChangeRaw={onChangeRaw}
+                                className={`form-control  ${!isValidEndDate && InputErrorCssClass}`}
                             />
                         </Col>
                     </FormGroup>
@@ -206,7 +206,7 @@ export default class EditBasicInformation extends Component {
                 </FormGroup>
             </Form>
         );
-    }
+    };
 
     render() {
         if (this.state.basicInformation) {

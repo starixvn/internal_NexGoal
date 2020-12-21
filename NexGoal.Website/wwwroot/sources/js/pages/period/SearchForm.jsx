@@ -5,7 +5,7 @@ import { Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import getResource from '../../resourceHelper';
 
 export default class SearchForm extends Component {
-    handleStatusChange = selectedOption => this.props.onStatusChange(selectedOption)
+    handleStatusChange = selectedOption => this.props.onStatusChange(selectedOption);
 
     render() {
         return (

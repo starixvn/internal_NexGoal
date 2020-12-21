@@ -87,10 +87,10 @@ export default class CreateNominationPeriodForm extends PureComponent {
                             <label className="control-label">{getResource('RemindDate')}</label>
                             <div className="field control-content">
                                 <DatePicker name="remindDateForNominator" autoComplete="off"
-                                    className={`form-control ${!isValidRemindDateForNominator && InputErrorCssClass}`}
                                     dateFormat={DateFormat}
-                                    selected={values.remindDateForNominator}
+                                    className={`form-control ${!isValidRemindDateForNominator && InputErrorCssClass}`}
                                     onChange={value => this.props.setFieldValue('remindDateForNominator', value)}
+                                    selected={values.remindDateForNominator}
                                 />
                             </div>
                         </FormGroup>

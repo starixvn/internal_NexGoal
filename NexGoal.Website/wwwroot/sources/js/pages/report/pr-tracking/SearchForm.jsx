@@ -11,20 +11,20 @@ export default class SearchForm extends Component {
 
     handleGroupChange = selectedOption => {
         this.props.onFilterChange('groups', selectedOption);
-    }
+    };
 
     handleEmployeeChange = selectedOption => {
         this.props.onFilterChange('employees', selectedOption);
-    }
+    };
 
     handleNoPRChange = event => {
         this.props.onFilterChange('noPR', event.target.checked);
-    }
+    };
 
     handleSubmit = event => {
         event.preventDefault();
         this.props.onSubmit();
-    }
+    };
 
     render() {
         const filter = this.props.filter;

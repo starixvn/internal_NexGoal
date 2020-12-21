@@ -28,15 +28,15 @@ export default class EOY extends Component {
 
                 this.setState({ eoys: data });
             }).catch(axiosError);
-    }
+    };
 
     handleStatusChange = statusId => {
         this.setState({ statusId });
-    }
+    };
 
     handleSubmit = () => {
         this.getAllEOY();
-    }
+    };
 
     render() {
         return (

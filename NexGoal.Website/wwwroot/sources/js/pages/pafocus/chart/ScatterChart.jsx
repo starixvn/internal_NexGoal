@@ -31,7 +31,7 @@ export default class ScatterChart extends Component {
         }
 
         return EmptyPlaceHolder;
-    }
+    };
 
     checkExistPoint = (x, y) => {
         let isExisted = false;
@@ -43,7 +43,7 @@ export default class ScatterChart extends Component {
         });
 
         return isExisted;
-    }
+    };
 
     findNumberExist = point => {
         let number = 0;
@@ -56,9 +56,9 @@ export default class ScatterChart extends Component {
         });
 
         return number;
-    }
+    };
 
-    calculateThreshold = number => 1 / number
+    calculateThreshold = number => 1 / number;
 
     findUniquePoint = member => {
         let isExisted = true;
@@ -93,7 +93,7 @@ export default class ScatterChart extends Component {
             x: bonusGiven,
             y: contribution
         };
-    }
+    };
 
     renderReadyPromotion = value => {
         let text = EmptyPlaceHolder;
@@ -108,7 +108,7 @@ export default class ScatterChart extends Component {
         }
 
         return html;
-    }
+    };
 
     getChartData = () => {
         this.points = [];
@@ -148,7 +148,7 @@ export default class ScatterChart extends Component {
                 pointBackgroundColor: colors
             }]
         };
-    }
+    };
 
     getChartOptions = () => {
         return {

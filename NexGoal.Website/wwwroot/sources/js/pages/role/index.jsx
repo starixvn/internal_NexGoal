@@ -41,11 +41,11 @@ export default class App extends Component {
                     isHost: data.isHost
                 });
             }).catch(axiosError);
-    }
+    };
 
     handleOnRoleChange = roleId => {
         this.getAssignPermissions(roleId);
-    }
+    };
 
     setFunctionPolicy = (func, target, isChecked) => {
         if (isChecked) {
@@ -63,10 +63,10 @@ export default class App extends Component {
         } else {
             func.policy = Policy.None;
         }
-    }
+    };
 
     handleOnCheckboxChange = (functionObj, target, isChecked) => {
-        let { functionId, parentId } = functionObj;
+        const { functionId, parentId } = functionObj;
         const functions = this.state.functions.slice();
         const totalItems = functions.length;
 
@@ -92,7 +92,7 @@ export default class App extends Component {
         }
 
         this.setState({ functions: functions });
-    }
+    };
 
     handleOnSubmit = event => {
         event.preventDefault();
@@ -120,7 +120,7 @@ export default class App extends Component {
                 toast.error(data.message);
             }
         }).catch(axiosError);
-    }
+    };
 
     render() {
         return (

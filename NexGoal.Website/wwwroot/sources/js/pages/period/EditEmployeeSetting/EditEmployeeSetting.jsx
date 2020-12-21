@@ -53,18 +53,18 @@ export default class EditEmployeeSetting extends Component {
                     settings: settingRes.data
                 });
             })).catch(axiosError);
-    }
+    };
 
     updateFilterValue = (name, value) => {
         const filter = { [name]: value };
         this.setState({ filter: { ...this.state.filter, ...filter } });
-    }
+    };
 
     getPerformanceStatusesAxios = () => axios.get(resolveClientUrl('Common/GetPerformanceStatuses'));
 
     getGroupsAxios = () => axios(resolveClientUrl('Common/GetGroups'));
 
-    getEmployeesAxios = () => axios(resolveClientUrl('common/GetEmployees'))
+    getEmployeesAxios = () => axios(resolveClientUrl('common/GetEmployees'));
 
     getEmployeeSettingsAxios = () =>
         axios(resolveClientUrl('Period/GetEmployeeSettings'), {
@@ -91,7 +91,7 @@ export default class EditEmployeeSetting extends Component {
                 settings: settings
             });
         }).catch(axiosError);
-    }
+    };
 
     getEmployeeSettings = () => {
         this.getEmployeeSettingsAxios()
@@ -101,7 +101,7 @@ export default class EditEmployeeSetting extends Component {
                 });
             })
             .catch(axiosError);
-    }
+    };
 
     render() {
         return (

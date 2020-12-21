@@ -5,7 +5,7 @@ import { getRoleClassName } from '../../../common-functions';
 export default class LikesStatisticModal extends Component {
     constructor(props) {
         super(props);
-    };
+    }
 
     renderUserLiked = (reaction, index) => {
         return (
@@ -16,7 +16,7 @@ export default class LikesStatisticModal extends Component {
                 </div>
             </div>
         );
-    }
+    };
 
     render() {
         const { showLikeModal, reactions } = this.props;

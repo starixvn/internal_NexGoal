@@ -9,11 +9,11 @@ export default class Row extends Component {
         };
     }
 
-    toggleExpand = () => this.setState({ expand: !this.state.expand })
+    toggleExpand = () => this.setState({ expand: !this.state.expand });
 
-    handleAddMember = pm => this.props.onAddMember(pm)
+    handleAddMember = pm => this.props.onAddMember(pm);
 
-    handleRemoveMember = member => this.props.onRemoveMember(member)
+    handleRemoveMember = member => this.props.onRemoveMember(member);
 
     renderMember = member => {
         return (
@@ -25,7 +25,7 @@ export default class Row extends Component {
                 </td>
             </tr>
         );
-    }
+    };
 
     render() {
         const data = this.props.data;

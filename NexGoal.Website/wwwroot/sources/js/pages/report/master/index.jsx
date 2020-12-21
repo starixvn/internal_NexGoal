@@ -87,7 +87,7 @@ export default class MasterReport extends Component {
                 filter: { ...this.state.filter, ...{ [name]: value } }
             });
         }
-    }
+    };
 
     render() {
         const filter = this.state.filter;

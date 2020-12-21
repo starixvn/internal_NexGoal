@@ -27,7 +27,7 @@ export default class Table extends Component {
             toeicClass = 'toeic-failed';
         }
         return <span className={`bold ${toeicClass}`}>{toeic ? toeic : EmptyPlaceHolder}</span>;
-    }
+    };
 
     renderGroupRecords = groups => {
         if (groups) {
@@ -39,7 +39,7 @@ export default class Table extends Component {
                 </tr>
             );
         }
-    }
+    };
 
     renderRows = periodRecords => {
         if (!periodRecords.length) {
@@ -69,13 +69,13 @@ export default class Table extends Component {
                 })
             );
         }
-    }
+    };
 
     renderPARivisedIcon = (originalGradeId, gradeId) => {
         const gradeChangeClass = getPAGradeClassName(originalGradeId, gradeId);
 
         return <span className={gradeChangeClass} />;
-    }
+    };
 
     renderGroupPA = (groupPA, index) => {
         return (
@@ -88,7 +88,7 @@ export default class Table extends Component {
                 }
             </Fragment>
         );
-    }
+    };
 
     renderPAGrade = record => {
         const paGrade = record.grade ? record.grade.name : getResource('N/A');
@@ -97,7 +97,7 @@ export default class Table extends Component {
 
         const revisedIcon = this.renderPARivisedIcon(originalGradeId, gradeId);
         return <span>{paGrade}{revisedIcon}</span>;
-    }
+    };
 
     renderPARecordInfo = paRecords => {
         return (
@@ -130,11 +130,11 @@ export default class Table extends Component {
                 );
             })
         );
-    }
+    };
 
     showPADetails = paRecordId => {
         this.props.showPaDetail(paRecordId);
-    }
+    };
 
     countPADuplicateGrades = grades => {
         grades.sort();
@@ -158,7 +158,7 @@ export default class Table extends Component {
         }
 
         return displayGradeArray.join(', ');
-    }
+    };
 
     renderPMGrades = (paProcesses, paRecordId) => {
         const processes = paProcesses.filter(process => process.grade && process.processId === PerformanceProcess.ProjectManager);
@@ -182,7 +182,7 @@ export default class Table extends Component {
         return <OverlayTrigger placement="top" overlay={tooltip}>
             <span className="pointer">{this.countPADuplicateGrades(grades)}</span>
         </OverlayTrigger>;
-    }
+    };
 
     renderGradeByProcess = (processes, processId, paRecordId) => {
         const processRecords = processes.filter(process => process.grade && process.processId === processId);
@@ -195,7 +195,7 @@ export default class Table extends Component {
         } else {
             return this.renderPMGrades(processRecords, paRecordId);
         }
-    }
+    };
 
     renderGrade = process => process.grade ? process.grade : EmptyPlaceHolder;
 

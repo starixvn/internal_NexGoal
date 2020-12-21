@@ -11,7 +11,7 @@ export default class PerformanceGradeInfo extends PureComponent {
                 <td>{grade.description}</td>
                 <td><p className="grade-explanation">{grade.explanation}</p></td>
             </tr>
-        )
+        );
 
     render() {
         return (

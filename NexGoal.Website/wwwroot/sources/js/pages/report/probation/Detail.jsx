@@ -53,7 +53,7 @@ export default class Detail extends Component {
                 <td className="text-center"><strong>{kpi.evaluatorPoint}</strong></td>
             </tr>
         );
-    }
+    };
 
     renderKPIGroup = (kpiGroup, index) => {
         return (
@@ -66,14 +66,14 @@ export default class Detail extends Component {
                 {kpiGroup.details.map(this.renderKPI)}
             </Fragment>
         );
-    }
+    };
 
     renderPerformanceResult = isQualified => {
         return isQualified !== null &&
             <span className={isQualified ? 'passed' : 'failed'}>
                 {isQualified ? 'Passed' : 'Failed'}
             </span>;
-    }
+    };
 
     render() {
         if (this.state.probationer) {

@@ -23,7 +23,7 @@ export default class Row extends Component {
 
     handleOnChange = event => {
         this.props.onCheckboxChange(this.props.function, event.target.name, event.target.checked);
-    }
+    };
 
     render() {
         const functionObj = this.props.function;

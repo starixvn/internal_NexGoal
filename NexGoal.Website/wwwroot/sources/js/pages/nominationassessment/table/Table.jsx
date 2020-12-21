@@ -14,11 +14,11 @@ export default class Table extends Component {
 
     handleShowNominatorComment = (nomination, performanceRecordId) => {
         this.props.onShowNominatorComment(nomination, performanceRecordId);
-    }
+    };
 
     handleChangeStatus = (nominationId, status) => {
         this.props.onUpdateStatus(nominationId, status.value);
-    }
+    };
 
     renderNomination = (nomination, index) => {
         const nominationStatusOptions = NominationStatuses.map(x => ({
@@ -62,7 +62,7 @@ export default class Table extends Component {
                 <td>{renderStatus}</td>
             </tr>
         );
-    }
+    };
 
     render() {
         const content = this.props.tableData.length > 0 ? this.props.tableData.map(this.renderNomination)

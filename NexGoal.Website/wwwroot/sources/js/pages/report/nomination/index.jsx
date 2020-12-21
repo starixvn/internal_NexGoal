@@ -23,11 +23,11 @@ export default class NominationReport extends Component {
             activeKey: performanceRecordId,
             period: period
         });
-    }
+    };
 
     closeModal = () => {
         this.setState({ showModal: false });
-    }
+    };
 
     render() {
         return (

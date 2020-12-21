@@ -8,12 +8,12 @@ import getResource from '../../../resourceHelper';
 class Filter extends Component {
     handleStatusChange = selectedOption => {
         this.props.handleStatusChange(selectedOption.value);
-    }
+    };
 
     handleFilterSubmit = event => {
         event.preventDefault();
         this.props.handleFilterSubmit();
-    }
+    };
 
     render() {
         const statusSelected = statusOptions.find(option => option.value === this.props.statusId.toString());

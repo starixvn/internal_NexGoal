@@ -30,14 +30,14 @@ class Table extends Component {
             showDeleteModal: true,
             eoySelected: eoySelected
         });
-    }
+    };
 
     handleCloseDeleteModal = () => {
         this.setState({
             showDeleteModal: false,
             eoySelected: null
         });
-    }
+    };
 
     handleDeleteEOY = () => {
         axios({
@@ -60,7 +60,7 @@ class Table extends Component {
                 toast.error(data.message);
             }
         }).catch(axiosError);
-    }
+    };
 
     renderEoYTableHeader = () => {
         return (
@@ -75,7 +75,7 @@ class Table extends Component {
                 <th>{getResource('Action')}</th>
             </tr>
         );
-    }
+    };
 
     render() {
         const { isHost, eoys } = this.props;

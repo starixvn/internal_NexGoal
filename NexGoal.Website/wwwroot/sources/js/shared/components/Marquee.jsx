@@ -14,7 +14,7 @@ export default class Marquee extends PureComponent {
     renderMessage = (message, index) => (
         <span key={`message${index}`} className="announcement-item">
             {message}
-        </span>)
+        </span>);
 
     getStyle = memoize(
         (messages, run) => {

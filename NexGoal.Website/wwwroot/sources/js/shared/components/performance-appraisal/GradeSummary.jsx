@@ -23,7 +23,7 @@ export default class GradeSummary extends PureComponent {
         return (
             <span>TOEIC: {this.props.toeic ? `${this.props.toeic} ${toeicBonus}` : EmptyPlaceHolder}</span>
         );
-    }
+    };
 
     getGrade = pr => {
         if (pr.processId === PerformanceProcess.ProjectManager) {
@@ -31,7 +31,7 @@ export default class GradeSummary extends PureComponent {
         }
 
         return pr.grade ? pr.grade : EmptyPlaceHolder;
-    }
+    };
 
     compare = (process1, process2) => {
         if (process1.processId < process2.processId) {
@@ -43,7 +43,7 @@ export default class GradeSummary extends PureComponent {
         }
 
         return 0;
-    }
+    };
 
     renderGradeSummary = () => {
         const processes = this.props.processes;
@@ -76,7 +76,7 @@ export default class GradeSummary extends PureComponent {
                 </span>
             );
         });
-    }
+    };
 
     render() {
         return (

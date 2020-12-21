@@ -13,16 +13,16 @@ class Filter extends Component {
 
     handleYearChange = selectedOption => {
         this.props.handleYearChange(selectedOption.value);
-    }
+    };
 
     handleStatusChange = selectedOption => {
         this.props.handleStatusChange(selectedOption.value);
-    }
+    };
 
     handleSubmit = event => {
         event.preventDefault();
         this.props.handleFilterSubmit();
-    }
+    };
 
     render() {
         const yearOptions = this.props.years.map(year => {

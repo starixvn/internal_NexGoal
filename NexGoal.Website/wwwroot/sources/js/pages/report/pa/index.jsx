@@ -79,7 +79,7 @@ export default class App extends Component {
                 this.onGroupChange(groupIds);
             }
         });
-    }
+    };
 
     onGroupChange = selectedGroups => {
         const employees = [...this.employees];
@@ -90,7 +90,7 @@ export default class App extends Component {
             filter: filter,
             employeeOptions: employeeOptions
         });
-    }
+    };
 
     handleClickViewPADetail = paRecordId => {
         axios(resolveClientUrl(`PA/GetById/${paRecordId}`)).then(response => {
@@ -116,17 +116,17 @@ export default class App extends Component {
                 });
             }
         }).catch(axiosError);
-    }
+    };
 
     handleClosePADetailModel = () => {
         this.setState({
             isShowPADetail: false
         });
-    }
+    };
 
     handleFilterSubmit = () => {
         this.getPARecords();
-    }
+    };
 
     handleExportExcel = () => {
         const filter = this.state.filter;
@@ -148,7 +148,7 @@ export default class App extends Component {
             document.body.appendChild(link);
             link.click();
         }).catch(axiosError);
-    }
+    };
 
     getPARecords = () => {
         const filter = this.state.filter;
@@ -164,7 +164,7 @@ export default class App extends Component {
                 paPeriodRecords: response.data
             });
         }).catch(axiosError);
-    }
+    };
 
     render() {
         return (

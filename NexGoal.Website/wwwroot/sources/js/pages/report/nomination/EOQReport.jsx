@@ -73,7 +73,7 @@ export default class EOQReport extends Component {
 
                 this.setState({ filter });
             }).catch(axiosError);
-    }
+    };
 
     getNominations = filter => {
         axios.get(resolveClientUrl('NominationReport/GetNominations'), {
@@ -93,7 +93,7 @@ export default class EOQReport extends Component {
                 }))
             });
         }).catch(axiosError);
-    }
+    };
 
     handleFilterChange = (name, value) => {
         if (name === 'groups') {
@@ -117,11 +117,11 @@ export default class EOQReport extends Component {
                 filter: { ...this.state.filter, ...{ [name]: value } }
             });
         }
-    }
+    };
 
     handleFilterSubmit = () => {
         this.getNominations(this.state.filter);
-    }
+    };
 
     handleShowNominatorComment = (nomination, performanceRecordId) => {
         this.props.onShowNominatorComment(
@@ -129,7 +129,7 @@ export default class EOQReport extends Component {
             performanceRecordId,
             this.periodOptions.find(x => x.value === nomination.period.nominationPeriodId)
         );
-    }
+    };
 
     render() {
         return (

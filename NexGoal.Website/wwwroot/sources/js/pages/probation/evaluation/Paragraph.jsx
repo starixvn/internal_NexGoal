@@ -18,7 +18,7 @@ export default class Paragraph extends PureComponent {
         this.setState(prevState => ({
             isExpanded: !prevState.isExpanded
         }));
-    }
+    };
 
     checkElementHeight = () => {
         const height = this.refs.element.offsetHeight;
@@ -28,7 +28,7 @@ export default class Paragraph extends PureComponent {
                 isExpanded: true
             });
         }
-    }
+    };
 
     render() {
         const seeMoreLessCssClass = this.state.isExpanded ? 'see-more' : 'see-less',

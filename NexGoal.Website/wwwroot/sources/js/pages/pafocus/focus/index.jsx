@@ -87,7 +87,7 @@ export default class PAFocus extends Component {
         (event || window.event).returnValue = confirmationMessage;
 
         return confirmationMessage;
-    }
+    };
 
     getMembers = groupIds => {
         axios(resolveClientUrl('pafocus/getMember'), {
@@ -111,7 +111,7 @@ export default class PAFocus extends Component {
             this.memberOptions = memberOptions;
             this.setState({ filter: filter });
         }).catch(axiosError);
-    }
+    };
 
     handleFilterChange = (name, value) => {
         this.setState({
@@ -123,7 +123,7 @@ export default class PAFocus extends Component {
                 this.getMembers(groupIds);
             }
         });
-    }
+    };
 
     getPAFocus = filter => {
         const periodId = filter.period ? filter.period.value : null;
@@ -144,12 +144,12 @@ export default class PAFocus extends Component {
                 isSubmittingForm: true
             });
         }).catch(axiosError);
-    }
+    };
 
     handleFilterSubmit = () => {
         const filter = this.state.filter;
         this.getPAFocus(filter);
-    }
+    };
 
     handleExportToExcel = () => {
         const filter = this.state.filter;
@@ -168,7 +168,7 @@ export default class PAFocus extends Component {
             document.body.appendChild(link);
             link.click();
         });
-    }
+    };
 
     handleChange = (groupCode, paFocusId, propName, value) => {
         const pafocuses = this.state.pafocuses.slice();
@@ -185,7 +185,7 @@ export default class PAFocus extends Component {
                 });
             }
         }
-    }
+    };
 
     handleSubmit = () => {
         const pafocuses = [];
@@ -230,7 +230,7 @@ export default class PAFocus extends Component {
                 isSubmittingForm: true
             });
         }).catch(axiosError);
-    }
+    };
 
     render() {
         const period = this.state.filter.period,

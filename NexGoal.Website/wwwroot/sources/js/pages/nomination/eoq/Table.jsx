@@ -30,14 +30,14 @@ class Table extends Component {
             showDeleteModal: true,
             eoqSelected: eoqSelected
         });
-    }
+    };
 
     handleCloseDeleteModal = () => {
         this.setState({
             showDeleteModal: false,
             eoqSelected: null
         });
-    }
+    };
 
     handleDeleteEOQ = () => {
         axios({
@@ -60,7 +60,7 @@ class Table extends Component {
                 toast.error(data.message);
             }
         }).catch(axiosError);
-    }
+    };
 
     render() {
         const { isHost, eoqs } = this.props;

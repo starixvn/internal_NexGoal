@@ -61,17 +61,17 @@ export default class EOQAssessment extends Component {
                 };
             });
         }).catch(axiosError);
-    }
+    };
 
     handleFilterChange = (name, value) => {
         this.setState({
             filter: { ...this.state.filter, ...{ [name]: value } }
         });
-    }
+    };
 
     handleFilterSubmit = () => {
         this.getNominations();
-    }
+    };
 
     handleUpdateNominationStatus = (nominationId, statusId) => {
         axios({
@@ -97,11 +97,11 @@ export default class EOQAssessment extends Component {
                 toast.error(data.message);
             }
         }).catch(axiosError);
-    }
+    };
 
     handleShowNominatorComment = (nomination, performanceRecordId) => {
         this.props.onShowNominatorComment(nomination, performanceRecordId, this.state.nominationPeriod);
-    }
+    };
 
     render() {
         if (this.state.nominationPeriod) {

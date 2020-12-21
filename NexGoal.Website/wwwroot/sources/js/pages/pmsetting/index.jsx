@@ -83,7 +83,7 @@ export default class PMSetting extends Component {
                 members: data.filter(e => e.projectManagerId === pm.employeeId)
             }))
         });
-    }
+    };
 
     getPMSetting = (projectManagerIds, employeeId, callback) => {
         axios.get(resolveClientUrl('PMSetting/GetSetting'), {
@@ -92,7 +92,7 @@ export default class PMSetting extends Component {
                 employeeId: employeeId
             }
         }).then(callback).catch(axiosError);
-    }
+    };
 
     handleAddMemberSuccess = () => {
         this.getPMSetting(this.state.addMember.pm.employeeId, null, response => {
@@ -103,18 +103,18 @@ export default class PMSetting extends Component {
             this.setState({ tableData: tableData });
         });
         this.handleCloseAddMemberModal();
-    }
+    };
 
     handleFilterSubmit = () => {
         const filter = this.state.filter;
         this.getPMSetting(filter.pms.map(e => e.value).toString(), filter.employee ? filter.employee.value : null, this.updateTableData);
-    }
+    };
 
     handleFilterChange = (name, value) => {
         this.setState({
             filter: { ...this.state.filter, ...{ [name]: value } }
         });
-    }
+    };
 
     handleAddMember = pm => {
         this.getPMSetting(pm.employeeId, null, response => {
@@ -126,7 +126,7 @@ export default class PMSetting extends Component {
                 }
             });
         });
-    }
+    };
 
     handleRemoveMember = member => {
         this.setState({
@@ -135,7 +135,7 @@ export default class PMSetting extends Component {
                 member: member
             }
         });
-    }
+    };
 
     handleRemoveMemberConfirmation = () => {
         axios({
@@ -163,15 +163,15 @@ export default class PMSetting extends Component {
                 toast.error(data.message);
             }
         }).catch(axiosError);
-    }
+    };
 
     handleCloseAddMemberModal = () => {
         this.setState({ addMember: { ... this.state.addMember, ...{ showModal: false } } });
-    }
+    };
 
     handleCloseRemoveMemberModal = () => {
         this.setState({ removeMember: { ... this.state.removeMember, ...{ showModal: false } } });
-    }
+    };
 
     render() {
         return (

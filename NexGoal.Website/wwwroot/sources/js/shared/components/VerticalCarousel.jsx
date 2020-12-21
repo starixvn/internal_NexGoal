@@ -13,12 +13,12 @@ export default class VerticalCarousel extends PureComponent {
     toggleSlide = () => {
         const currentIndex = this.refs.carousel.state.activeIndex;
         this.setState(prevState => ({ slide: !prevState.slide, currentIndex: currentIndex }));
-    }
+    };
 
     renderMessage = (message, index) =>
         <Carousel.Item key={`message${index}`} active={true} className="carousel-item" data-index={index}>
             {message}
-        </Carousel.Item>
+        </Carousel.Item>;
 
     render() {
         return (

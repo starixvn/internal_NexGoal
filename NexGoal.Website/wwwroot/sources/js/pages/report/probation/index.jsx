@@ -79,7 +79,7 @@ export default class ProbationReport extends Component {
 
                 this.setState({ probationFilter, groupOptions, employeeSelections }, this.getProbationers);
             }).catch(axiosError);
-    }
+    };
 
     getProbationers = () => {
         const filter = this.state.filter;
@@ -99,7 +99,7 @@ export default class ProbationReport extends Component {
 
             this.setState({ tableData: response.data });
         }).catch(axiosError);
-    }
+    };
 
     handleFilterChange = (name, value) => {
         if (name === 'groups') {
@@ -124,11 +124,11 @@ export default class ProbationReport extends Component {
                 filter: { ...this.state.filter, ...{ [name]: value } }
             });
         }
-    }
+    };
 
-    handleShowCommentModal = (comment, processId) => this.setState({ commentModal: { show: true, content: comment, processId: processId } })
+    handleShowCommentModal = (comment, processId) => this.setState({ commentModal: { show: true, content: comment, processId: processId } });
 
-    handleCloseCommentModal = () => this.setState({ commentModal: { show: false } })
+    handleCloseCommentModal = () => this.setState({ commentModal: { show: false } });
 
     render() {
         const filter = this.state.filter;

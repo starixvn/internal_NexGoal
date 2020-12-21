@@ -27,7 +27,7 @@ export default class StickyBlock extends PureComponent {
                 this.setState({ showStickyHeader: false });
             }
         }
-    }
+    };
 
     render() {
         return (

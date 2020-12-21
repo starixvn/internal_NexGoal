@@ -7,12 +7,12 @@ import getResource from '../../resourceHelper';
 export default class SearchForm extends Component {
     handleStatusChange = selectedOption => {
         this.props.onFilterChange('status', selectedOption);
-    }
+    };
 
     handleSubmit = event => {
         event.preventDefault();
         this.props.onFilterSubmit();
-    }
+    };
 
     render() {
         const filter = this.props.filter;

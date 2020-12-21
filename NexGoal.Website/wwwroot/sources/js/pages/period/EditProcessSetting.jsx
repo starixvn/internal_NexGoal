@@ -30,7 +30,7 @@ export default class EditProcessSetting extends Component {
                 const data = response.data;
                 this.setState({ settings: data });
             }).catch(axiosError);
-    }
+    };
 
     handleRemindDayChange = e => {
         const element = e.target;
@@ -41,7 +41,7 @@ export default class EditProcessSetting extends Component {
         process.remindDay = element.value;
 
         this.setState({ settings: settings });
-    }
+    };
 
     renderSetting = e => {
         return (
@@ -54,7 +54,7 @@ export default class EditProcessSetting extends Component {
                 </td>
             </tr>
         );
-    }
+    };
 
     save = () => {
         axios({
@@ -82,7 +82,7 @@ export default class EditProcessSetting extends Component {
                 }
             }
         }).catch(axiosError);
-    }
+    };
 
     renderOptions = option => <option key={option} value={option}>{option}</option>
 

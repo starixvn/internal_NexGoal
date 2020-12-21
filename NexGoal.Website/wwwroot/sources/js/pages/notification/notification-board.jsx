@@ -20,13 +20,13 @@ export default class NotificationBoard extends Component {
         this.setState({
             isShowSettingModal: true
         });
-    }
+    };
 
     handleCancelSetting = () => {
         this.setState({
             isShowSettingModal: false
         });
-    }
+    };
 
     render() {
         const notifications = this.props.notifications;

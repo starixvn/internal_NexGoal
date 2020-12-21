@@ -5,7 +5,7 @@ export default class NexPanel extends Component {
     static defaultProps = {
         defaultOpened: true,
         enable: true
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -19,7 +19,7 @@ export default class NexPanel extends Component {
         if (this.props.enable) {
             this.setState(prevState => ({ open: !prevState.open }));
         }
-    }
+    };
 
     render() {
         return (

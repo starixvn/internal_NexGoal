@@ -9,23 +9,23 @@ export default class NominationCommentModal extends PureComponent {
         this.scrolllInterval = setInterval(element => {
             element.scrollTo(element.scrollLeft - 10, 0);
         }, 50, document.getElementById('tabs'));
-    }
+    };
 
     handleScrollRight = () => {
         this.scrolllInterval = setInterval(element => {
             element.scrollTo(element.scrollLeft + 10, 0);
         }, 50, document.getElementById('tabs'));
-    }
+    };
 
     handleMouseUp = () => {
         clearInterval(this.scrolllInterval);
-    }
+    };
 
     render() {
         const nomination = this.props.nomination;
 
         if (nomination) {
-            let { nominators, nominee } = nomination;
+            const { nominators, nominee } = nomination;
 
             return (
                 <Modal show={this.props.showModal} onHide={this.props.onCloseModal}

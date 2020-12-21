@@ -26,7 +26,7 @@ export default class Edit extends Component {
         if (key === 2 && !this.state.isFirstLoad) {
             this.setState({ isFirstLoad: true });
         }
-    }
+    };
 
     render() {
         return (

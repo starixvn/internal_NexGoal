@@ -31,14 +31,14 @@ export default class EvaluatorForm extends Component {
             })
         ),
         isQualifiedByEvaluator: object().required()
-    })
+    });
 
     evaluationDetailTitle = <Fragment>
         Quality of Work
         <OverlayTrigger placement="bottom" overlay={EvaluationDetailTooltip}>
             <i className="icon-info" />
         </OverlayTrigger>
-    </Fragment>
+    </Fragment>;
 
     renderPerformanceResult = qualified => <span className={qualified.value ? 'passed' : 'failed'}>{qualified.label}</span>;
 
@@ -154,7 +154,7 @@ export default class EvaluatorForm extends Component {
             </Fragment>
 
         );
-    }
+    };
 
     handleSubmit = (values, { setSubmitting }) => {
         const evaluations = flatMap(values.evaluations, kpiGroup => kpiGroup.details.map(kpi => ({
@@ -190,7 +190,7 @@ export default class EvaluatorForm extends Component {
 
             setSubmitting(false);
         }).catch(axiosError);
-    }
+    };
 
     render() {
         return (

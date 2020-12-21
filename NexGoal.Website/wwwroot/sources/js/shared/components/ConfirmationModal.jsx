@@ -26,7 +26,7 @@ class ConfirmationModal extends Component {
     handleSubmit = event => {
         event.preventDefault();
         this.props.onSubmit();
-    }
+    };
 
     render() {
         return (

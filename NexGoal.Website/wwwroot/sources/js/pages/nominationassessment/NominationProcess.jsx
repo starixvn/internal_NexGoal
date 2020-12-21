@@ -15,7 +15,7 @@ export default class NominationProcess extends PureComponent {
         }
 
         return 'open';
-    }
+    };
 
     getComitteeStatusClass = (today, endDateForNominator, endDateForCommittee) => {
         if (endDateForNominator.isBefore(today, 'day') && endDateForCommittee.isSameOrAfter(today, 'day')) {
@@ -27,7 +27,7 @@ export default class NominationProcess extends PureComponent {
         }
 
         return 'open';
-    }
+    };
 
     render() {
         const period = this.props.period;

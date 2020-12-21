@@ -26,7 +26,7 @@ export default class PAProcessTab extends Component {
 
     handleSelectTab = key => {
         this.setState({ activeTabKey: key });
-    }
+    };
 
     render() {
         return (

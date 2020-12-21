@@ -24,7 +24,7 @@ export default class CreatePeriod extends Component {
         focusEndDate: null,
         description: '',
         isActive: true
-    }
+    };
 
     onSubmit = (values, { setErrors, setSubmitting }) => {
         const dateFormat = 'YYYY-MM-DD';
@@ -51,7 +51,7 @@ export default class CreatePeriod extends Component {
                 this.props.closeModal();
             });
         }).catch(axiosError).then(() => setSubmitting(false));
-    }
+    };
 
     renderForm = ({
         values,
@@ -103,8 +103,8 @@ export default class CreatePeriod extends Component {
                             </Col>
                             <Col className="control-content">
                                 <DatePicker name="startDate" autoComplete="off"
-                                    className={`form-control ${!isValidStartDate && InputErrorCssClass}`}
                                     dateFormat={DateFormat} selected={values.startDate}
+                                    className={`form-control ${!isValidStartDate && InputErrorCssClass}`}
                                     onChange={value => setFieldValue('startDate', value)} onChangeRaw={onChangeRaw}
                                 />
                             </Col>
@@ -164,8 +164,8 @@ export default class CreatePeriod extends Component {
                                 <Col componentClass={ControlLabel} className="">Focus End Date</Col>
                                 <Col className="control-content">
                                     <DatePicker name="disciplineEndDate" autoComplete="off"
-                                        className={`form-control  ${!isValidFocusEndDate && InputErrorCssClass}`}
                                         dateFormat={DateFormat} selected={values.focusEndDate}
+                                        className={`form-control  ${!isValidFocusEndDate && InputErrorCssClass}`}
                                         onChange={value => setFieldValue('focusEndDate', value)} onChangeRaw={onChangeRaw}
                                     />
                                 </Col>
@@ -175,8 +175,8 @@ export default class CreatePeriod extends Component {
                     <div className="line-group">
                         <FormGroup>
                             <div className="checkbox">
-                                <input type="checkbox" className="checkbox-custom" name="isActive" onChange={handleChange} checked={values.isActive} id="chb-isActive" />
                                 <label htmlFor="chb-isActive">Active</label>
+                                <input type="checkbox" className="checkbox-custom" name="isActive" onChange={handleChange} checked={values.isActive} id="chb-isActive" />
                             </div>
                         </FormGroup>
                     </div>
@@ -198,7 +198,7 @@ export default class CreatePeriod extends Component {
                 </Modal.Footer>
             </Form>
         );
-    }
+    };
 
     render() {
         return (

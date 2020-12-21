@@ -25,7 +25,7 @@ export default class NominationAssessment extends Component {
             activeKey: performanceRecordId,
             period: period
         });
-    }
+    };
 
     handleSelectTab = key => {
         if (key === 2 && !this.state.loadEOYTab) {
@@ -33,11 +33,11 @@ export default class NominationAssessment extends Component {
         } else {
             this.setState({ activeTabKey: key });
         }
-    }
+    };
 
     closeModal = () => {
         this.setState({ showModal: false });
-    }
+    };
 
     render() {
         return (

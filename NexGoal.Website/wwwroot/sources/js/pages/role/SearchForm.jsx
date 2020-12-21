@@ -12,7 +12,7 @@ class SearchForm extends Component {
 
     handleOnChange = selectedOption => {
         this.props.onRoleChange(selectedOption.value);
-    }
+    };
 
     render() {
         const selectedOpt = this.props.roleSelected;

@@ -53,7 +53,7 @@ class Settings extends Component {
                     }
                 });
             }).catch(axiosError);
-    }
+    };
 
     handleSubmit = (values, { setErrors }) => {
         const eoq = stringify({
@@ -76,7 +76,7 @@ class Settings extends Component {
         }).then(response => {
             axiosEditResponseWithFormik(setErrors, toast, response);
         }).catch(axiosError);
-    }
+    };
 
     renderForm = ({
         values,

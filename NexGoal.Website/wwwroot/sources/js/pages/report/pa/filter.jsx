@@ -12,24 +12,24 @@ export default class Filter extends Component {
 
     handlePeriodChange = selectedOption => {
         this.props.onFilterChange('periods', selectedOption);
-    }
+    };
 
     handleGroupChange = selectedOption => {
         this.props.onFilterChange('groups', selectedOption);
-    }
+    };
 
     handleEmployeeChange = selectedOption => {
         this.props.onFilterChange('employees', selectedOption);
-    }
+    };
 
     handleIsRevisedChange = selectedOption => {
         this.props.onFilterChange('isRevised', selectedOption);
-    }
+    };
 
     handleSubmit = event => {
         event.preventDefault();
         this.props.onSubmit();
-    }
+    };
 
     render() {
         const filter = this.props.filter;

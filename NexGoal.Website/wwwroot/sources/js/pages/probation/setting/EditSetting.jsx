@@ -40,7 +40,7 @@ export default class EditSetting extends Component {
                 this.props.onEditSuccess();
             });
         }).catch(axiosError);
-    }
+    };
 
     schema = object().shape({
         settings: array().of(object().shape({
@@ -48,7 +48,7 @@ export default class EditSetting extends Component {
             fromDate: object().required(),
             toDate: object().required()
         }))
-    })
+    });
 
     renderForm = ({
         values,
@@ -119,7 +119,7 @@ export default class EditSetting extends Component {
                 </Modal.Footer>
             </Form>
         );
-    }
+    };
 
     render() {
         const settings = this.props.probationer.settings.map(s => ({

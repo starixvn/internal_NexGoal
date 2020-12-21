@@ -130,15 +130,15 @@ export default class Table extends Component {
                 toast.error(data.message);
             }
         }).catch(axiosError);
-    }
+    };
 
-    handleShowCreateModal = () => this.setState({ showCreateModal: true })
+    handleShowCreateModal = () => this.setState({ showCreateModal: true });
 
-    handleCloseCreateModal = () => this.setState({ showCreateModal: false })
+    handleCloseCreateModal = () => this.setState({ showCreateModal: false });
 
-    handleShowDeleteModal = period => this.setState({ showDeleteModal: true, periodSelected: period })
+    handleShowDeleteModal = period => this.setState({ showDeleteModal: true, periodSelected: period });
 
-    handleCloseDeleteModal = () => this.setState({ showDeleteModal: false, periodSelected: null })
+    handleCloseDeleteModal = () => this.setState({ showDeleteModal: false, periodSelected: null });
 
     handleDeletePeriod = () => {
         axios({
@@ -161,7 +161,7 @@ export default class Table extends Component {
                 toast.error(data.message);
             }
         }).catch(axiosError);
-    }
+    };
 
     render() {
         return (

@@ -91,7 +91,7 @@ export default class MyProbation extends Component {
         <OverlayTrigger placement="bottom" overlay={EvaluationDetailTooltip}>
             <i className="icon-info" />
         </OverlayTrigger>
-    </Fragment>
+    </Fragment>;
 
     renderForm = ({
         values,
@@ -166,7 +166,7 @@ export default class MyProbation extends Component {
                 </div>
             </Fragment>
         );
-    }
+    };
 
     handleSubmit = (values, { setSubmitting }) => {
         const evaluations = flatMap(values.evaluations, kpiGroup => kpiGroup.details.map(kpi => ({
@@ -199,7 +199,7 @@ export default class MyProbation extends Component {
 
             setSubmitting(false);
         }).catch(axiosError);
-    }
+    };
 
     render() {
         if (this.state.probationer) {

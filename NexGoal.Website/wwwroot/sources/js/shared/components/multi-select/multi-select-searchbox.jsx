@@ -47,15 +47,15 @@ export default class MultiSelectSearchbox extends Component {
                 isOpen: false
             });
         }
-    }
+    };
 
     handleOpen = () => {
         this.setState(state => ({ isOpen: !state.isOpen }));
-    }
+    };
 
     handleChange = value => {
         this.props.onChange(value);
-    }
+    };
 
     render() {
         return (

@@ -32,7 +32,7 @@ export default class Table extends Component {
         };
     }
 
-    selectedIds = []
+    selectedIds = [];
 
     columns = [
         {
@@ -111,21 +111,19 @@ export default class Table extends Component {
             headerStyle: { width: '80px' },
             isDummyField: true,
             formatter: (cell, row) => {
-                return (
                     <a className="fa fa-pencil-square-o" title="Edit" onClick={() => this.editSetting(row.paRecordId)} />
-                );
-            }
-        }]
+                }
+        }];
 
     onEmployeeChange = employee => {
         const addFilter = { employee: employee };
         this.setState({ addFilter: { ...this.state.addFilter, ...addFilter } });
-    }
+    };
 
     onGroupsChange = groups => {
         const addFilter = { groups: groups };
         this.setState({ addFilter: { ...this.state.addFilter, ...addFilter } });
-    }
+    };
 
     addEmployeeSettings = () => {
         const groupIds = this.state.addFilter.groups.length > 0 ? this.state.addFilter.groups.map(e => e.value).toString() : null;
@@ -156,7 +154,7 @@ export default class Table extends Component {
                 toast.error(data.message);
             }
         }).catch(axiosError);
-    }
+    };
 
     onSelectRow = (row, isSelect) => {
         if (isSelect) {
@@ -164,7 +162,7 @@ export default class Table extends Component {
         } else {
             this.selectedIds = this.selectedIds.filter(e => e !== row.paRecordId);
         }
-    }
+    };
 
     onSelectAllRows = isSelect => {
         if (isSelect) {
@@ -172,11 +170,11 @@ export default class Table extends Component {
         } else {
             this.selectedIds = [];
         }
-    }
+    };
 
     editSetting = paRecordId => {
         this.setState({ showEditModal: true, selectedIds: [paRecordId] });
-    }
+    };
 
     editSettings = () => {
         if (this.selectedIds && this.selectedIds.length > 0) {
@@ -184,7 +182,7 @@ export default class Table extends Component {
         } else {
             toast.error('No employee selected');
         }
-    }
+    };
 
     generatePA = () => {
         if (this.selectedIds && this.selectedIds.length > 0) {
@@ -211,7 +209,7 @@ export default class Table extends Component {
         } else {
             toast.error('No employee selected');
         }
-    }
+    };
 
     onEditSettingStatus = () => {
         axios({
@@ -234,18 +232,18 @@ export default class Table extends Component {
                 toast.error(data.message);
             }
         }).catch(axiosError);
-    }
+    };
 
-    closeEditModal = () => this.setState({ showEditModal: false })
+    closeEditModal = () => this.setState({ showEditModal: false });
 
-    editSettingStatusConfirmation = setting => this.setState({ showConfirmationModal: true, selectedSettingToUpdateStatus: setting })
+    editSettingStatusConfirmation = setting => this.setState({ showConfirmationModal: true, selectedSettingToUpdateStatus: setting });
 
     onEditSuccess = () => {
         this.setState({ showEditModal: false });
         this.props.refreshData();
-    }
+    };
 
-    closeConfirmationModal = () => this.setState({ showConfirmationModal: false })
+    closeConfirmationModal = () => this.setState({ showConfirmationModal: false });
 
     render() {
         return (

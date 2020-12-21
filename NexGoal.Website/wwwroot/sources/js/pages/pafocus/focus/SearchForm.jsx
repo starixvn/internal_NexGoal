@@ -19,25 +19,25 @@ export default class SearchForm extends Component {
 
     handlePeriodChange = selectedOption => {
         this.props.onChange('period', selectedOption);
-    }
+    };
 
     handleGroupChange = selectedOptions => {
         this.props.onChange('groups', selectedOptions);
-    }
+    };
 
     handleEmployeeChange = selectedOption => {
         this.props.onChange('employee', selectedOption);
-    }
+    };
 
     handleExportToExcel = event => {
         event.preventDefault();
         this.props.onExportToExcel();
-    }
+    };
 
     handleSubmit = event => {
         event.preventDefault();
         this.props.onSubmit();
-    }
+    };
 
     render() {
         const { filter, periodOptions, groupOptions, memberOptions } = this.props;

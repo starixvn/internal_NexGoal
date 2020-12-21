@@ -32,7 +32,7 @@ export default class NotificationSetting extends Component {
         this.setState({
             notificationSettings: settings
         });
-    }
+    };
 
     saveSetting = () => {
         axios({
@@ -52,7 +52,7 @@ export default class NotificationSetting extends Component {
                 toast.error(result.message);
             }
         }).catch(axiosError);
-    }
+    };
 
     render() {
         return (

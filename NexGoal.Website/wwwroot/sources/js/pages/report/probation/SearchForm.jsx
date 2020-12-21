@@ -14,32 +14,32 @@ export default class SearchForm extends Component {
 
     handleGroupChange = selectedOption => {
         this.props.onFilterChange('groups', selectedOption);
-    }
+    };
 
     handleEmployeeChange = selectedOption => {
         this.props.onFilterChange('employees', selectedOption);
-    }
+    };
 
     handleFromDateChange = date => {
         this.props.onFilterChange('fromDate', date);
-    }
+    };
 
     handleToDateChange = date => {
         this.props.onFilterChange('toDate', date);
-    }
+    };
 
     handleSubmit = event => {
         event.preventDefault();
         this.props.onSubmit();
-    }
+    };
 
     handleEvaluatorResultChange = selectedOption => {
         this.props.onFilterChange('isQualifiedByEvaluator', selectedOption);
-    }
+    };
 
     handleReviewerResultChange = selectedOption => {
         this.props.onFilterChange('isQualified', selectedOption);
-    }
+    };
 
     render() {
         const filter = this.props.filter;

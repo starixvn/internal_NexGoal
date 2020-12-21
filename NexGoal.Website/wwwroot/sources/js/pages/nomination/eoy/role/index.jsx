@@ -71,7 +71,7 @@ export default class RoleManagement extends Component {
                 toast.error(result.message);
             }
         }).catch(axiosError);
-    }
+    };
 
     getRoleSetting = filter => {
         const groupIds = this.state.filter.groups.map(group => group.value).join(',');
@@ -87,17 +87,17 @@ export default class RoleManagement extends Component {
         }).then(response => {
             this.setState({ nominators: response.data });
         }).catch(axiosError);
-    }
+    };
 
     handleSubmit = () => {
         this.getRoleSetting(this.state.filter);
-    }
+    };
 
     handleFilterChange = (name, value) => {
         this.setState({
             filter: Object.assign({}, this.state.filter, { [name]: value })
         });
-    }
+    };
 
     render() {
         return (

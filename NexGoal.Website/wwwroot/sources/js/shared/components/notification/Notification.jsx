@@ -39,19 +39,19 @@ export default class Notification extends Component {
         if (totalHeight < 340) {
             this.setState({ notiBodyHeight: totalHeight });
         }
-    }
+    };
 
     handleClickSetting = () => {
         this.setState({
             isShowSettingModal: true
         });
-    }
+    };
 
     handleCancelSetting = () => {
         this.setState({
             isShowSettingModal: false
         });
-    }
+    };
 
     render() {
         const notifications = this.props.notifications;

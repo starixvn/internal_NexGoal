@@ -100,7 +100,7 @@ export default class Evaluation extends Component {
         }
 
         return null;
-    }
+    };
 
     render() {
         return (

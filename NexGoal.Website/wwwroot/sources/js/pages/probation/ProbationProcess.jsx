@@ -16,7 +16,7 @@ export default class ProbationProcess extends PureComponent {
         }
 
         return 'open';
-    }
+    };
 
     renderEvaluator = process => {
         return (
@@ -24,7 +24,7 @@ export default class ProbationProcess extends PureComponent {
                 <strong>{`${process.process}: ${process.evaluatorNickName}`}</strong>
             </td>
         );
-    }
+    };
 
     renderProcess = process => {
         const status = this.getStatusClass(process);
@@ -52,7 +52,7 @@ export default class ProbationProcess extends PureComponent {
                 }
             </td>
         );
-    }
+    };
 
     render() {
         return (

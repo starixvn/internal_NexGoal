@@ -45,11 +45,11 @@ export default class TextareaFullscreenEditor extends Component {
         this.setState(prevState => {
             return { isFullscreen: !prevState.isFullscreen };
         });
-    }
+    };
 
     handleOnChange = event => {
         this.props.onChange(event);
-    }
+    };
 
     render() {
         const isFullscreen = this.state.isFullscreen;

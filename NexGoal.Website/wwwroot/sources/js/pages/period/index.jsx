@@ -31,27 +31,27 @@ export default class EvaluationPeriod extends Component {
     updateFilterValue = (name, value) => {
         const filter = { [name]: value };
         this.setState({ filter: { ...this.state.filter, ...filter } });
-    }
+    };
 
-    handleStatusChange = value => this.updateFilterValue('isActive', value)
+    handleStatusChange = value => this.updateFilterValue('isActive', value);
 
     handleSubmit = event => {
         event.preventDefault();
         this.getPeriods();
-    }
+    };
 
     handleDeletePeriod = periodId => {
         let periods = this.state.periods.slice();
         periods = periods.filter(e => e.periodId !== periodId);
         this.setState({ periods: periods });
-    }
+    };
 
     handleUpdateStatus = (periodId, isActive) => {
         const periods = this.state.periods.slice();
         const period = periods.find(e => e.periodId === periodId);
         period.isActive = isActive;
         this.setState({ periods: periods });
-    }
+    };
 
     getPeriods = () => {
         axios.get(resolveClientUrl('Period/GetPeriods'), {
@@ -61,7 +61,7 @@ export default class EvaluationPeriod extends Component {
         }).then(response => {
             this.setState({ periods: response.data });
         }).catch(axiosError);
-    }
+    };
 
     render() {
         return (

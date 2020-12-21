@@ -17,7 +17,7 @@ export default class AddMember extends Component {
 
     initialObj = {
         members: []
-    }
+    };
 
     validateForm = values => {
         const errors = {};
@@ -27,7 +27,7 @@ export default class AddMember extends Component {
         }
 
         return errors;
-    }
+    };
 
     onSubmit = values => {
         axios({
@@ -49,7 +49,7 @@ export default class AddMember extends Component {
                 toast.error(data.message);
             }
         }).catch(axiosError);
-    }
+    };
 
     renderForm = ({
         values,
@@ -76,7 +76,7 @@ export default class AddMember extends Component {
                 </Modal.Footer>
             </Form>
         );
-    }
+    };
 
     render() {
         return (

@@ -24,7 +24,7 @@ export default class Feedback extends Component {
             content: '',
             enableSaveChange: false
         };
-    };
+    }
 
     componentWillMount = () => {
         const feedback = this.props.feedback;
@@ -41,13 +41,13 @@ export default class Feedback extends Component {
             reactions: reactions,
             curUserCode: curUserCode
         });
-    }
+    };
 
     componentDidMount = () => {
         if (this.props.feedback) {
             this.detectCollapseExpandComment();
         }
-    }
+    };
 
     handleLikeEvent = event => {
         event.preventDefault();
@@ -72,16 +72,14 @@ export default class Feedback extends Component {
             if (response.data.isSuccessful) {
                 if (isLiked) {
                     this.addNewReaction(feedbackId, curUserCode);
-                }
-                else {
+                } else {
                     this.removeReaction(feedbackId, curUserCode);
                 }
-            }
-            else {
+            } else {
                 this.setState({ numOfLikes: oldNumOfLikes, isLiked: !isLiked });
             }
         }).catch(axiosError);
-    }
+    };
 
     handleOpenLikeModalEvent = event => {
         event.preventDefault();
@@ -91,13 +89,13 @@ export default class Feedback extends Component {
                 showLikeModal: true
             });
         }
-    }
+    };
 
     handleCloseLikeModal = () => {
         this.setState({
             showLikeModal: false
         });
-    }
+    };
 
     handleEditFeedback = () => {
         this.setState({
@@ -105,7 +103,7 @@ export default class Feedback extends Component {
             enableSaveChange: false,
             newContent: this.state.content
         });
-    }
+    };
 
     handleCancelChange = () => {
         this.setState({
@@ -113,7 +111,7 @@ export default class Feedback extends Component {
             enableSaveChange: false,
             newContent: this.state.content
         });
-    }
+    };
 
     handleChangeFeedbackContent = event => {
         const newContent = event.target.value;
@@ -124,7 +122,7 @@ export default class Feedback extends Component {
             newContent: newContent,
             enableSaveChange: enableSaveChange
         });
-    }
+    };
 
     handleSaveChange = event => {
         event.preventDefault();
@@ -155,8 +153,7 @@ export default class Feedback extends Component {
                 });
                 toast.success(getResource('UpdatedSuccessfully'));
                 this.detectCollapseExpandComment();
-            }
-            else {
+            } else {
                 toast.error(response.data.message);
             }
         }).catch(axiosError);
@@ -166,7 +163,7 @@ export default class Feedback extends Component {
         this.setState({
             isExpanded: !this.state.isExpanded
         });
-    }
+    };
 
     detectCollapseExpandComment() {
         if (!this.element) {
@@ -179,8 +176,7 @@ export default class Feedback extends Component {
                 showCollapseExpandButton: true,
                 isExpanded: true
             });
-        }
-        else {
+        } else {
             this.setState({
                 showCollapseExpandButton: false,
                 isExpanded: false
@@ -229,7 +225,7 @@ export default class Feedback extends Component {
                 </FormGroup>
             </div>
         );
-    }
+    };
 
     addNewReaction = (feedbackId, creatorCode) => {
         axios.get(
@@ -247,7 +243,7 @@ export default class Feedback extends Component {
 
             this.setState({ reactions: reactions });
         }).catch(axiosError);
-    }
+    };
 
     removeReaction = (feedbackId, creatorCode) => {
         let reactions = this.props.feedback.reactions;
@@ -256,7 +252,7 @@ export default class Feedback extends Component {
             && reaction.creator.code !== creatorCode));
 
         this.setState({ reactions: reactions });
-    }
+    };
 
     render() {
         const { isLiked,

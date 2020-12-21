@@ -9,7 +9,7 @@ export default class Table extends Component {
         super(props);
     }
 
-    renderSetting = data => <Row key={data.pm.employeeId} data={data} onAddMember={this.props.onAddMember} onRemoveMember={this.props.onRemoveMember} />
+    renderSetting = data => <Row key={data.pm.employeeId} data={data} onAddMember={this.props.onAddMember} onRemoveMember={this.props.onRemoveMember} />;
 
     render() {
         const content = this.props.tableData.length > 0 ? this.props.tableData.map(this.renderSetting)

@@ -90,7 +90,7 @@ export default class PRTracking extends Component {
                 }
             });
         }
-    }
+    };
 
     getPRTracking = () => {
         const filter = this.state.filter;
@@ -127,7 +127,8 @@ export default class PRTracking extends Component {
                 period: response.data.period
             });
         }).catch(axiosError);
-    }
+    };
+    
     render() {
         return (
             <div className="row">

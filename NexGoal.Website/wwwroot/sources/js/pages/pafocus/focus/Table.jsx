@@ -25,7 +25,7 @@ export default class Table extends Component {
                 <span> I would always want him or her on my team (ability to work well with others).</span>
             </Tooltip>
         );
-    }
+    };
 
     getTooltipDeserveHighestReward = () => {
         return (
@@ -34,7 +34,7 @@ export default class Table extends Component {
                 <span> I would want to award this person the highest possible benefit (increase and bonus) which is available for her/his job grade.</span>
             </Tooltip>
         );
-    }
+    };
 
     render() {
         const period = this.props.period,

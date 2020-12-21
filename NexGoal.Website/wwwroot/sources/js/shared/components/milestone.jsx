@@ -36,7 +36,7 @@ export default class Milestone extends Component {
             prevDisabled: this.state.currentIndex === this.state.maxIndex
         });
         this.props.onChange(this.props.options[this.state.currentIndex].value);
-    }
+    };
 
     onClickNext = () => {
         if (!this.state.nextDisabled) {
@@ -44,7 +44,7 @@ export default class Milestone extends Component {
                 currentIndex: this.state.currentIndex - 1
             }, this.onClickComplete);
         }
-    }
+    };
 
     onClickPrev = () => {
         if (!this.state.prevDisabled) {
@@ -52,7 +52,7 @@ export default class Milestone extends Component {
                 currentIndex: this.state.currentIndex + 1
             }, this.onClickComplete);
         }
-    }
+    };
 
     render() {
         const options = this.props.options;

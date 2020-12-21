@@ -18,16 +18,16 @@ export default class SearchForm extends Component {
 
     handlePeriodChange = selectedOption => {
         this.props.onChange('period', selectedOption);
-    }
+    };
 
     handleGroupChange = selectedOptions => {
         this.props.onChange('groups', selectedOptions);
-    }
+    };
 
     handleSubmit = event => {
         event.preventDefault();
         this.props.onSubmit();
-    }
+    };
 
     render() {
         const { filter, periodOptions, groupOptions } = this.props;

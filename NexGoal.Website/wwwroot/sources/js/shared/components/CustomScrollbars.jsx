@@ -12,11 +12,11 @@ export default class CustomScrollbars extends Component {
 
     handleMouseEnter = () => {
         this.setState({ hover: true });
-    }
+    };
 
     handleMouseLeave = () => {
         this.setState({ hover: false });
-    }
+    };
 
     renderTrackVertical = ({ style, ...props }) => {
         const { hover } = this.state;
@@ -31,7 +31,7 @@ export default class CustomScrollbars extends Component {
                 }} {...props}
             />
         );
-    }
+    };
 
     renderTrackHorizontal = ({ style, ...props }) => {
         const { hover } = this.state;
@@ -46,7 +46,7 @@ export default class CustomScrollbars extends Component {
                 }} {...props}
             />
         );
-    }
+    };
 
     render() {
         return (

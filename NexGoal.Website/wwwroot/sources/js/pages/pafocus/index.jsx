@@ -27,17 +27,17 @@ export default class App extends Component {
         if (key === 2 && !this.state.isFirstLoad) {
             this.setState({ isFirstLoad: true });
         }
-    }
+    };
 
     handleShowModal = () => {
         this.setState({
             isShowModal: true
         });
-    }
+    };
 
     handleCloseModal = () => {
         this.setState({ isShowModal: false });
-    }
+    };
 
     render() {
         return (

@@ -74,7 +74,7 @@ class Settings extends Component {
         }).then(response => {
             axiosEditResponseWithFormik(setErrors, toast, response);
         }).catch(axiosError);
-    }
+    };
 
     renderForm = ({
         values,
@@ -91,7 +91,7 @@ class Settings extends Component {
                 onSubmit={handleSubmit}
             />
         );
-    }
+    };
 
     render() {
         return (

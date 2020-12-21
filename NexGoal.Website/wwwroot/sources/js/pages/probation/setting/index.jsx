@@ -51,7 +51,7 @@ export default class Setting extends Component {
                 probationers: response.data
             });
         }).catch(axiosError);
-    }
+    };
 
     onEditSetting = event => {
         const employeeId = parseInt(event.target.dataset.employeeid, 10);
@@ -60,14 +60,14 @@ export default class Setting extends Component {
             showEditSettingModal: true,
             selectedProbationer: prevState.probationers.find(x => x.employeeId === employeeId)
         }));
-    }
+    };
 
     handleCloseEditSettingModal = () => this.setState({ showEditSettingModal: false })
 
     handleEditSuccess = () => {
         this.setState({ showEditSettingModal: false });
         this.getProbationers();
-    }
+    };
 
     handleShowAddEmployeeModal = () => {
         axios.get(resolveClientUrl('Probation/GetProbationersNotInEvaluation')).then(response => {
@@ -83,14 +83,14 @@ export default class Setting extends Component {
                 }
             });
         }).catch(axiosError);
-    }
+    };
 
-    handleCloseAddEmployeeModal = () => this.setState({ addNewEmployee: { showModal: false } })
+    handleCloseAddEmployeeModal = () => this.setState({ addNewEmployee: { showModal: false } });
 
     handleAddEmployeeSuccess = () => {
         this.handleCloseAddEmployeeModal();
         this.getProbationers();
-    }
+    };
 
     render() {
         return (

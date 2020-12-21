@@ -21,7 +21,7 @@ export default class Edit extends Component {
         }
 
         return errors;
-    }
+    };
 
     onSubmit = (values, { setErrors }) => {
         const processes = values.processes.filter(p => p.processId > PerformanceProcess.ProjectManager && p.isSelected).map(p => {
@@ -48,7 +48,7 @@ export default class Edit extends Component {
                 this.props.onEditSuccess();
             });
         }).catch(axiosError);
-    }
+    };
 
     renderForm = ({
         values,
@@ -143,7 +143,7 @@ export default class Edit extends Component {
                 </Modal.Footer>
             </Form>
         );
-    }
+    };
 
     render() {
         const paRecordIds = this.props.settings.map(e => e.paRecordId);

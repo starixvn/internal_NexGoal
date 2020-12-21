@@ -66,7 +66,7 @@ export default class PerformanceRecord extends Component {
         this.setState({
             isExpanded: !this.state.isExpanded
         });
-    }
+    };
 
     detectCollapseExpandComment() {
         const height = this.element.offsetHeight;
@@ -76,7 +76,7 @@ export default class PerformanceRecord extends Component {
                 isExpanded: true
             });
         }
-    }
+    };
 
     handleEdit = () => this.props.onEdit(this.props.data.performanceRecordId);
 
@@ -93,12 +93,12 @@ export default class PerformanceRecord extends Component {
                 {i < this.props.data.employees.length - 1 && ', '}
             </Fragment>
         );
-    }
+    };
 
     isHideInteraction = (record, creator) => {
         const currentUserCode = document.getElementById('employeeInfo-code').value;
         return this.props.isHideInteraction || (creator.code === currentUserCode && record.typeId === 1 && record.roleId === 3);
-    }
+    };
 
     getHighlightedCssClass = () => this.props.isHighlighted ? 'highlighted' : '';
 
@@ -106,7 +106,7 @@ export default class PerformanceRecord extends Component {
         return this.props.pageType === PageType.MemberPage && employees && employees.some(x => x.employeeId === creator.employeeId) ?
             <a href={resolveClientUrl(`member/details/${creator.employeeId}`)} >{creator.nickName}</a>
             : creator.nickName;
-    }
+    };
 
     renderMemberForPerformanceCheckin = (employees, creator) => {
         return employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
@@ -117,7 +117,7 @@ export default class PerformanceRecord extends Component {
                     {this.props.pageType === PageType.MemberPage ? employees.map(this.renderMembers) : employees.map(e => e.nickName).join(', ')}
                 </span>
             </Fragment>;
-    }
+    };
 
     renderMemberForDraftPerformanceCheckin = (employees, creator) => {
         return employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
@@ -129,7 +129,7 @@ export default class PerformanceRecord extends Component {
                     {this.props.pageType === PageType.MemberPage ? employees.map(this.renderMembers) : employees.map(e => e.nickName).join(', ')}
                 </span>
             </Fragment>;
-    }
+    };
 
     renderMemberForNomination = (employees, creator) => {
         return employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
@@ -138,7 +138,7 @@ export default class PerformanceRecord extends Component {
                 <img src={employees[0].avatar} alt="avatar" className="avatar" />
                 <span className="role-member">{employees.map(employee => employee.nickName).join(', ')}</span>
             </Fragment>;
-    }
+    };
 
     renderPerformanceGrade = grade => grade ? `(${grade.name}) ${grade.description}` : getResource('N/A');
 
@@ -149,12 +149,12 @@ export default class PerformanceRecord extends Component {
         }
 
         return null;
-    }
+    };
 
     renderProject = projects => {
         return projects && projects.length > 0 ?
             projects.map(project => <span key={project.projectId} className="tag">{project.name}</span>) : getResource('N/A');
-    }
+    };
 
     renderPerformanceCheckin = () => {
         const record = this.props.data;
@@ -232,17 +232,17 @@ export default class PerformanceRecord extends Component {
                 }
             </div>
         );
-    }
+    };
 
     renderDraftPerformanceCheckin = () => {
         const record = this.props.data;
-        let { employees, creator } = record;
+        const { employees, creator } = record;
 
-        let commentWrapperClass = 'expanded';
         let expandCommentButtonClass = 'see-less';
+        let commentWrapperClass = 'expanded';
         if (this.state.isExpanded) {
-            commentWrapperClass = 'collapsed';
             expandCommentButtonClass = 'see-more';
+            commentWrapperClass = 'collapsed';
         }
 
         return (
@@ -287,11 +287,11 @@ export default class PerformanceRecord extends Component {
                 }
             </div>
         );
-    }
+    };
 
     renderNomination = () => {
         const record = this.props.data;
-        let { employees, creator } = record;
+        const { employees, creator } = record;
         const modifiedDate = record.modifiedDate ? calendar(record.modifiedDate) : '';
         const status = NominationStatuses.find(x => x.value === record.nominationStatusId);
         const endDateForNominator = moment(record.nominationPeriod.endDateForNominator);
@@ -351,7 +351,7 @@ export default class PerformanceRecord extends Component {
                 </div>
             </div >
         );
-    }
+    };
 
     renderPAProcessGrades = gradeDetails => {
         const renderGradeDetails = gradeDetails.filter(x => x.processId !== PerformanceProcess.ProjectManager);
@@ -383,7 +383,7 @@ export default class PerformanceRecord extends Component {
                 {x.process}: <div className="grade-detail">{grade}</div>
             </div>;
         });
-    }
+    };
 
     renderToeicBonus = toeicPolicy => {
         if (toeicPolicy !== null && toeicPolicy > 0) {
@@ -395,11 +395,11 @@ export default class PerformanceRecord extends Component {
         }
 
         return '';
-    }
+    };
 
     showPADetails = paRecordId => {
         this.props.showPaDetail(paRecordId);
-    }
+    };
 
     renderSystemPerformanceAppraisal = () => {
         const record = this.props.data;
@@ -435,7 +435,7 @@ export default class PerformanceRecord extends Component {
                 </div>
             </div>
         );
-    }
+    };
 
     getNominatedContent = (nominationPeriod, employees) => {
         switch (this.props.pageType) {
@@ -450,7 +450,7 @@ export default class PerformanceRecord extends Component {
                     Here is the list of your members who got into the Nominated round: <span className="bold">{employees}</span>
                 </Fragment>;
         }
-    }
+    };
 
     getShortlistedContent = (nominationPeriod, employees) => {
         switch (this.props.pageType) {
@@ -465,7 +465,7 @@ export default class PerformanceRecord extends Component {
                     Here is the list of your members who got into the Shortlisted round: <span className="bold">{employees}</span>
                 </Fragment>;
         }
-    }
+    };
 
     getWinnerContent = (nominationPeriod, employees) => {
         switch (this.props.pageType) {
@@ -480,7 +480,7 @@ export default class PerformanceRecord extends Component {
                     Here is the list of your members who are the Winner of this Award: <span className="bold">{employees}</span>
                 </Fragment>;
         }
-    }
+    };
 
     getNominationContent = nominationStatusId => {
         const record = this.props.data;
@@ -499,7 +499,7 @@ export default class PerformanceRecord extends Component {
 
             default: return '';
         }
-    }
+    };
 
     renderSystemNomination = () => {
         const record = this.props.data;
@@ -544,7 +544,7 @@ export default class PerformanceRecord extends Component {
                 }
             </div>
         );
-    }
+    };
 
     renderRecord = () => {
         const record = this.props.data;
@@ -554,8 +554,7 @@ export default class PerformanceRecord extends Component {
             case PerformanceRecordType.PerformanceAppraisal:
                 if (record.isDraft) {
                     return this.renderDraftPerformanceCheckin();
-                }
-                else {
+                } else {
                     return this.renderPerformanceCheckin();
                 }
 
@@ -570,7 +569,7 @@ export default class PerformanceRecord extends Component {
         }
 
         return <Fragment />;
-    }
+    };
 
     render() {
         return (

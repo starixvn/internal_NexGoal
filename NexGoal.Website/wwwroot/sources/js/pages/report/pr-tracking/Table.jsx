@@ -17,7 +17,7 @@ export default class Table extends Component {
         }
 
         return <Fragment />;
-    }
+    };
 
     renderEmployee = (employee, index) => (
         <tr key={employee.employeeId}>
@@ -43,7 +43,7 @@ export default class Table extends Component {
             </td>
 
         </tr>
-    )
+    );
 
     renderData = data => {
         return (
@@ -54,7 +54,7 @@ export default class Table extends Component {
                 {data.employees.map(this.renderEmployee)}
             </Fragment >
         );
-    }
+    };
 
     renderPRTrackingTableContent = () => {
         if (this.props.tableData) {
@@ -68,14 +68,13 @@ export default class Table extends Component {
                             <tr><td className="text-center" colSpan={7}>{noDataIndication()}</td></tr>
                         }
                     </Fragment>);
-            }
-            else {
+            } else {
                 return (<tr><td className="text-center" colSpan={7}>{noDataIndication()}</td></tr>);
             }
         } else {
             return <Fragment />;
         }
-    }
+    };
 
     renderPRTrackingStickyTable = () => {
        return (
@@ -97,7 +96,7 @@ export default class Table extends Component {
             </table>
 
         );
-    }
+    };
 
     render() {
         return (

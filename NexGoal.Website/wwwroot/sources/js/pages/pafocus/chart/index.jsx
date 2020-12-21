@@ -63,7 +63,7 @@ export default class Chart extends Component {
         this.setState({
             filter: Object.assign({}, this.state.filter, { [name]: value })
         });
-    }
+    };
 
     getPAFocus = filter => {
         const periodId = filter.period ? filter.period.value : null;
@@ -80,12 +80,12 @@ export default class Chart extends Component {
                 pafocuses: response.data.paFocuses
             });
         }).catch(axiosError);
-    }
+    };
 
     handleFilterSubmit = () => {
         const filter = this.state.filter;
         this.getPAFocus(filter);
-    }
+    };
 
     render() {
         return (

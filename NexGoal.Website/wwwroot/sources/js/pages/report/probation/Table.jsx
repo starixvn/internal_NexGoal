@@ -14,7 +14,7 @@ export default class Table extends Component {
 
     handleShowComment = event => {
         this.props.onShowComment(event.target.dataset.comment, parseInt(event.target.dataset.processid, 10));
-    }
+    };
 
     renderPerformanceResult = isQualified => {
         if (isQualified === null) {
@@ -26,7 +26,7 @@ export default class Table extends Component {
                 {isQualified ? 'Passed' : 'Failed'}
             </span>
         );
-    }
+    };
 
     renderRow = (probationer, index) => {
         let evaluatorResult = EmptyPlaceHolder;
@@ -86,7 +86,7 @@ export default class Table extends Component {
                 </td>
             </tr>
         );
-    }
+    };
 
     render() {
         if (this.props.tableData) {
