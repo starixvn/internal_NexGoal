@@ -203,13 +203,13 @@ export default class Table extends Component {
         return (
             <thead>
                 <tr>
-                    <th className="order" rowSpan="2">{getResource("SymbolCount")}</th>
-                    <th className="nick-name" rowSpan="2">{getResource("NickName")}</th>
-                    <th className="job-title" rowSpan="2">{getResource("JobTitle")}</th>
-                    <th className="toeic" rowSpan="2">{getResource("Toeic")}</th>
-                    <th colSpan="4">{getResource("PerformanceRecord")}</th>
+                    <th className="order" rowSpan="2">{getResource('SymbolCount')}</th>
+                    <th className="nick-name" rowSpan="2">{getResource('NickName')}</th>
+                    <th className="job-title" rowSpan="2">{getResource('JobTitle')}</th>
+                    <th className="toeic" rowSpan="2">{getResource('Toeic')}</th>
+                    <th colSpan="4">{getResource('PerformanceRecord')}</th>
                     <th width="10%" rowSpan="2">
-                        {getResource("PAFinal")}
+                        {getResource('PAFinal')}
                         <div className="pa-final">
                             <i className="icon-info" />
                             <div className="description">
@@ -223,14 +223,14 @@ export default class Table extends Component {
                             </div>
                         </div>
                     </th>
-                    <th className="revised" rowSpan="2">{getResource("Revised")}</th>
-                    <th className="action" rowSpan="2">{getResource("Action")}</th>
+                    <th className="revised" rowSpan="2">{getResource('Revised')}</th>
+                    <th className="action" rowSpan="2">{getResource('Action')}</th>
                 </tr>
                 <tr>
-                    <th className="self">{getResource("Self")}</th>
-                    <th className="pm">{getResource("ProjectManager")}</th>
-                    <th className="evaluator">{getResource("Evaluator")}</th>
-                    <th className="reviewer">{getResource("Reviewer")}</th>
+                    <th className="self">{getResource('Self')}</th>
+                    <th className="pm">{getResource('ProjectManager')}</th>
+                    <th className="evaluator">{getResource('Evaluator')}</th>
+                    <th className="reviewer">{getResource('Reviewer')}</th>
                 </tr>
             </thead>
         );
