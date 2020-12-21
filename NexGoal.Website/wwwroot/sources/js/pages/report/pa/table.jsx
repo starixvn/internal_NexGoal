@@ -199,6 +199,43 @@ export default class Table extends Component {
 
     renderGrade = process => process.grade ? process.grade : EmptyPlaceHolder;
 
+    renderHeaderPaTable = () => {
+        return (
+            <thead>
+                <tr>
+                    <th className="order" rowSpan="2">{getResource("SymbolCount")}</th>
+                    <th className="nick-name" rowSpan="2">{getResource("NickName")}</th>
+                    <th className="job-title" rowSpan="2">{getResource("JobTitle")}</th>
+                    <th className="toeic" rowSpan="2">{getResource("Toeic")}</th>
+                    <th colSpan="4">{getResource("PerformanceRecord")}</th>
+                    <th width="10%" rowSpan="2">
+                        {getResource("PAFinal")}
+                        <div className="pa-final">
+                            <i className="icon-info" />
+                            <div className="description">
+                                <i className="arrow" />
+                                <p>PA Final = Evaluator’s grade + Toeic Policy</p>
+                                <p>If the Evaluator's grade is N/A or Null (empty):</p>
+                                <ul>
+                                    <li>In Progress PA period: PA Final = N/A </li>
+                                    <li>Closed PA period: PA Final = U (Unsatisfactory)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </th>
+                    <th className="revised" rowSpan="2">{getResource("Revised")}</th>
+                    <th className="action" rowSpan="2">{getResource("Action")}</th>
+                </tr>
+                <tr>
+                    <th className="self">{getResource("Self")}</th>
+                    <th className="pm">{getResource("ProjectManager")}</th>
+                    <th className="evaluator">{getResource("Evaluator")}</th>
+                    <th className="reviewer">{getResource("Reviewer")}</th>
+                </tr>
+            </thead>
+        );
+    };
+
     render() {
         let paDataContent = '';
         if (this.props.periodRecords) {
@@ -210,73 +247,15 @@ export default class Table extends Component {
             <Fragment>
                 <StickyBlock threshold={236}>
                     <table className="table table-bordered pa-report-table" id="pa-report-sticky">
-                        <thead>
-                            <tr>
-                                <th className="order" rowSpan="2">{getResource('SymbolCount')}</th>
-                                <th className="nick-name" rowSpan="2">{getResource('NickName')}</th>
-                                <th className="job-title" rowSpan="2">{getResource('JobTitle')}</th>
-                                <th className="toeic" rowSpan="2">{getResource('Toeic')}</th>
-                                <th colSpan="4">{getResource('PerformanceRecord')}</th>
-                                <th width="10%" rowSpan="2">
-                                    {getResource('PAFinal')}
-                                    <div className="pa-final">
-                                        <i className="icon-info" />
-                                        <div className="description">
-                                            <i className="arrow" />
-                                            <p>PA Final = Evaluator’s grade + Toeic Policy</p>
-                                            <p>If the Evaluator's grade is N/A or Null (empty):</p>
-                                            <ul>
-                                                <li>In Progress PA period: PA Final = N/A </li>
-                                                <li>Closed PA period: PA Final = U (Unsatisfactory)</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th className="revised" rowSpan="2">{getResource('Revised')}</th>
-                                <th className="action" rowSpan="2">{getResource('Action')}</th>
-                            </tr>
-                            <tr>
-                                <th className="self">{getResource('Self')}</th>
-                                <th className="pm">{getResource('ProjectManager')}</th>
-                                <th className="evaluator">{getResource('Evaluator')}</th>
-                                <th className="reviewer">{getResource('Reviewer')}</th>
-                            </tr>
-                        </thead>
+                        {
+                            this.renderHeaderPaTable
+                        }
                     </table>
                 </StickyBlock>
                 <table id="pa-report-table" className="table table-bordered pa-report-table">
-                    <thead>
-                        <tr>
-                            <th className="order" rowSpan="2">{getResource('SymbolCount')}</th>
-                            <th className="nick-name" rowSpan="2">{getResource('NickName')}</th>
-                            <th rowSpan="2" className="job-title">{getResource('JobTitle')}</th>
-                            <th className="toeic" rowSpan="2">{getResource('Toeic')}</th>
-                            <th colSpan="4">{getResource('PerformanceRecord')}</th>
-                            <th width="10%" rowSpan="2">
-                                {getResource('PAFinal')}
-                                <div className="pa-final">
-                                    <i className="icon-info" />
-                                    <div className="description">
-                                        <i className="arrow" />
-                                        <p>PA Final = Evaluator’s grade + Toeic Policy</p>
-                                        <p>If the Evaluator's grade is N/A or Null (empty):</p>
-                                        <ul>
-                                            <li>In Progress PA period: PA Final = N/A </li>
-                                            <li>Closed PA period: PA Final = U (Unsatisfactory)</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </th>
-                            <th className="revised" rowSpan="2">{getResource('Revised')}</th>
-                            <th className="action" rowSpan="2">{getResource('Action')}</th>
-                        </tr>
-                        <tr>
-                            <th className="self">{getResource('Self')}</th>
-                            <th className="pm">{getResource('ProjectManager')}</th>
-                            <th className="evaluator">{getResource('Evaluator')}</th>
-                            <th className="reviewer">{getResource('Reviewer')}</th>
-                        </tr>
-                    </thead>
+                    {
+                        this.renderHeaderPaTable
+                    }
                     <tbody>
                         {
                             paDataContent

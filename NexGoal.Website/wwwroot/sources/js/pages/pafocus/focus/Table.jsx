@@ -36,6 +36,33 @@ export default class Table extends Component {
         );
     };
 
+    renderHeaderTableFocus = () => {
+        return (
+            <tr>
+                <th className="width-40">{getResource('SymbolCount')}</th>
+                <th className="width-90">{getResource('NickName')}</th>
+                <th className="width-200">{getResource('FullName')}</th>
+                <th className="width-300">{getResource('JobTitle')}</th>
+                <th className="width-200">
+                    Best Suited to Team Goals
+                            <OverlayTrigger placement="top" overlay={this.getTooltipBestSuitedToTeamGoals()}>
+                        <i className="fa fa-info-circle" />
+                    </OverlayTrigger>
+                </th>
+                <th className="width-200">
+                    Deserve Highest Reward (Increment And Bonus)
+                            <OverlayTrigger placement="top" overlay={this.getTooltipDeserveHighestReward()}>
+                        <i className="fa fa-info-circle" />
+                    </OverlayTrigger>
+                </th>
+                <th className="width-150">{getResource('ReadyForPromotion')}</th>
+                <th className="width-90">{getResource('PAFinal')}</th>
+                <th className="objective" colSpan="2">{getResource('AccomplishedCurrentObjectives')}</th>
+                <th className="objective" colSpan="2">{getResource('NextObjectives')}</th>
+            </tr>
+        );
+    };
+
     render() {
         const period = this.props.period,
             focusStartDate = period && period.focusStartDate ? moment(period.focusStartDate).format(DateFormat) : '',
@@ -47,28 +74,9 @@ export default class Table extends Component {
                 <StickyBlock threshold={236}>
                     <table className="table table-bordered table-striped pa-focus-table">
                         <thead>
-                            <tr>
-                                <th className="width-40">{getResource('SymbolCount')}</th>
-                                <th className="width-90">{getResource('NickName')}</th>
-                                <th className="width-200">{getResource('FullName')}</th>
-                                <th className="width-300">{getResource('JobTitle')}</th>
-                                <th className="width-200">
-                                    Best Suited to Team Goals
-                            <OverlayTrigger placement="top" overlay={this.getTooltipBestSuitedToTeamGoals()}>
-                                        <i className="fa fa-info-circle" />
-                                    </OverlayTrigger>
-                                </th>
-                                <th className="width-200">
-                                    Deserve Highest Reward (Increment And Bonus)
-                            <OverlayTrigger placement="top" overlay={this.getTooltipDeserveHighestReward()}>
-                                        <i className="fa fa-info-circle" />
-                                    </OverlayTrigger>
-                                </th>
-                                <th className="width-150">{getResource('ReadyForPromotion')}</th>
-                                <th className="width-90">{getResource('PAFinal')}</th>
-                                <th className="objective" colSpan="2">{getResource('AccomplishedCurrentObjectives')}</th>
-                                <th className="objective" colSpan="2">{getResource('NextObjectives')}</th>
-                            </tr>
+                            {
+                                this.renderHeaderTableFocus
+                            }
                         </thead>
                     </table>
                 </StickyBlock>
@@ -80,28 +88,9 @@ export default class Table extends Component {
                                 <td colSpan="12">Duration: {`${focusStartDate} - ${focusEndDate}`}</td>
                             </tr>
                         }
-                        <tr>
-                            <th className="width-40">{getResource('SymbolCount')}</th>
-                            <th className="width-90">{getResource('NickName')}</th>
-                            <th className="width-200">{getResource('FullName')}</th>
-                            <th className="width-300">{getResource('JobTitle')}</th>
-                            <th className="width-200">
-                                Best Suited to Team Goals
-                            <OverlayTrigger placement="top" overlay={this.getTooltipBestSuitedToTeamGoals()}>
-                                    <i className="fa fa-info-circle" />
-                                </OverlayTrigger>
-                            </th>
-                            <th className="width-200">
-                                Deserve Highest Reward (Increment And Bonus)
-                            <OverlayTrigger placement="top" overlay={this.getTooltipDeserveHighestReward()}>
-                                    <i className="fa fa-info-circle" />
-                                </OverlayTrigger>
-                            </th>
-                            <th className="width-150">{getResource('ReadyForPromotion')}</th>
-                            <th className="width-90">{getResource('PAFinal')}</th>
-                            <th className="objective" colSpan="2">{getResource('AccomplishedCurrentObjectives')}</th>
-                            <th className="objective" colSpan="2">{getResource('NextObjectives')}</th>
-                        </tr>
+                        {
+                            this.renderHeaderTableFocus
+                        }
                     </thead>
                     <tbody>
                         {
