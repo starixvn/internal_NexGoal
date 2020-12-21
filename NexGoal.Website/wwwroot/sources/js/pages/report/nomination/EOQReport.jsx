@@ -73,7 +73,7 @@ export default class EOQReport extends Component {
 
                 this.setState({ filter });
             }).catch(axiosError);
-    };
+    }
 
     getNominations = filter => {
         axios.get(resolveClientUrl('NominationReport/GetNominations'), {

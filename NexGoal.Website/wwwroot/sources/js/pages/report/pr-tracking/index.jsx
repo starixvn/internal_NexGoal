@@ -128,7 +128,6 @@ export default class PRTracking extends Component {
             });
         }).catch(axiosError);
     };
-    
     render() {
         return (
             <div className="row">

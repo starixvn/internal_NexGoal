@@ -155,7 +155,7 @@ export default class EditPAForm extends Component {
                 />
             </div >
         );
-    }
+    };
 
     handleOpenGradeInfo = () => this.setState({ showGradeInfo: true });
 

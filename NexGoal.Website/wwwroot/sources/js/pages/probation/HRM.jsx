@@ -34,7 +34,7 @@ export default class HRM extends PureComponent {
                 }
             </tr>
         );
-    }
+    };
 
     displayTime = value => {
         if (!value) {
@@ -46,7 +46,7 @@ export default class HRM extends PureComponent {
         const minutes = Math.round((value - hours) * 60).toString().padStart(2, '0');
 
         return `${hoursString !== '00' ? hoursString + 'h' : ''}${minutes}'`;
-    }
+    };
 
     render() {
         return (

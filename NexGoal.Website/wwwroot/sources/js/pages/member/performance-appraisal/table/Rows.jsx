@@ -146,7 +146,7 @@ class Rows extends Component {
         }
 
         return processes[0].grade ? processes[0].grade : EmptyPlaceHolder;
-    }
+    };
 
     renderNickName = record => {
         let displayNickname = <span>{record.employee.nickName}</span>;

@@ -84,7 +84,7 @@ export default class EditProcessSetting extends Component {
         }).catch(axiosError);
     };
 
-    renderOptions = option => <option key={option} value={option}>{option}</option>
+    renderOptions = option => <option key={option} value={option}>{option}</option>;
 
     render() {
         return (

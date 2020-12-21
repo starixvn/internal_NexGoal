@@ -84,7 +84,7 @@ export default class MyProbation extends Component {
                 )
             })
         )
-    })
+    });
 
     evaluationDetailTitle = <Fragment>
         Quality of Work

@@ -77,12 +77,12 @@ export default class Detail extends Component {
 
     render() {
         if (this.state.probationer) {
-            const probationer = this.state.probationer;
+            const probationerDetail = this.state.probationer;
             return (
                 <div className="row">
                     <div className="main-content">
                         <NexPanel title="PERFORMANCE REVIEW: SKILLS AND ABILITIE">
-                            <Description employeeInfo={probationer} />
+                            <Description employeeInfo={probationerDetail} />
                         </NexPanel>
 
                         <NexPanel title="HRM System" enable={false}>
@@ -97,42 +97,42 @@ export default class Detail extends Component {
                                     <tr>
                                         <td className="text-center text-title">{getResource('Self')}</td>
                                         <td className="text-center text-title">{getResource('Score')}</td>
-                                        <td className="text-center text-score">{probationer.selfScore && `${probationer.selfScore} pts`}</td>
+                                        <td className="text-center text-score">{probationerDetail.selfScore && `${probationerDetail.selfScore} pts`}</td>
                                         <td className="comment-cell comment-text">
-                                            <p>{probationer.selfComment}</p>
+                                            <p>{probationerDetail.selfComment}</p>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td className="text-center text-title" rowSpan={probationer.canViewEvaluatorResult ? 2 : 1}>
+                                        <td className="text-center text-title" rowSpan={probationerDetail.canViewEvaluatorResult ? 2 : 1}>
                                             {getResource('Evaluator')}
-                                            <div>({probationer.evaluatorNickName})</div>
+                                            <div>({probationerDetail.evaluatorNickName})</div>
                                         </td>
                                         <td className="text-center text-title">{getResource('Score')}</td>
-                                        <td className="text-center text-score">{probationer.evaluatorScore && `${probationer.evaluatorScore} pts`}</td>
-                                        <td className="comment-cell comment-text" rowSpan={probationer.canViewEvaluatorResult ? 2 : 1}>
-                                            <p>{probationer.evaluatorComment}</p>
+                                        <td className="text-center text-score">{probationerDetail.evaluatorScore && `${probationerDetail.evaluatorScore} pts`}</td>
+                                        <td className="comment-cell comment-text" rowSpan={probationerDetail.canViewEvaluatorResult ? 2 : 1}>
+                                            <p>{probationerDetail.evaluatorComment}</p>
                                         </td>
                                     </tr>
                                     {
-                                        probationer.canViewEvaluatorResult &&
+                                        probationerDetail.canViewEvaluatorResult &&
                                         <tr>
                                             <td className="text-center text-title">{getResource('Result')}</td>
                                             <td className="text-center text-score">
-                                                {this.renderPerformanceResult(probationer.isQualifiedByEvaluator)}
+                                                {this.renderPerformanceResult(probationerDetail.isQualifiedByEvaluator)}
                                             </td>
                                         </tr>
                                     }
                                     <tr>
                                         <td className="text-center text-title">
                                             {getResource('Reviewer')}
-                                            <div>({probationer.reviewerNickName})</div>
+                                            <div>({probationerDetail.reviewerNickName})</div>
                                         </td>
                                         <td className="text-center text-title">{getResource('FinalResult')}</td>
                                         <td className="text-center text-score">
-                                            {this.renderPerformanceResult(probationer.isQualified)}
+                                            {this.renderPerformanceResult(probationerDetail.isQualified)}
                                         </td>
                                         <td className="comment-cell comment-text">
-                                            <p>{probationer.reviewerComment}</p>
+                                            <p>{probationerDetail.reviewerComment}</p>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -152,14 +152,14 @@ export default class Detail extends Component {
                                         <td className="text-center"><strong>{getResource('Score')}</strong></td>
                                         <td className="text-center">
                                             {
-                                                probationer.selfScore &&
-                                                <span className="score-badge"><span>{probationer.selfScore}</span>/100 pts</span>
+                                                probationerDetail.selfScore &&
+                                                <span className="score-badge"><span>{probationerDetail.selfScore}</span>/100 pts</span>
                                             }
                                         </td>
                                         <td className="text-center">
                                             {
-                                                probationer.evaluatorScore &&
-                                                <span className="score-badge"><span>{probationer.evaluatorScore}</span>/100 pts</span>
+                                                probationerDetail.evaluatorScore &&
+                                                <span className="score-badge"><span>{probationerDetail.evaluatorScore}</span>/100 pts</span>
                                             }
                                         </td>
                                     </tr>

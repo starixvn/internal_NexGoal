@@ -79,7 +79,7 @@ export default class ProbationReport extends Component {
 
                 this.setState({ probationFilter, groupOptions, employeeSelections }, this.getProbationers);
             }).catch(axiosError);
-    };
+    }
 
     getProbationers = () => {
         const filter = this.state.filter;

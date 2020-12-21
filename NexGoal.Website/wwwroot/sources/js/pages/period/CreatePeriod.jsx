@@ -103,9 +103,9 @@ export default class CreatePeriod extends Component {
                             </Col>
                             <Col className="control-content">
                                 <DatePicker name="startDate" autoComplete="off"
+                                    onChange={value => setFieldValue('startDate', value)} onChangeRaw={onChangeRaw}
                                     dateFormat={DateFormat} selected={values.startDate}
                                     className={`form-control ${!isValidStartDate && InputErrorCssClass}`}
-                                    onChange={value => setFieldValue('startDate', value)} onChangeRaw={onChangeRaw}
                                 />
                             </Col>
                         </FormGroup>

@@ -84,7 +84,7 @@ export default class MemberWorkload extends Component {
 
     handleGroupChange = selectedOptions => this.setState({
         selectedGroups: selectedOptions
-    })
+    });
 
     chartOptions = {
         animation: {
@@ -143,14 +143,17 @@ export default class MemberWorkload extends Component {
                 const position = this._chart.canvas.getBoundingClientRect();
 
                 // Display, position, and set styles for font
+                const styleLeft = position.left + window.pageXOffset + 100;
+                const styleTop = position.top + window.pageYOffset + tooltipModel.caretY;
+
                 tooltipEl.style.opacity = 1;
                 tooltipEl.style.position = 'absolute';
-                tooltipEl.style.left = position.left + window.pageXOffset + 100 + 'px';
-                tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY + 'px';
+                tooltipEl.style.left =  `${styleLeft}px`;
+                tooltipEl.style.top =  `${styleTop}px`;
                 tooltipEl.style.fontFamily = tooltipModel._bodyFontFamily;
                 tooltipEl.style.fontSize = tooltipModel.bodyFontSize + 'px';
                 tooltipEl.style.fontStyle = tooltipModel._bodyFontStyle;
-                tooltipEl.style.padding = tooltipModel.yPadding + 'px ' + tooltipModel.xPadding + 'px';
+                tooltipEl.style.padding = `${tooltipModel.yPadding}px ${tooltipModel.xPadding}px`;
                 tooltipEl.style.pointerEvents = 'none';
             }
         },
@@ -227,7 +230,7 @@ export default class MemberWorkload extends Component {
     };
 
     render() {
-        const periodOptions = this.props.periods.map((period) => {
+        const periodOptions = this.props.periods.map(period => {
           return { name: period.name, value: period.periodId };
         });
 

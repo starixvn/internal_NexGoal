@@ -26,7 +26,7 @@ export default class Row extends Component {
         }
 
         return false;
-    };
+    }
 
     getCssClass = () => {
         const pafocus = this.props.data;
@@ -69,8 +69,8 @@ export default class Row extends Component {
                             <option />
                         }
                         {
-                            this.props.focusEvaluationLevelOptions.map(option => 
-                                    <option key={`contribution${option.value}`} value={option.value}>{option.name}</option>
+                            this.props.focusEvaluationLevelOptions.map(option =>
+                                <option key={`contribution${option.value}`} value={option.value}>{option.name}</option>
                             )
                         }
                     </select>
@@ -99,7 +99,7 @@ export default class Row extends Component {
                         }
                         {
                             this.props.focusEvaluationLevelOptions.map(option =>
-                                    <option key={`bonusGiven${option.value}`} value={option.value}>{option.name}</option>
+                                <option key={`bonusGiven${option.value}`} value={option.value}>{option.name}</option>
                             )
                         }
                     </select>

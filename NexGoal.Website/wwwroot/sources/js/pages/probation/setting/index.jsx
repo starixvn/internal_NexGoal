@@ -62,7 +62,7 @@ export default class Setting extends Component {
         }));
     };
 
-    handleCloseEditSettingModal = () => this.setState({ showEditSettingModal: false })
+    handleCloseEditSettingModal = () => this.setState({ showEditSettingModal: false });
 
     handleEditSuccess = () => {
         this.setState({ showEditSettingModal: false });

@@ -206,7 +206,7 @@ export default class Details extends Component {
         this.setState({
             isShowPADetail: false
         });
-    }
+    };
 
     renderPerformanceRecord = performanceRecord => {
         return (
@@ -334,7 +334,7 @@ export default class Details extends Component {
 
     handleClickDeletePerformanceRecord = performanceRecordId => {
         handleClickDeletePerformanceRecord(this, performanceRecordId);
-    }
+    };
 
     handleEditDraftPerformanceRecordSuccess = performanceRecordId => {
         axios(resolveClientUrl(`Performance/GetDraftById/${performanceRecordId}`))

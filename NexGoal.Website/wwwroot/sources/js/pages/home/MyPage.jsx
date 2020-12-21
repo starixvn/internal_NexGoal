@@ -208,11 +208,11 @@ export default class MyPage extends Component {
 
     handleClickEditDraftPerformanceRecord = performanceRecordId => {
         handleClickEditDraftPerformanceRecord(this, performanceRecordId);
-    }
+    };
 
     handleCancelEditPerformanceRecord = () => {
         handleCancelEditPerformanceRecord(this);
-    }
+    };
 
     handleMyPageEditPerformanceRecordSuccess = performanceRecordIds => {
         axios(resolveClientUrl(`Performance/GetByIds/${performanceRecordIds}`))
@@ -245,7 +245,7 @@ export default class MyPage extends Component {
 
                 this.handleCancelEditPerformanceRecord();
             }).catch(axiosError);
-    }
+    };
 
     handleMyPageEditDraftPerformanceRecordSuccess = performanceRecordId => {
         axios(resolveClientUrl(`Performance/GetDraftById/${performanceRecordId}`))
@@ -266,7 +266,7 @@ export default class MyPage extends Component {
 
                 this.handleCancelEditPerformanceRecord();
             }).catch(axiosError);
-    }
+    };
 
     handleClickDeletePerformanceRecord = performanceRecordId => {
         handleClickDeletePerformanceRecord(this, performanceRecordId);

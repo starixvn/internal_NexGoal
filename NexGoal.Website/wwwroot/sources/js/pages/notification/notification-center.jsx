@@ -103,7 +103,7 @@ export default class NotificationCenter extends Component {
             notiTrigger.addEventListener('click', () => {
                 const notificationId = parseInt(notiTrigger.getAttribute('notificationId'), 10);
                 if (!notificationId) {
-                    this.markAsReadSuccess();
+                    this.markAsReadSuccessCenter();
                 } else {
                     this.handleChangeStatusSuccess(notificationId);
                 }
@@ -130,21 +130,21 @@ export default class NotificationCenter extends Component {
         }
     };
 
-    handleRedirectToAction = notificationId => {
-        const notifications = this.state.notifications.slice();
-        const notiIndex = notifications.findIndex(noti => noti.notificationId === notificationId);
-        if (notiIndex !== -1) {
-            const { actionTypeId, recordId } = notifications[notiIndex];
+    handleRedirectToActionCenter = notificationId => {
+        const notificationsCenter = this.state.notifications.slice();
+        const notiIndexCenter = notificationsCenter.findIndex(noti => noti.notificationId === notificationId);
+        if (notiIndexCenter !== -1) {
+            const { actionTypeId, recordId } = notificationsCenter[notiIndexCenter];
 
-            const url = getUrlByActionTypeId(actionTypeId, recordId, NotificationActionType);
+            const urlCenter = getUrlByActionTypeId(actionTypeId, recordId, NotificationActionType);
 
-            if (url) {
+            if (urlCenter) {
                 window.location = url;
             }
         }
     };
 
-    markAsReadSuccess = () => {
+    markAsReadSuccessCenter = () => {
         const notifications = this.state.notifications.slice();
         for (let i = 0; i < notifications.length; i++) {
             notifications[i].statusId = NotificationStatus.Read;
@@ -164,7 +164,7 @@ export default class NotificationCenter extends Component {
                 .then(response => {
                     const data = response.data;
                     if (data.isSuccessful) {
-                        this.markAsReadSuccess();
+                        this.markAsReadSuccessCenter();
                     } else {
                         toast.error(data.message);
                     }
@@ -197,7 +197,7 @@ export default class NotificationCenter extends Component {
                 const data = response.data;
                 if (data.isSuccessful) {
                     if (isRedirect) {
-                        this.handleRedirectToAction(notificationId);
+                        this.handleRedirectToActionCenter(notificationId);
                     } else {
                         this.handleChangeStatusSuccess(notificationId);
                     }
@@ -206,7 +206,7 @@ export default class NotificationCenter extends Component {
                 }
             }).catch(axiosError);
         } else if (isRedirect) {
-            this.handleRedirectToAction(notificationId);
+            this.handleRedirectToActionCenter(notificationId);
         }
     };
 

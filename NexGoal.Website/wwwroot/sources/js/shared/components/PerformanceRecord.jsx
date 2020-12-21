@@ -76,7 +76,7 @@ export default class PerformanceRecord extends Component {
                 isExpanded: true
             });
         }
-    };
+    }
 
     handleEdit = () => this.props.onEdit(this.props.data.performanceRecordId);
 
@@ -371,7 +371,7 @@ export default class PerformanceRecord extends Component {
         }
 
         return renderGradeDetails.map(x => {
-            let grade = EmptyPlaceHolder;
+            let grade = '';
 
             if (x.processId === PerformanceProcess.ProjectManager) {
                 grade = x.grade;

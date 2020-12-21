@@ -157,7 +157,7 @@ export default class Feedback extends Component {
                 toast.error(response.data.message);
             }
         }).catch(axiosError);
-    }
+    };
 
     collapseExpandComment = () => {
         this.setState({

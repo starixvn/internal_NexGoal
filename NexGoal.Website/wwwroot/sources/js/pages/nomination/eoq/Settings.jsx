@@ -93,7 +93,7 @@ class Settings extends Component {
                 onSubmit={handleSubmit}
             />
         );
-    }
+    };
 
     render() {
         return (

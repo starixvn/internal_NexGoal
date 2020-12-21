@@ -298,7 +298,7 @@ export default class App extends Component {
 
                 this.handleCancelEditMemberPerformanceRecord();
             }).catch(axiosError);
-    }
+    };
 
     handleClickDeletePerformanceRecord = performanceRecordId => {
         handleClickDeletePerformanceRecord(this, performanceRecordId);

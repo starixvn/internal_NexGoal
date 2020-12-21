@@ -45,7 +45,7 @@ export default class RoleManagement extends Component {
 
                 this.getRoleSetting(filter);
             }).catch(axiosError);
-    };
+    }
 
     getRoleSetting = filter => {
         const groupIds = this.state.filter.groups.map(group => group.value).join(',');

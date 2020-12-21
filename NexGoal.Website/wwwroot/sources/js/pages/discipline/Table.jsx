@@ -17,11 +17,11 @@ const { SearchBar } = Search;
 export default class Table extends Component {
     shouldComponentUpdate(nextProps) {
         return !isEqual(this.props, nextProps);
-    };
+    }
 
     handleEdit = (event, discipline) => {
         this.props.onEdit(discipline);
-    }
+    };
 
     handleEditStatus = (event, discipline) => {
         const isActive = event.target.checked;

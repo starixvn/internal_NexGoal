@@ -111,8 +111,12 @@ export default class Table extends Component {
             headerStyle: { width: '80px' },
             isDummyField: true,
             formatter: (cell, row) => {
-                    <a className="fa fa-pencil-square-o" title="Edit" onClick={() => this.editSetting(row.paRecordId)} />
-                }
+                return (
+                    <div className="action">
+                        <a className="fa fa-pencil-square-o" title="Edit" onClick={() => this.editSetting(row.paRecordId)} />
+                    </div>
+                );
+            }
         }];
 
     onEmployeeChange = employee => {
