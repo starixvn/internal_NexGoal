@@ -54,7 +54,7 @@ export default class NotificationBell extends PureComponent {
                 }
             });
         }).catch(axiosError);
-    }
+    };
 
     triggerNotificationCenter = notificationId => {
         const notiCenterTrigger = document.getElementById('trigger-notification-center');
@@ -62,7 +62,7 @@ export default class NotificationBell extends PureComponent {
             notiCenterTrigger.setAttribute('notificationId', notificationId);
             notiCenterTrigger.click();
         }
-    }
+    };
 
     addEventListener = () => {
         const notiTrigger = document.getElementById('trigger-notification-bell');
@@ -76,14 +76,14 @@ export default class NotificationBell extends PureComponent {
                 }
             }, false);
         }
-    }
+    };
 
     removeEventListener = () => {
         const notiTrigger = document.getElementById('trigger-notification-bell');
         if (notiTrigger) {
             notiTrigger.removeEventListener('click');
         }
-    }
+    };
 
     handleRedirectToAction = notificationId => {
         const notifications = this.state.notifications.slice();
@@ -96,7 +96,7 @@ export default class NotificationBell extends PureComponent {
                 window.location = url;
             }
         }
-    }
+    };
 
     markAsReadSuccess = () => {
         const notifications = this.state.notifications.slice();
@@ -112,7 +112,7 @@ export default class NotificationBell extends PureComponent {
         });
 
         this.triggerNotificationCenter();
-    }
+    };
 
     handleClickOutside = event => {
         const notiSettings = document.getElementById('notification-settings');
@@ -120,18 +120,17 @@ export default class NotificationBell extends PureComponent {
             && (notiSettings === null || !notiSettings.contains(event.target))) {
             this.onHideNoti();
         }
-    }
+    };
 
     handleClickOnBell = () => {
         if (this.state.isShowNoti) {
             this.onHideNoti();
-        }
-        else {
+        } else {
             this.getNotifications(() => {
                 this.setState({ isShowNoti: !this.state.isShowNoti });
             });
         }
-    }
+    };
 
     onHideNoti = () => {
         this.setState({
@@ -140,7 +139,7 @@ export default class NotificationBell extends PureComponent {
             pageIndex: 0,
             hasMore: true
         });
-    }
+    };
 
     handleLoadMoreNotification = () => {
         if (this.state.hasMore) {
@@ -148,7 +147,7 @@ export default class NotificationBell extends PureComponent {
                 pageIndex: this.state.pageIndex + 1
             }, () => this.getNotifications());
         }
-    }
+    };
 
     handleChangeStatusSuccess = (notificationId, isTriggerNotiCenter) => {
         const notifications = this.state.notifications.slice();
@@ -168,7 +167,7 @@ export default class NotificationBell extends PureComponent {
         this.setState({
             unreadNoti: this.state.unreadNoti - 1
         });
-    }
+    };
 
     handleChangeStatus = (notificationId, statusId, isRedirect) => {
         if (statusId === NotificationStatus.Unread) {
@@ -191,7 +190,7 @@ export default class NotificationBell extends PureComponent {
         } else if (isRedirect) {
             this.handleRedirectToAction(notificationId);
         }
-    }
+    };
 
     handleMarkAsRead = () => {
         if (this.state.unreadNoti > 0) {
@@ -205,7 +204,7 @@ export default class NotificationBell extends PureComponent {
                     }
                 }).catch(axiosError);
         }
-    }
+    };
 
     render() {
         const unreadNoti = this.state.unreadNoti;

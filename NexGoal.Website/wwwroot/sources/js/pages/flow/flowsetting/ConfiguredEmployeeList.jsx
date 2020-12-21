@@ -8,7 +8,7 @@ export default class ConfiguredEmployeeList extends Component {
             >
                 {employee.nickName} ({employee.fullName})
             </div>
-        )
+        );
 
     render() {
         return (

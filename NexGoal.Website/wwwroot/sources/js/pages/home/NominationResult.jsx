@@ -39,7 +39,7 @@ export default class NominationResult extends Component {
         });
 
         return nominationReults;
-    }
+    };
 
     render() {
         const nominations = this.groupNominationByStatusId(this.props.nominations);

@@ -134,7 +134,7 @@ export default class MyPage extends Component {
                 this.createPerformanceCheckinWrapperRef.current.handleOpenForm();
             }
         }
-    }
+    };
 
     handleMyPageTimelineOnChange = (pageIndex, pageSize) => {
         const size = pageSize ? pageSize : calculateTimelineNode();
@@ -182,7 +182,7 @@ export default class MyPage extends Component {
                     hasMore: displayedPerformanceRecords.length < performanceRecordData.length
                 });
             }).catch(axiosError);
-    }
+    };
 
     handleMyPageCreateDraftPerformanceRecordSuccess = performanceRecordId => {
         axios(resolveClientUrl(`Performance/GetDraftById/${performanceRecordId}`))
@@ -200,11 +200,11 @@ export default class MyPage extends Component {
                     hasMore: displayedPerformanceRecords.length < performanceRecordData.length
                 });
             }).catch(axiosError);
-    }
+    };
 
     handleClickEditPerformanceRecord = performanceRecordId => {
         handleClickEditPerformanceRecord(this, performanceRecordId);
-    }
+    };
 
     handleClickEditDraftPerformanceRecord = performanceRecordId => {
         handleClickEditDraftPerformanceRecord(this, performanceRecordId);
@@ -270,7 +270,7 @@ export default class MyPage extends Component {
 
     handleClickDeletePerformanceRecord = performanceRecordId => {
         handleClickDeletePerformanceRecord(this, performanceRecordId);
-    }
+    };
 
     handleMyPageDeletePerformanceRecord = () => {
         const performanceRecordId = this.state.deletePerformanceRecord.performanceRecordId;
@@ -308,15 +308,15 @@ export default class MyPage extends Component {
                 toast.error(data.message);
             }
         }).catch(axiosError);
-    }
+    };
 
     handleCancelDeletePerformanceRecord = () => {
         handleCancelDeletePerformanceRecord(this);
-    }
+    };
 
     loadMorePerformanceRecord = (page, callback) => {
         loadMorePerformanceRecord(this, page, callback);
-    }
+    };
 
     handleMyPageClickViewPADetail = paRecordId => {
         axios(resolveClientUrl(`PA/GetById/${paRecordId}`)).then(res => {
@@ -342,13 +342,13 @@ export default class MyPage extends Component {
                 });
             }
         }).catch(axiosError);
-    }
+    };
 
     handleMyPageClosePADetailModel = () => {
         this.setState({
             isShowPADetail: false
         });
-    }
+    };
 
     renderMyPagePerformanceRecord = performanceRecord => {
         return (
@@ -362,7 +362,7 @@ export default class MyPage extends Component {
                 showPaDetail={this.handleMyPageClickViewPADetail}
             />
         );
-    }
+    };
 
     handleClickTimelineNode = performanceRecordId => {
         if (!this.state.displayedPerformanceRecords.some(r => r.performanceRecordId === performanceRecordId)) {
@@ -386,11 +386,11 @@ export default class MyPage extends Component {
                     document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' });
                 });
         }
-    }
+    };
 
-    handleCloseAnnouncementModal = () => this.setState({ showAnnouncementModal: false })
+    handleCloseAnnouncementModal = () => this.setState({ showAnnouncementModal: false });
 
-    handleOpenAnnouncementModal = () => this.setState({ showAnnouncementModal: true })
+    handleOpenAnnouncementModal = () => this.setState({ showAnnouncementModal: true });
 
     render() {
         const performanceRecords = this.state.displayedPerformanceRecords;

@@ -35,7 +35,7 @@ export default class SearchMember extends Component {
                     hasMember: this.members.length > 0
                 });
             }).catch(axiosError);
-    }
+    };
 
     handleClickOutside = event => {
         if (this.wrapperRef && !this.wrapperRef.contains(event.target) && this.state.showSearchbox && !this.inputRef.value) {
@@ -44,7 +44,7 @@ export default class SearchMember extends Component {
                 memberOptions: []
             });
         }
-    }
+    };
 
     handleChange = event => {
         const value = event.target.value.toLowerCase();
@@ -63,7 +63,7 @@ export default class SearchMember extends Component {
         } else {
             this.setState({ memberOptions: [] });
         }
-    }
+    };
 
     handleClick = () => {
         this.inputRef.focus();
@@ -77,14 +77,14 @@ export default class SearchMember extends Component {
                 showSearchbox: false
             });
         }
-    }
+    };
 
     handleSelect = event => {
         const memberId = event.target.attributes['memberid'].value;
         if (memberId) {
             window.location = resolveClientUrl(`member/details/${memberId}`);
         }
-    }
+    };
 
     render() {
         const memberOptions = this.state.memberOptions;

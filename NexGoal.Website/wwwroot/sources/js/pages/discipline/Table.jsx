@@ -17,7 +17,7 @@ const { SearchBar } = Search;
 export default class Table extends Component {
     shouldComponentUpdate(nextProps) {
         return !isEqual(this.props, nextProps);
-    }
+    };
 
     handleEdit = (event, discipline) => {
         this.props.onEdit(discipline);
@@ -45,7 +45,7 @@ export default class Table extends Component {
                 toast.error(data.message);
             }
         }).catch(axiosError);
-    }
+    };
 
     render() {
         const isHost = this.props.isHost;

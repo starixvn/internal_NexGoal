@@ -38,21 +38,21 @@ class FlowList extends Component {
 
                 break;
         }
-    }
+    };
 
     getGroupFlowSetting = () => {
         axios.get(resolveClientUrl('GroupFlowSetting/GetGroupFlowSetting'))
             .then(response => {
                 this.setState({ groupFlowSettings: response.data });
             }).catch(axiosError);
-    }
+    };
 
     getEmployeeFlowSetting = () => {
         axios.get(resolveClientUrl('EmployeeFlowSetting/GetEmployeeFlowSetting'))
             .then(response => {
                 this.setState({ employeeFlowSettings: response.data });
             }).catch(axiosError);
-    }
+    };
 
     render() {
         return (

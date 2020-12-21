@@ -73,11 +73,11 @@ export default class EmployeeManagement extends Component {
         this.setState({
             filter: Object.assign({}, this.state.filter, { [name]: value })
         });
-    }
+    };
 
     handleFilterSubmit = () => {
         this.getEmployees(this.state.filter);
-    }
+    };
 
     getEmployees = filter => {
         const roleIds = filter.roles.map(role => role.value).join(',');
@@ -92,7 +92,7 @@ export default class EmployeeManagement extends Component {
         }).then(response => {
             this.setState({ data: response.data });
         }).catch(axiosError);
-    }
+    };
 
     getEmployeeById = (id, callback) => {
         axios.get(resolveClientUrl(`employee/GetEmployeeById?employeeId=${id}`))
@@ -101,20 +101,20 @@ export default class EmployeeManagement extends Component {
                     callback(response.data);
                 }
             }).catch(axiosError);
-    }
+    };
 
     editEmployee = employee => {
         this.employeeSelected = employee;
         this.showModal();
-    }
+    };
 
     closeModal = () => {
         this.setState({ showModal: false });
-    }
+    };
 
     showModal = () => {
         this.setState({ showModal: true });
-    }
+    };
 
     handleEditEmployeeRolesSuccess = data => {
         if (data.isSuccessful) {
@@ -130,7 +130,7 @@ export default class EmployeeManagement extends Component {
         } else {
             toast.error(data.message);
         }
-    }
+    };
 
     render() {
         const columns = [

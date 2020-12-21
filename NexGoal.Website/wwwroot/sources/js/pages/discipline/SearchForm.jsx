@@ -10,35 +10,35 @@ import getResource from '../../resourceHelper';
 class SearchForm extends Component {
     onFromDateChange = date => {
         this.props.onChange('from', date);
-    }
+    };
 
     onToDateChange = date => {
         this.props.onChange('to', date);
-    }
+    };
 
     onChangeRaw = event => {
         const date = moment(event.target.value);
         if (date.isValid()) {
             this.props.onChange(event.target.name, date);
         }
-    }
+    };
 
     handleStatusChange = selectedOption => {
         this.props.onChange('isActive', selectedOption);
-    }
+    };
 
     handleGroupChange = selectedOptions => {
         this.props.onChange('group', selectedOptions);
-    }
+    };
 
     handleEmployeeChange = selectedOption => {
         this.props.onChange('employee', selectedOption);
-    }
+    };
 
     handleSubmit = event => {
         event.preventDefault();
         this.props.onSubmit();
-    }
+    };
 
     render() {
         const filter = this.props.filter;

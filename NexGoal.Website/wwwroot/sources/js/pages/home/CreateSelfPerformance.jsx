@@ -72,19 +72,19 @@ export default class CreateSelfPerformance extends Component {
         }
 
         return null;
-    }
+    };
 
     handleGradeChange = selectedOption => {
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { grade: selectedOption })
         });
-    }
+    };
 
     handleOpenForm = () => {
         this.setState({ isOpenForm: true }, () => {
             this.textareaEditor.current.textareaEditor.current.focus();
         });
-    }
+    };
 
     handleCommentChange = event => {
         const errors = {};
@@ -97,13 +97,13 @@ export default class CreateSelfPerformance extends Component {
             performanceRecord: Object.assign({}, this.state.performanceRecord, { comment: event.target.value }),
             errors: errors
         });
-    }
+    };
 
     handleProjectChange = selectedOptions => {
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { projects: selectedOptions })
         });
-    }
+    };
 
     getAxiosData = () => {
         const performanceRecord = this.state.performanceRecord;
@@ -138,7 +138,7 @@ export default class CreateSelfPerformance extends Component {
                 });
             }).catch(axiosError).then(() => this.setSubmitting(false));
         }
-    }
+    };
 
     handleSubmit = event => {
         event.preventDefault();
@@ -163,7 +163,7 @@ export default class CreateSelfPerformance extends Component {
                 });
             }).catch(axiosError).then(() => this.setSubmitting(false));
         }
-    }
+    };
 
     handleCancel = () => {
         this.setState({
@@ -176,13 +176,13 @@ export default class CreateSelfPerformance extends Component {
             },
             errors: {}
         });
-    }
+    };
 
-    handleOpenGradeInfo = () => this.setState({ showGradeInfo: true })
+    handleOpenGradeInfo = () => this.setState({ showGradeInfo: true });
 
-    handleCloseGradeInfo = () => this.setState({ showGradeInfo: false })
+    handleCloseGradeInfo = () => this.setState({ showGradeInfo: false });
 
-    setSubmitting = isSubmitting => this.setState({ isSubmitting })
+    setSubmitting = isSubmitting => this.setState({ isSubmitting });
 
     render() {
         const { performanceRecord, isOpenForm, errors } = this.state;

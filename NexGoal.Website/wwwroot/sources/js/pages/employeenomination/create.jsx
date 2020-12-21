@@ -55,7 +55,7 @@ export default class Create extends Component {
         }
 
         return errors;
-    }
+    };
 
     handleSubmit = (values, { setErrors }) => {
         axios({
@@ -71,7 +71,7 @@ export default class Create extends Component {
         }).then(response => {
             axiosCreateResponseWithFormik(setErrors, toast, response);
         }).catch(axiosError);
-    }
+    };
 
     renderForm = ({
         values,
@@ -114,7 +114,7 @@ export default class Create extends Component {
                 <button type="submit" className="btn btn-primary">{getResource('Submit')}</button>
             </form >
         );
-    }
+    };
 
     render() {
         const initialObj = {

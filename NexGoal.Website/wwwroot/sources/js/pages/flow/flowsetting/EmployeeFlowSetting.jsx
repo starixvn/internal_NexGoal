@@ -43,7 +43,7 @@ export default class EmployeeFlowSetting extends Component {
                     unconfiguredEmployeeOptions: response.data.map(e => ({ value: e.employeeId, label: `${e.nickName} (${e.fullName})` }))
                 });
             }).catch(axiosError);
-    }
+    };
 
     getEmployeeHaveSetting = () => {
         axios(resolveClientUrl(`EmployeeFlowSetting/GetEmployeeHaveSetting`))
@@ -52,7 +52,7 @@ export default class EmployeeFlowSetting extends Component {
                     configuredEmployees: response.data
                 });
             }).catch(axiosError);
-    }
+    };
 
     getFlowSetting = employeeId => {
         axios(resolveClientUrl(`EmployeeFlowSetting/GetById?employeeId=${employeeId}`))
@@ -71,12 +71,12 @@ export default class EmployeeFlowSetting extends Component {
                     }
                 });
             }).catch(axiosError);
-    }
+    };
 
     handleSelectEmployee = employee => {
         this.setState({ selectedEmployeeId: employee.employeeId });
         this.getFlowSetting(employee.employeeId);
-    }
+    };
 
     handleMemberChange = selectedMember => {
         getEmployeeById(selectedMember.value, employee => {
@@ -125,7 +125,7 @@ export default class EmployeeFlowSetting extends Component {
         }
 
         return isValid;
-    }
+    };
 
     handleSaveFlowSetting = () => {
         if (!this.state.isSubmit) {
@@ -170,7 +170,7 @@ export default class EmployeeFlowSetting extends Component {
                 }
             }).catch(axiosError);
         }
-    }
+    };
 
     clear = () => {
         this.setState({
@@ -180,23 +180,23 @@ export default class EmployeeFlowSetting extends Component {
             selectedEmployeeId: null,
             isSubmit: false
         });
-    }
+    };
 
     handleDeleteSetting = () => {
         this.setState({
             showDeleteModal: true
         });
-    }
+    };
 
     handleCancel = () => {
         this.clear();
-    }
+    };
 
     handleOnCloseModal = () => {
         this.setState({
             showDeleteModal: false
         });
-    }
+    };
 
     handleDeleteFlowSetting = () => {
         axios({
@@ -221,7 +221,7 @@ export default class EmployeeFlowSetting extends Component {
                 toast.error(data.message);
             }
         }).catch(axiosError);
-    }
+    };
 
     renderSelf = () => {
         return (
@@ -247,7 +247,7 @@ export default class EmployeeFlowSetting extends Component {
                 }
             </td>
         );
-    }
+    };
 
     renderButtonGroup = () => {
         return (
@@ -267,7 +267,7 @@ export default class EmployeeFlowSetting extends Component {
                 </Button>
             </div>
         );
-    }
+    };
 
     render() {
         const { isSubmit, member, evaluator, reviewer } = this.state;

@@ -29,7 +29,7 @@ export default class Create extends Component {
         }
 
         return errors;
-    }
+    };
 
     handleSubmit = (values, { setErrors }) => {
         axios({
@@ -63,7 +63,7 @@ export default class Create extends Component {
                 }
             }
         }).catch(axiosError);
-    }
+    };
 
     renderForm = ({
         values,
@@ -85,7 +85,7 @@ export default class Create extends Component {
                 onClose={this.props.onClose}
             />
         );
-    }
+    };
 
     render() {
         const discipline = {

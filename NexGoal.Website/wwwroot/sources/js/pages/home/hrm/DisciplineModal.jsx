@@ -46,7 +46,7 @@ export default class DisciplineModal extends Component {
                 <td colSpan="3" className="text-center">{getResource('NoRecordFound')}</td>
             </tr>
         );
-    }
+    };
 
     render() {
         const disciplines = this.state.disciplines;

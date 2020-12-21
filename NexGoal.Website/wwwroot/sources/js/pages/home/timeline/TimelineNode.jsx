@@ -11,7 +11,7 @@ export default class TimelineNode extends Component {
         return !isEqual(this.props, nextProps);
     }
 
-    handleClick = () => this.props.onClick(this.props.data.performanceRecordId)
+    handleClick = () => this.props.onClick(this.props.data.performanceRecordId);
 
     renderSystemNomination = (data, position) => {
         const status = getNominationClassName(data.nominationStatusId);
@@ -27,7 +27,7 @@ export default class TimelineNode extends Component {
                 </div>
             </Fragment>
         );
-    }
+    };
 
     render() {
         const { data, position } = this.props;

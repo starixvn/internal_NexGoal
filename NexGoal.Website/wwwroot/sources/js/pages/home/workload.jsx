@@ -33,7 +33,7 @@ export default class WorkLoad extends PureComponent {
         } else {
             document.getElementById('legend-container').innerHTML = '';
         }
-    }
+    };
 
     getWorkload = () => {
         axios.get(resolveClientUrl('Home/GetWorkload'), {
@@ -45,7 +45,7 @@ export default class WorkLoad extends PureComponent {
             chartData: this.getChartData(response.data)
         }, () => this.chartOptions.afterInit = null
         )).catch(axiosError);
-    }
+    };
 
     getChartData = workload => {
         if (workload.length > 5) {
@@ -75,13 +75,13 @@ export default class WorkLoad extends PureComponent {
             }],
             labels: workload.map(e => e.name)
         };
-    }
+    };
 
     onPeriodChange = periodId => {
         this.setState({
             periodId: periodId
         }, this.getWorkload);
-    }
+    };
 
     chartOptions = {
         animation: {
@@ -172,7 +172,7 @@ export default class WorkLoad extends PureComponent {
 
             return legends.join('');
         }
-    }
+    };
 
     renderWorkloadChart = () => {
         const chartData = this.state.chartData;
@@ -182,10 +182,12 @@ export default class WorkLoad extends PureComponent {
         }
 
         return <span>{getResource('NoRecordFound')}</span>;
-    }
+    };
 
     render() {
-        const periodOptions = this.props.periods.map(period => { return { name: period.name, value: period.periodId }; });
+        const periodOptions = this.props.periods.map(period => {
+            return { name: period.name, value: period.periodId };
+        });
         return (
             <div className="workload box">
                 <div className="title clearfix">

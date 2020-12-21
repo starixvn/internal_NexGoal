@@ -13,24 +13,24 @@ export default class SearchForm extends Component {
 
     handleKeywordChange = event => {
         this.props.onChange('keyword', event.target.value);
-    }
+    };
 
     handleGroupChange = selectedOption => {
         this.props.onChange('group', selectedOption);
-    }
+    };
 
     handleRoleChange = selectedOptions => {
         this.props.onChange('roles', selectedOptions);
-    }
+    };
 
     handleCheckboxChange = event => {
         this.props.onChange('isDisabled', event.target.checked);
-    }
+    };
 
     handleSubmit = event => {
         event.preventDefault();
         this.props.onSubmit();
-    }
+    };
 
     render() {
         const filter = this.props.filter;

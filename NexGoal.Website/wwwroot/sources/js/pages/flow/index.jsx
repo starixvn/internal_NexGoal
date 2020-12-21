@@ -68,7 +68,7 @@ export default class App extends Component {
 
                 break;
         }
-    }
+    };
 
     render() {
         return (

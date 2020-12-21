@@ -51,7 +51,7 @@ class GroupFlowSetting extends Component {
                     enableDeleteButton: data.evaluator !== null || data.reviewer !== null
                 });
             }).catch(axiosError);
-    }
+    };
 
     handleSelectGroup = selectedGroup => {
         this.setState({
@@ -59,7 +59,7 @@ class GroupFlowSetting extends Component {
         });
 
         this.getFlowSetting(selectedGroup.groupId);
-    }
+    };
 
     handleEvaluatorChange = selectedEvaluator => {
         handleEvaluatorChange(this, selectedEvaluator.value);
@@ -125,19 +125,19 @@ class GroupFlowSetting extends Component {
                 }
             }).catch(axiosError);
         }
-    }
+    };
 
     handleOnDeleteClick = () => {
         this.setState({
             showDeleteModal: true
         });
-    }
+    };
 
     handleOnCloseModal = () => {
         this.setState({
             showDeleteModal: false
         });
-    }
+    };
 
     handleDeleteFlowSetting = () => {
         axios({
@@ -170,7 +170,7 @@ class GroupFlowSetting extends Component {
                 toast.error(data.message);
             }
         }).catch(axiosError);
-    }
+    };
 
     renderSelf = () => {
         return (
@@ -184,7 +184,7 @@ class GroupFlowSetting extends Component {
                 }
             </td>
         );
-    }
+    };
 
     render() {
         const { isSubmit, evaluator, reviewer } = this.state;

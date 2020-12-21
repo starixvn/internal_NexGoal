@@ -25,7 +25,7 @@ export default class EditEmployeeRole extends Component {
             .then(response => {
                 this.setState({ employeeRoles: response.data });
             }).catch(axiosError);
-    }
+    };
 
     handleEditEmployeeRoles = event => {
         event.preventDefault();
@@ -51,7 +51,7 @@ export default class EditEmployeeRole extends Component {
         }).then(response => {
             this.props.callback(response.data);
         }).catch(error => axiosError(error));
-    }
+    };
 
     render() {
         return (

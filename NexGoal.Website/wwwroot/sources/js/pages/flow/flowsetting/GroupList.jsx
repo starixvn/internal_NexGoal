@@ -4,7 +4,7 @@ export default class GroupList extends Component {
     renderGroup = group =>
         (<div key={group.groupId} className={group.hasSetting ? 'has-setting' : ''} onClick={this.props.onClick.bind(this, group)}>
             {group.name}
-        </div>)
+        </div>);
 
     render() {
         return (

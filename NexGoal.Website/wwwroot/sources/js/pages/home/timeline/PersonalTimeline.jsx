@@ -40,7 +40,7 @@ export default class PersonalTimeline extends Component {
 
             return { windowWidth: window.innerWidth };
         });
-    }
+    };
 
     onClickPrevious = () => {
         const memberPerformance = this.props.data;
@@ -48,7 +48,7 @@ export default class PersonalTimeline extends Component {
             const pageIndex = memberPerformance.pageIndex + 1;
             this.props.onPageChange(pageIndex, this.state.totalNodes);
         }
-    }
+    };
 
     onClickNext = () => {
         const memberPerformance = this.props.data;
@@ -56,14 +56,14 @@ export default class PersonalTimeline extends Component {
             const pageIndex = memberPerformance.pageIndex - 1;
             this.props.onPageChange(pageIndex, this.state.totalNodes);
         }
-    }
+    };
 
     calculateNodePosition = (totalNodes, index) => {
         const baseRight = 20;
         const timelineWidth = this.timelineWidth.current ? this.timelineWidth.current.offsetWidth : 0;
         const distanceFromRoot = timelineWidth / (totalNodes + 1);
         return Math.round(baseRight + (index + 1) * distanceFromRoot);
-    }
+    };
 
     render() {
         const memberPerformance = this.props.data;

@@ -70,7 +70,7 @@ export default class Discipline extends Component {
         {
             value: item.employeeId,
             label: `${item.nickName} (${item.fullName})`
-        }))
+        }));
 
     handleFilterChange = (name, value) => {
         this.setState({
@@ -80,11 +80,11 @@ export default class Discipline extends Component {
                 this.getEmployees(value ? value.value : null);
             }
         });
-    }
+    };
 
     handleFilterSubmit = () => {
         this.getDisciplines(this.state.filter);
-    }
+    };
 
     getEmployees = groupIds => {
         axios(resolveClientUrl('common/GetEmployees'), { params: { groupIds: groupIds } })
@@ -103,7 +103,7 @@ export default class Discipline extends Component {
                     filter: filter
                 });
             }).catch(axiosError);
-    }
+    };
 
     getDisciplines = filter => {
         axios(resolveClientUrl('Discipline/GetDisciplines'), {
@@ -117,21 +117,21 @@ export default class Discipline extends Component {
         }).then(response => {
             this.setState({ disciplines: response.data });
         }).catch(axiosError);
-    }
+    };
 
     handleClickCreate = () => {
         this.setState({ showCreateModal: true });
-    }
+    };
 
     handleCancelCreate = () => {
         this.setState({ showCreateModal: false });
-    }
+    };
 
     handleCreateSuccess = () => {
         this.handleCancelCreate();
 
         this.getDisciplines(this.state.filter);
-    }
+    };
 
     handleClickEdit = discipline => {
         discipline.effectiveDate = moment(discipline.effectiveDate);
@@ -142,7 +142,7 @@ export default class Discipline extends Component {
                 discipline: discipline
             }
         });
-    }
+    };
 
     handleCancelEdit = () => {
         this.setState({
@@ -151,7 +151,7 @@ export default class Discipline extends Component {
                 discipline: null
             }
         });
-    }
+    };
 
     handleEditSuccess = discipline => {
         const disciplines = this.state.disciplines.slice();
@@ -162,7 +162,7 @@ export default class Discipline extends Component {
         }
 
         this.handleCancelEdit();
-    }
+    };
 
     handleEditStatus = (disciplineId, isActive) => {
         const disciplines = this.state.disciplines.slice();
@@ -172,7 +172,7 @@ export default class Discipline extends Component {
         }
 
         this.setState({ disciplines: disciplines });
-    }
+    };
 
     render() {
         return (

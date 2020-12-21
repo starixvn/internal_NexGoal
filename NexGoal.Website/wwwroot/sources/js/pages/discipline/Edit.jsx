@@ -24,7 +24,7 @@ export default class Edit extends Component {
         }
 
         return errors;
-    }
+    };
 
     handleSubmit = (values, { setErrors }) => {
         axios({
@@ -58,7 +58,7 @@ export default class Edit extends Component {
                 }
             }
         }).catch(axiosError);
-    }
+    };
 
     renderForm = ({
         values,
@@ -80,7 +80,7 @@ export default class Edit extends Component {
                 onClose={this.props.onClose}
             />
         );
-    }
+    };
 
     render() {
         return (

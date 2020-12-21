@@ -36,13 +36,13 @@ export default class HRMSummary extends Component {
         this.setState({
             isShowModal: true
         });
-    }
+    };
 
     onCloseModal = () => {
         this.setState({
             isShowModal: false
         });
-    }
+    };
 
     renderToeicScore = hrmDetail => {
         let toeicClass = '';
@@ -76,7 +76,7 @@ export default class HRMSummary extends Component {
         }
 
         return incident;
-    }
+    };
 
     render() {
         const hrm = this.state.hrmDetail;
