@@ -82,7 +82,7 @@ export default class EditMemberPerformance extends Component {
     }
 
     onLeavingPageEventListener = event => {
-        let { performanceRecord, initialPerformanceRecord } = this.state;
+        const { performanceRecord, initialPerformanceRecord } = this.state;
 
         if (!isEqual(performanceRecord, initialPerformanceRecord)) {
             event.returnValue = ' ';
@@ -90,7 +90,7 @@ export default class EditMemberPerformance extends Component {
         }
 
         return null;
-    }
+    };
 
     handleEmployeeChange = selectedOptions => {
         const projects = [...this.state.performanceRecord.projects];
@@ -114,13 +114,13 @@ export default class EditMemberPerformance extends Component {
             performanceRecord: Object.assign({}, this.state.performanceRecord, { employees: selectedOptions, projects: projects }),
             errors: errors
         });
-    }
+    };
 
     handleGradeChange = selectedOption => {
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { grade: selectedOption })
         });
-    }
+    };
 
     handleCommentChange = event => {
         const errors = { ...this.state.errors };
@@ -133,13 +133,13 @@ export default class EditMemberPerformance extends Component {
             performanceRecord: Object.assign({}, this.state.performanceRecord, { comment: event.target.value }),
             errors: errors
         });
-    }
+    };
 
     handleProjectChange = selectedOptions => {
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { projects: selectedOptions })
         });
-    }
+    };
 
     handleEditMemberPerformanceFormSubmit = event => {
         event.preventDefault();
@@ -173,7 +173,7 @@ export default class EditMemberPerformance extends Component {
                 });
             }).catch(axiosError).then(() => this.setSubmitting(false));
         }
-    }
+    };
 
     handleEditMemberPerformanceSaveAsDraft = event => {
         event.preventDefault();
@@ -208,13 +208,13 @@ export default class EditMemberPerformance extends Component {
                 });
             }).catch(axiosError).then(() => this.setSubmitting(false));
         }
-    }
+    };
 
-    handleOpenGradeInfo = () => this.setState({ showGradeInfo: true })
+    handleOpenGradeInfo = () => this.setState({ showGradeInfo: true });
 
-    handleCloseGradeInfo = () => this.setState({ showGradeInfo: false })
+    handleCloseGradeInfo = () => this.setState({ showGradeInfo: false });
 
-    setSubmitting = isSubmitting => this.setState({ isSubmitting })
+    setSubmitting = isSubmitting => this.setState({ isSubmitting });
 
     render() {
         const { performanceRecord, errors } = this.state;

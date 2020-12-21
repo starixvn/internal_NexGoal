@@ -15,7 +15,7 @@ export default class Line extends Component {
             const pageIndex = memberPerformance.pageIndex + 1;
             this.props.onPageChange(memberPerformance.employeeId, pageIndex);
         }
-    }
+    };
 
     onClickNext = () => {
         const memberPerformance = this.props.data;
@@ -23,14 +23,14 @@ export default class Line extends Component {
             const pageIndex = memberPerformance.pageIndex - 1;
             this.props.onPageChange(memberPerformance.employeeId, pageIndex);
         }
-    }
+    };
 
     calculateNodePosition = (totalNodes, index) => {
         const nodeWidth = (this.props.timelineWidth - 10) / totalNodes;
         const startAt = (nodeWidth - 57) / 2;
 
         return index * nodeWidth + startAt;
-    }
+    };
 
     render() {
         const memberPerformance = this.props.data;

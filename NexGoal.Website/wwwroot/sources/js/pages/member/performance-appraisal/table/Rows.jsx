@@ -22,7 +22,7 @@ class Rows extends Component {
         }
 
         return <span className={`bold ${toeicClass}`}>{toeic ? toeic : EmptyPlaceHolder}</span>;
-    }
+    };
 
     renderNotAvailableGrade = paRecordId => {
         const tooltip = <Tooltip className="focus-note" id={`notAvailable-${paRecordId}`}>
@@ -32,11 +32,11 @@ class Rows extends Component {
         return <OverlayTrigger placement="top" overlay={tooltip} >
             <span className="pointer red">{getResource('N/A')}</span>
         </OverlayTrigger>;
-    }
+    };
 
     quickEditPA = (paRecordId, isRevised) => {
         this.props.onQuickEditPA(paRecordId, isRevised);
-    }
+    };
 
     countDuplicateGrades = grades => {
         grades.sort();
@@ -60,21 +60,21 @@ class Rows extends Component {
         }
 
         return displayGrades.length > 0 ? displayGrades.join(', ') : '';
-    }
+    };
 
     renderSelfGrade = paProcesses => {
         const selfProcess = paProcesses.filter(process => process.processId === PerformanceProcess.Self)[0];
         return <span>{selfProcess.grade ? selfProcess.grade : EmptyPlaceHolder}</span>;
-    }
+    };
 
-    renderPMGrades = (paProcesses, paRecordId) => {
-        const processes = paProcesses.filter(process => process.grade && process.processId === PerformanceProcess.ProjectManager);
+    renderPMGradesPerformanceAppraisal = (paProcessesPA, paRecordIdPA) => {
+        const processes = paProcessesPA.filter(process => process.grade && process.processId === PerformanceProcess.ProjectManager);
         if (processes.length === 0) {
             return EmptyPlaceHolder;
         }
 
-        const grades = processes.map(process => process.grade);
-        const tooltip = <Tooltip className="focus-note" id={`pmProcess-${paRecordId}`}>
+        const gradesPA = processes.map(process => process.grade);
+        const tooltipPA = <Tooltip className="focus-note" id={`pmProcess-${paRecordIdPA}`}>
             {
                 processes.map((process, index) => {
                     if (process.grade) {
@@ -86,10 +86,10 @@ class Rows extends Component {
             }
         </Tooltip>;
 
-        return <OverlayTrigger placement="top" overlay={tooltip}>
-            <span className="pointer">{this.countDuplicateGrades(grades)}</span>
+        return <OverlayTrigger placement="top" overlay={tooltipPA}>
+            <span className="pointer">{this.countDuplicateGrades(gradesPA)}</span>
         </OverlayTrigger>;
-    }
+    };
 
     renderEvaluatorGrade = (paProcesses, statusId) => {
         const evaluatorProcess = paProcesses.filter(process => process.processId === PerformanceProcess.Evaluator)[0];
@@ -101,7 +101,7 @@ class Rows extends Component {
         }
 
         return grade;
-    }
+    };
 
     renderPAGrade = record => {
         const gradeId = record.grade ? record.grade.gradeId : null;
@@ -137,7 +137,7 @@ class Rows extends Component {
         }
 
         return status;
-    }
+    };
 
     renderReviewerGrade = paProcesses => {
         const processes = paProcesses.filter(process => process.processId === PerformanceProcess.Reviewer);
@@ -155,11 +155,11 @@ class Rows extends Component {
         }
 
         return displayNickname;
-    }
+    };
 
     handleClick = paRecordId => {
         this.props.onClickEditPA(paRecordId);
-    }
+    };
 
     render() {
         const performanceRecords = this.props.data.performanceAppraisals;
@@ -177,7 +177,7 @@ class Rows extends Component {
                                 <td className="text-center">{this.renderToeic(record.toeicPolicy, record.toeic)}</td>
                                 <td className="text-center">{this.renderSelfGrade(record.processes)}</td>
                                 <td className="text-center">
-                                    {this.renderPMGrades(record.processes, record.paRecordId)}
+                                    {this.renderPMGradesPerformanceAppraisal(record.processes, record.paRecordId)}
                                 </td>
                                 <td className="text-center">
                                     {this.renderEvaluatorGrade(record.processes, record.statusId)}

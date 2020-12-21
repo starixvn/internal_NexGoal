@@ -55,15 +55,15 @@ export default class CreateNomination extends Component {
         }
 
         return null;
-    }
+    };
 
     handleOpenForm = () => {
         this.setState({ openForm: true });
-    }
+    };
 
     handleCloseForm = () => {
         this.setState({ openForm: false });
-    }
+    };
 
     handleSubmit = (values, { setErrors, setSubmitting }) => {
         axios({
@@ -96,7 +96,7 @@ export default class CreateNomination extends Component {
                 }
             }
         }).catch(axiosError).then(() => setSubmitting(false));
-    }
+    };
 
     validateForm = values => {
         const errors = {};
@@ -114,7 +114,7 @@ export default class CreateNomination extends Component {
         }
 
         return errors;
-    }
+    };
 
     renderForm = ({
         values,
@@ -178,7 +178,7 @@ export default class CreateNomination extends Component {
                 </FormGroup>
             </form>
         );
-    }
+    };
 
     render() {
         const currentUser = this.props.currentUser;

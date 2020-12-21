@@ -54,7 +54,7 @@ export default class EditNomination extends Component {
         }
 
         return null;
-    }
+    };
 
     validateForm = values => {
         const errors = {};
@@ -64,7 +64,7 @@ export default class EditNomination extends Component {
         }
 
         return errors;
-    }
+    };
 
     handleSubmit = (values, { setErrors, setSubmitting }) => {
         axios({
@@ -97,7 +97,7 @@ export default class EditNomination extends Component {
                 }
             }
         }).catch(axiosError).then(() => setSubmitting(false));
-    }
+    };
 
     renderForm = ({
         values,
@@ -182,7 +182,7 @@ export default class EditNomination extends Component {
                 </Modal.Footer>
             </form>
         );
-    }
+    };
 
     render() {
         const initialObj = {

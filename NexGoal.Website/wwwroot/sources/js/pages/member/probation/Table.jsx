@@ -14,7 +14,7 @@ export default class Table extends Component {
 
     handleShowComment = event => {
         this.props.onShowComment(event.target.dataset.comment, parseInt(event.target.dataset.processid, 10));
-    }
+    };
 
     handleRevisedChange = event => {
         const probationer = this.props.tableData.find(x => x.employeeId === parseInt(event.target.dataset.employeeid, 10));
@@ -27,7 +27,7 @@ export default class Table extends Component {
         } else {
             this.props.onConfirmedByReviewer(probationer);
         }
-    }
+    };
 
     renderRow = probationer => {
         let evaluatorResult = '-', finalResult = '-';
@@ -89,7 +89,7 @@ export default class Table extends Component {
                 </td>
             </tr>
         );
-    }
+    };
 
     render() {
         if (this.props.tableData) {

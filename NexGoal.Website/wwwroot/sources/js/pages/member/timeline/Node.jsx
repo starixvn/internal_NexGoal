@@ -11,7 +11,7 @@ export default class Node extends Component {
 
     handleClick = () => {
         this.props.onClick(this.props.data.performanceRecordId);
-    }
+    };
 
     render() {
         const { data, position } = this.props;

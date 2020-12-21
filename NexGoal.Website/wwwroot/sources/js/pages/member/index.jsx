@@ -134,7 +134,7 @@ export default class App extends Component {
                 this.handleSelectTab(parseInt(params.activeTab, 10));
             }
         }
-    }
+    };
 
     handleSelectTab = key => {
         if (key === 2 && !this.state.loadNominationTab) {
@@ -146,7 +146,7 @@ export default class App extends Component {
         } else {
             this.setState({ activeTabKey: key });
         }
-    }
+    };
 
     renderPerformanceRecord = performanceRecord => {
         return (
@@ -159,11 +159,11 @@ export default class App extends Component {
                 isHighlighted={this.state.performanceRecordIdHighlighted === performanceRecord.performanceRecordId}
             />
         );
-    }
+    };
 
     loadMorePerformanceRecord = (page, callback) => {
         loadMorePerformanceRecord(this, page, callback);
-    }
+    };
 
     handleClickTimelineNode = performanceRecordId => {
         if (!this.state.displayedPerformanceRecords.some(r => r.performanceRecordId === performanceRecordId)) {
@@ -189,7 +189,7 @@ export default class App extends Component {
                 activeTabKey: 1
             }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
         }
-    }
+    };
 
     handleCreatePerformanceRecordSuccess = performanceRecordIds => {
         axios(resolveClientUrl(`Performance/GetByIds/${performanceRecordIds}`))
@@ -216,7 +216,7 @@ export default class App extends Component {
                     hasMore: displayedPerformanceRecords.length < performanceRecords.length
                 });
             }).catch(axiosError);
-    }
+    };
 
     handleCreateMemberDraftPerformanceRecordSuccess = performanceRecordId => {
         axios(resolveClientUrl(`Performance/GetDraftById/${performanceRecordId}`))
@@ -232,19 +232,19 @@ export default class App extends Component {
                     hasMore: displayedPerformanceRecords.length < performanceRecords.length
                 });
             }).catch(axiosError);
-    }
+    };
 
     handleClickEditPerformanceRecord = performanceRecordId => {
         handleClickEditPerformanceRecord(this, performanceRecordId);
-    }
+    };
 
     handleClickEditDraftPerformanceRecord = performanceRecordId => {
         handleClickEditDraftPerformanceRecord(this, performanceRecordId);
-    }
+    };
 
     handleCancelEditMemberPerformanceRecord = () => {
         handleCancelEditPerformanceRecord(this);
-    }
+    };
 
     handleEditMemberPerformanceRecordSuccess = performanceRecordIds => {
         axios(resolveClientUrl(`Performance/GetByIds/${performanceRecordIds}`))
@@ -277,7 +277,7 @@ export default class App extends Component {
 
                 this.handleCancelEditMemberPerformanceRecord();
             }).catch(axiosError);
-    }
+    };
 
     handleEditMemberDraftPerformanceRecordSuccess = performanceRecordId => {
         axios(resolveClientUrl(`Performance/GetDraftById/${performanceRecordId}`))
@@ -302,7 +302,7 @@ export default class App extends Component {
 
     handleClickDeletePerformanceRecord = performanceRecordId => {
         handleClickDeletePerformanceRecord(this, performanceRecordId);
-    }
+    };
 
     handleDeleteMemberPerformanceRecord = () => {
         const performanceRecordId = this.state.deletePerformanceRecord.performanceRecordId;
@@ -340,15 +340,15 @@ export default class App extends Component {
                 toast.error(data.message);
             }
         }).catch(axiosError);
-    }
+    };
 
     handleCancelDeletePerformanceRecord = () => {
         handleCancelDeletePerformanceRecord(this);
-    }
+    };
 
-    handleCloseAnnouncementModal = () => this.setState({ showAnnouncementModal: false })
+    handleCloseAnnouncementModal = () => this.setState({ showAnnouncementModal: false });
 
-    handleOpenAnnouncementModal = () => this.setState({ showAnnouncementModal: true })
+    handleOpenAnnouncementModal = () => this.setState({ showAnnouncementModal: true });
 
     render() {
         const currentUser = this.currentUser;

@@ -57,7 +57,7 @@ export default class Timeline extends Component {
         }
 
         return pageSize;
-    }
+    };
 
     updateDimensions = () => {
         const pageSize = this.calculatePageSize();
@@ -71,7 +71,7 @@ export default class Timeline extends Component {
 
             return { pageSize };
         });
-    }
+    };
 
     getMemberPerformanceTimeline = pageSize => {
         if (this.props.currentPerformancePeriod) {
@@ -93,13 +93,13 @@ export default class Timeline extends Component {
                 });
             }).catch(axiosError);
         }
-    }
+    };
 
     updateFilter = (name, value) => {
         this.setState({
             filter: Object.assign({}, this.state.filter, { [name]: value })
         });
-    }
+    };
 
     handlePageChange = (employeeId, pageIndex) => {
         const memberPerformances = this.state.memberPerformances.slice();
@@ -125,11 +125,11 @@ export default class Timeline extends Component {
                 });
             }).catch(axiosError);
         }
-    }
+    };
 
     handleGroupChange = selectedOptions => {
         this.updateFilter('groups', selectedOptions);
-    }
+    };
 
     groupMemberPerformances = records => {
         let memberPerformances = records ? records.slice() : [];
@@ -171,7 +171,7 @@ export default class Timeline extends Component {
         }
 
         return <div className="group-name">{groupName}</div>;
-    }
+    };
 
     calculateTimelineWidth = () => {
         const windowWidth = window.innerWidth;
@@ -184,7 +184,7 @@ export default class Timeline extends Component {
         }
 
         return timelineWidth;
-    }
+    };
 
     render() {
         const { groupOptions, currentPerformancePeriod } = this.props;

@@ -77,7 +77,7 @@ export default class Nomination extends Component {
                 };
             });
         }).catch(axiosError);
-    }
+    };
 
     handleEditNominationSuccess = performanceRecordId => {
         axios.get(resolveClientUrl('MemberNomination/GetByRecordId'), {
@@ -96,21 +96,21 @@ export default class Nomination extends Component {
                 };
             });
         }).catch(axiosError);
-    }
+    };
 
     handleEdit = performanceRecordId => {
         this.setState(prevState => ({
             showEditModal: true,
             editedNomination: prevState.nominations.find(x => x.performanceRecordId === performanceRecordId)
         }));
-    }
+    };
 
     handleDelete = performanceRecordId => {
         this.setState({
             showDeleteModal: true,
             deletedRecordId: performanceRecordId
         });
-    }
+    };
 
     deleteNomination = () => {
         axios({
@@ -142,7 +142,7 @@ export default class Nomination extends Component {
                 toast.error(data.message);
             }
         }).catch(axiosError);
-    }
+    };
 
     closeEditModal = () => this.setState({ showEditModal: false, editedNomination: null });
 
@@ -157,7 +157,7 @@ export default class Nomination extends Component {
                 onDelete={this.handleDelete}
             />
         );
-    }
+    };
 
     render() {
         return (

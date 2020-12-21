@@ -33,11 +33,11 @@ export default class MemberPerformanceAppraisal extends Component {
         this.setState({
             filter: Object.assign({}, this.state.filter, { [name]: value })
         });
-    }
+    };
 
     handleFilterSubmit = () => {
         this.getPerformanceAppraisals();
-    }
+    };
 
     onQuickEditSuccess = (paRecordId, isRevised) => {
         const paString = JSON.stringify(this.state.performanceAppraisals);
@@ -52,7 +52,7 @@ export default class MemberPerformanceAppraisal extends Component {
         this.setState({
             performanceAppraisals: groupPAs
         });
-    }
+    };
 
     getPerformanceAppraisals = () => {
         const filter = this.state.filter;
@@ -67,7 +67,7 @@ export default class MemberPerformanceAppraisal extends Component {
                 performanceAppraisals: response.data
             });
         }).catch(axiosError);
-    }
+    };
 
     render() {
         return (

@@ -44,13 +44,13 @@ export default class NominationResult extends Component {
                     memberNominations: response.data
                 });
             }).catch(axiosError);
-    }
+    };
 
     onYearChange = year => {
         this.setState({
             year: year
         }, () => this.getMemberNominations(this.state.year));
-    }
+    };
 
     groupMemberNominations = () => {
         const memberNominations = this.state.memberNominations;
@@ -108,7 +108,7 @@ export default class NominationResult extends Component {
         };
 
         return nominations.sort(sortDesc);
-    }
+    };
 
     renderMemberNominations = () => {
         const memberNominations = this.groupMemberNominations();
@@ -151,7 +151,7 @@ export default class NominationResult extends Component {
         }
 
         return <div>{getResource('NoRecordFound')}</div>;
-    }
+    };
 
     render() {
         const yearOptions = this.state.yearOptions.map(option => {

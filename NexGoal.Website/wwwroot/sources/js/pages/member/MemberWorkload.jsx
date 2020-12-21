@@ -34,13 +34,13 @@ export default class MemberWorkload extends Component {
 
             this.setState({ workloads: workloads }, () => this.chartOptions.afterInit = null);
         }).catch(axiosError);
-    }
+    };
 
     onPeriodChange = periodId => {
         this.setState({
             periodId: periodId
         }, this.getMembersWorkloads);
-    }
+    };
 
     generateWorkload = groupWorkload => {
         let totalHours = 0;
@@ -55,7 +55,7 @@ export default class MemberWorkload extends Component {
             chartData: this.generateDataSets(groupWorkload.employeeWorkloads),
             chartOptions: this.chartOptions
         };
-    }
+    };
 
     generateDataSets = employeeWorkloads => {
         const labels = [];
@@ -80,7 +80,7 @@ export default class MemberWorkload extends Component {
             labels,
             datasets
         };
-    }
+    };
 
     handleGroupChange = selectedOptions => this.setState({
         selectedGroups: selectedOptions
@@ -174,7 +174,7 @@ export default class MemberWorkload extends Component {
             display: false
         },
         maintainAspectRatio: false
-    }
+    };
 
     renderGroupName = (groupId, groupName) => {
         if (this.props.groupOptions.length > 1) {
@@ -190,7 +190,7 @@ export default class MemberWorkload extends Component {
         }
 
         return <div className="group-name">{groupName}</div>;
-    }
+    };
 
     renderChart = workload => {
         if (this.state.selectedGroups.some(x => x.value === workload.groupId)) {
@@ -216,7 +216,7 @@ export default class MemberWorkload extends Component {
         }
 
         return '';
-    }
+    };
 
     renderTeamWorkload = () => {
         if (this.state.workloads.length > 0) {
@@ -224,10 +224,12 @@ export default class MemberWorkload extends Component {
         } else {
             return <span>{getResource('NoRecordFound')}</span>;
         }
-    }
+    };
 
     render() {
-        const periodOptions = this.props.periods.map(period => { return { name: period.name, value: period.periodId }; });
+        const periodOptions = this.props.periods.map((period) => {
+          return { name: period.name, value: period.periodId };
+        });
 
         return (
             <div className="workload box">

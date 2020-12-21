@@ -56,7 +56,7 @@ export default class Probation extends Component {
 
             this.setState({ probationers });
         }).catch(axiosError);
-    }
+    };
 
     handleConfirmedByReviewer = probationer => {
         axios({
@@ -77,11 +77,11 @@ export default class Probation extends Component {
                 toast.error(data.message);
             }
         }).catch(axiosError);
-    }
+    };
 
-    handleShowCommentModal = (comment, processId) => this.setState({ commentModal: { show: true, content: comment, processId } })
+    handleShowCommentModal = (comment, processId) => this.setState({ commentModal: { show: true, content: comment, processId } });
 
-    handleCloseCommentModal = () => this.setState({ commentModal: { show: false } })
+    handleCloseCommentModal = () => this.setState({ commentModal: { show: false } });
 
     render() {
         return (

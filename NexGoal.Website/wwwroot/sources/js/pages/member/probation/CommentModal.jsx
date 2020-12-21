@@ -13,7 +13,7 @@ export default class CommentModal extends PureComponent {
             case PerformanceProcess.Reviewer: return getResource('ReviewerComment');
             default: return '';
         }
-    }
+    };
 
     render() {
         return (

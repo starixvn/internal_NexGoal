@@ -62,7 +62,7 @@ export default class EditPAForm extends Component {
         this.setState({
             paRecord: Object.assign({}, this.state.paRecord, { grade: selectedOption })
         });
-    }
+    };
 
     handleCommentChange = event => {
         const errors = { ...this.state.errors };
@@ -75,7 +75,7 @@ export default class EditPAForm extends Component {
             paRecord: Object.assign({}, this.state.paRecord, { comment: event.target.value }),
             errors: errors
         });
-    }
+    };
 
     validateForm = () => {
         const errors = {};
@@ -95,7 +95,7 @@ export default class EditPAForm extends Component {
         this.setState({ errors });
 
         return isValid;
-    }
+    };
 
     handleSubmit = event => {
         event.preventDefault();
@@ -135,7 +135,7 @@ export default class EditPAForm extends Component {
                 }
             }).catch(axiosError);
         }
-    }
+    };
 
     renderViewPA = paRecord => {
         const data = {
@@ -157,9 +157,9 @@ export default class EditPAForm extends Component {
         );
     }
 
-    handleOpenGradeInfo = () => this.setState({ showGradeInfo: true })
+    handleOpenGradeInfo = () => this.setState({ showGradeInfo: true });
 
-    handleCloseGradeInfo = () => this.setState({ showGradeInfo: false })
+    handleCloseGradeInfo = () => this.setState({ showGradeInfo: false });
 
     renderEditPA = paRecord => {
         const { errors, currentUserInfo } = this.state;
@@ -206,7 +206,7 @@ export default class EditPAForm extends Component {
                 </div>
             </div>
         );
-    }
+    };
 
     render() {
         const paRecord = this.state.paRecord;

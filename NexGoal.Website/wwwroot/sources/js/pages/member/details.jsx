@@ -149,11 +149,11 @@ export default class Details extends Component {
         } else {
             this.setState({ activeTabKey: key });
         }
-    }
+    };
 
     loadMorePerformanceRecord = (page, callback) => {
         loadMorePerformanceRecord(this, page, callback);
-    }
+    };
 
     handleTimelinePageChange = (pageIndex, pageSize) => {
         const size = pageSize ? pageSize : calculateTimelineNode();
@@ -174,7 +174,7 @@ export default class Details extends Component {
                 }
             });
         }).catch(axiosError);
-    }
+    };
 
     handleClickViewPADetail = paRecordId => {
         axios(resolveClientUrl(`PA/GetById/${paRecordId}`)).then(response => {
@@ -200,7 +200,7 @@ export default class Details extends Component {
                 });
             }
         }).catch(axiosError);
-    }
+    };
 
     handleClosePADetailModel = () => {
         this.setState({
@@ -220,7 +220,7 @@ export default class Details extends Component {
                 showPaDetail={this.handleClickViewPADetail}
             />
         );
-    }
+    };
 
     handleClickTimelineNode = performanceRecordId => {
         if (!this.state.displayedPerformanceRecords.some(r => r.performanceRecordId === performanceRecordId)) {
@@ -241,7 +241,7 @@ export default class Details extends Component {
                 selectedPCIId: performanceRecordId
             }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
         }
-    }
+    };
 
     handleCreateDraftPerformanceRecordSuccess = performanceRecordId => {
         axios(resolveClientUrl(`Performance/GetDraftById/${performanceRecordId}`))
@@ -257,7 +257,7 @@ export default class Details extends Component {
                     hasMore: displayedPerformanceRecords.length < performanceRecords.length
                 });
             }).catch(axiosError);
-    }
+    };
 
     handleCreatePerformanceRecordSuccess = performanceRecordIds => {
         axios(resolveClientUrl(`Performance/GetByIds/${performanceRecordIds}`))
@@ -285,19 +285,19 @@ export default class Details extends Component {
                     hasMore: displayedPerformanceRecords.length < performanceRecords.length
                 });
             }).catch(axiosError);
-    }
+    };
 
     handleClickEditDraftPerformanceRecord = performanceRecordId => {
         handleClickEditDraftPerformanceRecord(this, performanceRecordId);
-    }
+    };
 
     handleClickEditPerformanceRecord = performanceRecordId => {
         handleClickEditPerformanceRecord(this, performanceRecordId);
-    }
+    };
 
     handleCancelEditPerformanceRecord = () => {
         handleCancelEditPerformanceRecord(this);
-    }
+    };
 
     handleEditPerformanceRecordSuccess = performanceRecordIds => {
         axios(resolveClientUrl(`Performance/GetByIds/${performanceRecordIds}`))
@@ -330,7 +330,7 @@ export default class Details extends Component {
 
                 this.handleCancelEditPerformanceRecord();
             }).catch(axiosError);
-    }
+    };
 
     handleClickDeletePerformanceRecord = performanceRecordId => {
         handleClickDeletePerformanceRecord(this, performanceRecordId);
@@ -355,11 +355,11 @@ export default class Details extends Component {
 
                 this.handleCancelEditPerformanceRecord();
             }).catch(axiosError);
-    }
+    };
 
     handleCancelDeletePerformanceRecord = () => {
         handleCancelDeletePerformanceRecord(this);
-    }
+    };
 
     handleDeletePerformanceRecord = () => {
         const performanceRecordId = this.state.deletePerformanceRecord.performanceRecordId;
@@ -397,11 +397,11 @@ export default class Details extends Component {
                 toast.error(data.message);
             }
         }).catch(axiosError);
-    }
+    };
 
-    handleOpenAnnouncementModal = () => this.setState({ showAnnouncementModal: true })
+    handleOpenAnnouncementModal = () => this.setState({ showAnnouncementModal: true });
 
-    handleCloseAnnouncementModal = () => this.setState({ showAnnouncementModal: false })
+    handleCloseAnnouncementModal = () => this.setState({ showAnnouncementModal: false });
 
     render() {
         const { nominations, performanceAppraisals } = this.state;

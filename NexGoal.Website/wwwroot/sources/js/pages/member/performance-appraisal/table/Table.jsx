@@ -42,26 +42,26 @@ class Table extends Component {
                 toast.error(data.message);
             }
         }).catch(axiosError);
-    }
+    };
 
     onClickEditPA = paRecordId => {
         this.setState({
             isShowEditModal: true,
             paRecordId: paRecordId
         });
-    }
+    };
 
     onCloseModal = () => {
         this.setState({
             isShowEditModal: false,
             paRecordId: null
         });
-    }
+    };
 
     onEditSucess = () => {
         this.onCloseModal();
         this.props.renderPA();
-    }
+    };
 
     renderRow = data => {
         return (

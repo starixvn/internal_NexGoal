@@ -86,7 +86,7 @@ export default class CreateMemberPerformance extends Component {
         }
 
         return null;
-    }
+    };
 
     handleOpenForm = () => {
         this.setState({ isOpenForm: true }, () => {
@@ -94,7 +94,7 @@ export default class CreateMemberPerformance extends Component {
                 this.textareaEditor.current.textareaEditor.current.focus();
             }
         });
-    }
+    };
 
     handleEmployeeOnChange = selectedOptions => {
         const projects = [...this.state.performanceRecord.projects];
@@ -118,7 +118,7 @@ export default class CreateMemberPerformance extends Component {
             performanceRecord: Object.assign({}, this.state.performanceRecord, { employees: selectedOptions, projects: projects }),
             errors: errorObject
         });
-    }
+    };
 
     handleCreateFormCommentChange = event => {
         const errorObject = { ...this.state.errors };
@@ -131,19 +131,19 @@ export default class CreateMemberPerformance extends Component {
             performanceRecord: Object.assign({}, this.state.performanceRecord, { comment: event.target.value }),
             errors: errorObject
         });
-    }
+    };
 
     handleCreateFormProjectChange = selectedOptions => {
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { projects: selectedOptions })
         });
-    }
+    };
 
     handleGradeChange = selectedOption => {
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { grade: selectedOption })
         });
-    }
+    };
 
     getAxiosData = () => {
         const record = this.state.performanceRecord;
@@ -181,7 +181,7 @@ export default class CreateMemberPerformance extends Component {
                 });
             }).catch(axiosError).then(() => this.setSubmitting(false));
         }
-    }
+    };
 
     handleSaveAsDraft = event => {
         event.preventDefault();
@@ -206,7 +206,7 @@ export default class CreateMemberPerformance extends Component {
                 });
             }).catch(axiosError).then(() => this.setSubmitting(false));
         }
-    }
+    };
 
     handleCancel = () => {
         this.setState({
@@ -220,13 +220,13 @@ export default class CreateMemberPerformance extends Component {
             },
             errors: {}
         });
-    }
+    };
 
-    handleOpenGradeInfo = () => this.setState({ showGradeInfo: true })
+    handleOpenGradeInfo = () => this.setState({ showGradeInfo: true });
 
-    handleCloseGradeInfo = () => this.setState({ showGradeInfo: false })
+    handleCloseGradeInfo = () => this.setState({ showGradeInfo: false });
 
-    setSubmitting = isSubmitting => this.setState({ isSubmitting })
+    setSubmitting = isSubmitting => this.setState({ isSubmitting });
 
     render() {
         const { performanceRecord, isOpenForm, errors } = this.state;
