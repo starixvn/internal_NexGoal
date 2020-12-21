@@ -103,7 +103,7 @@
             var settings = Configuration.GetSection("LDAPSettings");
             services.Configure<LdapSettings>(options => settings.Bind(options));
             var ldapSettings = settings.Get<LdapSettings>();
-            ldapSettings ??= new LdapSettings();
+            ldapSettings = ldapSettings ?? new LdapSettings();
             ldapSettings.CompanyName = companyName;
 
             // DI
