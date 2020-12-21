@@ -139,7 +139,7 @@ export default class NotificationCenter extends Component {
             const urlCenter = getUrlByActionTypeId(actionTypeId, recordId, NotificationActionType);
 
             if (urlCenter) {
-                window.location = url;
+                window.location = urlCenter;
             }
         }
     };
