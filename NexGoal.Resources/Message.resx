@@ -220,16 +220,16 @@
     <value>{0} has edited his/her Performance Record for {1}.</value>
   </data>
   <data name="NotificationTemplate_Nomination_Remind" xml:space="preserve">
-    <value>The Nomination process for the {0} is going to be CLOSED on {1}, please submit the vote for your nominee.</value>
+    <value>The Nomination process for the {0} is going to be CLOSED at 23:59 {1}, please submit the vote for your nominee.</value>
   </data>
   <data name="NotificationTemplate_Nomination_Start" xml:space="preserve">
-    <value>The Nomination process for the {0} is IN PROGRESS and will end on {1}, please submit the vote for your nominee.</value>
+    <value>The Nomination process for the {0} is IN PROGRESS and will end at 23:59 {1}, please submit the vote for your nominee.</value>
   </data>
   <data name="NotificationTemplate_PAFocus_Remind" xml:space="preserve">
-    <value>The PA Focus for the {0} is going to be CLOSED on {1}, please review the objectives for all of your members.</value>
+    <value>The PA Focus for the {0} is going to be CLOSED at 23:59 {1}, please review the objectives for all of your members</value>
   </data>
   <data name="NotificationTemplate_PAFocus_Start" xml:space="preserve">
-    <value>The PA Focus for the {0} is IN PROGRESS and will end on {1}, please set the objectives for your members.</value>
+    <value>The PA Focus for the {0} is IN PROGRESS and will end at 23:59 {1}, please set the objectives for your members.</value>
   </data>
   <data name="NotificationTemplate_PA_EndEvaluation" xml:space="preserve">
     <value>The Performance Appraisal for the {0} is COMPLETE!</value>
@@ -241,10 +241,10 @@
     <value>The NexGoal system will capture all the performance records on {0}. You are recommended to create a Performance Record for your members (with a detailed comment and also selected grade) BEFORE {0}. Please be advised that any record created after that time will NOT be valid for this PA period.</value>
   </data>
   <data name="NotificationTemplate_PA_RemindToReviewer" xml:space="preserve">
-    <value>The Performance Appraisal for the {0} is going to be CLOSED on {1}, please make sure to revise and submit the PA for all of your members.</value>
+    <value>The Performance Appraisal for the {0} is going to be CLOSED at 23:59 {1}, please make sure to revise and submit the PA for all of your members.</value>
   </data>
   <data name="NotificationTemplate_PA_StartToReviewer" xml:space="preserve">
-    <value>The Performance Appraisal for the {0} is IN PROGRESS and will end on {1}, please revise and submit the PA for your members.</value>
+    <value>The Performance Appraisal for the {0} is IN PROGRESS and will end at 23:59 {1}, please revise and submit the PA for your members.</value>
   </data>
   <data name="NotificationTemplate_Probation_RemindToEvaluator" xml:space="preserve">
     <value>The Probation evaluation process for {0} will end at 23:59, {1}. Please visit the NexGoal site to complete the evaluation form(s).</value>

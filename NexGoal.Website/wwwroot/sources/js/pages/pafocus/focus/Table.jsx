@@ -38,6 +38,7 @@ export default class Table extends Component {
 
     renderHeaderTableFocus = () => {
         return (
+            <Fragment>
             <tr>
                 <th className="width-40">{getResource('SymbolCount')}</th>
                 <th className="width-90">{getResource('NickName')}</th>
@@ -60,7 +61,13 @@ export default class Table extends Component {
                 <th className="objective" colSpan="2">{getResource('AccomplishedCurrentObjectives')}</th>
                 <th className="objective" colSpan="2">{getResource('NextObjectives')}</th>
             </tr>
+            </Fragment>
         );
+    };
+
+    handleExportToExcelTable = event => {
+        event.preventDefault();
+        this.props.onExportToExcel();
     };
 
     render() {
@@ -71,11 +78,23 @@ export default class Table extends Component {
 
         return (
             <Fragment>
+                {
+                    focusStartDate && focusEndDate &&
+                    <div className="title">
+                        <div className="pull-left">
+                            Duration: {`${focusStartDate} - ${focusEndDate}`}
+                        </div>
+                        <div className="pull-right">
+                            <span class="icon-save-black-18dp"  onClick={this.props.handleSubmit}/>
+                            <span class="icon-file-excel" onClick={this.handleExportToExcelTable}/>
+                        </div>
+                    </div>
+                        }
                 <StickyBlock threshold={236}>
                     <table className="table table-bordered table-striped pa-focus-table">
                         <thead>
                             {
-                                this.renderHeaderTableFocus
+                                this.renderHeaderTableFocus() 
                             }
                         </thead>
                     </table>
@@ -83,13 +102,7 @@ export default class Table extends Component {
                 <table className="table table-bordered table-striped pa-focus-table">
                     <thead>
                         {
-                            focusStartDate && focusEndDate &&
-                            <tr className="title">
-                                <td colSpan="12">Duration: {`${focusStartDate} - ${focusEndDate}`}</td>
-                            </tr>
-                        }
-                        {
-                            this.renderHeaderTableFocus
+                            this.renderHeaderTableFocus()
                         }
                     </thead>
                     <tbody>
@@ -124,6 +137,17 @@ export default class Table extends Component {
                             })
                         }
                     </tbody>
+                    <tfoot>
+                        {
+                            this.props.isDisplayButton &&
+                            <tr className="action-section button-block text-center">
+                                <td colSpan="12">
+                                    <button className="btn btn-cancel" onClick={this.props.handleFilterSubmit}>{getResource('Reset')}</button>
+                                    <button className="btn btn-primary" onClick={this.props.handleSubmit}>{getResource('Save')}</button>
+                                </td>
+                            </tr>
+                        }
+                    </tfoot>
                 </table>
             </Fragment>
         );

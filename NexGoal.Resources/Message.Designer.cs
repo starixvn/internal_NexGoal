@@ -385,7 +385,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Nomination process for the {0} is going to be CLOSED on {1}, please submit the vote for your nominee..
+        ///   Looks up a localized string similar to The Nomination process for the {0} is going to be CLOSED at 23:59 {1}, please submit the vote for your nominee..
         /// </summary>
         public static string NotificationTemplate_Nomination_Remind {
             get {
@@ -394,7 +394,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Nomination process for the {0} is IN PROGRESS and will end on {1}, please submit the vote for your nominee..
+        ///   Looks up a localized string similar to The Nomination process for the {0} is IN PROGRESS and will end at 23:59 {1}, please submit the vote for your nominee..
         /// </summary>
         public static string NotificationTemplate_Nomination_Start {
             get {
@@ -430,7 +430,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Performance Appraisal for the {0} is going to be CLOSED on {1}, please make sure to revise and submit the PA for all of your members..
+        ///   Looks up a localized string similar to The Performance Appraisal for the {0} is going to be CLOSED at 23:59 {1}, please make sure to revise and submit the PA for all of your members..
         /// </summary>
         public static string NotificationTemplate_PA_RemindToReviewer {
             get {
@@ -439,7 +439,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Performance Appraisal for the {0} is IN PROGRESS and will end on {1}, please revise and submit the PA for your members..
+        ///   Looks up a localized string similar to The Performance Appraisal for the {0} is IN PROGRESS and will end at 23:59 {1}, please revise and submit the PA for your members..
         /// </summary>
         public static string NotificationTemplate_PA_StartToReviewer {
             get {
@@ -448,7 +448,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The PA Focus for the {0} is going to be CLOSED on {1}, please review the objectives for all of your members..
+        ///   Looks up a localized string similar to The PA Focus for the {0} is going to be CLOSED at 23:59 {1}, please review the objectives for all of your members.
         /// </summary>
         public static string NotificationTemplate_PAFocus_Remind {
             get {
@@ -457,7 +457,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The PA Focus for the {0} is IN PROGRESS and will end on {1}, please set the objectives for your members..
+        ///   Looks up a localized string similar to The PA Focus for the {0} is IN PROGRESS and will end at 23:59 {1}, please set the objectives for your members..
         /// </summary>
         public static string NotificationTemplate_PAFocus_Start {
             get {

@@ -254,15 +254,11 @@ export default class PAFocus extends Component {
                     period={this.periodSelected}
                     focusEvaluationLevelOptions={this.focusEvaluationLevelOptions}
                     onChange={this.handleChange}
+                    isDisplayButton={this.isHost && focusStartDate <= today && focusEndDate >= today}
+                    handleFilterSubmit={this.handleFilterSubmit}
+                    handleSubmit={this.handleSubmit}
+                    onExportToExcel={this.handleExportToExcel}
                 />
-
-                {
-                    this.isHost && focusStartDate <= today && focusEndDate >= today &&
-                    <div className="navbar navbar-default navbar-fixed-bottom action-section button-block text-center">
-                        <button className="btn btn-cancel" onClick={this.handleFilterSubmit}>{getResource('Reset')}</button>
-                        <button className="btn btn-primary" onClick={this.handleSubmit}>{getResource('Submit')}</button>
-                    </div>
-                }
             </Fragment>
         );
     }
