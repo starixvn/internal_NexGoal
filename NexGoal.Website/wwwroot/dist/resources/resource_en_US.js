@@ -164,6 +164,7 @@ window.resource_en_US = {
     'StartDateForNominator': 'Start Date For Nominator',
     'Status': 'Status',
     'Submit': 'Submit',
+    'Save': 'Save',
     'SymbolCount': '#',
     'TargetType': 'Target Type',
     'TargetTypeRequired': 'Target Type is required.',
