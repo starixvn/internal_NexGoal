@@ -44,11 +44,13 @@
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IViewRenderService viewRenderService;
         private readonly IConverter converter;
+        private readonly ICommonService commonService;
 
         public ProbationReportService(IProbationRepository probationRepository, IBaseService baseService, ICryptoService cryptoService,
             IHostingEnvironment hostingEnvironment,
              IViewRenderService viewRenderService,
-            IConverter converter)
+            IConverter converter,
+            ICommonService commonService)
         {
             this.probationRepository = probationRepository;
             this.baseService = baseService;
@@ -56,6 +58,7 @@
             this.hostingEnvironment = hostingEnvironment;
             this.viewRenderService = viewRenderService;
             this.converter = converter;
+            this.commonService = commonService;
         }
 
         public async Task<Tuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndEmployeesAsync(int actorId)
@@ -103,6 +106,10 @@
 
                 foreach (var probationer in data)
                 {
+                    var selfComment = commonService.RemoveInvalidXmlChars(probationer.SelfComment);
+                    var evaluatorComment = commonService.RemoveInvalidXmlChars(probationer.EvaluatorComment);
+                    var reviewerComment = commonService.RemoveInvalidXmlChars(probationer.ReviewerComment);
+
                     worksheet.Cells[currentRow, OrderColumn].Value = position;
                     worksheet.Cells[currentRow, NickNameColumn].Value = probationer.NickName;
                     worksheet.Cells[currentRow, FullNameColumn].Value = probationer.FullName;
@@ -110,16 +117,16 @@
                     worksheet.Cells[currentRow, GroupNameColumn].Value = probationer.GroupName;
                     worksheet.Cells[currentRow, JobTitleColumn].Value = probationer.JobTitle;
                     worksheet.Cells[currentRow, SelfScoreColumn].Value = probationer.SelfScore;
-                    worksheet.Cells[currentRow, SelfCommentColumn].Value = probationer.SelfComment;
+                    worksheet.Cells[currentRow, SelfCommentColumn].Value = selfComment;
                     worksheet.Cells[currentRow, EvaluatorScoreColumn].Value = probationer.EvaluatorScore;
 
                     FillEvaluatorResult(probationer, worksheet.Cells[currentRow, EvaluatorResultColumn]);
 
-                    worksheet.Cells[currentRow, EvaluatorCommentColumn].Value = probationer.EvaluatorComment;
+                    worksheet.Cells[currentRow, EvaluatorCommentColumn].Value = evaluatorComment;
 
                     FillReviewerResult(probationer, worksheet.Cells[currentRow, ReviewerResultColumn]);
 
-                    worksheet.Cells[currentRow, ReviewerCommentColumn].Value = probationer.ReviewerComment;
+                    worksheet.Cells[currentRow, ReviewerCommentColumn].Value = reviewerComment;
 
                     position++;
                     currentRow++;
@@ -149,7 +156,10 @@
 
         private async Task<HtmlToPdfDocument> GetPdfSettingAsync(ProbationReportPdfModel reportModel)
         {
-            string htmlString = await viewRenderService.RenderToStringAsync(PDFViewName, reportModel).ConfigureAwait(false);
+            try
+            {
+                string htmlString = await viewRenderService.RenderToStringAsync(PDFViewName, reportModel).ConfigureAwait(false);
+            
 
             var globalSettings = new GlobalSettings
             {
@@ -180,6 +190,11 @@
             };
 
             return pdf;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         public async Task<Tuple<ProbationReportModel, IEnumerable<KPIGroupModel>, HRMModel>> GetByEmployeeIdAsync(int employeeId, int actorId)

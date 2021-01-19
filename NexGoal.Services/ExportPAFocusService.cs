@@ -89,8 +89,8 @@
 
                         WritePAGrade(worksheet.Cells[currentRow, PAGradeColumn], templateRowIndex, paFocus);
 
-                        worksheet.Cells[currentRow, CurrentObjectiveColumn].Value = paFocus.CurrentObjective;
-                        worksheet.Cells[currentRow, NextObjectiveColumn].Value = paFocus.NextObjective;
+                        worksheet.Cells[currentRow, CurrentObjectiveColumn].Value = commonService.RemoveInvalidXmlChars(paFocus.CurrentObjective);
+                        worksheet.Cells[currentRow, NextObjectiveColumn].Value = commonService.RemoveInvalidXmlChars(paFocus.NextObjective);
 
                         rowIndex++;
                         currentRow++;

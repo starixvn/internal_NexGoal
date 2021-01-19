@@ -1,4 +1,6 @@
-﻿CREATE PROCEDURE [dbo].[Announcement_Get] @EmployeeId INT
+﻿
+
+CREATE PROCEDURE [dbo].[Announcement_Get] @EmployeeId INT
 AS
 /*
 Created: 20181221@elton.ton
@@ -94,7 +96,7 @@ BEGIN
 		[Message]
 		,StartDate
 		)
-	SELECT CONCAT ('The Performance Appraisal Process for the ', p.[Name], ' is IN PROGRESS and will end on ', FORMAT(p.EndDate, @dateFormat), ', please revise and submit the PA for your members.')
+	SELECT CONCAT ('The Performance Appraisal Process for the ', p.[Name], ' is IN PROGRESS and will end at 23:59 ', FORMAT(p.EndDate, @dateFormat), ', please revise and submit the PA for your members.')
 		,p.StartDate
 	FROM dbo.Period AS p WITH (NOLOCK)
 	WHERE @today BETWEEN p.StartDate
@@ -113,7 +115,7 @@ BEGIN
 		[Message]
 		,StartDate
 		)
-	SELECT CONCAT ('The PA Focus for the ', p.[Name], ' is IN PROGRESS and will end on ', FORMAT(p.FocusEndDate, @dateFormat), ', please set the objectives for your members.')
+	SELECT CONCAT ('The PA Focus for the ', p.[Name], ' is IN PROGRESS and will end at 23:59 ', FORMAT(p.FocusEndDate, @dateFormat), ', please set the objectives for your members.')
 		,p.FocusStartDate
 	FROM dbo.Period AS p WITH (NOLOCK)
 	WHERE @today BETWEEN p.FocusStartDate
@@ -137,7 +139,7 @@ BEGIN
 			WHEN 2 THEN CONCAT ('Employee of the Quarter - II ', e.[Year])
 			WHEN 3 THEN CONCAT ('Employee of the Quarter - III ', e.[Year])
 			WHEN 4 THEN CONCAT ('Employee of the Quarter - IV ', e.[Year])
-			ELSE CONCAT ('Employee of the Year - ', e.[Year]) END, ' process is IN PROGRESS and will end on ', FORMAT(e.EndDateForNominator, @dateFormat), ', please submit the vote for your nominee.'
+			ELSE CONCAT ('Employee of the Year - ', e.[Year]) END, ' process is IN PROGRESS and will end at 23:59 ', FORMAT(e.EndDateForNominator, @dateFormat), ', please submit the vote for your nominee.'
 			)
 		,e.StartDateForNominator
 	FROM dbo.EOQY AS e WITH (NOLOCK)

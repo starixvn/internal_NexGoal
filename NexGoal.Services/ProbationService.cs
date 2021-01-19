@@ -18,12 +18,18 @@
         private readonly IProbationRepository probationRepository;
         private readonly ICryptoService cryptoService;
         private readonly IBaseService baseService;
+        private readonly ICommonService commonService;
 
-        public ProbationService(IProbationRepository probationRepository, IBaseService baseService, ICryptoService cryptoService)
+        public ProbationService(
+            IProbationRepository probationRepository,
+            IBaseService baseService,
+            ICryptoService cryptoService,
+            ICommonService commonService)
         {
             this.probationRepository = probationRepository;
             this.baseService = baseService;
             this.cryptoService = cryptoService;
+            this.commonService = commonService;
         }
 
         public async Task<IEnumerable<ProbationEvaluationModel>> GetProbationEvaluationsAsync(int actorId, int? employeeId)
@@ -95,7 +101,7 @@
             {
                 EmployeeId = model.EmployeeId,
                 Details = root.ToString(),
-                Comment = model.Comment,
+                Comment = commonService.RemoveInvalidXmlChars(model.Comment),
                 TotalScore = cryptoService.Encrypt(model.TotalScore.ToString())
             }).ConfigureAwait(false);
         }
@@ -108,7 +114,7 @@
             {
                 EmployeeId = model.EmployeeId,
                 Details = root.ToString(),
-                Comment = model.Comment,
+                Comment = commonService.RemoveInvalidXmlChars(model.Comment),
                 TotalScore = cryptoService.Encrypt(model.TotalScore.ToString()),
                 IsQualifiedByEvaluator = model.IsQualifiedByEvaluator,
                 ActorId = model.ActorId,
@@ -121,7 +127,7 @@
             {
                 EmployeeId = model.EmployeeId,
                 IsQualified = model.IsQualified,
-                Comment = model.Comment,
+                Comment = commonService.RemoveInvalidXmlChars(model.Comment),
                 ActorId = model.ActorId
             }).ConfigureAwait(false);
         }

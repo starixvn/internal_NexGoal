@@ -97,6 +97,8 @@
                 paFocus.IsReadyPromotion = cryptoService.Encrypt(paFocus.IsReadyPromotion);
                 paFocus.Contribution = cryptoService.Encrypt(paFocus.Contribution);
                 paFocus.BonusGiven = cryptoService.Encrypt(paFocus.BonusGiven);
+                paFocus.CurrentObjective = commonService.RemoveInvalidXmlChars(paFocus.CurrentObjective);
+                paFocus.NextObjective = commonService.RemoveInvalidXmlChars(paFocus.NextObjective);
             }
 
             var criteria = new EditPAFocusCriteria

@@ -14,6 +14,7 @@
     {
         private IBaseService baseService;
         private IDisciplineRepository disciplineRepository;
+        private ICommonService commonService;
 
         [Fact]
         public async Task GetDisciplineAsync_WhenCalled_ReturnAsExpectedDisciplines()
@@ -110,7 +111,8 @@
         {
             baseService = Substitute.For<IBaseService>();
             disciplineRepository = Substitute.For<IDisciplineRepository>();
-            var service = new DisciplineService(baseService, disciplineRepository);
+            commonService = Substitute.For<ICommonService>();
+            var service = new DisciplineService(baseService, disciplineRepository, commonService);
 
             return service;
         }

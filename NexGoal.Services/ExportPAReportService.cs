@@ -51,16 +51,19 @@
         private readonly IPAReportService reportService;
         private readonly IViewRenderService viewRenderService;
         private readonly IConverter converter;
+        private readonly ICommonService commonService;
 
         public ExportPAReportService(IHostingEnvironment hostingEnvironment,
             IPAReportService reportService,
             IViewRenderService viewRenderService,
-            IConverter converter)
+            IConverter converter,
+            ICommonService commonService)
         {
             this.hostingEnvironment = hostingEnvironment;
             this.reportService = reportService;
             this.viewRenderService = viewRenderService;
             this.converter = converter;
+            this.commonService = commonService;
         }
 
         public async Task<byte[]> ExportExcelAsync(GetPARecordMultiPeriodParam param)
@@ -115,7 +118,7 @@
             }
         }
 
-        private static void WriteCellForPeriod(ExcelWorksheet templateWorksheet,
+        private void WriteCellForPeriod(ExcelWorksheet templateWorksheet,
             ExcelWorksheet worksheet,
             PARecordGroupByPeriod period
             , ref int currentRow)
@@ -152,7 +155,7 @@
             currentRow++;
         }
 
-        private static void WriteCellForGroup(ExcelWorksheet templateWorksheet,
+        private void WriteCellForGroup(ExcelWorksheet templateWorksheet,
             ExcelWorksheet worksheet,
             PAReportModel groupPA
             , ref int currentRow)
@@ -222,7 +225,7 @@
             toeicCell.Value = toeic != null ? toeic.ToString() : "N/A";
         }
 
-        private static void WritePerformanceRecordByProcess(
+        private void WritePerformanceRecordByProcess(
             ExcelRange cell,
             IEnumerable<PAProcessModel> paProcesses,
             PerformanceProcess processId)
@@ -257,28 +260,30 @@
             }
         }
 
-        private static void WritePAComment(ExcelRange paCell, PARecordModel paRecord)
+        private void WritePAComment(ExcelRange paCell, PARecordModel paRecord)
         {
             var richTextCollection = paCell.RichText;
             var assessorText = richTextCollection.Add(paRecord.Processes.FirstOrDefault(x => x.ProcessId == (int)PerformanceProcess.Reviewer)?.Evaluator.NickName);
             assessorText.Bold = true;
 
-            if (!string.IsNullOrWhiteSpace(paRecord.Comment))
+            string paComment = commonService.RemoveInvalidXmlChars(paRecord.Comment);
+            if (!string.IsNullOrWhiteSpace(paComment))
             {
                 richTextCollection.Add(Environment.NewLine);
                 richTextCollection.Add(Environment.NewLine);
 
-                var commentText = richTextCollection.Add(paRecord.Comment);
+                var commentText = richTextCollection.Add(paComment);
                 commentText.Bold = false;
             }
         }
 
-        private static void WritePerformanceRecordContent(ExcelRange cell, PAProcessModel process)
+        private void WritePerformanceRecordContent(ExcelRange cell, PAProcessModel process)
         {
             int totalRecords = process.RelatedPerformanceRecords.Count();
             int recordIndex = 1;
             foreach (PerformanceRecord record in process.RelatedPerformanceRecords)
             {
+                string comment = commonService.RemoveInvalidXmlChars(record.Comment);
                 cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                 cell.Style.VerticalAlignment = ExcelVerticalAlignment.Top;
                 var richTextCollection = cell.RichText;
@@ -288,7 +293,7 @@
                 var grade = record.Grade != null ? record.Grade.Name : ViewLang.NA;
                 richTextCollection.Add($"Grade: {grade}");
                 richTextCollection.Add(Environment.NewLine);
-                richTextCollection.Add(record.Comment);
+                richTextCollection.Add(comment);
                 richTextCollection.Add(Environment.NewLine);
                 richTextCollection.Add(Environment.NewLine);
 

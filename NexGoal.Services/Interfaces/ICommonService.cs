@@ -46,5 +46,7 @@
         void MappingGrade(IEnumerable<PAProcessModel> processes, IEnumerable<PerformanceGrade> performanceGrades);
 
         void MappingGrade(PAProcessModel process, IEnumerable<PerformanceGrade> performanceGrades);
+
+        string RemoveInvalidXmlChars(string content);
     }
 }

@@ -19,6 +19,7 @@
     {
         private IBaseService baseService;
         private IEmployeeNominationRepository nominationRepository;
+        private ICommonService commonService;
 
         [Fact]
         public async Task CreateAsync_ValidData_ReturnExpectedCommandResult()
@@ -270,8 +271,9 @@
         {
             baseService = Substitute.For<IBaseService>();
             nominationRepository = Substitute.For<IEmployeeNominationRepository>();
+            commonService = Substitute.For<ICommonService>();
 
-            var service = new EmployeeNominationService(baseService, nominationRepository);
+            var service = new EmployeeNominationService(baseService, nominationRepository, commonService);
 
             return service;
         }

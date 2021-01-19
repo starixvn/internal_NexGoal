@@ -16,13 +16,16 @@
     {
         private readonly IBaseService baseService;
         private readonly IEmployeeNominationRepository nominationRepository;
+        private readonly ICommonService commonService;
 
         public EmployeeNominationService(
             IBaseService baseService,
-            IEmployeeNominationRepository nominationRepository)
+            IEmployeeNominationRepository nominationRepository,
+            ICommonService commonService)
         {
             this.baseService = baseService;
             this.nominationRepository = nominationRepository;
+            this.commonService = commonService;
         }
 
         public async Task<CommandResult> CreateAsync(CreateEmployeeNominationModel model)
@@ -32,7 +35,7 @@
                 NominationPeriodId = model.NominationPeriodId,
                 NominatorId = model.NominatorId,
                 NomineeId = model.NomineeId,
-                Comment = model.Comment
+                Comment = commonService.RemoveInvalidXmlChars(model.Comment)
             };
 
             var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
@@ -48,7 +51,7 @@
                 NominationPeriodId = model.NominationPeriodId,
                 NominatorId = model.NominatorId,
                 NomineeId = model.NomineeId,
-                Comment = model.Comment,
+                Comment = commonService.RemoveInvalidXmlChars(model.Comment),
                 PerformanceRecordId = model.PerformanceRecordId,
             };
 

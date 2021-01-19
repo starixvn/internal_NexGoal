@@ -10,10 +10,12 @@
     public class EOQService : IEOQService
     {
         private readonly IBaseService baseService;
+        private readonly ICommonService commonService;
 
-        public EOQService(IBaseService baseService)
+        public EOQService(IBaseService baseService, ICommonService commonService)
         {
             this.baseService = baseService;
+            this.commonService = commonService;
         }
 
         public async Task<IEnumerable<EOQYModel>> GetAllAsync(int? year = null, int? statusId = null)
@@ -54,7 +56,7 @@
                 EndDateForNominator = eoq.EndDateForNominator,
                 RemindDateForNominator = eoq.RemindDateForNominator,
                 EndDateForCommittee = eoq.EndDateForCommittee,
-                Description = eoq.Description,
+                Description = commonService.RemoveInvalidXmlChars(eoq.Description),
                 CreatedBy = actorId
             };
 
@@ -72,7 +74,7 @@
                 EndDateForNominator = eoq.EndDateForNominator,
                 RemindDateForNominator = eoq.RemindDateForNominator,
                 EndDateForCommittee = eoq.EndDateForCommittee,
-                Description = eoq.Description,
+                Description = commonService.RemoveInvalidXmlChars(eoq.Description),
                 ModifiedBy = actorId
             };
 

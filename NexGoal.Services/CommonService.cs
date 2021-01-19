@@ -237,5 +237,15 @@
 
             process.Grade = !string.IsNullOrWhiteSpace(process.RelatedPerformanceRecordIds) ? ViewLang.NA : string.Empty;
         }
+
+        public string RemoveInvalidXmlChars(string content)
+        {
+            if (content != null)
+            {
+                return new string(content.Where(ch => System.Xml.XmlConvert.IsXmlChar(ch)).ToArray());
+            }
+            return content;
+        }
+
     }
 }

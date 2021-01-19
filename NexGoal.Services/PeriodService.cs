@@ -63,7 +63,7 @@
                 DisciplineEndDate = model.DisciplineEndDate,
                 FocusStartDate = model.FocusStartDate,
                 FocusEndDate = model.FocusEndDate,
-                Description = model.Description,
+                Description = commonService.RemoveInvalidXmlChars(model.Description),
                 IsActive = model.IsActive,
                 CreatedBy = actorId
             };
@@ -106,7 +106,7 @@
                 DisciplineEndDate = model.DisciplineEndDate,
                 FocusStartDate = model.FocusStartDate,
                 FocusEndDate = model.FocusEndDate,
-                Description = model.Description,
+                Description = commonService.RemoveInvalidXmlChars(model.Description),
                 IsActive = model.IsActive,
                 ModifiedBy = actorId
             };

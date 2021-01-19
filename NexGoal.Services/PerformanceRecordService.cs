@@ -223,7 +223,7 @@
                 EmployeeIds = performanceRecord.EmployeeIds,
                 CreatorId = performanceRecord.CreatorId,
                 GradeId = cryptoService.Encrypt(performanceRecord.GradeId),
-                Comment = performanceRecord.Comment,
+                Comment = commonService.RemoveInvalidXmlChars(performanceRecord.Comment),
                 ProjectIds = performanceRecord.ProjectIds,
                 TypeId = performanceRecord.TypeId
             };
@@ -256,7 +256,7 @@
                 EmployeeIds = performanceRecord.EmployeeIds,
                 CreatorId = performanceRecord.CreatorId,
                 GradeId = cryptoService.Encrypt(performanceRecord.GradeId),
-                Comment = performanceRecord.Comment,
+                Comment = commonService.RemoveInvalidXmlChars(performanceRecord.Comment),
                 ProjectIds = performanceRecord.ProjectIds,
                 TypeId = performanceRecord.TypeId
             };
@@ -275,7 +275,7 @@
                 EmployeeIds = performanceRecord.EmployeeIds,
                 CreatorId = performanceRecord.CreatorId,
                 GradeId = cryptoService.Encrypt(performanceRecord.GradeId),
-                Comment = performanceRecord.Comment,
+                Comment = commonService.RemoveInvalidXmlChars(performanceRecord.Comment),
                 ProjectIds = performanceRecord.ProjectIds,
                 TypeId = performanceRecord.TypeId,
                 IsFromDraft = performanceRecord.IsFromDraft
@@ -323,7 +323,7 @@
                 EmployeeIds = performanceRecord.EmployeeIds,
                 CreatorId = performanceRecord.CreatorId,
                 GradeId = cryptoService.Encrypt(performanceRecord.GradeId),
-                Comment = performanceRecord.Comment,
+                Comment = commonService.RemoveInvalidXmlChars(performanceRecord.Comment),
                 ProjectIds = performanceRecord.ProjectIds,
                 TypeId = performanceRecord.TypeId
             };

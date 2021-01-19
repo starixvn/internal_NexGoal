@@ -12,13 +12,16 @@
     {
         private readonly IBaseService baseService;
         private readonly IDisciplineRepository disciplineRepository;
+        private readonly ICommonService commonService;
 
         public DisciplineService(
             IBaseService baseService,
-            IDisciplineRepository disciplineRepository)
+            IDisciplineRepository disciplineRepository,
+            ICommonService commonService)
         {
             this.baseService = baseService;
             this.disciplineRepository = disciplineRepository;
+            this.commonService = commonService;
         }
 
         public async Task<IEnumerable<DisciplineModel>> GetDisciplineAsync(GetDisciplineParam param)
@@ -53,7 +56,7 @@
             {
                 EmployeeId = model.EmployeeId,
                 EffectiveDate = model.EffectiveDate,
-                Description = model.Content,
+                Description = commonService.RemoveInvalidXmlChars(model.Content),
                 CreatedBy = model.CreatedBy
             };
 
@@ -66,7 +69,7 @@
             {
                 DisciplineId = model.DisciplineId,
                 EffectiveDate = model.EffectiveDate,
-                Description = model.Content,
+                Description = commonService.RemoveInvalidXmlChars(model.Content),
                 ModifiedBy = model.ModifiedBy
             };
 

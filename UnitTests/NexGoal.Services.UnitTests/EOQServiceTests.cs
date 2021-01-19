@@ -12,6 +12,7 @@
     public class EOQServiceTests
     {
         private IBaseService baseService;
+        private ICommonService commonService;
 
         [Fact]
         public async Task GetAllAsync_WhenCalled_ReturnAsExpectedEOQs()
@@ -113,7 +114,8 @@
         private EOQService GetEOQService()
         {
             baseService = Substitute.For<IBaseService>();
-            var service = new EOQService(baseService);
+            commonService = Substitute.For<ICommonService>();
+            var service = new EOQService(baseService, commonService);
 
             return service;
         }

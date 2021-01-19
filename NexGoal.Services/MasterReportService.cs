@@ -144,7 +144,7 @@
             return records;
         }
 
-        private static void WriteRecord(ExcelWorksheet worksheet, MasterReportModel record, IEnumerable<PerformanceGrade> performanceGrades, ref int currentRow, ref int rowIndex)
+        private void WriteRecord(ExcelWorksheet worksheet, MasterReportModel record, IEnumerable<PerformanceGrade> performanceGrades, ref int currentRow, ref int rowIndex)
         {
             var numberOfAwards = record.Awards.Count();
             var toRow = numberOfAwards > 0 ? currentRow + numberOfAwards - 1 : currentRow;
@@ -209,11 +209,11 @@
 
             var currentObjectiveCell = worksheet.Cells[currentRow, 17, toRow, 17];
             currentObjectiveCell.Merge = merge;
-            currentObjectiveCell.Value = record.CurrentObjective;
+            currentObjectiveCell.Value = commonService.RemoveInvalidXmlChars(record.CurrentObjective);
 
             var nextObjectiveCell = worksheet.Cells[currentRow, 18, toRow, 18];
             nextObjectiveCell.Merge = merge;
-            nextObjectiveCell.Value = record.NextObjective;
+            nextObjectiveCell.Value = commonService.RemoveInvalidXmlChars(record.NextObjective);
 
             var rowPosition = currentRow;
             foreach (var award in record.Awards)
@@ -342,7 +342,7 @@
             return points.Any() ? points.Average() : 0f;
         }
 
-        private static void WritePerformanceRecordByProcess(ExcelRange cell, IEnumerable<PAProcessModel> processes)
+        private void WritePerformanceRecordByProcess(ExcelRange cell, IEnumerable<PAProcessModel> processes)
         {
             foreach (PAProcessModel process in processes)
             {
@@ -350,6 +350,7 @@
                 int recordIndex = 1;
                 foreach (PerformanceRecord record in process.RelatedPerformanceRecords)
                 {
+                    string comment = commonService.RemoveInvalidXmlChars(record.Comment);
                     cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                     cell.Style.VerticalAlignment = ExcelVerticalAlignment.Top;
                     var richTextCollection = cell.RichText;
@@ -359,7 +360,7 @@
                     var grade = record.Grade != null ? record.Grade.Name : ViewLang.NA;
                     richTextCollection.Add($"Grade: {grade}");
                     richTextCollection.Add(Environment.NewLine);
-                    richTextCollection.Add(record.Comment);
+                    richTextCollection.Add(comment);
                     richTextCollection.Add(Environment.NewLine);
                     richTextCollection.Add(Environment.NewLine);
 
@@ -408,7 +409,7 @@
             }
         }
 
-        private static void WritePA(ExcelRange cell, MasterReportModel record)
+        private void WritePA(ExcelRange cell, MasterReportModel record)
         {
             var richTextCollection = cell.RichText;
             var assessorText = richTextCollection.Add(record.Processes.FirstOrDefault(x => x.ProcessId == (byte)PerformanceProcess.Reviewer)?.Evaluator.NickName);
@@ -447,11 +448,12 @@
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(record.Comment))
+            string paComment = commonService.RemoveInvalidXmlChars(record.Comment);
+            if (!string.IsNullOrWhiteSpace(paComment))
             {
                 richTextCollection.Add(Environment.NewLine);
 
-                var commentText = richTextCollection.Add(record.Comment);
+                var commentText = richTextCollection.Add(paComment);
                 commentText.Bold = false;
                 commentText.Color = Color.Black;
             }
