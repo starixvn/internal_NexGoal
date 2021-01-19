@@ -158,7 +158,7 @@
             {
                 PARecordId = paRecord.PARecordId,
                 GradeId = cryptoService.Encrypt(paRecord.GradeId),
-                Comment = paRecord.Comment,
+                Comment = commonService.RemoveInvalidXmlChars(paRecord.Comment),
                 ActorId = actorId
             };
 
