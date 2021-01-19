@@ -12,11 +12,13 @@
     {
         private readonly IBaseService baseService;
         private readonly IPRFeedbackRepository prFeedbackRepository;
+        private readonly ICommonService commonService;
 
-        public PRFeedbackService(IBaseService baseService, IPRFeedbackRepository prFeedbackRepository)
+        public PRFeedbackService(IBaseService baseService, IPRFeedbackRepository prFeedbackRepository, ICommonService commonService)
         {
             this.baseService = baseService;
             this.prFeedbackRepository = prFeedbackRepository;
+            this.commonService = commonService;
         }
 
         public async Task<CommandResult> CreatePRFeedback(AddPRFeedbackDto prFeedback)
@@ -25,7 +27,7 @@
             {
                 PerformanceRecordId = prFeedback.PerformanceRecordId,
                 CreatorId = prFeedback.CreatorId,
-                Content = prFeedback.Content
+                Content = commonService.RemoveInvalidXmlChars(prFeedback.Content)
             };
 
             CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
@@ -39,7 +41,7 @@
             {
                 PRFeedbackId = prFeedback.PRFeedbackId,
                 CreatorId = prFeedback.CreatorId,
-                Content = prFeedback.Content
+                Content = commonService.RemoveInvalidXmlChars(prFeedback.Content)
             };
 
             CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
