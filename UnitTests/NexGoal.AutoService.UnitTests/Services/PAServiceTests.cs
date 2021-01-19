@@ -177,10 +177,10 @@
                 $" Content=\"{string.Format(Message.NotificationTemplate_PA_RemindStartEvaluationToSupervisor, "20 Dec 2018").Replace("&", "&amp;")}\"" +
                 " StatusId=\"0\" ActionTypeId=\"1\" RecordId=\"\" />";
             var notification2Xml = "<Row EmployeeId=\"285\"" +
-                " Content=\"The Performance Appraisal for the 2h 2018 is IN PROGRESS and will end on 31 Dec 2018, please revise and submit the PA for your members.\"" +
+                " Content=\"The Performance Appraisal for the 2h 2018 is IN PROGRESS and will end at 23:59 31 Dec 2018, please revise and submit the PA for your members.\"" +
                 " StatusId=\"0\" ActionTypeId=\"6\" RecordId=\"\" />";
             var notification3Xml = "<Row EmployeeId=\"285\"" +
-                " Content=\"The Performance Appraisal for the 2h 2018 is going to be CLOSED on 31 Dec 2018, please make sure to revise and submit the PA for all of your members.\"" +
+                " Content=\"The Performance Appraisal for the 2h 2018 is going to be CLOSED at 23:59 31 Dec 2018, please make sure to revise and submit the PA for all of your members.\"" +
                 " StatusId=\"0\" ActionTypeId=\"6\" RecordId=\"\" />";
             var notification4Xml = "<Row EmployeeId=\"285\"" +
                 " Content=\"The Performance Appraisal for the 2h 2018 is COMPLETE!\"" +

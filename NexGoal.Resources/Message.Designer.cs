@@ -448,7 +448,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The PA Focus for the {0} is going to be CLOSED at 23:59 {1}, please review the objectives for all of your members.
+        ///   Looks up a localized string similar to The PA Focus for the {0} is going to be CLOSED at 23:59 {1}, please review the objectives for all of your members..
         /// </summary>
         public static string NotificationTemplate_PAFocus_Remind {
             get {

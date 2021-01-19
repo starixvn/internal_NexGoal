@@ -149,6 +149,9 @@
             var notificationXml = "<Row EmployeeId=\"285\"" +
                 " Content=\"The PA Focus for the 1h 2018 is IN PROGRESS and will end at 23:59 20 Dec 2018, please set the objectives for your members.\"" +
                 " StatusId=\"0\" ActionTypeId=\"7\" RecordId=\"\" />";
+            var notification1Xml = "<Row EmployeeId=\"285\"" +
+                " Content=\"The PA Focus for the 2h 2018 is going to be CLOSED at 23:59 20 Dec 2018, please review the objectives for all of your members.\"" +
+                " StatusId=\"0\" ActionTypeId=\"7\" RecordId=\"\" />";
 
             var criteria = new CreateNotificationCriteria();
 
@@ -164,6 +167,7 @@
             // Assert
             await baseService.Received(1).ExecuteNonQueryAsync(Arg.Any<CreateNotificationCriteria>());
             Assert.Contains(notificationXml, criteria.Notifications);
+            Assert.Contains(notification1Xml, criteria.Notifications);
         }
 
         #endregion SendNotification

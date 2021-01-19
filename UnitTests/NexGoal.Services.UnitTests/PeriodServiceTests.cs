@@ -129,6 +129,7 @@
             var criteria = new EditPeriodCriteria();
             var service = GetPeriodService();
             baseService.ExecuteNonQueryAsync(Arg.Do<EditPeriodCriteria>(x => criteria = x)).Returns(expected);
+            commonService.RemoveInvalidXmlChars(model.Description).Returns(criteria.Description);
 
             // Act
             var actual = await service.EditAsync(1, model);

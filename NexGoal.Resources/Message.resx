@@ -226,7 +226,7 @@
     <value>The Nomination process for the {0} is IN PROGRESS and will end at 23:59 {1}, please submit the vote for your nominee.</value>
   </data>
   <data name="NotificationTemplate_PAFocus_Remind" xml:space="preserve">
-    <value>The PA Focus for the {0} is going to be CLOSED at 23:59 {1}, please review the objectives for all of your members</value>
+    <value>The PA Focus for the {0} is going to be CLOSED at 23:59 {1}, please review the objectives for all of your members.</value>
   </data>
   <data name="NotificationTemplate_PAFocus_Start" xml:space="preserve">
     <value>The PA Focus for the {0} is IN PROGRESS and will end at 23:59 {1}, please set the objectives for your members.</value>

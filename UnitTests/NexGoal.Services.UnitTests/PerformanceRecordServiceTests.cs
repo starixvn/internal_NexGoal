@@ -247,6 +247,7 @@
             var service = GetPerformanceRecordService();
             baseService.ExecuteNonQueryAsync(Arg.Do<CreatePerformanceRecordCriteria>(x => criteria = x)).Returns(expected);
             cryptoService.Encrypt(Arg.Any<string>()).Returns("cipher text");
+            commonService.RemoveInvalidXmlChars(performanceRecord.Comment).Returns(criteria.Comment);
 
             // Act
             var actual = await service.CreatePerformanceRecordAsync(performanceRecord);
@@ -306,6 +307,7 @@
             var service = GetPerformanceRecordService();
             baseService.ExecuteNonQueryAsync(Arg.Do<CreateDraftPerformanceRecordCriteria>(x => criteria = x)).Returns(expected);
             cryptoService.Encrypt(Arg.Any<string>()).Returns("cipher text");
+            commonService.RemoveInvalidXmlChars(performanceRecord.Comment).Returns(criteria.Comment);
 
             // Act
             var actual = await service.CreateDraftPerformanceRecordAsync(performanceRecord);
@@ -337,6 +339,7 @@
             var service = GetPerformanceRecordService();
             baseService.ExecuteNonQueryAsync(Arg.Do<EditPerformanceRecordCriteria>(x => criteria = x)).Returns(expected);
             cryptoService.Encrypt(Arg.Any<string>()).Returns("cipher text");
+            commonService.RemoveInvalidXmlChars(performanceRecord.Comment).Returns(criteria.Comment);
 
             // Act
             var actual = await service.EditPerformanceRecordAsync(performanceRecord);
@@ -435,6 +438,7 @@
             var service = GetPerformanceRecordService();
             baseService.ExecuteNonQueryAsync(Arg.Do<EditDraftPerformanceRecordCriteria>(x => criteria = x)).Returns(expected);
             cryptoService.Encrypt(Arg.Any<string>()).Returns("cipher text");
+            commonService.RemoveInvalidXmlChars(performanceRecord.Comment).Returns(criteria.Comment);
 
             // Act
             var actual = await service.EditDraftPerformanceRecordAsync(performanceRecord);
