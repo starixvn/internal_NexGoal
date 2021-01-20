@@ -99,8 +99,8 @@ export default class Table extends Component {
             <td className="text-center">
                 <a className={ canEditInfo ? 'fa fa-pencil' : 'icon-search'} title={canEditInfo ? 'Edit' : 'View'} href={`/Probation/Evaluate/${probationer.employeeId}`} />
             </td>
-        )
-    }
+        );
+    };
 
     render() {
         if (this.props.tableData) {
