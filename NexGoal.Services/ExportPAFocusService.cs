@@ -79,13 +79,34 @@
                         TemplateRowIndex templateRowIndex = GetCellsTemplate(templateWorksheet, worksheet, paFocus, rowIndex, currentRow);
 
                         worksheet.Cells[currentRow, RowIndexColumn].Value = rowIndex;
+
                         worksheet.Cells[currentRow, NickNameColumn].Value = paFocus.Employee.NickName;
+                        worksheet.Cells[currentRow, NickNameColumn].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                        worksheet.Cells[currentRow, NickNameColumn].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
                         worksheet.Cells[currentRow, FullNameColumn].Value = paFocus.Employee.FullName;
+                        worksheet.Cells[currentRow, FullNameColumn].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                        worksheet.Cells[currentRow, FullNameColumn].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
                         worksheet.Cells[currentRow, JobTitleColumn].Value = paFocus.Employee.JobTitle;
+                        worksheet.Cells[currentRow, JobTitleColumn].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                        worksheet.Cells[currentRow, JobTitleColumn].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
                         worksheet.Cells[currentRow, GroupNameColumn].Value = paFocus.Employee.GroupName;
+                        worksheet.Cells[currentRow, GroupNameColumn].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        worksheet.Cells[currentRow, GroupNameColumn].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
                         worksheet.Cells[currentRow, ContributionColumn].Value = GetFocusEvaluationLevel(referenceResources, paFocus.Contribution);
+                        worksheet.Cells[currentRow, ContributionColumn].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        worksheet.Cells[currentRow, ContributionColumn].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
                         worksheet.Cells[currentRow, BonusGivenColumn].Value = GetFocusEvaluationLevel(referenceResources, paFocus.BonusGiven);
+                        worksheet.Cells[currentRow, BonusGivenColumn].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        worksheet.Cells[currentRow, BonusGivenColumn].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
                         worksheet.Cells[currentRow, ReadyPromotionColumn].Value = GetIsReadyPromotion(isReadyPromotion);
+                        worksheet.Cells[currentRow, ReadyPromotionColumn].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        worksheet.Cells[currentRow, ReadyPromotionColumn].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
 
                         WritePAGrade(worksheet.Cells[currentRow, PAGradeColumn], templateRowIndex, paFocus);
 
