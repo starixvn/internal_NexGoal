@@ -40,10 +40,6 @@ export default class Table extends Component {
             finalResult = probationer.isQualified ? 'Passed' : 'Failed';
         }
 
-        const processIdCurrent = probationer.processIds[0];
-        const probationerProcessCanEditInfo = probationer.settings.filter(x=> x.processId === processIdCurrent)[0];
-        const canEditInfo = this.today.isSameOrAfter(probationerProcessCanEditInfo.fromDate, 'date') && this.today.isSameOrBefore(probationerProcessCanEditInfo.toDate, 'date');
-
         return (
             <tr key={probationer.employeeId}>
                 <td>{probationer.nickName}</td>
@@ -88,12 +84,23 @@ export default class Table extends Component {
                     />
                     <label htmlFor={`chb-${probationer.employeeId}`} />
                 </td>
-                <td className="text-center">
-                    <a className={ canEditInfo ? "fa fa-pencil" : "icon-search"} title={canEditInfo ? "Edit" : "View"} href={`/Probation/Evaluate/${probationer.employeeId}`} />
-                </td>
+                {
+                    this.renderRowButton(probationer)
+                }
             </tr>
         );
     };
+
+    renderRowButton = probationer => {
+        const processIdCurrent = probationer.processIds[0];
+        const probationerProcessCanEditInfo = probationer.settings.filter(x=> x.processId === processIdCurrent)[0];
+        const canEditInfo = this.today.isSameOrAfter(probationerProcessCanEditInfo.fromDate, 'date') && this.today.isSameOrBefore(probationerProcessCanEditInfo.toDate, 'date');
+        return (
+            <td className="text-center">
+                <a className={ canEditInfo ? 'fa fa-pencil' : 'icon-search'} title={canEditInfo ? 'Edit' : 'View'} href={`/Probation/Evaluate/${probationer.employeeId}`} />
+            </td>
+        )
+    }
 
     render() {
         if (this.props.tableData) {

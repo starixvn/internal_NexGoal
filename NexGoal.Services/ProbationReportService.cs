@@ -1,5 +1,11 @@
 ﻿namespace NexGoal.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.IO;
+    using System.Linq;
+    using System.Threading.Tasks;
     using DinkToPdf;
     using DinkToPdf.Contracts;
     using Microsoft.AspNetCore.Hosting;
@@ -9,12 +15,6 @@
     using NexGoal.Models.Probation;
     using NexGoal.Repositories;
     using OfficeOpenXml;
-    using System;
-    using System.Collections.Generic;
-    using System.Drawing;
-    using System.IO;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class ProbationReportService : IProbationReportService
     {
@@ -156,10 +156,7 @@
 
         private async Task<HtmlToPdfDocument> GetPdfSettingAsync(ProbationReportPdfModel reportModel)
         {
-            try
-            {
-                string htmlString = await viewRenderService.RenderToStringAsync(PDFViewName, reportModel).ConfigureAwait(false);
-            
+            string htmlString = await viewRenderService.RenderToStringAsync(PDFViewName, reportModel).ConfigureAwait(false);
 
             var globalSettings = new GlobalSettings
             {
@@ -190,11 +187,6 @@
             };
 
             return pdf;
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
         }
 
         public async Task<Tuple<ProbationReportModel, IEnumerable<KPIGroupModel>, HRMModel>> GetByEmployeeIdAsync(int employeeId, int actorId)

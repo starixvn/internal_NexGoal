@@ -39,28 +39,28 @@ export default class Table extends Component {
     renderHeaderTableFocus = () => {
         return (
             <Fragment>
-            <tr>
-                <th className="width-40">{getResource('SymbolCount')}</th>
-                <th className="width-90">{getResource('NickName')}</th>
-                <th className="width-200">{getResource('FullName')}</th>
-                <th className="width-300">{getResource('JobTitle')}</th>
-                <th className="width-200">
-                    Best Suited to Team Goals
+                <tr>
+                    <th className="width-40">{getResource('SymbolCount')}</th>
+                    <th className="width-90">{getResource('NickName')}</th>
+                    <th className="width-200">{getResource('FullName')}</th>
+                    <th className="width-300">{getResource('JobTitle')}</th>
+                    <th className="width-200">
+                        Best Suited to Team Goals
                             <OverlayTrigger placement="top" overlay={this.getTooltipBestSuitedToTeamGoals()}>
-                        <i className="fa fa-info-circle" />
-                    </OverlayTrigger>
-                </th>
-                <th className="width-200">
-                    Deserve Highest Reward (Increment And Bonus)
+                            <i className="fa fa-info-circle" />
+                        </OverlayTrigger>
+                    </th>
+                    <th className="width-200">
+                        Deserve Highest Reward (Increment And Bonus)
                             <OverlayTrigger placement="top" overlay={this.getTooltipDeserveHighestReward()}>
-                        <i className="fa fa-info-circle" />
-                    </OverlayTrigger>
-                </th>
-                <th className="width-150">{getResource('ReadyForPromotion')}</th>
-                <th className="width-90">{getResource('PAFinal')}</th>
-                <th className="objective" colSpan="2">{getResource('AccomplishedCurrentObjectives')}</th>
-                <th className="objective" colSpan="2">{getResource('NextObjectives')}</th>
-            </tr>
+                            <i className="fa fa-info-circle" />
+                        </OverlayTrigger>
+                    </th>
+                    <th className="width-150">{getResource('ReadyForPromotion')}</th>
+                    <th className="width-90">{getResource('PAFinal')}</th>
+                    <th className="objective" colSpan="2">{getResource('AccomplishedCurrentObjectives')}</th>
+                    <th className="objective" colSpan="2">{getResource('NextObjectives')}</th>
+                </tr>
             </Fragment>
         );
     };
@@ -85,16 +85,16 @@ export default class Table extends Component {
                             Duration: {`${focusStartDate} - ${focusEndDate}`}
                         </div>
                         <div className="pull-right">
-                            <span class="icon-save-black-18dp"  onClick={this.props.handleSubmit}/>
-                            <span class="icon-file-excel" onClick={this.handleExportToExcelTable}/>
+                            <span class="icon-save-black-18dp" onClick={this.props.handleSubmit} />
+                            <span class="icon-file-excel" onClick={this.handleExportToExcelTable} />
                         </div>
                     </div>
-                        }
+                }
                 <StickyBlock threshold={236}>
                     <table className="table table-bordered table-striped pa-focus-table">
                         <thead>
                             {
-                                this.renderHeaderTableFocus() 
+                                this.renderHeaderTableFocus()
                             }
                         </thead>
                     </table>
