@@ -19,14 +19,14 @@
             this.authService = authService;
         }
 
-        //[NonAction]
+        [NonAction]
         [HttpGet]
         public ActionResult Login()
         {
             return View();
         }
 
-       //[NonAction]
+        [NonAction]
         [HttpPost]
         public async Task<IActionResult> Login(string username)
         {
