@@ -47,7 +47,6 @@
             services.Configure<AppSettings>(options => Configuration.GetSection("AppSettings").Bind(options));
             services.Configure<MailConfigs>(options => Configuration.GetSection("MailConfigs").Bind(options));
             services.Configure<ChatbotConfigs>(options => Configuration.GetSection("ChatbotConfigs").Bind(options));
-            //// string encryptedPassword = Cryptography.EncryptPassword("@357$abc^FFZ%");
             Dictionary<string, string> connections = Configuration
                 .GetSection("ConnectionStrings")
                 .GetChildren()
@@ -74,7 +73,6 @@
 
             var hangfireConnectionString = Cryptography.DecryptConnectionString(Configuration.GetSection("HangfireConnectionString").Value);
             services.AddHangfire(config => config.UseSqlServerStorage(hangfireConnectionString));
-
             services.Configure<IISOptions>(options =>
             {
                 options.AutomaticAuthentication = true;
@@ -82,7 +80,6 @@
 
             var companyName = Configuration.GetSection("CompanyName").Value;
             ConfigureAuthentication(services, companyName);
-
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
             services.AddResponseCompression(options =>
             {
@@ -106,9 +103,6 @@
             ldapSettings = ldapSettings ?? new LdapSettings();
             ldapSettings.CompanyName = companyName;
 
-            // DI
-            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             services.AddSingleton(ldapSettings);
             services.ResolveCoreDI();
