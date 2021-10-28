@@ -131,7 +131,7 @@ export default class CreateNomination extends Component {
             if (currentPeriod.quarter) {
                 questionData = this.state.eoqQuestions.map(e => `${e.resourceId}. ${e.value}`).join('\r\n\r\n');
             } else {
-                questionData = this.state.eoyQuestions.map(e => `${e.resourceId}. ${e.value}`).join('\r\n\r\n');
+                questionData = this.state.eoyQuestions.map(e => `${e.value}`).join('\r\n\r\n');
             }
 
             setFieldValue('period', value);

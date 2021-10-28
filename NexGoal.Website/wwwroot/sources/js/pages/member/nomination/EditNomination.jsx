@@ -114,7 +114,7 @@ export default class EditNomination extends Component {
             if (period.quarter) {
                 questions = this.state.eoqQuestions.map(e => `${e.resourceId}. ${e.value}`).join('\r\n\r\n');
             } else {
-                questions = this.state.eoyQuestions.map(e => `${e.resourceId}. ${e.value}`).join('\r\n\r\n');
+                questions = this.state.eoyQuestions.map(e => `${e.value}`).join('\r\n\r\n');
             }
 
             setFieldValue('period', value);
