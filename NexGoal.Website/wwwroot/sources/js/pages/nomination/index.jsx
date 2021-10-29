@@ -42,7 +42,7 @@ export default class App extends Component {
                             <Tab eventKey={1} title={getResource('EmployeeOfTheQuarter')}>
                                 <EOQ />
                             </Tab>
-                            <Tab eventKey={2} title={getResource('EmployeeOfTheYear')}>
+                            <Tab eventKey={2} title={getResource('MostOutstandingEmployeeOfTheYear')}>
                                 {
                                     this.state.isFirstLoad &&
                                     <EOY />

@@ -52,7 +52,7 @@ window.resource_en_US = {
     'Email': 'Email',
     'Employee': 'Employee',
     'EmployeeOfTheQuarter': 'Employee Of The Quarter',
-    'EmployeeOfTheYear': 'Employee Of The Year',
+    'MostOutstandingEmployeeOfTheYear': 'Most Outstanding Employee Of The Year',
     'EmployeeRequired': 'Employee is required.',
     'EvaluationEndDate': 'PA End Date',
     'EvaluationFlow': 'PA Flow',

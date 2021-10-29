@@ -16,6 +16,20 @@
 
 #nomination-report-wrapper {
     margin-bottom: 24px;
+
+    .form-filter {
+        .form-group {
+            .control-content {
+                &.period-width {
+                    .react-select-container {
+                        .react-select__menu {
+                            min-width: 330px;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 .tbl-nomination-report {

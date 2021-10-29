@@ -198,6 +198,12 @@
     .nomination-period {
         width: 300px;
         margin-right: 16px;
+
+        .react-select-container {
+            .react-select__menu {
+                min-width: 330px;
+            }
+        }
     }
 
     .employee {

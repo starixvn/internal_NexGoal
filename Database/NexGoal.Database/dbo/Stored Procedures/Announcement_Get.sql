@@ -139,7 +139,7 @@ BEGIN
 			WHEN 2 THEN CONCAT ('Employee of the Quarter - II ', e.[Year])
 			WHEN 3 THEN CONCAT ('Employee of the Quarter - III ', e.[Year])
 			WHEN 4 THEN CONCAT ('Employee of the Quarter - IV ', e.[Year])
-			ELSE CONCAT ('Employee of the Year - ', e.[Year]) END, ' process is IN PROGRESS and will end at 23:59 ', FORMAT(e.EndDateForNominator, @dateFormat), ', please submit the vote for your nominee.'
+			ELSE CONCAT ('Most Outstanding Employee of the Year - ', e.[Year]) END, ' process is IN PROGRESS and will end at 23:59 ', FORMAT(e.EndDateForNominator, @dateFormat), ', please submit the vote for your nominee.'
 			)
 		,e.StartDateForNominator
 	FROM dbo.EOQY AS e WITH (NOLOCK)
@@ -167,7 +167,7 @@ BEGIN
 			WHEN 2 THEN CONCAT ('Employee of the Quarter - II ', e.[Year])
 			WHEN 3 THEN CONCAT ('Employee of the Quarter - III ', e.[Year])
 			WHEN 4 THEN CONCAT ('Employee of the Quarter - IV ', e.[Year])
-			ELSE CONCAT ('Employee of the Year - ', e.[Year]) END, ' is complete, please review the candidate list and choose the winner(s) for this award.'
+			ELSE CONCAT ('Most Outstanding Employee of the Year - ', e.[Year]) END, ' is complete, please review the candidate list and choose the winner(s) for this award.'
 			)
 		,DATEADD(DAY, 1, e.EndDateForNominator)
 	FROM dbo.EOQY AS e WITH (NOLOCK)
@@ -219,7 +219,7 @@ BEGIN
 					WHEN 2 THEN CONCAT ('Employee of the Quarter - II ', @Year)
 					WHEN 3 THEN CONCAT ('Employee of the Quarter - III ', @Year)
 					WHEN 4 THEN CONCAT ('Employee of the Quarter - IV ', @Year)
-					ELSE CONCAT ('Employee of the Year - ', @Year)
+					ELSE CONCAT ('Most Outstanding Employee of the Year - ', @Year)
 					END
 
 			INSERT INTO #tblAnnouncement (

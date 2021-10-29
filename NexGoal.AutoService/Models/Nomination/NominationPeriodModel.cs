@@ -18,7 +18,7 @@
         {
             get
             {
-                var title = $"Employee of the Year - {Year}";
+                var title = $"Most Outstanding Employee of the Year - {Year}";
 
                 if (Quarter.HasValue)
                 {

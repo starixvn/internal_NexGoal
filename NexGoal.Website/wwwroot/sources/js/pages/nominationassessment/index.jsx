@@ -50,7 +50,7 @@ export default class NominationAssessment extends Component {
                         <Tab eventKey={1} title="Employee Of The Quarter">
                             <EOQAssessment isQuarter onShowNominatorComment={this.handleShowNominatorComment} />
                         </Tab>
-                        <Tab eventKey={2} title="Employee Of The Year">
+                        <Tab eventKey={2} title="Most Outstanding Employee Of The Year">
                             {
                                 this.state.loadEOYTab &&
                                 <EOQAssessment isQuarter={false} onShowNominatorComment={this.handleShowNominatorComment} />
