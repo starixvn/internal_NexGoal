@@ -54,7 +54,7 @@
         {
             get
             {
-                var title = $"MEOY {Year}";
+                var title = $"MOEY {Year}";
 
                 if (Quarter.HasValue)
                 {
