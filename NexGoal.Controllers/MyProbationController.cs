@@ -1,6 +1,8 @@
 ﻿namespace NexGoal.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using Newtonsoft.Json;
     using NexGoal.Models.Probation;
     using NexGoal.Services;
     using NexGoal.ViewModels.Probation;
@@ -11,10 +13,15 @@
 
     public class MyProbationController : BaseController
     {
+        private readonly ILogger filelogger;
         private readonly IProbationService probationService;
 
-        public MyProbationController(ISessionService sessionService, IProbationService probationService) : base(sessionService)
+        public MyProbationController(
+            ILogger<MyProbationController> filelogger,
+            ISessionService sessionService,
+            IProbationService probationService) : base(sessionService)
         {
+            this.filelogger = filelogger;
             this.probationService = probationService;
         }
 
@@ -28,7 +35,7 @@
         public async Task<IActionResult> GetEvaluation()
         {
             var result = await probationService.GetProbationEvaluationsAsync(sessionService.EmployeeId, sessionService.EmployeeId);
-
+            filelogger.LogInformation(string.Format("Evaluation: {0}", JsonConvert.SerializeObject(result)));
             if (result.Any())
             {
                 return Json(result.FirstOrDefault());
@@ -43,7 +50,7 @@
         public async Task<IActionResult> GetEvaluationDetail()
         {
             var result = await probationService.GetEvaluationDetailAsync(sessionService.EmployeeId);
-
+            filelogger.LogInformation(string.Format("Evaluation detail: {0}", JsonConvert.SerializeObject(result)));
             if (result.Any())
             {
                 return Json(result);
