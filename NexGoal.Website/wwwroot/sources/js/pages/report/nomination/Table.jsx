@@ -76,7 +76,7 @@ export default class Table extends Component {
                     <th className="status">{getResource('Status')}</th>
                 </tr>
             </thead>
-        )
+        );
     };
 
     renderNominateReportStickyBlock = () => {
@@ -86,12 +86,6 @@ export default class Table extends Component {
                         {this.renderTableTh('sticky-header')}
                     </table>
                 </StickyBlock>
-        );
-    };
-
-    renderNominateReportHeaderTable = () => {
-        return (
-            this.renderTableTh('')
         );
     };
 
@@ -118,7 +112,7 @@ export default class Table extends Component {
                         <col className="status" />
                     </colgroup>
                     {
-                       this.renderNominateReportHeaderTable()
+                       this.renderTableTh('')
                     }
                     <tbody>
                         {

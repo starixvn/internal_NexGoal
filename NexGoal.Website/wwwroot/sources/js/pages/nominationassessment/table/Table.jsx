@@ -68,15 +68,15 @@ export default class Table extends Component {
         return (
             <thead>
                 <tr>
-                    <th className="order">{getResource('SymbolCount')}</th>
-                    <th className="nominee">{getResource('Nominee')}</th>
-                    <th className="team">{getResource('Team')}</th>
-                    <th className="vote">{getResource('Vote')}</th>
-                    <th className="nominator">{getResource('Nominator')}</th>
-                    <th className="status">{getResource('Status')}</th>
+                    <th className="order-th">{getResource('SymbolCount')}</th>
+                    <th className="nominee-th">{getResource('Nominee')}</th>
+                    <th className="team-th">{getResource('Team')}</th>
+                    <th className="vote-th">{getResource('Vote')}</th>
+                    <th className="nominator-th">{getResource('Nominator')}</th>
+                    <th className="status-th">{getResource('Status')}</th>
                 </tr>
             </thead>
-        )
+        );
     };
 
     render() {
