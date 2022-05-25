@@ -14,7 +14,6 @@
     using NexGoal.Web.Core.Filters;
     using NexGoal.Web.Core.Services;
 
-    [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Read)]
     public class PeriodController : BaseController
     {
         private readonly IPeriodService periodService;
@@ -27,12 +26,14 @@
         }
 
         [HttpGet]
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Read)]
         public IActionResult Index()
         {
             return View(sessionService.HasPermissionOnFunction(FunctionKey.EvaluationPeriod, Policy.Host));
         }
 
         [HttpGet]
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Read)]
         public async Task<JsonResult> GetPeriods(bool? isActive = null)
         {
             IEnumerable<PeriodModel> periods = await periodService.GetPeriodAsync(isActive);
@@ -41,6 +42,7 @@
         }
 
         [HttpGet]
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Read)]
         public async Task<JsonResult> GetPeriodProcessSetting(int id)
         {
             IEnumerable<PeriodProcessSettingModel> processSettings = await periodService.GetPeriodProcessSettingAsync(id);
@@ -49,6 +51,7 @@
         }
 
         [HttpGet]
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Read)]
         public async Task<JsonResult> GetById(int id)
         {
             PeriodModel period = await periodService.GetByIdAsync(id);
