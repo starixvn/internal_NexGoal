@@ -209,13 +209,23 @@
             return Json(commandResult);
         }
 
-        [Route("admin/period/updatePA")]
-        public async Task<IActionResult> UpdatePA()
+        [Route("admin/period/updatePA/{periodId:int:min(1)}/{employeeId?}")]
+        public async Task<IActionResult> UpdatePA(int periodId, int? employeeId = null)
         {
-            IEnumerable<PARecordModel> records = await periodService.GetEmployeeSettingAsync(7);
-            var ids = string.Join(",", records.Select(x => x.PARecordId));
+            IEnumerable<PARecordModel> records = await periodService.GetEmployeeSettingAsync(periodId);
+            string ids;
+            if (employeeId.HasValue)
+            {
+                var record = records.FirstOrDefault(x => x.EmployeeId == employeeId.Value);
+                ids = record != null ? record.PARecordId.ToString() : string.Empty;
+            }
+            else
+            {
+                ids = string.Join(",", records.Select(x => x.PARecordId));
+            }
+
             CommandResult commandResult = await periodService.EditPAGradeAsync(ids);
-            return Ok("Successfully!");
+            return Ok(commandResult.IsSuccessful ? "Successfully!" : commandResult.Message);
         }
     }
 }
