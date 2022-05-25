@@ -35,5 +35,7 @@
         Task<PARecordModel> GetEmployeeSettingByIdAsync(int paRecordId);
 
         Task<CommandResult> GeneratePAAsync(int periodId, string paRecordIds, int createdBy);
+
+        Task<CommandResult> EditPAGradeAsync(string paRecordIds);
     }
 }

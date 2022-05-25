@@ -283,7 +283,7 @@
             return records;
         }
 
-        private async Task<CommandResult> EditPAGradeAsync(string paRecordIds)
+        public async Task<CommandResult> EditPAGradeAsync(string paRecordIds)
         {
             var commandResult = new CommandResult { Code = 0 };
             IEnumerable<EditPAGradeDto> records = await GetDataToEditPAGradeAsync(paRecordIds);
