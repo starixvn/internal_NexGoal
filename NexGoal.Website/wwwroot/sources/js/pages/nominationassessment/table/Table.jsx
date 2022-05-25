@@ -64,6 +64,21 @@ export default class Table extends Component {
         );
     };
 
+    renderTheadTable = () =>{
+        return (
+            <thead>
+                <tr>
+                    <th className="order">{getResource('SymbolCount')}</th>
+                    <th className="nominee">{getResource('Nominee')}</th>
+                    <th className="team">{getResource('Team')}</th>
+                    <th className="vote">{getResource('Vote')}</th>
+                    <th className="nominator">{getResource('Nominator')}</th>
+                    <th className="status">{getResource('Status')}</th>
+                </tr>
+            </thead>
+        )
+    };
+
     render() {
         const content = this.props.tableData.length > 0 ? this.props.tableData.map(this.renderNomination)
             : <tr><td className="text-center" colSpan={6}>{noDataIndication()}</td></tr>;
@@ -71,30 +86,12 @@ export default class Table extends Component {
         return (
             <Fragment>
                 <StickyBlock threshold={236}>
-                    <table className="table table-bordered table-striped tbl-nomination-assessment">
-                        <thead>
-                            <tr>
-                                <th className="order">{getResource('SymbolCount')}</th>
-                                <th className="nominee">{getResource('Nominee')}</th>
-                                <th className="team">{getResource('Team')}</th>
-                                <th className="vote">{getResource('Vote')}</th>
-                                <th className="nominator">{getResource('Nominator')}</th>
-                                <th className="status">{getResource('Status')}</th>
-                            </tr>
-                        </thead>
+                    <table className="tbl-nomination-assessment table table-bordered table-striped">
+                        {this.renderTheadTable()}
                     </table>
                 </StickyBlock>
-                <table className="table table-bordered table-striped tbl-nomination-assessment">
-                    <thead>
-                        <tr>
-                            <th className="order">{getResource('SymbolCount')}</th>
-                            <th className="nominee">{getResource('Nominee')}</th>
-                            <th className="team">{getResource('Team')}</th>
-                            <th className="vote">{getResource('Vote')}</th>
-                            <th className="nominator">{getResource('Nominator')}</th>
-                            <th className="status">{getResource('Status')}</th>
-                        </tr>
-                    </thead>
+                <table className="table-striped table table-bordered tbl-nomination-assessment">
+                    {this.renderTheadTable()}
                     <tbody>
                         {content}
                     </tbody>

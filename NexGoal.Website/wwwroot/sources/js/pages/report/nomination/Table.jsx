@@ -64,29 +64,10 @@ export default class Table extends Component {
         );
     };
 
-    renderNominateReportStickyBlock = () => {
-        return (
-             <StickyBlock threshold={236}>
-                    <table id="nominate-report-sticky-table" className="table table-bordered table-striped tbl-nomination-report">
-                        <thead>
-                            <tr className="sticky-header">
-                                <th className="order">{getResource('SymbolCount')}</th>
-                                <th className="nominee">{getResource('Nominee')}</th>
-                                <th className="team">{getResource('Team')}</th>
-                                <th className="vote">{getResource('Vote')}</th>
-                                <th className="nominator">{getResource('Nominator')}</th>
-                                <th className="status">{getResource('Status')}</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </StickyBlock>
-        );
-    };
-
-    renderNominateReportHeaderTable = () => {
+    renderTableTh = className =>{
         return (
             <thead>
-                <tr>
+                <tr className={className}>
                     <th className="order">{getResource('SymbolCount')}</th>
                     <th className="nominee">{getResource('Nominee')}</th>
                     <th className="team">{getResource('Team')}</th>
@@ -94,7 +75,23 @@ export default class Table extends Component {
                     <th className="nominator">{getResource('Nominator')}</th>
                     <th className="status">{getResource('Status')}</th>
                 </tr>
-             </thead>
+            </thead>
+        )
+    };
+
+    renderNominateReportStickyBlock = () => {
+        return (
+             <StickyBlock threshold={236}>
+                    <table className="tbl-nomination-report table table-striped table-bordered" id="nominate-report-sticky-table">
+                        {this.renderTableTh('sticky-header')}
+                    </table>
+                </StickyBlock>
+        );
+    };
+
+    renderNominateReportHeaderTable = () => {
+        return (
+            this.renderTableTh('')
         );
     };
 
