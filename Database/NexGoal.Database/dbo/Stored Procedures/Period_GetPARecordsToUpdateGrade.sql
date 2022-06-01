@@ -19,6 +19,7 @@ BEGIN
 		,pa.EmployeeId
 		,evaluator.GradeId
 		,toeic.Score AS ToeicPolicy
+		,pa.StatusId
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
 		INNER JOIN dbo.PAProcess AS evaluator WITH (NOLOCK) ON pa.PARecordId = evaluator.PARecordId
