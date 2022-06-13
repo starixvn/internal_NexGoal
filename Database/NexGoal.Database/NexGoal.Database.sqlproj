@@ -308,6 +308,11 @@
     <Build Include="dbo\Tables\PRReaction.sql" />
     <Build Include="scripts\125440_alter_sp.sql" />
     <Build Include="scripts\125440_script.sql" />
+    <Build Include="dbo\Tables\TargetTemplateKPIGroup.sql" />
+    <Build Include="dbo\Tables\TargetTemplateKPI.sql" />
+    <Build Include="dbo\Tables\TargetTemplate.sql" />
+    <Build Include="dbo\Tables\NominationKPIGroup.sql" />
+    <Build Include="dbo\Tables\NominationKPI.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">
