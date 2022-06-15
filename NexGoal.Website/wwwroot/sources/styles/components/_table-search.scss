@@ -23,13 +23,13 @@
     }
 
     .btn {
-      height: 26px;
-      line-height: 26px;
-      padding: 0 12px;
+        height: 26px;
+        line-height: 26px;
+        padding: 0 12px;
     }
 
     .field-group {
-        margin: 0 24px 0 0;   
+        margin: 0 24px 0 0;
 
         label {
             float: left;
@@ -40,9 +40,9 @@
         .control-content {
             float: left;
             width: 200px;
-            
-            .react-select__menu {
-              width: 250px;
+
+            .react-select__menu, .react-multiselect-dropdown-list {
+                width: 250px;
             }
         }
     }

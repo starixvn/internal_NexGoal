@@ -52,10 +52,10 @@ export default class EmployeeManagement extends Component {
                 groupOptions.unshift({ value: '', label: '-- All --' });
 
                 const roleOptions = roleResponse.data.map(option => {
-                    return { value: option.resourceId, label: option.value };
+                    return { id: option.resourceId, text: option.value, checked: true };
                 });
 
-                const filter = Object.assign({}, this.state.filter, { roles: roleOptions });
+                const filter = { ...this.state.filter, roles: roleOptions };
 
                 this.setState({
                     filter: filter,
@@ -71,7 +71,7 @@ export default class EmployeeManagement extends Component {
 
     handleFilterChange = (name, value) => {
         this.setState({
-            filter: Object.assign({}, this.state.filter, { [name]: value })
+            filter: { ...this.state.filter, [name]: value }
         });
     };
 
@@ -80,7 +80,7 @@ export default class EmployeeManagement extends Component {
     };
 
     getEmployees = filter => {
-        const roleIds = filter.roles.map(role => role.value).join(',');
+        const roleIds = filter.roles.map(role => role.id).join(',');
 
         axios.get(resolveClientUrl('employee/GetEmployees'), {
             params: {

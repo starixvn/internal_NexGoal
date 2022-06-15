@@ -37,8 +37,9 @@ export default class PRTracking extends Component {
             .then(([response]) => {
                 const groupOptions = response.data.groups.map(group => {
                     return {
-                        value: group.groupId,
-                        label: group.name
+                        id: group.groupId,
+                        text: group.name,
+                        checked: true
                     };
                 });
 
@@ -46,17 +47,16 @@ export default class PRTracking extends Component {
 
                 const employeeOptions = response.data.employees.map(item => {
                     return {
-                        value: item.employeeId,
-                        label: `${item.nickName} (${item.fullName})`
+                        id: item.employeeId,
+                        text: `${item.nickName} (${item.fullName})`,
+                        checked: true
                     };
                 });
 
                 const filter = {
                     ... this.state.filter,
-                    ...{
-                        groups: groupOptions,
-                        employees: employeeOptions
-                    }
+                    groups: groupOptions,
+                    employees: employeeOptions
                 };
 
                 this.setState({ filter, employeeOptions, groupOptions }, this.getPRTracking);
@@ -65,28 +65,26 @@ export default class PRTracking extends Component {
 
     handleFilterChange = (name, value) => {
         if (name === 'groups') {
-            const employeeChoosens = this.employees.filter(e => value.some(v => v.value === e.groupId))
+            const employeeChoosens = this.employees.filter(e => value.some(v => v.id === e.groupId))
                 .map(e => ({
-                    value: e.employeeId,
-                    label: `${e.nickName} (${e.fullName})`
+                    id: e.employeeId,
+                    text: `${e.nickName} (${e.fullName})`,
+                    checked: true
                 }));
 
             this.setState({
                 employeeOptions: employeeChoosens,
                 filter: {
                     ...this.state.filter,
-                    ...{
-                        [name]: value,
-                        employees: employeeChoosens
-                    }
+                    [name]: value,
+                    employees: employeeChoosens
                 }
             });
         } else {
             this.setState({
                 filter: {
-                ...this.state.filter,
-                ...{
-                    [name]: value }
+                    ...this.state.filter,
+                    [name]: value
                 }
             });
         }
@@ -98,7 +96,7 @@ export default class PRTracking extends Component {
         axios.get(resolveClientUrl('PRTracking/Get'), {
             params: {
                 noPR: filter.noPR,
-                employeeIds: filter.employees.map(x => x.value).toString()
+                employeeIds: filter.employees.map(x => x.id).toString()
             }
         }).then(response => {
             this.setState({
@@ -129,23 +127,26 @@ export default class PRTracking extends Component {
         }).catch(axiosError);
     };
     render() {
+        const { filter, period, groupOptions, employeeOptions, tableData } = this.state;
+
         return (
             <div className="row">
                 <Breadcrumb>
                     <li className="current">{getResource('PRReport')}</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    {this.employees.length > 1 && this.state.groupOptions.length > 0 &&
-                        <SearchForm filter={this.state.filter}
-                            groupOptions={this.state.groupOptions}
-                            employeeOptions={this.state.employeeOptions}
+                    {
+                        this.employees.length > 1 && groupOptions.length > 0 &&
+                        <SearchForm filter={filter}
+                            groupOptions={groupOptions}
+                            employeeOptions={employeeOptions}
                             onFilterChange={this.handleFilterChange}
                             onSubmit={this.getPRTracking}
                         />
                     }
 
-                    <Table tableData={this.state.tableData}
-                        period={this.state.period}
+                    <Table tableData={tableData}
+                        period={period}
                     />
                 </div>
             </div>

@@ -42,13 +42,14 @@ export default class Chart extends Component {
                 });
 
                 const groupOptions = groupResponse.data.map(group => {
-                    return { value: group.groupId, label: group.name };
+                    return { id: group.groupId, text: group.name, checked: true };
                 });
 
-                const filter = Object.assign({}, this.state.filter, {
+                const filter = {
+                    ...this.state.filter,
                     period: periodOptions[0],
                     groups: groupOptions
-                });
+                };
 
                 this.getPAFocus(filter);
 
@@ -61,13 +62,13 @@ export default class Chart extends Component {
 
     handleFilterChange = (name, value) => {
         this.setState({
-            filter: Object.assign({}, this.state.filter, { [name]: value })
+            filter: { ...this.state.filter, [name]: value }
         });
     };
 
     getPAFocus = filter => {
         const periodId = filter.period ? filter.period.value : null;
-        const groupIds = filter.groups.map(group => group.value).join(',');
+        const groupIds = filter.groups.map(group => group.id).join(',');
 
         axios(resolveClientUrl('pafocus/getPAFocus'), {
             params: {

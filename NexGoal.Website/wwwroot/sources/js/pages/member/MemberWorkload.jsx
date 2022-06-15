@@ -4,7 +4,7 @@ import { HorizontalBar } from 'react-chartjs-2';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
-import Multiselect from '../../shared/components/multi-select/multi-select';
+import Multiselect from '../../shared/components/react-multiselect';
 import Milestone from '../../shared/components/milestone';
 
 export default class MemberWorkload extends Component {
@@ -13,11 +13,11 @@ export default class MemberWorkload extends Component {
 
         this.state = {
             workloads: null,
-            selectedGroups: this.props.groupOptions,
-            periodId: this.props.periods[0].periodId
+            selectedGroups: props.groupOptions || [],
+            periodId: props.periods[0].periodId
         };
 
-        this.chartOptions.afterInit = this.props.afterInitChart;
+        this.chartOptions.afterInit = props.afterInitChart;
     }
 
     componentDidMount() {
@@ -196,7 +196,7 @@ export default class MemberWorkload extends Component {
     };
 
     renderChart = workload => {
-        if (this.state.selectedGroups.some(x => x.value === workload.groupId)) {
+        if (this.state.selectedGroups.some(x => x.id === workload.groupId)) {
             let basicHeight = 140;
 
             if (workload.chartData.labels.length > 2) {
@@ -231,7 +231,13 @@ export default class MemberWorkload extends Component {
 
     render() {
         const periodOptions = this.props.periods.map(period => {
-          return { name: period.name, value: period.periodId };
+            return { name: period.name, value: period.periodId };
+        });
+        const groupOptions = this.props.groupOptions.map(item => {
+            return {
+                ...item,
+                checked: this.state.selectedGroups.findIndex(x => x.id === item.id) > -1
+            };
         });
 
         return (
@@ -244,18 +250,18 @@ export default class MemberWorkload extends Component {
                     />
                 </div>
                 {
-                    this.props.groupOptions.length > 1 &&
+                    groupOptions.length > 1 &&
                     <div>
                         <div className="team">{getResource('Team')}</div>
-                        <Multiselect className="react-select-container" classNamePrefix="react-select"
-                            value={this.state.selectedGroups}
-                            options={this.props.groupOptions}
+                        <Multiselect hasSearchBox
+                            items={groupOptions}
                             onChange={this.handleGroupChange}
                         />
                     </div>
                 }
                 <div id="chart-wrapper" >
-                    {this.state.workloads &&
+                    {
+                        this.state.workloads &&
                         this.renderTeamWorkload()
                     }
                 </div>

@@ -1,16 +1,11 @@
-﻿import React, { Component } from 'react';
+﻿import React, { PureComponent } from 'react';
 import { Button, ControlLabel, Form, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
-import isEqual from 'react-fast-compare';
 
-import MultiSelect from '../../../../shared/components/multi-select/multi-select';
+import Multiselect from '../../../../shared/components/react-multiselect';
 import getResource from '../../../../resourceHelper';
 
-class Filter extends Component {
-    shouldComponentUpdate(nextProps) {
-        return !isEqual(this.props, nextProps);
-    }
-
+export default class Filter extends PureComponent {
     handleGroupChange = selectedOptions => {
         this.props.onChange('groups', selectedOptions);
     };
@@ -50,9 +45,8 @@ class Filter extends Component {
                 <FormGroup>
                     <ControlLabel>{getResource('Team')}</ControlLabel>
                     <div className="control-content team-width">
-                        <MultiSelect className="react-select-container" classNamePrefix="react-select"
-                            value={filter.groups}
-                            options={this.props.groupOptions}
+                        <Multiselect hasSearchBox
+                            items={this.props.groupOptions}
                             onChange={this.handleGroupChange}
                         />
                     </div>
@@ -83,5 +77,3 @@ class Filter extends Component {
         );
     }
 }
-
-export default Filter;

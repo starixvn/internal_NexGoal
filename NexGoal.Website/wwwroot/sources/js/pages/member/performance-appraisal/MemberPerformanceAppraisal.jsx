@@ -22,7 +22,7 @@ export default class MemberPerformanceAppraisal extends Component {
     }
 
     componentDidMount() {
-        this.getPerformanceAppraisals(this.state.filter);
+        this.getPerformanceAppraisals();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -31,7 +31,7 @@ export default class MemberPerformanceAppraisal extends Component {
 
     handleFilterChange = (name, value) => {
         this.setState({
-            filter: Object.assign({}, this.state.filter, { [name]: value })
+            filter: { ...this.state.filter, [name]: value }
         });
     };
 
@@ -59,7 +59,7 @@ export default class MemberPerformanceAppraisal extends Component {
         axios.get(resolveClientUrl('Review/GetPARecords'), {
             params: {
                 periodId: filter.period.value,
-                groupIds: filter.groups.map(group => group.value).join(','),
+                groupIds: filter.groups.map(group => group.id).join(','),
                 isRevised: filter.status.value
             }
         }).then(response => {
@@ -70,12 +70,19 @@ export default class MemberPerformanceAppraisal extends Component {
     };
 
     render() {
+        const groupOptions = this.props.groupOptions.map(item => {
+            return {
+                ...item,
+                checked: this.state.filter.groups.findIndex(x => x.id === item.id) > -1
+            };
+        });
+
         return (
             <div className="pa-content">
                 <Filter
                     filter={this.state.filter}
                     periodOptions={this.props.periodOptions}
-                    groupOptions={this.props.groupOptions}
+                    groupOptions={groupOptions}
                     onFilterChange={this.handleFilterChange}
                     onSubmit={this.handleFilterSubmit}
                 />

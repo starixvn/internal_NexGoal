@@ -137,7 +137,7 @@ export default class App extends Component {
 
                         <Table functions={this.state.functions}
                             isHost={this.state.isHost}
-                            onCheckboxChange={this.handleOnCheckboxChange}
+                            onChange={this.handleOnCheckboxChange}
                         />
 
                         <SubmitForm isHost={this.state.isHost}

@@ -1,9 +1,8 @@
-﻿import React, { Component } from 'react';
-
+﻿import React from 'react';
 import { Policy } from '../../../constants';
 
-export default class Row extends Component {
-    renderCellFunctionName(func) {
+const Row = props => {
+    const renderCellFunctionName = func => {
         if (func.parentId) {
             return (
                 <td>
@@ -19,46 +18,46 @@ export default class Row extends Component {
                 <span className="func-name">{func.name}</span>
             </td>
         );
-    }
-
-    handleOnChange = event => {
-        this.props.onCheckboxChange(this.props.function, event.target.name, event.target.checked);
     };
 
-    render() {
-        const functionObj = this.props.function;
+    const onChange = event => {
+        props.onChange(props.function, event.target.name, event.target.checked);
+    };
 
-        return (
-            <tr className={!functionObj.parentId ? 'row-special' : ''}>
-                {this.renderCellFunctionName(functionObj)}
+    const functionObj = props.function;
 
-                <td className="text-center">
-                    {
-                        (functionObj.onlyPolicy === null || functionObj.onlyPolicy === Policy.Read) &&
-                        <div className="checkbox">
-                            <input type="checkbox" name="funcRead" className="checkbox-custom"
-                                disabled={!this.props.isHost}
-                                checked={functionObj.policy > Policy.None}
-                                onChange={this.handleOnChange} id={`chb-read-${functionObj.functionId}`}
-                            />
-                            <label htmlFor={`chb-read-${functionObj.functionId}`} />
-                        </div>
-                    }
-                </td>
-                <td className="text-center">
-                    {
-                        (functionObj.onlyPolicy === null || functionObj.onlyPolicy === Policy.Host) &&
-                        <div className="checkbox">
-                            <input type="checkbox" name="funcHost" className="checkbox-custom"
-                                disabled={!this.props.isHost}
-                                checked={functionObj.policy === Policy.Host}
-                                onChange={this.handleOnChange} id={`chb-host-${functionObj.functionId}`}
-                            />
-                            <label htmlFor={`chb-host-${functionObj.functionId}`} />
-                        </div>
-                    }
-                </td>
-            </tr>
-        );
-    }
-}
+    return (
+        <tr className={!functionObj.parentId ? 'row-special' : ''}>
+            {renderCellFunctionName(functionObj)}
+
+            <td className="text-center">
+                {
+                    (functionObj.onlyPolicy === null || functionObj.onlyPolicy === Policy.Read) &&
+                    <div className="checkbox">
+                        <input type="checkbox" name="funcRead" className="checkbox-custom"
+                            disabled={!props.isHost}
+                            checked={functionObj.policy > Policy.None}
+                            onChange={onChange} id={`chb-read-${functionObj.functionId}`}
+                        />
+                        <label htmlFor={`chb-read-${functionObj.functionId}`} />
+                    </div>
+                }
+            </td>
+            <td className="text-center">
+                {
+                    (functionObj.onlyPolicy === null || functionObj.onlyPolicy === Policy.Host) &&
+                    <div className="checkbox">
+                        <input type="checkbox" name="funcHost" className="checkbox-custom"
+                            disabled={!props.isHost}
+                            checked={functionObj.policy === Policy.Host}
+                            onChange={onChange} id={`chb-host-${functionObj.functionId}`}
+                        />
+                        <label htmlFor={`chb-host-${functionObj.functionId}`} />
+                    </div>
+                }
+            </td>
+        </tr>
+    );
+};
+
+export default Row;

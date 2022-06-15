@@ -55,8 +55,9 @@ export default class ProbationReport extends Component {
             .then(([response]) => {
                 const groupOptions = response.data.groups.map(group => {
                     return {
-                        value: group.groupId,
-                        label: group.name
+                        id: group.groupId,
+                        text: group.name,
+                        checked: false
                     };
                 });
 
@@ -64,17 +65,16 @@ export default class ProbationReport extends Component {
 
                 const employeeSelections = response.data.employees.map(item => {
                     return {
-                        value: item.employeeId,
-                        label: `${item.nickName} (${item.fullName})`
+                        id: item.employeeId,
+                        text: `${item.nickName} (${item.fullName})`,
+                        checked: false
                     };
                 });
 
                 const probationFilter = {
                     ... this.state.filter,
-                    ...{
-                        groups: groupOptions,
-                        employees: employeeSelections
-                    }
+                    groups: groupOptions,
+                    employees: employeeSelections
                 };
 
                 this.setState({ probationFilter, groupOptions, employeeSelections }, this.getProbationers);
@@ -88,7 +88,7 @@ export default class ProbationReport extends Component {
             params: {
                 fromDate: filter.fromDate ? filter.fromDate.format(this.submitDateFormat) : null,
                 toDate: filter.toDate ? filter.toDate.format(this.submitDateFormat) : null,
-                employeeIds: filter.employees.map(x => x.value).toString(),
+                employeeIds: filter.employees.map(x => x.id).toString(),
                 isQualifiedByEvaluator: filter.isQualifiedByEvaluator.value,
                 isQualified: filter.isQualified.value
             }
@@ -103,25 +103,24 @@ export default class ProbationReport extends Component {
 
     handleFilterChange = (name, value) => {
         if (name === 'groups') {
-            const employeeSelections = this.employees.filter(e => value.some(v => v.value === e.groupId))
+            const employeeSelections = this.employees.filter(e => value.some(v => v.id === e.groupId))
                 .map(e => ({
-                    value: e.employeeId,
-                    label: `${e.nickName} (${e.fullName})`
+                    id: e.employeeId,
+                    text: `${e.nickName} (${e.fullName})`,
+                    checked: true
                 }));
 
             this.setState({
                 employeeOptions: employeeSelections,
                 filter: {
                     ...this.state.filter,
-                    ...{
-                        [name]: value,
-                        employees: employeeSelections
-                    }
+                    [name]: value,
+                    employees: employeeSelections
                 }
             });
         } else {
             this.setState({
-                filter: { ...this.state.filter, ...{ [name]: value } }
+                filter: { ...this.state.filter, [name]: value }
             });
         }
     };
@@ -131,7 +130,7 @@ export default class ProbationReport extends Component {
     handleCloseCommentModal = () => this.setState({ commentModal: { show: false } });
 
     render() {
-        const filter = this.state.filter;
+        const { filter, groupOptions, employeeOptions } = this.state;
 
         return (
             <div className="row">
@@ -140,15 +139,15 @@ export default class ProbationReport extends Component {
                 </Breadcrumb>
                 <div className="col-sm-12">
                     {(this.isManagement || this.isEvaluator || this.isReviewer) &&
-                        <SearchForm filter={this.state.filter}
-                            groupOptions={this.state.groupOptions}
-                            employeeOptions={this.state.employeeOptions}
+                        <SearchForm filter={filter}
+                            groupOptions={groupOptions}
+                            employeeOptions={employeeOptions}
                             onFilterChange={this.handleFilterChange}
                             probationResultOptions={ProbationResultOptions}
                             exportUrl={`/ProbationReport/ExportExcel?${stringify({
                                 fromDate: filter.fromDate.format(this.submitDateFormat),
                                 toDate: filter.toDate.format(this.submitDateFormat),
-                                employeeIds: filter.employees.map(x => x.value).toString(),
+                                employeeIds: filter.employees.map(x => x.id).toString(),
                                 isQualifiedByEvaluator: filter.isQualifiedByEvaluator.value,
                                 isQualified: filter.isQualified.value
                             })}`}

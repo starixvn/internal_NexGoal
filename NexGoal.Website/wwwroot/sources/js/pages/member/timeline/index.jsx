@@ -4,7 +4,7 @@ import isEqual from 'react-fast-compare';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
-import Multiselect from '../../../shared/components/multi-select/multi-select';
+import Multiselect from '../../../shared/components/react-multiselect';
 import Line from './Line';
 
 export default class Timeline extends Component {
@@ -143,11 +143,11 @@ export default class Timeline extends Component {
         }, []);
 
         memberPerformances = Object.keys(memberPerformances).map(key => {
-            const index = this.state.filter.groups.findIndex(g => g.label === key);
-            const group = this.props.groupOptions.filter(x => x.label === key)[0];
+            const index = this.state.filter.groups.findIndex(g => g.text === key);
+            const group = this.props.groupOptions.filter(x => x.text === key)[0];
 
             return {
-                groupId: group ? group.value : '',
+                groupId: group ? group.id : '',
                 groupName: key,
                 isDisplay: index >= 0,
                 records: memberPerformances[key]
@@ -187,9 +187,15 @@ export default class Timeline extends Component {
     };
 
     render() {
-        const { groupOptions, currentPerformancePeriod } = this.props;
+        const { currentPerformancePeriod } = this.props;
         const groupPerformances = this.groupMemberPerformances(this.state.memberPerformances);
         const timelineWidth = this.calculateTimelineWidth();
+        const groupOptions = this.props.groupOptions.map(item => {
+            return {
+                ...item,
+                checked: this.state.filter.groups.findIndex(x => x.id === item.id) > -1
+            };
+        })
 
         return (
             <Fragment>
@@ -198,9 +204,8 @@ export default class Timeline extends Component {
                     groupOptions && groupOptions.length > 1 &&
                     <div className="ddl-team">
                         <div className="team">{getResource('Team')}</div>
-                        <Multiselect className="react-select-container" classNamePrefix="react-select"
-                            value={this.state.filter.groups}
-                            options={groupOptions}
+                        <Multiselect hasSearchBox
+                            items={groupOptions}
                             onChange={this.handleGroupChange}
                         />
                     </div>

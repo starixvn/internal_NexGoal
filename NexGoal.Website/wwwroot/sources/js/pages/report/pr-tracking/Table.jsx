@@ -7,10 +7,6 @@ import { PerformanceProcess, EmptyPlaceHolder } from '../../../constants';
 import { noDataIndication } from '../../../common-functions';
 
 export default class Table extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     getOverlay = details => {
         if (details.length > 0) {
             return (<Tooltip id="tooltip">{details.map(d => <p className="creator-item" key={d.creatorId}>{d.creatorNickname}: {d.quantity}</p>)}</Tooltip>);

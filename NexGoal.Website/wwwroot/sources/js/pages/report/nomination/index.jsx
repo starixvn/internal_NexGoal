@@ -43,7 +43,7 @@ export default class NominationReport extends Component {
                     <NominationCommentModal
                         activeKey={this.state.activeKey}
                         nomination={this.state.nomination}
-                        period={this.state.period.label}
+                        period={this.state.period.text}
                         showModal={this.state.showModal}
                         onCloseModal={this.closeModal}
                     />

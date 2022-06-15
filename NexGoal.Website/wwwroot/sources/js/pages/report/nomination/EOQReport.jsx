@@ -41,32 +41,35 @@ export default class EOQReport extends Component {
             .then(([groupResponse, employeeResponse, nominationPeriodResponse]) => {
                 this.groupOptions = groupResponse.data.map(group => {
                     return {
-                        value: group.groupId,
-                        label: group.name
+                        id: group.groupId,
+                        text: group.name,
+                        checked: true
                     };
                 });
                 this.employeeOptions = employeeResponse.data.map(item => {
                     return {
-                        value: item.employeeId,
-                        label: `${item.nickName} (${item.fullName})`
+                        id: item.employeeId,
+                        text: `${item.nickName} (${item.fullName})`,
+                        checked: true
                     };
                 });
                 this.employees = employeeResponse.data;
                 this.periods = nominationPeriodResponse.data;
-                this.periodOptions = nominationPeriodResponse.data.map(x => ({
-                    value: x.nominationPeriodId,
-                    label: x.title,
-                    startDateForNominator: x.startDateForNominator,
-                    endDateForCommittee: x.endDateForCommittee
-                }));
+                this.periodOptions = nominationPeriodResponse.data.map((item, index) => {
+                    return {
+                        id: item.nominationPeriodId,
+                        text: item.title,
+                        startDateForNominator: item.startDateForNominator,
+                        endDateForCommittee: item.endDateForCommittee,
+                        checked: index === 0
+                    };
+                });
 
                 const filter = {
                     ... this.state.filter,
-                    ...{
-                        groups: this.groupOptions,
-                        periods: this.periodOptions.length > 0 ? [this.periodOptions[0]] : [],
-                        employees: this.employeeOptions
-                    }
+                    groups: this.groupOptions,
+                    periods: this.periodOptions.length > 0 ? [this.periodOptions[0]] : [],
+                    employees: this.employeeOptions
                 };
 
                 this.getNominations(filter);
@@ -78,18 +81,18 @@ export default class EOQReport extends Component {
     getNominations = filter => {
         axios.get(resolveClientUrl('NominationReport/GetNominations'), {
             params: {
-                nominationPeriodIds: filter.periods.map(e => e.value).toString(),
-                groupIds: filter.groups.map(x => x.value).toString(),
-                employeeIds: filter.employees.map(x => x.value).toString(),
+                nominationPeriodIds: filter.periods.map(e => e.id).toString(),
+                groupIds: filter.groups.map(x => x.id).toString(),
+                employeeIds: filter.employees.map(x => x.id).toString(),
                 statusId: filter.status.value
             }
         }).then(response => {
             this.setState({
                 tableData: filter.periods.map(p => ({
-                    nominationPeriodId: p.value,
-                    title: p.label,
+                    nominationPeriodId: p.id,
+                    title: p.text,
                     isInProgress: this.today.isSameOrAfter(p.startDateForNominator) && this.today.isSameOrBefore(p.endDateForCommittee),
-                    nominations: response.data.filter(n => n.period.nominationPeriodId === p.value)
+                    nominations: response.data.filter(n => n.period.nominationPeriodId === p.id)
                 }))
             });
         }).catch(axiosError);
@@ -97,24 +100,23 @@ export default class EOQReport extends Component {
 
     handleFilterChange = (name, value) => {
         if (name === 'groups') {
-            this.employeeOptions = this.employees.filter(e => value.some(v => v.value === e.groupId))
+            this.employeeOptions = this.employees.filter(e => value.some(v => v.id === e.groupId))
                 .map(e => ({
-                    value: e.employeeId,
-                    label: `${e.nickName} (${e.fullName})`
+                    id: e.employeeId,
+                    text: `${e.nickName} (${e.fullName})`,
+                    checked: true
                 }));
 
             this.setState({
                 filter: {
                     ...this.state.filter,
-                    ...{
-                        [name]: value,
-                        employees: this.employeeOptions
-                    }
+                    [name]: value,
+                    employees: this.employeeOptions
                 }
             });
         } else {
             this.setState({
-                filter: { ...this.state.filter, ...{ [name]: value } }
+                filter: { ...this.state.filter, [name]: value }
             });
         }
     };
@@ -127,7 +129,7 @@ export default class EOQReport extends Component {
         this.props.onShowNominatorComment(
             nomination,
             performanceRecordId,
-            this.periodOptions.find(x => x.value === nomination.period.nominationPeriodId)
+            this.periodOptions.find(x => x.id === nomination.period.nominationPeriodId)
         );
     };
 

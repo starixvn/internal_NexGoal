@@ -33,10 +33,10 @@ export default class RoleManagement extends Component {
         axios(resolveClientUrl('Common/GetGroups'))
             .then(response => {
                 const groupSelections = response.data.map(group => {
-                    return { value: group.groupId, label: group.name };
+                    return { id: group.groupId, text: group.name, checked: true };
                 });
 
-                const filter = Object.assign({}, this.state.filter, { groups: groupSelections });
+                const filter = { ...this.state.filter, groups: groupSelections };
 
                 this.setState({
                     groupOptions: groupSelections,
@@ -74,7 +74,7 @@ export default class RoleManagement extends Component {
     };
 
     getRoleSetting = filter => {
-        const groupIds = this.state.filter.groups.map(group => group.value).join(',');
+        const groupIds = this.state.filter.groups.map(group => group.id).join(',');
 
         axios.get(resolveClientUrl('nominationPeriod/GetRoleSetting'), {
             params: {
@@ -95,7 +95,7 @@ export default class RoleManagement extends Component {
 
     handleFilterChange = (name, value) => {
         this.setState({
-            filter: Object.assign({}, this.state.filter, { [name]: value })
+            filter: { ...this.state.filter, [name]: value }
         });
     };
 

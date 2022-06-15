@@ -2,7 +2,7 @@
 import { Button, ControlLabel, Form, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 
-import MultiSelect from '../../../shared/components/multi-select/multi-select';
+import Multiselect from '../../../shared/components/react-multiselect';
 import getResource from '../../../resourceHelper';
 import { PAEditOptions } from '../../../constants';
 
@@ -43,10 +43,8 @@ export default class Filter extends Component {
                 <FormGroup>
                     <ControlLabel>{getResource('Team')}</ControlLabel>
                     <div className="control-content team">
-                        <MultiSelect className="react-select-container" classNamePrefix="react-select"
-                            name="groups"
-                            value={filter.groups}
-                            options={this.props.groupOptions}
+                        <Multiselect hasSearchBox
+                            items={this.props.groupOptions}
                             onChange={this.handleGroupChange}
                         />
                     </div>

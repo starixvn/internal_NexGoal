@@ -3,7 +3,7 @@ import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootst
 import Select from 'react-select';
 import isEqual from 'react-fast-compare';
 
-import Multiselect from '../../shared/components/multi-select/multi-select';
+import Multiselect from '../../shared/components/react-multiselect';
 import getResource from '../../resourceHelper';
 
 export default class SearchForm extends Component {
@@ -33,7 +33,7 @@ export default class SearchForm extends Component {
     };
 
     render() {
-        const filter = this.props.filter;
+        const { filter, groupOptions, roleOptions } = this.props;
 
         return (
             <Form inline className="form-filter" onSubmit={this.handleSubmit}>
@@ -49,7 +49,7 @@ export default class SearchForm extends Component {
                     <ControlLabel>{getResource('Team')}</ControlLabel>
                     <div className="control-content team-width">
                         <Select name="groupId" className="react-select-container" classNamePrefix="react-select"
-                            value={filter.group} options={this.props.groupOptions}
+                            value={filter.group} options={groupOptions}
                             isClearable={false}
                             onChange={this.handleGroupChange}
                         />
@@ -58,8 +58,8 @@ export default class SearchForm extends Component {
                 <FormGroup>
                     <ControlLabel>{getResource('Role')}</ControlLabel>
                     <div className="control-content">
-                        <Multiselect name="roles" className="react-select-container" classNamePrefix="react-select"
-                            value={filter.roles} options={this.props.roleOptions}
+                        <Multiselect hasSearchBox
+                            items={roleOptions}
                             onChange={this.handleRoleChange}
                         />
                     </div>

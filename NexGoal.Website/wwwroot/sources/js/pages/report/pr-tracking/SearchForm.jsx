@@ -2,13 +2,9 @@
 import { Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 
 import getResource from '../../../resourceHelper';
-import MultiSelect from '../../../shared/components/multi-select/multi-select';
+import Multiselect from '../../../shared/components/react-multiselect';
 
 export default class SearchForm extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     handleGroupChange = selectedOption => {
         this.props.onFilterChange('groups', selectedOption);
     };
@@ -27,18 +23,17 @@ export default class SearchForm extends Component {
     };
 
     render() {
-        const filter = this.props.filter;
+        const { filter, groupOptions, employeeOptions } = this.props;
 
         return (
             <Form inline className="form-filter" onSubmit={this.handleSubmit}>
-                {this.props.groupOptions.length > 1 &&
+                {
+                    groupOptions.length > 1 &&
                     <FormGroup>
                         <ControlLabel>{getResource('Team')}</ControlLabel>
                         <div className="control-content team-width pr-tracking-search-form">
-                            <MultiSelect name="groups"
-                                className="react-select-container" classNamePrefix="react-select"
-                                value={filter.groups}
-                                options={this.props.groupOptions}
+                            <Multiselect hasSearchBox
+                                items={groupOptions}
                                 onChange={this.handleGroupChange}
                             />
                         </div>
@@ -48,10 +43,8 @@ export default class SearchForm extends Component {
                 <FormGroup>
                     <ControlLabel>{getResource('Employee')}</ControlLabel>
                     <div className="control-content employee-width pr-tracking-search-form">
-                        <MultiSelect
-                            className="react-select-container" classNamePrefix="react-select"
-                            value={filter.employees}
-                            options={this.props.employeeOptions}
+                        <Multiselect hasSearchBox
+                            items={employeeOptions}
                             onChange={this.handleEmployeeChange}
                         />
                     </div>

@@ -3,13 +3,9 @@ import { Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import Select from 'react-select';
 
 import getResource from '../../../resourceHelper';
-import MultiSelect from '../../../shared/components/multi-select/multi-select';
+import Multiselect from '../../../shared/components/react-multiselect';
 
 export default class SearchForm extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     handleGroupChange = selectedOption => {
         this.props.onFilterChange('groups', selectedOption);
     };
@@ -32,29 +28,24 @@ export default class SearchForm extends Component {
     };
 
     render() {
-        const filter = this.props.filter;
+        const { filter, periodOptions, groupOptions, employeeOptions } = this.props;
 
         return (
             <Form inline className="form-filter" onSubmit={this.handleSubmit}>
                 <FormGroup>
                     <ControlLabel htmlFor="nominate-report-period-label">{getResource('Period')}</ControlLabel>
                     <div className="control-content period-width">
-                        <MultiSelect name="periods"
-                            className="react-select-container" classNamePrefix="react-select"
-                            value={filter.periods}
+                        <Multiselect hasSearchBox
                             onChange={this.handlePeriodChange}
-                            options={this.props.periodOptions}
+                            items={periodOptions}
                         />
                     </div>
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel htmlFor="nominate-report-team-label">{getResource('Team')}</ControlLabel>
                     <div className="control-content team-width">
-                        <MultiSelect name="groups"
-                            classNamePrefix="react-select"
-                            className="react-select-container"
-                            value={filter.groups}
-                            options={this.props.groupOptions}
+                        <Multiselect hasSearchBox
+                            items={groupOptions}
                             onChange={this.handleGroupChange}
                         />
                     </div>
@@ -62,10 +53,8 @@ export default class SearchForm extends Component {
                 <FormGroup>
                     <ControlLabel htmlFor="nominate-report-employee-label">{getResource('Employee')}</ControlLabel>
                     <div className="control-content employee-width">
-                        <MultiSelect
-                            className="react-select-container" classNamePrefix="react-select"
-                            value={filter.employees}
-                            options={this.props.employeeOptions}
+                        <Multiselect hasSearchBox
+                            items={employeeOptions}
                             onChange={this.handleEmployeeChange}
                         />
                     </div>
@@ -73,7 +62,7 @@ export default class SearchForm extends Component {
                 <FormGroup>
                     <ControlLabel htmlFor="nominate-report-status-label">{getResource('Status')}</ControlLabel>
                     <div className="control-content status-width">
-                        <Select name="status"
+                        <Select name="status" isSearchable={false}
                             className="react-select-container" classNamePrefix="react-select"
                             value={filter.status} options={this.props.statusOptions}
                             onChange={this.handleStatusChange}

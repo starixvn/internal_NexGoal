@@ -50,8 +50,9 @@ export default class PMSetting extends Component {
                 const pms = pmResponse.data;
                 const pmOptions = pms.map(pm => {
                     return {
-                        value: pm.employeeId,
-                        label: `${pm.nickName} (${pm.fullName})`
+                        id: pm.employeeId,
+                        text: `${pm.nickName} (${pm.fullName})`,
+                        checked: true
                     };
                 });
 
@@ -68,14 +69,17 @@ export default class PMSetting extends Component {
 
                 this.setState({ filter: filter, pmOptions: pmOptions, pms: pms, employeeOptions: employeeOptions }, () => {
                     const newFilter = this.state.filter;
-                    this.getPMSetting(newFilter.pms.map(e => e.value).toString(), newFilter.employee ? newFilter.employee.value : null, this.updateTableData);
+                    this.getPMSetting(
+                        newFilter.pms.map(e => e.id).toString(),
+                        newFilter.employee ? newFilter.employee.value : null,
+                        this.updateTableData);
                 });
             }).catch(axiosError);
     }
 
     updateTableData = response => {
         const data = response.data;
-        const selectedPMs = this.state.pms.filter(pm => this.state.filter.pms.some(e => e.value === pm.employeeId));
+        const selectedPMs = this.state.pms.filter(pm => this.state.filter.pms.some(e => e.id === pm.employeeId));
 
         this.setState({
             tableData: selectedPMs.map(pm => ({
@@ -107,12 +111,15 @@ export default class PMSetting extends Component {
 
     handleFilterSubmit = () => {
         const filter = this.state.filter;
-        this.getPMSetting(filter.pms.map(e => e.value).toString(), filter.employee ? filter.employee.value : null, this.updateTableData);
+        this.getPMSetting(
+            filter.pms.map(e => e.id).toString(),
+            filter.employee ? filter.employee.value : null,
+            this.updateTableData);
     };
 
     handleFilterChange = (name, value) => {
         this.setState({
-            filter: { ...this.state.filter, ...{ [name]: value } }
+            filter: { ...this.state.filter, [name]: value }
         });
     };
 

@@ -51,15 +51,16 @@ export default class PAFocus extends Component {
                 });
 
                 const groupSelections = groupResponse.data.map(group => {
-                    return { value: group.groupId, label: group.name };
+                    return { id: group.groupId, text: group.name, checked: true };
                 });
 
-                const filter = Object.assign({}, this.state.filter, {
+                const filter = {
+                    ...this.state.filter,
                     period: periodSelections[0],
                     groups: groupSelections
-                });
+                };
 
-                const groupIds = groupSelections && groupSelections.length > 0 ? groupSelections.map(group => group.value).join(',') : null;
+                const groupIds = groupSelections && groupSelections.length > 0 ? groupSelections.map(group => group.id).join(',') : null;
                 this.getMembers(groupIds);
                 this.getPAFocus(filter);
 
@@ -105,7 +106,7 @@ export default class PAFocus extends Component {
             let filter = this.state.filter;
 
             if (memberOptions.indexOf(filter.employee) < 0) {
-                filter = Object.assign({}, this.state.filter, { employee: null });
+                filter = { ...this.state.filter, employee: null };
             }
 
             this.memberOptions = memberOptions;
@@ -115,11 +116,10 @@ export default class PAFocus extends Component {
 
     handleFilterChange = (name, value) => {
         this.setState({
-            filter: Object.assign({}, this.state.filter, { [name]: value })
+            filter: { ...this.state.filter, [name]: value }
         }, () => {
             if (name === 'groups') {
-                const groupIds = value && value.length > 0 ? value.map(group => group.value).join(',') : null;
-
+                const groupIds = value && value.length > 0 ? value.map(group => group.id).join(',') : null;
                 this.getMembers(groupIds);
             }
         });
@@ -127,7 +127,7 @@ export default class PAFocus extends Component {
 
     getPAFocus = filter => {
         const periodId = filter.period ? filter.period.value : null;
-        const groupIds = filter.groups.map(group => group.value).join(',');
+        const groupIds = filter.groups.map(group => group.id).join(',');
 
         axios(resolveClientUrl('pafocus/getPAFocus'), {
             params: {
@@ -153,7 +153,7 @@ export default class PAFocus extends Component {
 
     handleExportToExcel = () => {
         const filter = this.state.filter;
-        const groupIds = filter.groups.map(group => group.value).join(',');
+        const groupIds = filter.groups.map(group => group.id).join(',');
         const employeeId = filter.employee ? filter.employee.value : '';
 
         axios({

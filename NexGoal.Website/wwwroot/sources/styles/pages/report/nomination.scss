@@ -8,6 +8,7 @@
 @import "../../components/messages";
 @import "../../components/modal";
 @import "../../components/react-select";
+@import "../../components/react-multiselect";
 @import "../../components/tables";
 @import "../../components/toast";
 @import "../../components/tooltip";
@@ -21,8 +22,8 @@
         .form-group {
             .control-content {
                 &.period-width {
-                    .react-select-container {
-                        .react-select__menu {
+                    .react-multiselect {
+                        &-dropdown-list {
                             min-width: 330px;
                         }
                     }

@@ -55,7 +55,7 @@
         }
 
         &.team {
-            .react-select__menu {
+            .react-select__menu, .react-multiselect-dropdown-list {
                 width: 240px;
             }
         }

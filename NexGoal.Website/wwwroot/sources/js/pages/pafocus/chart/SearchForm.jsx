@@ -3,7 +3,7 @@ import { Form, ControlLabel, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 
 import getResource from '../../../resourceHelper';
-import Multiselect from '../../../shared/components/multi-select/multi-select';
+import Multiselect from '../../../shared/components/react-multiselect';
 
 export default class SearchForm extends Component {
     shouldComponentUpdate(nextProps) {
@@ -50,9 +50,8 @@ export default class SearchForm extends Component {
                     <FormGroup>
                         <ControlLabel>{getResource('Team')}</ControlLabel>
                         <div className="control-content">
-                            <Multiselect className="react-select-container" classNamePrefix="react-select"
-                                value={filter.groups}
-                                options={groupOptions}
+                            <Multiselect hasSearchBox
+                                items={groupOptions}
                                 onChange={this.handleGroupChange}
                             />
                         </div>

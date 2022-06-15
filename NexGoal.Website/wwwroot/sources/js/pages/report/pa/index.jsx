@@ -38,24 +38,27 @@ export default class App extends Component {
 
         Promise.all(promises)
             .then(([periodResponse, groupAndMemberResponse]) => {
-                this.periodOptions = periodResponse.data.map(period => {
+                this.periodOptions = periodResponse.data.map((period, index) => {
                     return {
-                        label: period.name,
-                        value: period.periodId
+                        id: period.periodId,
+                        text: period.name,
+                        checked: index === 0
                     };
                 });
 
                 this.groupOptions = groupAndMemberResponse.data.groups.map(group => {
                     return {
-                        label: group.name,
-                        value: group.groupId
+                        id: group.groupId,
+                        text: group.name,
+                        checked: true
                     };
                 });
                 this.employees = groupAndMemberResponse.data.members.map(employee => {
                     return {
-                        label: `${employee.nickName} (${employee.fullName})`,
-                        value: employee.employeeId,
-                        groupId: employee.groupId
+                        id: employee.employeeId,
+                        text: `${employee.nickName} (${employee.fullName})`,
+                        groupId: employee.groupId,
+                        checked: true
                     };
                 });
                 this.setState({
@@ -72,10 +75,10 @@ export default class App extends Component {
 
     handleFilterChange = (filterName, values) => {
         this.setState({
-            filter: Object.assign({}, this.state.filter, { [filterName]: values })
+            filter: { ...this.state.filter, [filterName]: values }
         }, () => {
             if (filterName === 'groups') {
-                const groupIds = values.length > 0 ? values.map(group => group.value) : [];
+                const groupIds = values.length > 0 ? values.map(group => group.id) : [];
                 this.onGroupChange(groupIds);
             }
         });
@@ -84,7 +87,7 @@ export default class App extends Component {
     onGroupChange = selectedGroups => {
         const employees = [...this.employees];
         const employeeOptions = employees.filter(employee => selectedGroups.includes(employee.groupId));
-        const filter = Object.assign({}, this.state.filter, { employees: employeeOptions });
+        const filter = { ...this.state.filter, employees: employeeOptions };
 
         this.setState({
             filter: filter,
@@ -134,9 +137,9 @@ export default class App extends Component {
         axios({
             url: resolveClientUrl('PAReport/ExportExcel'),
             params: {
-                periodIds: filter.periods.map(period => period.value).join(','),
-                groupIds: filter.groups.map(group => group.value).join(','),
-                employeeIds: filter.employees.map(employee => employee.value).join(',')
+                periodIds: filter.periods.map(period => period.id).join(','),
+                groupIds: filter.groups.map(group => group.id).join(','),
+                employeeIds: filter.employees.map(employee => employee.id).join(',')
             },
             method: 'get',
             responseType: 'blob'
@@ -154,9 +157,9 @@ export default class App extends Component {
         const filter = this.state.filter;
         axios.get(resolveClientUrl('PAReport/GetPARecords'), {
             params: {
-                periodIds: filter.periods.map(period => period.value).join(','),
-                groupIds: filter.groups.map(group => group.value).join(','),
-                employeeIds: filter.employees.map(employee => employee.value).join(','),
+                periodIds: filter.periods.map(period => period.id).join(','),
+                groupIds: filter.groups.map(group => group.id).join(','),
+                employeeIds: filter.employees.map(employee => employee.id).join(','),
                 isRevised: filter.isRevised ? filter.isRevised.value : null
             }
         }).then(response => {

@@ -36,16 +36,18 @@ export default class MasterReport extends Component {
             .then(([groupResponse, employeeResponse, periodResponse]) => {
                 const groupOptions = groupResponse.data.map(group => {
                     return {
-                        value: group.groupId,
-                        label: group.name
+                        id: group.groupId,
+                        text: group.name,
+                        checked: true
                     };
                 });
 
                 this.employees = employeeResponse.data;
                 const employeeOptions = employeeResponse.data.map(item => {
                     return {
-                        value: item.employeeId,
-                        label: `${item.nickName} (${item.fullName})`
+                        id: item.employeeId,
+                        text: `${item.nickName} (${item.fullName})`,
+                        checked:true
                     };
                 });
 
@@ -53,11 +55,9 @@ export default class MasterReport extends Component {
 
                 const filter = {
                     ... this.state.filter,
-                    ...{
-                        groups: groupOptions,
-                        period: periodOptions[0],
-                        employees: employeeOptions
-                    }
+                    groups: groupOptions,
+                    period: periodOptions[0],
+                    employees: employeeOptions
                 };
 
                 this.setState({ filter, employeeOptions, groupOptions, periodOptions });
@@ -66,31 +66,30 @@ export default class MasterReport extends Component {
 
     handleFilterChange = (name, value) => {
         if (name === 'groups') {
-            const employeeOptions = this.employees.filter(e => value.some(v => v.value === e.groupId))
+            const employeeOptions = this.employees.filter(e => value.some(v => v.id === e.groupId))
                 .map(e => ({
-                    value: e.employeeId,
-                    label: `${e.nickName} (${e.fullName})`
+                    id: e.employeeId,
+                    text: `${e.nickName} (${e.fullName})`,
+                    checked: true
                 }));
 
             this.setState({
                 employeeOptions: employeeOptions,
                 filter: {
                     ...this.state.filter,
-                    ...{
-                        [name]: value,
-                        employees: employeeOptions
-                    }
+                    [name]: value,
+                    employees: employeeOptions
                 }
             });
         } else {
             this.setState({
-                filter: { ...this.state.filter, ...{ [name]: value } }
+                filter: { ...this.state.filter, [name]: value }
             });
         }
     };
 
     render() {
-        const filter = this.state.filter;
+        const { filter, periodOptions, groupOptions, employeeOptions } = this.state;
 
         return (
             <div className="row">
@@ -98,15 +97,15 @@ export default class MasterReport extends Component {
                     <li className="current">{getResource('MasterReport')}</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    <SearchForm filter={this.state.filter}
-                        groupOptions={this.state.groupOptions}
-                        periodOptions={this.state.periodOptions}
-                        employeeOptions={this.state.employeeOptions}
+                    <SearchForm filter={filter}
+                        groupOptions={groupOptions}
+                        periodOptions={periodOptions}
+                        employeeOptions={employeeOptions}
                         onFilterChange={this.handleFilterChange}
                         exportUrl={`/MasterReport/Export?${stringify({
                             periodId: filter.period ? filter.period.value : null,
-                            groupIds: filter.groups.map(x => x.value).toString(),
-                            employeeIds: filter.employees.map(x => x.value).toString()
+                            groupIds: filter.groups.map(x => x.id).toString(),
+                            employeeIds: filter.employees.map(x => x.id).toString()
                         })}`}
                     />
                 </div>

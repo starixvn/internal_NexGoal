@@ -1,25 +1,21 @@
 ﻿import React, { Component } from 'react';
 import Select from 'react-select';
 import { Button, ControlLabel, Form, FormGroup } from 'react-bootstrap';
-import MultiSelect from '../../../shared/components/multi-select/multi-select';
+import Multiselect from '../../../shared/components/react-multiselect';
 import getResource from '../../../resourceHelper';
 import { PAEditOptions } from '../../../constants';
 
 export default class Filter extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    handlePeriodChange = selectedOption => {
-        this.props.onFilterChange('periods', selectedOption);
+    handlePeriodChange = selectedOptions => {
+        this.props.onFilterChange('periods', selectedOptions);
     };
 
-    handleGroupChange = selectedOption => {
-        this.props.onFilterChange('groups', selectedOption);
+    handleGroupChange = selectedOptions => {
+        this.props.onFilterChange('groups', selectedOptions);
     };
 
-    handleEmployeeChange = selectedOption => {
-        this.props.onFilterChange('employees', selectedOption);
+    handleEmployeeChange = selectedOptions => {
+        this.props.onFilterChange('employees', selectedOptions);
     };
 
     handleIsRevisedChange = selectedOption => {
@@ -32,55 +28,49 @@ export default class Filter extends Component {
     };
 
     render() {
-        const filter = this.props.filter;
+        const { filter, periodOptions, groupOptions, employeeOptions, displayMemberFilter } = this.props;
         return (
             <Form inline className="form-filter" onSubmit={this.handleSubmit}>
                 <FormGroup>
                     <ControlLabel>{getResource('Period')}</ControlLabel>
                     <div className="control-content">
-                        <MultiSelect className="react-select-container" classNamePrefix="react-select"
-                            name="periods"
-                            value={filter.periods}
-                            options={this.props.periodOptions}
+                        <Multiselect
+                            items={periodOptions}
                             onChange={this.handlePeriodChange}
                         />
                     </div>
                 </FormGroup>
                 {
-                    this.props.groupOptions.length > 1 &&
+                    groupOptions.length > 1 &&
                     <FormGroup>
                         <ControlLabel>{getResource('Team')}</ControlLabel>
-                        <div className="control-content team">
-                            <MultiSelect className="react-select-container" classNamePrefix="react-select"
-                                name="groups"
-                                value={filter.groups}
-                                options={this.props.groupOptions}
+                        <div className="control-content team-width">
+                            <Multiselect hasSearchBox
+                                items={groupOptions}
                                 onChange={this.handleGroupChange}
                             />
                         </div>
                     </FormGroup>
                 }
                 {
-                    this.props.groupOptions.length > 0 && this.props.displayMemberFilter &&
+                    groupOptions.length > 0 && displayMemberFilter &&
                     <FormGroup>
                         <ControlLabel>{getResource('Employee')}</ControlLabel>
                         <div className="control-content employee-width">
-                            <MultiSelect
-                                className="react-select-container" classNamePrefix="react-select"
-                                value={filter.employees}
-                                options={this.props.employeeOptions}
+                            <Multiselect hasSearchBox
+                                items={employeeOptions}
                                 onChange={this.handleEmployeeChange}
                             />
                         </div>
                     </FormGroup>
                 }
                 {
-                    this.props.groupOptions.length > 0 && this.props.displayMemberFilter &&
+                    groupOptions.length > 0 && displayMemberFilter &&
                     <FormGroup>
                         <ControlLabel>{getResource('IsRevised')}</ControlLabel>
                         <div className="control-content">
                             <Select className="react-select-container" classNamePrefix="react-select"
-                                name="status"
+                                name="status" isSearchable={false}
                                 value={filter.isRevised}
                                 options={PAEditOptions}
                                 onChange={this.handleIsRevisedChange}

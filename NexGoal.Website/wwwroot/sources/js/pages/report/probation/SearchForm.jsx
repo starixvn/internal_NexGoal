@@ -5,13 +5,9 @@ import DatePicker from 'react-datepicker';
 
 import getResource from '../../../resourceHelper';
 import { DateFormat } from '../../../constants';
-import MultiSelect from '../../../shared/components/multi-select/multi-select';
+import Multiselect from '../../../shared/components/react-multiselect';
 
 export default class SearchForm extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     handleGroupChange = selectedOption => {
         this.props.onFilterChange('groups', selectedOption);
     };
@@ -42,7 +38,7 @@ export default class SearchForm extends Component {
     };
 
     render() {
-        const filter = this.props.filter;
+        const { filter, groupOptions, employeeOptions, probationResultOptions, exportUrl } = this.props;
 
         return (
             <Form inline className="form-filter" onSubmit={this.handleSubmit}>
@@ -71,12 +67,9 @@ export default class SearchForm extends Component {
                     <FormGroup>
                         <ControlLabel>{getResource('Team')}</ControlLabel>
                         <div className="control-content team-width">
-                            <MultiSelect name="groups"
-                                className="react-select-container"
-                                classNamePrefix="react-select"
-                                options={this.props.groupOptions}
+                            <Multiselect hasSearchBox
+                                items={groupOptions}
                                 onChange={this.handleGroupChange}
-                                value={filter.groups}
                             />
                         </div>
                     </FormGroup>
@@ -84,11 +77,8 @@ export default class SearchForm extends Component {
                 <FormGroup>
                     <ControlLabel>{getResource('Employee')}</ControlLabel>
                     <div className="control-content employee-width">
-                        <MultiSelect
-                            className="react-select-container"
-                            classNamePrefix="react-select"
-                            options={this.props.employeeOptions}
-                            value={filter.employees}
+                        <Multiselect hasSearchBox
+                            items={employeeOptions}
                             onChange={this.handleEmployeeChange}
                         />
                     </div>
@@ -96,10 +86,10 @@ export default class SearchForm extends Component {
                 <FormGroup>
                     <ControlLabel>Evaluator's Result</ControlLabel>
                     <div className="control-content">
-                        <Select
+                        <Select isSearchable={false}
                             className="react-select-container" classNamePrefix="react-select"
                             value={filter.isQualifiedByEvaluator}
-                            options={this.props.probationResultOptions}
+                            options={probationResultOptions}
                             onChange={this.handleEvaluatorResultChange}
                         />
                     </div>
@@ -107,10 +97,10 @@ export default class SearchForm extends Component {
                 <FormGroup>
                     <ControlLabel>Reviewer's Result</ControlLabel>
                     <div className="control-content">
-                        <Select
+                        <Select isSearchable={false}
                             className="react-select-container" classNamePrefix="react-select"
                             value={filter.isQualified}
-                            options={this.props.probationResultOptions}
+                            options={probationResultOptions}
                             onChange={this.handleReviewerResultChange}
                         />
                     </div>
@@ -119,7 +109,7 @@ export default class SearchForm extends Component {
                     <button type="submit" className="btn btn-primary">{getResource('Search')}</button>
                 </FormGroup>
                 <FormGroup>
-                    <a className="btn btn-excel" href={this.props.exportUrl} >{getResource('Excel')}</a>
+                    <a className="btn btn-excel" href={exportUrl} >{getResource('Excel')}</a>
                 </FormGroup>
             </Form>
         );

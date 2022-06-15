@@ -106,7 +106,7 @@ export default class App extends Component {
                     };
                 });
                 this.myGroupOptions = myGroupResponse.data.map(group => {
-                    return { value: group.groupId, label: group.name };
+                    return { id: group.groupId, text: group.name, checked: true };
                 });
                 this.periods = periodResponse.data;
 
@@ -431,8 +431,8 @@ export default class App extends Component {
                                     </Tab>
                                 }
                                 <Tab eventKey={4} title={getResource('Probation')}>
-
-                                    {this.state.loadProbationTab &&
+                                    {
+                                        this.state.loadProbationTab &&
                                         <Probation />
                                     }
                                 </Tab>
@@ -444,7 +444,11 @@ export default class App extends Component {
                                     <NominationResult />
                                     {
                                         this.periods.length > 0 &&
-                                        <MemberWorkload groupOptions={this.myGroupOptions} periods={this.periods} afterInitChart={this.checkUrlParams} />
+                                        <MemberWorkload
+                                            groupOptions={this.myGroupOptions}
+                                            periods={this.periods}
+                                            afterInitChart={this.checkUrlParams}
+                                        />
                                     }
                                 </div>
                             </CustomScrollbars >

@@ -10,7 +10,7 @@ import Select from 'react-select';
 
 import { axiosError, noDataIndication, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
-import Multiselect from '../../../shared/components/multi-select/multi-select';
+import Multiselect from '../../../shared/components/react-multiselect';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import { PaginationOptions, PAStatus, PerformanceProcess, TextCenterCssClass, PostRequestHeaders } from '../../../constants';
 import Edit from './Edit';
@@ -120,18 +120,24 @@ export default class Table extends Component {
         }];
 
     onEmployeeChange = employee => {
-        const addFilter = { employee: employee };
-        this.setState({ addFilter: { ...this.state.addFilter, ...addFilter } });
+        this.setState({
+            addFilter: {
+                ...this.state.addFilter, employee: employee
+            }
+        });
     };
 
     onGroupsChange = groups => {
-        const addFilter = { groups: groups };
-        this.setState({ addFilter: { ...this.state.addFilter, ...addFilter } });
+        this.setState({
+            addFilter: { ...this.state.addFilter, groups: groups }
+        });
     };
 
     addEmployeeSettings = () => {
-        const groupIds = this.state.addFilter.groups.length > 0 ? this.state.addFilter.groups.map(e => e.value).toString() : null;
-        const employeeId = this.state.addFilter.employee ? this.state.addFilter.employee.value : null;
+        const { groups, employee } = this.state.addFilter;
+
+        const groupIds = groups.length > 0 ? groups.map(e => e.id).toString() : null;
+        const employeeId = employee ? employee.value : null;
 
         if (groupIds === null && employeeId === null) {
             toast.error('No team/employee selected');
@@ -250,9 +256,18 @@ export default class Table extends Component {
     closeConfirmationModal = () => this.setState({ showConfirmationModal: false });
 
     render() {
+        const { periodId, data, groups, employeeOptions } = this.props;
+        const groupOptions = groups.map(item => {
+            return {
+                id: item.value,
+                text: item.label,
+                checked: this.state.addFilter.groups.findIndex(x => x.id === item.value) > -1
+            };
+        });
+
         return (
             <Fragment>
-                <ToolkitProvider keyField="paRecordId" columns={this.columns} data={this.props.data} search={{ searchFormatted: true }} >
+                <ToolkitProvider keyField="paRecordId" columns={this.columns} data={data} search={{ searchFormatted: true }} >
                     {
                         props => {
                             return (
@@ -261,9 +276,8 @@ export default class Table extends Component {
                                         <div className="pull-left field-group">
                                             <label>{getResource('Team')}</label>
                                             <div className="control-content">
-                                                <Multiselect className="react-select-container" classNamePrefix="react-select"
-                                                    value={this.state.addFilter.groups} name="groups"
-                                                    options={this.props.groups}
+                                                <Multiselect hasSearchBox
+                                                    items={groupOptions}
                                                     onChange={this.onGroupsChange}
                                                 />
                                             </div>
@@ -273,7 +287,7 @@ export default class Table extends Component {
                                             <div className="control-content">
                                                 <Select className="react-select-container" classNamePrefix="react-select"
                                                     value={this.state.addFilter.employee} name="employee" isClearable
-                                                    options={this.props.employeeOptions} onChange={this.onEmployeeChange}
+                                                    options={employeeOptions} onChange={this.onEmployeeChange}
                                                 />
                                             </div>
                                         </div>
@@ -330,9 +344,9 @@ export default class Table extends Component {
                     <Edit showModal={this.state.showEditModal}
                         closeModal={this.closeEditModal}
                         paRecordIds={this.state.selectedIds}
-                        periodId={this.props.periodId}
-                        settings={this.props.data.filter(e => this.state.selectedIds.some(s => s === e.paRecordId))}
-                        employeeOptions={this.props.employeeOptions}
+                        periodId={periodId}
+                        settings={data.filter(e => this.state.selectedIds.some(s => s === e.paRecordId))}
+                        employeeOptions={employeeOptions}
                         onEditSuccess={this.onEditSuccess}
                     />
                 }
