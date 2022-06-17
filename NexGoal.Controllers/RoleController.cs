@@ -37,8 +37,8 @@
         public async Task<JsonResult> AssignPermission(int? roleId = null)
         {
             string[] refNames = { ReferenceResource.SystemRole };
-            IEnumerable<FunctionModel> functions = await functionService.GetFunctionsAsync().ConfigureAwait(false);
-            IEnumerable<ReferenceResourceModel> roles = await commonService.GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
+            IEnumerable<FunctionModel> functions = await functionService.GetFunctionsAsync();
+            IEnumerable<ReferenceResourceModel> roles = await commonService.GetReferenceResourcesByNamesAsync(refNames);
             var viewModel = new AssignPermissionViewModel
             {
                 RoleId = roleId ?? (int)SystemRole.SystemAdmin,
@@ -46,7 +46,7 @@
                 Roles = commonService.GetSelectList(roles.OrderBy(x => x.ResourceId), nameof(ReferenceResourceModel.ResourceId), nameof(ReferenceResourceModel.Value)),
             };
 
-            IEnumerable<FunctionModel> roleFunctions = await functionService.GetFunctionByRoleIdAsync(viewModel.RoleId).ConfigureAwait(false);
+            IEnumerable<FunctionModel> roleFunctions = await functionService.GetFunctionByRoleIdAsync(viewModel.RoleId);
             MappingPermissionToFunctions(viewModel.Functions, roleFunctions);
             viewModel.IsHost = sessionService.HasPermissionOnFunction(FunctionKey.RolePermission, Policy.Host) && viewModel.RoleId != (int)SystemRole.SystemAdmin;
 
@@ -57,7 +57,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.RolePermission, Policy = Policy.Host)]
         public async Task<JsonResult> AssignPermission(int roleId, IEnumerable<RolePermissionModel> permissions)
         {
-            CommandResult commandResult = await functionService.AssignFunctionToRoleAsync(sessionService.EmployeeId, roleId, permissions).ConfigureAwait(false);
+            CommandResult commandResult = await functionService.AssignFunctionToRoleAsync(sessionService.EmployeeId, roleId, permissions);
 
             return Json(commandResult);
         }

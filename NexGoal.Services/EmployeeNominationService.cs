@@ -38,7 +38,7 @@
                 Comment = commonService.RemoveInvalidXmlChars(model.Comment)
             };
 
-            var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            var commandResult = await baseService.ExecuteNonQueryAsync(criteria);
             commandResult.ObjectIds = criteria.PerformanceRecordId.ToString();
 
             return commandResult;
@@ -55,7 +55,7 @@
                 PerformanceRecordId = model.PerformanceRecordId,
             };
 
-            var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            var commandResult = await baseService.ExecuteNonQueryAsync(criteria);
 
             return commandResult;
         }
@@ -68,7 +68,7 @@
                 DeletedById = deletedById
             };
 
-            var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            var commandResult = await baseService.ExecuteNonQueryAsync(criteria);
 
             return commandResult;
         }
@@ -80,7 +80,7 @@
                 NominatorId = nominatorId
             };
 
-            return await baseService.GetDataAsync<NominationPeriodModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<NominationPeriodModel>(criteria);
         }
 
         public async Task<NominationPeriodModel> GetCurrentNominationPeriodForComitteeAsync(int committeeId, bool isQuarter)
@@ -91,7 +91,7 @@
                 IsQuarter = isQuarter
             };
 
-            return await baseService.GetDataEntityAsync<NominationPeriodModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataEntityAsync<NominationPeriodModel>(criteria);
         }
 
         public async Task<PerformanceRecord> GetNominationByRecordIdAsync(int performanceRecordId)
@@ -101,7 +101,7 @@
                 RecordId = performanceRecordId
             };
 
-            return await nominationRepository.GetNominationByRecordIdAsync(criteria).ConfigureAwait(false);
+            return await nominationRepository.GetNominationByRecordIdAsync(criteria);
         }
 
         public async Task<IEnumerable<EmployeeNominationModel>> GetNominationResultAsync(int employeeId)
@@ -111,7 +111,7 @@
                 EmployeeId = employeeId
             };
 
-            return await nominationRepository.GetNominationResultAsync(criteria).ConfigureAwait(false);
+            return await nominationRepository.GetNominationResultAsync(criteria);
         }
 
         public async Task<IEnumerable<EmployeeNominationModel>> GetMemberNominationResultAsync(
@@ -126,7 +126,7 @@
                 EmployeeId = employeeId
             };
 
-            return await nominationRepository.GetNominationResultAsync(criteria).ConfigureAwait(false);
+            return await nominationRepository.GetNominationResultAsync(criteria);
         }
 
         public async Task<IEnumerable<PerformanceRecord>> GetMemberNominationAsync(int nominatorId)
@@ -135,7 +135,7 @@
             {
                 ActorId = nominatorId
             };
-            IEnumerable<PerformanceRecord> records = await nominationRepository.GetMemberNominationAsync(criteria).ConfigureAwait(false);
+            IEnumerable<PerformanceRecord> records = await nominationRepository.GetMemberNominationAsync(criteria);
             IEnumerable<PerformanceRecord> performanceRecords = GroupDataMemberPerformance(records);
 
             return performanceRecords;
@@ -148,7 +148,7 @@
                 ActorId = nominatorId,
                 MemberId = memberId
             };
-            IEnumerable<PerformanceRecord> performanceRecords = await nominationRepository.GetMemberNominationAsync(criteria).ConfigureAwait(false);
+            IEnumerable<PerformanceRecord> performanceRecords = await nominationRepository.GetMemberNominationAsync(criteria);
 
             return performanceRecords;
         }
@@ -161,7 +161,7 @@
                 StatusId = statusId
             };
 
-            IEnumerable<NominationModel> nominations = await nominationRepository.GetNominationByPeriodIdsAsync(criteria).ConfigureAwait(false);
+            IEnumerable<NominationModel> nominations = await nominationRepository.GetNominationByPeriodIdsAsync(criteria);
 
             return nominations.OrderBy(x => x.Nominee.NickName);
         }
@@ -175,7 +175,7 @@
                 UpdatedById = updatedById
             };
 
-            var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            var commandResult = await baseService.ExecuteNonQueryAsync(criteria);
 
             return commandResult;
         }

@@ -45,7 +45,7 @@
 
         public async Task<IActionResult> Index()
         {
-            IEnumerable<EmployeeRoleModel> employeeRoles = await employeeService.GetRolesByEmployeeIdAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<EmployeeRoleModel> employeeRoles = await employeeService.GetRolesByEmployeeIdAsync(sessionService.EmployeeId);
             bool isReviewer = employeeRoles.Any(x => x.RoleId == (int)SystemRole.Reviewer && x.HasRole);
             ViewData["IsReviewer"] = isReviewer;
 
@@ -54,11 +54,11 @@
 
         public async Task<IActionResult> Details(int id)
         {
-            var roleId = await employeeService.GetRoleAccordingToMemberAsync(sessionService.EmployeeId, id).ConfigureAwait(false);
+            var roleId = await employeeService.GetRoleAccordingToMemberAsync(sessionService.EmployeeId, id);
 
             if (roleId > 0)
             {
-                Employee member = await commonService.GetEmployeeByIdAsync(id).ConfigureAwait(false);
+                Employee member = await commonService.GetEmployeeByIdAsync(id);
 
                 return View(member);
             }
@@ -69,14 +69,14 @@
         public async Task<JsonResult> GetMemberPerformanceAppraisalResult(int? periodId = null, int? memberId = null)
         {
             IEnumerable<PerformanceAppraisalResult> performanceAppraisals =
-                await paRecordService.GetMemberPerformanceAppraisalResultAsync(sessionService.EmployeeId, periodId, memberId).ConfigureAwait(false);
+                await paRecordService.GetMemberPerformanceAppraisalResultAsync(sessionService.EmployeeId, periodId, memberId);
 
             return Json(performanceAppraisals);
         }
 
         public async Task<JsonResult> GetNominationPeriod(bool? isCompleted = null)
         {
-            IEnumerable<NominationPeriodModel> nominationPeriods = await nominationPeriodService.GetAsync(isCompleted).ConfigureAwait(false);
+            IEnumerable<NominationPeriodModel> nominationPeriods = await nominationPeriodService.GetAsync(isCompleted);
 
             return Json(nominationPeriods);
         }
@@ -84,21 +84,21 @@
         public async Task<JsonResult> GetMemberNominationResult(int? memberId = null, int? year = null)
         {
             IEnumerable<EmployeeNominationModel> nominations =
-                await nominationService.GetMemberNominationResultAsync(sessionService.EmployeeId, memberId, year).ConfigureAwait(false);
+                await nominationService.GetMemberNominationResultAsync(sessionService.EmployeeId, memberId, year);
 
             return Json(nominations);
         }
 
         public async Task<JsonResult> GetMembersWorkload(int periodId)
         {
-            IEnumerable<TeamWorkloadModel> teamWorkloads = await redmineService.GetTeamWorkloadAsync(sessionService.EmployeeId, periodId).ConfigureAwait(false);
+            IEnumerable<TeamWorkloadModel> teamWorkloads = await redmineService.GetTeamWorkloadAsync(sessionService.EmployeeId, periodId);
 
             return Json(teamWorkloads);
         }
 
         public async Task<JsonResult> GetRoleAccordingToMember(int memberId)
         {
-            int roleId = await employeeService.GetRoleAccordingToMemberAsync(sessionService.EmployeeId, memberId).ConfigureAwait(false);
+            int roleId = await employeeService.GetRoleAccordingToMemberAsync(sessionService.EmployeeId, memberId);
 
             return Json(roleId);
         }

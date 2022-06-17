@@ -24,7 +24,7 @@
                         return nomination;
                     },
                     "NominationPeriodId",
-                    criteria).ConfigureAwait(false);
+                    criteria);
 
                 return nominations;
             }
@@ -44,7 +44,7 @@
                         return nomination;
                     },
                     "EmployeeId, EmployeeId, NominationPeriodId",
-                    criteria).ConfigureAwait(false);
+                    criteria);
 
                 return nominations;
             }
@@ -64,7 +64,7 @@
                         return nomination;
                     },
                     "EmployeeId, EmployeeId, NominationPeriodId",
-                    criteria).ConfigureAwait(false);
+                    criteria);
             }
         }
 
@@ -72,7 +72,7 @@
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria).ConfigureAwait(false))
+                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria))
                 {
                     var nominations = multi.Read<NominationModel, Employee, NominationPeriodModel, NominationModel>(
                         (nomination, nominee, period) =>

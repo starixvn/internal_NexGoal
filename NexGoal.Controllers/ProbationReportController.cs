@@ -27,7 +27,7 @@
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var roles = await employeeService.GetRolesByEmployeeIdAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            var roles = await employeeService.GetRolesByEmployeeIdAsync(sessionService.EmployeeId);
             return View(roles.Where(x => x.HasRole).Select(x => x.RoleId));
         }
 
@@ -40,7 +40,7 @@
         [HttpGet]
         public async Task<IActionResult> GetGroupsAndEmployees()
         {
-            var result = await probationReportService.GetGroupsAndEmployeesAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            var result = await probationReportService.GetGroupsAndEmployeesAsync(sessionService.EmployeeId);
 
             return Json(new { groups = result.Item1, employees = result.Item2 });
         }
@@ -56,7 +56,7 @@
                 IsQualified = model.IsQualified,
                 IsQualifiedByEvaluator = model.IsQualifiedByEvaluator,
                 ActorId = sessionService.EmployeeId
-            }).ConfigureAwait(false);
+            });
 
             return Json(result);
         }
@@ -64,7 +64,7 @@
         [HttpGet]
         public async Task<IActionResult> GetByEmployeeId(int id)
         {
-            var result = await probationReportService.GetByEmployeeIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
+            var result = await probationReportService.GetByEmployeeIdAsync(id, sessionService.EmployeeId);
             if (result != null)
             {
                 return Json(new { probationer = result.Item1, details = result.Item2, hrm = result.Item3 });
@@ -84,7 +84,7 @@
                 IsQualified = model.IsQualified,
                 IsQualifiedByEvaluator = model.IsQualifiedByEvaluator,
                 ActorId = sessionService.EmployeeId
-            }).ConfigureAwait(false);
+            });
 
             var fileName = $"Probation Report ({model.FromDate.Value.ToString("dd MMM yyyy")} - {model.ToDate.Value.ToString("dd MMM yyyy")}).xlsx";
 
@@ -94,7 +94,7 @@
         [HttpGet]
         public async Task<IActionResult> ExportPdf(int id)
         {
-            var pdfModel = await probationReportService.ExportPdfAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
+            var pdfModel = await probationReportService.ExportPdfAsync(id, sessionService.EmployeeId);
 
             if (pdfModel != null)
             {

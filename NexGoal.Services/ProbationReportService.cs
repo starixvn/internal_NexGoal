@@ -138,11 +138,11 @@
 
         public async Task<PdfModel> ExportPdfAsync(int employeeId, int actorId)
         {
-            var reportModel = await GetPdfData(employeeId, actorId).ConfigureAwait(false);
+            var reportModel = await GetPdfData(employeeId, actorId);
 
             if (reportModel != null)
             {
-                var pdf = await GetPdfSettingAsync(reportModel).ConfigureAwait(false);
+                var pdf = await GetPdfSettingAsync(reportModel);
 
                 return new PdfModel
                 {
@@ -156,7 +156,7 @@
 
         private async Task<HtmlToPdfDocument> GetPdfSettingAsync(ProbationReportPdfModel reportModel)
         {
-            string htmlString = await viewRenderService.RenderToStringAsync(PDFViewName, reportModel).ConfigureAwait(false);
+            string htmlString = await viewRenderService.RenderToStringAsync(PDFViewName, reportModel);
 
             var globalSettings = new GlobalSettings
             {
@@ -192,7 +192,7 @@
         public async Task<Tuple<ProbationReportModel, IEnumerable<KPIGroupModel>, HRMModel>> GetByEmployeeIdAsync(int employeeId, int actorId)
         {
             var result = await baseService.FetchMultipleAsync<ProbationReportModel, KPIGroupModel, EncryptedProbationEvaluationDetailModel>(
-                new GetProbationReportByEmployeeIdCriteria { EmployeeId = employeeId, ActorId = actorId }).ConfigureAwait(false);
+                new GetProbationReportByEmployeeIdCriteria { EmployeeId = employeeId, ActorId = actorId });
 
             var probationer = result.Item1.FirstOrDefault();
             var groups = result.Item2;
@@ -215,7 +215,7 @@
 
                 probationer.SelfScore = cryptoService.Decrypt(probationer.SelfScore);
                 probationer.EvaluatorScore = cryptoService.Decrypt(probationer.EvaluatorScore);
-                var hrm = await probationRepository.GetHRM(new GetHRMCriteria { EmployeeId = employeeId }).ConfigureAwait(false);
+                var hrm = await probationRepository.GetHRM(new GetHRMCriteria { EmployeeId = employeeId });
                 return new Tuple<ProbationReportModel, IEnumerable<KPIGroupModel>, HRMModel>(probationer, groups, hrm);
             }
 
@@ -225,7 +225,7 @@
         private async Task<ProbationReportPdfModel> GetPdfData(int employeeId, int actorId)
         {
             var result = await baseService.FetchMultipleAsync<ProbationReportPdfModel, KPIGroupModel, EncryptedProbationEvaluationDetailModel>(
-                new GetProbationReportByEmployeeIdCriteria { EmployeeId = employeeId, ActorId = actorId }).ConfigureAwait(false);
+                new GetProbationReportByEmployeeIdCriteria { EmployeeId = employeeId, ActorId = actorId });
 
             var probationer = result.Item1.FirstOrDefault();
 
@@ -252,7 +252,7 @@
 
                 probationer.Details = groups;
 
-                probationer.Hrm = await probationRepository.GetHRM(new GetHRMCriteria { EmployeeId = employeeId }).ConfigureAwait(false);
+                probationer.Hrm = await probationRepository.GetHRM(new GetHRMCriteria { EmployeeId = employeeId });
             }
             return probationer;
         }

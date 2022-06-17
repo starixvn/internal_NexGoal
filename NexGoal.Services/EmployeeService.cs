@@ -27,7 +27,7 @@
                 IsDisabled = param.IsDisabled
             };
 
-            return await baseService.GetDataAsync<Employee>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<Employee>(criteria);
         }
 
         public async Task<Employee> GetEmployeeByIdAsync(int employeeId)
@@ -37,7 +37,7 @@
                 EmployeeId = employeeId
             };
 
-            return await baseService.GetDataEntityAsync<Employee>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataEntityAsync<Employee>(criteria);
         }
 
         public async Task<IEnumerable<EmployeeRoleModel>> GetRolesByEmployeeIdAsync(int employeeId)
@@ -47,7 +47,7 @@
                 EmployeeId = employeeId
             };
 
-            return await baseService.GetDataAsync<EmployeeRoleModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<EmployeeRoleModel>(criteria);
         }
 
         public async Task<CommandResult> EditEmployeeRolesAsync(EditEmployeeRolesModel model)
@@ -59,7 +59,7 @@
                 ModifiedBy = model.ModifiedBy
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<int> GetRoleAccordingToMemberAsync(int actorId, int memberId)
@@ -70,7 +70,7 @@
                 MemberId = memberId
             };
 
-            return await baseService.GetDataEntityAsync<int>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataEntityAsync<int>(criteria);
         }
 
         public async Task<IEnumerable<Employee>> GetMemberAsync(int actorId, string keyword = null)
@@ -81,7 +81,7 @@
                 Keyword = keyword
             };
 
-            return await baseService.GetDataAsync<Employee>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<Employee>(criteria);
         }
 
         public async Task<IEnumerable<Group>> GetGroupAsync(int actorId)
@@ -91,7 +91,7 @@
                 ActorId = actorId
             };
 
-            return await baseService.GetDataAsync<Group>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<Group>(criteria);
         }
     }
 }

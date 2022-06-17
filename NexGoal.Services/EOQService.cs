@@ -26,7 +26,7 @@
                 StatusId = statusId
             };
 
-            return await baseService.GetDataAsync<EOQYModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<EOQYModel>(criteria);
         }
 
         public async Task<EOQYModel> GetByIdAsync(int eoqId)
@@ -36,14 +36,14 @@
                 EOQId = eoqId
             };
 
-            return await baseService.GetDataEntityAsync<EOQYModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataEntityAsync<EOQYModel>(criteria);
         }
 
         public async Task<IEnumerable<int>> GetYearsAsync()
         {
             var criteria = new GetYearsCriteria();
 
-            return await baseService.GetDataAsync<int>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<int>(criteria);
         }
 
         public async Task<CommandResult> CreateAsync(int actorId, CreateEOQModel eoq)
@@ -60,7 +60,7 @@
                 CreatedBy = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<CommandResult> EditAsync(int actorId, EditEOQModel eoq)
@@ -78,7 +78,7 @@
                 ModifiedBy = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
     }
 }

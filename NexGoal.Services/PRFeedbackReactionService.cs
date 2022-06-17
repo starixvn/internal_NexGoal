@@ -27,7 +27,7 @@
                 CreatorId = prFeedbackReaction.CreatorId
             };
 
-            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria);
 
             return commandResult;
         }
@@ -40,7 +40,7 @@
                 CreatorId = prFeedbackReaction.CreatorId
             };
 
-            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria);
 
             return commandResult;
         }

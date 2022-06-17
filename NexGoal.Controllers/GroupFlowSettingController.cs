@@ -26,7 +26,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
         public async Task<JsonResult> GetGroupHaveSetting()
         {
-            IEnumerable<Group> groups = await flowSettingService.GetGroupHaveSettingAsync().ConfigureAwait(false);
+            IEnumerable<Group> groups = await flowSettingService.GetGroupHaveSettingAsync();
 
             return Json(groups);
         }
@@ -34,7 +34,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
         public async Task<IActionResult> GetGroups()
         {
-            IEnumerable<GroupModel> groups = await flowSettingService.GetGroupsAsync().ConfigureAwait(false);
+            IEnumerable<GroupModel> groups = await flowSettingService.GetGroupsAsync();
 
             return Json(groups);
         }
@@ -42,7 +42,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
         public async Task<JsonResult> GetGroupFlowSetting()
         {
-            IEnumerable<GroupFlowSettingModel> flowSettings = await flowSettingService.GetGroupFlowSettingAsync().ConfigureAwait(false);
+            IEnumerable<GroupFlowSettingModel> flowSettings = await flowSettingService.GetGroupFlowSettingAsync();
 
             return Json(flowSettings);
         }
@@ -50,7 +50,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
         public async Task<JsonResult> GetById(int groupId)
         {
-            GroupFlowSettingModel flowSetting = await flowSettingService.GetByIdAsync(groupId).ConfigureAwait(false);
+            GroupFlowSettingModel flowSetting = await flowSettingService.GetByIdAsync(groupId);
 
             return Json(flowSetting);
         }
@@ -59,7 +59,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
         public async Task<JsonResult> Edit(int groupId, IEnumerable<FlowSettingModel> settings)
         {
-            CommandResult commandResult = await flowSettingService.EditAsync(sessionService.EmployeeId, groupId, settings).ConfigureAwait(false);
+            CommandResult commandResult = await flowSettingService.EditAsync(sessionService.EmployeeId, groupId, settings);
 
             return Json(commandResult);
         }
@@ -68,7 +68,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
         public async Task<JsonResult> Delete(int groupId)
         {
-            CommandResult commandResult = await flowSettingService.DeleteAsync(sessionService.EmployeeId, groupId).ConfigureAwait(false);
+            CommandResult commandResult = await flowSettingService.DeleteAsync(sessionService.EmployeeId, groupId);
 
             return Json(commandResult);
         }

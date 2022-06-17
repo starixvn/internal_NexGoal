@@ -30,7 +30,7 @@
                 Content = commonService.RemoveInvalidXmlChars(prFeedback.Content)
             };
 
-            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria);
 
             return commandResult;
         }
@@ -44,7 +44,7 @@
                 Content = commonService.RemoveInvalidXmlChars(prFeedback.Content)
             };
 
-            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria);
 
             return commandResult;
         }

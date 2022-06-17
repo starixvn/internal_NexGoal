@@ -48,7 +48,7 @@
                     IsActive = isActive
                 };
 
-                refResources = await baseService.GetDataAsync<ReferenceResourceModel>(criteria).ConfigureAwait(false);
+                refResources = await baseService.GetDataAsync<ReferenceResourceModel>(criteria);
             }
 
             return refResources;
@@ -71,7 +71,7 @@
                 IsEnabled = isEnabled
             };
 
-            var employees = await baseService.GetDataAsync<Employee>(criteria).ConfigureAwait(false);
+            var employees = await baseService.GetDataAsync<Employee>(criteria);
             return employees;
         }
 
@@ -81,7 +81,7 @@
             {
                 EmployeeId = employeeId
             };
-            var employee = await baseService.GetDataEntityAsync<Employee>(criteria).ConfigureAwait(false) ?? new Employee();
+            var employee = await baseService.GetDataEntityAsync<Employee>(criteria) ?? new Employee();
 
             return employee;
         }
@@ -90,13 +90,13 @@
         {
             var criteria = new GetGroupsCriteria();
 
-            return await baseService.GetDataAsync<Group>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<Group>(criteria);
         }
 
         public async Task<IEnumerable<ProjectModel>> GetProjectsAsync()
         {
             var criteria = new GetProjectsCriteria();
-            var projects = await baseService.GetDataAsync<ProjectModel>(criteria).ConfigureAwait(false);
+            var projects = await baseService.GetDataAsync<ProjectModel>(criteria);
 
             return projects.OrderBy(x => x.Name);
         }
@@ -107,7 +107,7 @@
             if (performanceGrades == null)
             {
                 var criteria = new GetPerformanceGradeCriteria();
-                performanceGrades = await baseService.GetDataAsync<PerformanceGrade>(criteria).ConfigureAwait(false);
+                performanceGrades = await baseService.GetDataAsync<PerformanceGrade>(criteria);
 
                 var cacheExpirationOptions = new MemoryCacheEntryOptions
                 {
@@ -124,14 +124,14 @@
         {
             var criteria = new GetAllPeriodsCriteria();
 
-            return await baseService.GetDataAsync<PeriodBaseModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<PeriodBaseModel>(criteria);
         }
 
         public async Task<PeriodModel> GetCurrentPerformancePeriodAsync()
         {
             var criteria = new GetCurrentPerformancePeriodCriteria();
 
-            return await baseService.GetDataEntityAsync<PeriodModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataEntityAsync<PeriodModel>(criteria);
         }
 
         public async Task<HRMSummaryModel> GetHRMSummaryAsync(int employeeId)
@@ -141,7 +141,7 @@
                 EmployeeId = employeeId
             };
 
-            var hrm = await baseService.GetDataEntityAsync<HRMSummaryModel>(criteria).ConfigureAwait(false);
+            var hrm = await baseService.GetDataEntityAsync<HRMSummaryModel>(criteria);
 
             return hrm;
         }
@@ -153,12 +153,12 @@
                 EmployeeId = employeeId
             };
 
-            return await baseService.GetDataAsync<string>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<string>(criteria);
         }
 
         public async Task<IEnumerable<PeriodBaseModel>> GetPeriodForReportAsync()
         {
-            return await baseService.GetDataAsync<PeriodBaseModel>(new GetPeriodForReportCriteria()).ConfigureAwait(false);
+            return await baseService.GetDataAsync<PeriodBaseModel>(new GetPeriodForReportCriteria());
         }
 
         public async Task<IEnumerable<ProjectModel>> GetProjectTagByEmployeeIdAsync(int employeeId)
@@ -167,7 +167,7 @@
             {
                 EmployeeId = employeeId
             };
-            var projects = await baseService.GetDataAsync<ProjectModel>(criteria).ConfigureAwait(false);
+            var projects = await baseService.GetDataAsync<ProjectModel>(criteria);
 
             return projects.OrderBy(x => x.Name);
         }

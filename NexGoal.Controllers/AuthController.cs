@@ -33,7 +33,7 @@
             var domainUsername = "spvn\\" + username;
             if (!string.IsNullOrEmpty(username))
             {
-                EmployeeSession employee = await authService.GetEmployeeByDomainUsernameAsync(domainUsername).ConfigureAwait(false);
+                EmployeeSession employee = await authService.GetEmployeeByDomainUsernameAsync(domainUsername);
 
                 if (employee != null)
                 {
@@ -41,8 +41,8 @@
                     sessionService.NickName = employee.NickName;
                     sessionService.FullName = employee.FullName;
                     sessionService.IsInProbation = employee.IsInProbation;
-                    sessionService.Functions = await authService.GetFunctionByEmployeeIdAsync(employee.EmployeeId).ConfigureAwait(false);
-                    sessionService.MenuItems = await authService.GetMenuByEmployeeIdAsync(employee.EmployeeId).ConfigureAwait(false);
+                    sessionService.Functions = await authService.GetFunctionByEmployeeIdAsync(employee.EmployeeId);
+                    sessionService.MenuItems = await authService.GetMenuByEmployeeIdAsync(employee.EmployeeId);
 
                     return RedirectToAction("Index", "Home");
                 }

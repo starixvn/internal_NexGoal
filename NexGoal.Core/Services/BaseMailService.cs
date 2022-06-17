@@ -65,14 +65,14 @@ namespace NexGoal.Core.Services
                 {
                     mailclient.ServerCertificateValidationCallback = (s, c, h, e) => true;
                     mailclient.CheckCertificateRevocation = false;
-                    await mailclient.ConnectAsync(configuration.Value.SmtpServer, configuration.Value.SmtpPort, configuration.Value.EnableSsl).ConfigureAwait(false);
+                    await mailclient.ConnectAsync(configuration.Value.SmtpServer, configuration.Value.SmtpPort, configuration.Value.EnableSsl);
 
                     if (configuration.Value.EnableSsl)
                     {
-                        await mailclient.AuthenticateAsync(configuration.Value.Username, configuration.Value.Password).ConfigureAwait(false);
+                        await mailclient.AuthenticateAsync(configuration.Value.Username, configuration.Value.Password);
                     }
 
-                    await mailclient.SendAsync(message).ConfigureAwait(false);
+                    await mailclient.SendAsync(message);
 
                     WriteLogSendEmail(email);
                 }
@@ -93,7 +93,7 @@ namespace NexGoal.Core.Services
                     fanexlogger.Error(ex.Message, ex);
                 }
 
-                await mailclient.DisconnectAsync(true).ConfigureAwait(false);
+                await mailclient.DisconnectAsync(true);
             }
         }
 

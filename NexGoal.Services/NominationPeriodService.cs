@@ -23,7 +23,7 @@
                 IsCompleted = isCompleted
             };
 
-            return await baseService.GetDataAsync<NominationPeriodModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<NominationPeriodModel>(criteria);
         }
 
         public async Task<CommandResult> DeleteAsync(int nominationPeriodId, int actorId)
@@ -34,7 +34,7 @@
                 ActorId = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<IEnumerable<RoleSettingModel>> GetRoleSettingAsync(GetRoleSettingParam param)
@@ -48,7 +48,7 @@
                 IsShowAll = param.IsShowAll
             };
 
-            return await baseService.GetDataAsync<RoleSettingModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<RoleSettingModel>(criteria);
         }
 
         public async Task<CommandResult> EditRoleSettingAsync(EditRoleSettingModel setting, int actorId)
@@ -61,7 +61,7 @@
                 ActorId = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
     }
 }

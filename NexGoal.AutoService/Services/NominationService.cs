@@ -134,7 +134,7 @@
                                 period.Title,
                                 mailService.FormatDate(period.EndDateForNominator),
                                 configuration.Value.ApplicationDomain);
-                            await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
+                            await chatbotService.SendMessageAsync(setting.ConversationId, message);
                             break;
 
                         case MailMode.Remind:
@@ -143,7 +143,7 @@
                                 period.Title,
                                 mailService.FormatDate(period.EndDateForNominator),
                                 configuration.Value.ApplicationDomain);
-                            await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
+                            await chatbotService.SendMessageAsync(setting.ConversationId, message);
                             break;
 
                         default:

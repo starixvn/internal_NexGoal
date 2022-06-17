@@ -32,7 +32,7 @@
                 var domainUsername = string.Equals(ldapSetting.CompanyName, "Luminet")
                     ? ldapSetting.Domain + context.User.Identity.Name
                     : context.User.Identity.Name;
-                EmployeeSession employee = await authService.GetEmployeeByDomainUsernameAsync(domainUsername).ConfigureAwait(false);
+                EmployeeSession employee = await authService.GetEmployeeByDomainUsernameAsync(domainUsername);
 
                 if (employee != null)
                 {
@@ -40,14 +40,14 @@
                     currentSession.NickName = employee.NickName;
                     currentSession.FullName = employee.FullName;
                     currentSession.IsInProbation = employee.IsInProbation;
-                    currentSession.Functions = await authService.GetFunctionByEmployeeIdAsync(employee.EmployeeId).ConfigureAwait(false);
-                    currentSession.MenuItems = await authService.GetMenuByEmployeeIdAsync(employee.EmployeeId).ConfigureAwait(false);
+                    currentSession.Functions = await authService.GetFunctionByEmployeeIdAsync(employee.EmployeeId);
+                    currentSession.MenuItems = await authService.GetMenuByEmployeeIdAsync(employee.EmployeeId);
 
-                    await WriteLogAsync(domainUsername, context).ConfigureAwait(false);
+                    await WriteLogAsync(domainUsername, context);
                 }
             }
 
-            await next(context).ConfigureAwait(false);
+            await next(context);
         }
 
         private async Task WriteLogAsync(string username, HttpContext context)
@@ -60,7 +60,7 @@
             };
             logInfo.MachineName = GetMachineName(logInfo.IP);
 
-            await authService.WriteLogLoginAsync(logInfo).ConfigureAwait(false);
+            await authService.WriteLogLoginAsync(logInfo);
         }
 
         private static string GetMachineName(string ipAdress)

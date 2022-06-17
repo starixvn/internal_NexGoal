@@ -167,7 +167,7 @@
                                 : Message.SkypeMessageTemplate_PA_RemindStartEvaluationToSupervisor;
                             message = string.Format(template, setting.Nickname, mailService.FormatDate(period.StartDate));
 
-                            await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
+                            await chatbotService.SendMessageAsync(setting.ConversationId, message);
                             break;
 
                         case MailMode.Start:
@@ -176,7 +176,7 @@
                                 period.Name,
                                 mailService.FormatDate(setting.EndDate),
                                 configuration.Value.ApplicationDomain);
-                            await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
+                            await chatbotService.SendMessageAsync(setting.ConversationId, message);
 
                             break;
 
@@ -186,7 +186,7 @@
                                 period.Name,
                                 mailService.FormatDate(setting.EndDate),
                                 configuration.Value.ApplicationDomain);
-                            await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
+                            await chatbotService.SendMessageAsync(setting.ConversationId, message);
 
                             break;
 
@@ -195,7 +195,7 @@
                                 setting.Nickname,
                                 period.Name,
                                 configuration.Value.ApplicationDomain);
-                            await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
+                            await chatbotService.SendMessageAsync(setting.ConversationId, message);
 
                             break;
 

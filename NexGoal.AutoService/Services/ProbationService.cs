@@ -147,7 +147,7 @@
                         message = string.Format(Message.SkypeMessageTemplate_Probation_StartToHR,
                             setting.ProbationerNickname,
                             probationSettingPage);
-                        await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
+                        await chatbotService.SendMessageAsync(setting.ConversationId, message);
                         break;
 
                     case PerformanceProcess.Self:
@@ -155,7 +155,7 @@
                             setting.Nickname,
                             configuration.Value.ApplicationDomain,
                             mailService.FormatDate(setting.EndDate));
-                        await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
+                        await chatbotService.SendMessageAsync(setting.ConversationId, message);
                         break;
 
                     case PerformanceProcess.Evaluator:
@@ -171,7 +171,7 @@
                                 mailService.FormatDate(setting.EndDate),
                                 memberPage);
 
-                        await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
+                        await chatbotService.SendMessageAsync(setting.ConversationId, message);
                         break;
 
                     case PerformanceProcess.Reviewer:
@@ -180,7 +180,7 @@
                                setting.ProbationerNickname,
                                memberPage,
                                mailService.FormatDate(setting.EndDate));
-                        await chatbotService.SendMessageAsync(setting.ConversationId, message).ConfigureAwait(false);
+                        await chatbotService.SendMessageAsync(setting.ConversationId, message);
                         break;
 
                     default:

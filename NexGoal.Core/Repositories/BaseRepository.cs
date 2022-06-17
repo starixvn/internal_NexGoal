@@ -13,7 +13,7 @@ namespace NexGoal.Core.Repositories
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                await db.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+                await db.ExecuteNonQueryAsync(criteria);
                 CommandResult commandResult = GetCommandResult(criteria.GetSpParams());
 
                 return commandResult;

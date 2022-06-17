@@ -51,7 +51,7 @@
                 PeriodId = periodId
             };
 
-            return await baseService.GetDataAsync<Group>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<Group>(criteria);
         }
 
         public async Task<IEnumerable<PerformanceAppraisalResult>> GetPerformanceAppraisalResultAsync(int employeeId)
@@ -126,7 +126,7 @@
                 IsRevised = isRevised
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<IEnumerable<PARecordGroupModel>> GetPARecordByReviewerAsync(GetPARecordParam param)

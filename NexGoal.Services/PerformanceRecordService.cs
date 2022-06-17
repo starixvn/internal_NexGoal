@@ -72,8 +72,8 @@
                 PageIndex = param.PageIndex,
                 PageSize = param.PageSize
             };
-            IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetPerformanceTimelineAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetPerformanceTimelineAsync(criteria);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
 
             var currentPeriod = await commonService.GetCurrentPerformancePeriodAsync();
 
@@ -91,8 +91,8 @@
             {
                 ActorId = actorId
             };
-            IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetMemberPerformanceAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetMemberPerformanceAsync(criteria);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
 
             var currentPeriod = await commonService.GetCurrentPerformancePeriodAsync();
 
@@ -111,8 +111,8 @@
                 ActorId = actorId,
                 EmployeeId = employeeId
             };
-            IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetMemberPerformanceDetailAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetMemberPerformanceDetailAsync(criteria);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
 
             var currentPeriod = await commonService.GetCurrentPerformancePeriodAsync();
 
@@ -141,8 +141,8 @@
             };
 
             Tuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>> tuple =
-                await performanceRecordRepository.GetMemberPerformanceTimelineAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+                await performanceRecordRepository.GetMemberPerformanceTimelineAsync(criteria);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
 
             var currentPeriod = await commonService.GetCurrentPerformancePeriodAsync();
 
@@ -173,8 +173,8 @@
 
             var currentPeriod = await commonService.GetCurrentPerformancePeriodAsync();
 
-            PerformanceRecord performanceRecord = await performanceRecordRepository.GetPerformanceRecordByIdAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            PerformanceRecord performanceRecord = await performanceRecordRepository.GetPerformanceRecordByIdAsync(criteria);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
             MappingDataForPerformanceRecordAsync(performanceRecord, performanceGrades, creatorId, currentPeriod);
 
             return performanceRecord;
@@ -189,8 +189,8 @@
 
             var currentPeriod = await commonService.GetCurrentPerformancePeriodAsync();
 
-            PerformanceRecord performanceRecord = await performanceRecordRepository.GetDraftPerformanceRecordByIdAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            PerformanceRecord performanceRecord = await performanceRecordRepository.GetDraftPerformanceRecordByIdAsync(criteria);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
             MappingDataForPerformanceRecordAsync(performanceRecord, performanceGrades, creatorId, currentPeriod);
 
             return performanceRecord;
@@ -204,7 +204,7 @@
                 CreatorId = creatorId
             };
 
-            IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetPerformanceRecordByIdsAsync(criteria).ConfigureAwait(false);
+            IEnumerable<PerformanceRecord> performanceRecords = await performanceRecordRepository.GetPerformanceRecordByIdsAsync(criteria);
             IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
             var currentPeriod = await commonService.GetCurrentPerformancePeriodAsync();
 
@@ -228,22 +228,22 @@
                 TypeId = performanceRecord.TypeId
             };
 
-            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria);
             commandResult.ObjectIds = criteria.PerformanceRecordIds;
 
             if (commandResult.IsSuccessful)
             {
-                backgroundJob.Enqueue(() => notificationService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false));
+                backgroundJob.Enqueue(() => notificationService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create));
                 backgroundJob.Enqueue(() => notificationService.SendNotificationAsync(
                     criteria.PerformanceRecordIds,
                     performanceRecord.CreatorId,
                     ActionOnPerformanceRecord.Create)
-                    .ConfigureAwait(false));
+                    );
                 backgroundJob.Enqueue(() => notificationService.SendSkypeMessageAsync(
                     criteria.PerformanceRecordIds,
                     performanceRecord.CreatorId,
                     ActionOnPerformanceRecord.Create)
-                    .ConfigureAwait(false));
+                    );
             }
 
             return commandResult;
@@ -261,7 +261,7 @@
                 TypeId = performanceRecord.TypeId
             };
 
-            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria);
             commandResult.ObjectIds = criteria.PerformanceRecordIds;
 
             return commandResult;
@@ -281,34 +281,34 @@
                 IsFromDraft = performanceRecord.IsFromDraft
             };
 
-            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria);
             commandResult.ObjectIds = criteria.PerformanceRecordIds;
 
             if (commandResult.IsSuccessful)
             {
                 if (performanceRecord.IsFromDraft)
                 {
-                    backgroundJob.Enqueue(() => notificationService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create).ConfigureAwait(false));
+                    backgroundJob.Enqueue(() => notificationService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Create));
                     backgroundJob.Enqueue(() => notificationService.SendNotificationAsync(criteria.PerformanceRecordIds,
                         performanceRecord.CreatorId,
                         ActionOnPerformanceRecord.Create)
-                        .ConfigureAwait(false));
+                        );
                     backgroundJob.Enqueue(() => notificationService.SendSkypeMessageAsync(criteria.PerformanceRecordIds,
                         performanceRecord.CreatorId,
                         ActionOnPerformanceRecord.Create)
-                        .ConfigureAwait(false));
+                        );
                 }
                 else
                 {
-                    backgroundJob.Enqueue(() => notificationService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Edit).ConfigureAwait(false));
+                    backgroundJob.Enqueue(() => notificationService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, ActionOnPerformanceRecord.Edit));
                     backgroundJob.Enqueue(() => notificationService.SendNotificationAsync(criteria.PerformanceRecordIds,
                         performanceRecord.CreatorId,
                         ActionOnPerformanceRecord.Edit)
-                        .ConfigureAwait(false));
+                        );
                     backgroundJob.Enqueue(() => notificationService.SendSkypeMessageAsync(criteria.PerformanceRecordIds,
                         performanceRecord.CreatorId,
                         ActionOnPerformanceRecord.Edit)
-                        .ConfigureAwait(false));
+                        );
                 }
             }
 
@@ -328,7 +328,7 @@
                 TypeId = performanceRecord.TypeId
             };
 
-            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria);
 
             return commandResult;
         }
@@ -341,7 +341,7 @@
                 ActorId = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         private void MappingDataForPerformanceRecordAsync(PerformanceRecord performanceRecord, IEnumerable<PerformanceGrade> performanceGrades, int actorId, PeriodModel currentPeriod)

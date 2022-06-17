@@ -32,7 +32,7 @@
         [HttpGet]
         public async Task<JsonResult> GetCurrentNominationPeriodForComittee(bool isQuarter)
         {
-            NominationPeriodModel result = await employeeNominationService.GetCurrentNominationPeriodForComitteeAsync(sessionService.EmployeeId, isQuarter).ConfigureAwait(false);
+            NominationPeriodModel result = await employeeNominationService.GetCurrentNominationPeriodForComitteeAsync(sessionService.EmployeeId, isQuarter);
 
             return Json(result);
         }
@@ -40,7 +40,7 @@
         [HttpGet]
         public async Task<JsonResult> GetNominationsByPeriodIds(string nominationPeriodIds, int? statusId)
         {
-            IEnumerable<NominationModel> result = await employeeNominationService.GetNominationsByPeriodIdsAsync(nominationPeriodIds, statusId).ConfigureAwait(false);
+            IEnumerable<NominationModel> result = await employeeNominationService.GetNominationsByPeriodIdsAsync(nominationPeriodIds, statusId);
 
             return Json(result);
         }
@@ -48,7 +48,7 @@
         [HttpPost]
         public async Task<JsonResult> EditStatus(int nominationId, int statusId)
         {
-            var result = await employeeNominationService.EditStatusAsync(nominationId, statusId, sessionService.EmployeeId).ConfigureAwait(false);
+            var result = await employeeNominationService.EditStatusAsync(nominationId, statusId, sessionService.EmployeeId);
 
             return Json(result);
         }

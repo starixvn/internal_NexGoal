@@ -26,7 +26,7 @@
         {
             var criteria = new GetNominationPeriodsCriteria();
 
-            return await baseService.GetDataAsync<NominationPeriodModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<NominationPeriodModel>(criteria);
         }
 
         public async Task<IEnumerable<NominationModel>> GetNominationAsync(
@@ -45,7 +45,7 @@
                 StatusId = statusId
             };
 
-            IEnumerable<NominationModel> nominations = await repository.GetNominationByPeriodIdsAsync(criteria).ConfigureAwait(false);
+            IEnumerable<NominationModel> nominations = await repository.GetNominationByPeriodIdsAsync(criteria);
 
             return nominations.OrderByDescending(x => x.StatusId).ThenBy(x => x.Nominee.NickName);
         }

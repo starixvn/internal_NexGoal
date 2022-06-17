@@ -31,7 +31,7 @@
         [HttpGet]
         public async Task<IActionResult> GetNominationPeriods()
         {
-            IEnumerable<NominationPeriodModel> periods = await reportService.GetNominationPeriodAsync().ConfigureAwait(false);
+            IEnumerable<NominationPeriodModel> periods = await reportService.GetNominationPeriodAsync();
 
             return Json(periods);
         }
@@ -40,7 +40,7 @@
         public async Task<IActionResult> GetNominations(string nominationPeriodIds, string groupIds, string employeeIds, int? statusId)
         {
             IEnumerable<NominationModel> nominations =
-                await reportService.GetNominationAsync(sessionService.EmployeeId, nominationPeriodIds, groupIds, employeeIds, statusId).ConfigureAwait(false);
+                await reportService.GetNominationAsync(sessionService.EmployeeId, nominationPeriodIds, groupIds, employeeIds, statusId);
 
             return Json(nominations);
         }

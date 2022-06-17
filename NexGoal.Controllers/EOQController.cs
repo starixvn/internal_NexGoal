@@ -27,14 +27,14 @@
 
         public async Task<JsonResult> GetAll(int? year = null, int? statusId = null)
         {
-            IEnumerable<EOQYModel> eoqs = await eoqService.GetAllAsync(year, statusId).ConfigureAwait(false);
+            IEnumerable<EOQYModel> eoqs = await eoqService.GetAllAsync(year, statusId);
 
             return Json(eoqs);
         }
 
         public async Task<JsonResult> GetYears()
         {
-            IEnumerable<int> years = await eoqService.GetYearsAsync().ConfigureAwait(false);
+            IEnumerable<int> years = await eoqService.GetYearsAsync();
 
             return Json(years);
         }
@@ -45,7 +45,7 @@
         {
             if (ModelState.IsValid)
             {
-                CommandResult commandResult = await eoqService.CreateAsync(sessionService.EmployeeId, eoq).ConfigureAwait(false);
+                CommandResult commandResult = await eoqService.CreateAsync(sessionService.EmployeeId, eoq);
 
                 return Json(commandResult);
             }
@@ -57,7 +57,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.NominationPeriod, Policy = Policy.Host)]
         public async Task<IActionResult> Edit(int id)
         {
-            EOQYModel eoq = await eoqService.GetByIdAsync(id).ConfigureAwait(false);
+            EOQYModel eoq = await eoqService.GetByIdAsync(id);
 
             if (eoq == null)
             {
@@ -76,7 +76,7 @@
         {
             if (ModelState.IsValid)
             {
-                CommandResult commandResult = await eoqService.EditAsync(sessionService.EmployeeId, eoq).ConfigureAwait(false);
+                CommandResult commandResult = await eoqService.EditAsync(sessionService.EmployeeId, eoq);
 
                 return Json(commandResult);
             }
@@ -87,7 +87,7 @@
 
         public async Task<IActionResult> Details(int id)
         {
-            EOQYModel eoq = await eoqService.GetByIdAsync(id).ConfigureAwait(false);
+            EOQYModel eoq = await eoqService.GetByIdAsync(id);
 
             if (eoq == null)
             {
@@ -99,7 +99,7 @@
 
         public async Task<JsonResult> GetById(int id)
         {
-            EOQYModel eoq = await eoqService.GetByIdAsync(id).ConfigureAwait(false);
+            EOQYModel eoq = await eoqService.GetByIdAsync(id);
 
             return Json(eoq);
         }

@@ -22,7 +22,7 @@
                         return discipline;
                     },
                     "EmployeeId, EmployeeId",
-                    criteria).ConfigureAwait(false);
+                    criteria);
 
                 return disciplines;
             }

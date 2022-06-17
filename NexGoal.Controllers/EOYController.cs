@@ -27,7 +27,7 @@
 
         public async Task<JsonResult> GetAll(int? statusId = null)
         {
-            IEnumerable<EOQYModel> eoys = await eoyService.GetAllAsync(statusId).ConfigureAwait(false);
+            IEnumerable<EOQYModel> eoys = await eoyService.GetAllAsync(statusId);
 
             return Json(eoys);
         }
@@ -38,7 +38,7 @@
         {
             if (ModelState.IsValid)
             {
-                CommandResult commandResult = await eoyService.CreateAsync(sessionService.EmployeeId, eoy).ConfigureAwait(false);
+                CommandResult commandResult = await eoyService.CreateAsync(sessionService.EmployeeId, eoy);
 
                 return Json(commandResult);
             }
@@ -50,7 +50,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.NominationPeriod, Policy = Policy.Host)]
         public async Task<IActionResult> Edit(int id)
         {
-            EOQYModel eoy = await eoyService.GetByIdAsync(id).ConfigureAwait(false);
+            EOQYModel eoy = await eoyService.GetByIdAsync(id);
 
             if (eoy == null)
             {
@@ -69,7 +69,7 @@
         {
             if (ModelState.IsValid)
             {
-                CommandResult commandResult = await eoyService.EditAsync(sessionService.EmployeeId, eoy).ConfigureAwait(false);
+                CommandResult commandResult = await eoyService.EditAsync(sessionService.EmployeeId, eoy);
 
                 return Json(commandResult);
             }
@@ -80,7 +80,7 @@
 
         public async Task<IActionResult> Details(int id)
         {
-            EOQYModel eoy = await eoyService.GetByIdAsync(id).ConfigureAwait(false);
+            EOQYModel eoy = await eoyService.GetByIdAsync(id);
 
             if (eoy == null)
             {
@@ -92,7 +92,7 @@
 
         public async Task<JsonResult> GetById(int id)
         {
-            EOQYModel eoy = await eoyService.GetByIdAsync(id).ConfigureAwait(false);
+            EOQYModel eoy = await eoyService.GetByIdAsync(id);
 
             return Json(eoy);
         }

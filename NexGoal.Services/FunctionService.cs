@@ -24,7 +24,7 @@
                 RoleId = roleId
             };
 
-            return await baseService.GetDataAsync<FunctionModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<FunctionModel>(criteria);
         }
 
         public async Task<IEnumerable<FunctionModel>> GetFunctionsAsync(bool? isActive = true)
@@ -34,7 +34,7 @@
                 IsActive = isActive
             };
 
-            return await baseService.GetDataAsync<FunctionModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<FunctionModel>(criteria);
         }
 
         public async Task<CommandResult> AssignFunctionToRoleAsync(int actorId, int roleId, IEnumerable<RolePermissionModel> permissions)
@@ -46,7 +46,7 @@
                 Value = permissions.ToXML().ToString()
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
     }
 }

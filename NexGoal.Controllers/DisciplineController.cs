@@ -34,7 +34,7 @@
         [HttpGet]
         public async Task<JsonResult> GetDisciplines(GetDisciplineParam param)
         {
-            IEnumerable<DisciplineModel> disciplines = await disciplineService.GetDisciplineAsync(param).ConfigureAwait(false);
+            IEnumerable<DisciplineModel> disciplines = await disciplineService.GetDisciplineAsync(param);
 
             return Json(disciplines);
         }
@@ -43,7 +43,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.Discipline, Policy = Policy.Host)]
         public async Task<JsonResult> EditStatus(int disciplineId, bool isActive)
         {
-            CommandResult commandResult = await disciplineService.EditStatusAsync(disciplineId, isActive, sessionService.EmployeeId).ConfigureAwait(false);
+            CommandResult commandResult = await disciplineService.EditStatusAsync(disciplineId, isActive, sessionService.EmployeeId);
 
             return Json(commandResult);
         }
@@ -60,7 +60,7 @@
                     Content = model.Content,
                     EffectiveDate = model.EffectiveDate,
                     CreatedBy = sessionService.EmployeeId
-                }).ConfigureAwait(false);
+                });
 
                 return Json(commandResult);
             }
@@ -81,7 +81,7 @@
                     EffectiveDate = model.EffectiveDate,
                     Content = model.Content,
                     ModifiedBy = sessionService.EmployeeId
-                }).ConfigureAwait(false);
+                });
 
                 return Json(commandResult);
             }

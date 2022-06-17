@@ -28,7 +28,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.MemberPage, Policy = Policy.Host)]
         public async Task<IActionResult> Evaluate(int id)
         {
-            var employee = await commonService.GetEmployeeByIdAsync(id).ConfigureAwait(false);
+            var employee = await commonService.GetEmployeeByIdAsync(id);
             return View(employee);
         }
 

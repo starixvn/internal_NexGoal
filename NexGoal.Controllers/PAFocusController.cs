@@ -41,7 +41,7 @@
         public async Task<JsonResult> GetFocusEvaluationLevel()
         {
             string[] refNames = { ReferenceResource.FocusEvaluationLevel };
-            IEnumerable<ReferenceResourceModel> referenceResources = await commonService.GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
+            IEnumerable<ReferenceResourceModel> referenceResources = await commonService.GetReferenceResourcesByNamesAsync(refNames);
             IEnumerable<FocusEvaluationLevelModel> levels =
                 referenceResources.Select(x => new FocusEvaluationLevelModel { Value = x.ResourceId, Name = x.Value })
                 .OrderByDescending(x => x.Value);
@@ -51,21 +51,21 @@
 
         public async Task<JsonResult> GetPeriod()
         {
-            IEnumerable<PeriodBaseModel> periods = await focusService.GetPeriodAsync().ConfigureAwait(false);
+            IEnumerable<PeriodBaseModel> periods = await focusService.GetPeriodAsync();
 
             return Json(periods);
         }
 
         public async Task<JsonResult> GetGroup()
         {
-            IEnumerable<Group> groups = await focusService.GetGroupAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<Group> groups = await focusService.GetGroupAsync(sessionService.EmployeeId);
 
             return Json(groups);
         }
 
         public async Task<JsonResult> GetMember(string groupIds = null)
         {
-            IEnumerable<Employee> members = await focusService.GetMemberAsync(sessionService.EmployeeId, groupIds).ConfigureAwait(false);
+            IEnumerable<Employee> members = await focusService.GetMemberAsync(sessionService.EmployeeId, groupIds);
 
             return Json(members);
         }
@@ -73,7 +73,7 @@
         public async Task<JsonResult> GetPAFocus(GetPAFocusParam param)
         {
             param.ActorId = sessionService.EmployeeId;
-            IEnumerable<PAFocusModel> paFocuses = await focusService.GetPAFocusAsync(param).ConfigureAwait(false);
+            IEnumerable<PAFocusModel> paFocuses = await focusService.GetPAFocusAsync(param);
             bool isHost = paFocuses.Any(x => x.IsHost) && sessionService.HasPermissionOnFunction(FunctionKey.PAFocus, Policy.Host);
 
             IEnumerable<PAFocusViewModel> result = paFocuses.GroupBy(x => new { x.Employee.GroupCode, x.Employee.GroupName },
@@ -91,7 +91,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.PAFocus, Policy = Policy.Host)]
         public async Task<JsonResult> Edit(IEnumerable<EditPAFocusModel> paFocuses)
         {
-            CommandResult commandResult = await focusService.EditPAFocusAsync(sessionService.EmployeeId, paFocuses).ConfigureAwait(false);
+            CommandResult commandResult = await focusService.EditPAFocusAsync(sessionService.EmployeeId, paFocuses);
 
             return Json(commandResult);
         }
@@ -99,12 +99,12 @@
         public async Task<IActionResult> ExportToExcel(GetPAFocusParam param)
         {
             param.ActorId = sessionService.EmployeeId;
-            IEnumerable<PeriodBaseModel> periods = await focusService.GetPeriodAsync().ConfigureAwait(false);
-            IEnumerable<PAFocusModel> paFocuses = await focusService.GetPAFocusAsync(param).ConfigureAwait(false);
+            IEnumerable<PeriodBaseModel> periods = await focusService.GetPeriodAsync();
+            IEnumerable<PAFocusModel> paFocuses = await focusService.GetPAFocusAsync(param);
             PeriodBaseModel period = periods.First(x => x.PeriodId == param.PeriodId);
             var fileName = string.Format("PA Focus of {0}.xlsx", period != null ? period.Name : string.Empty);
 
-            byte[] fileContent = await exportExcelService.ExportAsync(period, paFocuses).ConfigureAwait(false);
+            byte[] fileContent = await exportExcelService.ExportAsync(period, paFocuses);
 
             return File(fileContent, MimeType.XLSX, fileName);
         }

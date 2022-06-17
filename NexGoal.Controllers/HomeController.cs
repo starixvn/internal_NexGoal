@@ -38,7 +38,7 @@
 
         public async Task<JsonResult> GetPerformanceAppraisalResult()
         {
-            IEnumerable<PerformanceAppraisalResult> records = await paRecordService.GetPerformanceAppraisalResultAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<PerformanceAppraisalResult> records = await paRecordService.GetPerformanceAppraisalResultAsync(sessionService.EmployeeId);
 
             return Json(records);
         }
@@ -46,14 +46,14 @@
         public async Task<JsonResult> GetWorkload(int periodId, int? memberId = null)
         {
             var employeeId = memberId ?? sessionService.EmployeeId;
-            IEnumerable<ProjectWorkloadModel> workloads = await redmineService.GetWorkloadAsync(employeeId, periodId).ConfigureAwait(false);
+            IEnumerable<ProjectWorkloadModel> workloads = await redmineService.GetWorkloadAsync(employeeId, periodId);
 
             return Json(workloads);
         }
 
         public async Task<JsonResult> GetNominationResult()
         {
-            IEnumerable<EmployeeNominationModel> nominations = await nominationService.GetNominationResultAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<EmployeeNominationModel> nominations = await nominationService.GetNominationResultAsync(sessionService.EmployeeId);
 
             return Json(nominations);
         }

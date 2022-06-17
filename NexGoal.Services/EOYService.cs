@@ -23,7 +23,7 @@
                 StatusId = statusId
             };
 
-            return await baseService.GetDataAsync<EOQYModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<EOQYModel>(criteria);
         }
 
         public async Task<EOQYModel> GetByIdAsync(int eoyId)
@@ -33,7 +33,7 @@
                 EOYId = eoyId
             };
 
-            return await baseService.GetDataEntityAsync<EOQYModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataEntityAsync<EOQYModel>(criteria);
         }
 
         public async Task<CommandResult> CreateAsync(int actorId, CreateEOYModel eoy)
@@ -49,7 +49,7 @@
                 CreatedBy = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<CommandResult> EditAsync(int actorId, EditEOYModel eoy)
@@ -66,7 +66,7 @@
                 ModifiedBy = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
     }
 }

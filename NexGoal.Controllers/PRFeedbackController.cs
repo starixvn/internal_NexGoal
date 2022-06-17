@@ -46,7 +46,7 @@
             {
                 prFeedback.CreatorId = sessionService.EmployeeId;
 
-                CommandResult commandResult = await prFeedbackService.CreatePRFeedback(prFeedback).ConfigureAwait(false);
+                CommandResult commandResult = await prFeedbackService.CreatePRFeedback(prFeedback);
 
                 return Json(commandResult);
             }
@@ -63,7 +63,7 @@
             {
                 prFeedback.CreatorId = sessionService.EmployeeId;
 
-                CommandResult commandResult = await prFeedbackService.EditPRFeedback(prFeedback).ConfigureAwait(false);
+                CommandResult commandResult = await prFeedbackService.EditPRFeedback(prFeedback);
 
                 return Json(commandResult);
             }

@@ -33,7 +33,7 @@
         [HttpGet]
         public async Task<IActionResult> GetSetting(string projectManagerIds, int? employeeId)
         {
-            IEnumerable<MemberModel> members = await pmSettingService.GetSettingAsync(projectManagerIds, employeeId).ConfigureAwait(false);
+            IEnumerable<MemberModel> members = await pmSettingService.GetSettingAsync(projectManagerIds, employeeId);
 
             return Json(members);
         }
@@ -41,7 +41,7 @@
         [HttpPost]
         public async Task<IActionResult> AddMembers(int projectManagerId, string memberIds)
         {
-            CommandResult commandResult = await pmSettingService.AddMemberAsync(projectManagerId, memberIds, sessionService.EmployeeId).ConfigureAwait(false);
+            CommandResult commandResult = await pmSettingService.AddMemberAsync(projectManagerId, memberIds, sessionService.EmployeeId);
 
             return Json(commandResult);
         }
@@ -49,7 +49,7 @@
         [HttpPost]
         public async Task<IActionResult> RemoveMember(int projectManagerId, int memberId)
         {
-            CommandResult commandResult = await pmSettingService.RemoveMemberAsync(projectManagerId, memberId, sessionService.EmployeeId).ConfigureAwait(false);
+            CommandResult commandResult = await pmSettingService.RemoveMemberAsync(projectManagerId, memberId, sessionService.EmployeeId);
 
             return Json(commandResult);
         }
@@ -57,7 +57,7 @@
         [HttpGet]
         public async Task<IActionResult> GetProjectManagers()
         {
-            IEnumerable<Employee> projectManagers = await pmSettingService.GetProjectManagerAsync().ConfigureAwait(false);
+            IEnumerable<Employee> projectManagers = await pmSettingService.GetProjectManagerAsync();
 
             return Json(projectManagers);
         }

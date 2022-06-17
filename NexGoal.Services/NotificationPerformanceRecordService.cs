@@ -50,8 +50,8 @@
         {
             IEnumerable<int> recordIds = performanceRecordIds.Split(",").Select(x => int.Parse(x));
             Tuple<IEnumerable<EmployeeDto>, IEnumerable<ProcessSettingDto>> tuple =
-                await GetSettingToSendNotificationAsync(performanceRecordIds, actorId, ReceiveNotificationType.Email).ConfigureAwait(false);
-            Employee actor = await commonService.GetEmployeeByIdAsync(actorId).ConfigureAwait(false);
+                await GetSettingToSendNotificationAsync(performanceRecordIds, actorId, ReceiveNotificationType.Email);
+            Employee actor = await commonService.GetEmployeeByIdAsync(actorId);
 
             foreach (int recordId in recordIds)
             {
@@ -62,14 +62,14 @@
                     var cc = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.MemberToSupervisor && x.EvaluatorId != receiver.EvaluatorId)
                         .Select(x => x.Email);
 
-                    await SendMailFromMemberToSupervisorAsync(actor, receiver, cc, action).ConfigureAwait(false);
+                    await SendMailFromMemberToSupervisorAsync(actor, receiver, cc, action);
                 }
 
                 if (receivers.Any(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToMember))
                 {
                     var receiver = receivers.First(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToMember);
 
-                    await SendMailFromSupervisorToMemberAsync(actor, receiver, action).ConfigureAwait(false);
+                    await SendMailFromSupervisorToMemberAsync(actor, receiver, action);
                 }
 
                 if (receivers.Any(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToSupervisor))
@@ -79,7 +79,7 @@
                     var cc = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToSupervisor && x.EvaluatorId != receiver.EvaluatorId)
                         .Select(x => x.Email);
 
-                    await SendMailFromSupervisorToSupervisorAsync(actor, employee, receiver, cc, action).ConfigureAwait(false);
+                    await SendMailFromSupervisorToSupervisorAsync(actor, employee, receiver, cc, action);
                 }
             }
         }
@@ -89,8 +89,8 @@
             var notifications = new List<CreateNotificationModel>();
             IEnumerable<int> recordIds = performanceRecordIds.Split(",").Select(x => int.Parse(x));
             Tuple<IEnumerable<EmployeeDto>, IEnumerable<ProcessSettingDto>> tuple =
-                await GetSettingToSendNotificationAsync(performanceRecordIds, actorId, ReceiveNotificationType.Notification).ConfigureAwait(false);
-            Employee actor = await commonService.GetEmployeeByIdAsync(actorId).ConfigureAwait(false);
+                await GetSettingToSendNotificationAsync(performanceRecordIds, actorId, ReceiveNotificationType.Notification);
+            Employee actor = await commonService.GetEmployeeByIdAsync(actorId);
 
             foreach (int recordId in recordIds)
             {
@@ -142,7 +142,7 @@
                     Notifications = notifications.ToXML().ToString()
                 };
 
-                await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+                await baseService.ExecuteNonQueryAsync(criteria);
             }
         }
 
@@ -151,8 +151,8 @@
             IEnumerable<int> recordIds = performanceRecordIds.Split(",").Select(x => int.Parse(x));
             Tuple<IEnumerable<EmployeeDto>, IEnumerable<ProcessSettingDto>> tuple =
                 await GetSettingToSendNotificationAsync(performanceRecordIds, actorId, ReceiveNotificationType.SkypeMessage)
-                    .ConfigureAwait(false);
-            Employee actor = await commonService.GetEmployeeByIdAsync(actorId).ConfigureAwait(false);
+                    ;
+            Employee actor = await commonService.GetEmployeeByIdAsync(actorId);
 
             foreach (int recordId in recordIds)
             {
@@ -161,14 +161,14 @@
                 {
                     var conversations = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.MemberToSupervisor).OrderBy(x => x.Priority);
 
-                    await skypeNotiService.SendMessageMemberToSupervisorAsync(actor, conversations, action).ConfigureAwait(false);
+                    await skypeNotiService.SendMessageMemberToSupervisorAsync(actor, conversations, action);
                 }
 
                 if (receivers.Any(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToMember))
                 {
                     var conversations = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToMember);
 
-                    await skypeNotiService.SendMessageSupervisorToMemberAsync(actor, conversations, action).ConfigureAwait(false);
+                    await skypeNotiService.SendMessageSupervisorToMemberAsync(actor, conversations, action);
                 }
 
                 if (receivers.Any(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToSupervisor))
@@ -176,7 +176,7 @@
                     EmployeeDto employee = tuple.Item1.First(y => y.PerformanceRecordId == recordId);
                     var conversations = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToSupervisor);
 
-                    await skypeNotiService.SendMessageSupervisorToSupervisorAsync(actor, conversations, employee, action).ConfigureAwait(false);
+                    await skypeNotiService.SendMessageSupervisorToSupervisorAsync(actor, conversations, employee, action);
                 }
             }
         }
@@ -193,7 +193,7 @@
                 ReceiveType = (int)receiveType
             };
 
-            return await baseService.FetchMultipleAsync<EmployeeDto, ProcessSettingDto>(criteria).ConfigureAwait(false);
+            return await baseService.FetchMultipleAsync<EmployeeDto, ProcessSettingDto>(criteria);
         }
 
         private async Task SendMailFromMemberToSupervisorAsync(
@@ -222,7 +222,7 @@
                 Body = body
             };
 
-            await mailService.SendMailAsync(mailModel).ConfigureAwait(false);
+            await mailService.SendMailAsync(mailModel);
         }
 
         private async Task SendMailFromSupervisorToMemberAsync(
@@ -249,7 +249,7 @@
                 Body = body
             };
 
-            await mailService.SendMailAsync(mailModel).ConfigureAwait(false);
+            await mailService.SendMailAsync(mailModel);
         }
 
         private async Task SendMailFromSupervisorToSupervisorAsync(
@@ -280,7 +280,7 @@
                 Body = body
             };
 
-            await mailService.SendMailAsync(mailModel).ConfigureAwait(false);
+            await mailService.SendMailAsync(mailModel);
         }
     }
 }

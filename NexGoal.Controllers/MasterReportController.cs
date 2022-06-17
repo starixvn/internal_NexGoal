@@ -29,7 +29,7 @@
         [HttpGet]
         public async Task<IActionResult> Export(int periodId, string groupIds, string employeeIds)
         {
-            var fileContent = await masterReportService.ExportAsync(periodId, groupIds, employeeIds, sessionService.EmployeeId).ConfigureAwait(false);
+            var fileContent = await masterReportService.ExportAsync(periodId, groupIds, employeeIds, sessionService.EmployeeId);
 
             return File(fileContent, MimeType.XLSX, "Master Report.xlsx");
         }

@@ -29,7 +29,7 @@
         [HttpGet]
         public async Task<JsonResult> GetNominationPeriodsForNominator()
         {
-            IEnumerable<NominationPeriodModel> result = await employeeNominationService.GetNominationPeriodsForNominatorAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<NominationPeriodModel> result = await employeeNominationService.GetNominationPeriodsForNominatorAsync(sessionService.EmployeeId);
 
             return Json(result);
         }
@@ -45,7 +45,7 @@
                     NomineeId = model.NomineeId,
                     NominatorId = sessionService.EmployeeId,
                     Comment = model.Comment
-                }).ConfigureAwait(false);
+                });
 
                 return Json(commandResult);
             }
@@ -67,7 +67,7 @@
                     NominatorId = sessionService.EmployeeId,
                     Comment = model.Comment,
                     PerformanceRecordId = model.PerformanceRecordId
-                }).ConfigureAwait(false);
+                });
 
                 return Json(commandResult);
             }
@@ -80,7 +80,7 @@
         [HttpPost]
         public async Task<JsonResult> Delete(int performanceRecordId)
         {
-            CommandResult commandResult = await employeeNominationService.DeleteAsync(performanceRecordId, sessionService.EmployeeId).ConfigureAwait(false);
+            CommandResult commandResult = await employeeNominationService.DeleteAsync(performanceRecordId, sessionService.EmployeeId);
 
             return Json(commandResult);
         }
@@ -88,7 +88,7 @@
         [HttpGet]
         public async Task<IActionResult> GetMemberNominations()
         {
-            IEnumerable<PerformanceRecord> result = await employeeNominationService.GetMemberNominationAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<PerformanceRecord> result = await employeeNominationService.GetMemberNominationAsync(sessionService.EmployeeId);
 
             return Json(result);
         }
@@ -96,7 +96,7 @@
         [HttpGet]
         public async Task<IActionResult> GetMemberNominationById(int memberId)
         {
-            IEnumerable<PerformanceRecord> performanceRecords = await employeeNominationService.GetMemberNominationByIdAsync(sessionService.EmployeeId, memberId).ConfigureAwait(false);
+            IEnumerable<PerformanceRecord> performanceRecords = await employeeNominationService.GetMemberNominationByIdAsync(sessionService.EmployeeId, memberId);
 
             return Json(performanceRecords);
         }
@@ -104,7 +104,7 @@
         [HttpGet]
         public async Task<IActionResult> GetByRecordId(int performanceRecordId)
         {
-            PerformanceRecord performanceRecord = await employeeNominationService.GetNominationByRecordIdAsync(performanceRecordId).ConfigureAwait(false);
+            PerformanceRecord performanceRecord = await employeeNominationService.GetNominationByRecordIdAsync(performanceRecordId);
 
             return Json(performanceRecord);
         }

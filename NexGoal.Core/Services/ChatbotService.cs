@@ -21,8 +21,8 @@
         {
             if (!string.IsNullOrWhiteSpace(conversationId) && configuration.Value.Enable)
             {
-                ChatbotToken token = await GetTokenAsync().ConfigureAwait(false);
-                await ForwardToBotAsync(message, conversationId, token).ConfigureAwait(false);
+                ChatbotToken token = await GetTokenAsync();
+                await ForwardToBotAsync(message, conversationId, token);
             }
         }
 

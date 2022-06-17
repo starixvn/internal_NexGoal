@@ -27,7 +27,7 @@
                 PageSize = pageSize
             };
 
-            var notifications = await baseService.GetDataAsync<NotificationEntity>(criteria).ConfigureAwait(false);
+            var notifications = await baseService.GetDataAsync<NotificationEntity>(criteria);
 
             var notificationsModel = new Notification
             {
@@ -45,7 +45,7 @@
                 EmployeeId = employeeId
             };
 
-            return await baseService.GetDataAsync<NotificationSetting>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<NotificationSetting>(criteria);
         }
 
         public async Task<CommandResult> EditSettingAsync(int employeeId, IEnumerable<NotificationSetting> settings)
@@ -56,7 +56,7 @@
                 Value = settings.ToXML().ToString()
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<CommandResult> ReadNotificationAsync(int notificationId, int employeeId)
@@ -68,7 +68,7 @@
                 StatusId = (int)NotificationStatus.Read
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<CommandResult> MarkAsReadAsync(int employeeId)
@@ -79,7 +79,7 @@
                 StatusId = (int)NotificationStatus.Read
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
     }
 }

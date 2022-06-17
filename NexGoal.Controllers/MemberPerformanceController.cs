@@ -28,7 +28,7 @@
         public async Task<JsonResult> Index(int? memberId = null)
         {
             IEnumerable<PerformanceRecord> memberPerformances =
-                await performanceService.GetMemberPerformanceAsync(sessionService.EmployeeId).ConfigureAwait(false);
+                await performanceService.GetMemberPerformanceAsync(sessionService.EmployeeId);
 
             return Json(memberPerformances);
         }
@@ -37,7 +37,7 @@
         public async Task<JsonResult> MemmberDetail(int memberId)
         {
             IEnumerable<PerformanceRecord> memberPerformances =
-                await performanceService.GetMemberPerformanceDetailAsync(sessionService.EmployeeId, memberId).ConfigureAwait(false);
+                await performanceService.GetMemberPerformanceDetailAsync(sessionService.EmployeeId, memberId);
 
             return Json(memberPerformances);
         }
@@ -50,7 +50,7 @@
             {
                 performanceRecord.CreatorId = sessionService.EmployeeId;
                 performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
-                CommandResult commandResult = await performanceService.CreatePerformanceRecordAsync(performanceRecord).ConfigureAwait(false);
+                CommandResult commandResult = await performanceService.CreatePerformanceRecordAsync(performanceRecord);
 
                 return Json(commandResult);
             }
@@ -67,7 +67,7 @@
             {
                 performanceRecord.CreatorId = sessionService.EmployeeId;
                 performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
-                CommandResult commandResult = await performanceService.CreateDraftPerformanceRecordAsync(performanceRecord).ConfigureAwait(false);
+                CommandResult commandResult = await performanceService.CreateDraftPerformanceRecordAsync(performanceRecord);
 
                 return Json(commandResult);
             }
@@ -84,7 +84,7 @@
             {
                 performanceRecord.CreatorId = sessionService.EmployeeId;
                 performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
-                CommandResult commandResult = await performanceService.EditPerformanceRecordAsync(performanceRecord).ConfigureAwait(false);
+                CommandResult commandResult = await performanceService.EditPerformanceRecordAsync(performanceRecord);
 
                 return Json(commandResult);
             }
@@ -101,7 +101,7 @@
             {
                 performanceRecord.CreatorId = sessionService.EmployeeId;
                 performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
-                CommandResult commandResult = await performanceService.EditDraftPerformanceRecordAsync(performanceRecord).ConfigureAwait(false);
+                CommandResult commandResult = await performanceService.EditDraftPerformanceRecordAsync(performanceRecord);
 
                 return Json(commandResult);
             }
@@ -114,7 +114,7 @@
         public async Task<JsonResult> GetMemberPerformanceTimeline(GetMemberPerformanceTimelineParam param)
         {
             param.ActorId = sessionService.EmployeeId;
-            IEnumerable<MemberPerformanceTimelineModel> memberPerformances = await performanceService.GetMemberPerformanceTimelineAsync(param).ConfigureAwait(false);
+            IEnumerable<MemberPerformanceTimelineModel> memberPerformances = await performanceService.GetMemberPerformanceTimelineAsync(param);
 
             return Json(memberPerformances);
         }

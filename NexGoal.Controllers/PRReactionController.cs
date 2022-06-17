@@ -30,7 +30,7 @@
             {
                 prReaction.CreatorId = sessionService.EmployeeId;
 
-                CommandResult commandResult = await prReactionService.CreatePRReaction(prReaction).ConfigureAwait(false);
+                CommandResult commandResult = await prReactionService.CreatePRReaction(prReaction);
 
                 return Json(commandResult);
             }
@@ -47,7 +47,7 @@
             {
                 prReaction.CreatorId = sessionService.EmployeeId;
 
-                CommandResult commandResult = await prReactionService.RemovePRReaction(prReaction).ConfigureAwait(false);
+                CommandResult commandResult = await prReactionService.RemovePRReaction(prReaction);
 
                 return Json(commandResult);
             }

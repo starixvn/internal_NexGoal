@@ -29,7 +29,7 @@
         [HttpGet]
         public async Task<IActionResult> Get(string employeeIds, bool noPR)
         {
-            var result = await trackingService.GetAsync(sessionService.EmployeeId, employeeIds, noPR).ConfigureAwait(false);
+            var result = await trackingService.GetAsync(sessionService.EmployeeId, employeeIds, noPR);
 
             return Json(new { period = result.Item1, employees = result.Item2 });
         }
@@ -37,7 +37,7 @@
         [HttpGet]
         public async Task<IActionResult> GetGroupsAndMembers()
         {
-            var result = await trackingService.GetGroupsAndMembersAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            var result = await trackingService.GetGroupsAndMembersAsync(sessionService.EmployeeId);
 
             return Json(new { groups = result.Item1, employees = result.Item2 });
         }

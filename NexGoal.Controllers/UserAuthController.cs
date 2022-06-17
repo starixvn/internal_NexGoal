@@ -47,7 +47,7 @@
                 else
                 {
                     var domainUsername = ldapSetting.Domain + loginModel.Username;
-                    EmployeeSession employee = await authService.GetEmployeeByDomainUsernameAsync(domainUsername).ConfigureAwait(false);
+                    EmployeeSession employee = await authService.GetEmployeeByDomainUsernameAsync(domainUsername);
 
                     if(employee == null)
                     {
@@ -68,7 +68,7 @@
         public async Task<IActionResult> Logout()
         {
             sessionService.ClearAll();
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).ConfigureAwait(false);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login");
         }
 
@@ -78,8 +78,8 @@
             sessionService.NickName = employee.NickName;
             sessionService.FullName = employee.FullName;
             sessionService.IsInProbation = employee.IsInProbation;
-            sessionService.Functions = await authService.GetFunctionByEmployeeIdAsync(employee.EmployeeId).ConfigureAwait(false);
-            sessionService.MenuItems = await authService.GetMenuByEmployeeIdAsync(employee.EmployeeId).ConfigureAwait(false);
+            sessionService.Functions = await authService.GetFunctionByEmployeeIdAsync(employee.EmployeeId);
+            sessionService.MenuItems = await authService.GetMenuByEmployeeIdAsync(employee.EmployeeId);
 
             var claims = new List<Claim>
                         {

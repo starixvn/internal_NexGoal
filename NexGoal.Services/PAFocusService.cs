@@ -35,7 +35,7 @@
         {
             var criteria = new GetPeriodCriteria();
 
-            return await baseService.GetDataAsync<PeriodBaseModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<PeriodBaseModel>(criteria);
         }
 
         public async Task<IEnumerable<Group>> GetGroupAsync(int actorId)
@@ -45,7 +45,7 @@
                 ActorId = actorId
             };
 
-            return await baseService.GetDataAsync<Group>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<Group>(criteria);
         }
 
         public async Task<IEnumerable<Employee>> GetMemberAsync(int actorId, string groupIds = null)
@@ -56,7 +56,7 @@
                 GroupIds = groupIds
             };
 
-            return await baseService.GetDataAsync<Employee>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<Employee>(criteria);
         }
 
         public async Task<IEnumerable<PAFocusModel>> GetPAFocusAsync(GetPAFocusParam param)
@@ -69,8 +69,8 @@
                 EmployeeId = param.EmployeeId
             };
 
-            IEnumerable<PAFocusModel> pafocuses = await focusRepository.GetPAFocusAsync(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<PAFocusModel> pafocuses = await focusRepository.GetPAFocusAsync(criteria);
+            IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
 
             foreach (PAFocusModel pafocus in pafocuses)
             {
@@ -107,7 +107,7 @@
                 Value = paFocuses.ToXML().ToString()
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
     }
 }

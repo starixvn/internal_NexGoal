@@ -27,15 +27,14 @@
         [HttpGet]
         public async Task<JsonResult> GetNotification(int pageIndex, int pageSize)
         {
-            Notification result = await notificationService.GetNotificationAsync(sessionService.EmployeeId, pageIndex, pageSize)
-                .ConfigureAwait(false);
+            Notification result = await notificationService.GetNotificationAsync(sessionService.EmployeeId, pageIndex, pageSize);
 
             return Json(result);
         }
 
         public async Task<JsonResult> ReadNotification(int notificationId)
         {
-            CommandResult result = await notificationService.ReadNotificationAsync(notificationId, sessionService.EmployeeId).ConfigureAwait(false);
+            CommandResult result = await notificationService.ReadNotificationAsync(notificationId, sessionService.EmployeeId);
 
             return Json(result);
         }
@@ -43,7 +42,7 @@
         [HttpGet]
         public async Task<JsonResult> MarkAsRead()
         {
-            CommandResult result = await notificationService.MarkAsReadAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            CommandResult result = await notificationService.MarkAsReadAsync(sessionService.EmployeeId);
 
             return Json(result);
         }
@@ -51,7 +50,7 @@
         [HttpGet]
         public async Task<JsonResult> GetSetting()
         {
-            IEnumerable<NotificationSetting> result = await notificationService.GetSettingAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<NotificationSetting> result = await notificationService.GetSettingAsync(sessionService.EmployeeId);
 
             return Json(result);
         }
@@ -59,7 +58,7 @@
         [HttpPost]
         public async Task<JsonResult> EditSetting(IEnumerable<NotificationSetting> settings)
         {
-            CommandResult result = await notificationService.EditSettingAsync(sessionService.EmployeeId, settings).ConfigureAwait(false);
+            CommandResult result = await notificationService.EditSettingAsync(sessionService.EmployeeId, settings);
 
             return Json(result);
         }

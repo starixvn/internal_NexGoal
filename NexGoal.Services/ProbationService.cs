@@ -38,7 +38,7 @@
             {
                 ActorId = actorId,
                 EmployeeId = employeeId
-            }).ConfigureAwait(false);
+            });
 
             var today = DateTime.Today;
 
@@ -56,7 +56,7 @@
         public async Task<IEnumerable<KPIGroupModel>> GetEvaluationDetailAsync(int employeeId)
         {
             var result = await baseService.FetchMultipleAsync<KPIGroupModel, EncryptedProbationEvaluationDetailModel>(
-                new GetEvaluationDetailCriteria { EmployeeId = employeeId }).ConfigureAwait(false);
+                new GetEvaluationDetailCriteria { EmployeeId = employeeId });
 
             var groups = result.Item1;
             var details = result.Item2;
@@ -79,8 +79,7 @@
 
         public async Task<HRMModel> GetHRM(int employeeId)
         {
-            return await probationRepository.GetHRM(new GetHRMCriteria { EmployeeId = employeeId })
-                .ConfigureAwait(false);
+            return await probationRepository.GetHRM(new GetHRMCriteria { EmployeeId = employeeId });
         }
 
         public async Task<CommandResult> EditSettingAsync(IEnumerable<EditProbationSettingModel> settings, int employeeId, int actorId)
@@ -90,7 +89,7 @@
                 Settings = settings.ToXML().ToString(),
                 EmployeeId = employeeId,
                 ActorId = actorId
-            }).ConfigureAwait(false);
+            });
         }
 
         public async Task<CommandResult> EditSelfEvaluationAsync(EditSelfEvaluationModel model)
@@ -103,7 +102,7 @@
                 Details = root.ToString(),
                 Comment = commonService.RemoveInvalidXmlChars(model.Comment),
                 TotalScore = cryptoService.Encrypt(model.TotalScore.ToString())
-            }).ConfigureAwait(false);
+            });
         }
 
         public async Task<CommandResult> EditEvaluatorEvaluationAsync(EditEvaluatorEvaluationModel model)
@@ -118,7 +117,7 @@
                 TotalScore = cryptoService.Encrypt(model.TotalScore.ToString()),
                 IsQualifiedByEvaluator = model.IsQualifiedByEvaluator,
                 ActorId = model.ActorId,
-            }).ConfigureAwait(false);
+            });
         }
 
         public async Task<CommandResult> EditReviewerEvaluationAsync(EditReviewerEvaluationModel model)
@@ -129,7 +128,7 @@
                 IsQualified = model.IsQualified,
                 Comment = commonService.RemoveInvalidXmlChars(model.Comment),
                 ActorId = model.ActorId
-            }).ConfigureAwait(false);
+            });
         }
 
         public async Task<CommandResult> ConfirmEvaluatorResultAsync(int employeeId, int actorId)
@@ -143,15 +142,12 @@
 
         public async Task<IEnumerable<ProbationerModel>> GetProbationersAsync()
         {
-            return await probationRepository.GetProbationersAsync(new GetProbationersCriteria())
-              .ConfigureAwait(false);
+            return await probationRepository.GetProbationersAsync(new GetProbationersCriteria());
         }
 
         public async Task<IEnumerable<BaseProbationerModel>> GetProbationersNotInEvaluationAsync()
         {
-            var probationers = await baseService.GetDataAsync<BaseProbationerModel>(new GetProbationersNotInEvaluationCriteria()).ConfigureAwait(false);
-
-            return probationers;
+            return await baseService.GetDataAsync<BaseProbationerModel>(new GetProbationersNotInEvaluationCriteria());
         }
 
         public async Task<CommandResult> AddNewEmployeesAsync(IEnumerable<int> employeeIds)

@@ -24,13 +24,13 @@
         {
             var criteria = new GetGroupHaveSettingCriteria();
 
-            return await baseService.GetDataAsync<Group>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<Group>(criteria);
         }
 
         public async Task<IEnumerable<GroupFlowSettingModel>> GetGroupFlowSettingAsync()
         {
             var criteria = new GetGroupFlowSettingCriteria();
-            var tuple = await baseService.FetchMultipleAsync<GroupFlowSettingModel, FlowSettingModel>(criteria).ConfigureAwait(false);
+            var tuple = await baseService.FetchMultipleAsync<GroupFlowSettingModel, FlowSettingModel>(criteria);
 
             foreach (GroupFlowSettingModel groupFlowSetting in tuple.Item1)
             {
@@ -64,7 +64,7 @@
                 GroupId = groupId
             };
 
-            var flowSettings = await baseService.GetDataAsync<FlowSettingModel>(criteria).ConfigureAwait(false);
+            var flowSettings = await baseService.GetDataAsync<FlowSettingModel>(criteria);
 
             var groupFlowSetting = new GroupFlowSettingModel
             {
@@ -101,7 +101,7 @@
                 ActorId = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<CommandResult> DeleteAsync(int actorId, int groupId)
@@ -112,14 +112,14 @@
                 ActorId = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<IEnumerable<GroupModel>> GetGroupsAsync()
         {
             var criteria = new GetGroupsCriteria();
 
-            return await baseService.GetDataAsync<GroupModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<GroupModel>(criteria);
         }
     }
 }

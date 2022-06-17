@@ -48,14 +48,14 @@
         [NexGoalPermission(FunctionKey = FunctionKey.NominationPeriod, Policy = Policy.Host)]
         public async Task<JsonResult> Delete(int id)
         {
-            CommandResult commandResult = await nominationPeriodService.DeleteAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
+            CommandResult commandResult = await nominationPeriodService.DeleteAsync(id, sessionService.EmployeeId);
 
             return Json(commandResult);
         }
 
         public async Task<JsonResult> GetRoleSetting(GetRoleSettingParam param)
         {
-            IEnumerable<RoleSettingModel> nominators = await nominationPeriodService.GetRoleSettingAsync(param).ConfigureAwait(false);
+            IEnumerable<RoleSettingModel> nominators = await nominationPeriodService.GetRoleSettingAsync(param);
             IEnumerable<RoleSettingViewModel> viewModels = nominators.Select(x => new RoleSettingViewModel
             {
                 EmployeeId = x.EmployeeId,
@@ -73,7 +73,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.NominationPeriod, Policy = Policy.Host)]
         public async Task<JsonResult> EditRoleSetting(EditRoleSettingModel setting)
         {
-            CommandResult commandResult = await nominationPeriodService.EditRoleSettingAsync(setting, sessionService.EmployeeId).ConfigureAwait(false);
+            CommandResult commandResult = await nominationPeriodService.EditRoleSettingAsync(setting, sessionService.EmployeeId);
 
             return Json(commandResult);
         }

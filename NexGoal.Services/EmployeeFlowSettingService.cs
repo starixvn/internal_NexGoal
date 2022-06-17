@@ -32,7 +32,7 @@
                 GroupId = groupId
             };
 
-            return await baseService.GetDataAsync<Employee>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<Employee>(criteria);
         }
 
         public async Task<IEnumerable<Employee>> GetEmployeeUnsettingAsync(int? groupId = null)
@@ -42,13 +42,13 @@
                 GroupId = groupId
             };
 
-            return await baseService.GetDataAsync<Employee>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<Employee>(criteria);
         }
 
         public async Task<IEnumerable<EmployeeFlowSettingModel>> GetEmployeeFlowSettingAsync()
         {
             var criteria = new GetEmployeeFlowSettingCriteria();
-            var tuple = await baseService.FetchMultipleAsync<EmployeeFlowSettingModel, FlowSettingModel>(criteria).ConfigureAwait(false);
+            var tuple = await baseService.FetchMultipleAsync<EmployeeFlowSettingModel, FlowSettingModel>(criteria);
 
             foreach (EmployeeFlowSettingModel employeeFlowSetting in tuple.Item1)
             {
@@ -82,8 +82,8 @@
                 EmployeeId = employeeId
             };
 
-            var flowSettings = await baseService.GetDataAsync<FlowSettingModel>(criteria).ConfigureAwait(false);
-            Employee employee = await commonService.GetEmployeeByIdAsync(employeeId).ConfigureAwait(false);
+            var flowSettings = await baseService.GetDataAsync<FlowSettingModel>(criteria);
+            Employee employee = await commonService.GetEmployeeByIdAsync(employeeId);
 
             var employeeFlowSetting = new EmployeeFlowSettingModel
             {
@@ -123,7 +123,7 @@
                 ActorId = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<CommandResult> DeleteAsync(int actorId, int employeeId)
@@ -134,7 +134,7 @@
                 ActorId = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
     }
 }

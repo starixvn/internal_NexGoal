@@ -32,7 +32,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
         public async Task<JsonResult> GetEmployeeById(int employeeId)
         {
-            Employee employee = await commonService.GetEmployeeByIdAsync(employeeId).ConfigureAwait(false);
+            Employee employee = await commonService.GetEmployeeByIdAsync(employeeId);
 
             return Json(employee);
         }

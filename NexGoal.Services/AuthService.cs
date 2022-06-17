@@ -25,7 +25,7 @@
                 DomainUsername = domainUsername
             };
 
-            return await baseService.GetDataEntityAsync<EmployeeSession>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataEntityAsync<EmployeeSession>(criteria);
         }
 
         public async Task<IEnumerable<FunctionSession>> GetFunctionByEmployeeIdAsync(int employeeId)
@@ -35,7 +35,7 @@
                 EmployeeId = employeeId
             };
 
-            return await baseService.GetDataAsync<FunctionSession>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<FunctionSession>(criteria);
         }
 
         public async Task<IEnumerable<MenuItemSession>> GetMenuByEmployeeIdAsync(int employeeId)
@@ -45,7 +45,7 @@
                 EmployeeId = employeeId
             };
 
-            IEnumerable<MenuItemSession> menuItems = await baseService.GetDataAsync<MenuItemSession>(criteria).ConfigureAwait(false);
+            IEnumerable<MenuItemSession> menuItems = await baseService.GetDataAsync<MenuItemSession>(criteria);
             IEnumerable<MenuItemSession> menuGroups = menuItems.Where(x => x.ParentId == null);
             foreach (MenuItemSession menuGroup in menuGroups)
             {
@@ -62,7 +62,7 @@
                 EmployeeId = employeeId
             };
 
-            var info = await baseService.GetDataEntityAsync<Employee>(criteria).ConfigureAwait(false);
+            var info = await baseService.GetDataEntityAsync<Employee>(criteria);
 
             var tuple = new Tuple<Employee, bool, int>(
                 info,
@@ -82,7 +82,7 @@
                 Platform = logInfo.Platform
             };
 
-            await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            await baseService.ExecuteNonQueryAsync(criteria);
         }
     }
 }

@@ -55,7 +55,7 @@
         public async Task<byte[]> ExportAsync(PeriodBaseModel period, IEnumerable<PAFocusModel> paFocuses)
         {
             string[] refNames = { ReferenceResource.FocusEvaluationLevel };
-            IEnumerable<ReferenceResourceModel> referenceResources = await commonService.GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
+            IEnumerable<ReferenceResourceModel> referenceResources = await commonService.GetReferenceResourcesByNamesAsync(refNames);
             var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.WebRootPath, ExcelTemplatePath));
             using (var templatePackage = new ExcelPackage(fileInfo))
             {

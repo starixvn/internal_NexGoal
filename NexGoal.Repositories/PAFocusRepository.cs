@@ -20,7 +20,7 @@
                         return pafcus;
                     },
                     "EmployeeId",
-                    criteria).ConfigureAwait(false);
+                    criteria);
 
                 return pafcuses;
             }

@@ -25,7 +25,7 @@
                 EmployeeId = employeeId
             };
 
-            return await baseService.GetDataAsync<MemberModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<MemberModel>(criteria);
         }
 
         public async Task<CommandResult> AddMemberAsync(int projectManagerId, string memberIds, int actorId)
@@ -37,7 +37,7 @@
                 ActorId = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<CommandResult> RemoveMemberAsync(int projectManagerId, int memberId, int actorId)
@@ -49,12 +49,12 @@
                 ActorId = actorId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<IEnumerable<Employee>> GetProjectManagerAsync()
         {
-            return await baseService.GetDataAsync<Employee>(new GetProjectManagersCriteria()).ConfigureAwait(false);
+            return await baseService.GetDataAsync<Employee>(new GetProjectManagersCriteria());
         }
     }
 }

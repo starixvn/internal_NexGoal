@@ -25,7 +25,7 @@
         [HttpGet]
         public async Task<JsonResult> GetAnnouncements(int id)
         {
-            IEnumerable<string> annoucements = await _commonService.GetAnnouncementAsync(id).ConfigureAwait(false);
+            IEnumerable<string> annoucements = await _commonService.GetAnnouncementAsync(id);
 
             return Json(annoucements);
         }

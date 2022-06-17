@@ -33,21 +33,21 @@
 
         public async Task<JsonResult> GetEmployees(GetEmployeeParam param)
         {
-            IEnumerable<Employee> employees = await employeeService.GetEmployeesAsync(param).ConfigureAwait(false);
+            IEnumerable<Employee> employees = await employeeService.GetEmployeesAsync(param);
 
             return Json(employees);
         }
 
         public async Task<JsonResult> GetEmployeeById(int employeeId)
         {
-            Employee employee = await employeeService.GetEmployeeByIdAsync(employeeId).ConfigureAwait(false);
+            Employee employee = await employeeService.GetEmployeeByIdAsync(employeeId);
 
             return Json(employee);
         }
 
         public async Task<JsonResult> GetRolesByEmployeeId(int employeeId)
         {
-            IEnumerable<EmployeeRoleModel> employeeRoles = await employeeService.GetRolesByEmployeeIdAsync(employeeId).ConfigureAwait(false);
+            IEnumerable<EmployeeRoleModel> employeeRoles = await employeeService.GetRolesByEmployeeIdAsync(employeeId);
 
             return Json(employeeRoles);
         }
@@ -57,7 +57,7 @@
         public async Task<JsonResult> EditEmployeeRoles(EditEmployeeRolesModel model)
         {
             model.ModifiedBy = sessionService.EmployeeId;
-            CommandResult commandResult = await employeeService.EditEmployeeRolesAsync(model).ConfigureAwait(false);
+            CommandResult commandResult = await employeeService.EditEmployeeRolesAsync(model);
 
             return Json(commandResult);
         }

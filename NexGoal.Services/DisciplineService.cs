@@ -35,7 +35,7 @@
                 EmployeeId = param.EmployeeId
             };
 
-            return await disciplineRepository.GetDisciplineAsync(criteria).ConfigureAwait(false);
+            return await disciplineRepository.GetDisciplineAsync(criteria);
         }
 
         public async Task<CommandResult> EditStatusAsync(int disciplineId, bool isActive, int modifiedBy)
@@ -47,7 +47,7 @@
                 ModifiedBy = modifiedBy
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<CommandResult> CreateAsync(AddDisciplineModel model)
@@ -60,7 +60,7 @@
                 CreatedBy = model.CreatedBy
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<CommandResult> EditAsync(EditDisciplineModel model)
@@ -73,7 +73,7 @@
                 ModifiedBy = model.ModifiedBy
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
         public async Task<IEnumerable<DisciplineModel>> GetDisciplineByEmployeeIdAsync(int employeeId, int? periodId = null)
@@ -84,7 +84,7 @@
                 PeriodId = periodId
             };
 
-            return await baseService.GetDataAsync<DisciplineModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<DisciplineModel>(criteria);
         }
     }
 }

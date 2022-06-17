@@ -33,7 +33,7 @@
                     string.Format(Message.SkypeMessageTemplate_PR_CreateMemberToSuperVisor, reciever.Nickname, actor.NickName, configuration.Value.ApplicationDomain) :
                     string.Format(Message.SkypeMessageTemplate_PR_EditMemberToSupervisor, reciever.Nickname, actor.NickName, configuration.Value.ApplicationDomain);
 
-                await chatbotService.SendMessageAsync(reciever.ConversationId, message).ConfigureAwait(false);
+                await chatbotService.SendMessageAsync(reciever.ConversationId, message);
             }
         }
 
@@ -47,7 +47,7 @@
                     string.Format(Message.SkypeMessageTemplate_PR_CreateSupervisorToMember, reciever.Nickname, actor.NickName, configuration.Value.ApplicationDomain) :
                     string.Format(Message.SkypeMessageTemplate_PR_EditSupervisorToMember, reciever.Nickname, actor.NickName, configuration.Value.ApplicationDomain);
 
-                await chatbotService.SendMessageAsync(reciever.ConversationId, message).ConfigureAwait(false);
+                await chatbotService.SendMessageAsync(reciever.ConversationId, message);
             }
         }
 
@@ -62,7 +62,7 @@
                     string.Format(Message.SkypeMessageTemplate_PR_CreateSupervisorToSupervisor, reciever.Nickname, actor.NickName, employee.Nickname, configuration.Value.ApplicationDomain) :
                     string.Format(Message.SkypeMessageTemplate_PR_EditSupervisorToSupervisor, reciever.Nickname, actor.NickName, employee.Nickname, configuration.Value.ApplicationDomain);
 
-                await chatbotService.SendMessageAsync(reciever.ConversationId, message).ConfigureAwait(false);
+                await chatbotService.SendMessageAsync(reciever.ConversationId, message);
             }
         }
     }

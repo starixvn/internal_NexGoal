@@ -24,7 +24,7 @@
                 PeriodId = periodId
             };
 
-            var workloads = await baseService.GetDataAsync<MembersWorkloadEntityModel>(criteria).ConfigureAwait(false);
+            var workloads = await baseService.GetDataAsync<MembersWorkloadEntityModel>(criteria);
 
             return GenerateTeamWorkload(workloads);
         }
@@ -37,7 +37,7 @@
                 PeriodId = periodId
             };
 
-            var workloads = await baseService.GetDataAsync<ProjectWorkloadModel>(criteria).ConfigureAwait(false);
+            var workloads = await baseService.GetDataAsync<ProjectWorkloadModel>(criteria);
 
             return GenerateWorkload(workloads);
         }
