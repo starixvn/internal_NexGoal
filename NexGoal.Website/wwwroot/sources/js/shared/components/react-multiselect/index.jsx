@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 let id = 1;
 
-export default class Multiselect extends Component { //NOSONAR
+export default class Multiselect extends Component {
     static propTypes = {
         items: PropTypes.arrayOf(PropTypes.object).isRequired,
         texts: PropTypes.object,

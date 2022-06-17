@@ -4,7 +4,7 @@ import isEqual from 'react-fast-compare';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
-import Multiselect from '../../../shared/components/react-multiselect';
+import Multiselect from '../../../shared/components/react-multiselect/index';
 import Line from './Line';
 
 export default class Timeline extends Component {
@@ -195,7 +195,7 @@ export default class Timeline extends Component {
                 ...item,
                 checked: this.state.filter.groups.findIndex(x => x.id === item.id) > -1
             };
-        })
+        });
 
         return (
             <Fragment>

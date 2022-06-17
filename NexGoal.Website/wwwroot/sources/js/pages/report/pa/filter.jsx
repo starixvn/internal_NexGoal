@@ -1,7 +1,7 @@
 ﻿import React, { Component } from 'react';
 import Select from 'react-select';
 import { Button, ControlLabel, Form, FormGroup } from 'react-bootstrap';
-import Multiselect from '../../../shared/components/react-multiselect';
+import Multiselect from '../../../shared/components/react-multiselect/index';
 import getResource from '../../../resourceHelper';
 import { PAEditOptions } from '../../../constants';
 

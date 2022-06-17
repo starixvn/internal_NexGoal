@@ -3,7 +3,7 @@ import { Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import Select from 'react-select';
 
 import getResource from '../../../resourceHelper';
-import Multiselect from '../../../shared/components/react-multiselect';
+import Multiselect from '../../../shared/components/react-multiselect/index';
 
 export default class SearchForm extends Component {
     handleGroupChange = selectedOption => {

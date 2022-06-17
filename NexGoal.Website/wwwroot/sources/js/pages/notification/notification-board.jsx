@@ -65,14 +65,14 @@ export default class NotificationBoard extends Component {
                                             <div className={`noti-center-item ${notiStatus} noti-${item.notificationId}`}
                                                 onClick={() => this.props.onChangeStatus(item.notificationId, item.statusId, false)}
                                             >
-                                                <img className="avatar" src={getAvatar(item.creatorId, item.creatorCode)} />
+                                                <img className="avatar"
+                                                    src={getAvatar(item.creatorId, item.creatorCode)}
+                                                />
                                                 <div className="description">
                                                     <a onClick={() => this.props.onChangeStatus(item.notificationId, item.statusId, true)}>
                                                         {item.content}
                                                     </a>
-                                                    <div className="created-date">
-                                                        {calendar(item.createdDate)}
-                                                    </div>
+                                                    <div className="created-date">{calendar(item.createdDate)}</div>
                                                 </div>
                                             </div>
                                         );

@@ -5,7 +5,7 @@ import DatePicker from 'react-datepicker';
 
 import getResource from '../../../resourceHelper';
 import { DateFormat } from '../../../constants';
-import Multiselect from '../../../shared/components/react-multiselect';
+import Multiselect from '../../../shared/components/react-multiselect/index';
 
 export default class SearchForm extends Component {
     handleGroupChange = selectedOption => {

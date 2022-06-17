@@ -3,7 +3,7 @@ import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootst
 import Select from 'react-select';
 import isEqual from 'react-fast-compare';
 
-import Multiselect from '../../shared/components/react-multiselect';
+import Multiselect from '../../shared/components/react-multiselect/index';
 import getResource from '../../resourceHelper';
 
 export default class SearchForm extends Component {

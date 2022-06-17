@@ -4,7 +4,7 @@ import { HorizontalBar } from 'react-chartjs-2';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
-import Multiselect from '../../shared/components/react-multiselect';
+import Multiselect from '../../shared/components/react-multiselect/index';
 import Milestone from '../../shared/components/milestone';
 
 export default class MemberWorkload extends Component {
