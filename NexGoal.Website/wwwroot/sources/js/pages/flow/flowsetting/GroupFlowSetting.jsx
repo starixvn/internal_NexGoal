@@ -46,8 +46,14 @@ class GroupFlowSetting extends Component {
                 const data = response.data;
 
                 this.setState({
-                    evaluator: data.evaluator,
-                    reviewer: data.reviewer,
+                    evaluator: {
+                        ...data.evaluator,
+                        avatar: `${document.imageUrl}/${data.evaluator.code}.jpg`
+                    },
+                    reviewer: {
+                        ...data.reviewer,
+                        avatar: `${document.imageUrl}/${data.reviewer.code}.jpg`
+                    },
                     enableDeleteButton: data.evaluator !== null || data.reviewer !== null
                 });
             }).catch(axiosError);

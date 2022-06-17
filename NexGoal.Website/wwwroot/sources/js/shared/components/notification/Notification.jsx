@@ -5,7 +5,7 @@ import isEqual from 'react-fast-compare';
 
 import getResource from '../../../resourceHelper';
 import { NotificationStatus } from '../../../constants';
-import { calendar } from '../../../common-functions';
+import { calendar, getAvatar } from '../../../common-functions';
 import NotificationSetting from './NotificationSetting';
 import CustomScrollbars from '../CustomScrollbars';
 import ToastLayout from '../../layouts/ToastLayout';
@@ -83,7 +83,7 @@ export default class Notification extends Component {
                                             <div key={item.notificationId} className={`noti-item ${notiStatus} noti-${item.notificationId}`}
                                                 onClick={() => this.props.onChangeStatus(item.notificationId, item.statusId, false)}
                                             >
-                                                <img className="avatar" src={item.creatorAvatar} />
+                                                <img className="avatar" src={getAvatar(item.creatorId, item.creatorCode)} />
                                                 <div className="description">
                                                     <a onClick={() => this.props.onChangeStatus(item.notificationId, item.statusId, true)}>
                                                         {item.content}

@@ -13,14 +13,12 @@ export const handleEvaluatorChange = (vm, evaluatorId) => {
     getEmployeeById(evaluatorId, employee => {
         const evaluator = {
             ...vm.state.evaluator,
-            ...{
-                processId: PerformanceProcess.Evaluator,
-                evaluatorId: employee.employeeId,
-                nickName: employee.nickName,
-                fullName: employee.fullName,
-                code: employee.code,
-                avatar: employee.avatar
-            }
+            processId: PerformanceProcess.Evaluator,
+            evaluatorId: employee.employeeId,
+            nickName: employee.nickName,
+            fullName: employee.fullName,
+            code: employee.code,
+            avatar: `${document.imageUrl}/${employee.code}.jpg`
         };
         vm.setState({ evaluator });
     });
@@ -30,14 +28,12 @@ export const handleReviewerChange = (vm, reviewerId) => {
     getEmployeeById(reviewerId, employee => {
         const reviewer = {
             ...vm.state.reviewer,
-            ...{
-                processId: PerformanceProcess.Reviewer,
-                evaluatorId: employee.employeeId,
-                nickName: employee.nickName,
-                fullName: employee.fullName,
-                code: employee.code,
-                avatar: employee.avatar
-            }
+            processId: PerformanceProcess.Reviewer,
+            evaluatorId: employee.employeeId,
+            nickName: employee.nickName,
+            fullName: employee.fullName,
+            code: employee.code,
+            avatar: `${document.imageUrl}/${employee.code}.jpg`
         };
         vm.setState({ reviewer });
     });

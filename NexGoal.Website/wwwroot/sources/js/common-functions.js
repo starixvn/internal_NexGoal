@@ -264,3 +264,7 @@ export const blockUI = () => {
 export const unblockUI = () => {
     document.getElementById('loadingProcess').style.display = 'none';
 };
+
+export const getAvatar = (userId, code) => {
+    return userId === -1 ? resolveClientUrl('dist/avatars/nexgoal.jpg') : `${document.imageUrl}/${code}.jpg`;
+};

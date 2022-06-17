@@ -1,7 +1,6 @@
 ﻿namespace NexGoal.Models.Common
 {
     using System;
-    using NexGoal.Core.Constants;
 
     public class Employee
     {
@@ -19,19 +18,5 @@
         public virtual bool IsProbation { get; set; }
 
         public int LinkObjectId { get; set; }
-
-        public virtual string Avatar
-        {
-            get
-            {
-                return GetFilePath(Code);
-            }
-        }
-
-        private string GetFilePath(string code)
-        {
-            var imgUrl = EmployeeId == Constants.NexGoalSystemId ? "/dist/avatars/nexgoal.jpg" : new Uri($"{Constants.ImageURL}/{code}.jpg").ToString();
-            return imgUrl;
-        }
     }
 }

@@ -1,6 +1,9 @@
 ﻿@using NexGoal.ViewModels.Auth
 @using NexGoal.Models.Auth
+@using NexGoal.Core.Models
 @using Microsoft.Extensions.Configuration
+@using Microsoft.Extensions.Options
+@inject IOptionsSnapshot<AppSettings> appSettings
 @inject IConfiguration Configuration
 @model HeaderViewModel
 
@@ -57,9 +60,9 @@
         <div id="search-member-wrapper" class="search-member-wrapper"></div>
         <div id="notification" class="search-member-wrapper"></div>
         <span class="user-avatar">
-            <img alt="Avatar" src="@employee.Avatar" />
+            <img alt="Avatar" src="@($"{appSettings.Value.ImageUrl}/{employee.Code}.jpg")" />
         </span>
-        @if (string.Equals(Configuration["CompanyName"],"Luminet"))
+        @if (string.Equals(Configuration["CompanyName"], "Luminet"))
         {
             <span class="log-out"><a href="@Url.Action("Logout", "UserAuth")">Log out</a></span>
         }
@@ -71,7 +74,7 @@
     <span id="employeeInfo-nickName">@employee.NickName</span>
     <span id="employeeInfo-jobTitle">@employee.JobTitle</span>
     <span id="employeeInfo-unreadNoti">@Model.UnreadNotification</span>
-    <img id="employeeInfo-avatar" src="@employee.Avatar" alt="employee-avatar" />
+    <img id="employeeInfo-avatar" src="@($"{appSettings.Value.ImageUrl}/{employee.Code}.jpg")" alt="employee-avatar" />
     <input type="hidden" id="employeeInfo-groupname" value="@employee.GroupName" />
     <input type="hidden" id="employeeInfo-joineddate" value="@employee.JoinedDate" />
     <input type="checkbox" id="employeeInfo-isProbation" @(employee.IsProbation ? "checked" : string.Empty) />

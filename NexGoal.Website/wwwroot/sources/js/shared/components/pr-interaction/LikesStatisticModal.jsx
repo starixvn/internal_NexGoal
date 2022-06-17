@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { getRoleClassName } from '../../../common-functions';
+import { getRoleClassName, getAvatar } from '../../../common-functions';
 
 export default class LikesStatisticModal extends Component {
     constructor(props) {
@@ -10,7 +10,7 @@ export default class LikesStatisticModal extends Component {
     renderUserLiked = (reaction, index) => {
         return (
             <div className="avatar-user" key={`user-like-${index}`}>
-                <img src={reaction.creator.avatar} alt="avatar" className="avatar" />
+                <img src={getAvatar(reaction.creator.employeeId, reaction.creator.code)} alt="avatar" className="avatar" />
                 <div className="person-info">
                     <span className={getRoleClassName(reaction.roleId)}> {reaction.creator.nickName} </span>
                 </div>

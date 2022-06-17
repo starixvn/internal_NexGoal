@@ -6,7 +6,6 @@
         public const int ToeicThreshold = 900;
         public const string DateTimeFormat = "dd MMM yyyy HH:mm";
         public const string DateFormat = "dd MMM yyyy";
-        public const string ImageURL = "https://hrm.nexcel.vn/Avatars";
         public const int PerformanceCheckinDuration = 7;
         public const int MinGradeId = 1;
         public const string Newline = "\n";

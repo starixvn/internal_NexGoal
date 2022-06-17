@@ -5,7 +5,7 @@ import moment from 'moment';
 import { stringify } from 'qs';
 import { isEmpty } from 'lodash';
 import { PostRequestHeaders } from '../../../constants';
-import { getRoleClassName, calendar, resolveClientUrl, axiosError } from '../../../common-functions';
+import { getRoleClassName, calendar, resolveClientUrl, axiosError, getAvatar } from '../../../common-functions';
 import LikesStatisticModal from './LikesStatisticModal';
 import getResource from '../../../resourceHelper';
 import { toast } from 'react-toastify';
@@ -277,7 +277,7 @@ export default class Feedback extends Component {
                 />
                 <div className="feedback">
                     <div className="avatar-user">
-                        <img src={feedback.creator.avatar} alt="avatar" className="avatar" />
+                        <img src={getAvatar(feedback.creator.employeeId, feedback.creator.code)} alt="avatar" className="avatar" />
                     </div>
                     <div className="feedback-content">
                         <div className="person-info">

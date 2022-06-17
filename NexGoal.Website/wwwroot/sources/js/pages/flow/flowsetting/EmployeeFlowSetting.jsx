@@ -60,14 +60,20 @@ export default class EmployeeFlowSetting extends Component {
                 const data = response.data;
 
                 this.setState({
-                    evaluator: data.evaluator,
-                    reviewer: data.reviewer,
+                    evaluator: {
+                        ...data.evaluator,
+                        avatar: `${document.imageUrl}/${data.evaluator.code}.jpg`
+                    },
+                    reviewer: {
+                        ...data.reviewer,
+                        avatar: `${document.imageUrl}/${data.reviewer.code}.jpg`
+                    },
                     member: {
                         employeeId: data.employeeId,
                         code: data.code,
                         nickName: data.nickName,
                         fullName: data.fullName,
-                        avatar: data.avatar
+                        avatar: `${document.imageUrl}/${data.code}.jpg`
                     }
                 });
             }).catch(axiosError);
@@ -82,13 +88,11 @@ export default class EmployeeFlowSetting extends Component {
         getEmployeeById(selectedMember.value, employee => {
             const member = {
                 ...this.state.member,
-                ...{
-                    employeeId: employee.employeeId,
-                    nickName: employee.nickName,
-                    fullName: employee.fullName,
-                    code: employee.code,
-                    avatar: employee.avatar
-                }
+                employeeId: employee.employeeId,
+                nickName: employee.nickName,
+                fullName: employee.fullName,
+                code: employee.code,
+                avatar: `${document.imageUrl}/${employee.code}.jpg`
             };
             this.setState({ member });
         });

@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import isEqual from 'react-fast-compare';
 
-import { getNominationClassName, getRoleClassName, resolveClientUrl, calendar, getPAGradeClassName, groupBy } from '../../common-functions';
+import {
+    getNominationClassName, getRoleClassName, resolveClientUrl,
+    calendar, getPAGradeClassName, groupBy, getAvatar
+} from '../../common-functions';
 import { NominationStatuses, PerformanceRecordType, PerformanceProcess, EmptyPlaceHolder } from '../../constants';
 import getResource from '../../resourceHelper';
 import GradeSummary from '../../shared/components/performance-appraisal/GradeSummary';
@@ -112,7 +115,7 @@ export default class PerformanceRecord extends Component {
         return employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
             <Fragment>
                 <span className="icon-checkin" />
-                <img src={employees[0].avatar} alt="avatar" className="avatar" />
+                <img src={getAvatar(employees[0].employeeId, employees[0].code)} alt="avatar" className="avatar" />
                 <span className="role-member">
                     {this.props.pageType === PageType.MemberPage ? employees.map(this.renderMembers) : employees.map(e => e.nickName).join(', ')}
                 </span>
@@ -123,7 +126,7 @@ export default class PerformanceRecord extends Component {
         return employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
             <Fragment>
                 <span className="icon-checkin" />
-                {employees.length === 1 && <img src={employees[0].avatar} alt="avatar" className="avatar" />}
+                {employees.length === 1 && <img src={getAvatar(employees[0].employeeId, employees[0].code)} alt="avatar" className="avatar" />}
                 {employees.length > 1 && <i className="avatar icon-draft-member" />}
                 <span className="role-member">
                     {this.props.pageType === PageType.MemberPage ? employees.map(this.renderMembers) : employees.map(e => e.nickName).join(', ')}
@@ -135,7 +138,7 @@ export default class PerformanceRecord extends Component {
         return employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
             <Fragment>
                 <span className="icon-nomination" />
-                <img src={employees[0].avatar} alt="avatar" className="avatar" />
+                <img src={getAvatar(employees[0].employeeId, employees[0].code)} alt="avatar" className="avatar" />
                 <span className="role-member">{employees.map(employee => employee.nickName).join(', ')}</span>
             </Fragment>;
     };
@@ -169,7 +172,7 @@ export default class PerformanceRecord extends Component {
         return (
             <div className={`record ${this.getHighlightedCssClass()}`} id={`record-${record.performanceRecordId}`}>
                 <div className={`avatar-user ${record.createdDate ? '' : 'small'}`}>
-                    <img src={creator.avatar} alt="avatar" className="avatar" />
+                    <img src={getAvatar(creator.employeeId, creator.code)} alt="avatar" className="avatar" />
                     <div className="person-info">
                         <span className={getRoleClassName(record.roleId)}>
                             {this.renderCreatorForPerformanceCheckin(employees, creator)}
@@ -248,7 +251,7 @@ export default class PerformanceRecord extends Component {
         return (
             <div className={`record ${this.getHighlightedCssClass()}`} id={`record-draft-${record.performanceRecordId}`}>
                 <div className="avatar-user">
-                    <img src={creator.avatar} alt="avatar" className="avatar" />
+                    <img src={getAvatar(creator.employeeId, creator.code)} alt="avatar" className="avatar" />
                     <div className="person-info">
                         <span className={getRoleClassName(record.roleId)}>{creator.nickName}</span>
                         {this.renderMemberForDraftPerformanceCheckin(employees, creator)}
@@ -307,7 +310,7 @@ export default class PerformanceRecord extends Component {
         return (
             <div className={`record ${this.getHighlightedCssClass()}`} id={`record-${record.performanceRecordId}`}>
                 <div className="avatar-user">
-                    <img src={creator.avatar} alt="avatar" className="avatar" />
+                    <img src={getAvatar(creator.employeeId, creator.code)} alt="avatar" className="avatar" />
                     <div className="person-info">
                         <span className={getRoleClassName(record.roleId)}>{creator.nickName}</span>
                         {this.renderMemberForNomination(employees, creator)}

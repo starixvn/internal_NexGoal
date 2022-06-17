@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using NexGoal.Core.Models
+@using Microsoft.Extensions.Options
+@inject IOptionsSnapshot<AppSettings> appSettings
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -39,7 +42,9 @@
     </div>
     @Html.AntiForgeryToken()
     @Html.Hidden("RootURL", Url.Content("~/"))
-
+    <script type="text/javascript">
+        document.imageUrl = '@appSettings.Value.ImageUrl';
+    </script>
     <script src="~/dist/resources/resource_en_US.js" asp-append-version="true"></script>
     <script src="~/dist/vendors/react.js" asp-append-version="true"></script>
     <script src="~/dist/js/main.js" asp-append-version="true"></script>

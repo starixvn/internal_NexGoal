@@ -1,5 +1,7 @@
 ﻿@using NexGoal.Resources
-@using NexGoal.Core.Constants
+@using NexGoal.Core.Models
+@using Microsoft.Extensions.Options
+@inject IOptionsSnapshot<AppSettings> appSettings
 @model int
 
 @{
@@ -11,7 +13,7 @@
 }
 
 <input type="hidden" value="@Model" id="employee-id" />
-<input type="hidden" value="@Constants.ImageURL" id="image-url" />
+<input type="hidden" value="@appSettings.Value.ImageUrl" id="image-url" />
 
 <div id="probation-report-detail-wrapper"></div>
 

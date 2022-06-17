@@ -1,6 +1,7 @@
-﻿@using NexGoal.Core.Constants
-@using NexGoal.Web.Core.Extensions
-
+﻿@using NexGoal.Web.Core.Extensions
+@using NexGoal.Core.Models
+@using Microsoft.Extensions.Options
+@inject IOptionsSnapshot<AppSettings> appSettings
 @model NexGoal.Models.Probation.ProbationReportPdfModel
 
 @{
@@ -22,7 +23,7 @@
             <table class="info-rate">
                 <tr>
                     <td rowspan="5" class="user-info">
-                        <img src="@Constants.ImageURL/@(Model.Code).jpg" alt="avatar" class="avatar" />
+                        <img src="@($"{appSettings.Value.ImageUrl}/{Model.Code}.jpg")" alt="avatar" class="avatar" />
                         <ul>
                             <li class="info">
                                 <span class="label">Full Name:</span>
