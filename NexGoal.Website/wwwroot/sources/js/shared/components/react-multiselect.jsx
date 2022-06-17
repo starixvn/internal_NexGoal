@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 let id = 1;
 
-export default class Multiselect extends Component {
+export default class Multiselect extends Component { //NOSONAR
     static propTypes = {
         items: PropTypes.arrayOf(PropTypes.object).isRequired,
         texts: PropTypes.object,
@@ -11,14 +11,14 @@ export default class Multiselect extends Component {
         maxDisplayItemCount: PropTypes.number,
         hasSearchBox: PropTypes.bool,
         onChange: PropTypes.func
-    }
+    };
 
     static defaultProps = {
         items: [],
         texts: {
             all: 'All',
-            selectedItemCount: "# item(s) selected",
-            placeholder: "Please select..."
+            selectedItemCount: '# item(s) selected',
+            placeholder: 'Please select...'
         },
         isSelectedAll: false,
         maxDisplayItemCount: 1,
@@ -26,11 +26,11 @@ export default class Multiselect extends Component {
         onChange: function () {
             // no thing
         }
-    }
+    };
 
     constructor(props) {
         super(props);
-        this.id = `multiselect-${props.id || id++}`;
+        this.id = `multiselect-${props.id || id++}`; // NOSONAR
         this.state = {
             items: props.items,
             searchTerm: '',
@@ -53,7 +53,7 @@ export default class Multiselect extends Component {
         }
     }
 
-    handleDocumentClick = (event) => {
+    handleDocumentClick = event => {
         const clickOutside = this.wrapper && !this.wrapper.contains(event.target);
         if (clickOutside && this.state.opened) {
             this.setState({ opened: false });
@@ -84,11 +84,13 @@ export default class Multiselect extends Component {
     getSelectedItems = items => items.filter(item => item.checked);
 
     onToggle = () => {
-        this.setState(prevState => { return { opened: !prevState.opened }; });
+        this.setState(prevState => {
+            return { opened: !prevState.opened };
+        });
     };
 
     onSelectAll = event => {
-        let items = [...this.state.items];
+        const items = [...this.state.items];
         const totalItems = items.length;
         for (let i = 0; i < totalItems; i++) {
             if (items[i].visible === undefined || items[i].visible) {
