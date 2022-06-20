@@ -144,6 +144,7 @@
     <Setting Key="Nomination_GetByPARecordId" SpName="Nomination_GetByPARecordId" DbName="bodb_NexGoal" Plain="0" />
     <Setting Key="Nomination_GetNominationResult" SpName="Nomination_GetNominationResult" DbName="bodb_NexGoal" Plain="0" />
     <Setting Key="Nomination_GetMemberNominationResult" SpName="Nomination_GetMemberNominationResult" DbName="bodb_NexGoal" Plain="0" />
+    <Setting Key="TargetTemplateKPI_Get" SpName="TargetTemplateKPI_Get" DbName="bodb_NexGoal" Plain="0" />
   </Function>
   <Function Name="Notification">
     <Setting Key="Notification_GetSettingByEmployee" SpName="Notification_GetSettingByEmployee" DbName="bodb_NexGoal" Plain="0" />
