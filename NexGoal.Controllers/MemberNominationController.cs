@@ -108,5 +108,13 @@
 
             return Json(performanceRecord);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetTemplateKIPNomination()
+        {
+            IEnumerable<TemplateKPINominationInfoModel> templateKPIs = await employeeNominationService.GetTemplateKIPNominationAsync();
+
+            return Json(templateKPIs);
+        }
     }
 }

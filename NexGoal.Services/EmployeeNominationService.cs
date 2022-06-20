@@ -204,5 +204,19 @@
 
             return records.OrderByDescending(x => x.CreatedDate);
         }
+
+        public async Task<IEnumerable<TemplateKPINominationInfoModel>> GetTemplateKIPNominationAsync()
+        {
+            var criteria = new GetTemplateKIPNominationCriteria();
+
+            var templateKPIs = await baseService.GetDataAsync<TemplateKIPNominationModel>(criteria);
+
+            return templateKPIs.GroupBy(p => new { p.KPIGroupId, p.Name }).Select(k => new TemplateKPINominationInfoModel
+            {
+                KPIGroupId = k.Key.KPIGroupId,
+                Name = k.Key.Name,
+                KPIs = k.Select(kpi => new KPIModel { KPIId = kpi.KPIId, KPIName = kpi.KPIName }),
+            });
+        }
     }
 }
