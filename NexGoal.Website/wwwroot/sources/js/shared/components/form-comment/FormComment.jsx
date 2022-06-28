@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { FormGroup } from 'react-bootstrap';
+import getResource from '../../../resourceHelper';
 
 export default class FormComment extends Component {
     constructor (props) {
@@ -7,7 +8,7 @@ export default class FormComment extends Component {
         this.state = {
             scores: [],
             rates: []
-        }
+        };
     }
 
     handleMouseOver = (star, index) => {
@@ -48,7 +49,7 @@ export default class FormComment extends Component {
                 <span className="layer-one"><i className="fa fa-star fa-lg" /></span>
                 <span className="layer-two" style={ scores[index] >= item ? null : {visibility: 'hidden', display: 'none'}}><i className="fa fa-star fa-lg" /></span>
             </span>
-        ))
+        ));
     };
 
     render() {
@@ -59,7 +60,7 @@ export default class FormComment extends Component {
 
         return (
             <div className="form-comment">
-                <span>Direction: Manager/Supervisor please provides supporting examples/comments, including specific details regarding the nominee's contribution.</span>
+                <span>{getResource('DirectionProvide')}</span>
                 {
                     kpiEoyQuestions.map((item, key) => (
                         <FormGroup key={key}>
@@ -83,7 +84,7 @@ export default class FormComment extends Component {
                 }
                 <FormGroup>
                     <div className="rating">
-                        <span className="criteria">**RATING CRITERIA</span>
+                        <span className="criteria">{getResource('RatingCriteria')}</span>
                         {
                             kpiEoyQuestions.map((item, key) => (
                                 <div className="full-star" key={key}>
@@ -104,4 +105,4 @@ export default class FormComment extends Component {
             </div>
         );
     }
-};
+}
