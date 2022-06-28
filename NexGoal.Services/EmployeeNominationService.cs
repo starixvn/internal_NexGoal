@@ -139,7 +139,7 @@
             IEnumerable<PerformanceRecord> performanceRecords = GroupDataMemberPerformance(records);
             IEnumerable<PerformanceRecord> groupRecordKpi = GroupKPIPerformance(performanceRecords);
 
-            return performanceRecords;
+            return groupRecordKpi;
         }
 
         public async Task<IEnumerable<PerformanceRecord>> GetMemberNominationByIdAsync(int nominatorId, int memberId)
