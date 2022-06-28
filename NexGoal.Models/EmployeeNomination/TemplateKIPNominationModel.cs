@@ -2,12 +2,12 @@
 {
     public class TemplateKIPNominationModel
     {
-        public int KPIGroupId { get; set; }
+        public int KpiGroupId { get; set; }
 
         public string Name { get; set; }
 
-        public int KPIId { get; set; }
+        public int KpiId { get; set; }
 
-        public string KPIName { get; set; }
+        public string KpiName { get; set; }
     }
 }

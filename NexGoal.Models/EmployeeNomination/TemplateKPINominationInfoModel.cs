@@ -4,10 +4,12 @@
 
     public class TemplateKPINominationInfoModel
     {
-        public int KPIGroupId { get; set; }
+        public int KpiGroupId { get; set; }
 
         public string Name { get; set; }
 
-        public IEnumerable<KPIModel> KPIs { get; set; }
+        public int Rate { get; set; }
+
+        public IEnumerable<KPIModel> Kpis { get; set; }
     }
 }

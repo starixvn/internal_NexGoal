@@ -137,6 +137,7 @@
             };
             IEnumerable<PerformanceRecord> records = await nominationRepository.GetMemberNominationAsync(criteria);
             IEnumerable<PerformanceRecord> performanceRecords = GroupDataMemberPerformance(records);
+            IEnumerable<PerformanceRecord> groupRecordKpi = GroupKPIPerformance(performanceRecords);
 
             return performanceRecords;
         }
@@ -205,17 +206,48 @@
             return records.OrderByDescending(x => x.CreatedDate);
         }
 
+        private static IEnumerable<PerformanceRecord> GroupKPIPerformance(IEnumerable<PerformanceRecord> performanceRecords)
+        {
+            return performanceRecords.GroupBy(p => p.PerformanceRecordId).Select(k => new PerformanceRecord
+            {
+                PerformanceRecordId = k.Key,
+                Employees = k.FirstOrDefault().Employees,
+                CreatedDate = k.FirstOrDefault().CreatedDate,
+                Creator = k.FirstOrDefault().Creator,
+                Feedbacks = k.FirstOrDefault().Feedbacks,
+                Grade = k.FirstOrDefault().Grade,
+                IsAllowEditFeedback = k.FirstOrDefault().IsAllowEditFeedback,
+                IsDraft = k.FirstOrDefault().IsDraft,
+                IsHost = k.FirstOrDefault().IsHost,
+                ModifiedDate = k.FirstOrDefault().ModifiedDate,
+                NominationPeriod = k.FirstOrDefault().NominationPeriod,
+                NominationStatusId = k.FirstOrDefault().NominationStatusId,
+                PASummary = k.FirstOrDefault().PASummary,
+                Period = k.FirstOrDefault().Period,
+                Projects = k.FirstOrDefault().Projects,
+                Reactions = k.FirstOrDefault().Reactions,
+                TypeId = k.FirstOrDefault().TypeId,
+                RoleId = k.FirstOrDefault().RoleId,
+                KPIGroupIds = k.GroupBy(t => t.KPIGroupId).Select(y => new TemplateKPINominationInfoModel
+                {
+                    KpiGroupId = y.Key,
+                    Rate = y.FirstOrDefault().Rate,
+                    Kpis = y.Select(kpi => new KPIModel { KpiId = kpi.KPIId, Comment = kpi.Comment })
+                })
+            });
+        }
+
         public async Task<IEnumerable<TemplateKPINominationInfoModel>> GetTemplateKIPNominationAsync()
         {
             var criteria = new GetTemplateKIPNominationCriteria();
 
             var templateKPIs = await baseService.GetDataAsync<TemplateKIPNominationModel>(criteria);
 
-            return templateKPIs.GroupBy(p => new { p.KPIGroupId, p.Name }).Select(k => new TemplateKPINominationInfoModel
+            return templateKPIs.GroupBy(p => new { p.KpiGroupId, p.Name }).Select(k => new TemplateKPINominationInfoModel
             {
-                KPIGroupId = k.Key.KPIGroupId,
+                KpiGroupId = k.Key.KpiGroupId,
                 Name = k.Key.Name,
-                KPIs = k.Select(kpi => new KPIModel { KPIId = kpi.KPIId, KPIName = kpi.KPIName }),
+                Kpis = k.Select(kpi => new KPIModel { KpiId = kpi.KpiId, KpiName = kpi.KpiName }),
             });
         }
     }
