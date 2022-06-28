@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { FormGroup, ControlLabel, Button } from 'react-bootstrap';
+import { FormGroup, ControlLabel, Button, Form } from 'react-bootstrap';
 import Select from 'react-select';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -10,7 +10,7 @@ import { Formik } from 'formik';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { InputErrorCssClass, PostRequestHeaders } from '../../../constants';
 import getResource from '../../../resourceHelper';
-import TextareaFullscreenEditor from '../../../shared/components/textarea-fullscreen/index';
+import FormComment from '../../../shared/components/form-comment/FormComment';
 
 export default class CreateNomination extends Component {
     constructor(props) {
@@ -19,7 +19,8 @@ export default class CreateNomination extends Component {
         this.state = {
             openForm: false,
             eoqQuestions: [],
-            eoyQuestions: []
+            eoyQuestions: [],
+            kpiEoyQuestions: []
         };
 
         this.initialObj = {
@@ -32,13 +33,15 @@ export default class CreateNomination extends Component {
     componentDidMount() {
         const promises = [
             axios(resolveClientUrl('Common/GetEOQQuestions')),
-            axios(resolveClientUrl('Common/GetEOYQuestions'))
+            axios(resolveClientUrl('Common/GetEOYQuestions')),
+            axios(resolveClientUrl('MemberNomination/GetTemplateKIPNomination'))
         ];
 
-        Promise.all(promises).then(([eoqResponse, eoyResponse]) => {
+        Promise.all(promises).then(([eoqResponse, eoyResponse, kpiEoyResponse]) => {
             this.setState({
                 eoqQuestions: eoqResponse.data,
-                eoyQuestions: eoyResponse.data
+                eoyQuestions: eoyResponse.data,
+                kpiEoyQuestions: kpiEoyResponse.data
             });
         }).catch(axiosError);
 
@@ -165,11 +168,8 @@ export default class CreateNomination extends Component {
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>{getResource('Comment')}</ControlLabel>
-                    <TextareaFullscreenEditor
-                        className={`form-control comment-field ${touched.comment && errors.comment && InputErrorCssClass}`}
-                        name="comment"
-                        value={values.comment}
-                        onChange={handleChange}
+                    <FormComment
+                        kpiEoyQuestions={this.state.kpiEoyQuestions}
                     />
                 </FormGroup>
                 <FormGroup className="text-right">

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using Newtonsoft.Json;
     using NexGoal.Models.Common;
+    using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.NominationPeriod;
     using NexGoal.Models.PRFeedback;
     using NexGoal.Models.PRReaction;
@@ -37,5 +38,13 @@
         public PASummaryModel PASummary { get; set; }
         public IEnumerable<PRReactionModel> Reactions { get; set; } = new List<PRReactionModel>();
         public IEnumerable<PRFeedbackModel> Feedbacks { get; set; } = new List<PRFeedbackModel>();
+
+        public IEnumerable<TemplateKPINominationInfoModel> KPIGroupIds { get; set; } = new List<TemplateKPINominationInfoModel>();
+
+        public int KPIGroupId { get; set; }
+
+        public int Rate { get; set; }
+
+        public int KPIId { get; set; }
     }
 }

@@ -2,8 +2,10 @@
 {
     public class KPIModel
     {
-        public int KPIId { get; set; }
+        public int KpiId { get; set; }
 
-        public string KPIName { get; set; }
+        public string KpiName { get; set; }
+
+        public string Comment { get; set; }
     }
 }
