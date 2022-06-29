@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Models.EmployeeNomination
 {
+    using System.Collections.Generic;
+
     public class CreateEmployeeNominationModel
     {
         public int NominationPeriodId { get; set; }
@@ -8,6 +10,6 @@
 
         public int NominatorId { get; set; }
 
-        public string Comment { get; set; }
+        public IEnumerable<KPINominationModel> KpiList { get; set; }
     }
 }

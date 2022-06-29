@@ -26,7 +26,8 @@ export default class CreateNomination extends Component {
         this.initialObj = {
             period: null,
             employee: null,
-            comment: ''
+            comment: '',
+            rating: []
         };
     }
 
@@ -42,11 +43,33 @@ export default class CreateNomination extends Component {
                 eoqQuestions: eoqResponse.data,
                 eoyQuestions: eoyResponse.data,
                 kpiEoyQuestions: kpiEoyResponse.data
-            });
+            }, () => this.setInitial(kpiEoyResponse.data));
         }).catch(axiosError);
 
         window.addEventListener('beforeunload', this.onLeavingPageEventListener);
     }
+
+    getInitial = kpiEoy => {
+        const comments = [];
+        const rating = [];
+        if (kpiEoy && kpiEoy.length > 0) {
+            kpiEoy.forEach(item => {
+                rating.push({ kpiGroupId: item.kpiGroupId, rate: 0 });
+                item.kpis.forEach(element => {
+                    comments.push(`${element.kpiId}`);
+                });
+            });
+        }
+        return { comments, rating };
+    };
+
+    setInitial = kpiEoy => {
+        const comments = this.getInitial(kpiEoy).comments;
+        const rating = this.getInitial(kpiEoy).rating;
+
+        comments.forEach(item => { this.initialObj[item] = ''; });
+        this.initialObj.rating = rating;
+    };
 
     onLeavingPageEventListener = event => {
         if (this.refs.form) {
@@ -68,6 +91,22 @@ export default class CreateNomination extends Component {
         this.setState({ openForm: false });
     };
 
+    getKpiList = values => {
+        const kpiLst = [];
+        const { kpiEoyQuestions } = this.state;
+
+        if (kpiEoyQuestions && kpiEoyQuestions.length > 0) {
+            kpiEoyQuestions.forEach(item => {
+                const kpi = values.rating.find(rate => rate.kpiGroupId === item.kpiGroupId);
+                item.kpis.forEach(element => {
+                    element && kpiLst.push({...kpi, kpiId: element.kpiId, comment: values[element.kpiId.toString()] });
+                });
+            });
+        }
+
+        return kpiLst;
+    };
+
     handleSubmit = (values, { setErrors, setSubmitting }) => {
         axios({
             url: resolveClientUrl(`MemberNomination/Create`),
@@ -76,7 +115,7 @@ export default class CreateNomination extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 nominationPeriodId: values.period.value,
                 nomineeId: this.props.isEmployeeSelectable ? values.employee.value : this.props.nomineeId,
-                comment: values.comment.trim()
+                kpiList: this.getKpiList(values)
             }),
             headers: PostRequestHeaders
         }).then(response => {
@@ -103,6 +142,8 @@ export default class CreateNomination extends Component {
 
     validateForm = values => {
         const errors = {};
+        const { kpiEoyQuestions } = this.state;
+        const comments = this.getInitial(kpiEoyQuestions).comments;
 
         if (!values.period) {
             errors.period = 'Period is required!';
@@ -112,9 +153,11 @@ export default class CreateNomination extends Component {
             errors.employee = 'Employee is required!';
         }
 
-        if (!values.comment || values.comment.trim() === '') {
-            errors.comment = 'Comment is required!';
-        }
+        comments.length > 0 && comments.forEach(item => {
+            if (!values[item] || values[item].trim() === '') {
+                errors[item] = 'Comment is required!';
+            }
+        });
 
         return errors;
     };
@@ -170,6 +213,12 @@ export default class CreateNomination extends Component {
                     <ControlLabel>{getResource('Comment')}</ControlLabel>
                     <FormComment
                         kpiEoyQuestions={this.state.kpiEoyQuestions}
+                        handleChange={handleChange}
+                        values={values}
+                        touched={touched}
+                        errors={errors}
+                        inputErrorCssClass={InputErrorCssClass}
+                        setFieldValue={setFieldValue}
                     />
                 </FormGroup>
                 <FormGroup className="text-right">
