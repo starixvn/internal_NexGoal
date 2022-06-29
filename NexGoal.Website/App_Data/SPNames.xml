@@ -132,7 +132,7 @@
   </Function>
   <Function Name="Employee Nomination">
     <Setting Key="Nomination_GetPeriodsForNominator" SpName="Nomination_GetPeriodsForNominator" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="Nomination_Insert" SpName="Nomination_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Nomination_Insert" SpName="Nomination_Insert_xtest" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_GetMemberNomination" SpName="Nomination_GetMemberNomination_xtest" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_GetByRecordId" SpName="Nomination_GetByRecordId" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_Update" SpName="Nomination_Update" DbName="bodb_NexGoal" Plain="0"></Setting>

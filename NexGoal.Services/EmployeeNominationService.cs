@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.EmployeeNomination;
@@ -30,12 +31,17 @@
 
         public async Task<CommandResult> CreateAsync(CreateEmployeeNominationModel model)
         {
+            foreach (var kpi in model.KpiList)
+            {
+                kpi.Comment = commonService.RemoveInvalidXmlChars(kpi.Comment);
+            }
+
             var criteria = new CreateEmployeeNominationCriteria
             {
                 NominationPeriodId = model.NominationPeriodId,
                 NominatorId = model.NominatorId,
                 NomineeId = model.NomineeId,
-                Comment = commonService.RemoveInvalidXmlChars(model.Comment)
+                KpiList = model.KpiList.ToXML().ToString()
             };
 
             var commandResult = await baseService.ExecuteNonQueryAsync(criteria);

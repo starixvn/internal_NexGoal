@@ -44,7 +44,7 @@
                     NominationPeriodId = model.NominationPeriodId,
                     NomineeId = model.NomineeId,
                     NominatorId = sessionService.EmployeeId,
-                    Comment = model.Comment
+                    KpiList = model.KpiList
                 });
 
                 return Json(commandResult);

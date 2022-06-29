@@ -24,9 +24,12 @@ export default class FormComment extends Component {
 
     handleClick = (star, index) => {
         const rates = [...this.state.rates];
+        const rating = [...this.props.values.rating];
         rates[index] = star;
+        rating[index].rate = star;
 
         this.setState({ rates: rates, scores: rates });
+        this.props.setFieldValue('rating', rating);
     };
 
     handleClearStar = index => {
@@ -53,8 +56,8 @@ export default class FormComment extends Component {
     };
 
     render() {
-        const kpiEoyQuestions = this.props.kpiEoyQuestions;
-        if (kpiEoyQuestions.length <= 0) {
+        const { kpiEoyQuestions, values, touched, errors, inputErrorCssClass, handleChange } = this.props;
+        if (!kpiEoyQuestions && kpiEoyQuestions.length <= 0) {
             return null;
         }
 
@@ -70,11 +73,11 @@ export default class FormComment extends Component {
                                     <div className="kpi-group" key={index}>
                                     <span className="kpi-comment">{element.kpiName}</span>
                                     <textarea
-                                        className="text-area"
+                                        className={`text-area ${touched[`${element.kpiId}`] && errors[`${element.kpiId}`] && inputErrorCssClass}`}
                                         rows="2"
-                                        value={this.props.values}
-                                        name={this.props.comment}
-                                        onChange={this.props.onChange}
+                                        value={values[`${element.kpiId}`]}
+                                        name={`${element.kpiId}`}
+                                        onChange={handleChange}
                                     />
                                     </div>
                                 ))
@@ -86,22 +89,16 @@ export default class FormComment extends Component {
                     <div className="rating">
                         <span className="criteria">{getResource('RatingCriteria')}</span>
                         {
-                            kpiEoyQuestions.map((item, key) => (
-                                <div className="full-star" key={key}>
+                            kpiEoyQuestions.map((item, index) => (
+                                <div className="full-star" key={index}>
                                     <span className="criteria">{item.name}</span>
-                                    <span className="clear" onClick={() => this.handleClearStar(key)}><i className="fa fa-times-circle-o" /></span>
-                                    { this.renderStar(key) }
+                                    <span className="clear" onClick={() => this.handleClearStar(index)}><i className="fa fa-times-circle-o" /></span>
+                                    { this.renderStar(index) }
                                 </div>
                             ))
                         }
                     </div>
                 </FormGroup>
-
-                <textarea
-                    className="text-area"
-                    rows="2"
-                    onChange={value => this.props.setFieldValue('comment1', value)}
-                />
             </div>
         );
     }
