@@ -46,5 +46,9 @@
         public int Rate { get; set; }
 
         public int KPIId { get; set; }
+
+        public string Name { get; set; }
+
+        public string KPIName { get; set; }
     }
 }
