@@ -11,6 +11,7 @@ import { NominationStatuses, PerformanceRecordType, PerformanceProcess, EmptyPla
 import getResource from '../../resourceHelper';
 import GradeSummary from '../../shared/components/performance-appraisal/GradeSummary';
 import Interaction from '../../shared/components/pr-interaction/Interaction';
+import FormComment from './form-comment/FormComment';
 
 const PageType = {
     MyPage: 1,
@@ -56,7 +57,7 @@ export default class PerformanceRecord extends Component {
 
     componentDidMount() {
         const record = this.props.data;
-        if (record && (record.typeId === PerformanceRecordType.PerformanceCheckin || record.typeId === PerformanceRecordType.Nomination)) {
+        if (record && (record.typeId === PerformanceRecordType.PerformanceCheckin)) {
             this.detectCollapseExpandComment();
         }
     }
@@ -292,6 +293,18 @@ export default class PerformanceRecord extends Component {
         );
     };
 
+    getValueFormComment = data => {
+        const values = {};
+        const scores = [];
+        data.forEach(item => {
+            scores.push(item.rate);
+            item.kpis.forEach(element => {
+                values[element.kpiId] = element.comment;
+            });
+        });
+        return { values, scores };
+    };
+
     renderNomination = () => {
         const record = this.props.data;
         const { employees, creator } = record;
@@ -299,6 +312,8 @@ export default class PerformanceRecord extends Component {
         const status = NominationStatuses.find(x => x.value === record.nominationStatusId);
         const endDateForNominator = moment(record.nominationPeriod.endDateForNominator);
         const currentDate = moment();
+        const valuesComment = this.getValueFormComment(record.kpiGroupIds).values;
+        const scores = this.getValueFormComment(record.kpiGroupIds).scores;
 
         let commentWrapperClass = 'expanded';
         let expandCommentButtonClass = 'see-less';
@@ -345,12 +360,13 @@ export default class PerformanceRecord extends Component {
                     }
                 </div>
                 <div className="comment" >
-                    <p className={commentWrapperClass} ref={element => this.element = element}>{record.comment}</p>
-                    {
-                        this.state.showCollapseExpandButton ?
-                            <span className={expandCommentButtonClass} onClick={this.collapseExpandComment} />
-                            : null
-                    }
+                    <FormComment
+                        kpiEoyQuestions={record.kpiGroupIds}
+                        values={valuesComment}
+                        scores={scores}
+                        disabled={true}
+                        onEvent={false}
+                    />
                 </div>
             </div >
         );

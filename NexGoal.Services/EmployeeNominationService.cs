@@ -237,8 +237,9 @@
                 KPIGroupIds = k.GroupBy(t => t.KPIGroupId).Select(y => new TemplateKPINominationInfoModel
                 {
                     KpiGroupId = y.Key,
+                    Name = y.FirstOrDefault().Name,
                     Rate = y.FirstOrDefault().Rate,
-                    Kpis = y.Select(kpi => new KPIModel { KpiId = kpi.KPIId, Comment = kpi.Comment })
+                    Kpis = y.Select(kpi => new KPIModel { KpiId = kpi.KPIId, Comment = kpi.Comment, KpiName = kpi.KPIName })
                 })
             });
         }
