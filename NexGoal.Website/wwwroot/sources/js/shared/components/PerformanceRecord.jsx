@@ -1,4 +1,4 @@
-﻿import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import isEqual from 'react-fast-compare';
@@ -291,18 +291,6 @@ export default class PerformanceRecord extends Component {
                 }
             </div>
         );
-    };
-
-    getValueFormComment = data => {
-        const values = {};
-        const scores = [];
-        data.forEach(item => {
-            scores.push(item.rate);
-            item.kpis.forEach(element => {
-                values[element.kpiId] = element.comment;
-            });
-        });
-        return { values, scores };
     };
 
     renderNomination = () => {

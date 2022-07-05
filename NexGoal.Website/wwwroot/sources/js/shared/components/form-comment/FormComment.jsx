@@ -21,7 +21,7 @@ export default class FormComment extends Component {
     static defaultProps = {
         kpiEoyQuestions: [],
         scores: [],
-        values: {},
+        values: { rating: [] },
         touched: {},
         errors: {},
         inputErrorCssClass: 'none',
@@ -33,7 +33,7 @@ export default class FormComment extends Component {
         super(props);
         this.state = {
             scores: props.scores,
-            rates: []
+            rates: props.scores
         };
     }
 
@@ -50,12 +50,14 @@ export default class FormComment extends Component {
 
     handleClick = (star, index) => {
         const rates = [...this.state.rates];
-        const rating = [...this.props.values.rating];
         rates[index] = star;
-        rating[index].rate = star;
-
         this.setState({ rates: rates, scores: rates });
-        this.props.setFieldValue('rating', rating);
+
+        if (this.props.values.rating) {
+            const rating = [...this.props.values.rating];
+            rating[index].rate = star;
+            this.props.setFieldValue('rating', rating);
+        }
     };
 
     handleClearStar = index => {
@@ -103,7 +105,7 @@ export default class FormComment extends Component {
                                         className={`text-area ${touched[`${element.kpiId}`] && errors[`${element.kpiId}`] && inputErrorCssClass}`}
                                         rows="2"
                                         disabled={disabled}
-                                        value={values[`${element.kpiId}`]}
+                                        defaultValue={values[`${element.kpiId}`]}
                                         name={`${element.kpiId}`}
                                         onChange={handleChange}
                                     />
