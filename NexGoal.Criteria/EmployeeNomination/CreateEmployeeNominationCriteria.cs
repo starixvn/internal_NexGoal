@@ -12,7 +12,7 @@
 
         public int PerformanceRecordId { get; set; }
 
-        public string KpiList { get; set; }
+        public string KpiNominations { get; set; }
 
         public override string GetSettingKey() => "Nomination_Insert";
 

@@ -31,7 +31,7 @@
 
         public async Task<CommandResult> CreateAsync(CreateEmployeeNominationModel model)
         {
-            foreach (var kpi in model.KpiList)
+            foreach (var kpi in model.KpiNominations)
             {
                 kpi.Comment = commonService.RemoveInvalidXmlChars(kpi.Comment);
             }
@@ -41,7 +41,7 @@
                 NominationPeriodId = model.NominationPeriodId,
                 NominatorId = model.NominatorId,
                 NomineeId = model.NomineeId,
-                KpiList = model.KpiList.ToXML().ToString()
+                KpiNominations = model.KpiNominations.ToXML().ToString()
             };
 
             var commandResult = await baseService.ExecuteNonQueryAsync(criteria);
@@ -52,13 +52,18 @@
 
         public async Task<CommandResult> EditAsync(EditEmployeeNominationModel model)
         {
+            foreach (var kpi in model.KpiNominations)
+            {
+                kpi.Comment = commonService.RemoveInvalidXmlChars(kpi.Comment);
+            }
+
             var criteria = new EditEmployeeNominationCriteria
             {
                 NominationPeriodId = model.NominationPeriodId,
                 NominatorId = model.NominatorId,
                 NomineeId = model.NomineeId,
-                Comment = commonService.RemoveInvalidXmlChars(model.Comment),
                 PerformanceRecordId = model.PerformanceRecordId,
+                KpiNominations = model.KpiNominations.ToXML().ToString()
             };
 
             var commandResult = await baseService.ExecuteNonQueryAsync(criteria);

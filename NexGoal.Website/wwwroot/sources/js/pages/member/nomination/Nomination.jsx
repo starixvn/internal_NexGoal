@@ -1,8 +1,7 @@
-﻿import React, { Component } from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import { stringify } from 'qs';
 import { toast } from 'react-toastify';
-
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { PostRequestHeaders } from '../../../constants';
 import getResource from '../../../resourceHelper';

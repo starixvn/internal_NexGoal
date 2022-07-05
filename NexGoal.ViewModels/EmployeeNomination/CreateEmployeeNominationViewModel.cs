@@ -12,6 +12,6 @@
         public int NomineeId { get; set; }
 
         [Required]
-        public IEnumerable<KPINominationModel> KpiList { get; set; }
+        public IEnumerable<KPINominationModel> KpiNominations { get; set; }
     }
 }

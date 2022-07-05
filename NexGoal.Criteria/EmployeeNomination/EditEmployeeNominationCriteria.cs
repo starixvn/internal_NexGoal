@@ -9,9 +9,9 @@
 
         public int NominatorId { get; set; }
 
-        public string Comment { get; set; }
-
         public int PerformanceRecordId { get; set; }
+
+        public string KpiNominations { get; set; }
 
         public override string GetSettingKey() => "Nomination_Update";
 

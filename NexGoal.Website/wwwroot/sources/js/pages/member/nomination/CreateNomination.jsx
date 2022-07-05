@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import { camelCase } from 'lodash';
 import { stringify } from 'qs';
 import { Formik } from 'formik';
-
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { InputErrorCssClass, PostRequestHeaders } from '../../../constants';
 import getResource from '../../../resourceHelper';
@@ -91,22 +90,6 @@ export default class CreateNomination extends Component {
         this.setState({ openForm: false });
     };
 
-    getKpiList = values => {
-        const kpiLst = [];
-        const { kpiEoyQuestions } = this.state;
-
-        if (kpiEoyQuestions && kpiEoyQuestions.length > 0) {
-            kpiEoyQuestions.forEach(item => {
-                const kpi = values.rating.find(rate => rate.kpiGroupId === item.kpiGroupId);
-                item.kpis.forEach(element => {
-                    element && kpiLst.push({...kpi, kpiId: element.kpiId, comment: values[element.kpiId.toString()] });
-                });
-            });
-        }
-
-        return kpiLst;
-    };
-
     handleSubmit = (values, { setErrors, setSubmitting }) => {
         axios({
             url: resolveClientUrl(`MemberNomination/Create`),
@@ -115,7 +98,7 @@ export default class CreateNomination extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 nominationPeriodId: values.period.value,
                 nomineeId: this.props.isEmployeeSelectable ? values.employee.value : this.props.nomineeId,
-                kpiList: this.getKpiList(values)
+                kpiNominations: this.props.getKpiNominations(values, this.state.kpiEoyQuestions)
             }),
             headers: PostRequestHeaders
         }).then(response => {
