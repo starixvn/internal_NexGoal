@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Models.EmployeeNomination
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class EditEmployeeNominationViewModel
@@ -11,9 +12,9 @@
         public int NomineeId { get; set; }
 
         [Required]
-        public string Comment { get; set; }
+        public int PerformanceRecordId { get; set; }
 
         [Required]
-        public int PerformanceRecordId { get; set; }
+        public IEnumerable<KPINominationModel> KpiNominations { get; set; }
     }
 }
