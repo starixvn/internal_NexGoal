@@ -7,11 +7,10 @@ import { camelCase } from 'lodash';
 import { stringify } from 'qs';
 import { Formik } from 'formik';
 import moment from 'moment';
-
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { InputErrorCssClass, DateFormat, PostRequestHeaders } from '../../../constants';
 import getResource from '../../../resourceHelper';
-import TextareaFullscreenEditor from '../../../shared/components/textarea-fullscreen/index';
+import FormComment from '../../../shared/components/form-comment/FormComment';
 
 export default class EditNomination extends Component {
     constructor(props) {
@@ -20,6 +19,17 @@ export default class EditNomination extends Component {
         this.state = {
             eoqQuestions: [],
             eoyQuestions: []
+        };
+
+        this.initialObj = {
+            period: {
+                label: props.performanceRecord.nominationPeriod.title,
+                value: props.performanceRecord.nominationPeriod.nominationPeriodId
+            },
+            employee: props.employeeOptions.find(e => e.value === props.performanceRecord.employees[0].employeeId),
+            comment: "this.props.performanceRecord.comment",
+            rating: this.props.getInitValue(props.performanceRecord.kpiGroupIds).rating,
+            ...this.props.getInitValue(props.performanceRecord.kpiGroupIds).comments
         };
     }
 
@@ -58,10 +68,13 @@ export default class EditNomination extends Component {
 
     validateForm = values => {
         const errors = {};
+        const comments = Object.keys(this.props.getInitValue(this.props.performanceRecord.kpiGroupIds).comments);
 
-        if (!values.comment || values.comment.trim() === '') {
-            errors.comment = 'Comment is required!';
-        }
+        comments.length > 0 && comments.forEach(item => {
+            if (!values[item] || values[item].trim() === '') {
+                errors[item] = 'Comment is required!';
+            }
+        });
 
         return errors;
     };
@@ -75,7 +88,7 @@ export default class EditNomination extends Component {
                 performanceRecordId: this.props.performanceRecord.performanceRecordId,
                 nominationPeriodId: values.period.value,
                 nomineeId: values.employee.value,
-                comment: values.comment.trim()
+                kpiNominations: this.props.getKpiNominations(values, this.props.performanceRecord.kpiGroupIds)
             }),
             headers: PostRequestHeaders
         }).then(response => {
@@ -83,7 +96,7 @@ export default class EditNomination extends Component {
 
             if (data.isSuccessful) {
                 this.props.onEditSuccess(this.props.performanceRecord.performanceRecordId);
-                toast.success(getResource('CreatedSuccessfully'));
+                toast.success(getResource('UpdatedSuccessfully'));
             } else {
                 if (data.errors) {
                     const errors = {};
@@ -123,6 +136,8 @@ export default class EditNomination extends Component {
 
         const currentUser = this.props.currentUser;
         const createdDate = moment(this.props.performanceRecord.createdDate);
+        const performanceRecord = this.props.performanceRecord;
+        const scores = this.props.getInitValue(performanceRecord.kpiGroupIds).scores;
 
         return (
             <form onSubmit={handleSubmit} className="form-filter form-performance edit">
@@ -166,11 +181,15 @@ export default class EditNomination extends Component {
                             </FormGroup>
                             <FormGroup>
                                 <ControlLabel>{getResource('Comment')}</ControlLabel>
-                                <TextareaFullscreenEditor
-                                    className={`form-control comment-field ${touched.comment && errors.comment && InputErrorCssClass}`}
-                                    name="comment"
-                                    value={values.comment}
-                                    onChange={handleChange}
+                                <FormComment
+                                    kpiEoyQuestions={performanceRecord.kpiGroupIds}
+                                    values={values}
+                                    scores={scores}
+                                    handleChange={handleChange}
+                                    setFieldValue={setFieldValue}
+                                    touched={touched}
+                                    errors={errors}
+                                    inputErrorCssClass={InputErrorCssClass}
                                 />
                             </FormGroup>
                         </div>
@@ -185,15 +204,6 @@ export default class EditNomination extends Component {
     };
 
     render() {
-        const initialObj = {
-            period: {
-                label: this.props.performanceRecord.nominationPeriod.title,
-                value: this.props.performanceRecord.nominationPeriod.nominationPeriodId
-            },
-            employee: this.props.employeeOptions.find(e => e.value === this.props.performanceRecord.employees[0].employeeId),
-            comment: this.props.performanceRecord.comment
-        };
-
         return (
             <Modal keyboard={false} backdrop="static"
                 show={this.props.showModal} onHide={this.props.onCloseModal}
@@ -203,7 +213,7 @@ export default class EditNomination extends Component {
                     <Modal.Title>{getResource('EditNomination')}</Modal.Title>
                 </Modal.Header>
                 <Formik
-                    initialValues={initialObj}
+                    initialValues={this.initialObj}
                     validate={this.validateForm}
                     onSubmit={this.handleSubmit}
                     render={this.renderForm}

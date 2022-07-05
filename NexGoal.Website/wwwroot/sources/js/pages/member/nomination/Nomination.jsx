@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+﻿import React, { Component } from 'react';
 import axios from 'axios';
 import { stringify } from 'qs';
 import { toast } from 'react-toastify';
@@ -147,6 +147,33 @@ export default class Nomination extends Component {
 
     closeDeleteModal = () => this.setState({ showDeleteModal: false, deletedRecordId: null });
 
+    getInitValue = kpiEoy => {
+        const comments = {}, scores = [], rating = [];
+        if (kpiEoy && kpiEoy.length > 0) {
+            kpiEoy.forEach(item => {
+                scores.push(item.rate);
+                rating.push({ kpiGroupId: item.kpiGroupId, rate: item.rate });
+                item.kpis.forEach(element => {
+                    comments[element.kpiId] = element.comment;
+                });
+            });
+        }
+        return { comments, scores, rating };
+    };
+
+    getKpiNominations = (values, kpiEoyQuestions) => {
+        const kpiLst = [];
+        if (kpiEoyQuestions && kpiEoyQuestions.length > 0) {
+            kpiEoyQuestions.forEach(item => {
+                const kpi = values.rating.find(rate => rate.kpiGroupId === item.kpiGroupId);
+                item.kpis.forEach(element => {
+                    element && kpiLst.push({...kpi, kpiId: element.kpiId, comment: values[element.kpiId.toString()] });
+                });
+            });
+        }
+        return kpiLst;
+    };
+
     renderPerformanceRecord = performanceRecord => {
         return (
             <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
@@ -154,6 +181,7 @@ export default class Nomination extends Component {
                 data={performanceRecord}
                 onEdit={this.handleEdit}
                 onDelete={this.handleDelete}
+                getInitValue={this.getInitValue}
             />
         );
     };
@@ -171,6 +199,7 @@ export default class Nomination extends Component {
                             isEmployeeSelectable={!this.props.isMemberDetails}
                             nomineeId={this.props.nomineeId}
                             onCreateSuccess={this.handleCreateNominationSuccess}
+                            getKpiNominations={this.getKpiNominations}
                         />
                     }
                     {this.state.nominations.map(this.renderPerformanceRecord)}
@@ -186,6 +215,8 @@ export default class Nomination extends Component {
                         onCloseModal={this.closeEditModal}
                         onEditSuccess={this.handleEditNominationSuccess}
                         isEmployeeSelectable={!this.props.isMemberDetails}
+                        getInitValue={this.getInitValue}
+                        getKpiNominations={this.getKpiNominations}
                     />
                 }
                 {

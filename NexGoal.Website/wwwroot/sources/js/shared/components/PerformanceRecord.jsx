@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+﻿import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import isEqual from 'react-fast-compare';
@@ -300,8 +300,8 @@ export default class PerformanceRecord extends Component {
         const status = NominationStatuses.find(x => x.value === record.nominationStatusId);
         const endDateForNominator = moment(record.nominationPeriod.endDateForNominator);
         const currentDate = moment();
-        const valuesComment = this.getValueFormComment(record.kpiGroupIds).values;
-        const scores = this.getValueFormComment(record.kpiGroupIds).scores;
+        const valuesComment = this.props.getInitValue(record.kpiGroupIds).comments;
+        const scores = this.props.getInitValue(record.kpiGroupIds).scores;
 
         let commentWrapperClass = 'expanded';
         let expandCommentButtonClass = 'see-less';
