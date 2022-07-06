@@ -27,7 +27,6 @@ export default class EditNomination extends Component {
                 value: props.performanceRecord.nominationPeriod.nominationPeriodId
             },
             employee: props.employeeOptions.find(e => e.value === props.performanceRecord.employees[0].employeeId),
-            comment: "",
             rating: this.props.getInitValue(props.performanceRecord.kpiGroupIds).rating,
             ...this.props.getInitValue(props.performanceRecord.kpiGroupIds).comments
         };
