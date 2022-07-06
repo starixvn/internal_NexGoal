@@ -303,13 +303,6 @@ export default class PerformanceRecord extends Component {
         const valuesComment = this.props.getInitValue(record.kpiGroupIds).comments;
         const scores = this.props.getInitValue(record.kpiGroupIds).scores;
 
-        let commentWrapperClass = 'expanded';
-        let expandCommentButtonClass = 'see-less';
-        if (this.state.isExpanded) {
-            commentWrapperClass = 'collapsed';
-            expandCommentButtonClass = 'see-more';
-        }
-
         return (
             <div className={`record ${this.getHighlightedCssClass()}`} id={`record-${record.performanceRecordId}`}>
                 <div className="avatar-user">

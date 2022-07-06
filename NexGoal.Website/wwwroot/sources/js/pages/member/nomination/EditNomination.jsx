@@ -27,7 +27,7 @@ export default class EditNomination extends Component {
                 value: props.performanceRecord.nominationPeriod.nominationPeriodId
             },
             employee: props.employeeOptions.find(e => e.value === props.performanceRecord.employees[0].employeeId),
-            comment: "this.props.performanceRecord.comment",
+            comment: "",
             rating: this.props.getInitValue(props.performanceRecord.kpiGroupIds).rating,
             ...this.props.getInitValue(props.performanceRecord.kpiGroupIds).comments
         };
@@ -134,9 +134,8 @@ export default class EditNomination extends Component {
             setFieldValue('comment', questions);
         };
 
-        const currentUser = this.props.currentUser;
-        const createdDate = moment(this.props.performanceRecord.createdDate);
-        const performanceRecord = this.props.performanceRecord;
+        const { currentUser, performanceRecord } = this.props;
+        const createdDate = moment(performanceRecord.createdDate);
         const scores = this.props.getInitValue(performanceRecord.kpiGroupIds).scores;
 
         return (
