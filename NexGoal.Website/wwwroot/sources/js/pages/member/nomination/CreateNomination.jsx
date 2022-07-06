@@ -63,10 +63,11 @@ export default class CreateNomination extends Component {
     };
 
     setInitial = kpiEoy => {
-        const comments = this.getInitial(kpiEoy).comments;
-        const rating = this.getInitial(kpiEoy).rating;
+        const { comments, rating } = this.getInitial(kpiEoy);
 
-        comments.forEach(item => { this.initialObj[item] = ''; });
+        comments.forEach(item => {
+            this.initialObj[item] = '';
+        });
         this.initialObj.rating = rating;
     };
 
