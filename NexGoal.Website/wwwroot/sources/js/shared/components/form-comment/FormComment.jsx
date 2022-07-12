@@ -37,6 +37,15 @@ export default class FormComment extends Component {
         };
     }
 
+    componentDidUpdate(prevProps) {
+        if (JSON.stringify(prevProps.scores) !== JSON.stringify(this.props.scores)) {
+            this.setState({
+                scores: this.props.scores,
+                rates: this.props.scores
+            });
+        }
+    }
+
     handleMouseOver = (star, index) => {
         const scores = [...this.state.scores];
         scores[index] = star;
@@ -105,7 +114,7 @@ export default class FormComment extends Component {
                                         className={`text-area ${touched[`${element.kpiId}`] && errors[`${element.kpiId}`] && inputErrorCssClass}`}
                                         rows="2"
                                         disabled={disabled}
-                                        defaultValue={values[`${element.kpiId}`]}
+                                        value={values[`${element.kpiId}`]}
                                         name={`${element.kpiId}`}
                                         onChange={handleChange}
                                     />
