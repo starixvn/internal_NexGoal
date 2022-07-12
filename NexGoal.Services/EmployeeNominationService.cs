@@ -112,7 +112,10 @@
                 RecordId = performanceRecordId
             };
 
-            return await nominationRepository.GetNominationByRecordIdAsync(criteria);
+            var record = await nominationRepository.GetMemberNominationAsync(criteria);
+            var groupRecord = GroupKPIPerformances(record);
+
+            return groupRecord.FirstOrDefault();
         }
 
         public async Task<IEnumerable<EmployeeNominationModel>> GetNominationResultAsync(int employeeId)
@@ -146,11 +149,19 @@
             {
                 ActorId = nominatorId
             };
-            IEnumerable<PerformanceRecord> records = await nominationRepository.GetMemberNominationAsync(criteria);
-            IEnumerable<PerformanceRecord> performanceRecords = GroupDataMemberPerformance(records);
-            IEnumerable<PerformanceRecord> groupRecordKpi = GroupKPIPerformance(performanceRecords);
+            var criteriaNew = new GetMemberNominationNewCriteria
+            {
+                ActorId = nominatorId
+            };
+            var records = await nominationRepository.GetMemberNominationAsync(criteria);
+            var performanceRecords = GroupDataMemberPerformance(records);
 
-            return groupRecordKpi;
+            var recordNews = await nominationRepository.GetMemberNominationAsync(criteriaNew);
+            var performanceRecordNews = GroupKPIPerformances(recordNews);
+
+            var selectRecords = performanceRecords.Where(p => !performanceRecordNews.Any(pn => pn.PerformanceRecordId == p.PerformanceRecordId));
+
+            return performanceRecordNews.Concat(selectRecords);
         }
 
         public async Task<IEnumerable<PerformanceRecord>> GetMemberNominationByIdAsync(int nominatorId, int memberId)
@@ -160,9 +171,10 @@
                 ActorId = nominatorId,
                 MemberId = memberId
             };
-            IEnumerable<PerformanceRecord> performanceRecords = await nominationRepository.GetMemberNominationAsync(criteria);
+            var performanceRecords = await nominationRepository.GetMemberNominationAsync(criteria);
+            var performanceRecordGroup = GroupKPIPerformances(performanceRecords);
 
-            return performanceRecords;
+            return performanceRecordGroup;
         }
 
         public async Task<IEnumerable<NominationModel>> GetNominationsByPeriodIdsAsync(string nominationPeriodIds, int? statusId = null)
@@ -217,7 +229,7 @@
             return records.OrderByDescending(x => x.CreatedDate);
         }
 
-        private static IEnumerable<PerformanceRecord> GroupKPIPerformance(IEnumerable<PerformanceRecord> performanceRecords)
+        private static IEnumerable<PerformanceRecord> GroupKPIPerformances(IEnumerable<PerformanceRecord> performanceRecords)
         {
             return performanceRecords.GroupBy(p => p.PerformanceRecordId).Select(k => new PerformanceRecord
             {

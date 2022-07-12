@@ -57,7 +57,7 @@ export default class PerformanceRecord extends Component {
 
     componentDidMount() {
         const record = this.props.data;
-        if (record && (record.typeId === PerformanceRecordType.PerformanceCheckin)) {
+        if (record && (record.typeId === PerformanceRecordType.PerformanceCheckin || record.typeId === PerformanceRecordType.Nomination)) {
             this.detectCollapseExpandComment();
         }
     }
@@ -293,6 +293,17 @@ export default class PerformanceRecord extends Component {
         );
     };
 
+    renderComment = (record, commentWrapperClass, expandCommentButtonClass) => {
+        return (
+            <p>
+                <p className={commentWrapperClass} ref={element => this.element = element}>{record.comment}</p>
+                {
+                    this.state.showCollapseExpandButton ? <span className={expandCommentButtonClass} onClick={this.collapseExpandComment} />  : null
+                }
+            </p>
+        )
+    };
+
     renderNomination = () => {
         const record = this.props.data;
         const { employees, creator } = record;
@@ -302,6 +313,13 @@ export default class PerformanceRecord extends Component {
         const currentDate = moment();
         const valuesComment = this.props.getInitValue(record.kpiGroupIds).comments;
         const scores = this.props.getInitValue(record.kpiGroupIds).scores;
+
+        let commentWrapperClass = 'expanded';
+        let expandCommentButtonClass = 'see-less';
+        if (this.state.isExpanded) {
+            commentWrapperClass = 'collapsed';
+            expandCommentButtonClass = 'see-more';
+        }
 
         return (
             <div className={`record ${this.getHighlightedCssClass()}`} id={`record-${record.performanceRecordId}`}>
@@ -341,13 +359,19 @@ export default class PerformanceRecord extends Component {
                     }
                 </div>
                 <div className="comment" >
-                    <FormComment
-                        kpiEoyQuestions={record.kpiGroupIds}
-                        values={valuesComment}
-                        scores={scores}
-                        disabled={true}
-                        onEvent={false}
-                    />
+                    {
+                        record.comment ? this.renderComment(record, commentWrapperClass, expandCommentButtonClass) :
+                        (
+                            <FormComment
+                                ref={element => this.element = element}
+                                kpiEoyQuestions={record.kpiGroupIds}
+                                values={valuesComment}
+                                scores={scores}
+                                disabled={true}
+                                onEvent={false}
+                            />
+                        )
+                    }
                 </div>
             </div >
         );
