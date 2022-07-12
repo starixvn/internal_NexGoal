@@ -26,7 +26,7 @@ BEGIN
 
 	CREATE TABLE #tblMember (MemberId INT)
 
-	CREATE TABLE #tblPerformanceRecord (
+	CREATE TABLE #tblPerformanceRecordNew (
 		PerformanceRecordId INT
 		,EmployeeId INT
 		,CreatorId INT
@@ -41,6 +41,8 @@ BEGIN
 		,Rate INT
 		,KPIId INT
 		,Comment NVARCHAR(MAX)
+		,Name NVARCHAR(MAX)
+		,KPIName NVARCHAR(MAX)
 		)
 
 	INSERT INTO #tblMember (MemberId)
@@ -48,7 +50,7 @@ BEGIN
 	FROM dbo.func_GetMember(@ActorId)
 	WHERE ProcessId IN (@PMProcessId, @EvaluatorProcessId, @ReviewerProcessId)
 
-	INSERT INTO #tblPerformanceRecord (
+	INSERT INTO #tblPerformanceRecordNew (
 		PerformanceRecordId
 		,EmployeeId
 		,CreatorId
@@ -63,6 +65,8 @@ BEGIN
 		,Rate
 		,KPIId
 		,Comment
+		,Name
+		,KPIName
 		)
 	SELECT pr.PerformanceRecordId
 		,pr.EmployeeId
@@ -82,16 +86,20 @@ BEGIN
 		,nkg.Rate
 		,nk.KPIId
 		,nk.Comment
+		,kpig.Name
+		,kpi.Name AS KPIName
 	FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
 		INNER JOIN dbo.NominationDetail AS nd WITH (NOLOCK) ON pr.PerformanceRecordId = nd.PerformanceRecordId
 		AND nd.NominatorId = @ActorId
 		INNER JOIN dbo.Nomination AS n WITH (NOLOCK) ON nd.NominationId = n.NominationId
 		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON n.EOQYId = period.EOQYId
 		AND period.StartDateForNominator <= @Today
-		INNER JOIN dbo.NominationKPIGroup as nkg ON nd.NominationId = nkg.NominationId 
+		INNER JOIN dbo.NominationKPIGroup AS nkg ON nd.NominationId = nkg.NominationId 
 		AND nd.NominatorId = nkg.NominatorId
-		INNER JOIn dbo.NominationKPI as nk ON nkg.KPIGroupId = nk.KPIGroupId 
+		INNER JOIn dbo.NominationKPI AS nk ON nkg.KPIGroupId = nk.KPIGroupId 
 		AND nkg.NominatorId = nk.NominatorId AND nkg.NominationId = nk.NominationId
+		INNER JOIN dbo.KPI AS kpi ON kpi.KPIId = nk.KPIId AND kpi.KPIGroupId = nk.KPIGroupId
+		INNER JOIN dbo.KPIGroup AS kpig ON kpig.KPIGroupId = kpi.KPIGroupId
 	WHERE pr.CreatorId = @ActorId
 		AND pr.TypeId = 3
 		AND pr.CreatorId = nkg.NominatorId
@@ -111,14 +119,18 @@ BEGIN
 		,nkg.Rate
 		,nk.KPIId
 		,nk.Comment
+		,kpig.Name
+		,kpi.Name AS KPIName
 	FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
 		INNER JOIN dbo.Nomination AS n WITH (NOLOCK) ON pr.PerformanceRecordId = n.PerformanceRecordId
 		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON n.EOQYId = period.EOQYId
 		AND period.EndDateForCommittee < @Today
 		INNER JOIN #tblMember AS member WITH (NOLOCK) ON n.NomineeId = member.MemberId
-		INNER JOIN dbo.NominationKPIGroup as nkg ON n.NominationId = nkg.NominationId
-		INNER JOIn dbo.NominationKPI as nk ON nkg.KPIGroupId = nk.KPIGroupId
+		INNER JOIN dbo.NominationKPIGroup AS nkg ON n.NominationId = nkg.NominationId
+		INNER JOIn dbo.NominationKPI AS nk ON nkg.KPIGroupId = nk.KPIGroupId
 		AND nkg.NominatorId = nk.NominatorId AND nkg.NominationId = nk.NominationId
+		INNER JOIN dbo.KPI AS kpi ON kpi.KPIId = nk.KPIId AND kpi.KPIGroupId = nk.KPIGroupId
+		INNER JOIN dbo.KPIGroup AS kpig ON kpig.KPIGroupId = kpi.KPIGroupId
 	WHERE pr.TypeId = 5
 
 
@@ -133,6 +145,8 @@ BEGIN
 		,record.Rate
 		,record.KPIId
 		,record.Comment
+		,record.Name
+		,record.KPIName
 		,emp.EmployeeId
 		,emp.NickName
 		,emp.FullName
@@ -147,7 +161,7 @@ BEGIN
 		,period.StartDateForNominator
 		,period.EndDateForNominator
 		,period.EndDateForCommittee
-	FROM #tblPerformanceRecord AS record WITH (NOLOCK)
+	FROM #tblPerformanceRecordNew AS record WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeId = emp.EmployeeId
 		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON record.NominationPeriodId = period.EOQYId
@@ -159,7 +173,7 @@ BEGIN
 		--	ELSE 4
 		--	END
 
-	DROP TABLE #tblPerformanceRecord
+	DROP TABLE #tblPerformanceRecordNew
 
 	DROP TABLE #tblMember
 END
