@@ -301,7 +301,7 @@ export default class PerformanceRecord extends Component {
                     this.state.showCollapseExpandButton ? <span className={expandCommentButtonClass} onClick={this.collapseExpandComment} />  : null
                 }
             </p>
-        )
+        );
     };
 
     renderNomination = () => {
