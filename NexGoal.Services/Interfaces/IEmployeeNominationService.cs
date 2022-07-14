@@ -11,7 +11,11 @@
     {
         Task<CommandResult> CreateAsync(CreateEmployeeNominationModel model);
 
+        Task<CommandResult> CreateNewAsync(CreateEmployeeNominationModel model);
+
         Task<CommandResult> EditAsync(EditEmployeeNominationModel model);
+
+        Task<CommandResult> EditNewAsync(EditEmployeeNominationModel model);
 
         Task<CommandResult> DeleteAsync(int performanceRecordId, int deletedById);
 
@@ -26,6 +30,8 @@
         Task<IEnumerable<PerformanceRecord>> GetMemberNominationByIdAsync(int nominatorId, int memberId);
 
         Task<PerformanceRecord> GetNominationByRecordIdAsync(int performanceRecordId);
+
+        Task<PerformanceRecord> GetNominationByRecordIdNewAsync(int performanceRecordId);
 
         Task<NominationPeriodModel> GetCurrentNominationPeriodForComitteeAsync(int committeeId, bool isQuarter);
 

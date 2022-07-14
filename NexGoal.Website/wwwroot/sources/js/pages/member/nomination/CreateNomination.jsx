@@ -9,6 +9,7 @@ import { Formik } from 'formik';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { InputErrorCssClass, PostRequestHeaders } from '../../../constants';
 import getResource from '../../../resourceHelper';
+import TextareaFullscreenEditor from '../../../shared/components/textarea-fullscreen/index';
 import FormComment from '../../../shared/components/form-comment/FormComment';
 
 export default class CreateNomination extends Component {
@@ -92,22 +93,32 @@ export default class CreateNomination extends Component {
     };
 
     handleSubmit = (values, { setErrors, setSubmitting }) => {
+        let url, dataCreate, isRecordNew;
+        const data = {
+            __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+            nominationPeriodId: values.period.value,
+            nomineeId: this.props.isEmployeeSelectable ? values.employee.value : this.props.nomineeId
+        };
+        if (values.period.quarter === null) {
+            url = resolveClientUrl(`MemberNomination/CreateNew`);
+            dataCreate = {...data, kpiNominations: this.props.getKpiNominations(values, this.state.kpiEoyQuestions) };
+            isRecordNew = true;
+        } else {
+            url = resolveClientUrl(`MemberNomination/Create`);
+            dataCreate = {...data, comment: values.comment.trim()};
+            isRecordNew = false;
+        }
         axios({
-            url: resolveClientUrl(`MemberNomination/Create`),
+            url: url,
             method: 'post',
-            data: stringify({
-                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                nominationPeriodId: values.period.value,
-                nomineeId: this.props.isEmployeeSelectable ? values.employee.value : this.props.nomineeId,
-                kpiNominations: this.props.getKpiNominations(values, this.state.kpiEoyQuestions)
-            }),
+            data: stringify(dataCreate),
             headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 
             if (data.isSuccessful) {
                 this.handleCloseForm();
-                this.props.onCreateSuccess(data.objectIds);
+                this.props.onCreateSuccess(data.objectIds, isRecordNew);
                 toast.success(getResource('CreatedSuccessfully'));
             } else {
                 if (data.errors) {
@@ -137,11 +148,17 @@ export default class CreateNomination extends Component {
             errors.employee = 'Employee is required!';
         }
 
-        comments.length > 0 && comments.forEach(item => {
-            if (!values[item] || values[item].trim() === '') {
-                errors[item] = 'Comment is required!';
+        if (values.period.quarter) {
+            if (!values.comment || values.comment.trim() === '') {
+                errors.comment = 'Comment is required!';
             }
-        });
+        } else {
+            comments.forEach(item => {
+                if (!values[item] || values[item].trim() === '') {
+                    errors[item] = 'Comment is required!';
+                }
+            });
+        }
 
         return errors;
     };
@@ -195,15 +212,27 @@ export default class CreateNomination extends Component {
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>{getResource('Comment')}</ControlLabel>
-                    <FormComment
-                        kpiEoyQuestions={this.state.kpiEoyQuestions}
-                        handleChange={handleChange}
-                        values={values}
-                        touched={touched}
-                        errors={errors}
-                        inputErrorCssClass={InputErrorCssClass}
-                        setFieldValue={setFieldValue}
-                    />
+                    {
+                        values.period === null || values.period.quarter ? (
+                            <TextareaFullscreenEditor
+                                className={`form-control comment-field ${touched.comment && errors.comment && InputErrorCssClass}`}
+                                name="comment"
+                                value={values.comment}
+                                onChange={handleChange}
+                            />
+                        ) :
+                        (
+                            <FormComment
+                                kpiEoyQuestions={this.state.kpiEoyQuestions}
+                                handleChange={handleChange}
+                                values={values}
+                                touched={touched}
+                                errors={errors}
+                                inputErrorCssClass={InputErrorCssClass}
+                                setFieldValue={setFieldValue}
+                            />
+                        )
+                    }
                 </FormGroup>
                 <FormGroup className="text-right">
                     <Button className="btn-cancel" onClick={this.handleCloseForm}>{getResource('Cancel')}</Button>

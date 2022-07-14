@@ -44,6 +44,27 @@
                     NominationPeriodId = model.NominationPeriodId,
                     NomineeId = model.NomineeId,
                     NominatorId = sessionService.EmployeeId,
+                    Comment = model.Comment
+                });
+
+                return Json(commandResult);
+            }
+
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
+
+            return Json(new { isSuccessful = false, errors });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> CreateNew(CreateEmployeeNominationViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                CommandResult commandResult = await employeeNominationService.CreateNewAsync(new CreateEmployeeNominationModel
+                {
+                    NominationPeriodId = model.NominationPeriodId,
+                    NomineeId = model.NomineeId,
+                    NominatorId = sessionService.EmployeeId,
                     KpiNominations = model.KpiNominations
                 });
 
@@ -61,6 +82,28 @@
             if (ModelState.IsValid)
             {
                 CommandResult commandResult = await employeeNominationService.EditAsync(new EditEmployeeNominationModel
+                {
+                    NominationPeriodId = model.NominationPeriodId,
+                    NomineeId = model.NomineeId,
+                    NominatorId = sessionService.EmployeeId,
+                    PerformanceRecordId = model.PerformanceRecordId,
+                    Comment = model.Comment
+                });
+
+                return Json(commandResult);
+            }
+
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
+
+            return Json(new { isSuccessful = false, errors });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> EditNew(EditEmployeeNominationViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                CommandResult commandResult = await employeeNominationService.EditNewAsync(new EditEmployeeNominationModel
                 {
                     NominationPeriodId = model.NominationPeriodId,
                     NomineeId = model.NomineeId,
@@ -105,6 +148,14 @@
         public async Task<IActionResult> GetByRecordId(int performanceRecordId)
         {
             PerformanceRecord performanceRecord = await employeeNominationService.GetNominationByRecordIdAsync(performanceRecordId);
+
+            return Json(performanceRecord);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetByRecordIdNew(int performanceRecordId)
+        {
+            PerformanceRecord performanceRecord = await employeeNominationService.GetNominationByRecordIdNewAsync(performanceRecordId);
 
             return Json(performanceRecord);
         }

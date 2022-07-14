@@ -45,9 +45,31 @@
                 StatusId = statusId
             };
 
-            IEnumerable<NominationModel> nominations = await repository.GetNominationByPeriodIdsAsync(criteria);
+            var criteriaNew = new GetNominationsNewCriteria
+            {
+                ActorId = actorId,
+                NominationPeriodIds = nominationPeriodIds,
+                GroupIds = groupIds,
+                EmployeeIds = employeeIds,
+                StatusId = statusId
+            };
 
-            return nominations.OrderByDescending(x => x.StatusId).ThenBy(x => x.Nominee.NickName);
+            var index = 0;
+            var nominations = await repository.GetNominationByPeriodIdsAsync(criteria);
+            var nominationsNew = await repository.GetNominationByPeriodIdsAsync(criteriaNew);
+
+            foreach (NominationModel nomination in nominations)
+            {
+                var nominatorNew = nominationsNew.ElementAt(index).Nominators;
+                var selected = nomination.Nominators.Where(p => !nominatorNew.Any(pn => pn.PerformanceRecordId == p.PerformanceRecordId));
+
+                nominatorNew = EmployeeNominationService.GroupKPIPerformances(nominatorNew);
+                nominationsNew.ElementAt(index).Nominators = nominatorNew.Concat(selected).OrderByDescending(x => x.CreatedDate);
+
+                index++;
+            }
+
+            return nominationsNew.OrderByDescending(x => x.StatusId).ThenBy(x => x.Nominee.NickName);
         }
     }
 }

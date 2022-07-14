@@ -10,6 +10,8 @@
 
         public int NominatorId { get; set; }
 
+        public string Comment { get; set; }
+
         public IEnumerable<KPINominationModel> KpiNominations { get; set; }
     }
 }

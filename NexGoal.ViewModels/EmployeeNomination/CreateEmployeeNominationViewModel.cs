@@ -11,7 +11,8 @@
         [Required]
         public int NomineeId { get; set; }
 
-        [Required]
+        public string Comment { get; set; }
+
         public IEnumerable<KPINominationModel> KpiNominations { get; set; }
     }
 }

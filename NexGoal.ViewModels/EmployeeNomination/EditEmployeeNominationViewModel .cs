@@ -14,7 +14,8 @@
         [Required]
         public int PerformanceRecordId { get; set; }
 
-        [Required]
+        public string Comment { get; set; }
+
         public IEnumerable<KPINominationModel> KpiNominations { get; set; }
     }
 }
