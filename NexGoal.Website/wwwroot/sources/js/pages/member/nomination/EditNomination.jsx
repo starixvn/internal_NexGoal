@@ -10,6 +10,7 @@ import moment from 'moment';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { InputErrorCssClass, DateFormat, PostRequestHeaders } from '../../../constants';
 import getResource from '../../../resourceHelper';
+import TextareaFullscreenEditor from '../../../shared/components/textarea-fullscreen/index';
 import FormComment from '../../../shared/components/form-comment/FormComment';
 
 export default class EditNomination extends Component {
@@ -26,6 +27,7 @@ export default class EditNomination extends Component {
                 label: props.performanceRecord.nominationPeriod.title,
                 value: props.performanceRecord.nominationPeriod.nominationPeriodId
             },
+            comment: this.props.performanceRecord.comment,
             employee: props.employeeOptions.find(e => e.value === props.performanceRecord.employees[0].employeeId),
             rating: this.props.getInitValue(props.performanceRecord.kpiGroupIds).rating,
             ...this.props.getInitValue(props.performanceRecord.kpiGroupIds).comments
@@ -69,32 +71,49 @@ export default class EditNomination extends Component {
         const errors = {};
         const comments = Object.keys(this.props.getInitValue(this.props.performanceRecord.kpiGroupIds).comments);
 
-        comments.length > 0 && comments.forEach(item => {
-            if (!values[item] || values[item].trim() === '') {
-                errors[item] = 'Comment is required!';
-            }
-        });
+        if (comments.length > 0) {
+            comments.forEach(item => {
+                if (!values[item] || values[item].trim() === '') {
+                    errors[item] = 'Comment is required!';
+                }
+            });
+        }
+
+        if ((!values.comment || values.comment.trim() === '') && comments.length === 0) {
+            errors.comment = 'Comment is required!';
+        }
 
         return errors;
     };
 
     handleSubmit = (values, { setErrors, setSubmitting }) => {
+        let url, dataEdit, isRecordNew;
+        const data = {
+            __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+            performanceRecordId: this.props.performanceRecord.performanceRecordId,
+            nominationPeriodId: values.period.value,
+            nomineeId: values.employee.value
+        };
+        if (values.comment === null) {
+            url = resolveClientUrl(`MemberNomination/EditNew`);
+            dataEdit = {...data, kpiNominations: this.props.getKpiNominations(values, this.props.performanceRecord.kpiGroupIds) };
+            isRecordNew = true;
+        } else {
+            url = resolveClientUrl(`MemberNomination/Edit`);
+            dataEdit = {...data, comment: values.comment.trim()};
+            isRecordNew = false;
+        }
+
         axios({
-            url: resolveClientUrl(`MemberNomination/Edit`),
+            url: url,
             method: 'post',
-            data: stringify({
-                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                performanceRecordId: this.props.performanceRecord.performanceRecordId,
-                nominationPeriodId: values.period.value,
-                nomineeId: values.employee.value,
-                kpiNominations: this.props.getKpiNominations(values, this.props.performanceRecord.kpiGroupIds)
-            }),
+            data: stringify(dataEdit),
             headers: PostRequestHeaders
         }).then(response => {
             const data = response.data;
 
             if (data.isSuccessful) {
-                this.props.onEditSuccess(this.props.performanceRecord.performanceRecordId);
+                this.props.onEditSuccess(this.props.performanceRecord.performanceRecordId, isRecordNew);
                 toast.success(getResource('UpdatedSuccessfully'));
             } else {
                 if (data.errors) {
@@ -179,16 +198,28 @@ export default class EditNomination extends Component {
                             </FormGroup>
                             <FormGroup>
                                 <ControlLabel>{getResource('Comment')}</ControlLabel>
-                                <FormComment
-                                    kpiEoyQuestions={performanceRecord.kpiGroupIds}
-                                    values={values}
-                                    scores={scores}
-                                    handleChange={handleChange}
-                                    setFieldValue={setFieldValue}
-                                    touched={touched}
-                                    errors={errors}
-                                    inputErrorCssClass={InputErrorCssClass}
-                                />
+                                {
+                                    performanceRecord.comment ? (
+                                        <TextareaFullscreenEditor
+                                            className={`form-control comment-field ${touched.comment && errors.comment && InputErrorCssClass}`}
+                                            name="comment"
+                                            value={values.comment}
+                                            onChange={handleChange}
+                                        />
+                                    ) :
+                                    (
+                                        <FormComment
+                                            kpiEoyQuestions={performanceRecord.kpiGroupIds}
+                                            values={values}
+                                            scores={scores}
+                                            handleChange={handleChange}
+                                            setFieldValue={setFieldValue}
+                                            touched={touched}
+                                            errors={errors}
+                                            inputErrorCssClass={InputErrorCssClass}
+                                        />
+                                    )
+                                }
                             </FormGroup>
                         </div>
                     </div>

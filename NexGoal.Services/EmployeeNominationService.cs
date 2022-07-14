@@ -31,12 +31,29 @@
 
         public async Task<CommandResult> CreateAsync(CreateEmployeeNominationModel model)
         {
+            var criteria = new CreateEmployeeNominationCriteria
+            {
+                NominationPeriodId = model.NominationPeriodId,
+                NominatorId = model.NominatorId,
+                NomineeId = model.NomineeId,
+                Comment = commonService.RemoveInvalidXmlChars(model.Comment)
+            };
+
+            var commandResult = await baseService.ExecuteNonQueryAsync(criteria);
+            commandResult.ObjectIds = criteria.PerformanceRecordId.ToString();
+
+            return commandResult;
+
+        }
+
+        public async Task<CommandResult> CreateNewAsync(CreateEmployeeNominationModel model)
+        {
             foreach (var kpi in model.KpiNominations)
             {
                 kpi.Comment = commonService.RemoveInvalidXmlChars(kpi.Comment);
             }
 
-            var criteria = new CreateEmployeeNominationCriteria
+            var criteria = new CreateEmployeeNominationNewCriteria
             {
                 NominationPeriodId = model.NominationPeriodId,
                 NominatorId = model.NominatorId,
@@ -52,12 +69,28 @@
 
         public async Task<CommandResult> EditAsync(EditEmployeeNominationModel model)
         {
+            var criteria = new EditEmployeeNominationCriteria
+            {
+                NominationPeriodId = model.NominationPeriodId,
+                NominatorId = model.NominatorId,
+                NomineeId = model.NomineeId,
+                Comment = commonService.RemoveInvalidXmlChars(model.Comment),
+                PerformanceRecordId = model.PerformanceRecordId,
+            };
+
+            var commandResult = await baseService.ExecuteNonQueryAsync(criteria);
+
+            return commandResult;
+        }
+
+        public async Task<CommandResult> EditNewAsync(EditEmployeeNominationModel model)
+        {
             foreach (var kpi in model.KpiNominations)
             {
                 kpi.Comment = commonService.RemoveInvalidXmlChars(kpi.Comment);
             }
 
-            var criteria = new EditEmployeeNominationCriteria
+            var criteria = new EditEmployeeNominationNewCriteria
             {
                 NominationPeriodId = model.NominationPeriodId,
                 NominatorId = model.NominatorId,
@@ -108,6 +141,17 @@
         public async Task<PerformanceRecord> GetNominationByRecordIdAsync(int performanceRecordId)
         {
             var criteria = new GetNominationByRecordIdCriteria
+            {
+                RecordId = performanceRecordId
+            };
+
+            return await nominationRepository.GetNominationByRecordIdAsync(criteria);
+        }
+
+        public async Task<PerformanceRecord> GetNominationByRecordIdNewAsync(int performanceRecordId)
+        {
+
+            var criteria = new GetNominationByRecordIdNewCriteria
             {
                 RecordId = performanceRecordId
             };
@@ -229,7 +273,7 @@
             return records.OrderByDescending(x => x.CreatedDate);
         }
 
-        private static IEnumerable<PerformanceRecord> GroupKPIPerformances(IEnumerable<PerformanceRecord> performanceRecords)
+        public static IEnumerable<PerformanceRecord> GroupKPIPerformances(IEnumerable<PerformanceRecord> performanceRecords)
         {
             return performanceRecords.GroupBy(p => p.PerformanceRecordId).Select(k => new PerformanceRecord
             {

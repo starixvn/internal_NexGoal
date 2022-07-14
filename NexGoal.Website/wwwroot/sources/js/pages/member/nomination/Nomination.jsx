@@ -62,8 +62,11 @@ export default class Nomination extends Component {
         }).catch(axiosError);
     }
 
-    handleCreateNominationSuccess = performanceRecordId => {
-        axios.get(resolveClientUrl('MemberNomination/GetByRecordId'), {
+    handleCreateNominationSuccess = (performanceRecordId, isRecordNew) => {
+        const urlGetRecordIdNew = resolveClientUrl('MemberNomination/GetByRecordIdNew');
+        const urlGetRecordId = resolveClientUrl('MemberNomination/GetByRecordId');
+
+        axios.get(isRecordNew ? urlGetRecordIdNew : urlGetRecordId, {
             params: {
                 performanceRecordId: performanceRecordId
             }
@@ -78,8 +81,11 @@ export default class Nomination extends Component {
         }).catch(axiosError);
     };
 
-    handleEditNominationSuccess = performanceRecordId => {
-        axios.get(resolveClientUrl('MemberNomination/GetByRecordId'), {
+    handleEditNominationSuccess = (performanceRecordId, isRecordNew) => {
+        const urlGetRecordId = resolveClientUrl('MemberNomination/GetByRecordId');
+        const urlGetRecordIdNew = resolveClientUrl('MemberNomination/GetByRecordIdNew');
+
+        axios.get(isRecordNew ? urlGetRecordIdNew : urlGetRecordId, {
             params: {
                 performanceRecordId: performanceRecordId
             }

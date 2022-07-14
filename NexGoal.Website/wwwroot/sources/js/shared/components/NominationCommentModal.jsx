@@ -3,6 +3,7 @@ import { Button, Modal, Tab, Nav, NavItem } from 'react-bootstrap';
 
 import getResource from '../../resourceHelper';
 import CustomScrollbars from './CustomScrollbars';
+import FormComment from './form-comment/FormComment';
 
 export default class NominationCommentModal extends PureComponent {
     handleScrollLeft = () => {
@@ -19,6 +20,19 @@ export default class NominationCommentModal extends PureComponent {
 
     handleMouseUp = () => {
         clearInterval(this.scrolllInterval);
+    };
+
+    getInitValue = kpiEoy => {
+        const comments = {}, scores = [];
+        if (kpiEoy && kpiEoy.length > 0) {
+            kpiEoy.forEach(item => {
+                scores.push(item.rate);
+                item.kpis.forEach(element => {
+                    comments[element.kpiId] = element.comment;
+                });
+            });
+        }
+        return { comments, scores };
     };
 
     render() {
@@ -57,9 +71,22 @@ export default class NominationCommentModal extends PureComponent {
                                         nominators.map(n =>
                                             <Tab.Pane key={n.performanceRecordId} eventKey={n.performanceRecordId}>
                                                 <CustomScrollbars>
-                                                    <p className="comment">
-                                                        {n.comment}
-                                                    </p>
+                                                    {
+                                                        n.comment ? (
+                                                            <p className="comment">
+                                                                {n.comment}
+                                                            </p>
+                                                        ) :
+                                                        (
+                                                            <FormComment
+                                                                kpiEoyQuestions={n.kpiGroupIds}
+                                                                values={this.getInitValue(n.kpiGroupIds).comments}
+                                                                scores={this.getInitValue(n.kpiGroupIds).scores}
+                                                                disabled={true}
+                                                                onEvent={false}
+                                                            />
+                                                        )
+                                                    }
                                                 </CustomScrollbars>
                                             </Tab.Pane>
                                         )
