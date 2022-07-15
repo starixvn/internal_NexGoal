@@ -93,6 +93,7 @@ export default class CreateNomination extends Component {
     };
 
     handleSubmit = (values, { setErrors, setSubmitting }) => {
+        console.log('l', this.props.getKpiNominations(values, this.state.kpiEoyQuestions));
         let url, dataCreate, isRecordNew;
         const data = {
             __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -100,7 +101,7 @@ export default class CreateNomination extends Component {
             nomineeId: this.props.isEmployeeSelectable ? values.employee.value : this.props.nomineeId
         };
         if (values.period.quarter === null) {
-            url = resolveClientUrl(`MemberNomination/CreateNew`);
+            url = resolveClientUrl(`MemberNomination/CreateEoy`);
             dataCreate = {...data, kpiNominations: this.props.getKpiNominations(values, this.state.kpiEoyQuestions) };
             isRecordNew = true;
         } else {

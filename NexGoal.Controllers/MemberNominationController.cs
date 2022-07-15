@@ -56,11 +56,11 @@
         }
 
         [HttpPost]
-        public async Task<JsonResult> CreateNew(CreateEmployeeNominationViewModel model)
+        public async Task<JsonResult> CreateEoy(CreateEmployeeNominationViewModel model)
         {
             if (ModelState.IsValid)
             {
-                CommandResult commandResult = await employeeNominationService.CreateNewAsync(new CreateEmployeeNominationModel
+                CommandResult commandResult = await employeeNominationService.CreateEoyAsync(new CreateEmployeeNominationModel
                 {
                     NominationPeriodId = model.NominationPeriodId,
                     NomineeId = model.NomineeId,
@@ -99,11 +99,11 @@
         }
 
         [HttpPost]
-        public async Task<JsonResult> EditNew(EditEmployeeNominationViewModel model)
+        public async Task<JsonResult> EditEoy(EditEmployeeNominationViewModel model)
         {
             if (ModelState.IsValid)
             {
-                CommandResult commandResult = await employeeNominationService.EditNewAsync(new EditEmployeeNominationModel
+                CommandResult commandResult = await employeeNominationService.EditEoyAsync(new EditEmployeeNominationModel
                 {
                     NominationPeriodId = model.NominationPeriodId,
                     NomineeId = model.NomineeId,
@@ -153,9 +153,9 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetByRecordIdNew(int performanceRecordId)
+        public async Task<IActionResult> GetByRecordIdEoy(int performanceRecordId)
         {
-            PerformanceRecord performanceRecord = await employeeNominationService.GetNominationByRecordIdNewAsync(performanceRecordId);
+            PerformanceRecord performanceRecord = await employeeNominationService.GetNominationByRecordIdEoyAsync(performanceRecordId);
 
             return Json(performanceRecord);
         }

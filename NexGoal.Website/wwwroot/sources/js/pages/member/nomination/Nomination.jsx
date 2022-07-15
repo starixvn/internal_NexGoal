@@ -63,7 +63,7 @@ export default class Nomination extends Component {
     }
 
     handleCreateNominationSuccess = (performanceRecordId, isRecordNew) => {
-        const urlGetRecordIdNew = resolveClientUrl('MemberNomination/GetByRecordIdNew');
+        const urlGetRecordIdNew = resolveClientUrl('MemberNomination/GetByRecordIdEoy');
         const urlGetRecordId = resolveClientUrl('MemberNomination/GetByRecordId');
 
         axios.get(isRecordNew ? urlGetRecordIdNew : urlGetRecordId, {
@@ -83,7 +83,7 @@ export default class Nomination extends Component {
 
     handleEditNominationSuccess = (performanceRecordId, isRecordNew) => {
         const urlGetRecordId = resolveClientUrl('MemberNomination/GetByRecordId');
-        const urlGetRecordIdNew = resolveClientUrl('MemberNomination/GetByRecordIdNew');
+        const urlGetRecordIdNew = resolveClientUrl('MemberNomination/GetByRecordIdEoy');
 
         axios.get(isRecordNew ? urlGetRecordIdNew : urlGetRecordId, {
             params: {
