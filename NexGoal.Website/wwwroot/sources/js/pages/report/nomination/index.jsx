@@ -17,9 +17,6 @@ export default class NominationReport extends Component {
     }
 
     handleShowNominatorComment = (nomination, performanceRecordId, period) => {
-        console.log('nomination', nomination);
-        console.log('performanceRecordId', performanceRecordId);
-        console.log('period', period);
         this.setState({
             showModal: true,
             nomination: nomination,

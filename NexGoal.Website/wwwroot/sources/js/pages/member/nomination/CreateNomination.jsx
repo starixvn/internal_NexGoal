@@ -93,7 +93,6 @@ export default class CreateNomination extends Component {
     };
 
     handleSubmit = (values, { setErrors, setSubmitting }) => {
-        console.log('l', this.props.getKpiNominations(values, this.state.kpiEoyQuestions));
         let url, dataCreate, isRecordNew;
         const data = {
             __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,

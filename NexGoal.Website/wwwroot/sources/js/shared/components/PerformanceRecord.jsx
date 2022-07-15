@@ -367,8 +367,8 @@ export default class PerformanceRecord extends Component {
                                 kpiEoyQuestions={record.kpiGroupIds}
                                 values={valuesComment}
                                 scores={scores}
-                                disabled={true}
-                                onEvent={false}
+                                isDisabled={true}
+                                isAction={false}
                             />
                         )
                     }

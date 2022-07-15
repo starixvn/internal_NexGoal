@@ -14,8 +14,8 @@ export default class FormComment extends Component {
         errors: PropTypes.object,
         inputErrorCssClass: PropTypes.string,
         setFieldValue: PropTypes.func,
-        onEvent: PropTypes.bool,
-        disabled: PropTypes.bool
+        isAction: PropTypes.bool,
+        isDisabled: PropTypes.bool
     };
 
     static defaultProps = {
@@ -25,8 +25,8 @@ export default class FormComment extends Component {
         touched: {},
         errors: {},
         inputErrorCssClass: 'none',
-        onEvent: true,
-        disabled: false
+        isAction: true,
+        isDisabled: false
     };
 
     constructor (props) {
@@ -82,13 +82,13 @@ export default class FormComment extends Component {
     renderStar = index => {
         const stars = [1, 2, 3, 4, 5];
         const scores = this.state.scores;
-        const onEvent = this.props.onEvent;
+        const isAction = this.props.isAction;
 
         return stars.map((item, key) => (
             <span className="star" key={key}
-                onMouseOver={() => onEvent && this.handleMouseOver(item, index)}
-                onMouseLeave={() => onEvent && this.handleMouseLeave()}
-                onClick={() => onEvent && this.handleClick(item, index)}
+                onMouseOver={() => isAction && this.handleMouseOver(item, index)}
+                onMouseLeave={() => isAction && this.handleMouseLeave()}
+                onClick={() => isAction && this.handleClick(item, index)}
             >
                 <span className="layer-one"><i className="fa fa-star fa-lg" /></span>
                 <span className="layer-two" style={ scores[index] >= item ? null : {visibility: 'hidden', display: 'none'}}><i className="fa fa-star fa-lg" /></span>
@@ -97,7 +97,7 @@ export default class FormComment extends Component {
     };
 
     render() {
-        const { kpiEoyQuestions, values, touched, errors, inputErrorCssClass, handleChange, disabled, onEvent } = this.props;
+        const { kpiEoyQuestions, values, touched, errors, inputErrorCssClass, handleChange, isDisabled, isAction } = this.props;
         if (!kpiEoyQuestions) {
             return null;
         }
@@ -116,7 +116,7 @@ export default class FormComment extends Component {
                                     <textarea
                                         className={`text-area ${touched[`${element.kpiId}`] && errors[`${element.kpiId}`] && inputErrorCssClass}`}
                                         rows="2"
-                                        disabled={disabled}
+                                        disabled={isDisabled}
                                         value={values[`${element.kpiId}`]}
                                         name={`${element.kpiId}`}
                                         onChange={handleChange}
@@ -134,7 +134,7 @@ export default class FormComment extends Component {
                             kpiEoyQuestions.map((item, index) => (
                                 <div className="full-star" key={index}>
                                     <span className="criteria">{item.name}</span>
-                                    { onEvent && <span className="clear" onClick={() => this.handleClearStar(index)}><i className="fa fa-times-circle-o" /></span> }
+                                    { isAction && <span className="clear" onClick={() => this.handleClearStar(index)}><i className="fa fa-times-circle-o" /></span> }
                                     { this.renderStar(index) }
                                 </div>
                             ))
