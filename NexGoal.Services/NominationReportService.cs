@@ -45,7 +45,7 @@
                 StatusId = statusId
             };
 
-            var criteriaNew = new GetNominationsNewCriteria
+            var criteriaNew = new GetNominationsEoyCriteria
             {
                 ActorId = actorId,
                 NominationPeriodIds = nominationPeriodIds,

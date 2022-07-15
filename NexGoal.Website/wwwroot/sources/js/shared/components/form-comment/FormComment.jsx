@@ -72,8 +72,11 @@ export default class FormComment extends Component {
     handleClearStar = index => {
         const scores = [...this.state.scores];
         scores[index] = 0;
+        const rating = [...this.props.values.rating];
+        rating[index].rate = 0;
 
         this.setState({ scores: scores, rates: scores });
+        this.props.setFieldValue('rating', rating);
     };
 
     renderStar = index => {

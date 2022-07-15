@@ -46,14 +46,14 @@
 
         }
 
-        public async Task<CommandResult> CreateNewAsync(CreateEmployeeNominationModel model)
+        public async Task<CommandResult> CreateEoyAsync(CreateEmployeeNominationModel model)
         {
             foreach (var kpi in model.KpiNominations)
             {
                 kpi.Comment = commonService.RemoveInvalidXmlChars(kpi.Comment);
             }
 
-            var criteria = new CreateEmployeeNominationNewCriteria
+            var criteria = new CreateEmployeeNominationEoyCriteria
             {
                 NominationPeriodId = model.NominationPeriodId,
                 NominatorId = model.NominatorId,
@@ -83,14 +83,14 @@
             return commandResult;
         }
 
-        public async Task<CommandResult> EditNewAsync(EditEmployeeNominationModel model)
+        public async Task<CommandResult> EditEoyAsync(EditEmployeeNominationModel model)
         {
             foreach (var kpi in model.KpiNominations)
             {
                 kpi.Comment = commonService.RemoveInvalidXmlChars(kpi.Comment);
             }
 
-            var criteria = new EditEmployeeNominationNewCriteria
+            var criteria = new EditEmployeeNominationEoyCriteria
             {
                 NominationPeriodId = model.NominationPeriodId,
                 NominatorId = model.NominatorId,
@@ -148,10 +148,10 @@
             return await nominationRepository.GetNominationByRecordIdAsync(criteria);
         }
 
-        public async Task<PerformanceRecord> GetNominationByRecordIdNewAsync(int performanceRecordId)
+        public async Task<PerformanceRecord> GetNominationByRecordIdEoyAsync(int performanceRecordId)
         {
 
-            var criteria = new GetNominationByRecordIdNewCriteria
+            var criteria = new GetNominationByRecordIdEoyCriteria
             {
                 RecordId = performanceRecordId
             };
@@ -193,19 +193,19 @@
             {
                 ActorId = nominatorId
             };
-            var criteriaNew = new GetMemberNominationNewCriteria
+            var criteriaEoy = new GetMemberNominationEoyCriteria
             {
                 ActorId = nominatorId
             };
             var records = await nominationRepository.GetMemberNominationAsync(criteria);
             var performanceRecords = GroupDataMemberPerformance(records);
 
-            var recordNews = await nominationRepository.GetMemberNominationAsync(criteriaNew);
-            var performanceRecordNews = GroupKPIPerformances(recordNews);
+            var recordEoys = await nominationRepository.GetMemberNominationAsync(criteriaEoy);
+            var performanceRecordEoys = GroupKPIPerformances(recordEoys);
 
-            var selectRecords = performanceRecords.Where(p => !performanceRecordNews.Any(pn => pn.PerformanceRecordId == p.PerformanceRecordId));
+            var selectRecords = performanceRecords.Where(p => !performanceRecordEoys.Any(pn => pn.PerformanceRecordId == p.PerformanceRecordId));
 
-            return performanceRecordNews.Concat(selectRecords);
+            return performanceRecordEoys.Concat(selectRecords);
         }
 
         public async Task<IEnumerable<PerformanceRecord>> GetMemberNominationByIdAsync(int nominatorId, int memberId)

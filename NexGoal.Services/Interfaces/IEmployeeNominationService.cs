@@ -11,11 +11,11 @@
     {
         Task<CommandResult> CreateAsync(CreateEmployeeNominationModel model);
 
-        Task<CommandResult> CreateNewAsync(CreateEmployeeNominationModel model);
+        Task<CommandResult> CreateEoyAsync(CreateEmployeeNominationModel model);
 
         Task<CommandResult> EditAsync(EditEmployeeNominationModel model);
 
-        Task<CommandResult> EditNewAsync(EditEmployeeNominationModel model);
+        Task<CommandResult> EditEoyAsync(EditEmployeeNominationModel model);
 
         Task<CommandResult> DeleteAsync(int performanceRecordId, int deletedById);
 
@@ -31,7 +31,7 @@
 
         Task<PerformanceRecord> GetNominationByRecordIdAsync(int performanceRecordId);
 
-        Task<PerformanceRecord> GetNominationByRecordIdNewAsync(int performanceRecordId);
+        Task<PerformanceRecord> GetNominationByRecordIdEoyAsync(int performanceRecordId);
 
         Task<NominationPeriodModel> GetCurrentNominationPeriodForComitteeAsync(int committeeId, bool isQuarter);
 

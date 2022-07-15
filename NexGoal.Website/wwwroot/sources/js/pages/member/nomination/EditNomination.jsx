@@ -95,7 +95,7 @@ export default class EditNomination extends Component {
             nomineeId: values.employee.value
         };
         if (values.comment === null) {
-            url = resolveClientUrl(`MemberNomination/EditNew`);
+            url = resolveClientUrl(`MemberNomination/EditEoy`);
             dataEdit = {...data, kpiNominations: this.props.getKpiNominations(values, this.props.performanceRecord.kpiGroupIds) };
             isRecordNew = true;
         } else {

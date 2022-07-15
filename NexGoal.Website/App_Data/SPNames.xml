@@ -133,13 +133,13 @@
   <Function Name="Employee Nomination">
     <Setting Key="Nomination_GetPeriodsForNominator" SpName="Nomination_GetPeriodsForNominator" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_Insert" SpName="Nomination_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="Nomination_Insert_New" SpName="Nomination_Insert_xtest" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Nomination_Insert_Eoy" SpName="Nomination_Insert_xtest" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_GetMemberNomination" SpName="Nomination_GetMemberNomination" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="Nomination_GetMemberNomination_New" SpName="Nomination_GetMemberNomination_xtest" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Nomination_GetMemberNomination_Eoy" SpName="Nomination_GetMemberNomination_xtest" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_GetByRecordId" SpName="Nomination_GetByRecordId" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="Nomination_GetByRecordId_New" SpName="Nomination_GetByRecordId_xtest" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Nomination_GetByRecordId_Eoy" SpName="Nomination_GetByRecordId_xtest" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_Update" SpName="Nomination_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="Nomination_Update_New" SpName="Nomination_Update_xtest" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Nomination_Update_Eoy" SpName="Nomination_Update_xtest" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_GetPeriodsForCommittee" SpName="Nomination_GetPeriodsForCommittee" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_GetByPeriodIds" SpName="Nomination_GetByPeriodIds" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_UpdateStatus" SpName="Nomination_UpdateStatus" DbName="bodb_NexGoal" Plain="0"></Setting>
@@ -167,7 +167,7 @@
   <Function Name="Nomination Report">
     <Setting Key="NominationReport_GetPeriods" SpName="NominationReport_GetPeriods" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="NominationReport_Get" SpName="NominationReport_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="NominationReport_Get_New" SpName="NominationReport_Get_xtest" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="NominationReport_Get_Eoy" SpName="NominationReport_Get_xtest" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Master Report">
     <Setting Key="MasterReport_Get" SpName="MasterReport_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
