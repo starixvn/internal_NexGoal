@@ -82,8 +82,8 @@ export default class NominationCommentModal extends PureComponent {
                                                                 kpiEoyQuestions={n.kpiGroupIds}
                                                                 values={this.getInitValue(n.kpiGroupIds).comments}
                                                                 scores={this.getInitValue(n.kpiGroupIds).scores}
-                                                                disabled={true}
-                                                                onEvent={false}
+                                                                isDisabled={true}
+                                                                isAction={false}
                                                             />
                                                         )
                                                     }
