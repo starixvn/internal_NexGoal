@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using AutoFixture;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
@@ -33,6 +34,19 @@
         }
 
         [Fact]
+        public async Task CreateEoyAsync_ValidData_ReturnExpectedCommandResult()
+        {
+            var fixture = new Fixture();
+            var model = fixture.Create<CreateEmployeeNominationModel>();
+            var service = GetService();
+            baseService.ExecuteNonQueryAsync(Arg.Any<CreateEmployeeNominationEoyCriteria>()).Returns(new CommandResult { Code = 0 });
+
+            var result = await service.CreateEoyAsync(model);
+
+            Assert.True(result.IsSuccessful);
+        }
+
+        [Fact]
         public async Task DeleteAsync_ValidData_ReturnExpectedCommandResult()
         {
             var service = GetService();
@@ -52,6 +66,20 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<EditEmployeeNominationCriteria>()).Returns(new CommandResult { Code = 0 });
 
             var result = await service.EditAsync(new EditEmployeeNominationModel());
+
+            Assert.True(result.IsSuccessful);
+        }
+
+        [Fact]
+        public async Task EditEoyAsync_ValidData_ReturnExpectedCommandResult()
+        {
+            var fixture = new Fixture();
+            var model = fixture.Create<EditEmployeeNominationModel>();
+            var service = GetService();
+
+            baseService.ExecuteNonQueryAsync(Arg.Any<EditEmployeeNominationCriteria>()).Returns(new CommandResult { Code = 0 });
+
+            var result = await service.EditEoyAsync(model);
 
             Assert.True(result.IsSuccessful);
         }
@@ -135,60 +163,53 @@
         }
 
         [Fact]
+        public async Task GetNominationByRecordIdEoyAsync_ValidData_ReturnExpectedResult()
+        {
+            // Arrange
+            var fixture = new Fixture();
+            var performanceRecord = fixture.Create<PerformanceRecord>();
+            var service = GetService();
+
+            nominationRepository.GetNominationByRecordIdAsync(Arg.Any<GetNominationByRecordIdCriteria>()).Returns(performanceRecord);
+
+            // Act
+            var actual = await service.GetNominationByRecordIdAsync(1);
+
+            // Assert
+            Assert.Equal(performanceRecord, actual);
+        }
+
+        [Fact]
         public async Task GetMemberNominationAsync_ValidData_ReturnExpectedResult()
         {
             // Arrange
-            var employees = new List<Employee>
-            {
-                new Employee { EmployeeId = 2, NickName = "elton" },
-                new Employee { EmployeeId = 3, NickName = "oliver" }
-            };
             var performanceRecords = new List<PerformanceRecord> {
                 new PerformanceRecord
                 {
                     PerformanceRecordId = 1,
                     NominationPeriod = new NominationPeriodModel { NominationPeriodId = 1, Quarter = 4, Year = 2018 },
                     TypeId = (int)PerformanceRecordType.Nomination
-                },
+                }
+            };
+
+            var performanceRecordEoys = new List<PerformanceRecord> {
                 new PerformanceRecord
                 {
                     PerformanceRecordId = 2,
-                    Employees = new List<Employee>{ new Employee { EmployeeId = 2, NickName = "elton" } },
-                    NominationPeriod = new NominationPeriodModel { NominationPeriodId = 2, Year = 2018 },
-                    NominationStatusId = 2,
-                    TypeId = (int)PerformanceRecordType.SystemNomination
-                },
-                new PerformanceRecord
-                {
-                    PerformanceRecordId = 3,
-                    Employees = new List<Employee>{ new Employee { EmployeeId = 3, NickName = "oliver" } },
-                    NominationPeriod = new NominationPeriodModel { NominationPeriodId = 2, Year = 2018 },
-                    NominationStatusId = 2,
-                    TypeId = (int)PerformanceRecordType.SystemNomination
+                    NominationPeriod = new NominationPeriodModel { NominationPeriodId = 1, Quarter = 4, Year = 2022 },
+                    TypeId = (int)PerformanceRecordType.Nomination
                 }
             };
+
             var service = GetService();
             nominationRepository.GetMemberNominationAsync(Arg.Any<GetMemberNominationCriteria>()).Returns(performanceRecords);
+            nominationRepository.GetMemberNominationAsync(Arg.Any<GetMemberNominationEoyCriteria>()).Returns(performanceRecordEoys);
 
             // Act
             var result = await service.GetMemberNominationAsync(1);
 
             // Assert
             Assert.Equal(2, result.Count());
-            Assert.Equal(performanceRecords[0], result.First());
-            Assert.Equal(performanceRecords[1], result.ElementAt(1));
-            Assert.Collection(result.ElementAt(1).Employees.ToList(),
-                elem1 =>
-                {
-                    Assert.Equal(employees[0].EmployeeId, elem1.EmployeeId);
-                    Assert.Equal(employees[0].NickName, elem1.NickName);
-                },
-                elem2 =>
-                {
-                    Assert.Equal(employees[1].EmployeeId, elem2.EmployeeId);
-                    Assert.Equal(employees[1].NickName, elem2.NickName);
-                }
-            );
         }
 
         [Fact]

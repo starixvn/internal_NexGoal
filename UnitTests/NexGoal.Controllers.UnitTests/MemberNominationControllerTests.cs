@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using AutoFixture;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Models;
     using NexGoal.Models.Common;
@@ -81,6 +82,43 @@
             Assert.Equal(expected, commandResult);
         }
 
+        [Fact]
+        public async Task CreateEoy_InvalidData_ReturnErrors()
+        {
+            // Arrange
+            var controller = GetController();
+            controller.ModelState.AddModelError(nameof(CreateEmployeeNominationViewModel.NomineeId), "Nominee is required");
+
+            // Act
+            var result = await controller.CreateEoy(new CreateEmployeeNominationViewModel());
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            Assert.False((bool)jsonResult.Value.GetType().GetProperty("isSuccessful").GetValue(jsonResult.Value));
+        }
+
+        [Fact]
+        public async Task CreateEoy_ValidData_ReturnAsExpectedCommandResult()
+        {
+            // Arrange
+            var fixture = new Fixture();
+            var model = fixture.Create<CreateEmployeeNominationModel>();
+            var modelView = fixture.Create<CreateEmployeeNominationViewModel>();
+            var expected = new CommandResult
+            {
+                Code = 1
+            };
+            var controller = GetController();
+            nominationService.CreateAsync(model).Returns(expected);
+
+            // Act
+            var actual = await controller.CreateEoy(modelView);
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(actual);
+        }
+
+
         #endregion Create
 
         #region Edit
@@ -110,6 +148,38 @@
 
             // Act
             var result = await controller.Edit(new EditEmployeeNominationViewModel());
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var actual = Assert.IsAssignableFrom<CommandResult>(jsonResult.Value);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task EditEoy_ModelStateIsInvalid_ReturnAsExpectedResult()
+        {
+            // Arrange
+            var controller = GetController();
+            controller.ModelState.AddModelError("name", "required");
+
+            // Act
+            var result = await controller.EditEoy(new EditEmployeeNominationViewModel());
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            Assert.False((bool)jsonResult.Value.GetType().GetProperty("isSuccessful").GetValue(jsonResult.Value));
+        }
+
+        [Fact]
+        public async Task EditEoy_ModelStateIsValid_ReturnAsExpectedCommandResult()
+        {
+            // Arrange
+            var expected = new CommandResult();
+            var controller = GetController();
+            nominationService.EditEoyAsync(Arg.Any<EditEmployeeNominationModel>()).Returns(expected);
+
+            // Act
+            var result = await controller.EditEoy(new EditEmployeeNominationViewModel());
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
@@ -217,6 +287,49 @@
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
             var actual = Assert.IsAssignableFrom<PerformanceRecord>(jsonResult.Value);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task GetByRecordIdEoy_WhenCalled_ReturnAsExpectedPerformanceRecord()
+        {
+            // Arrange
+            var expected = new PerformanceRecord
+            {
+                PerformanceRecordId = 1,
+                Employees = new List<Employee>
+                {
+                    new Employee { EmployeeId = 1, NickName = "Tim" }
+                },
+                Comment = "test"
+            };
+            var controller = GetController();
+            nominationService.GetNominationByRecordIdEoyAsync(1).Returns(expected);
+
+            // Act
+            var result = await controller.GetByRecordIdEoy(1);
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var actual = Assert.IsAssignableFrom<PerformanceRecord>(jsonResult.Value);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task GetTemplateKIPNomination_WhenCalled_ReturnAsExpectedResult()
+        {
+            // Arrange
+            var fixture = new Fixture();
+            var expected = fixture.Create<IEnumerable<TemplateKPINominationInfoModel>>();
+            var controller = GetController();
+            nominationService.GetTemplateKIPNominationAsync().Returns(expected);
+
+            // Act
+            var result = await controller.GetTemplateKIPNomination();
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var actual = Assert.IsAssignableFrom<IEnumerable<TemplateKPINominationInfoModel>>(jsonResult.Value);
             Assert.Equal(expected, actual);
         }
 
