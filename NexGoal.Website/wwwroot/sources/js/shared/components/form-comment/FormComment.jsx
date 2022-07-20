@@ -112,15 +112,28 @@ export default class FormComment extends Component {
                             {
                                 item.kpis.length > 0 && item.kpis.map((element, index) => (
                                     <div className="kpi-group" key={index}>
-                                    <span className="kpi-comment">{element.kpiName}</span>
-                                    <textarea
-                                        className={`text-area ${touched[`${element.kpiId}`] && errors[`${element.kpiId}`] && inputErrorCssClass}`}
-                                        rows="2"
-                                        disabled={isDisabled}
-                                        value={values[`${element.kpiId}`]}
-                                        name={`${element.kpiId}`}
-                                        onChange={handleChange}
-                                    />
+                                        <span className="kpi-comment">{element.kpiName}</span>
+                                        {
+                                            isDisabled ?
+                                            (
+                                                <span
+                                                    className="text-area span-area"
+                                                    role="textbox"
+                                                    contenteditable="false"
+                                                >
+                                                    { values[`${element.kpiId}`] }
+                                                </span>
+                                            ) : (
+                                                <textarea
+                                                    className={`text-area ${touched[`${element.kpiId}`] && errors[`${element.kpiId}`] && inputErrorCssClass}`}
+                                                    rows="2"
+                                                    disabled={isDisabled}
+                                                    value={values[`${element.kpiId}`]}
+                                                    name={`${element.kpiId}`}
+                                                    onChange={handleChange}
+                                                />
+                                            )
+                                        }
                                     </div>
                                 ))
                             }
