@@ -213,7 +213,7 @@ export default class PerformanceRecord extends Component {
                 </div>
                 {
                     record.typeId === PerformanceRecordType.PerformanceAppraisal &&
-                    <GradeSummary processes={this.props.processes} toeic={this.props.toeic} toeicPolicy={this.props.toeicPolicy} />
+                    <GradeSummary processes={this.props.processes} />
                 }
                 {
                     !this.props.isHideProjectTag &&
@@ -409,18 +409,6 @@ export default class PerformanceRecord extends Component {
         });
     };
 
-    renderToeicBonus = toeicPolicy => {
-        if (toeicPolicy !== null && toeicPolicy > 0) {
-            return '(+1 grade)';
-        }
-
-        if (toeicPolicy === null || toeicPolicy < 0) {
-            return '(-1 grade)';
-        }
-
-        return '';
-    };
-
     showPADetails = paRecordId => {
         this.props.showPaDetail(paRecordId);
     };
@@ -446,7 +434,7 @@ export default class PerformanceRecord extends Component {
                 {this.renderPAProcessGrades(record.paSummary.gradeDetails)}
                 <div className="toeic">
                     TOEIC: {record.paSummary.toeic ?
-                        `${record.paSummary.toeic} ${this.renderToeicBonus(record.paSummary.toeicPolicy)}`
+                        `${record.paSummary.toeic}`
                         : EmptyPlaceHolder
                     }
                 </div>

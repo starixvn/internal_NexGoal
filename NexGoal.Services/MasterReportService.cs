@@ -233,14 +233,13 @@
         private static void WriteToeic(ExcelRange toeiceCell, MasterReportModel record, bool merge)
         {
             toeiceCell.Merge = merge;
-            var qualifiedToeicBackground = Color.FromArgb(0, 176, 80);
             var failedToeicBackground = Color.FromArgb(255, 0, 0);
 
             if (record.Toeic.HasValue)
             {
-                if (record.ToeicPolicy != 0)
+                if (record.ToeicPolicy > 0)
                 {
-                    toeiceCell.Style.Font.Color.SetColor(record.ToeicPolicy > 0 ? qualifiedToeicBackground : failedToeicBackground);
+                    toeiceCell.Style.Font.Color.SetColor(failedToeicBackground);
                 }
 
                 toeiceCell.Value = record.Toeic;

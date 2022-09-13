@@ -13,10 +13,6 @@ class Rows extends Component {
 
     renderToeic = (toeicPolicy, toeic) => {
         let toeicClass = '';
-        if (toeicPolicy !== null && toeicPolicy > 0) {
-            toeicClass = 'toeic-passed';
-        }
-
         if (toeicPolicy === null || toeicPolicy < 0) {
             toeicClass = 'toeic-failed';
         }

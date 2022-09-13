@@ -32,7 +32,6 @@ export default class ViewPADetail extends Component {
                         <PerformanceRecord data={paRecord} isHideProjectTag isHideInteraction
                             processes={this.props.paProcesses}
                             toeic={pa.toeic}
-                            toeicPolicy={pa.toeicPolicy}
                         />
                         <PAProcessTab processes={this.props.paProcesses} />
                     </CustomScrollbars>

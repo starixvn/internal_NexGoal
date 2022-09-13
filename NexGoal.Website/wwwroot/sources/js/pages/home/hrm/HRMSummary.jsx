@@ -46,10 +46,6 @@ export default class HRMSummary extends Component {
 
     renderToeicScore = hrmDetail => {
         let toeicClass = '';
-        if (hrmDetail.toeicPolicy > 0) {
-            toeicClass = 'toeic-passed';
-        }
-
         if (hrmDetail.toeicPolicy < 0) {
             toeicClass = 'toeic-failed';
         }

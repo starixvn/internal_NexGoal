@@ -46,6 +46,7 @@
         private const int PAAdjustmentColumn = 10;
         private const int PACommentColumn = 11;
         private const int RevisedStatusColumn = 12;
+        private const int coppyCellToeicFail = 9;
 
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IPAReportService reportService;
@@ -216,10 +217,9 @@
 
         private static void WriteToeic(ExcelWorksheet templateWorksheet, ExcelRange toeicCell, int toeicPolicy, int? toeic)
         {
-            if (toeicPolicy != 0)
+            if (toeicPolicy < 0)
             {
-                var coppyCell = toeicPolicy > 0 ? 8 : 9;
-                templateWorksheet.Cells[coppyCell, 1].Copy(toeicCell);
+                templateWorksheet.Cells[coppyCellToeicFail, 1].Copy(toeicCell);
             }
 
             toeicCell.Value = toeic != null ? toeic.ToString() : "N/A";

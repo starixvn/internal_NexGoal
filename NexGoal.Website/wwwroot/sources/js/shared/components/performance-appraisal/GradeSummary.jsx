@@ -7,24 +7,6 @@ export default class GradeSummary extends PureComponent {
     constructor(props) {
         super(props);
     }
-
-    renderToeic = () => {
-        const toeicPolicy = this.props.toeicPolicy;
-        let toeicBonus = '';
-
-        if (toeicPolicy > 0) {
-            toeicBonus = '(+1 grade)';
-        }
-
-        if (toeicPolicy < 0) {
-            toeicBonus = '(-1 grade)';
-        }
-
-        return (
-            <span>TOEIC: {this.props.toeic ? `${this.props.toeic} ${toeicBonus}` : EmptyPlaceHolder}</span>
-        );
-    };
-
     getGrade = pr => {
         if (pr.processId === PerformanceProcess.ProjectManager) {
             return pr.grade;
@@ -82,7 +64,6 @@ export default class GradeSummary extends PureComponent {
         return (
             <div className='grade-summary'>
                 {this.renderGradeSummary()}
-                {this.renderToeic()}
             </div>
         );
     }

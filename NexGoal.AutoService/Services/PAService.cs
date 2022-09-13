@@ -320,11 +320,6 @@
             record.GradeId = cryptoService.Decrypt(record.GradeId);
             int.TryParse(record.GradeId, out int gradeId);
 
-            if (gradeId > 0)
-            {
-                gradeId = gradeId + record.ToeicPolicy <= 0 ? minGradeId : gradeId + record.ToeicPolicy;
-            }
-
             if (!grades.Any(x => x.GradeId == gradeId))
             {
                 gradeId = gradeId > maxGradeId ? maxGradeId : 0;

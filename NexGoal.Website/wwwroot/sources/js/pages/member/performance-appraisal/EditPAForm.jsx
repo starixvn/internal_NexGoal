@@ -47,9 +47,7 @@ export default class EditPAForm extends Component {
                         comment: pa.comment,
                         creator: pa.processes.filter(process => process.processId === PerformanceProcess.Reviewer)[0].evaluator,
                         modifiedDate: pa.modifiedDate,
-                        paStatus: pa.statusId,
-                        toeic: pa.toeic,
-                        toeicPolicy: pa.toeicPolicy
+                        paStatus: pa.statusId
                     },
                     employee: pa.employee,
                     paProcesses: pa.processes
@@ -150,8 +148,6 @@ export default class EditPAForm extends Component {
             <div className="record record-your-mind" >
                 <PerformanceRecord data={data} isHideProjectTag isHideInteraction
                     processes={this.state.paProcesses}
-                    toeic={this.state.paRecord.toeic}
-                    toeicPolicy={this.state.paRecord.toeicPolicy}
                 />
             </div >
         );
@@ -198,8 +194,7 @@ export default class EditPAForm extends Component {
                                     isDisabled={this.state.paRecord.paStatus === PAStatus.Closed}
                                 />
                             </div>
-                            <GradeSummary processes={this.state.paProcesses} toeic={this.state.paRecord.toeic}
-                                toeicPolicy={this.state.paRecord.toeicPolicy}
+                            <GradeSummary processes={this.state.paProcesses}
                             />
                         </FormGroup>
                     </form>

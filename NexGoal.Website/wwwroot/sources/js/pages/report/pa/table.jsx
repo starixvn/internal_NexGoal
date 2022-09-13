@@ -20,9 +20,6 @@ export default class Table extends Component {
 
     renderToeic = (toeicPolicy, toeic) => {
         let toeicClass = '';
-        if (toeicPolicy !== null && toeicPolicy > 0) {
-            toeicClass = 'toeic-passed';
-        }
         if (toeicPolicy === null || toeicPolicy < 0) {
             toeicClass = 'toeic-failed';
         }
@@ -214,7 +211,7 @@ export default class Table extends Component {
                             <i className="icon-info" />
                             <div className="description">
                                 <i className="arrow" />
-                                <p>PA Final = Evaluator’s grade + Toeic Policy</p>
+                                <p>PA Final = Evaluator’s grade</p>
                                 <p>If the Evaluator's grade is N/A or Null (empty):</p>
                                 <ul>
                                     <li>In Progress PA period: PA Final = N/A </li>
@@ -248,13 +245,13 @@ export default class Table extends Component {
                 <StickyBlock threshold={236}>
                     <table className="table table-bordered pa-report-table" id="pa-report-sticky">
                         {
-                            this.renderHeaderPaTable
+                            this.renderHeaderPaTable()
                         }
                     </table>
                 </StickyBlock>
                 <table id="pa-report-table" className="table table-bordered pa-report-table">
                     {
-                        this.renderHeaderPaTable
+                        this.renderHeaderPaTable()
                     }
                     <tbody>
                         {

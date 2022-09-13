@@ -165,10 +165,6 @@
 }
 
 .table > tbody > tr > td > div {
-    &.toeic-passed {
-        color: $status-nomination-color;
-    }
-
     &.toeic-failed {
         color: red;
     }
