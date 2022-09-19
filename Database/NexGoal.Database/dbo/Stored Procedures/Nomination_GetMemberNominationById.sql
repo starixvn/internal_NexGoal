@@ -1,10 +1,17 @@
-﻿
+USE [bodb_NexGoal_Local]
+GO
+/****** Object:  StoredProcedure [dbo].[Nomination_GetMemberNominationById]    Script Date: 9/19/2022 4:58:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 
-CREATE PROCEDURE [dbo].[Nomination_GetMemberNominationById] @ActorId INT
+
+ALTER PROCEDURE [dbo].[Nomination_GetMemberNominationById] @ActorId INT
 	,@MemberId INT
 AS
 /*
-Created: 20190118@Tim.Trinh
+Created: 20201207@Otis.Vu
 Task: Get member nomination details.
 DB: bodb_NexGoal
 Original:
@@ -20,7 +27,6 @@ BEGIN
 		
 	SELECT pr.PerformanceRecordId
 		,pr.EmployeeId AS EmployeeIds
-		,pr.Comment
 		,pr.CreatedDate
 		,pr.ModifiedDate
 		,(CASE 
@@ -31,6 +37,12 @@ BEGIN
 		,pr.TypeId
 		,pr.RoleId
 		,n.StatusId AS NominationStatusId
+		,nkg.KPIGroupId
+		,nkg.Rate
+		,nk.KPIId
+		,nk.Comment
+		,kpig.Name
+		,kpi.Name AS KPIName
 		,emp.EmployeeId
 		,emp.NickName
 		,emp.FullName
@@ -55,6 +67,13 @@ BEGIN
 		INNER JOIN dbo.Nomination AS n WITH (NOLOCK) ON nd.NominationId = n.NominationId
 		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON n.EOQYId = period.EOQYId
 		AND period.StartDateForNominator <= @Today
+		INNER JOIN dbo.NominationKPIGroup AS nkg ON nd.NominationId = nkg.NominationId 
+		AND nd.NominatorId = nkg.NominatorId
+		INNER JOIn dbo.NominationKPI AS nk ON nkg.KPIGroupId = nk.KPIGroupId 
+		AND nkg.NominatorId = nk.NominatorId AND nkg.NominationId = nk.NominationId
+		INNER JOIN dbo.KPI AS kpi ON kpi.KPIId = nk.KPIId AND kpi.KPIGroupId = nk.KPIGroupId
+		INNER JOIN dbo.KPIGroup AS kpig ON kpig.KPIGroupId = kpi.KPIGroupId
 	WHERE pr.TypeId = 3 -- nomination
 	ORDER BY CreatedDate DESC
 END
+

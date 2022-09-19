@@ -1,5 +1,5 @@
 
-CREATE PROCEDURE [dbo].[Nomination_Insert_xtest] 
+CREATE PROCEDURE [dbo].[Nomination_Insert_Eoy] 
 	@NominationPeriodId INT
 	,@NomineeId INT
 	,@NominatorId INT

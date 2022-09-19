@@ -1,4 +1,4 @@
-CREATE PROCEDURE [dbo].[NominationReport_Get_xtest] @ActorId INT
+CREATE PROCEDURE [dbo].[NominationReport_Get_Eoy] @ActorId INT
 	,@NominationPeriodIds VARCHAR(MAX) = NULL
 	,@GroupIds VARCHAR(MAX) = NULL
 	,@EmployeeIds VARCHAR(MAX) = NULL

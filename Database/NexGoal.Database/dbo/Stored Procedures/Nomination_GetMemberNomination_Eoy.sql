@@ -1,4 +1,4 @@
-CREATE PROCEDURE [dbo].[Nomination_GetMemberNomination_xtest] @ActorId INT
+CREATE PROCEDURE [dbo].[Nomination_GetMemberNomination_Eoy] @ActorId INT
 AS
 /*
 Created: 20222006@Otis.Vu
