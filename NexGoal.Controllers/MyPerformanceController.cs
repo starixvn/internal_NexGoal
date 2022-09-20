@@ -34,7 +34,7 @@
         public async Task<JsonResult> GetPerformanceTimeline(GetPerformanceTimelineParam param)
         {
             param.EmployeeId = sessionService.EmployeeId;
-            Tuple<IEnumerable<PerformanceRecord>, int> tuple = await performanceService.GetPerformanceTimelineAsync(param);
+            ValueTuple<IEnumerable<PerformanceRecord>, int> tuple = await performanceService.GetPerformanceTimelineAsync(param);
 
             return Json(new { performanceRecords = tuple.Item1, totalItems = tuple.Item2 });
         }

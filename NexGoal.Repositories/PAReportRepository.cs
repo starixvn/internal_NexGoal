@@ -15,15 +15,16 @@
 
     public interface IPAReportRepository
     {
-        Task<Tuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>>> GetPAReportAsync(ICriteria criteria);
+        Task<ValueTuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>>> GetPAReportAsync(ICriteria criteria);
 
-        Task<Tuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>>> GetDataForExportPAReportAsync(ICriteria criteria);
+        Task<ValueTuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>>> GetDataForExportPAReportAsync(ICriteria criteria);
     }
 
 #pragma warning disable S1192 // String literals should not be duplicated
+
     public class PAReportRepository : IPAReportRepository
     {
-        public async Task<Tuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>>> GetPAReportAsync(ICriteria criteria)
+        public async Task<ValueTuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>>> GetPAReportAsync(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
@@ -46,12 +47,12 @@
                         "EvaluatorId");
                     CommonMapping.MappingPerformanceAppraisal(performanceAppraisals, processes);
 
-                    return new Tuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>>(selectedPeriods, performanceAppraisals);
+                    return new ValueTuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>>(selectedPeriods, performanceAppraisals);
                 }
             }
         }
 
-        public async Task<Tuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>>> GetDataForExportPAReportAsync(ICriteria criteria)
+        public async Task<ValueTuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>>> GetDataForExportPAReportAsync(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
@@ -106,7 +107,7 @@
                     CommonMapping.MappingRelatedPerformanceRecord(processes, performanceRecords);
                     CommonMapping.MappingPerformanceAppraisal(performanceAppraisals, processes);
 
-                    return new Tuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>>(selectedPeriods, performanceAppraisals);
+                    return new ValueTuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>>(selectedPeriods, performanceAppraisals);
                 }
             }
         }

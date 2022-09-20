@@ -29,7 +29,7 @@
 
         public static ICommonService FakeCommonService() => Substitute.For<ICommonService>();
 
-        public static IHostingEnvironment FakeHostingEnvironment() => Substitute.For<IHostingEnvironment>();
+        public static IWebHostEnvironment FakeHostingEnvironment() => Substitute.For<IWebHostEnvironment>();
 
         public static ISkypeNotiService FakeSkypeNotiService() => Substitute.For<ISkypeNotiService>();
 

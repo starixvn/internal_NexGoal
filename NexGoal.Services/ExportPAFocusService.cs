@@ -14,6 +14,7 @@
     using OfficeOpenXml.Style;
 
 #pragma warning disable S109 // Magic numbers should not be used
+
     public class ExportPAFocusService : IExportPAFocusService
     {
         private enum TemplateRowIndex
@@ -41,11 +42,11 @@
         private const int CurrentObjectiveColumn = 10;
         private const int NextObjectiveColumn = 11;
 
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IWebHostEnvironment hostingEnvironment;
         private readonly ICommonService commonService;
 
         public ExportPAFocusService(
-            IHostingEnvironment hostingEnvironment,
+            IWebHostEnvironment hostingEnvironment,
             ICommonService commonService)
         {
             this.hostingEnvironment = hostingEnvironment;

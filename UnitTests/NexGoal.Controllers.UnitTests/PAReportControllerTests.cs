@@ -61,7 +61,7 @@
         {
             var groups = new List<Group> { new Group { GroupId = 1, Code = "NEX", Name = "Nexus" } };
             var employees = new List<Employee> { new Employee { NickName = "Oliver", EmployeeId = 363 } };
-            var values = new Tuple<IEnumerable<Group>, IEnumerable<Employee>>(groups, employees);
+            var values = new ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>(groups, employees);
 
             var expected = new
             {
@@ -140,7 +140,7 @@
             paRecordService.GetPermissionOnPerformanceAppraisalAsync(sessionService.EmployeeId, paRecordId).Returns(Policy.Host);
             reportService.GetPAReportDetailAsync(sessionService.EmployeeId, paRecordId).Returns(paDetails);
 
-            exportService.ExportPdfAsync(paDetails).Returns(new Tuple<string, byte[]>("PA Detail", bytes));
+            exportService.ExportPdfAsync(paDetails).Returns(new ValueTuple<string, byte[]>("PA Detail", bytes));
             // Act
             var actual = await controller.ExportPdf(paRecordId);
 
@@ -164,7 +164,7 @@
             paRecordService.GetPermissionOnPerformanceAppraisalAsync(sessionService.EmployeeId, paRecordId).Returns(Policy.Host);
             reportService.GetPAReportDetailAsync(sessionService.EmployeeId, paRecordId).Returns(paDetails);
 
-            exportService.ExportPdfAsync(paDetails).Returns(new Tuple<string, byte[]>("PA Detail", bytes));
+            exportService.ExportPdfAsync(paDetails).Returns(new ValueTuple<string, byte[]>("PA Detail", bytes));
             // Act
             var actual = await controller.ExportPdf(paRecordId);
 

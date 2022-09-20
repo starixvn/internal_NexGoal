@@ -10,7 +10,6 @@
     using NexGoal.Criteria.FlowSetting;
     using NexGoal.Models.Common;
     using NexGoal.Models.FlowSetting;
-    using NexGoal.Repositories.Interfaces;
 
     public class EmployeeFlowSettingService : IEmployeeFlowSettingService
     {
@@ -48,11 +47,11 @@
         public async Task<IEnumerable<EmployeeFlowSettingModel>> GetEmployeeFlowSettingAsync()
         {
             var criteria = new GetEmployeeFlowSettingCriteria();
-            var tuple = await baseService.FetchMultipleAsync<EmployeeFlowSettingModel, FlowSettingModel>(criteria);
+            var ValueTuple = await baseService.FetchMultipleAsync<EmployeeFlowSettingModel, FlowSettingModel>(criteria);
 
-            foreach (EmployeeFlowSettingModel employeeFlowSetting in tuple.Item1)
+            foreach (EmployeeFlowSettingModel employeeFlowSetting in ValueTuple.Item1)
             {
-                IEnumerable<FlowSettingModel> flowSettings = tuple.Item2.Where(x => x.EmployeeId == employeeFlowSetting.EmployeeId);
+                IEnumerable<FlowSettingModel> flowSettings = ValueTuple.Item2.Where(x => x.EmployeeId == employeeFlowSetting.EmployeeId);
                 foreach (FlowSettingModel flowSetting in flowSettings)
                 {
                     switch (flowSetting.ProcessId)
@@ -72,7 +71,7 @@
                 }
             }
 
-            return tuple.Item1;
+            return ValueTuple.Item1;
         }
 
         public async Task<EmployeeFlowSettingModel> GetByIdAsync(int employeeId)

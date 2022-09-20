@@ -38,7 +38,7 @@
 
         public async Task<JsonResult> GetGroupAndMember()
         {
-            Tuple<IEnumerable<Group>, IEnumerable<Employee>> tuple = await reportService.GetGroupAndMemberAsync(sessionService.EmployeeId);
+            ValueTuple<IEnumerable<Group>, IEnumerable<Employee>> tuple = await reportService.GetGroupAndMemberAsync(sessionService.EmployeeId);
             return Json(new { Groups = tuple.Item1, Members = tuple.Item2 });
         }
 

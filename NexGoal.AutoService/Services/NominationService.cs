@@ -22,14 +22,14 @@
         private const string StartMailTemplateToNominator = "EmailTemplates\\Nomination\\StartToNominator.cshtml";
         private const string RemindMailTemplateToNominator = "EmailTemplates\\Nomination\\RemindToNominator.cshtml";
 
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IWebHostEnvironment hostingEnvironment;
         private readonly IOptionsSnapshot<AppSettings> configuration;
         private readonly IBaseService baseService;
         private readonly IBaseMailService mailService;
         private readonly IChatbotService chatbotService;
 
         public NominationService(
-            IHostingEnvironment hostingEnvironment,
+            IWebHostEnvironment hostingEnvironment,
             IOptionsSnapshot<AppSettings> configuration,
             IBaseService baseService,
             IBaseMailService mailService,
@@ -44,15 +44,15 @@
 
         public async Task SendMailAsync()
         {
-            Tuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>> tuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Email);
+            ValueTuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>> ValueTuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Email);
 
             var startMailPath = Path.Combine(hostingEnvironment.WebRootPath, StartMailTemplateToNominator);
             var remindMailPath = Path.Combine(hostingEnvironment.WebRootPath, RemindMailTemplateToNominator);
             var body = string.Empty;
 
-            foreach (NominationPeriodModel period in tuple.Item1)
+            foreach (NominationPeriodModel period in ValueTuple.Item1)
             {
-                IEnumerable<ProcessSettingModel> settings = tuple.Item2.Where(x => x.NominationPeriodId == period.NominationPeriodId);
+                IEnumerable<ProcessSettingModel> settings = ValueTuple.Item2.Where(x => x.NominationPeriodId == period.NominationPeriodId);
                 var subjectStartMail = string.Format(Message.EmailSubject_Nomination_Start, period.Title);
                 var subjectRemindMail = string.Format(Message.EmailSubject_Nomination_Remind, period.Title);
                 foreach (ProcessSettingModel setting in settings)
@@ -89,11 +89,11 @@
         public async Task SendNotificationAsync()
         {
             var notifications = new List<NotificationModel>();
-            Tuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>> tuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Notification);
+            ValueTuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>> ValueTuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Notification);
 
-            foreach (NominationPeriodModel period in tuple.Item1)
+            foreach (NominationPeriodModel period in ValueTuple.Item1)
             {
-                IEnumerable<ProcessSettingModel> settings = tuple.Item2.Where(x => x.NominationPeriodId == period.NominationPeriodId);
+                IEnumerable<ProcessSettingModel> settings = ValueTuple.Item2.Where(x => x.NominationPeriodId == period.NominationPeriodId);
                 notifications.AddRange(settings.Select(x => new NotificationModel
                 {
                     EmployeeId = x.NominatorId,
@@ -118,11 +118,11 @@
 
         public async Task SendSkypeMessageAsync()
         {
-            Tuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>> tuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.SkypeMessage);
+            ValueTuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>> ValueTuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.SkypeMessage);
 
-            foreach (NominationPeriodModel period in tuple.Item1)
+            foreach (NominationPeriodModel period in ValueTuple.Item1)
             {
-                IEnumerable<ProcessSettingModel> settings = tuple.Item2.Where(x => x.NominationPeriodId == period.NominationPeriodId);
+                IEnumerable<ProcessSettingModel> settings = ValueTuple.Item2.Where(x => x.NominationPeriodId == period.NominationPeriodId);
                 string message = string.Empty;
                 foreach (ProcessSettingModel setting in settings)
                 {
@@ -160,7 +160,7 @@
             return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
-        private async Task<Tuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>>> GetSettingToSendNotificationAsync(ReceiveNotificationType receiveType)
+        private async Task<ValueTuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>>> GetSettingToSendNotificationAsync(ReceiveNotificationType receiveType)
         {
             var criteria = new GetSettingToSendNotificationCriteria
             {

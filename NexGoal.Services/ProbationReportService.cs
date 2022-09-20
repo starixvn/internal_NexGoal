@@ -41,13 +41,13 @@
         private readonly IProbationRepository probationRepository;
         private readonly IBaseService baseService;
         private readonly ICryptoService cryptoService;
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IWebHostEnvironment hostingEnvironment;
         private readonly IViewRenderService viewRenderService;
         private readonly IConverter converter;
         private readonly ICommonService commonService;
 
         public ProbationReportService(IProbationRepository probationRepository, IBaseService baseService, ICryptoService cryptoService,
-            IHostingEnvironment hostingEnvironment,
+            IWebHostEnvironment hostingEnvironment,
              IViewRenderService viewRenderService,
             IConverter converter,
             ICommonService commonService)
@@ -61,7 +61,7 @@
             this.commonService = commonService;
         }
 
-        public async Task<Tuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndEmployeesAsync(int actorId)
+        public async Task<ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndEmployeesAsync(int actorId)
         {
             return await probationRepository.GetGroupsAndEmployeesAsync(new GetGroupsAndEmployeesCriteria
             {
@@ -189,7 +189,7 @@
             return pdf;
         }
 
-        public async Task<Tuple<ProbationReportModel, IEnumerable<KPIGroupModel>, HRMModel>> GetByEmployeeIdAsync(int employeeId, int actorId)
+        public async Task<ValueTuple<ProbationReportModel, IEnumerable<KPIGroupModel>, HRMModel>> GetByEmployeeIdAsync(int employeeId, int actorId)
         {
             var result = await baseService.FetchMultipleAsync<ProbationReportModel, KPIGroupModel, EncryptedProbationEvaluationDetailModel>(
                 new GetProbationReportByEmployeeIdCriteria { EmployeeId = employeeId, ActorId = actorId });
@@ -216,10 +216,10 @@
                 probationer.SelfScore = cryptoService.Decrypt(probationer.SelfScore);
                 probationer.EvaluatorScore = cryptoService.Decrypt(probationer.EvaluatorScore);
                 var hrm = await probationRepository.GetHRM(new GetHRMCriteria { EmployeeId = employeeId });
-                return new Tuple<ProbationReportModel, IEnumerable<KPIGroupModel>, HRMModel>(probationer, groups, hrm);
+                return new ValueTuple<ProbationReportModel, IEnumerable<KPIGroupModel>, HRMModel>(probationer, groups, hrm);
             }
 
-            return null;
+            return default;
         }
 
         private async Task<ProbationReportPdfModel> GetPdfData(int employeeId, int actorId)

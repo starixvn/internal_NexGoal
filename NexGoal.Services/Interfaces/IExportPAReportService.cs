@@ -9,6 +9,6 @@
     {
         Task<byte[]> ExportExcelAsync(GetPARecordMultiPeriodParam param);
 
-        Task<Tuple<string, byte[]>> ExportPdfAsync(PAReportDetail reportDetail);
+        Task<ValueTuple<string, byte[]>> ExportPdfAsync(PAReportDetail reportDetail);
     }
 }

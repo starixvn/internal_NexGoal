@@ -47,7 +47,7 @@
             var criteria = FakeCriteria();
             var outputParams = FakeOutputParamsSuccess();
             var expected = GetSuccessResult();
-            objectDb.GetOuputParams().Returns(outputParams);
+            objectDb.GetOutputParams().Returns(outputParams);
 
             // Action
             var result = await repository.ExecuteNonQueryAsync(criteria);
@@ -66,7 +66,6 @@
             var criteria = Substitute.For<ICriteria>();
 
             criteria.GetSettingKey().Returns("key");
-            criteria.GetSpParams().Returns(new Hashtable());
             criteria.IsValid().Returns(true);
 
             return criteria;

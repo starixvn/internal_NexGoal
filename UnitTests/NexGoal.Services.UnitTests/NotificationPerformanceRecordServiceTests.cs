@@ -16,7 +16,7 @@
 
     public class NotificationPerformanceRecordServiceTests
     {
-        private IHostingEnvironment hostingEnvironment;
+        private IWebHostEnvironment hostingEnvironment;
         private IOptionsSnapshot<AppSettings> configuration;
         private IBaseService baseService;
         private ICommonService commonService;
@@ -59,10 +59,10 @@
             };
             var actor = new Employee { EmployeeId = 1, NickName = "tim" };
             var mailModel = new MailModel();
-            var tuple = new Tuple<IEnumerable<EmployeeDto>, IEnumerable<ProcessSettingDto>>(employees, settings);
+            var ValueTuple = new ValueTuple<IEnumerable<EmployeeDto>, IEnumerable<ProcessSettingDto>>(employees, settings);
             var service = GetService();
             commonService.GetEmployeeByIdAsync(1).Returns(actor);
-            baseService.FetchMultipleAsync<EmployeeDto, ProcessSettingDto>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(tuple);
+            baseService.FetchMultipleAsync<EmployeeDto, ProcessSettingDto>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(ValueTuple);
             mailService.ReadTextFile(Arg.Any<string>()).Returns(mailMody);
             await mailService.SendMailAsync(Arg.Do<MailModel>(x => mailModel = x));
 

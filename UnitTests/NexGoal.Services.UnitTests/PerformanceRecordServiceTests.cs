@@ -135,11 +135,11 @@
             };
             IEnumerable<PerformanceRecord> performanceRecords = GetPerformanceRecords();
             IEnumerable<PerformanceGrade> performanceGrades = Helpers.GetPerformanceGrades();
-            var tuple = new Tuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>>(memberTimelines, performanceRecords);
+            var ValueTuple = new ValueTuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>>(memberTimelines, performanceRecords);
             var criteria = new GetMemberPerformanceTimelineCriteria();
             var param = new GetMemberPerformanceTimelineParam();
             var service = GetPerformanceRecordService();
-            performanceRecordRepository.GetMemberPerformanceTimelineAsync(Arg.Do<GetMemberPerformanceTimelineCriteria>(x => criteria = x)).Returns(tuple);
+            performanceRecordRepository.GetMemberPerformanceTimelineAsync(Arg.Do<GetMemberPerformanceTimelineCriteria>(x => criteria = x)).Returns(ValueTuple);
             commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
             cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
 

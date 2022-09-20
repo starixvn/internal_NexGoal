@@ -17,7 +17,7 @@
         private readonly int algorithm;
 
         public CustomConnectionStringProvider(
-            Dictionary<string, string> connections,
+            Dictionary<string, ConnectionConfiguration> connections,
             int algorithm,
             IOptionsMonitor<AppSettings> configuration)
         {

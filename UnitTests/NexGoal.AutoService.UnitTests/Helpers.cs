@@ -14,7 +14,7 @@
 
         public static ICryptoService FakeCryptoService() => Substitute.For<ICryptoService>();
 
-        public static IHostingEnvironment FakeHostingEnvironment() => Substitute.For<IHostingEnvironment>();
+        public static IWebHostEnvironment FakeHostingEnvironment() => Substitute.For<IWebHostEnvironment>();
 
         public static IChatbotService FakeChatbotService() => Substitute.For<IChatbotService>();
 

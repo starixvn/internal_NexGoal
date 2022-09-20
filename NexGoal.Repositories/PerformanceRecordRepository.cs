@@ -17,6 +17,7 @@
     using NexGoal.Repositories.Interfaces;
 
 #pragma warning disable S1192 // String literals should not be duplicated
+
     public class PerformanceRecordRepository : IPerformanceRecordRepository
     {
         public async Task<IEnumerable<PerformanceRecord>> GetPerformanceRecordByEmployeeAsync(ICriteria criteria)
@@ -322,7 +323,7 @@
             }
         }
 
-        public async Task<Tuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>>> GetMemberPerformanceTimelineAsync(ICriteria criteria)
+        public async Task<ValueTuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>>> GetMemberPerformanceTimelineAsync(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
@@ -341,7 +342,7 @@
                         },
                         "EmployeeId, EmployeeId, NominationPeriodId");
 
-                    return new Tuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>>(members, performanceRecords);
+                    return new ValueTuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>>(members, performanceRecords);
                 }
             }
         }

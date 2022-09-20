@@ -1,18 +1,18 @@
 ﻿namespace NexGoal.Repositories
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Models.Common;
     using NexGoal.Models.Period;
     using NexGoal.Models.PRTracking;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class PRTrackingRepository : IPRTrackingRepository
     {
-        public async Task<Tuple<PeriodModel, IEnumerable<PRTrackingModel>>> GetAsync(ICriteria criteria)
+        public async Task<ValueTuple<PeriodModel, IEnumerable<PRTrackingModel>>> GetAsync(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
@@ -29,12 +29,12 @@
                         prTracking.Details = details.Where(x => x.EmployeeId == prTracking.EmployeeId);
                     }
 
-                    return new Tuple<PeriodModel, IEnumerable<PRTrackingModel>>(period, prTrackings);
+                    return new ValueTuple<PeriodModel, IEnumerable<PRTrackingModel>>(period, prTrackings);
                 }
             }
         }
 
-        public async Task<Tuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndMembersAsync(ICriteria criteria)
+        public async Task<ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndMembersAsync(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
@@ -44,7 +44,7 @@
 
                     var employees = await multi.ReadAsync<Employee>();
 
-                    return new Tuple<IEnumerable<Group>, IEnumerable<Employee>>(groups, employees);
+                    return new ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>(groups, employees);
                 }
             }
         }

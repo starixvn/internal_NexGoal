@@ -106,7 +106,7 @@
 
         private ProbationService GetProbationService()
         {
-            IHostingEnvironment hostingEnvironment = Helpers.FakeHostingEnvironment();
+            IWebHostEnvironment hostingEnvironment = Helpers.FakeHostingEnvironment();
             configuration = Helpers.FakeOptionsSnapshot();
             baseService = Helpers.FakeBaseService();
             mailService = Helpers.FakeBaseMailService();

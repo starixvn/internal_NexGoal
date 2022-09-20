@@ -1,13 +1,13 @@
 ﻿namespace NexGoal.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using NexGoal.Criteria.PRTracking;
     using NexGoal.Models.Common;
     using NexGoal.Models.Period;
     using NexGoal.Models.PRTracking;
     using NexGoal.Repositories;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
 
     public class PRTrackingService : IPRTrackingService
     {
@@ -18,7 +18,7 @@
             this.repository = repository;
         }
 
-        public async Task<Tuple<PeriodModel, IEnumerable<PRTrackingModel>>> GetAsync(int actorId, string employeeIds, bool noPR)
+        public async Task<ValueTuple<PeriodModel, IEnumerable<PRTrackingModel>>> GetAsync(int actorId, string employeeIds, bool noPR)
         {
             return await repository.GetAsync(new GetPRCriteria
             {
@@ -28,7 +28,7 @@
             });
         }
 
-        public async Task<Tuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndMembersAsync(int actorId)
+        public async Task<ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndMembersAsync(int actorId)
         {
             return await repository.GetGroupsAndMembersAsync(new GetGroupsAndMembersCriteria
             {

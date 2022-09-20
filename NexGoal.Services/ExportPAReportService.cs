@@ -20,6 +20,7 @@
     using OfficeOpenXml.Style;
 
 #pragma warning disable S109 // Magic numbers should not be used
+
     public class ExportPAReportService : IExportPAReportService
     {
         private const string ExcelTemplatePath = @"ExcelTemplates\\PAReport.xlsx";
@@ -48,13 +49,13 @@
         private const int RevisedStatusColumn = 12;
         private const int coppyCellToeicFail = 9;
 
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IWebHostEnvironment hostingEnvironment;
         private readonly IPAReportService reportService;
         private readonly IViewRenderService viewRenderService;
         private readonly IConverter converter;
         private readonly ICommonService commonService;
 
-        public ExportPAReportService(IHostingEnvironment hostingEnvironment,
+        public ExportPAReportService(IWebHostEnvironment hostingEnvironment,
             IPAReportService reportService,
             IViewRenderService viewRenderService,
             IConverter converter,
@@ -319,13 +320,13 @@
             }
         }
 
-        public async Task<Tuple<string, byte[]>> ExportPdfAsync(PAReportDetail reportDetail)
+        public async Task<ValueTuple<string, byte[]>> ExportPdfAsync(PAReportDetail reportDetail)
         {
             var pdf = await GetPdfSettingAsync(reportDetail);
             var fileName = $"{reportDetail.Employee.NickName}_PA_{reportDetail.PARecord.Period.Name}.pdf";
             var file = converter.Convert(pdf);
 
-            return new Tuple<string, byte[]>(fileName, file);
+            return new ValueTuple<string, byte[]>(fileName, file);
         }
 
         private async Task<HtmlToPdfDocument> GetPdfSettingAsync(PAReportDetail reportDetail)

@@ -62,9 +62,9 @@
                     Comment = "test"
                 }
             };
-            var tuple = new Tuple<IEnumerable<PerformanceRecord>, int>(performanceRecords, 1);
+            var ValueTuple = new ValueTuple<IEnumerable<PerformanceRecord>, int>(performanceRecords, 1);
             var controller = GetMyPerformanceController();
-            performanceService.GetPerformanceTimelineAsync(Arg.Any<GetPerformanceTimelineParam>()).Returns(tuple);
+            performanceService.GetPerformanceTimelineAsync(Arg.Any<GetPerformanceTimelineParam>()).Returns(ValueTuple);
 
             // Act
             var result = await controller.GetPerformanceTimeline(param);

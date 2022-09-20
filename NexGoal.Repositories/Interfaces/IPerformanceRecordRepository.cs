@@ -22,6 +22,6 @@
 
         Task<IEnumerable<PerformanceRecord>> GetMemberPerformanceDetailAsync(ICriteria criteria);
 
-        Task<Tuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>>> GetMemberPerformanceTimelineAsync(ICriteria criteria);
+        Task<ValueTuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>>> GetMemberPerformanceTimelineAsync(ICriteria criteria);
     }
 }

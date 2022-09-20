@@ -196,7 +196,7 @@
         public async Task GetEmployeeSettingAsync_WhenCalled_ReturnExpectedResult()
         {
             // Arrange
-            var settings = new Tuple<IEnumerable<PARecordModel>, IEnumerable<PAProcessModel>>(
+            var settings = new ValueTuple<IEnumerable<PARecordModel>, IEnumerable<PAProcessModel>>(
                 new List<PARecordModel>
                 {
                     new PARecordModel
@@ -283,7 +283,7 @@
         public async Task GetEmployeeSettingByIdAsync_WhenCalled_ReturnExpectedResult()
         {
             // Arrange
-            var settings = new Tuple<IEnumerable<PARecordModel>, IEnumerable<PAProcessModel>>(
+            var settings = new ValueTuple<IEnumerable<PARecordModel>, IEnumerable<PAProcessModel>>(
                 new List<PARecordModel>
                 {
                     new PARecordModel
