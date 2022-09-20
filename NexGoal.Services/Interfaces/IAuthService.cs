@@ -14,7 +14,7 @@
 
         Task<IEnumerable<MenuItemSession>> GetMenuByEmployeeIdAsync(int employeeId);
 
-        Task<Tuple<Employee, bool, int>> GetEmployeeInfoAsync(int employeeId);
+        Task<ValueTuple<Employee, bool, int>> GetEmployeeInfoAsync(int employeeId);
 
         Task WriteLogLoginAsync(LogLogin logInfo);
     }

@@ -1,13 +1,13 @@
 ﻿namespace NexGoal.Repositories
 {
-    using Fanex.Data;
-    using Fanex.Data.Repository;
-    using NexGoal.Models.Common;
-    using NexGoal.Models.Probation;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Fanex.Data;
+    using Fanex.Data.Repository;
+    using NexGoal.Models.Common;
+    using NexGoal.Models.Probation;
 
     public class ProbationRepository : IProbationRepository
     {
@@ -90,7 +90,7 @@
             }
         }
 
-        public async Task<Tuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndEmployeesAsync(ICriteria criteria)
+        public async Task<ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndEmployeesAsync(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
@@ -100,7 +100,7 @@
 
                     var employees = await multi.ReadAsync<Employee>();
 
-                    return new Tuple<IEnumerable<Group>, IEnumerable<Employee>>(groups, employees);
+                    return new ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>(groups, employees);
                 }
             }
         }

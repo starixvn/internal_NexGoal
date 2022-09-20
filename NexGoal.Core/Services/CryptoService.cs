@@ -70,9 +70,9 @@ namespace NexGoal.Core.Services
 
         private X509Certificate2 InitCertificate()
         {
-            const X509KeyStorageFlags flags = X509KeyStorageFlags.Exportable;
+            var cert = X509Certificate2.CreateFromEncryptedPemFile(configuration.CurrentValue.CertFilePath, configuration.CurrentValue.PasswordToSignCertFile);
 
-            return new X509Certificate2(configuration.CurrentValue.CertFilePath, configuration.CurrentValue.PasswordToSignCertFile, flags);
+            return cert;
         }
 
         private RSACryptoServiceProvider GetPublicKeyRsaCryptoServiceProvider(X509Certificate2 certificate)
@@ -80,11 +80,7 @@ namespace NexGoal.Core.Services
             RSA rsa = certificate.GetRSAPublicKey();
             RSAParameters rsaParameters = rsa.ExportParameters(false);
 
-            var rsacsp = new RSACryptoServiceProvider(rsa.KeySize, new CspParameters
-            {
-                ProviderType = 24,
-                ProviderName = "Microsoft Enhanced RSA and AES Cryptographic Provider",
-            });
+            var rsacsp = new RSACryptoServiceProvider(rsa.KeySize);
             rsacsp.ImportParameters(rsaParameters);
 
             return rsacsp;
@@ -95,11 +91,7 @@ namespace NexGoal.Core.Services
             RSA rsa = certificate.GetRSAPrivateKey();
             RSAParameters rsaParameters = rsa.ExportParameters(true);
 
-            var rsacsp = new RSACryptoServiceProvider(rsa.KeySize, new CspParameters
-            {
-                ProviderType = 24,
-                ProviderName = "Microsoft Enhanced RSA and AES Cryptographic Provider",
-            });
+            var rsacsp = new RSACryptoServiceProvider(rsa.KeySize);
             rsacsp.ImportParameters(rsaParameters);
 
             return rsacsp;

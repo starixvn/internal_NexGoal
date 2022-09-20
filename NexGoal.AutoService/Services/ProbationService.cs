@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.AutoService.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -24,7 +23,7 @@
         private const string StartMailTemplateToEvaluator = "EmailTemplates\\Probation\\StartToEvaluator.cshtml";
         private const string RemindMailTemplateToEvaluator = "EmailTemplates\\Probation\\RemindToEvaluator.cshtml";
 
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IWebHostEnvironment hostingEnvironment;
         private readonly IOptionsSnapshot<AppSettings> configuration;
         private readonly IBaseService baseService;
         private readonly IBaseMailService mailService;
@@ -33,7 +32,7 @@
         private readonly string probationSettingPage;
 
         public ProbationService(
-            IHostingEnvironment hostingEnvironment,
+            IWebHostEnvironment hostingEnvironment,
             IOptionsSnapshot<AppSettings> configuration,
             IBaseService baseService,
             IBaseMailService mailService,

@@ -30,11 +30,11 @@
         public async Task<IEnumerable<GroupFlowSettingModel>> GetGroupFlowSettingAsync()
         {
             var criteria = new GetGroupFlowSettingCriteria();
-            var tuple = await baseService.FetchMultipleAsync<GroupFlowSettingModel, FlowSettingModel>(criteria);
+            var ValueTuple = await baseService.FetchMultipleAsync<GroupFlowSettingModel, FlowSettingModel>(criteria);
 
-            foreach (GroupFlowSettingModel groupFlowSetting in tuple.Item1)
+            foreach (GroupFlowSettingModel groupFlowSetting in ValueTuple.Item1)
             {
-                IEnumerable<FlowSettingModel> flowSettings = tuple.Item2.Where(x => x.GroupId == groupFlowSetting.GroupId);
+                IEnumerable<FlowSettingModel> flowSettings = ValueTuple.Item2.Where(x => x.GroupId == groupFlowSetting.GroupId);
                 foreach (FlowSettingModel flowSetting in flowSettings)
                 {
                     switch (flowSetting.ProcessId)
@@ -54,7 +54,7 @@
                 }
             }
 
-            return tuple.Item1;
+            return ValueTuple.Item1;
         }
 
         public async Task<GroupFlowSettingModel> GetByIdAsync(int groupId)

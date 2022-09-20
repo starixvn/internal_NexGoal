@@ -29,6 +29,7 @@
     }
 
 #pragma warning disable S109 // Magic numbers should not be used
+
     public class MasterReportService : IMasterReportService
     {
         private const string ExcelTemplatePath = @"ExcelTemplates\\MasterReport.xlsx";
@@ -37,7 +38,7 @@
         private readonly IBaseService baseService;
         private readonly ICryptoService cryptoService;
         private readonly ICommonService commonService;
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IWebHostEnvironment hostingEnvironment;
 
         private const int unsatisfactoryGradeId = 1;
 
@@ -46,7 +47,7 @@
             IBaseService baseService,
             ICryptoService cryptoService,
             ICommonService commonService,
-            IHostingEnvironment hostingEnvironment)
+            IWebHostEnvironment hostingEnvironment)
         {
             this.reportRepository = reportRepository;
             this.baseService = baseService;

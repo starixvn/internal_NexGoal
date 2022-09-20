@@ -58,9 +58,9 @@
             var mailSubject = string.Format("The Nomination {0} process has begun!", periods[0].Title);
             var mailMody = "The Nomination is in progress";
             var receiverEmail = "tim.trinh@nexcel.vn";
-            var tuple = new Tuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>>(periods, settings);
+            var ValueTuple = new ValueTuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>>(periods, settings);
             var service = GetNominationService();
-            baseService.FetchMultipleAsync<NominationPeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(tuple);
+            baseService.FetchMultipleAsync<NominationPeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(ValueTuple);
             mailService.ReadTextFile(Arg.Any<string>()).Returns(mailMody);
             await mailService.SendMailAsync(Arg.Do<MailModel>(x => mailModel = x));
 
@@ -90,9 +90,9 @@
             var mailSubject = string.Format("The Nomination {0} process is almost over!", periods[0].Title);
             var mailMody = "The Nomination is going to be closed";
             var receiverEmail = "tim.trinh@nexcel.vn";
-            var tuple = new Tuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>>(periods, settings);
+            var ValueTuple = new ValueTuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>>(periods, settings);
             var service = GetNominationService();
-            baseService.FetchMultipleAsync<NominationPeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(tuple);
+            baseService.FetchMultipleAsync<NominationPeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(ValueTuple);
             mailService.ReadTextFile(Arg.Any<string>()).Returns(mailMody);
             await mailService.SendMailAsync(Arg.Do<MailModel>(x => mailModel = x));
 
@@ -114,10 +114,10 @@
         public async Task SendNotification_DoNotHaveData_NotSendNotification()
         {
             // Arrange
-            var tuple = new Tuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>>
+            var ValueTuple = new ValueTuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>>
                 (new List<NominationPeriodModel>(), new List<ProcessSettingModel>());
             var service = GetNominationService();
-            baseService.FetchMultipleAsync<NominationPeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(tuple);
+            baseService.FetchMultipleAsync<NominationPeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(ValueTuple);
 
             // Act
             await service.SendNotificationAsync();
@@ -150,9 +150,9 @@
 
             var criteria = new CreateNotificationCriteria();
 
-            var tuple = new Tuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>>(periods, settings);
+            var ValueTuple = new ValueTuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>>(periods, settings);
             var service = GetNominationService();
-            baseService.FetchMultipleAsync<NominationPeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(tuple);
+            baseService.FetchMultipleAsync<NominationPeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(ValueTuple);
             await baseService.ExecuteNonQueryAsync(Arg.Do<CreateNotificationCriteria>(x => criteria = x));
             mailService.FormatDate(endDate).Returns("20 Dec 2018");
 
@@ -171,7 +171,7 @@
 
         private NominationService GetNominationService()
         {
-            IHostingEnvironment hostingEnvironment = Helpers.FakeHostingEnvironment();
+            IWebHostEnvironment hostingEnvironment = Helpers.FakeHostingEnvironment();
             configuration = Helpers.FakeOptionsSnapshot();
             baseService = Helpers.FakeBaseService();
             mailService = Helpers.FakeBaseMailService();

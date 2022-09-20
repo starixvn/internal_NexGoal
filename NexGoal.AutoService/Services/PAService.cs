@@ -27,7 +27,7 @@
         private const string RemindMailTemplateToReviewer = "EmailTemplates\\PA\\RemindToReviewer.cshtml";
         private const string EndEvaluationMailTemplateToSelf = "EmailTemplates\\PA\\EndToSelf.cshtml";
 
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IWebHostEnvironment hostingEnvironment;
         private readonly IOptionsSnapshot<AppSettings> configuration;
         private readonly IBaseService baseService;
         private readonly IBaseMailService mailService;
@@ -35,7 +35,7 @@
         private readonly IChatbotService chatbotService;
 
         public PAService(
-            IHostingEnvironment hostingEnvironment,
+            IWebHostEnvironment hostingEnvironment,
             IOptionsSnapshot<AppSettings> configuration,
             IBaseService baseService,
             IBaseMailService mailService,
@@ -81,7 +81,7 @@
 
         public async Task SendMailAsync()
         {
-            Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Email);
+            ValueTuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> ValueTuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Email);
 
             var remindStartEvaluationToSelfPath = Path.Combine(hostingEnvironment.WebRootPath, RemindStartEvaluationMailTemplateToSelf);
             var remindStartEvaluationToSupervisorPath = Path.Combine(hostingEnvironment.WebRootPath, RemindStartEvaluationMailTemplateToSupervisor);
@@ -89,9 +89,9 @@
             var remindToReviewerPath = Path.Combine(hostingEnvironment.WebRootPath, RemindMailTemplateToReviewer);
             var endEvaluationMailPath = Path.Combine(hostingEnvironment.WebRootPath, EndEvaluationMailTemplateToSelf);
 
-            foreach (PeriodModel period in tuple.Item1)
+            foreach (PeriodModel period in ValueTuple.Item1)
             {
-                IEnumerable<ProcessSettingModel> settings = tuple.Item2.Where(x => x.PeriodId == period.PeriodId);
+                IEnumerable<ProcessSettingModel> settings = ValueTuple.Item2.Where(x => x.PeriodId == period.PeriodId);
                 var subjectRemindStartEvaluationMail = string.Format(Message.EmailSubject_PA_RemindStartEvaluation, period.Name);
                 var subjectStartMail = string.Format(Message.EmailSubject_PA_StartToReviewer, period.Name);
                 var subjectRemindMail = string.Format(Message.EmailSubject_PA_RemindToReviewer, period.Name);
@@ -119,7 +119,7 @@
                                 setting.Nickname,
                                 period.Name,
                                 mailService.FormatDate(setting.EndDate),
-                                $"{ configuration.Value.ApplicationDomain}/member?activeTab=3");
+                                $"{configuration.Value.ApplicationDomain}/member?activeTab=3");
                             await SendEmailAsync(subjectStartMail, body, setting);
                             break;
 
@@ -129,7 +129,7 @@
                                 setting.Nickname,
                                 period.Name,
                                 mailService.FormatDate(setting.EndDate),
-                                $"{ configuration.Value.ApplicationDomain}/member?activeTab=3");
+                                $"{configuration.Value.ApplicationDomain}/member?activeTab=3");
                             await SendEmailAsync(subjectRemindMail, body, setting);
                             break;
 
@@ -151,11 +151,11 @@
 
         public async Task SendSkypeMessage()
         {
-            Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.SkypeMessage);
+            ValueTuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> ValueTuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.SkypeMessage);
 
-            foreach (PeriodModel period in tuple.Item1)
+            foreach (PeriodModel period in ValueTuple.Item1)
             {
-                IEnumerable<ProcessSettingModel> settings = tuple.Item2.Where(x => x.PeriodId == period.PeriodId);
+                IEnumerable<ProcessSettingModel> settings = ValueTuple.Item2.Where(x => x.PeriodId == period.PeriodId);
                 var message = string.Empty;
 
                 foreach (ProcessSettingModel setting in settings)
@@ -209,11 +209,11 @@
         public async Task SendNotificationAsync()
         {
             var notifications = new List<NotificationModel>();
-            Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> tuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Notification);
+            ValueTuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> ValueTuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Notification);
 
-            foreach (PeriodModel period in tuple.Item1)
+            foreach (PeriodModel period in ValueTuple.Item1)
             {
-                IEnumerable<ProcessSettingModel> settings = tuple.Item2.Where(x => x.PeriodId == period.PeriodId);
+                IEnumerable<ProcessSettingModel> settings = ValueTuple.Item2.Where(x => x.PeriodId == period.PeriodId);
                 foreach (ProcessSettingModel setting in settings)
                 {
                     switch (setting.NotificationMode)
@@ -336,7 +336,7 @@
             record.GradeId = cryptoService.Encrypt(minGradeId.ToString());
         }
 
-        private async Task<Tuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>>> GetSettingToSendNotificationAsync(ReceiveNotificationType receiveType)
+        private async Task<ValueTuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>>> GetSettingToSendNotificationAsync(ReceiveNotificationType receiveType)
         {
             var criteria = new GetSettingToSendNotificationCriteria
             {

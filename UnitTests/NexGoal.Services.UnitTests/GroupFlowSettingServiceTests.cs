@@ -47,9 +47,9 @@
                 new FlowSettingModel { ProcessId = 4, GroupId = 1, EvaluatorId = 2, NickName = "Quinn" },
                 new FlowSettingModel { ProcessId = 5, GroupId = 1, EvaluatorId = 3, NickName = "Anders" }
             };
-            var tuple = new Tuple<IEnumerable<GroupFlowSettingModel>, IEnumerable<FlowSettingModel>>(groupFlowSettings, flowSettings);
+            var ValueTuple = new ValueTuple<IEnumerable<GroupFlowSettingModel>, IEnumerable<FlowSettingModel>>(groupFlowSettings, flowSettings);
             var service = GetGroupFlowSettingService();
-            baseService.FetchMultipleAsync<GroupFlowSettingModel, FlowSettingModel>(Arg.Any<GetGroupFlowSettingCriteria>()).Returns(tuple);
+            baseService.FetchMultipleAsync<GroupFlowSettingModel, FlowSettingModel>(Arg.Any<GetGroupFlowSettingCriteria>()).Returns(ValueTuple);
 
             // Act
             var actual = await service.GetGroupFlowSettingAsync();

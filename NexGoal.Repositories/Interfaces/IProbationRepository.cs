@@ -1,11 +1,11 @@
 ﻿namespace NexGoal.Repositories
 {
-    using Fanex.Data.Repository;
-    using NexGoal.Models.Common;
-    using NexGoal.Models.Probation;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Fanex.Data.Repository;
+    using NexGoal.Models.Common;
+    using NexGoal.Models.Probation;
 
     public interface IProbationRepository
     {
@@ -17,6 +17,6 @@
 
         Task<HRMModel> GetHRM(ICriteria criteria);
 
-        Task<Tuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndEmployeesAsync(ICriteria criteria);
+        Task<ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndEmployeesAsync(ICriteria criteria);
     }
 }

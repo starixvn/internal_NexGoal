@@ -119,7 +119,7 @@
         #region FetchMultipleAsync
 
         [Fact]
-        public async Task FetchMultipleAsync_CriteriaIsNull_ReturnTupleWithEmptyList()
+        public async Task FetchMultipleAsync_CriteriaIsNull_ReturnValueTupleWithEmptyList()
         {
             // Arrange
             var baseService = GetBaseService();
@@ -133,7 +133,7 @@
         }
 
         [Fact]
-        public async Task FetchMultipleAsync_CriteriaIsInvalid_ReturnTupleWithEmptyList()
+        public async Task FetchMultipleAsync_CriteriaIsInvalid_ReturnValueTupleWithEmptyList()
         {
             // Arrange
             var criteria = Substitute.For<ICriteria>();
@@ -152,7 +152,7 @@
         public async Task FetchMultipleAsync_CriteriaIsValid_ReturnExpectedData()
         {
             // Arrange
-            var expected = new Tuple<IEnumerable<int>, IEnumerable<int>>(new List<int> { 1, 2 }, new List<int> { 1, 2 });
+            var expected = new ValueTuple<IEnumerable<int>, IEnumerable<int>>(new List<int> { 1, 2 }, new List<int> { 1, 2 });
             var criteria = Substitute.For<ICriteria>();
             criteria.IsValid().Returns(true);
             var baseService = GetBaseService();
@@ -166,7 +166,7 @@
         }
 
         [Fact]
-        public async Task FetchMultipleAsyncThird_CriteriaIsNull_ReturnTupleWithEmptyList()
+        public async Task FetchMultipleAsyncThird_CriteriaIsNull_ReturnValueTupleWithEmptyList()
         {
             // Arrange
             var baseService = GetBaseService();
@@ -181,7 +181,7 @@
         }
 
         [Fact]
-        public async Task FetchMultipleAsyncThird_CriteriaIsInvalid_ReturnTupleWithEmptyList()
+        public async Task FetchMultipleAsyncThird_CriteriaIsInvalid_ReturnValueTupleWithEmptyList()
         {
             // Arrange
             var criteria = Substitute.For<ICriteria>();
@@ -201,7 +201,7 @@
         public async Task FetchMultipleAsyncThird_CriteriaIsValid_ReturnExpectedData()
         {
             // Arrange
-            var expected = new Tuple<IEnumerable<int>, IEnumerable<int>, IEnumerable<int>>(new List<int> { 1, 2 }, new List<int> { 1, 2 }, new List<int> { 1, 2 });
+            var expected = new ValueTuple<IEnumerable<int>, IEnumerable<int>, IEnumerable<int>>(new List<int> { 1, 2 }, new List<int> { 1, 2 }, new List<int> { 1, 2 });
             var criteria = Substitute.For<ICriteria>();
             criteria.IsValid().Returns(true);
             var baseService = GetBaseService();

@@ -37,7 +37,7 @@
             this.commonService = commonService;
         }
 
-        public async Task<Tuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupAndMemberAsync(int actorId)
+        public async Task<ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupAndMemberAsync(int actorId)
         {
             var criteria = new GetGroupAndMemberForReportCriteria
             {
@@ -58,17 +58,17 @@
                 IsExportExcel = param.IsExportExcel
             };
 
-            Tuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>> tuple = param.IsExportExcel
+            ValueTuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>> ValueTuple = param.IsExportExcel
                 ? await reportRepository.GetDataForExportPAReportAsync(criteria) : await reportRepository.GetPAReportAsync(criteria);
             IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
 
-            commonService.MappingGrade(tuple.Item2, performanceGrades);
+            commonService.MappingGrade(ValueTuple.Item2, performanceGrades);
 
-            var groupRecords = tuple.Item2.GroupBy(r => r.PeriodId)
+            var groupRecords = ValueTuple.Item2.GroupBy(r => r.PeriodId)
                 .Select(item => new PARecordGroupByPeriod
                 {
                     PeriodId = item.Key,
-                    Period = tuple.Item1.FirstOrDefault(p => p.PeriodId == item.Key),
+                    Period = ValueTuple.Item1.FirstOrDefault(p => p.PeriodId == item.Key),
                     Groups = item.GroupBy(g => new { g.Employee.GroupCode, g.Employee.GroupName })
                         .Select(group => new PAReportModel
                         {
@@ -77,7 +77,7 @@
                         })
                 }).ToList();
 
-            var emptyPeriods = tuple.Item1.Where(p => !groupRecords.Any(g => g.PeriodId == p.PeriodId))
+            var emptyPeriods = ValueTuple.Item1.Where(p => !groupRecords.Any(g => g.PeriodId == p.PeriodId))
                 .Select(x => new PARecordGroupByPeriod
                 {
                     PeriodId = x.PeriodId,
@@ -102,7 +102,7 @@
             }
 
             var grades = await commonService.GetPerformanceGradeAsync();
-            Tuple<IEnumerable<DisciplineModel>, IEnumerable<HRMInfo>, string> hrmAndPrevGrade = await GetPARecordDetailAsync(actorId, paRecordId);
+            ValueTuple<IEnumerable<DisciplineModel>, IEnumerable<HRMInfo>, string> hrmAndPrevGrade = await GetPARecordDetailAsync(actorId, paRecordId);
 
             var previousGrade = hrmAndPrevGrade.Item3;
             previousGrade = cryptoService.Decrypt(previousGrade);
@@ -123,7 +123,7 @@
             return paDetails;
         }
 
-        private async Task<Tuple<
+        private async Task<ValueTuple<
             IEnumerable<DisciplineModel>,
             IEnumerable<HRMInfo>,
             string>> GetPARecordDetailAsync(int actorId, int paRecordId)
@@ -135,7 +135,7 @@
             };
             var details = await baseService.FetchMultipleAsync<DisciplineModel, HRMInfo, string>(criteria);
 
-            return new Tuple<IEnumerable<DisciplineModel>,
+            return new ValueTuple<IEnumerable<DisciplineModel>,
                 IEnumerable<HRMInfo>,
                 string>(details.Item1,
                 details.Item2,
@@ -149,13 +149,13 @@
             {
                 PARecordId = paRecordId
             };
-            var tuple = await baseService.FetchMultipleAsync<EmployeeNominationModel, NominationPeriodModel>(criteria);
-            foreach (EmployeeNominationModel nomination in tuple.Item1)
+            var ValueTuple = await baseService.FetchMultipleAsync<EmployeeNominationModel, NominationPeriodModel>(criteria);
+            foreach (EmployeeNominationModel nomination in ValueTuple.Item1)
             {
-                nomination.Period = tuple.Item2.FirstOrDefault(x => x.NominationPeriodId == nomination.NominationPeriodId);
+                nomination.Period = ValueTuple.Item2.FirstOrDefault(x => x.NominationPeriodId == nomination.NominationPeriodId);
             }
 
-            return tuple.Item1;
+            return ValueTuple.Item1;
         }
     }
 }

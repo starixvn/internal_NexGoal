@@ -480,7 +480,7 @@
                         }
             };
 
-            var expected = new Tuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>>(members, performanceRecords);
+            var expected = new ValueTuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>>(members, performanceRecords);
 
             var multiResultReader = Helpers.FakeMultipleResultReader();
             var criteria = Helpers.FakeCriteria();

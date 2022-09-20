@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
@@ -7,8 +9,6 @@
     using NexGoal.Services;
     using NexGoal.Web.Core.Filters;
     using NexGoal.Web.Core.Services;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     [NexGoalPermission(FunctionKey = FunctionKey.ProbationReport, Policy = Policy.Read)]
     public class ProbationReportController : BaseController
@@ -65,7 +65,8 @@
         public async Task<IActionResult> GetByEmployeeId(int id)
         {
             var result = await probationReportService.GetByEmployeeIdAsync(id, sessionService.EmployeeId);
-            if (result != null)
+
+            if (result.Item1 != null)
             {
                 return Json(new { probationer = result.Item1, details = result.Item2, hrm = result.Item3 });
             }

@@ -64,7 +64,7 @@
             return performanceRecords;
         }
 
-        public async Task<Tuple<IEnumerable<PerformanceRecord>, int>> GetPerformanceTimelineAsync(GetPerformanceTimelineParam param)
+        public async Task<ValueTuple<IEnumerable<PerformanceRecord>, int>> GetPerformanceTimelineAsync(GetPerformanceTimelineParam param)
         {
             var criteria = new GetPerformanceTimelineCriteria
             {
@@ -82,7 +82,7 @@
                 MappingDataForPerformanceRecordAsync(performanceRecord, performanceGrades, param.EmployeeId, currentPeriod);
             }
 
-            return new Tuple<IEnumerable<PerformanceRecord>, int>(performanceRecords, criteria.TotalItems);
+            return new ValueTuple<IEnumerable<PerformanceRecord>, int>(performanceRecords, criteria.TotalItems);
         }
 
         public async Task<IEnumerable<PerformanceRecord>> GetMemberPerformanceAsync(int actorId)
@@ -140,27 +140,27 @@
                 PageSize = param.PageSize
             };
 
-            Tuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>> tuple =
+            ValueTuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>> ValueTuple =
                 await performanceRecordRepository.GetMemberPerformanceTimelineAsync(criteria);
             IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
 
             var currentPeriod = await commonService.GetCurrentPerformancePeriodAsync();
 
-            foreach (PerformanceRecord performanceRecord in tuple.Item2)
+            foreach (PerformanceRecord performanceRecord in ValueTuple.Item2)
             {
                 MappingDataForPerformanceRecordAsync(performanceRecord, performanceGrades, param.ActorId, currentPeriod);
             }
 
-            foreach (MemberPerformanceTimelineModel member in tuple.Item1)
+            foreach (MemberPerformanceTimelineModel member in ValueTuple.Item1)
             {
                 member.GradeId = cryptoService.Decrypt(member.GradeId);
                 int.TryParse(member.GradeId, out int gradeId);
                 member.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
 
-                member.PerformanceRecords = tuple.Item2.Where(t => t.Employees.First().EmployeeId == member.EmployeeId);
+                member.PerformanceRecords = ValueTuple.Item2.Where(t => t.Employees.First().EmployeeId == member.EmployeeId);
             }
 
-            return tuple.Item1;
+            return ValueTuple.Item1;
         }
 
         public async Task<PerformanceRecord> GetPerformanceRecordByIdAsync(int performanceRecordId, int creatorId)

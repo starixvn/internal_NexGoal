@@ -1,14 +1,14 @@
 ﻿namespace NexGoal.Services
 {
-    using NexGoal.Models.Common;
-    using NexGoal.Models.Probation;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using NexGoal.Models.Common;
+    using NexGoal.Models.Probation;
 
     public interface IProbationReportService
     {
-        Task<Tuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndEmployeesAsync(int actorId);
+        Task<ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndEmployeesAsync(int actorId);
 
         Task<IEnumerable<ProbationReportModel>> GetAsync(GetProbationReportModel model);
 
@@ -16,6 +16,6 @@
 
         Task<PdfModel> ExportPdfAsync(int employeeId, int actorId);
 
-        Task<Tuple<ProbationReportModel, IEnumerable<KPIGroupModel>, HRMModel>> GetByEmployeeIdAsync(int employeeId, int actorId);
+        Task<ValueTuple<ProbationReportModel, IEnumerable<KPIGroupModel>, HRMModel>> GetByEmployeeIdAsync(int employeeId, int actorId);
     }
 }

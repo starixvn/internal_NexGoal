@@ -1,14 +1,13 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using NexGoal.Criteria.PRTracking;
     using NexGoal.Models.Period;
     using NexGoal.Models.PRTracking;
     using NexGoal.Repositories;
     using NSubstitute;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Threading.Tasks;
     using Xunit;
 
     public class PRTrackingServiceTests
@@ -20,7 +19,7 @@
         {
             var criteria = new GetPRCriteria();
 
-            var expected = new Tuple<PeriodModel, IEnumerable<PRTrackingModel>>(
+            var expected = new ValueTuple<PeriodModel, IEnumerable<PRTrackingModel>>(
                 new PeriodModel { PeriodId = 1, Name = "1st" },
                 new List<PRTrackingModel>());
 
