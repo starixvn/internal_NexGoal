@@ -237,7 +237,7 @@
 
             if (record.Toeic.HasValue)
             {
-                if (record.ToeicPolicy > 0)
+                if (record.ToeicPolicy < 0)
                 {
                     toeiceCell.Style.Font.Color.SetColor(failedToeicBackground);
                 }
