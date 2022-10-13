@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2035
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Core", "NexGoal.Core\NexGoal.Core.csproj", "{960EA39B-CD6A-4F0B-A9B4-85A145F65793}"
 EndProject
@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Website", "NexGoal.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{63CCDB0E-35CA-4105-A118-D906485CA6B9}"
 	ProjectSection(SolutionItems) = preProject
+		SonarQube\nexgoal_js_settings.json = SonarQube\nexgoal_js_settings.json
+		SonarQube\nexgoal_ts_settings.json = SonarQube\nexgoal_ts_settings.json
 		SonarQube\NexGoalCSharp.ruleset = SonarQube\NexGoalCSharp.ruleset
 		SonarQube\SolutionBinding.sqconfig = SonarQube\SolutionBinding.sqconfig
 		SonarQube\nexgoal\CSharp\SonarLint.xml = SonarQube\nexgoal\CSharp\SonarLint.xml
