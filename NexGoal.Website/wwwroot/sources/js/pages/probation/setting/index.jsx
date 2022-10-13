@@ -23,26 +23,10 @@ export default class Setting extends Component {
                 employeeOptions: []
             }
         };
-
-        this.employeeOptions = [];
     }
 
     componentDidMount() {
-        const promises = [
-            axios(resolveClientUrl('common/GetEmployees')),
-            axios(resolveClientUrl('Probation/GetProbationers'))
-        ];
-
-        Promise.all(promises)
-            .then(([employeeResponse, probationersResponse]) => {
-                this.employeeOptions = employeeResponse.data.map(e => ({
-                    value: e.employeeId, label: `${e.nickName} (${e.fullName})`
-                }));
-
-                this.setState({
-                    probationers: probationersResponse.data
-                });
-            }).catch(axiosError);
+        this.getProbationers();
     }
 
     getProbationers = () => {
@@ -101,9 +85,10 @@ export default class Setting extends Component {
                 <div className="col-sm-12 tbl-probation-setting">
                     <Table tableData={this.state.probationers} onEditSetting={this.onEditSetting} onAddNewEmployee={this.handleShowAddEmployeeModal} />
                 </div>
-                {this.state.showEditSettingModal &&
+                {
+                    this.state.showEditSettingModal &&
                     <EditSetting onCloseModal={this.handleCloseEditSettingModal} probationer={this.state.selectedProbationer}
-                        showModal employeeOptions={this.employeeOptions} onEditSuccess={this.handleEditSuccess} />
+                        showModal onEditSuccess={this.handleEditSuccess} />
                 }
                 <AddEmployee showModal={this.state.addNewEmployee.showModal}
                     employeeOptions={this.state.addNewEmployee.employeeOptions}

@@ -15,6 +15,26 @@ import { DateFormat, PerformanceProcess, InputErrorCssClass, PostRequestHeaders 
 import getResource from '../../../resourceHelper';
 
 export default class EditSetting extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            employeeOptions: []
+        };
+    }
+
+    componentDidMount() {
+        axios.get(resolveClientUrl('common/GetEmployees')).then(response => {
+            const employeeOptions = response.data.map(e => ({
+                value: e.employeeId, label: `${e.nickName} (${e.fullName})`
+            }));
+
+            this.setState({
+                employeeOptions
+            });
+        });
+    }
+
     onSubmit = (values, { setErrors }) => {
         const settings = values.settings.map(p => {
             return {
@@ -87,7 +107,7 @@ export default class EditSetting extends Component {
                                                     className="react-select-container"
                                                     value={s.evaluator}
                                                     onChange={value => setFieldValue(`settings.${i}.evaluator`, value)}
-                                                    options={this.props.employeeOptions} placeholder="-- Search an employee --"
+                                                    options={this.state.employeeOptions} placeholder="-- Search an employee --"
                                                 />
                                                 : s.evaluator.label
                                         }
@@ -122,7 +142,8 @@ export default class EditSetting extends Component {
     };
 
     render() {
-        const settings = this.props.probationer.settings.map(s => ({
+        const probationer = this.props.probationer;
+        const settings = probationer.settings.map(s => ({
             employeeId: s.employeeId,
             processId: s.processId,
             process: s.process,
@@ -141,7 +162,7 @@ export default class EditSetting extends Component {
                 dialogClassName="custom-modal modal-md"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>{getResource('EditEmployeeSetting')} of {this.props.probationer.nickName}</Modal.Title>
+                    <Modal.Title>{getResource('EditEmployeeSetting')} of {probationer.nickName}</Modal.Title>
                 </Modal.Header>
                 <Formik
                     initialValues={{ settings }}
