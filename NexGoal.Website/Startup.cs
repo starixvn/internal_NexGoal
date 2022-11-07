@@ -71,6 +71,8 @@
 
             var hangfireConnectionString = Cryptography.DecryptConnectionString(Configuration.GetSection("HangfireConnectionString").Value);
             services.AddHangfire(config => config.UseSqlServerStorage(hangfireConnectionString));
+            services.AddHangfireServer();
+
             services.Configure<IISOptions>(options =>
             {
                 options.AutomaticAuthentication = true;
@@ -128,6 +130,11 @@
             app.UseSession();
             app.UseAuthentication();
             app.UseMiddleware<AuthenticationMiddleware>();
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                Authorization = new[] { new HangfireAuthorization() }
+            });
+
 
             app.UseMvc(routes =>
             {
