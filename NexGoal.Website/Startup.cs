@@ -11,6 +11,7 @@
     using Fanex.Logging;
     using Fanex.Logging.Sentry;
     using Hangfire;
+    using Hangfire.SqlServer;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -70,7 +71,11 @@
             });
 
             var hangfireConnectionString = Cryptography.DecryptConnectionString(Configuration.GetSection("HangfireConnectionString").Value);
-            services.AddHangfire(config => config.UseSqlServerStorage(hangfireConnectionString));
+            services.AddHangfire(config => config.UseSqlServerStorage(hangfireConnectionString, new SqlServerStorageOptions
+            {
+                SchemaName = Configuration.GetSection("HangfireSchemaName").Value,
+                PrepareSchemaIfNecessary = true
+            }));
             services.AddHangfireServer();
 
             services.Configure<IISOptions>(options =>
@@ -132,9 +137,9 @@
             app.UseMiddleware<AuthenticationMiddleware>();
             app.UseHangfireDashboard("/hangfire", new DashboardOptions
             {
-                Authorization = new[] { new HangfireAuthorization() }
+                Authorization = new[] { new HangfireAuthorization() },
+                IsReadOnlyFunc = (context) => true
             });
-
 
             app.UseMvc(routes =>
             {
