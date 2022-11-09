@@ -20,6 +20,10 @@
 
     .span-area {
         overflow: hidden;
+        border: 1px solid #ccc;
+        display: block;
+        padding: 6px 12px;
+        white-space: pre-line;
     }
 
     .kpi-group {

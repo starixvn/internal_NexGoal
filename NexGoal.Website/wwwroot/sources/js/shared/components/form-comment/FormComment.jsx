@@ -117,7 +117,7 @@ export default class FormComment extends Component {
                                             isDisabled ?
                                             (
                                                 <span
-                                                    className="text-area span-area"
+                                                    className="span-area"
                                                     role="textbox"
                                                     contenteditable="false"
                                                 >
