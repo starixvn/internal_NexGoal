@@ -100,7 +100,12 @@
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
 
-            services.AddSession();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(int.Parse(Configuration["AuthSettings:SessionTimeout"]));
+                options.Cookie.IsEssential = true;
+                options.Cookie.Name = $"Goal.{companyName}.Session";
+            });
 
             var settings = Configuration.GetSection("LDAPSettings");
             services.Configure<LdapSettings>(options => settings.Bind(options));
