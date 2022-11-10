@@ -40,14 +40,11 @@ namespace NexGoal.Core.Services
             {
                 return;
             }
-            var systemName = configuration.GetSection("SystemName").Value;
-            if (!string.IsNullOrWhiteSpace(systemName))
-            {
-                UpdateCompanyName(email, systemName);
-            }
+            var systemName = configuration.GetSection("CompanyName").Value.Equals("Luminet") ? "LumiGoal" : "NexGoal";
+            UpdateCompanyName(email, systemName);
 
             var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("NexGoal", mailConfig.Value.Username));
+            message.From.Add(new MailboxAddress(systemName, mailConfig.Value.Username));
             message.To.Add(new MailboxAddress(email.ReceiverEmail));
             message.Subject = email.Subject;
             message.Priority = mailConfig.Value.MailPriority;
