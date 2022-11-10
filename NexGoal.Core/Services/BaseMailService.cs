@@ -8,6 +8,7 @@ namespace NexGoal.Core.Services
     using System.Threading.Tasks;
     using MailKit.Net.Smtp;
     using MailKit.Security;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using MimeKit;
@@ -16,32 +17,40 @@ namespace NexGoal.Core.Services
 
     public class BaseMailService : IBaseMailService
     {
-        private readonly IOptionsSnapshot<MailConfigs> configuration;
+        private readonly IConfiguration configuration;
+        private readonly IOptionsSnapshot<MailConfigs> mailConfig;
         private readonly Fanex.Logging.ILogger fanexlogger;
         private readonly ILogger logger;
 
         public BaseMailService(
-            IOptionsSnapshot<MailConfigs> configuration,
+            IConfiguration configuration,
+            IOptionsSnapshot<MailConfigs> mailConfig,
             Fanex.Logging.ILogger fanexlogger,
             ILogger<BaseMailService> logger)
         {
             this.configuration = configuration;
+            this.mailConfig = mailConfig;
             this.fanexlogger = fanexlogger;
             this.logger = logger;
         }
 
         public async Task SendMailAsync(MailModel email)
         {
-            if (email == null || !IsValidEmail(email.ReceiverEmail) || !configuration.Value.Enable)
+            if (email == null || !IsValidEmail(email.ReceiverEmail) || !mailConfig.Value.Enable)
             {
                 return;
             }
+            var systemName = configuration.GetSection("SystemName").Value;
+            if (!string.IsNullOrWhiteSpace(systemName))
+            {
+                UpdateCompanyName(email, systemName);
+            }
 
             var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("NexGoal", configuration.Value.Username));
+            message.From.Add(new MailboxAddress("NexGoal", mailConfig.Value.Username));
             message.To.Add(new MailboxAddress(email.ReceiverEmail));
             message.Subject = email.Subject;
-            message.Priority = configuration.Value.MailPriority;
+            message.Priority = mailConfig.Value.MailPriority;
 
             if (email.Cc.Any(x => IsValidEmail(x)))
             {
@@ -65,11 +74,11 @@ namespace NexGoal.Core.Services
                 {
                     mailclient.ServerCertificateValidationCallback = (s, c, h, e) => true;
                     mailclient.CheckCertificateRevocation = false;
-                    await mailclient.ConnectAsync(configuration.Value.SmtpServer, configuration.Value.SmtpPort, configuration.Value.EnableSsl);
+                    await mailclient.ConnectAsync(mailConfig.Value.SmtpServer, mailConfig.Value.SmtpPort, mailConfig.Value.EnableSsl);
 
-                    if (configuration.Value.EnableSsl)
+                    if (mailConfig.Value.EnableSsl)
                     {
-                        await mailclient.AuthenticateAsync(configuration.Value.Username, configuration.Value.Password);
+                        await mailclient.AuthenticateAsync(mailConfig.Value.Username, mailConfig.Value.Password);
                     }
 
                     await mailclient.SendAsync(message);
@@ -95,6 +104,12 @@ namespace NexGoal.Core.Services
 
                 await mailclient.DisconnectAsync(true);
             }
+        }
+
+        private void UpdateCompanyName(MailModel email, string systemName)
+        {
+            string body = email.Body.Replace("**SystemName**", systemName);
+            email.Body = body;
         }
 
         public string ReadTextFile(string filePath)

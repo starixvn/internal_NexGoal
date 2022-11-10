@@ -12,12 +12,13 @@
     var currentController = ViewContext.RouteData.Values["Controller"].ToString().ToLowerInvariant();
     var currentAction = ViewContext.RouteData.Values["Action"].ToString().ToLowerInvariant();
     var currentUrl = string.Format("/{0}/{1}", currentController, currentAction);
+    var logoName = Configuration.GetValue<string>("CompanyName") == "Luminet" ? "lumigoal.svg" : "nexgoal.svg";
 }
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="pull-left left-bar">
         <a class="navbar-brand" asp-controller="home" asp-action="index">
-            <img src="~/sources/styles/images/nexgoal.svg" alt="nexgoal.svg" />
+            <img src="~/sources/styles/images/@logoName" alt="@logoName" />
         </a>
     </div>
     <div class="pull-left nav-hamberger" id="js-navHamburger">
