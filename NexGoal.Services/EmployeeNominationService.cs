@@ -229,9 +229,28 @@
                 StatusId = statusId
             };
 
-            IEnumerable<NominationModel> nominations = await nominationRepository.GetNominationByPeriodIdsAsync(criteria);
+            var criteriaNew = new GetNominationsByPeriodIdsEoyCriteria
+            {
+                NominationPeriodIds = nominationPeriodIds,
+                StatusId = statusId
+            };
 
-            return nominations.OrderBy(x => x.Nominee.NickName);
+            var index = 0;
+            IEnumerable<NominationModel> nominations = await nominationRepository.GetNominationByPeriodIdsAsync(criteria);
+            IEnumerable<NominationModel> nominationsNew = await nominationRepository.GetNominationByPeriodIdsAsync(criteriaNew);
+
+            foreach (NominationModel nomination in nominations)
+            {
+                var nominatorNew = nominationsNew.ElementAt(index).Nominators;
+                var selected = nomination.Nominators.Where(p => !nominatorNew.Any(pn => pn.PerformanceRecordId == p.PerformanceRecordId));
+
+                nominatorNew = GroupKPIPerformances(nominatorNew);
+                nominationsNew.ElementAt(index).Nominators = nominatorNew.Concat(selected).OrderByDescending(x => x.CreatedDate);
+
+                index++;
+            }
+
+            return nominationsNew.OrderByDescending(x => x.StatusId).ThenBy(x => x.Nominee.NickName);
         }
 
         public async Task<CommandResult> EditStatusAsync(int nominationId, int statusId, int updatedById)

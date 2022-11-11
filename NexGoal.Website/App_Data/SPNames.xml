@@ -142,6 +142,7 @@
     <Setting Key="Nomination_Update_Eoy" SpName="Nomination_Update_Eoy" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_GetPeriodsForCommittee" SpName="Nomination_GetPeriodsForCommittee" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_GetByPeriodIds" SpName="Nomination_GetByPeriodIds" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Nomination_GetByPeriodIds_Eoy" SpName="Nomination_GetByPeriodIds_Eoy" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_UpdateStatus" SpName="Nomination_UpdateStatus" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_Delete" SpName="Nomination_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_GetMemberNominationById" SpName="Nomination_GetMemberNominationById" DbName="bodb_NexGoal" Plain="0" />
