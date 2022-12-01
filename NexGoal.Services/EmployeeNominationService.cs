@@ -201,7 +201,8 @@
             var performanceRecords = GroupDataMemberPerformance(records);
 
             var recordEoys = await nominationRepository.GetMemberNominationAsync(criteriaEoy);
-            var performanceRecordEoys = GroupKPIPerformances(recordEoys);
+            var recordKpiEoys = GroupKPIPerformances(recordEoys);
+            var performanceRecordEoys = GroupDataMemberPerformance(recordKpiEoys);
 
             var selectRecords = performanceRecords.Where(p => !performanceRecordEoys.Any(pn => pn.PerformanceRecordId == p.PerformanceRecordId));
 
