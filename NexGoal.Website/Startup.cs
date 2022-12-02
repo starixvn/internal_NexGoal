@@ -111,7 +111,6 @@
             services.Configure<LdapSettings>(options => settings.Bind(options));
             var ldapSettings = settings.Get<LdapSettings>();
             ldapSettings = ldapSettings ?? new LdapSettings();
-            ldapSettings.CompanyName = companyName;
 
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             services.AddSingleton(ldapSettings);

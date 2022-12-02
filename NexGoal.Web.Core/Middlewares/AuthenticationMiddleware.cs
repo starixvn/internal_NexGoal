@@ -3,6 +3,7 @@
     using System.Net;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Configuration;
     using NexGoal.Models.Auth;
     using NexGoal.Services;
     using NexGoal.Web.Core.Services;
@@ -12,15 +13,18 @@
         private readonly RequestDelegate next;
         private readonly IAuthService authService;
         private readonly LdapSettings ldapSetting;
+        private readonly IConfiguration configuration;
 
         public AuthenticationMiddleware(
             RequestDelegate next,
             IAuthService authService,
-            LdapSettings ldapSetting)
+            LdapSettings ldapSetting,
+            IConfiguration configuration)
         {
             this.next = next;
             this.authService = authService;
             this.ldapSetting = ldapSetting;
+            this.configuration = configuration;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -29,7 +33,8 @@
 
             if (currentSession.EmployeeId <= 0)
             {
-                var domainUsername = string.Equals(ldapSetting.CompanyName, "Luminet")
+                var companyName = configuration.GetSection("CompanyName").Value;
+                var domainUsername = string.Equals(companyName, "Luminet")
                     ? ldapSetting.Domain + context.User.Identity.Name
                     : context.User.Identity.Name;
                 EmployeeSession employee = await authService.GetEmployeeByDomainUsernameAsync(domainUsername);
