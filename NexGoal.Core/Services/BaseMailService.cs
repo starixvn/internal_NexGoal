@@ -12,6 +12,7 @@ namespace NexGoal.Core.Services
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using MimeKit;
+    using Newtonsoft.Json;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Models;
 
@@ -43,32 +44,31 @@ namespace NexGoal.Core.Services
             var systemName = configuration.GetSection("CompanyName").Value.Equals("Luminet") ? "LumiGoal" : "NexGoal";
             UpdateCompanyName(email, systemName);
 
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress(systemName, mailConfig.Value.Username));
-            message.To.Add(new MailboxAddress(email.ReceiverEmail));
-            message.Subject = email.Subject;
-            message.Priority = mailConfig.Value.MailPriority;
-
-            if (email.Cc.Any(x => IsValidEmail(x)))
-            {
-                message.Cc.AddRange(email.Cc.Where(x => IsValidEmail(x)).Select(x => new MailboxAddress(x)));
-            }
-
-            var builder = new BodyBuilder
-            {
-                HtmlBody = email.Body
-            };
-            foreach (MimeEntity attachment in email.Attachments)
-            {
-                builder.Attachments.Add(attachment);
-            }
-
-            message.Body = builder.ToMessageBody();
-
             using (var mailclient = new SmtpClient())
             {
                 try
                 {
+                    var message = new MimeMessage();
+                    message.From.Add(new MailboxAddress(systemName, mailConfig.Value.Username));
+                    message.To.Add(new MailboxAddress(email.ReceiverEmail));
+                    message.Subject = email.Subject;
+                    message.Priority = mailConfig.Value.MailPriority;
+
+                    if (email.Cc.Any(x => IsValidEmail(x)))
+                    {
+                        message.Cc.AddRange(email.Cc.Where(x => IsValidEmail(x)).Select(x => new MailboxAddress(x)));
+                    }
+
+                    var builder = new BodyBuilder
+                    {
+                        HtmlBody = email.Body
+                    };
+                    foreach (MimeEntity attachment in email.Attachments)
+                    {
+                        builder.Attachments.Add(attachment);
+                    }
+
+                    message.Body = builder.ToMessageBody();
                     mailclient.ServerCertificateValidationCallback = (s, c, h, e) => true;
                     mailclient.CheckCertificateRevocation = false;
                     await mailclient.ConnectAsync(mailConfig.Value.SmtpServer, mailConfig.Value.SmtpPort, mailConfig.Value.EnableSsl);
@@ -84,19 +84,19 @@ namespace NexGoal.Core.Services
                 }
                 catch (AuthenticationException ex)
                 {
-                    fanexlogger.Error(ex.Message, ex);
+                    await WriteLogErrorAsync(ex, email);
                 }
                 catch (SmtpCommandException ex)
                 {
-                    fanexlogger.Error(ex.Message, ex);
+                    await WriteLogErrorAsync(ex, email);
                 }
                 catch (SmtpProtocolException ex)
                 {
-                    fanexlogger.Error(ex.Message, ex);
+                    await WriteLogErrorAsync(ex, email);
                 }
                 catch (Exception ex)
                 {
-                    fanexlogger.Error(ex.Message, ex);
+                    await WriteLogErrorAsync(ex, email);
                 }
 
                 await mailclient.DisconnectAsync(true);
@@ -131,6 +131,11 @@ namespace NexGoal.Core.Services
 
             var regex = new Regex(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
             return regex.IsMatch(email);
+        }
+
+        private async Task WriteLogErrorAsync(Exception ex, MailModel email)
+        {
+            await fanexlogger.ErrorAsync(string.Format("{0}{1}{2}", ex.Message, Environment.NewLine, JsonConvert.SerializeObject(email)), ex);
         }
 
         private void WriteLogSendEmail(MailModel email)
