@@ -28,6 +28,7 @@ BEGIN
 			@EmployeeId IS NULL
 			OR pms.MemberId = @EmployeeId
 			)
+		AND e.IsDeleted = 0
 	ORDER BY e.NickName
 END
 

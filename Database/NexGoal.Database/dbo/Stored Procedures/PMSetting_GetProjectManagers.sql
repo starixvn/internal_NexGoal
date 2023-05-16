@@ -18,6 +18,7 @@ BEGIN
 			FROM dbo.EmployeeRole er WITH (NOLOCK)
 			WHERE er.EmployeeId = e.EmployeeId AND er.RoleId = 6
 		)
+		AND IsDeleted = 0
 	ORDER BY e.NickName
 END
 
