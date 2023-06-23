@@ -110,3 +110,15 @@
     font-size: $font-size;
     font-family: $font-family;
 }
+
+@mixin Mobile {
+    @media (max-width : 767px) {
+        @content;
+    }
+}
+
+@mixin TableMobile {
+    @media screen and (max-width: 1024px) {
+        @content;
+    }
+}
