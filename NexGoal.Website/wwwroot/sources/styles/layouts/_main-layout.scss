@@ -47,6 +47,9 @@
 
         &-content {
             border: 1px solid #e5e5e5;
+            border-bottom: none;
+            margin-bottom: 12px;
+
             .nomination {
                 font-size: 14px;
                 .result-item {

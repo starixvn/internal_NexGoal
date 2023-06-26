@@ -193,6 +193,10 @@
         visibility: hidden;
         transition: .2s all;
 
+        @include Mobile {
+            margin: 0;
+        }
+
         > li {
             display: block;
             width: 100%;

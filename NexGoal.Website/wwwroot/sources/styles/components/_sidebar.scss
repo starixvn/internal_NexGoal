@@ -36,6 +36,11 @@ $c-sidebar-menu-item-link-active-text: #324373;
     background: #2C3B66;
     transition: width 0.25s;
 
+    @include Mobile {
+        width: 150px;
+        background: #324476;
+    }
+
     img {
         width: 100%;
     }

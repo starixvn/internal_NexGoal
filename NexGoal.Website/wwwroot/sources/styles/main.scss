@@ -110,6 +110,12 @@ $fa-font-path: "~font-awesome/fonts";
         right: 0;
         bottom: 0;
 
+        @include Mobile {
+            min-width: 0;
+            overflow-x: hidden;
+            padding: 12px;
+        }
+
         .sub-header {
             position: relative;
 

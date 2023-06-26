@@ -28,6 +28,12 @@
                 border-bottom: 0;
                 font-size: 14px;
             }
+
+            @include Mobile {
+                th:nth-child(2) {
+                    width: 130px;
+                }
+            }
         }
         /*&:first-child > tr:first-child > td,
         &:first-child > tr:first-child > th {
@@ -49,6 +55,10 @@
             &.title {
                 background-color: #525e86;
                 color: #fff;
+            }
+
+            @include Mobile{
+                padding: 4px 6px;
             }
         }
 

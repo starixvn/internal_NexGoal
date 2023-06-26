@@ -1,6 +1,10 @@
 .announcement-modal.modal-dialog {
     width: 750px;
 
+    @include Mobile {
+        width: calc(100% - 20px)
+    }
+
     .modal-body {
         ul {
             list-style: none;

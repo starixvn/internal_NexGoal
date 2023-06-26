@@ -40,27 +40,29 @@ export default class PerformanceAppraisalResult extends Component {
                     performanceAppraisals.length === 0 &&
                     <div>{getResource('NoRecordFound')}</div>
                 }
-                {
-                    performanceAppraisals.length > 0 &&
-                    performanceAppraisals.map(performanceAppraisal => {
-                        return (
-                            <div key={`year${performanceAppraisal.year}`} className="my-pa-year">
-                                <div className="year">{performanceAppraisal.year}</div>
-                                {
-                                    performanceAppraisal.records.map(record => {
-                                        const grade = record.grade ? record.grade.description : '';
-                                        return (
-                                            <div key={`performanceAppraisal${record.paRecordId}`} className="term">
-                                                <div>{record.period.name}</div>
-                                                <div className="grade">{grade}</div>
-                                            </div>
-                                        );
-                                    })
-                                }
-                            </div>
-                        );
-                    })
-                }
+                <div className="my-pa-list">
+                    {
+                        performanceAppraisals.length > 0 &&
+                        performanceAppraisals.map(performanceAppraisal => {
+                            return (
+                                <div key={`year${performanceAppraisal.year}`} className="my-pa-year">
+                                    <div className="year">{performanceAppraisal.year}</div>
+                                    {
+                                        performanceAppraisal.records.map(record => {
+                                            const grade = record.grade ? record.grade.description : '';
+                                            return (
+                                                <div key={`performanceAppraisal${record.paRecordId}`} className="term">
+                                                    <div>{record.period.name}</div>
+                                                    <div className="grade">{grade}</div>
+                                                </div>
+                                            );
+                                        })
+                                    }
+                                </div>
+                            );
+                        })
+                    }
+                </div>
             </div>
         );
     }
