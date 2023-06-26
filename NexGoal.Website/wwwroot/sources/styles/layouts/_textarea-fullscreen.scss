@@ -30,6 +30,7 @@
                     top: 10px;
                     cursor: pointer;
                 }
+
                 &:hover:after {
                     color: #8f8f8f;
                 }
@@ -39,6 +40,10 @@
                 width: 800px;
                 margin: 0 auto;
                 height: 100%;
+
+                @include Mobile {
+                    width: calc(100% - 20px);
+                }
             }
 
             textarea {

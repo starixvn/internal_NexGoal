@@ -189,7 +189,7 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             margin-bottom: 12px;
-            z-index: 100;
+            z-index: 1000;
 
             *{
                 position: relative !important;
@@ -198,9 +198,6 @@
             .my-pa-list{
                 display: flex;
                 overflow-x: auto;
-
-                // max-height: 112px;
-                // overflow-y: auto;
 
                 .my-pa-year{
                     .term{
@@ -238,6 +235,7 @@
                 .timeline{
                     margin: 0;
                     padding: 0 20px;
+                    background: #fff;
 
                     .previous {
                         left: 10px;
@@ -255,6 +253,9 @@
 
             .record-list {
                 padding-top: 0;
+                background: #fff;
+                z-index: 100;
+                position: relative;
 
                 .record-your-mind{
                     padding: 12px;
