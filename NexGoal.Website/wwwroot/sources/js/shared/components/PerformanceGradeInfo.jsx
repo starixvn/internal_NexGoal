@@ -16,7 +16,7 @@ export default class PerformanceGradeInfo extends PureComponent {
     render() {
         return (
             <Modal show={this.props.showModal} onHide={this.props.onCloseModal} bsSize="lg"
-                dialogClassName="custom-modal" backdrop="static"
+                dialogClassName="custom-modal performance-grade-info" backdrop="static"
             >
                 <Modal.Header>
                     <Modal.Title>

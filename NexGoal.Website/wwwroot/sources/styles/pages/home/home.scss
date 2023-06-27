@@ -196,21 +196,21 @@
             }
 
             .my-pa-list{
-                display: flex;
+                display: grid;
                 overflow-x: auto;
+                grid-auto-flow: column;
+                grid-column-gap: 20px;
 
                 .my-pa-year{
                     .term{
                         grid-template-columns: 120px 200px 1fr;
-                        margin-right: 12px;
                     }
-
                 }
             }
         }
 
         .main-content {
-            top: 44px;
+            top: 32px;
             position: relative;
             width: 100%;
             border: none;
@@ -223,13 +223,23 @@
                 position: relative;
                 width: 100%;
                 top: 0;
-                margin: 12px 0;
+                margin: 0;
+
+                &::before, &::after{
+                    content: "";
+                    width: 100%;
+                    height: 12px;
+                    display: block;
+                    background: #fff;
+                    z-index: 1000;
+                }
 
                 .marquee-block{
                     position: fixed;
                     top: 50px;
                     margin: 12px 0;
                     max-width: calc(100% - 24px);
+                    z-index: -100;
                 }
 
                 .timeline{
@@ -265,9 +275,21 @@
                             display: flex;
                             flex-direction: column;
 
+                            .icon-fullmode, .react-select__placeholder, .react-select__single-value {
+                                position: absolute !important;
+                            }
+
+                            .react-select-container + span{
+                                display: none !important;
+                            }
+
+                            .aria-context{
+                                display: none;
+                            }
+
                             .grade{
                                 width: 100%;
-                                margin-bottom: 12px;
+                                margin:0 0 12px;
                             }
                             .project{
                                 width: 100%;

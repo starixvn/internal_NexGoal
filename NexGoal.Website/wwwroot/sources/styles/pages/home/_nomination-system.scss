@@ -10,21 +10,32 @@
             text-align: center;
             padding-bottom: 0;
             margin-bottom: 0;
+
+            @include Mobile {
+                font-size: 16px;
+            }
         }
     }
 
-    .record.status-nomination {
-        padding-top: 16px;
-        background-color: $status-nomination-color;
-    }
+    .record {
+        &.status-nomination {
+            background-color: $status-nomination-color;
+        }
 
-    .record.status-winner {
-        padding-top: 16px;
-        background-color: $status-winner-color;
-    }
+        &.status-winner {
+            background-color: $status-winner-color;
+        }
 
-    .record.status-shortlisted {
-        padding-top: 16px;
-        background-color: $status-shortlisted-color;
+        &.status-shortlisted {
+            background-color: $status-shortlisted-color;
+        }
+
+        &.status-nomination, &.status-winner, &.status-shortlisted {
+            padding-top: 16px;
+
+            @include Mobile {
+                padding: 12px;
+            }
+        }
     }
 }

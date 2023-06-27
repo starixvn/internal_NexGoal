@@ -3,9 +3,10 @@
 
     &.modal-md {
         width: 970px;
+    }
 
-        @include Mobile {
-            width: calc(100% - 20px)
+    @include Mobile {
+        width: calc(100% - 20px)
         }
     }
 
@@ -15,8 +16,7 @@
 
     &.custom-modal {
         .modal-header {
-            margin-left: 20px;
-            margin-right: 20px;
+            margin: 0 20px;
             border-bottom-color: #c3c3c3;
             text-transform: uppercase;
             padding: 16px 0 4px;
@@ -46,6 +46,28 @@
 
         .modal-footer .btn + .btn {
             margin-left: 16px;
+        }
+
+        @include Mobile {
+            .modal-header {
+                margin: 0 12px;
+            }
+
+            .modal-body {
+                padding: 12px;
+            }
+
+            .modal-footer {
+                padding: 12px;
+            }
+
+            &.performance-grade-info{
+                .modal-body {
+                    max-height: 660px;
+                    height: auto;
+                    overflow-y: auto;
+                }
+            }
         }
     }
 

@@ -1,9 +1,13 @@
-@import "../../abstracts/variables";
-@import "../../abstracts/mixins";
+@import "../abstracts/variables";
+@import "../abstracts/_mixins";
 
 .box {
     border-bottom: 1px solid #ccc;
     padding: 16px;
+
+    @include Mobile {
+        padding: 12px;
+    }
 
     h5 {
         color: #05517E;

@@ -238,6 +238,7 @@ export default class CreateSelfPerformance extends Component {
                                         options={projectOptions}
                                         value={performanceRecord.projects}
                                         onChange={this.handleProjectChange}
+                                        isSearchable={false}
                                         isMulti
                                     />
                                 </div>
