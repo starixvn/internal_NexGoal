@@ -279,11 +279,7 @@
                                 position: absolute !important;
                             }
 
-                            .react-select-container + span{
-                                display: none !important;
-                            }
-
-                            .aria-context{
+                            .react-select-container > span{
                                 display: none;
                             }
 
@@ -291,6 +287,7 @@
                                 width: 100%;
                                 margin:0 0 12px;
                             }
+
                             .project{
                                 width: 100%;
                             }
