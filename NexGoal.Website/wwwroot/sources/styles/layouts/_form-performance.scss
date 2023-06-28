@@ -72,6 +72,10 @@ form.form-performance {
     &.edit, &.create {
         .comment textarea {
             padding: 12px 20px 12px 16px;
+
+            @include Mobile{
+                padding-top: 24px;
+            }
         }
     }
 

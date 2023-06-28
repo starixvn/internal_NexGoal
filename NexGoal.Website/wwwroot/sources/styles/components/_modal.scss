@@ -3,10 +3,10 @@
 
     &.modal-md {
         width: 970px;
-    }
 
-    @include Mobile {
-        width: calc(100% - 20px)
+        @include Mobile {
+            width: calc(100% - 20px);
+        }
     }
 
     .modal-content {

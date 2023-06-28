@@ -18,7 +18,8 @@
 .navbar-inverse {
     background: #324476;
     border-bottom: none;
-    //box-shadow: 0 2px 5px 0 rgba(0,0,0,.16);
+    z-index: 10;
+
     .icon-submenu {
         position: relative;
         display: inline-block;

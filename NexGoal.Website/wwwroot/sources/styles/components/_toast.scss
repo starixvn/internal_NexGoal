@@ -2,6 +2,11 @@
 
 .Toastify__toast-container {
     width: 360px;
+
+    @include Mobile{
+        width: 94%;
+        margin: 0 12px;
+    }
     
     .Toastify__toast {
         min-height: 50px;
