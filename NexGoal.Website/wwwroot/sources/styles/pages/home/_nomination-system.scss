@@ -3,6 +3,7 @@
 .my-page {
     .record[class*="status-"] {
         grid-template-rows: 1fr;
+        grid-template-columns: none;
 
         .comment {
             color: #fff;

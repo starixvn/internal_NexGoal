@@ -36,8 +36,12 @@ $c-sidebar-menu-item-link-active-text: #324373;
     background: #2C3B66;
     transition: width 0.25s;
 
+    @include TableMobile {
+        width: 220px;
+    }
+
     @include Mobile {
-        width: 150px;
+        width: 150px !important;
         background: #324476;
     }
 

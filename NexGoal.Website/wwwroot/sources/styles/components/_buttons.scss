@@ -13,37 +13,41 @@
 .btn {
     @include border-radius(3px);
     font-size: $font-size;
-    color: #fff;    
-    padding: 5px 15px;    
+    color: #fff;
+    padding: 5px 15px;
     min-width: 86px;
 
-    &:hover, &:focus, &:active {        
+    @include TableMobile {
+        min-width: 70px;
+    }
+
+    &:hover, &:focus, &:active {
         outline: none;
     }
 
     &.btn-primary {
-      @include solidButton(#324476);        
+        @include solidButton(#324476);
     }
 
-    &.btn-cancel {        
+    &.btn-cancel {
         background: #fff;
         border: 1px solid #545454;
         color: #545454;
         transition: all .15s ease-in;
 
         &:hover, &:focus, &:active {
-             background: lighten(#324476, 10%);
-             color: #fff;
-             border-color: lighten(#324476, 10%);
+            background: lighten(#324476, 10%);
+            color: #fff;
+            border-color: lighten(#324476, 10%);
         }
     }
 
     &.btn-add {
-        @include solidButton(#14862e);        
+        @include solidButton(#14862e);
     }
 
     &.btn-excel {
-        @include solidButton(#549f3b);        
+        @include solidButton(#549f3b);
     }
 
     .fa {

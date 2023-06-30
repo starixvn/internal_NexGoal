@@ -49,6 +49,10 @@
     .comment .form-control {
         font-size: 14px;
         padding: 12px 16px;
+
+        @include TableMobile {
+            padding: 12px 10px;
+        }
     }
 
     .grade {
@@ -57,6 +61,11 @@
         margin-right: 16px;
         vertical-align: top;
         padding: 0;
+
+        @include TableMobile {
+            width: 100%;
+            margin: 0 0 12px;
+        }
     }
 
     .project {
@@ -64,6 +73,10 @@
         width: calc(100% - 260px - 16px);
         vertical-align: top;
         padding: 0;
+
+        @include TableMobile {
+            width: 100%;
+        }
     }
 
     .comment .form-filter {
@@ -169,12 +182,37 @@
     }
 }
 
+@include TableMobile {
+
+    .general-info {
+        width: 220px !important;
+
+        .my-pa-year {
+            .term {
+                grid-template-columns: 1fr;
+            }
+        }
+    }
+
+    .main-content {
+        width: calc(100% - 440px) !important;
+    }
+
+    .work-info {
+        width: 220px !important;
+    }
+
+    .comment-pr {
+        grid-row: 6;
+    }
+}
+
 @include Mobile {
-    .container-fluid.page{
-        .row{
+    .container-fluid.page {
+        .row {
             margin: 0;
 
-            .section-body{
+            .section-body {
                 padding: 0;
             }
         }
@@ -184,25 +222,25 @@
         .general-info {
             position: relative;
             top: 44px;
-            width: 100%;
+            width: 100% !important;
             height: auto;
             border: 1px solid #ddd;
             border-radius: 5px;
             margin-bottom: 12px;
-            z-index: 100;
+            z-index: 1;
 
-            *{
+            * {
                 position: relative !important;
             }
 
-            .my-pa-list{
+            .my-pa-list {
                 display: grid;
                 overflow-x: auto;
                 grid-auto-flow: column;
                 grid-column-gap: 20px;
 
-                .my-pa-year{
-                    .term{
+                .my-pa-year {
+                    .term {
                         grid-template-columns: 120px 200px 1fr;
                     }
                 }
@@ -212,7 +250,7 @@
         .main-content {
             top: 32px;
             position: relative;
-            width: 100%;
+            width: 100% !important;
             border: none;
             border-radius: 5px;
             height: auto;
@@ -224,7 +262,7 @@
                 top: 0;
                 margin: 0;
 
-                &::before, &::after{
+                &::before, &::after {
                     content: "";
                     width: 100%;
                     height: 12px;
@@ -233,7 +271,7 @@
                     z-index: 1000;
                 }
 
-                .marquee-block{
+                .marquee-block {
                     position: fixed;
                     top: 50px;
                     margin: 12px 0;
@@ -241,7 +279,7 @@
                     z-index: -100;
                 }
 
-                .timeline{
+                .timeline {
                     margin: 0;
                     padding: 0 20px;
                     background: #fff;
@@ -256,25 +294,22 @@
                 }
             }
 
-            .record{
+            .record {
                 margin: 12px 0;
             }
 
             .record-list {
                 padding-top: 0;
                 background: #fff;
-                z-index: 100;
+                z-index: 8;
                 position: relative;
 
-                .record-your-mind{
+                .record-your-mind {
                     padding: 12px;
 
-                    .form-performance{
-                        .form-group{
-                            display: flex;
-                            flex-direction: column;
-
-                            .textarea-fullscreen-editor.expanded{
+                    .form-performance {
+                        .form-group {
+                            .textarea-fullscreen-editor.expanded {
                                 position: fixed !important;
                             }
 
@@ -282,57 +317,30 @@
                                 position: absolute !important;
                             }
 
-                            .react-select-container > span{
+                            .react-select-container > span {
                                 display: none;
-                            }
-
-                            .grade{
-                                width: 100%;
-                                margin:0 0 12px;
-                            }
-
-                            .project{
-                                width: 100%;
                             }
                         }
 
-                        .form-group:last-child{
-                            display: flex;
-                            justify-content: space-between;
-                            flex-direction: row;
-
-                            button{
-                                margin-left: 0;
-                            }
+                        .form-group:last-child button {
+                            margin-left: 0;
                         }
                     }
 
-                    .comment .comment-field  {
+                    .comment .comment-field {
                         padding-top: 24px;
                     }
                 }
 
-                *{
+                * {
                     position: relative !important;
                 }
 
-                .pci-list{
+                .pci-list {
                     overflow: hidden;
 
-                    .record-system .avatar-user{
+                    .record-system .avatar-user {
                         display: flex;
-                    }
-
-                    .record {
-                        .project{
-                            grid-column: 1;
-                            grid-row: 5;
-                            padding-left: 16px;
-                        }
-
-                        .comment-pr{
-                            grid-row: 6;
-                        }
                     }
                 }
             }
@@ -340,15 +348,15 @@
 
         .work-info {
             position: relative;
-            width: 100%;
+            width: 100% !important;
             top: 44px;
             padding: 0;
 
-            *{
+            * {
                 position: relative !important;
             }
 
-            .hrm-info{
+            .hrm-info {
                 margin-bottom: 0;
             }
         }

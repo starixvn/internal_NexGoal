@@ -5,7 +5,7 @@
     border-bottom: 1px solid #ccc;
     padding: 16px;
 
-    @include Mobile {
+    @include TableMobile {
         padding: 12px;
     }
 
@@ -49,6 +49,10 @@
         background-color: #fff;
         padding: 16px 16px 12px 0;
 
+        @include TableMobile{
+            padding-right: 10px;
+        }
+
         &-content {
             border: 1px solid #e5e5e5;
             border-bottom: none;
@@ -56,6 +60,7 @@
 
             .nomination {
                 font-size: 14px;
+
                 .result-item {
                     padding: 3px 0;
                 }
@@ -66,9 +71,13 @@
     .fixed-section {
         position: fixed;
         top: 50px;
-        z-index: 10;
+        z-index: 0;
         background: #fff;
         width: calc(100% - 500px);
+
+        @include TableMobile {
+            width: calc(100% - 440px);
+        }
     }
 }
 

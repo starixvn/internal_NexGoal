@@ -16,7 +16,7 @@
         object-fit: cover;
         object-position: 0 20%;
 
-        @include Mobile {
+        @include TableMobile {
             width: 60px;
             height: 60px;
         }

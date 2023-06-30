@@ -3,11 +3,16 @@
 
     &.modal-md {
         width: 970px;
+    }
 
-        @include Mobile {
+    @include TableMobile {
+        margin-top: 0;
+
+        &.modal-md {
             width: calc(100% - 20px);
         }
     }
+
 
     .modal-content {
         @include border-radius(0);

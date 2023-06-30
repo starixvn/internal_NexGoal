@@ -10,8 +10,22 @@ form.form-performance {
         }
     }
 
-    .form-group button {
-        margin-left: 16px;
+    .form-group {
+        &:last-child {
+            @include TableMobile {
+                display: flex;
+                justify-content: space-between;
+                flex-direction: row;
+
+                button {
+                    margin-left: 0;
+                }
+            }
+        }
+
+        button {
+            margin-left: 16px;
+        }
     }
 }
 
@@ -65,6 +79,10 @@ form.form-performance {
                 height: 100vh;
                 margin-left: calc(-50vw + 50%);
                 margin-top: -68px;
+
+                @include TableMobile {
+                    margin-top: 0;
+                }
             }
         }
     }
@@ -73,7 +91,7 @@ form.form-performance {
         .comment textarea {
             padding: 12px 20px 12px 16px;
 
-            @include Mobile{
+            @include Mobile {
                 padding-top: 24px;
             }
         }
@@ -81,6 +99,12 @@ form.form-performance {
 
     &.create .form-group {
         margin-bottom: 12px;
+    }
+
+    &.edit .project {
+        @include TableMobile {
+            padding-left: 0;
+        }
     }
 
     .grade-info {

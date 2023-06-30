@@ -41,7 +41,7 @@
                 margin: 0 auto;
                 height: 100%;
 
-                @include Mobile {
+                @include TableMobile {
                     width: calc(100% - 20px);
                 }
             }
