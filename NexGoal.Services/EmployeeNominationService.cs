@@ -193,20 +193,20 @@
             {
                 ActorId = nominatorId
             };
+            var records = await nominationRepository.GetMemberNominationAsync(criteria);
+            var performanceRecords = GroupDataMemberPerformance(records);
+
             var criteriaEoy = new GetMemberNominationEoyCriteria
             {
                 ActorId = nominatorId
             };
-            var records = await nominationRepository.GetMemberNominationAsync(criteria);
-            var performanceRecords = GroupDataMemberPerformance(records);
-
             var recordEoys = await nominationRepository.GetMemberNominationAsync(criteriaEoy);
             var recordKpiEoys = GroupKPIPerformances(recordEoys);
             var performanceRecordEoys = GroupDataMemberPerformance(recordKpiEoys);
 
             var selectRecords = performanceRecords.Where(p => !performanceRecordEoys.Any(pn => pn.PerformanceRecordId == p.PerformanceRecordId));
 
-            return performanceRecordEoys.Concat(selectRecords);
+            return performanceRecordEoys.Concat(selectRecords).OrderByDescending(p => p.CreatedDate);
         }
 
         public async Task<IEnumerable<PerformanceRecord>> GetMemberNominationByIdAsync(int nominatorId, int memberId)
