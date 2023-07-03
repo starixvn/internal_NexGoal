@@ -511,6 +511,32 @@
     }
 }
 
+.record.record-your-mind {
+    .grade {
+        width: 260px;
+        display: inline-block;
+        margin-right: 16px;
+        vertical-align: top;
+        padding: 0;
+
+        @include TableMobile {
+            width: 100%;
+            margin: 0 0 12px;
+        }
+    }
+
+    .project {
+        display: inline-block;
+        width: calc(100% - 260px - 16px);
+        vertical-align: top;
+        padding: 0;
+
+        @include TableMobile {
+            width: 100%;
+        }
+    }
+}
+
 .record.record-system {
     grid-template-rows: 50px 1fr 20px;
     padding: 16px;

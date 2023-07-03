@@ -8,6 +8,10 @@
     border-top: 1px solid #e5e5e5;
     padding-bottom: 12px;
 
+    @include TableMobile {
+        grid-row: 6;
+    }
+
     .custom-avatar {
         padding: 16px 0 0 0;
 

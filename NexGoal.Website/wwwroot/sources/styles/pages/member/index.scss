@@ -135,21 +135,47 @@
 .main-content #tabs {
     padding: 52px 0px 0;
 
+    @include Mobile {
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
     .record {
         margin: 16px;
+
+        @include Mobile {
+            margin: 10px 0;
+        }
     }
 
     .nav-tabs {
         position: fixed;
         top: 102px;
-        z-index: 55;
+        z-index: 7;
         background-color: #fff;
         width: calc(100% - 500px - 32px);
         margin: 0 16px;
+
+        @include Mobile {
+            position: relative;
+            top: 0;
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            margin: 0;
+            width: 100%;
+        }
     }
 
     .tab-content {
         padding-top: 36px;
+
+        @include Mobile {
+            padding-top: 0;
+        }
     }
 }
 

@@ -28,6 +28,21 @@
         background-color: #fff;
         overflow: auto;
 
+        @include Mobile {
+            position: relative;
+            top: 44px;
+            width: 100% !important;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 12px;
+            z-index: 1;
+
+            * {
+                position: relative !important;
+            }
+        }
+
         .box:last-child {
             border-bottom: none;
         }
@@ -38,6 +53,11 @@
         width: calc(100% - 500px);
         height: calc(100vh - 50px);
         padding-bottom: 20px;
+
+        @include Mobile {
+            margin: 0;
+            width: 100%;
+        }
     }
 
     .work-info {
@@ -49,8 +69,19 @@
         background-color: #fff;
         padding: 16px 16px 12px 0;
 
-        @include TableMobile{
+        @include TableMobile {
             padding-right: 10px;
+        }
+
+        @include Mobile {
+            position: relative;
+            width: 100% !important;
+            top: 44px;
+            padding: 0;
+
+            * {
+                position: relative !important;
+            }
         }
 
         &-content {
@@ -77,6 +108,10 @@
 
         @include TableMobile {
             width: calc(100% - 440px);
+        }
+
+        @include Mobile {
+            width: calc(100% - 24px);
         }
     }
 }
