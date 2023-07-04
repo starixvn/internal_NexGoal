@@ -76,7 +76,7 @@
         @include Mobile {
             position: relative;
             width: 100% !important;
-            top: 44px;
+            top: 0;
             padding: 0;
 
             * {
@@ -102,7 +102,7 @@
     .fixed-section {
         position: fixed;
         top: 50px;
-        z-index: 0;
+        z-index: 7;
         background: #fff;
         width: calc(100% - 500px);
 

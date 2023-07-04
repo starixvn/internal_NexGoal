@@ -282,3 +282,9 @@
         }
     }
 }
+
+@include Mobile {
+    .main-layout .general-info .clear-indicator {
+        position: absolute !important;
+    }
+}

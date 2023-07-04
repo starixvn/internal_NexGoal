@@ -8,10 +8,8 @@
     color: #2E67AA;
 
     @include Mobile {
-        position: fixed;
-        top: 50px;
         margin: 12px 0;
-        max-width: calc(100% - 24px);
+        max-width: 100%;
         z-index: -100;
     }
 }

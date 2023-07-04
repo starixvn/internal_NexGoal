@@ -182,6 +182,7 @@
 @include Mobile {
     .my-page {
         .general-info {
+            top: 156px;
 
             .my-pa-list {
                 display: grid;
@@ -198,7 +199,7 @@
         }
 
         .main-content {
-            top: 32px;
+            top: 144px;
             position: relative;
             width: 100% !important;
             border: none;
@@ -207,19 +208,9 @@
             padding-bottom: 0;
 
             .fixed-section {
-                position: relative;
-                width: 100%;
-                top: 0;
-                margin: 0;
-
-                &::before, &::after {
-                    content: "";
-                    width: 100%;
-                    height: 12px;
-                    display: block;
-                    background: #fff;
-                    z-index: 1000;
-                }
+                position: fixed;
+                top: 50px;
+                margin-bottom: 12px;
 
                 .timeline {
                     margin: 0;
@@ -243,7 +234,7 @@
             .record-list {
                 padding-top: 0;
                 background: #fff;
-                z-index: 8;
+                z-index: 6;
                 position: relative;
 
                 .record-your-mind {
@@ -281,6 +272,10 @@
                 .pci-list {
                     overflow: hidden;
 
+                    .record:first-child{
+                        margin-top: 0;
+                    }
+
                     .record-system .avatar-user {
                         display: flex;
                     }
@@ -291,7 +286,7 @@
         .work-info {
             position: relative;
             width: 100% !important;
-            top: 44px;
+            top: 144px;
             padding: 0;
 
             * {

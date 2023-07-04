@@ -5,15 +5,27 @@
         vertical-align: bottom;
         margin-right: 20px;
         margin-bottom: 12px;
-        @media screen and (min-width: 1660px)  {
+
+        @media screen and (min-width: 1660px) {
             margin-bottom: 0;
         }
+
+        @include Mobile {
+            display: flex;
+            align-items: center;
+        }
+
         .control-content {
             width: 200px;
         }
+
         .control-label {
             margin-bottom: 4px;
             font-weight: normal;
+
+            @include Mobile{
+                width: 120px;
+            }
         }
     }
 }

@@ -596,13 +596,15 @@
         grid-template-rows: 50px 1fr 0;
         box-shadow: none;
 
+        @include Mobile {
+            grid-template-rows: auto;
+        }
+
         .avatar-user {
             grid-template-columns: 40px 1fr 100px;
             padding: 0;
         }
-        /*.person-info {
-                align-self: flex-start;
-            }*/
+
         .person-info {
             display: block;
         }

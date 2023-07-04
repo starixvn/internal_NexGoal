@@ -3,7 +3,7 @@ import axios from 'axios';
 import { stringify } from 'qs';
 import moment from 'moment';
 import { toast } from 'react-toastify';
-
+import CustomScrollbars from '../../../shared/components/CustomScrollbars';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { PostRequestHeaders } from '../../../constants';
 import getResource from '../../../resourceHelper';
@@ -85,14 +85,18 @@ export default class Probation extends Component {
 
     render() {
         return (
-            <div className="probation-content">
-                <Table tableData={this.state.probationers} onShowComment={this.handleShowCommentModal}
-                    onConfirmedByReviewer={this.handleConfirmedByReviewer}
-                />
-                <CommentModal showModal={this.state.commentModal.show} content={this.state.commentModal.content}
-                    processId={this.state.commentModal.processId}
-                    onCloseModal={this.handleCloseCommentModal}
-                />
+            <div className="record-list">
+                <CustomScrollbars>
+                    <div className="probation-content">
+                        <Table tableData={this.state.probationers} onShowComment={this.handleShowCommentModal}
+                            onConfirmedByReviewer={this.handleConfirmedByReviewer}
+                        />
+                        <CommentModal showModal={this.state.commentModal.show} content={this.state.commentModal.content}
+                            processId={this.state.commentModal.processId}
+                            onCloseModal={this.handleCloseCommentModal}
+                        />
+                    </div>
+                </CustomScrollbars>
             </div>
         );
     }

@@ -1,7 +1,7 @@
 ﻿import React, { Component } from 'react';
 import axios from 'axios';
 import isEqual from 'react-fast-compare';
-
+import CustomScrollbars from '../../../shared/components/CustomScrollbars';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import Filter from './filter';
 import Table from './table/Table';
@@ -78,21 +78,25 @@ export default class MemberPerformanceAppraisal extends Component {
         });
 
         return (
-            <div className="pa-content">
-                <Filter
-                    filter={this.state.filter}
-                    periodOptions={this.props.periodOptions}
-                    groupOptions={groupOptions}
-                    onFilterChange={this.handleFilterChange}
-                    onSubmit={this.handleFilterSubmit}
-                />
-                <Table
-                    data={this.state.performanceAppraisals}
-                    gradeOptions={this.props.gradeOptions}
-                    renderPA={this.getPerformanceAppraisals}
-                    onRevisedSuccess={this.onQuickEditSuccess}
-                    performanceGradeInfos={this.props.performanceGradeInfos}
-                />
+            <div className="record-list">
+                <CustomScrollbars>
+                    <div className="pa-content">
+                        <Filter
+                            filter={this.state.filter}
+                            periodOptions={this.props.periodOptions}
+                            groupOptions={groupOptions}
+                            onFilterChange={this.handleFilterChange}
+                            onSubmit={this.handleFilterSubmit}
+                        />
+                        <Table
+                            data={this.state.performanceAppraisals}
+                            gradeOptions={this.props.gradeOptions}
+                            renderPA={this.getPerformanceAppraisals}
+                            onRevisedSuccess={this.onQuickEditSuccess}
+                            performanceGradeInfos={this.props.performanceGradeInfos}
+                        />
+                    </div>
+                </CustomScrollbars>
             </div>
         );
     }

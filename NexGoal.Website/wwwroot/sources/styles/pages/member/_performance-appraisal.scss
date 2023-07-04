@@ -7,6 +7,11 @@
 
 .pa-content {
     padding: 0 16px 20px;
+    overflow: hidden;
+
+    @include Mobile{
+        padding: 0;
+    }
 }
 
 .form-filter {

@@ -1,6 +1,10 @@
 ﻿.probation-content {
     padding: 16px;
 
+    @include Mobile{
+        padding: 12px 0;
+    }
+
     .icon-search:before {
         color: #333;
         cursor: pointer;
