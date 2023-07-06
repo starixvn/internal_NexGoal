@@ -545,6 +545,10 @@
     border: 1px solid #5191DF;
     grid-row-gap: 0;
 
+    @include Mobile {
+        padding: 12px !important;
+    }
+
     .avatar-user, .grade, .project {
         padding: 0;
     }
@@ -598,11 +602,19 @@
 
         @include Mobile {
             grid-template-rows: auto;
+
+            .comment {
+                margin-bottom: 0;
+            }
         }
 
         .avatar-user {
             grid-template-columns: 40px 1fr 100px;
             padding: 0;
+
+            @include Mobile {
+                grid-template-columns: 40px auto;
+            }
         }
 
         .person-info {

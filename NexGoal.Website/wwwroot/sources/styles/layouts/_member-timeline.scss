@@ -8,7 +8,8 @@
         padding: 0 16px 10px 20px;
 
         @include Mobile {
-            padding: 0 10px 10px;
+            padding: 10px;
+            margin-top: 10px;
         }
     }
 
@@ -25,7 +26,7 @@
         padding: 0 16px 10px 20px;
 
         @include Mobile {
-            padding: 0 10px 10px;
+            padding: 0 10px;
         }
 
         .team {
@@ -57,6 +58,10 @@
             line-height: 15px;
             border-width: 1px;
 
+            @include Mobile {
+                position: absolute !important;
+            }
+
             .role-system {
                 border-color: $role-system-color;
                 color: $role-system-color;
@@ -69,8 +74,8 @@
 
         .previous, .next {
             top: 27px;
-            
-            @include Mobile{
+
+            @include Mobile {
                 position: absolute !important;
             }
         }
@@ -93,6 +98,10 @@
         @media screen and (min-width: 1601px) {
             font-size: 11px;
             width: 60px;
+        }
+
+        @include Mobile {
+            position: absolute !important;
         }
 
         &:after {
@@ -153,6 +162,10 @@
 
         @media screen and (min-width: 1601px) {
             grid-template-columns: 90px 1fr;
+        }
+
+        @include Mobile {
+            grid-template-columns: 60px 1fr;
         }
 
         .employee-info {

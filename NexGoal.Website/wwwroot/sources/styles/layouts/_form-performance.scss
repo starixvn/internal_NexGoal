@@ -10,7 +10,7 @@ form.form-performance {
         }
     }
 
-    .form-group {
+    .text-right.form-group {
         &:last-child {
             @include TableMobile {
                 display: flex;

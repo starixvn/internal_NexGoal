@@ -13,6 +13,8 @@
         @include Mobile {
             display: flex;
             align-items: center;
+            margin-right: 5px;
+            justify-content: flex-end;
         }
 
         .control-content {
@@ -23,7 +25,7 @@
             margin-bottom: 4px;
             font-weight: normal;
 
-            @include Mobile{
+            @include Mobile {
                 width: 120px;
             }
         }

@@ -272,7 +272,7 @@
                 .pci-list {
                     overflow: hidden;
 
-                    .record:first-child{
+                    .record:first-child {
                         margin-top: 0;
                     }
 
@@ -284,14 +284,7 @@
         }
 
         .work-info {
-            position: relative;
-            width: 100% !important;
             top: 144px;
-            padding: 0;
-
-            * {
-                position: relative !important;
-            }
 
             .hrm-info {
                 margin-bottom: 0;

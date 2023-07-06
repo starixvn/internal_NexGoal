@@ -98,6 +98,10 @@
 
     #chart-wrapper {
         margin-top: 10px;
+
+        @include Mobile {
+            margin-top: 20px;
+        }
     }
 }
 
@@ -126,6 +130,16 @@
 .record-list {
     height: calc(100vh - 50px - 52px - 36px);
     overflow: auto;
+    z-index: 7;
+    background-color: #fff;
+    position: relative;
+
+    @include Mobile {
+        //height: auto;
+        /** {
+            position: relative !important;
+        }*/
+    }
 }
 
 .member-detail .record-list {
@@ -133,12 +147,12 @@
 }
 
 .main-content #tabs {
-    padding: 52px 0px 0;
+    padding: 52px 0 0;
 
     @include Mobile {
-        ::-webkit-scrollbar {
-            display: none;
-        }
+        padding: 0;
+        top: 44px;
+        position: relative;
     }
 
     .record {
@@ -160,13 +174,9 @@
         @include Mobile {
             position: relative;
             top: 0;
-            display: flex;
-            align-items: center;
-            overflow-x: auto;
-            overflow-y: hidden;
-            white-space: nowrap;
             margin: 0;
             width: 100%;
+            padding-top: 24px;
         }
     }
 
@@ -221,11 +231,19 @@
 
     .nomination-period, .employee {
         display: inline-block;
+
+        @include Mobile {
+            width: 100% !important;
+        }
     }
 
     .nomination-period {
         width: 300px;
         margin-right: 16px;
+
+        @include Mobile {
+            margin-bottom: 12px;
+        }
 
         .react-select-container {
             .react-select__menu {
@@ -284,7 +302,50 @@
 }
 
 @include Mobile {
-    .main-layout .general-info .clear-indicator {
+    .react-multiselect-search-box .clear-indicator {
         position: absolute !important;
+    }
+
+    .main-layout .work-info .chartjs-size-monitor {
+        position: absolute !important;
+    }
+
+    .main-layout {
+        .general-info {
+            margin-bottom: 0;
+        }
+
+        .fixed-section {
+            z-index: 0;
+        }
+
+        .work-info {
+            padding-top: 24px;
+        }
+    }
+
+    .member-timeline .timeline {
+        .xaxes {
+            width: 94%;
+            float: left;
+        }
+
+        .next {
+            right: 6px;
+        }
+    }
+
+    #tabs {
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-tabs {
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+        }
     }
 }

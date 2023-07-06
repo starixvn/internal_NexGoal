@@ -5,7 +5,6 @@ import InfiniteScroll from 'react-infinite-scroller';
 import { Tabs, Tab } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
-
 import { axiosError, getCurrentUserInfo, resolveClientUrl } from '../../common-functions';
 import { PostRequestHeaders } from '../../constants';
 import getResource from '../../resourceHelper';

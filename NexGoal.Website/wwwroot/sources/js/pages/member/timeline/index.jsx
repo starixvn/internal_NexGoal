@@ -1,7 +1,6 @@
 ﻿import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 import isEqual from 'react-fast-compare';
-
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import Multiselect from '../../../shared/components/react-multiselect/index';

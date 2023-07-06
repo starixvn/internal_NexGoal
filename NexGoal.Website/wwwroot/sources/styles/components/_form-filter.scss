@@ -2,6 +2,11 @@
     min-width: 600px;
     padding: 16px 0;
 
+    @include Mobile {
+        min-width: 0;
+        padding: 0;
+    }
+
     .row-filter {
         margin-bottom: 8px;
     }
@@ -41,6 +46,10 @@
 
     .form-group .control-content {
         width: 200px;
+
+        @include Mobile {
+            width: 100% !important;
+        }
 
         &.employee-width {
             width: 280px;
