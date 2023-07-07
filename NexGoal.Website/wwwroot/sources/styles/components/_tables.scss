@@ -125,3 +125,9 @@
         }
     }
 }
+
+.performance-grade-info table {
+    thead tr th:first-child th:nth-child(1), tbody tr td:nth-child(1) {
+        box-shadow: none;
+    }
+}

@@ -50,7 +50,7 @@ export default class CustomScrollbars extends Component {
 
     render() {
         return (
-            <Scrollbars style={{ height: '100%' }}
+            <Scrollbars className="area-scroll" style={{ height: '100%' }}
                 renderTrackHorizontal={this.renderTrackHorizontal}
                 renderTrackVertical={this.renderTrackVertical}
                 onMouseEnter={this.handleMouseEnter}

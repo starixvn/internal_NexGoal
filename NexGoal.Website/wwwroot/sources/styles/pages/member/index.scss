@@ -135,10 +135,7 @@
     position: relative;
 
     @include Mobile {
-        //height: auto;
-        /** {
-            position: relative !important;
-        }*/
+        height: auto;
     }
 }
 
@@ -302,21 +299,15 @@
 }
 
 @include Mobile {
-    .react-multiselect-search-box .clear-indicator {
-        position: absolute !important;
-    }
-
-    .main-layout .work-info .chartjs-size-monitor {
-        position: absolute !important;
-    }
-
     .main-layout {
         .general-info {
             margin-bottom: 0;
         }
 
-        .fixed-section {
-            z-index: 0;
+        .main-content {
+            .fixed-section {
+                z-index: 0;
+            }
         }
 
         .work-info {
@@ -333,6 +324,10 @@
         .next {
             right: 6px;
         }
+    }
+
+    .react-multiselect-dropdown-list {
+        position: relative;
     }
 
     #tabs {

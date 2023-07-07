@@ -241,20 +241,6 @@
                     padding: 12px;
 
                     .form-performance {
-                        .form-group {
-                            .textarea-fullscreen-editor.expanded {
-                                position: fixed !important;
-                            }
-
-                            .icon-fullmode, .react-select__placeholder, .react-select__single-value {
-                                position: absolute !important;
-                            }
-
-                            .react-select-container > span {
-                                display: none;
-                            }
-                        }
-
                         .form-group:last-child button {
                             margin-left: 0;
                         }
@@ -263,10 +249,6 @@
                     .comment .comment-field {
                         padding-top: 24px;
                     }
-                }
-
-                * {
-                    position: relative !important;
                 }
 
                 .pci-list {
