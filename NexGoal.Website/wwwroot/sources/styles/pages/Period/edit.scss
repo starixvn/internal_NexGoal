@@ -28,7 +28,6 @@
     .checkbox .checkbox-custom + label:before {
         margin-right: 6px;
     }
-
     /*.checkbox {
         left: -12px;
     }*/
@@ -113,5 +112,25 @@ table select {
 
     > tbody > tr > td:first-child {
         text-align: center;
+    }
+}
+
+@include Mobile {
+    .col-sm-12 {
+        padding: 0;
+    }
+
+    #tabs {
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-tabs {
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+        }
     }
 }

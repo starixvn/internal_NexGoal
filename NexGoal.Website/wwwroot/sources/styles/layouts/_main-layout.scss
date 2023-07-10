@@ -43,9 +43,10 @@
             border-radius: 5px;
             margin-bottom: 12px;
             z-index: 1;
-            /*            * {
-                position: relative !important;
-            }*/
+        }
+
+        @include TableMobile {
+            width: 220px;
         }
 
         .box:last-child {
@@ -61,8 +62,12 @@
 
         @include Mobile {
             margin: 0;
-            width: 100%;
+            width: 100% !important;
             height: auto;
+        }
+
+        @include TableMobile {
+            width: calc(100% - 440px);
         }
     }
 
@@ -77,6 +82,7 @@
 
         @include TableMobile {
             padding-right: 10px;
+            width: 220px;
         }
 
         @include Mobile {

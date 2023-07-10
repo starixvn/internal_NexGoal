@@ -600,7 +600,7 @@
         grid-template-rows: 50px 1fr 0;
         box-shadow: none;
 
-        @include Mobile {
+        @include TableMobile {
             grid-template-rows: auto;
 
             .comment {
@@ -612,7 +612,7 @@
             grid-template-columns: 40px 1fr 100px;
             padding: 0;
 
-            @include Mobile {
+            @include TableMobile {
                 grid-template-columns: 40px auto;
             }
         }

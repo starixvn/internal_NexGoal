@@ -18,7 +18,7 @@
         margin-bottom: 12px;
 
         &:last-child {
-          margin-bottom: 0;
+            margin-bottom: 0;
         }
     }
 
@@ -30,7 +30,7 @@
         //left: -12px;
 
         label {
-          min-height: auto;
+            min-height: auto;
         }
     }
 
@@ -40,5 +40,27 @@
 
     .control-content.name-content {
         width: 420px;
+    }
+}
+
+@include Mobile {
+    .table {
+        thead tr:first-child th:nth-child(2), tbody tr td:nth-child(2) {
+            position: sticky;
+            left: 0;
+            box-shadow: 4px 0 0 0 rgba(0,0,0,.08);
+        }
+
+        tbody tr td:nth-child(2) {
+            background: #fff;
+        }
+    }
+
+    .col-sm-12 {
+        padding: 0;
+    }
+
+    .form-inline .form-group {
+        justify-content: space-between;
     }
 }

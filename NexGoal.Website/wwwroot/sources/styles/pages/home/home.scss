@@ -161,8 +161,6 @@
 @include TableMobile {
 
     .general-info {
-        width: 220px !important;
-
         .my-pa-year {
             .term {
                 grid-template-columns: 1fr;
@@ -170,12 +168,12 @@
         }
     }
 
-    .main-content {
-        width: calc(100% - 440px) !important;
+    .previous {
+        left: 10px;
     }
 
-    .work-info {
-        width: 220px !important;
+    .next {
+        right: 10px;
     }
 }
 

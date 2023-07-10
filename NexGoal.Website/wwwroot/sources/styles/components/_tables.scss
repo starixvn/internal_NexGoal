@@ -49,14 +49,12 @@
             }
 
             @include Mobile {
-                th:nth-child(2) {
-                    width: 130px;
+                th {
+                    font-size: 13px;
                 }
 
-                &:first-child th:nth-child(1) {
-                    position: sticky;
-                    left: 0;
-                    box-shadow: 4px 0 0 0 rgba(0,0,0,.08);
+                th:nth-child(2) {
+                    width: 130px;
                 }
             }
         }
@@ -77,20 +75,13 @@
                 color: #fff;
             }
 
-            @include Mobile {
+            @include TableMobile {
                 padding: 4px 6px;
-
-                &:nth-child(1) {
-                    position: sticky;
-                    left: 0;
-                    background: #fff;
-                    box-shadow: 4px 0 0 0 rgba(0,0,0,.08);
-                }
             }
         }
 
         &.group-row td {
-            background-color: #606887;
+            background-color: #606887 !important;
             color: #fff;
             font-weight: 600;
         }

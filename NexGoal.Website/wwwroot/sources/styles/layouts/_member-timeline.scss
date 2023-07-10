@@ -74,10 +74,6 @@
 
         .previous, .next {
             top: 27px;
-
-            @include Mobile {
-                position: absolute !important;
-            }
         }
 
         .previous {
@@ -98,10 +94,6 @@
         @media screen and (min-width: 1601px) {
             font-size: 11px;
             width: 60px;
-        }
-
-        @include Mobile {
-            position: absolute !important;
         }
 
         &:after {
