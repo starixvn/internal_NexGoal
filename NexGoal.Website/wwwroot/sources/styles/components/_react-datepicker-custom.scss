@@ -192,4 +192,8 @@
 
 .react-datepicker-popper[data-placement^="bottom"] {
     margin-top: 0;
+
+    @include Mobile {
+        left: -40px !important;
+    }
 }

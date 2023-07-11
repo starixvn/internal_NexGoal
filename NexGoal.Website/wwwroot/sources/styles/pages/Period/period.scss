@@ -36,10 +36,23 @@
 
     .description-group {
         width: 100%;
+
+        @include Mobile {
+            flex-direction: column;
+            align-items: normal;
+
+            .control-label {
+                width: 100%;
+            }
+        }
     }
 
     .control-content.name-content {
         width: 420px;
+
+        @include Mobile {
+            width: 200px;
+        }
     }
 }
 
@@ -60,7 +73,17 @@
         padding: 0;
     }
 
-    .form-inline .form-group {
-        justify-content: space-between;
+    .evaluation-period-form {
+        .form-group {
+            justify-content: space-between;
+        }
+
+        .modal-footer {
+            padding-top: 0 !important;
+        }
+    }
+
+    .checkbox label {
+        padding-left: 0;
     }
 }

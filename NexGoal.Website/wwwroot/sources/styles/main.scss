@@ -115,13 +115,24 @@ $fa-font-path: "~font-awesome/fonts";
             overflow-x: hidden;
             padding: 12px;
 
-            .row{
+            .row {
                 margin: 0;
+            }
+
+            .col-sm-12:nth-child(2) {
+                top: 20px;
             }
         }
 
         .sub-header {
             position: relative;
+
+            @include Mobile {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+            }
 
             .breadcrumb {
                 background: #f2f2f2;
@@ -133,6 +144,11 @@ $fa-font-path: "~font-awesome/fonts";
                 text-transform: uppercase;
                 font-weight: 600;
                 margin-bottom: 0;
+
+                @include Mobile {
+                    font-size: 14px;
+                    padding: 6px 12px;
+                }
 
                 li {
                     padding: 0;
@@ -158,7 +174,7 @@ $fa-font-path: "~font-awesome/fonts";
         background: #fff;
         padding: 0 15px;
 
-        @include Mobile{
+        @include Mobile {
             padding: 0;
         }
     }
