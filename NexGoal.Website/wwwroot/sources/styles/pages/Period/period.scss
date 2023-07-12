@@ -57,6 +57,10 @@
 }
 
 @include Mobile {
+    .react-bootstrap-table{
+        overflow-x: auto;
+    }
+
     .table {
         thead tr:first-child th:nth-child(2), tbody tr td:nth-child(2) {
             position: sticky;
@@ -66,6 +70,20 @@
 
         tbody tr td:nth-child(2) {
             background: #fff;
+        }
+
+        thead tr th{
+            &:nth-child(5), &:nth-child(6){
+                width: 100px;
+            }
+
+            &:nth-child(7){
+                width: 60px !important;
+            }
+
+            &:nth-child(8){
+                width: 70px !important;
+            }
         }
     }
 

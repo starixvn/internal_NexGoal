@@ -199,11 +199,14 @@ export default class EditBasicInformation extends Component {
                         </Col>
                     </FormGroup>
                 </div>
-                <FormGroup>
-                    <Col>
-                        <Button type="submit" className="btn btn-primary" disabled={isSubmitting}>{getResource('Submit')}</Button>
-                    </Col>
-                </FormGroup>
+                <div className="line-group">
+                    <FormGroup>
+                        <Col>
+                            <Button type="submit" className="btn btn-primary" disabled={isSubmitting}>{getResource('Submit')}</Button>
+                        </Col>
+                    </FormGroup>
+                </div>
+
             </Form>
         );
     };

@@ -15,8 +15,9 @@
     border-collapse: separate;
 
     @include Mobile {
-        display: block;
+        display: table;
         overflow-x: auto;
+        margin-bottom: 7px;
     }
 
     tr, th, td {

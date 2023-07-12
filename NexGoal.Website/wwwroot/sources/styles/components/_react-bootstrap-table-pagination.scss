@@ -142,4 +142,14 @@
             }
         }
     }
+
+    @include Mobile {
+        .col-xs-6:first-child {
+            width: 20%;
+        }
+
+        .col-xs-6:last-child {
+            width: 80%;
+        }
+    }
 }

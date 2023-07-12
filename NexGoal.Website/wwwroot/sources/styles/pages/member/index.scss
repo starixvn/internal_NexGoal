@@ -143,7 +143,7 @@
     height: calc(100vh - 50px - 52px - 36px - 112px);
 }
 
-.main-content #tabs {
+#tabs {
     padding: 52px 0 0;
 
     @include Mobile {
@@ -329,10 +329,14 @@
     .react-multiselect-dropdown-list {
         position: relative;
     }
+
+    table {
+        display: block !important;
+    }
 }
 
 @include TableMobile {
-    .main-content #tabs {
+    #tabs {
         ::-webkit-scrollbar {
             display: none;
         }
