@@ -71,71 +71,73 @@ export default class Edit extends Component {
                             {errors.noSelect && <li>{errors.noSelect}</li>}
                         </ul>
                     }
-                    <div>
+                    <div className="employee-setting-list">
                         <label>{getResource('Employee')}</label>
                         <div style={lbstyle}  >{employees}</div>
                     </div>
-                    <table className="table table-bordered">
-                        <thead>
-                            <tr>
-                                {numberOfPARecord > 1 && <th />}
-                                <th />
-                                <th className="col-sm-4">{getResource('Evaluator')}</th>
-                                <th>{getResource('StartDate')}</th>
-                                <th>{getResource('EndDate')}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {values.processes.map((p, i) =>
-                                <tr key={i}>
-                                    {
-                                        numberOfPARecord > 1 &&
-                                        <td>
-                                            <div className="checkbox">
-                                                <input type="checkbox" checked={p.isSelected} onChange={handleChange}
-                                                    id={`chb-processes${i}`}
-                                                    className="checkbox-custom"
-                                                    name={`processes.${i}.isSelected`}
-                                                />
-                                                <label htmlFor={`chb-processes${i}`} />
-                                            </div>
-                                        </td>
-                                    }
-                                    <td>{p.process}</td>
-                                    <td>
-                                        {
-                                            p.processId !== PerformanceProcess.Self &&
-                                            <Select name={`processes.${i}.evaluator`}
-                                                classNamePrefix="react-select"
-                                                className="react-select-container"
-                                                value={p.evaluator}
-                                                onChange={value => setFieldValue(`processes.${i}.evaluator`, value)}
-                                                options={this.props.employeeOptions} placeholder="-- Search an employee --"
-                                            />
-                                        }
-                                    </td>
-                                    <td>
-                                        {
-                                            p.processId === PerformanceProcess.Reviewer &&
-                                            <DatePicker autoComplete="off" className="form-control" dateFormat={DateFormat} selected={p.startDate}
-                                                onChange={value => setFieldValue(`processes.${i}.startDate`, value)}
-                                                name={`processes.${i}.startDate`} maxDate={p.endDate}
-                                            />
-                                        }
-                                    </td>
-                                    <td>
-                                        {
-                                            p.processId === PerformanceProcess.Reviewer &&
-                                            <DatePicker autoComplete="off" className="form-control" dateFormat={DateFormat} selected={p.endDate}
-                                                onChange={value => setFieldValue(`processes.${i}.endDate`, value)}
-                                                name={`processes.${i}.endDate`} minDate={p.startDate}
-                                            />
-                                        }
-                                    </td>
+                    <div className="table-edit-employee-settings">
+                        <table className="table table-bordered">
+                            <thead>
+                                <tr>
+                                    {numberOfPARecord > 1 && <th className="col-checkbox" />}
+                                    <th className="col-monitor" />
+                                    <th className="col-sm-4 col-evaluator">{getResource('Evaluator')}</th>
+                                    <th className="col-start-date" >{getResource('StartDate')}</th>
+                                    <th className="col-end-date" >{getResource('EndDate')}</th>
                                 </tr>
-                            )}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {values.processes.map((p, i) =>
+                                    <tr key={i}>
+                                        {
+                                            numberOfPARecord > 1 &&
+                                            <td>
+                                                <div className="checkbox">
+                                                    <input type="checkbox" checked={p.isSelected} onChange={handleChange}
+                                                        id={`chb-processes${i}`}
+                                                        className="checkbox-custom"
+                                                        name={`processes.${i}.isSelected`}
+                                                    />
+                                                    <label htmlFor={`chb-processes${i}`} />
+                                                </div>
+                                            </td>
+                                        }
+                                        <td>{p.process}</td>
+                                        <td>
+                                            {
+                                                p.processId !== PerformanceProcess.Self &&
+                                                <Select name={`processes.${i}.evaluator`}
+                                                    classNamePrefix="react-select"
+                                                    className="react-select-container"
+                                                    value={p.evaluator}
+                                                    onChange={value => setFieldValue(`processes.${i}.evaluator`, value)}
+                                                    options={this.props.employeeOptions} placeholder="-- Search an employee --"
+                                                />
+                                            }
+                                        </td>
+                                        <td className="row-start-date">
+                                            {
+                                                p.processId === PerformanceProcess.Reviewer &&
+                                                <DatePicker autoComplete="off" className="form-control" dateFormat={DateFormat} selected={p.startDate}
+                                                    onChange={value => setFieldValue(`processes.${i}.startDate`, value)}
+                                                    name={`processes.${i}.startDate`} maxDate={p.endDate}
+                                                />
+                                            }
+                                        </td>
+                                        <td className="row-end-date">
+                                            {
+                                                p.processId === PerformanceProcess.Reviewer &&
+                                                <DatePicker autoComplete="off" className="form-control" dateFormat={DateFormat} selected={p.endDate}
+                                                    onChange={value => setFieldValue(`processes.${i}.endDate`, value)}
+                                                    name={`processes.${i}.endDate`} minDate={p.startDate}
+                                                />
+                                            }
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="btn btn-cancel" onClick={this.props.closeModal}>{getResource('Cancel')}</Button>

@@ -29,7 +29,7 @@
             align-items: flex-start
         }
 
-        &:last-child .form-group{
+        &:last-child .form-group {
             justify-content: flex-end;
         }
     }
@@ -53,6 +53,10 @@
             width: 200px;
         }
     }
+}
+
+.employee-setting-list {
+    margin-bottom: 6px
 }
 
 table select {
@@ -81,15 +85,6 @@ table select {
     }
 }
 
-/*.page-size {
-    margin: 20px 0;
-
-    button {
-        color: #333;
-        border: 1px solid #ccc;
-    }
-}*/
-
 .search-wrapper {
     .btn {
         height: 30px;
@@ -99,6 +94,25 @@ table select {
 
     .search .search-textbox {
         height: 30px;
+    }
+
+    @include Mobile {
+        display: flex;
+        flex-direction: column;
+
+        .field-group {
+            margin: 0 0 10px;
+            display: flex;
+            justify-content: space-between;
+
+            .control-content {
+                width: 74%;
+            }
+
+            &:nth-child(3) {
+                justify-content: flex-end;
+            }
+        }
     }
 }
 
@@ -199,17 +213,37 @@ table select {
     }
 
     #edit-employee-settings {
-        .table thead tr th {
-            &:nth-child(1) {
-                 width: 220px;
+        .table-edit-employee-settings {
+            overflow-x: auto;
+
+            .table {
+                min-width: 600px;
+
+                thead tr th {
+                    &.col-monitor {
+                        width: 80px;
+                    }
+
+                    &.col-evaluator {
+                        width: 220px;
+                    }
+                }
             }
 
-            &:nth-child(2) {
-                width: 220px;
+            .row-start-date {
+                .react-datepicker-popper[data-placement^=bottom], .react-datepicker-popper[data-placement^="top"] {
+                    left: 0 !important;
+                }
             }
 
-            &:nth-child(3), &:nth-child(4) {
-                width: 220px;
+            .row-end-date {
+                .react-datepicker-popper[data-placement^=bottom], .react-datepicker-popper[data-placement^="top"] {
+                    left: -110px !important;
+                }
+
+                .react-datepicker-popper[data-placement^="top"] .react-datepicker__triangle {
+                    left: 180px;
+                }
             }
         }
     }
@@ -225,6 +259,15 @@ table select {
 
         .btn {
             float: right;
+        }
+    }
+
+    .react-select-container {
+        .react-select__menu {
+            position: fixed;
+            top: auto;
+            width: auto;
+            min-width: 200px;
         }
     }
 }
