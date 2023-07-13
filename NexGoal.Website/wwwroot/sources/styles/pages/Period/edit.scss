@@ -85,6 +85,10 @@ table select {
     }
 }
 
+.checkbox-wrapper {
+    display: flex !important;
+}
+
 .search-wrapper {
     .btn {
         height: 30px;
@@ -262,12 +266,13 @@ table select {
         }
     }
 
-    .react-select-container {
-        .react-select__menu {
-            position: fixed;
-            top: auto;
-            width: auto;
-            min-width: 200px;
+    .table-edit-employee-settings {
+        .react-select-container {
+            .react-select__menu {
+                position: fixed;
+                top: auto;
+                width: auto;
+            }
         }
     }
 }
