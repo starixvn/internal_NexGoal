@@ -6,7 +6,7 @@
     }
 
     @include TableMobile {
-        margin-top: 0;
+        margin-top: 10px;
 
         &.modal-md {
             width: calc(100% - 20px);
@@ -67,7 +67,7 @@
 
             &.performance-grade-info {
                 .modal-body {
-                    max-height: 660px;
+                    max-height: 560px;
                     height: auto;
                     overflow-y: auto;
                 }

@@ -53,10 +53,6 @@
                 th {
                     font-size: 13px;
                 }
-
-                th:nth-child(2) {
-                    width: 130px;
-                }
             }
         }
     }
@@ -121,5 +117,13 @@
 .performance-grade-info table {
     thead tr th:first-child th:nth-child(1), tbody tr td:nth-child(1) {
         box-shadow: none;
+    }
+
+    @include Mobile {
+        thead tr th {
+            &:nth-child(2) {
+                width: 130px;
+            }
+        }
     }
 }

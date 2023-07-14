@@ -11,12 +11,16 @@
             color: #808080;
             font-size: 14px;
             font-weight: bold;
+
             &:hover, &:focus {
                 background-color: #fff;
                 border-color: #fff;
                 border-bottom-color: #c8c8c8;
             }
 
+            @include Mobile {
+                padding: 6px 12px;
+            }
         }
 
         &.active {

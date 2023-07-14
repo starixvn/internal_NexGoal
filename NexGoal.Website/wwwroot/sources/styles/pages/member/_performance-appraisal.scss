@@ -73,11 +73,20 @@
             grid-template-rows: 1fr;
             padding: 16px 20px;
 
+            @include Mobile {
+                padding-bottom: 0;
+            }
+
             .form-performance {
                 .grade-summary {
                     display: inline-block;
                     margin-top: 22px;
                     width: calc(100% - 276px);
+
+                    @include Mobile {
+                        margin: 0;
+                        width: 100%;
+                    }
                 }
             }
         }
@@ -90,7 +99,7 @@
 
             @include Mobile {
                 height: auto;
-                display: flex;
+                display: flex !important;
                 flex-direction: column;
             }
 
@@ -101,17 +110,15 @@
 
         #tabs {
             padding: 0 20px;
+
+            @include Mobile {
+                top: 0;
+            }
         }
-        // .form-filter {
-        //     margin-top: 16px;
-        // }
     }
 }
 
 .table {
-    // > tbody > tr > td {
-    //     font-weight: bold;
-    // }
     .icon-increase-arrow, .icon-descrease-arrow {
         display: inline-block;
         margin-left: 6px;

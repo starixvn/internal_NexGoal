@@ -176,6 +176,10 @@ $fa-font-path: "~font-awesome/fonts";
 
         @include Mobile {
             padding: 0;
+
+            .col-sm-12 {
+                padding: 0;
+            }
         }
     }
 }
