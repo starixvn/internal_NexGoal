@@ -4,7 +4,6 @@ import ReactTooltip from 'react-tooltip';
 import InfiniteScroll from 'react-infinite-scroller';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
-
 import { axiosError, calculateTimelineNode, getCurrentUserInfo, resolveClientUrl } from '../../common-functions';
 import { PostRequestHeaders, PerformanceProcess } from '../../constants';
 import getResource from '../../resourceHelper';

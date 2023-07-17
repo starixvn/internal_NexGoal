@@ -180,7 +180,7 @@ class GroupFlowSetting extends Component {
 
     renderSelf = () => {
         return (
-            <td className="col-self">
+            <div className="col-self">
                 {this.state.selectedGroup &&
                     <div className="flow-item">
                         <i className="avatar icon-draft-member" />
@@ -188,7 +188,7 @@ class GroupFlowSetting extends Component {
                             <span className="txt-bold">{this.state.selectedGroup.name}</span></div>
                     </div>
                 }
-            </td>
+            </div>
         );
     };
 

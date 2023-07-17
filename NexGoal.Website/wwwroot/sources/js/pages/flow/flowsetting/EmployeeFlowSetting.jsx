@@ -229,7 +229,7 @@ export default class EmployeeFlowSetting extends Component {
 
     renderSelf = () => {
         return (
-            <td className="col-self">
+            <div className="col-self">
                 {this.props.isHost &&
                     <Select className={`react-select-container ${this.state.isSubmit && !this.state.member && InputErrorCssClass}`}
                         classNamePrefix="react-select"
@@ -249,7 +249,7 @@ export default class EmployeeFlowSetting extends Component {
                         </div>
                     </div>
                 }
-            </td>
+            </div>
         );
     };
 
