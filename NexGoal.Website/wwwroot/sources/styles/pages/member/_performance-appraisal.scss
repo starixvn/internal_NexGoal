@@ -96,11 +96,14 @@
             border: 1px solid #e5e5e5;
             height: 28px;
             padding: 4px;
+            margin: 0 16px 12px 0;
 
             @include Mobile {
+                width: calc(100% - 16px);
                 height: auto;
                 display: flex !important;
                 flex-direction: column;
+                margin: 0 16px 10px 16px;
             }
 
             .grade-summary-item {
@@ -113,6 +116,19 @@
 
             @include Mobile {
                 top: 0;
+                padding: 0 12px;
+
+                ::-webkit-scrollbar {
+                    display: none;
+                }
+
+                .nav-tabs {
+                    display: flex;
+                    align-items: center;
+                    overflow-x: auto;
+                    overflow-y: hidden;
+                    white-space: nowrap;
+                }
             }
         }
     }

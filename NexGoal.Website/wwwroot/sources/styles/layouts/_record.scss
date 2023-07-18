@@ -18,6 +18,7 @@
 
     @include Mobile {
         grid-template-columns: 1fr;
+        margin: 12px;
     }
 
     &:focus-within {
@@ -539,8 +540,7 @@
 
 .record.record-system {
     grid-template-rows: 50px 1fr 20px;
-    padding: 16px;
-    padding-top: 10px;
+    padding: 10px 16px 16px;
     background-color: #EBF4FF;
     border: 1px solid #5191DF;
     grid-row-gap: 0;

@@ -229,6 +229,7 @@
     @include Mobile {
         margin: 0 0 12px;
         max-width: 100%;
+        flex-basis: auto;
     }
 
     .header {
