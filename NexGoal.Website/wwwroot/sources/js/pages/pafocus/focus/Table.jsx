@@ -1,11 +1,9 @@
 ﻿import React, { Component, Fragment } from 'react';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import moment from 'moment';
-
 import getResource from '../../../resourceHelper';
 import { DateFormat } from '../../../constants';
 import Row from './Row';
-import StickyBlock from '../../../shared/components/StickyBlock';
 
 export default class Table extends Component {
     shouldComponentUpdate(nextProps) {
@@ -42,13 +40,13 @@ export default class Table extends Component {
                     <th className="width-300">{getResource('JobTitle')}</th>
                     <th className="width-200">
                         Best Suited to Team Goals
-                            <OverlayTrigger placement="top" overlay={this.getTooltipBestSuitedToTeamGoals()}>
+                        <OverlayTrigger placement="top" overlay={this.getTooltipBestSuitedToTeamGoals()}>
                             <i className="fa fa-info-circle" />
                         </OverlayTrigger>
                     </th>
                     <th className="width-200">
                         Deserve Highest Reward (Increment And Bonus)
-                            <OverlayTrigger placement="top" overlay={this.getTooltipDeserveHighestReward()}>
+                        <OverlayTrigger placement="top" overlay={this.getTooltipDeserveHighestReward()}>
                             <i className="fa fa-info-circle" />
                         </OverlayTrigger>
                     </th>
@@ -86,67 +84,60 @@ export default class Table extends Component {
                         </div>
                     </div>
                 }
-                <StickyBlock threshold={236}>
-                    <table className="table table-bordered table-striped pa-focus-table">
+                <div className="table-pa-focus">
+                    <table className="table table-bordered table-striped">
                         <thead>
                             {
                                 this.renderHeaderTableFocus()
                             }
                         </thead>
-                    </table>
-                </StickyBlock>
-                <table className="table table-bordered table-striped pa-focus-table">
-                    <thead>
-                        {
-                            this.renderHeaderTableFocus()
-                        }
-                    </thead>
-                    <tbody>
-                        {
-                            pafocuses.length === 0 &&
-                            <tr>
-                                <td className="empty-result" colSpan="13">{getResource('NoRecordFound')}</td>
-                            </tr>
-                        }
-                        {
-                            pafocuses.length > 0 &&
-                            pafocuses.map(record => {
-                                return (
-                                    <Fragment key={`record${record.groupCode}`}>
-                                        <tr className="group-row">
-                                            <td colSpan="13">{record.groupName}</td>
-                                        </tr>
-                                        {
-                                            record.members.map((member, index) => {
-                                                return (
-                                                    <Row key={`member${member.paFocusId}`}
-                                                        data={member}
+                        <tbody>
+                            {
+                                pafocuses.length === 0 &&
+                                <tr>
+                                    <td className="empty-result" colSpan="13">{getResource('NoRecordFound')}</td>
+                                </tr>
+                            }
+                            {
+                                pafocuses.length > 0 &&
+                                pafocuses.map(record => {
+                                    return (
+                                        <Fragment key={`record${record.groupCode}`}>
+                                            <tr className="group-row">
+                                                <td colSpan="13">{record.groupName}</td>
+                                            </tr>
+                                            {
+                                                record.members.map((member, index) => {
+                                                    return (
+                                                        <Row key={`member${member.paFocusId}`}
+                                                            data={member}
                                                         disciplineStartDate={period && period.disciplineStartDate}
                                                         disciplineEndDate={period && period.disciplineEndDate}
-                                                        rowIndex={index + 1}
-                                                        focusEvaluationLevelOptions={this.props.focusEvaluationLevelOptions}
-                                                        onChange={this.props.onChange}
-                                                    />
-                                                );
-                                            })
-                                        }
-                                    </Fragment>
-                                );
-                            })
-                        }
-                    </tbody>
-                    <tfoot>
-                        {
-                            this.props.isDisplayButton &&
-                            <tr className="action-section button-block text-center">
-                                <td colSpan="12">
-                                    <button className="btn btn-cancel" onClick={this.props.handleFilterSubmit}>{getResource('Reset')}</button>
-                                    <button className="btn btn-primary" onClick={this.props.handleSubmit}>{getResource('Save')}</button>
-                                </td>
-                            </tr>
-                        }
-                    </tfoot>
-                </table>
+                                                            rowIndex={index + 1}
+                                                            focusEvaluationLevelOptions={this.props.focusEvaluationLevelOptions}
+                                                            onChange={this.props.onChange}
+                                                        />
+                                                    );
+                                                })
+                                            }
+                                        </Fragment>
+                                    );
+                                })
+                            }
+                        </tbody>
+                        <tfoot>
+                            {
+                                this.props.isDisplayButton &&
+                                <tr className="action-section button-block text-center">
+                                    <td colSpan="12">
+                                        <button className="btn btn-cancel" onClick={this.props.handleFilterSubmit}>{getResource('Reset')}</button>
+                                        <button className="btn btn-primary" onClick={this.props.handleSubmit}>{getResource('Save')}</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tfoot>
+                    </table>
+                </div>
             </Fragment>
         );
     }
