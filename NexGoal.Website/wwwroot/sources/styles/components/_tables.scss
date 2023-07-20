@@ -82,6 +82,14 @@
             background-color: #606887 !important;
             color: #fff;
             font-weight: 600;
+
+            &:first-child{
+                border-right: none !important;
+            }
+
+            &:last-child{
+                border-left: none !important;
+            }
         }
 
         &:not(.group-row):not(.team-group-row):hover td:not(.title) {

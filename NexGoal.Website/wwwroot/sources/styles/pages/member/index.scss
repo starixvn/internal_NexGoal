@@ -26,6 +26,10 @@
 @import "bar-chart";
 @import "probation";
 
+.member-page .record .avatar-user {
+    grid-template-columns: 40px 1fr 30%;
+}
+
 .group-name {
     cursor: pointer;
     font-weight: bold;
@@ -331,10 +335,16 @@
 
     #tabs-pane-3 .react-multiselect-dropdown-list {
         position: absolute;
+        width: 100%;
     }
 
     table {
         display: block !important;
+    }
+
+    .modal-dialog.performance-appraisal .modal-body .grade-summary {
+        margin: 0;
+        width: 100%;
     }
 }
 

@@ -33,11 +33,15 @@
 .table {
     margin-bottom: 60px;
 
+    @include TableMobile {
+        margin-bottom: 7px;
+    }
+
     thead {
         position: sticky;
         top: 50px;
 
-        @include Mobile {
+        @include TableMobile {
             top: -12px;
         }
     }
@@ -270,7 +274,7 @@
     }
 }
 
-@include Mobile {
+@include TableMobile {
     .table-pa-focus {
         overflow-x: auto;
 
@@ -293,5 +297,9 @@
                 }
             }
         }
+    }
+
+    .chart-pa-focus {
+        overflow-x: auto;
     }
 }

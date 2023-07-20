@@ -258,12 +258,14 @@ export default class ScatterChart extends Component {
         const options = this.getChartOptions();
 
         return (
-            <Scatter
-                width={600}
-                height={600}
-                data={data}
-                options={options}
-            />
+            <div className="chart-pa-focus">
+                <Scatter
+                    width={600}
+                    height={600}
+                    data={data}
+                    options={options}
+                />
+            </div>
         );
     }
 }

@@ -69,7 +69,7 @@ class Table extends Component {
                 return (
                     <Rows key={group.groupName}
                         data={group}
-                        colSpan={8}
+                        colSpan={7}
                         gradeOptions={this.props.gradeOptions}
                         onClickEditPA={this.onClickEditPA}
                         onQuickEditPA={this.onQuickEditPA}

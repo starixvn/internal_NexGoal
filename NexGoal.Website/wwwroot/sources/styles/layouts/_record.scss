@@ -192,7 +192,7 @@
         grid-row: 1;
         text-align: left;
         display: grid;
-        grid-template-columns: 40px 1fr 30%;
+        grid-template-columns: 40px 1fr;
         grid-gap: 8px;
         padding: 12px 16px 0;
 
@@ -544,6 +544,7 @@
     background-color: #EBF4FF;
     border: 1px solid #5191DF;
     grid-row-gap: 0;
+    grid-template-columns: 1fr;
 
     @include Mobile {
         padding: 12px !important;

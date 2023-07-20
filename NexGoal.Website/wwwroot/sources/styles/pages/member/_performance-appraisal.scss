@@ -12,6 +12,10 @@
 
     @include Mobile {
         padding: 0 0 12px;
+
+        .form-filter {
+            padding-right: 2px;
+        }
     }
 }
 
@@ -44,7 +48,7 @@
     .modal-body .tab-content .record {
         box-shadow: 0 0 6px #dedede;
         padding: 12px;
-        margin: 0 0 12px;
+        margin: 0 0 12px !important;
     }
 
     .tab-content {
@@ -71,7 +75,15 @@
 
         .record-your-mind {
             grid-template-rows: 1fr;
-            padding: 16px 20px;
+            padding: 16px 20px 0 20px;
+
+            .grade {
+                margin-right: 0;
+
+                .grade-detail {
+                    margin-right: 0;
+                }
+            }
 
             @include Mobile {
                 padding-bottom: 0;
@@ -94,16 +106,19 @@
         .grade-summary {
             background-color: #E1EEF7;
             border: 1px solid #e5e5e5;
-            height: 28px;
+            height: auto;
             padding: 4px;
             margin: 0 16px 12px 0;
 
+            @include TableMobile {
+                grid-column: 1/3;
+                width: calc(100% - 32px);
+                margin: 0 16px 10px 16px;
+            }
+
             @include Mobile {
-                width: calc(100% - 16px);
-                height: auto;
                 display: flex !important;
                 flex-direction: column;
-                margin: 0 16px 10px 16px;
             }
 
             .grade-summary-item {
@@ -113,6 +128,17 @@
 
         #tabs {
             padding: 0 20px;
+
+            .nav-tabs {
+                position: relative;
+                width: 100%;
+                top: 0;
+                margin: 0;
+            }
+
+            .tab-content {
+                padding-top: 12px;
+            }
 
             @include Mobile {
                 top: 0;

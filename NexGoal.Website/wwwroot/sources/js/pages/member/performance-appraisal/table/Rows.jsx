@@ -162,7 +162,8 @@ class Rows extends Component {
         return (
             <Fragment>
                 <tr className="group-row">
-                    <td colSpan={this.props.colSpan}>{this.props.data.groupName}</td>
+                    <td ><span>{this.props.data.groupName}</span></td>
+                    <td colSpan={this.props.colSpan}></td>
                 </tr>
                 {
                     performanceRecords &&
