@@ -78,7 +78,7 @@ export default class App extends Component {
                         <li className="current">{getResource('EvaluationFlow')}</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
-                        <Tabs id="tabs-flow"
+                        <Tabs id="tabs"
                             activeKey={this.state.activeKey}
                             onSelect={this.handleOnSelect}
                         >

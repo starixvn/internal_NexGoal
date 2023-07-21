@@ -34,7 +34,7 @@ export default class App extends Component {
                         <li className="current">{getResource('NominationPeriod')}</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
-                        <Tabs id="tabs-nomination"
+                        <Tabs id="tabs"
                             activeKey={this.state.activeKey}
                             onSelect={this.handleSelect}
                         >

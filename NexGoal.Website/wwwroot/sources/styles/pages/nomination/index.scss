@@ -24,8 +24,12 @@
             }
         }
 
-        .form-control {
+        .control-label, .form-control {
             width: inherit;
+        }
+
+        @include Mobile {
+            justify-content: space-between;
         }
     }
 
@@ -38,6 +42,54 @@
 
         &:last-child {
             margin-bottom: 0;
+        }
+    }
+}
+
+.add-nomination-period {
+    border: 1px solid #d2d2d2;
+    border-bottom: none;
+    height: 40px;
+    padding: 6px;
+    background: #eaeaea;
+
+    .btn {
+        height: 26px;
+        line-height: 26px;
+        padding: 0 12px;
+    }
+}
+
+@include Mobile {
+    .table-nomination-period {
+        overflow-x: auto;
+    }
+
+    .table {
+        min-width: 800px;
+
+        thead tr:first-child th:nth-child(2), tbody tr td:nth-child(2) {
+            position: sticky;
+            left: 0;
+            box-shadow: 4px 0 0 0 rgba(0,0,0,.08);
+        }
+
+        tbody tr td:nth-child(2) {
+            background: #fff;
+        }
+
+        thead tr th {
+            &:nth-child(1) {
+                width: 40px;
+            }
+
+            &:nth-child(8) {
+                width: 100px;
+            }
+
+            &:nth-child(9) {
+                width: 80px;
+            }
         }
     }
 }

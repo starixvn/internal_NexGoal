@@ -67,53 +67,52 @@ class Table extends Component {
 
         return (
             <Fragment>
-                <table className="table table-bordered">
-                    <thead>
-                        {
-                            isHost &&
-                            <tr className="header-control">
-                                <th colSpan="9">
-                                    <a className="pull-left btn btn-primary" onClick={this.handleShowCreateModal}>
-                                        {getResource('AddNominationPeriod')}
-                                    </a>
-                                </th>
-                            </tr>
-                        }
-                        <tr>
-                            <th>{getResource('SymbolCount')}</th>
-                            <th>{getResource('Quarter')}</th>
-                            <th>{getResource('Year')}</th>
-                            <th>{getResource('StartDateForNominator')}</th>
-                            <th>{getResource('EndDateForNominator')}</th>
-                            <th>{getResource('RemindDateForNominator')}</th>
-                            <th>{getResource('EndDateForCommittee')}</th>
-                            <th>{getResource('Status')}</th>
-                            <th>{getResource('Action')}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            eoqs.length === 0 &&
+                {
+                    isHost &&
+                    <div className="add-nomination-period">
+                        <a className="pull-left btn btn-primary" onClick={this.handleShowCreateModal}>
+                            {getResource('AddNominationPeriod')}
+                        </a>
+                    </div>
+                }
+                <div className="table-nomination-period">
+                    <table className="table table-bordered">
+                        <thead>
                             <tr>
-                                <td className="empty-result" colSpan="9">{getResource('NoRecordFound')}</td>
+                                <th>{getResource('SymbolCount')}</th>
+                                <th>{getResource('Quarter')}</th>
+                                <th>{getResource('Year')}</th>
+                                <th>{getResource('StartDateForNominator')}</th>
+                                <th>{getResource('EndDateForNominator')}</th>
+                                <th>{getResource('RemindDateForNominator')}</th>
+                                <th>{getResource('EndDateForCommittee')}</th>
+                                <th>{getResource('Status')}</th>
+                                <th>{getResource('Action')}</th>
                             </tr>
-                        }
-                        {
-                            eoqs.length > 0 &&
-                            eoqs.map((eoq, index) => {
-                                return (
-                                    <Row key={'eoq-' + eoq.eoqyId}
-                                        rowIndex={index + 1}
-                                        eoq={eoq}
-                                        isHost={isHost}
-                                        onShowDeleteModal={this.handleShowDeleteModal}
-                                    />
-                                );
-                            })
-                        }
-                    </tbody>
-                </table>
-
+                        </thead>
+                        <tbody>
+                            {
+                                eoqs.length === 0 &&
+                                <tr>
+                                    <td className="empty-result" colSpan="9">{getResource('NoRecordFound')}</td>
+                                </tr>
+                            }
+                            {
+                                eoqs.length > 0 &&
+                                eoqs.map((eoq, index) => {
+                                    return (
+                                        <Row key={'eoq-' + eoq.eoqyId}
+                                            rowIndex={index + 1}
+                                            eoq={eoq}
+                                            isHost={isHost}
+                                            onShowDeleteModal={this.handleShowDeleteModal}
+                                        />
+                                    );
+                                })
+                            }
+                        </tbody>
+                    </table>
+                </div>
                 {
                     this.state.showCreateModal &&
                     <CreateEOQ

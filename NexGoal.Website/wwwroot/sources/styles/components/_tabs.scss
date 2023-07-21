@@ -1,6 +1,20 @@
+#tabs {
+    ::-webkit-scrollbar {
+        display: none;
+    }
+}
+
 .nav-tabs {
     cursor: pointer;
     border-color: #C4C4C4;
+
+    @include TableMobile {
+        display: flex;
+        align-items: center;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+    }
 
     li {
         > a {

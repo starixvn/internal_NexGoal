@@ -70,15 +70,6 @@
         width: calc(100% - 504px - 24px);
         margin: 0 12px;
 
-        @include TableMobile {
-            width: calc(100% - 472px);
-            display: flex;
-            align-items: center;
-            overflow-x: auto;
-            overflow-y: hidden;
-            white-space: nowrap;
-        }
-
         @include Mobile {
             position: relative;
             top: 0;

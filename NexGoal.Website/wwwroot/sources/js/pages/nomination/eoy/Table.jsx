@@ -82,44 +82,44 @@ class Table extends Component {
 
         return (
             <Fragment>
-                <table className="table table-bordered">
-                    <thead>
-                        {
-                            isHost &&
-                            <tr className="header-control">
-                                <th colSpan="9">
-                                    <a className="pull-left btn btn-primary" onClick={this.handleShowCreateEoYModal}>
-                                        {getResource('AddNominationPeriod')}
-                                    </a>
-                                </th>
-                            </tr>
-                        }
-                        {
-                            this.renderEoYTableHeader()
-                        }
-                    </thead>
-                    <tbody>
-                        {
-                            eoys.length === 0 &&
-                            <tr>
-                                <td className="empty-result" colSpan="9">{getResource('NoRecordFound')}</td>
-                            </tr>
-                        }
-                        {
-                            eoys.length > 0 &&
-                            eoys.map((eoy, index) => {
-                                return (
-                                    <Row key={'eoy-' + eoy.eoqyId}
-                                        rowIndex={index + 1}
-                                        eoy={eoy}
-                                        isHost={isHost}
-                                        onShowDeleteModal={this.handleShowDeleteModal}
-                                    />
-                                );
-                            })
-                        }
-                    </tbody>
-                </table>
+                {
+                    isHost &&
+                    < div className="add-nomination-period">
+                        <a className="pull-left btn btn-primary" onClick={this.handleShowCreateEoYModal}>
+                            {getResource('AddNominationPeriod')}
+                        </a>
+                    </div>
+                }
+                <div className="table-nomination-period">
+                    <table className="table table-bordered">
+                        <thead>
+                            {
+                                this.renderEoYTableHeader()
+                            }
+                        </thead>
+                        <tbody>
+                            {
+                                eoys.length === 0 &&
+                                <tr>
+                                    <td className="empty-result" colSpan="9">{getResource('NoRecordFound')}</td>
+                                </tr>
+                            }
+                            {
+                                eoys.length > 0 &&
+                                eoys.map((eoy, index) => {
+                                    return (
+                                        <Row key={'eoy-' + eoy.eoqyId}
+                                            rowIndex={index + 1}
+                                            eoy={eoy}
+                                            isHost={isHost}
+                                            onShowDeleteModal={this.handleShowDeleteModal}
+                                        />
+                                    );
+                                })
+                            }
+                        </tbody>
+                    </table>
+                </div>
 
                 {
                     this.state.showCreateModal &&

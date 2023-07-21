@@ -349,19 +349,8 @@
 }
 
 @include TableMobile {
-    #tabs {
-        ::-webkit-scrollbar {
-            display: none;
-        }
-
-        .nav-tabs {
-            width: calc(100% - 472px);
-            display: flex;
-            align-items: center;
-            overflow-x: auto;
-            overflow-y: hidden;
-            white-space: nowrap;
-        }
+    #tabs .nav-tabs {
+        width: calc(100% - 472px);
     }
 
     .table {
