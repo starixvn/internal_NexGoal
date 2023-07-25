@@ -37,15 +37,6 @@
         margin-bottom: 7px;
     }
 
-    thead {
-        position: sticky;
-        top: 50px;
-
-        @include TableMobile {
-            top: -12px;
-        }
-    }
-
     tr {
         .width-40 {
             width: 40px;

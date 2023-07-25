@@ -1,6 +1,8 @@
-#tabs {
-    ::-webkit-scrollbar {
-        display: none;
+@include TableMobile {
+    #tabs {
+        ::-webkit-scrollbar {
+            display: none;
+        }
     }
 }
 

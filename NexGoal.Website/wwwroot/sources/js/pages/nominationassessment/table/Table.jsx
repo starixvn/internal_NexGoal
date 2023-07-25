@@ -5,7 +5,6 @@ import getResource from '../../../resourceHelper';
 import { NominationStatuses } from '../../../constants';
 import { getNominationClassName, noDataIndication } from '../../../common-functions';
 import SingleValue from './SingleValue';
-import StickyBlock from '../../../shared/components/StickyBlock';
 
 export default class Table extends Component {
     constructor(props) {
@@ -85,17 +84,14 @@ export default class Table extends Component {
 
         return (
             <Fragment>
-                <StickyBlock threshold={236}>
-                    <table className="tbl-nomination-assessment table table-bordered table-striped">
-                        {this.renderTheadTable()}
-                    </table>
-                </StickyBlock>
-                <table className="table-striped table table-bordered tbl-nomination-assessment">
+                <div className="tbl-nomination-assessment">
+                <table className="table-striped table table-bordered">
                     {this.renderTheadTable()}
                     <tbody>
                         {content}
                     </tbody>
                 </table>
+                </div>
             </Fragment>
 
         );

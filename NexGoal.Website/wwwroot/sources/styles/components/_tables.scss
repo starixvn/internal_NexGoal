@@ -21,6 +21,15 @@
         margin-bottom: 7px !important;
     }
 
+    thead {
+        position: sticky;
+        top: 50px;
+
+        @include TableMobile {
+            top: -12px;
+        }
+    }
+
     tr, th, td {
         border-right: 0 !important;
         border-bottom: 0 !important;
@@ -83,11 +92,11 @@
             color: #fff;
             font-weight: 600;
 
-            &:first-child{
+            &:first-child {
                 border-right: none !important;
             }
 
-            &:last-child{
+            &:last-child {
                 border-left: none !important;
             }
         }

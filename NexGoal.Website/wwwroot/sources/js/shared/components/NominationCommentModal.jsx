@@ -1,6 +1,5 @@
 ﻿import React, { PureComponent, Fragment } from 'react';
 import { Button, Modal, Tab, Nav, NavItem } from 'react-bootstrap';
-
 import getResource from '../../resourceHelper';
 import CustomScrollbars from './CustomScrollbars';
 import FormComment from './form-comment/FormComment';
