@@ -1,11 +1,9 @@
 ﻿import React, { Component, Fragment } from 'react';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import isEqual from 'react-fast-compare';
-
 import getResource from '../../../resourceHelper';
 import { PerformanceProcess, EmptyPlaceHolder } from '../../../constants';
 import { noDataIndication, getPAGradeClassName, resolveClientUrl } from '../../../common-functions';
-import StickyBlock from '../../../shared/components/StickyBlock';
 
 export default class Table extends Component {
     constructor(props) {
@@ -242,23 +240,18 @@ export default class Table extends Component {
 
         return (
             <Fragment>
-                <StickyBlock threshold={236}>
-                    <table className="table table-bordered pa-report-table" id="pa-report-sticky">
+                <div className="pa-report-table">
+                    <table id="pa-report-table" className="table table-bordered">
                         {
                             this.renderHeaderPaTable()
                         }
+                        <tbody>
+                            {
+                                paDataContent
+                            }
+                        </tbody>
                     </table>
-                </StickyBlock>
-                <table id="pa-report-table" className="table table-bordered pa-report-table">
-                    {
-                        this.renderHeaderPaTable()
-                    }
-                    <tbody>
-                        {
-                            paDataContent
-                        }
-                    </tbody>
-                </table>
+                </div>
             </Fragment>
         );
     }

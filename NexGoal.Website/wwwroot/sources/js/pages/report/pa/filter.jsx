@@ -78,12 +78,14 @@ export default class Filter extends Component {
                         </div>
                     </FormGroup>
                 }
-                <FormGroup>
-                    <Button type="submit" bsStyle="primary">{getResource('Search')}</Button>
-                </FormGroup>
-                <FormGroup>
-                    <Button type="button" bsStyle="excel" onClick={this.props.exportExcel}>{getResource('Excel')}</Button>
-                </FormGroup>
+                <div className="group-btn">
+                    <FormGroup>
+                        <Button type="submit" bsStyle="primary">{getResource('Search')}</Button>
+                    </FormGroup>
+                    <FormGroup>
+                        <Button type="button" bsStyle="excel" onClick={this.props.exportExcel}>{getResource('Excel')}</Button>
+                    </FormGroup>
+                </div>
             </Form>
         );
     }
