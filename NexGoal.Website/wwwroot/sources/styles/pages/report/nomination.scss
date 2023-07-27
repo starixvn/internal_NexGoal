@@ -35,35 +35,68 @@
 }
 
 .tbl-nomination-report {
-    .order {
-        width: 5%;
+
+    @include Mobile {
+        overflow-x: auto;
+
+        table {
+            min-width: 800px;
+
+            @include horizontal-scroll-table(2);
+
+            tbody {
+                tr td:nth-child(1) {
+                    position: sticky;
+                    left: 0;
+                }
+
+                .group-row td:first-child {
+                    z-index: 6;
+                }
+            }
+        }
     }
 
-    .nominee {
-        width: 25%;
-    }
+    table {
+        thead {
+            position: sticky;
+            top: 50px;
 
-    .team {
-        width: 20%;
-    }
+            @include Mobile {
+                top: -12px;
+            }
+        }
 
-    .vote {
-        width: 10%;
-    }
+        .order {
+            width: 5%;
+        }
 
-    .nominator {
-        width: 30%;
-    }
+        .nominee {
+            width: 20%;
+        }
 
-    .status {
-        width: 10%;
-    }
+        .team {
+            width: 20%;
+        }
 
-    > tbody > tr > td[colspan="5"] {
-        height: 36px;
-        background-color: #525E86;
-        font-size: 14px;
-        color: #fff;
+        .vote {
+            width: 10%;
+        }
+
+        .nominator {
+            width: 30%;
+        }
+
+        .status {
+            width: 15%;
+        }
+
+        > tbody > tr > td[colspan="5"] {
+            height: 36px;
+            background-color: #525E86;
+            font-size: 14px;
+            color: #fff;
+        }
     }
 }
 

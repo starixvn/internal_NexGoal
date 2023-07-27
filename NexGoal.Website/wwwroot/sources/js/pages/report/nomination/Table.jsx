@@ -1,9 +1,7 @@
 ﻿import React, { Component, Fragment } from 'react';
-
 import getResource from '../../../resourceHelper';
 import { NominationStatuses } from '../../../constants';
 import { getNominationClassName, noDataIndication } from '../../../common-functions';
-import StickyBlock from '../../../shared/components/StickyBlock';
 
 export default class Table extends Component {
     constructor(props) {
@@ -22,7 +20,8 @@ export default class Table extends Component {
         return (
             <Fragment key={data.nominationPeriodId}>
                 <tr className="group-row">
-                    <td className="title" colSpan={6}>{data.title}{data.isInProgress && ` - ${getResource('InProgress')}`}</td>
+                    <td className="title" colSpan={2}><span>{data.title}{data.isInProgress && ` - ${getResource('InProgress')}`}</span></td>
+                    <td colSpan={4}/>
                 </tr>
                 {
                     data.nominations.length > 0
@@ -47,12 +46,12 @@ export default class Table extends Component {
                 <td>
                     {
                         nomination.nominators.map((n, i, arr) =>
-                        <Fragment key={`nominate-report-${n.performanceRecordId}-hyperlink`}>
-                            <a onClick={this.handleShowNominatorComment.bind(this, nomination, n.performanceRecordId)}>
-                                {`${n.creator.nickName} (${n.creator.fullName})`}
-                            </a>
-                            {i < arr.length - 1 && ', '}
-                        </Fragment>)
+                            <Fragment key={`nominate-report-${n.performanceRecordId}-hyperlink`}>
+                                <a onClick={this.handleShowNominatorComment.bind(this, nomination, n.performanceRecordId)}>
+                                    {`${n.creator.nickName} (${n.creator.fullName})`}
+                                </a>
+                                {i < arr.length - 1 && ', '}
+                            </Fragment>)
                     }
                 </td>
                 <td className="text-center">
@@ -64,7 +63,7 @@ export default class Table extends Component {
         );
     };
 
-    renderTableTh = className =>{
+    renderTableTh = className => {
         return (
             <thead>
                 <tr className={className}>
@@ -79,16 +78,6 @@ export default class Table extends Component {
         );
     };
 
-    renderNominateReportStickyBlock = () => {
-        return (
-             <StickyBlock threshold={236}>
-                    <table className="tbl-nomination-report table table-striped table-bordered" id="nominate-report-sticky-table">
-                        {this.renderTableTh('sticky-header')}
-                    </table>
-                </StickyBlock>
-        );
-    };
-
     render() {
         let nominateReportContent = '';
 
@@ -99,27 +88,26 @@ export default class Table extends Component {
 
         return (
             <Fragment>
-                {
-                    this.renderNominateReportStickyBlock()
-                }
-                <table className="table table-bordered table-striped tbl-nomination-report">
-                    <colgroup>
-                        <col className="order" />
-                        <col className="nominee" />
-                        <col className="team" />
-                        <col className="vote" />
-                        <col className="nominator" />
-                        <col className="status" />
-                    </colgroup>
-                    {
-                       this.renderTableTh('')
-                    }
-                    <tbody>
+                <div className="tbl-nomination-report">
+                    <table className="table table-bordered table-striped">
+                        <colgroup>
+                            <col className="order" />
+                            <col className="nominee" />
+                            <col className="team" />
+                            <col className="vote" />
+                            <col className="nominator" />
+                            <col className="status" />
+                        </colgroup>
                         {
-                            nominateReportContent
+                            this.renderTableTh('')
                         }
-                    </tbody>
-                </table>
+                        <tbody>
+                            {
+                                nominateReportContent
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </Fragment>
 
         );
