@@ -354,14 +354,6 @@
     }
 
     .table {
-        thead tr:first-child th:nth-child(1), tbody tr td:nth-child(1) {
-            position: sticky;
-            left: 0;
-            box-shadow: 4px 0 0 0 rgba(0,0,0,.08);
-        }
-
-        tbody tr td:nth-child(1) {
-            background: #fff;
-        }
+        @include horizontal-scroll-table(1);
     }
 }

@@ -122,3 +122,16 @@
         @content;
     }
 }
+
+@mixin scroll-table($column) {
+    thead tr:first-child th:nth-child( #{$column} ),
+    tbody tr td:nth-child( #{$column}) {
+        position: sticky;
+        left: 0;
+        box-shadow: 4px 0 0 0 rgba(0, 0, 0, 0.08);
+    }
+
+    tbody tr td:nth-child( #{$column}) {
+        background: #fff;
+    }
+}

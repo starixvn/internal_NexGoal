@@ -29,16 +29,7 @@
 
         @include Mobile {
             min-width: 1000px;
-
-            thead tr:first-child th:nth-child(2), tbody tr td:nth-child(2) {
-                position: sticky;
-                left: 0;
-                box-shadow: 4px 0 0 0 rgba(0,0,0,.08);
-            }
-
-            tbody tr td:nth-child(2) {
-                background: #fff;
-            }
+            @include horizontal-scroll-table(2);
         }
 
         thead {
@@ -224,13 +215,13 @@
 }
 
 #pa-report .form-inline .group-btn {
-        display: inline-block;
+    display: inline-block;
 
     @include Mobile {
         display: flex;
         justify-content: flex-end;
 
-        .btn-primary{
+        .btn-primary {
             margin-right: 12px;
         }
     }

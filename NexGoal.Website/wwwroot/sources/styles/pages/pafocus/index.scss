@@ -280,16 +280,7 @@
 
         table {
             min-width: 1600px;
-
-            thead tr:first-child th:nth-child(2), tbody tr td:nth-child(2) {
-                position: sticky;
-                left: 0;
-                box-shadow: 4px 0 0 0 rgba(0,0,0,.08);
-            }
-
-            tbody tr td:nth-child(2) {
-                background: #fff;
-            }
+            @include horizontal-scroll-table(2);
 
             thead {
                 tr th:nth-child(4) {

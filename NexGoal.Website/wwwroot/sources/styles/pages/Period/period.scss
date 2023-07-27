@@ -62,17 +62,9 @@
     }
 
     .table {
-        thead tr:first-child th:nth-child(2), tbody tr td:nth-child(2) {
-            position: sticky;
-            left: 0;
-            box-shadow: 4px 0 0 0 rgba(0,0,0,.08);
-        }
+        @include horizontal-scroll-table(2);
 
         tbody tr {
-            td:nth-child(2) {
-                background: #fff;
-            }
-
             &:nth-of-type(odd) td {
                 background-color: #f9f9f9;
             }
