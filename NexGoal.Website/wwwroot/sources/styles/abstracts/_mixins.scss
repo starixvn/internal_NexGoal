@@ -123,7 +123,7 @@
     }
 }
 
-@mixin scroll-table($column) {
+@mixin horizontal-scroll-table($column) {
     thead tr:first-child th:nth-child( #{$column} ),
     tbody tr td:nth-child( #{$column}) {
         position: sticky;

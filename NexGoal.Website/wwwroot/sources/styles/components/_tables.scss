@@ -90,6 +90,12 @@
             &:last-child {
                 border-left: none !important;
             }
+
+            span {
+                white-space: nowrap;
+                display: inline-block;
+                width: 100px;
+            }
         }
 
         &:not(.group-row):not(.team-group-row):hover td:not(.title) {

@@ -104,7 +104,8 @@ export default class Table extends Component {
                                     return (
                                         <Fragment key={`record${record.groupCode}`}>
                                             <tr className="group-row">
-                                                <td colSpan="13">{record.groupName}</td>
+                                                <td colSpan="2"><span>{record.groupName}</span></td>
+                                                <td colSpan="11"/>
                                             </tr>
                                             {
                                                 record.members.map((member, index) => {

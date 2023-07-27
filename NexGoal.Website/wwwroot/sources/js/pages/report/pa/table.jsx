@@ -54,7 +54,8 @@ export default class Table extends Component {
                     return (
                         <Fragment key={index}>
                             <tr className="group-row">
-                                <td colSpan={this.totalColums}>{title}</td>
+                                <td colSpan={2}><span>{title}</span></td>
+                                <td colSpan={this.totalColums - 2} />
                             </tr>
                             {
                                 this.renderGroupRecords(periodRecord.groups)
@@ -76,7 +77,8 @@ export default class Table extends Component {
         return (
             <Fragment key={index}>
                 <tr className="team-group-row">
-                    <td colSpan={this.totalColums}>{groupPA.group.name}</td>
+                    <td colSpan={2}><span>{groupPA.group.name}</span></td>
+                    <td colSpan={this.totalColums - 2} />
                 </tr>
                 {
                     this.renderPARecordInfo(groupPA.paRecords)

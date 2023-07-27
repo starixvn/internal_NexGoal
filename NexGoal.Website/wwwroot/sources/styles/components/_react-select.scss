@@ -26,12 +26,14 @@
     .react-select__menu {
         @include border-radius(2px);
         margin: 0;
+        z-index: 100;
 
         .react-select__option {
             color: #545454;
             background: inherit;
             padding: 8px 12px;
             padding-right: 5px;
+
             &.react-select__option--is-focused {
                 background-color: #DFE2EB;
             }
