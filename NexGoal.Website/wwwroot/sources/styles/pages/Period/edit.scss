@@ -137,7 +137,7 @@ table select {
 }
 
 .table-employee-settings {
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
 
     th[data-row-selection] {
         width: 50px;
@@ -185,6 +185,12 @@ table select {
     }
 }
 
+@include TableMobile {
+    .pull-right{
+        margin-top: 10px;
+    }
+}
+
 @include Mobile {
     .col-sm-12 {
         padding: 0;
@@ -198,6 +204,10 @@ table select {
 
     .react-bootstrap-table {
         overflow: auto
+    }
+
+    .pull-right {
+        margin-top: 0;
     }
 
     #edit-employee-settings {

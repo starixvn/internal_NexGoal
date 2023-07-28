@@ -68,12 +68,17 @@
     }
 }
 
+@include TableMobile {
+    .table {
+        margin-bottom: 0 !important;
+    }
+}
+
 @include Mobile {
     .react-bootstrap-table {
         overflow-x: auto;
 
         table {
-            margin-bottom: 0 !important;
             @include horizontal-scroll-table(2);
 
             thead tr th {

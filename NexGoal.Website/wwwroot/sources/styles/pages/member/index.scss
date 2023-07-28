@@ -158,6 +158,10 @@
     .record {
         margin: 16px;
 
+        @include TableMobile {
+            margin: 10px;
+        }
+
         @include Mobile {
             margin: 10px 0;
         }
@@ -232,7 +236,7 @@
     .nomination-period, .employee {
         display: inline-block;
 
-        @include Mobile {
+        @include TableMobile {
             width: 100% !important;
         }
     }
@@ -241,7 +245,7 @@
         width: 300px;
         margin-right: 16px;
 
-        @include Mobile {
+        @include TableMobile {
             margin-bottom: 12px;
         }
 
@@ -338,10 +342,6 @@
         width: 100%;
     }
 
-    table {
-        display: block !important;
-    }
-
     .modal-dialog.performance-appraisal .modal-body .grade-summary {
         margin: 0;
         width: 100%;
@@ -355,5 +355,21 @@
 
     .table {
         @include horizontal-scroll-table(1);
+        display: block !important;
+    }
+
+    .form-inline {
+        min-width: 0;
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin: 0 0 10px;
+            justify-content: space-between;
+
+            &:last-child {
+                justify-content: flex-end;
+            }
+        }
     }
 }

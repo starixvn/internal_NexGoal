@@ -10,6 +10,10 @@
     overflow: hidden;
     min-height: 100%;
 
+    @include TableMobile {
+        padding: 0 10px;
+    }
+
     @include Mobile {
         padding: 0 0 12px;
 
