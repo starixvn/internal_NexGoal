@@ -80,7 +80,7 @@ export default class Table extends Component {
 
     render() {
         const content = this.props.tableData.length > 0 ? this.props.tableData.map(this.renderNomination)
-            : <tr><td className="text-center" colSpan={6}>{noDataIndication()}</td></tr>;
+            : <tr><td className="no-data text-center" colSpan={6}>{noDataIndication()}</td></tr>;
 
         return (
             <Fragment>

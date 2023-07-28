@@ -103,11 +103,19 @@
         }
     }
 
+
+    @include Mobile {
+        .no-data, .empty-result, .react-bs-table-no-data {
+            text-align: left !important;
+        }
+    }
+
     .empty-result {
         text-align: center;
         color: red;
         font-weight: normal;
     }
+
 
     tr.header-control {
         th {

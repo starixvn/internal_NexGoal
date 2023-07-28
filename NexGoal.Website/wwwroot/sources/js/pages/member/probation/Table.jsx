@@ -128,7 +128,7 @@ export default class Table extends Component {
                     </thead>
                     <tbody>
                         {this.props.tableData.length > 0 ? this.props.tableData.map(this.renderRow)
-                            : <tr><td className="text-center" colSpan={10}>{noDataIndication()}</td></tr>}
+                            : <tr><td className="no-data text-center" colSpan={10}>{noDataIndication()}</td></tr>}
                     </tbody>
                 </table>
             );

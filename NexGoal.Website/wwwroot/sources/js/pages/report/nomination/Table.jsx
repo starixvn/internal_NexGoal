@@ -26,7 +26,7 @@ export default class Table extends Component {
                 {
                     data.nominations.length > 0
                         ? data.nominations.map(this.renderNomination)
-                        : <tr><td className="text-center" colSpan={6}>{noDataIndication()}</td></tr>
+                        : <tr><td className="no-data text-center" colSpan={6}>{noDataIndication()}</td></tr>
                 }
             </Fragment>
         );
