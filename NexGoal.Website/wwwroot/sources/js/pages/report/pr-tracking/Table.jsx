@@ -1,8 +1,6 @@
 ﻿import React, { Component, Fragment } from 'react';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
-
 import getResource from '../../../resourceHelper';
-import StickyBlock from '../../../shared/components/StickyBlock';
 import { PerformanceProcess, EmptyPlaceHolder } from '../../../constants';
 import { noDataIndication } from '../../../common-functions';
 
@@ -45,7 +43,8 @@ export default class Table extends Component {
         return (
             <Fragment key={data.groupId}>
                 <tr className="team-group-row">
-                    <td colSpan={7}>{data.groupName}</td>
+                    <td colSpan={2}><span>{data.groupName}</span></td>
+                    <td colSpan={5} />
                 </tr>
                 {data.employees.map(this.renderEmployee)}
             </Fragment >
@@ -58,7 +57,8 @@ export default class Table extends Component {
                 return (
                     <Fragment>
                         <tr className="group-row">
-                            <td colSpan={7}>{this.props.period.name}</td>
+                            <td colSpan={2}>{this.props.period.name}</td>
+                            <td colSpan={5} />
                         </tr>
                         {this.props.tableData.length > 0 ? this.props.tableData.map(this.renderData) :
                             <tr><td className="text-center" colSpan={7}>{noDataIndication()}</td></tr>
@@ -72,58 +72,32 @@ export default class Table extends Component {
         }
     };
 
-    renderPRTrackingStickyTable = () => {
-       return (
-            <table className="table table-bordered table-striped pr-tracking-table" id="pr-tracking-sticky">
-                <thead>
-                    <tr>
-                        <th rowSpan="2" className="order" >{getResource('SymbolCount')}</th>
-                        <th className="nick-name " rowSpan="2">{getResource('Employee')}</th>
-                        <th rowSpan="2" className="job-title">{getResource('JobTitle')}</th>
-                        <th colSpan="4">Performance Record Quantity</th>
-                    </tr>
-                    <tr>
-                        <th className="stick-block self">{getResource('Self')}</th>
-                        <th className="stick-block pm">{getResource('ProjectManager')}</th>
-                        <th className="evaluator stick-block">{getResource('Evaluator')}</th>
-                        <th className="reviewer stick-block">{getResource('Reviewer')}</th>
-                    </tr>
-                </thead>
-            </table>
-
-        );
-    };
-
     render() {
         return (
             <Fragment>
-                <StickyBlock threshold={236}>
-                {
-                        this.renderPRTrackingStickyTable()
-                }
-                </StickyBlock>
-                <table id="pr-tracking-table" className="table table-bordered pr-tracking-table table-striped">
-                    <thead>
-                        <tr>
-                            <th className="order" rowSpan="2">{getResource('SymbolCount')}</th>
-                            <th rowSpan="2" className="nick-name">{getResource('Employee')}</th>
-                            <th className="job-title" rowSpan="2">{getResource('JobTitle')}</th>
-                            <th colSpan="4">Performance Record Quantity</th>
-                        </tr>
-
-                        <tr>
-                            <th className="self pr-tracking-header">{getResource('Self')}</th>
-                            <th className="pm pr-tracking-header">{getResource('ProjectManager')}</th>
-                            <th className="evaluator pr-tracking-header">{getResource('Evaluator')}</th>
-                            <th className="reviewer pr-tracking-header">{getResource('Reviewer')}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            this.renderPRTrackingTableContent()
-                        }
-                    </tbody>
-                </table>
+                <div className="pr-tracking-table ">
+                    <table id="pr-tracking-table" className="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th className="order" rowSpan="2">{getResource('SymbolCount')}</th>
+                                <th rowSpan="2" className="nick-name">{getResource('Employee')}</th>
+                                <th className="job-title" rowSpan="2">{getResource('JobTitle')}</th>
+                                <th colSpan="4">Performance Record Quantity</th>
+                            </tr>
+                            <tr>
+                                <th className="self pr-tracking-header">{getResource('Self')}</th>
+                                <th className="pm pr-tracking-header">{getResource('ProjectManager')}</th>
+                                <th className="evaluator pr-tracking-header">{getResource('Evaluator')}</th>
+                                <th className="reviewer pr-tracking-header">{getResource('Reviewer')}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                this.renderPRTrackingTableContent()
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </Fragment>
         );
     }
