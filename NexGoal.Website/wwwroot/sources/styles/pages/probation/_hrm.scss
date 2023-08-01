@@ -1,4 +1,17 @@
-﻿.hrm-table {
+﻿.collapse {
+    overflow-x: auto;
+}
+
+.hrm-table {
+    @include Mobile {
+        min-width: 1000px;
+        @include horizontal-scroll-table(1);
+
+        tbody tr:last-child td:nth-child(1) {
+            background: #e3e6ee;
+        }
+    }
+
     .hrm-total {
         background: #E3E6EE;
         font-weight: bold;

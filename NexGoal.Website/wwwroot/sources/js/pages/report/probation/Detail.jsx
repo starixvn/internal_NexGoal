@@ -89,54 +89,56 @@ export default class Detail extends Component {
                             <HRM hrm={this.state.hrm} />
                         </NexPanel>
                         <NexPanel title="Performance Result">
-                            <table className="table table-bordered table-striped result-table">
-                                <tbody>
-                                    <tr className="group-row">
-                                        <td colSpan="4">A. RESULT</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="text-center text-title">{getResource('Self')}</td>
-                                        <td className="text-center text-title">{getResource('Score')}</td>
-                                        <td className="text-center text-score">{probationerDetail.selfScore && `${probationerDetail.selfScore} pts`}</td>
-                                        <td className="comment-cell comment-text">
-                                            <p>{probationerDetail.selfComment}</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className="text-center text-title" rowSpan={probationerDetail.canViewEvaluatorResult ? 2 : 1}>
-                                            {getResource('Evaluator')}
-                                            <div>({probationerDetail.evaluatorNickName})</div>
-                                        </td>
-                                        <td className="text-center text-title">{getResource('Score')}</td>
-                                        <td className="text-center text-score">{probationerDetail.evaluatorScore && `${probationerDetail.evaluatorScore} pts`}</td>
-                                        <td className="comment-cell comment-text" rowSpan={probationerDetail.canViewEvaluatorResult ? 2 : 1}>
-                                            <p>{probationerDetail.evaluatorComment}</p>
-                                        </td>
-                                    </tr>
-                                    {
-                                        probationerDetail.canViewEvaluatorResult &&
+                            <div className="result-table">
+                                <table className="table table-bordered table-striped">
+                                    <tbody>
+                                        <tr className="group-row">
+                                            <td colSpan="4">A. RESULT</td>
+                                        </tr>
                                         <tr>
-                                            <td className="text-center text-title">{getResource('Result')}</td>
-                                            <td className="text-center text-score">
-                                                {this.renderPerformanceResult(probationerDetail.isQualifiedByEvaluator)}
+                                            <td className="text-center text-title">{getResource('Self')}</td>
+                                            <td className="text-center text-title">{getResource('Score')}</td>
+                                            <td className="text-center text-score">{probationerDetail.selfScore && `${probationerDetail.selfScore} pts`}</td>
+                                            <td className="comment-cell comment-text">
+                                                <p>{probationerDetail.selfComment}</p>
                                             </td>
                                         </tr>
-                                    }
-                                    <tr>
-                                        <td className="text-center text-title">
-                                            {getResource('Reviewer')}
-                                            <div>({probationerDetail.reviewerNickName})</div>
-                                        </td>
-                                        <td className="text-center text-title">{getResource('FinalResult')}</td>
-                                        <td className="text-center text-score">
-                                            {this.renderPerformanceResult(probationerDetail.isQualified)}
-                                        </td>
-                                        <td className="comment-cell comment-text">
-                                            <p>{probationerDetail.reviewerComment}</p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                        <tr>
+                                            <td className="text-center text-title" rowSpan={probationerDetail.canViewEvaluatorResult ? 2 : 1}>
+                                                {getResource('Evaluator')}
+                                                <div>({probationerDetail.evaluatorNickName})</div>
+                                            </td>
+                                            <td className="text-center text-title">{getResource('Score')}</td>
+                                            <td className="text-center text-score">{probationerDetail.evaluatorScore && `${probationerDetail.evaluatorScore} pts`}</td>
+                                            <td className="comment-cell comment-text" rowSpan={probationerDetail.canViewEvaluatorResult ? 2 : 1}>
+                                                <p>{probationerDetail.evaluatorComment}</p>
+                                            </td>
+                                        </tr>
+                                        {
+                                            probationerDetail.canViewEvaluatorResult &&
+                                            <tr>
+                                                <td className="text-center text-title">{getResource('Result')}</td>
+                                                <td className="text-center text-score">
+                                                    {this.renderPerformanceResult(probationerDetail.isQualifiedByEvaluator)}
+                                                </td>
+                                            </tr>
+                                        }
+                                        <tr>
+                                            <td className="text-center text-title">
+                                                {getResource('Reviewer')}
+                                                <div>({probationerDetail.reviewerNickName})</div>
+                                            </td>
+                                            <td className="text-center text-title">{getResource('FinalResult')}</td>
+                                            <td className="text-center text-score">
+                                                {this.renderPerformanceResult(probationerDetail.isQualified)}
+                                            </td>
+                                            <td className="comment-cell comment-text">
+                                                <p>{probationerDetail.reviewerComment}</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <table className="table table-bordered table-striped">
                                 <tbody>
                                     <tr className="group-row">

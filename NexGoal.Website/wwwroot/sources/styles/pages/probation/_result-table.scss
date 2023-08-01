@@ -1,4 +1,12 @@
 ﻿.result-table {
+    @include Mobile {
+        overflow-x: auto;
+
+        .table {
+            min-width: 600px;
+        }
+    }
+
     .text-title {
         width: 130px;
         background: #B8BECF;

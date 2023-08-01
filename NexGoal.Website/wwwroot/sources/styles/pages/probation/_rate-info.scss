@@ -1,6 +1,10 @@
 ﻿.info-rate {
     display: flex;
 
+    @include Mobile {
+        flex-direction: column;
+    }
+
     .user-info {
         flex-direction: column;
         flex-basis: 250px;
@@ -9,10 +13,21 @@
         background: #525E86;
         color: #fff;
 
+        @include Mobile {
+            max-width: 100%;
+            flex-direction: row;
+            flex-basis: auto;
+            padding-top: 12px;
+        }
+
         .avatar {
             width: 70px;
             height: 70px;
             margin-bottom: 16px;
+
+            @include Mobile {
+                margin: 0 6px;
+            }
         }
 
         > ul {
@@ -42,6 +57,10 @@
     .rate-information {
         width: calc(100% - 250px);
         background: #EAEAEA;
+
+        @include Mobile {
+            width: 100%;
+        }
     }
 
     .rate-item {
@@ -70,6 +89,10 @@
             width: calc(100% - 190px);
             padding: 10px;
             border-bottom: 1px solid #AEAEAE;
+
+            @include Mobile {
+                width: 100%;
+            }
         }
 
         &:last-child {
