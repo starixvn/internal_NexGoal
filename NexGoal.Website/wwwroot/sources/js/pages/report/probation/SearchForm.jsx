@@ -105,12 +105,14 @@ export default class SearchForm extends Component {
                         />
                     </div>
                 </FormGroup>
-                <FormGroup>
-                    <button type="submit" className="btn btn-primary">{getResource('Search')}</button>
-                </FormGroup>
-                <FormGroup>
-                    <a className="btn btn-excel" href={exportUrl} >{getResource('Excel')}</a>
-                </FormGroup>
+                <div className="group-btn">
+                    <FormGroup>
+                        <button type="submit" className="btn btn-primary">{getResource('Search')}</button>
+                    </FormGroup>
+                    <FormGroup>
+                        <a className="btn btn-excel" href={exportUrl} >{getResource('Excel')}</a>
+                    </FormGroup>
+                </div>
             </Form>
         );
     }

@@ -91,38 +91,40 @@ export default class Table extends Component {
     render() {
         if (this.props.tableData) {
             return (
-                <table className="table table-bordered" >
-                    <thead>
-                        <tr>
-                            <th rowSpan="2">{getResource('SymbolCount')}</th>
-                            <th rowSpan="2">{getResource('NickName')}</th>
-                            <th rowSpan="2">{getResource('FullName')}</th>
-                            <th rowSpan="2">{getResource('JoinedDate')}</th>
-                            <th rowSpan="2">{getResource('Team')}</th>
-                            <th rowSpan="2">{getResource('JobTitle')}</th>
-                            <th colSpan="2">{getResource('Self')}</th>
-                            <th colSpan={this.props.showEvaluatorResult ? 3 : 2}>{getResource('Evaluator')}</th>
-                            <th colSpan="2">{getResource('Reviewer')}</th>
-                            <th rowSpan="2">{getResource('Action')}</th>
+                <div className="probation-report-table">
+                    <table className="table table-bordered" >
+                        <thead>
+                            <tr>
+                                <th rowSpan="2">{getResource('SymbolCount')}</th>
+                                <th rowSpan="2">{getResource('NickName')}</th>
+                                <th rowSpan="2">{getResource('FullName')}</th>
+                                <th rowSpan="2">{getResource('JoinedDate')}</th>
+                                <th rowSpan="2">{getResource('Team')}</th>
+                                <th rowSpan="2">{getResource('JobTitle')}</th>
+                                <th colSpan="2">{getResource('Self')}</th>
+                                <th colSpan={this.props.showEvaluatorResult ? 3 : 2}>{getResource('Evaluator')}</th>
+                                <th colSpan="2">{getResource('Reviewer')}</th>
+                                <th rowSpan="2">{getResource('Action')}</th>
 
-                        </tr>
-                        <tr>
-                            <th>{getResource('Score')}</th>
-                            <th>{getResource('Comment')}</th>
-                            <th>{getResource('Score')}</th>
-                            {this.props.showEvaluatorResult &&
-                                <th>{getResource('Result')}</th>
-                            }
-                            <th>{getResource('Comment')}</th>
-                            <th>{getResource('FinalResult')}</th>
-                            <th>{getResource('Comment')}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.props.tableData.length > 0 ? this.props.tableData.map(this.renderRow)
-                            : <tr><td className="text-center" colSpan={15}>{noDataIndication()}</td></tr>}
-                    </tbody>
-                </table>
+                            </tr>
+                            <tr>
+                                <th>{getResource('Score')}</th>
+                                <th>{getResource('Comment')}</th>
+                                <th>{getResource('Score')}</th>
+                                {this.props.showEvaluatorResult &&
+                                    <th>{getResource('Result')}</th>
+                                }
+                                <th>{getResource('Comment')}</th>
+                                <th>{getResource('FinalResult')}</th>
+                                <th>{getResource('Comment')}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.props.tableData.length > 0 ? this.props.tableData.map(this.renderRow)
+                                : <tr><td className="no-data text-center" colSpan={15}>{noDataIndication()}</td></tr>}
+                        </tbody>
+                    </table>
+                </div>
             );
         }
 

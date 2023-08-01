@@ -9,7 +9,7 @@
 @import "../../components/react-datepicker-custom.scss";
 @import "../../components/tables";
 
-.icon-search:before {
+table .icon-search:before {
     color: #333;
     cursor: pointer;
 }
@@ -32,4 +32,32 @@
 .failed {
     color: #E22C04;
     font-weight: bold;
+}
+
+.form-inline .group-btn {
+    display: inline-block;
+
+    @include Mobile {
+        display: flex;
+        justify-content: flex-end;
+
+        .btn-primary {
+            margin-right: 12px;
+        }
+    }
+}
+
+@include TableMobile {
+    .form-filter .form-group .control-content{
+        width: 250px !important;
+    }
+
+    .probation-report-table {
+        overflow-x: auto;
+
+        .table {
+            min-width: 1200px;
+            @include horizontal-scroll-table(2);
+        }
+    }
 }
