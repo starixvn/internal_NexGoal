@@ -12,6 +12,14 @@
         font-weight: bold;
     }
 
+    td:last-child.text-score {
+        border-right: none !important;
+    }
+
+    tr.group-row td:last-child {
+        border-left: 1px solid red !important;
+    }
+
     .comment-cell {
         font-size: 14px;
 

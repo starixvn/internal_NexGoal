@@ -3,9 +3,7 @@
 @import "../../components/tables";
 @import "../../components/buttons";
 @import "../../components/tooltip";
-
 @import "../../layouts/employee-info";
-
 @import "nex-panel";
 @import "evaluation-detail";
 @import "result-table";
@@ -31,4 +29,8 @@
     p {
         white-space: pre-wrap
     }
+}
+
+.table tbody tr.group-row td:last-child {
+    border-left: 1px solid !important;
 }
