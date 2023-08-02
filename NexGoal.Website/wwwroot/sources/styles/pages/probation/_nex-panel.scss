@@ -19,6 +19,10 @@
             font-family: 'NexGoalIcon', sans-serif !important;
             font-weight: normal;
             font-size: 18px;
+
+            @include Mobile {
+                right: 2px;
+            }
         }
     }
 }

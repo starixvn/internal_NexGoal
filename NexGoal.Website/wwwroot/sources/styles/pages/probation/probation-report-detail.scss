@@ -35,6 +35,6 @@
     }
 }
 
-.table tbody tr.group-row td:last-child {
+.table:not(:first-child) tbody tr.group-row td:last-child {
     border-left: 1px solid !important;
 }

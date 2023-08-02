@@ -93,7 +93,8 @@ export default class Detail extends Component {
                                 <table className="table table-bordered table-striped">
                                     <tbody>
                                         <tr className="group-row">
-                                            <td colSpan="4">A. RESULT</td>
+                                            <td><span>A. RESULT</span></td>
+                                            <td colSpan="3" />
                                         </tr>
                                         <tr>
                                             <td className="text-center text-title">{getResource('Self')}</td>
@@ -170,7 +171,7 @@ export default class Detail extends Component {
                         </NexPanel>
 
                         <a className="btn btn-primary" href={resolveClientUrl('ProbationReport/Index')}>Back</a>
-                    </div>
+                    </div >
                 </div >
             );
         }

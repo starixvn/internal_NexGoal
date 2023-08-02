@@ -352,6 +352,10 @@
     .table {
         @include horizontal-scroll-table(1);
         display: block !important;
+
+        tbody tr.group-row td:first-child {
+            box-shadow: none;
+        }
     }
 
     .form-inline {
