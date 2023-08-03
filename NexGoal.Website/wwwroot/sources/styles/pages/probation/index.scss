@@ -32,6 +32,18 @@
         width: calc(100% - 400px);
         margin-left: 400px;
     }
+
+    @include TableMobile {
+        width: calc(100% - 220px);
+        padding: 10px;
+        margin-left: 220px;
+    }
+
+    @include Mobile {
+        width: 100%;
+        padding: 0;
+        margin-left: 0;
+    }
 }
 
 .announcement {
@@ -66,5 +78,12 @@
             border-radius: 50%;
             border: 2px solid #549E3B;
         }
+    }
+}
+
+
+@include Mobile {
+    .main-layout .general-info {
+        top: 0;
     }
 }

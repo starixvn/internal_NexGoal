@@ -216,10 +216,18 @@
 
 .previous {
     left: 40px;
+
+    @include TableMobile {
+        left: 10px;
+    }
 }
 
 .next {
     right: 40px;
+
+    @include TableMobile {
+        right: 10px;
+    }
 }
 
 .previous:hover, .next:hover {

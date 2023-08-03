@@ -22,7 +22,7 @@
     .area-scroll > div {
         @include Mobile {
             position: relative !important;
-            overflow:hidden !important;
+            overflow: hidden !important;
         }
     }
 
@@ -65,6 +65,7 @@
             margin: 0;
             width: 100% !important;
             height: auto;
+            padding-bottom: 12px;
         }
 
         @include TableMobile {

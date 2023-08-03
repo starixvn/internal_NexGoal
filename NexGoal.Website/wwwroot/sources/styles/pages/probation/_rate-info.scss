@@ -1,7 +1,7 @@
 ﻿.info-rate {
     display: flex;
 
-    @include Mobile {
+    @include TableMobile {
         flex-direction: column;
     }
 
@@ -13,7 +13,7 @@
         background: #525E86;
         color: #fff;
 
-        @include Mobile {
+        @include TableMobile {
             max-width: 100%;
             flex-direction: row;
             flex-basis: auto;
@@ -25,8 +25,10 @@
             height: 70px;
             margin-bottom: 16px;
 
-            @include Mobile {
+            @include TableMobile {
                 margin: 0 6px;
+                width: 60px;
+                height: 60px;
             }
         }
 
@@ -58,7 +60,7 @@
         width: calc(100% - 250px);
         background: #EAEAEA;
 
-        @include Mobile {
+        @include TableMobile {
             width: 100%;
         }
     }
@@ -90,7 +92,7 @@
             padding: 10px;
             border-bottom: 1px solid #AEAEAE;
 
-            @include Mobile {
+            @include TableMobile {
                 width: 100%;
             }
         }
