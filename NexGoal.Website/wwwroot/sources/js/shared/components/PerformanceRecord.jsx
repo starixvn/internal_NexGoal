@@ -298,7 +298,7 @@ export default class PerformanceRecord extends Component {
             <p>
                 <p className={commentWrapperClass} ref={element => this.element = element}>{record.comment}</p>
                 {
-                    this.state.showCollapseExpandButton ? <span className={expandCommentButtonClass} onClick={this.collapseExpandComment} />  : null
+                    this.state.showCollapseExpandButton ? <span className={expandCommentButtonClass} onClick={this.collapseExpandComment} /> : null
                 }
             </p>
         );
@@ -322,12 +322,14 @@ export default class PerformanceRecord extends Component {
         }
 
         return (
-            <div className={`record ${this.getHighlightedCssClass()}`} id={`record-${record.performanceRecordId}`}>
+            <div className={`record  record-nomination ${this.getHighlightedCssClass()}`} id={`record-${record.performanceRecordId}`}>
                 <div className="avatar-user">
-                    <img src={getAvatar(creator.employeeId, creator.code)} alt="avatar" className="avatar" />
-                    <div className="person-info">
-                        <span className={getRoleClassName(record.roleId)}>{creator.nickName}</span>
-                        {this.renderMemberForNomination(employees, creator)}
+                    <div className="employees-info">
+                        <img src={getAvatar(creator.employeeId, creator.code)} alt="avatar" className="avatar" />
+                        <div className="person-info">
+                            <span className={getRoleClassName(record.roleId)}>{creator.nickName}</span>
+                            {this.renderMemberForNomination(employees, creator)}
+                        </div>
                     </div>
                     <div className="date">
                         <div className="edit-date">
@@ -361,16 +363,16 @@ export default class PerformanceRecord extends Component {
                 <div className="comment" >
                     {
                         record.comment ? this.renderComment(record, commentWrapperClass, expandCommentButtonClass) :
-                        (
-                            <FormComment
-                                ref={element => this.element = element}
-                                kpiEoyQuestions={record.kpiGroupIds}
-                                values={valuesComment}
-                                scores={scores}
-                                isDisabled={true}
-                                isAction={false}
-                            />
-                        )
+                            (
+                                <FormComment
+                                    ref={element => this.element = element}
+                                    kpiEoyQuestions={record.kpiGroupIds}
+                                    values={valuesComment}
+                                    scores={scores}
+                                    isDisabled={true}
+                                    isAction={false}
+                                />
+                            )
                     }
                 </div>
             </div >
@@ -426,7 +428,7 @@ export default class PerformanceRecord extends Component {
                     <div className="avatar nexgoal-system"><img src={resolveClientUrl('dist/avatars/icon-nexgoal.svg')} alt="avatar" /></div>
                     <div className="person-info">
                         <span onClick={() => this.showPADetails(record.paSummary.paRecordId)}
-                                className={`${getRoleClassName(record.roleId)} nextGoalText`}>NexGoal - {record.period ? record.period.name : ''}
+                            className={`${getRoleClassName(record.roleId)} nextGoalText`}>NexGoal - {record.period ? record.period.name : ''}
                         </span>
                         <div className="submit-date">{createdDate}</div>
                     </div>

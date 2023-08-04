@@ -45,6 +45,10 @@ $c-sidebar-menu-item-link-active-text: #324373;
         background: #324476;
     }
 
+    @media (max-width : 320px) {
+        width: 110px !important;
+    }
+
     img {
         width: 100%;
     }

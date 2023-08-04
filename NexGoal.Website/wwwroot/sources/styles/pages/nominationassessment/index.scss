@@ -40,6 +40,11 @@ table {
     thead {
         position: sticky;
         top: 50px;
+        z-index: 1;
+
+        @include Mobile {
+            top: -12px;
+        }
     }
 
     .react-select-container {
@@ -122,6 +127,17 @@ table {
 }
 
 @include Mobile {
+    .tbl-nomination-assessment {
+        overflow-x: auto;
+
+        table {
+            min-width: 600px;
+            @include horizontal-scroll-table(2);
+        }
+    }
+}
+
+@include TableMobile {
     .process-title {
         overflow-x: auto;
         white-space: nowrap;
@@ -134,24 +150,6 @@ table {
 
         .evaluation-process {
             flex-flow: row;
-        }
-    }
-
-    .tbl-nomination-assessment {
-        overflow-x: auto;
-
-        table {
-            min-width: 600px;
-
-            thead tr:first-child th:nth-child(2), tbody tr td:nth-child(2) {
-                position: sticky;
-                left: 0;
-                box-shadow: 4px 0 0 0 rgba(0,0,0,.08);
-            }
-
-            tbody tr td:nth-child(2) {
-                background: #fff;
-            }
         }
     }
 }
