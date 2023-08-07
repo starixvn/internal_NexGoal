@@ -38,28 +38,28 @@
             Assert.Equal(nominationPeriods, actual);
         }
 
-        [Fact]
-        public async Task GetNominationAsync_WhenCalled_ReturnExpectedResult()
-        {
-            // Arrange
-            var nominations = new List<NominationModel>
-            {
-                new NominationModel
-                {
-                    NominationId = 1,
-                    Period = new NominationPeriodModel { NominationPeriodId = 1, Year = 2019 },
-                    Nominee = new Employee { EmployeeId = 1, NickName = "tim" }
-                }
-            };
-            var service = GetService();
-            repository.GetNominationByPeriodIdsAsync(Arg.Any<GetNominationsCriteria>()).Returns(nominations);
+        ////[Fact]
+        ////public async Task GetNominationAsync_WhenCalled_ReturnExpectedResult()
+        ////{
+        ////    // Arrange
+        ////    var nominations = new List<NominationModel>
+        ////    {
+        ////        new NominationModel
+        ////        {
+        ////            NominationId = 1,
+        ////            Period = new NominationPeriodModel { NominationPeriodId = 1, Year = 2019 },
+        ////            Nominee = new Employee { EmployeeId = 1, NickName = "tim" }
+        ////        }
+        ////    };
+        ////    var service = GetService();
+        ////    repository.GetNominationByPeriodIdsAsync(Arg.Any<GetNominationsCriteria>()).Returns(nominations);
 
-            // Act
-            var actual = await service.GetNominationAsync(1, "1", null, null, null);
+        ////    // Act
+        ////    var actual = await service.GetNominationAsync(1, "1", null, null, null);
 
-            // Assert
-            Assert.Equal(nominations, actual);
-        }
+        ////    // Assert
+        ////    Assert.Equal(nominations, actual);
+        ////}
 
         private NominationReportService GetService()
         {

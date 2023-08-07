@@ -5,6 +5,8 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Hangfire;
+    using Hangfire.Common;
+    using Hangfire.States;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
@@ -284,8 +286,19 @@
 
             // Assert
             Assert.Equal(expected, actual);
-            await notificationService.Received(1).SendMailAsync(Arg.Any<string>(), performanceRecord.CreatorId, ActionOnPerformanceRecord.Create);
-            await notificationService.Received(1).SendNotificationAsync(Arg.Any<string>(), performanceRecord.CreatorId, ActionOnPerformanceRecord.Create);
+
+            backgroundJob.Received().Create(Arg.Is<Job>(job => job.Method.Name == "SendMailAsync"
+                && job.Args[0] == null
+                && job.Args[1].ToString() == performanceRecord.CreatorId.ToString()
+                && job.Args[2].ToString() == ActionOnPerformanceRecord.Create.ToString()), Arg.Any<EnqueuedState>());
+            backgroundJob.Received().Create(Arg.Is<Job>(job => job.Method.Name == "SendNotificationAsync"
+                && job.Args[0] == null
+                && job.Args[1].ToString() == performanceRecord.CreatorId.ToString()
+                && job.Args[2].ToString() == ActionOnPerformanceRecord.Create.ToString()), Arg.Any<EnqueuedState>());
+            backgroundJob.Received().Create(Arg.Is<Job>(job => job.Method.Name == "SendSkypeMessageAsync"
+                && job.Args[0] == null
+                && job.Args[1].ToString() == performanceRecord.CreatorId.ToString()
+                && job.Args[2].ToString() == ActionOnPerformanceRecord.Create.ToString()), Arg.Any<EnqueuedState>());
         }
 
         #endregion CreatePerformanceRecordAsync
@@ -385,8 +398,19 @@
 
             // Assert
             Assert.Equal(expected, actual);
-            await notificationService.Received(1).SendMailAsync(Arg.Any<string>(), performanceRecord.CreatorId, ActionOnPerformanceRecord.Create);
-            await notificationService.Received(1).SendNotificationAsync(Arg.Any<string>(), performanceRecord.CreatorId, ActionOnPerformanceRecord.Create);
+
+            backgroundJob.Received().Create(Arg.Is<Job>(job => job.Method.Name == "SendMailAsync"
+                && job.Args[0] == null
+                && job.Args[1].ToString() == performanceRecord.CreatorId.ToString()
+                && job.Args[2].ToString() == ActionOnPerformanceRecord.Create.ToString()), Arg.Any<EnqueuedState>());
+            backgroundJob.Received().Create(Arg.Is<Job>(job => job.Method.Name == "SendNotificationAsync"
+                && job.Args[0] == null
+                && job.Args[1].ToString() == performanceRecord.CreatorId.ToString()
+                && job.Args[2].ToString() == ActionOnPerformanceRecord.Create.ToString()), Arg.Any<EnqueuedState>());
+            backgroundJob.Received().Create(Arg.Is<Job>(job => job.Method.Name == "SendSkypeMessageAsync"
+                && job.Args[0] == null
+                && job.Args[1].ToString() == performanceRecord.CreatorId.ToString()
+                && job.Args[2].ToString() == ActionOnPerformanceRecord.Create.ToString()), Arg.Any<EnqueuedState>());
         }
 
         [Fact]
@@ -417,8 +441,19 @@
 
             // Assert
             Assert.Equal(expected, actual);
-            await notificationService.Received(1).SendMailAsync(Arg.Any<string>(), performanceRecord.CreatorId, ActionOnPerformanceRecord.Edit);
-            await notificationService.Received(1).SendNotificationAsync(Arg.Any<string>(), performanceRecord.CreatorId, ActionOnPerformanceRecord.Edit);
+
+            backgroundJob.Received().Create(Arg.Is<Job>(job => job.Method.Name == "SendMailAsync"
+                && job.Args[0] == null
+                && job.Args[1].ToString() == performanceRecord.CreatorId.ToString()
+                && job.Args[2].ToString() == ActionOnPerformanceRecord.Edit.ToString()), Arg.Any<EnqueuedState>());
+            backgroundJob.Received().Create(Arg.Is<Job>(job => job.Method.Name == "SendNotificationAsync"
+                && job.Args[0] == null
+                && job.Args[1].ToString() == performanceRecord.CreatorId.ToString()
+                && job.Args[2].ToString() == ActionOnPerformanceRecord.Edit.ToString()), Arg.Any<EnqueuedState>());
+            backgroundJob.Received().Create(Arg.Is<Job>(job => job.Method.Name == "SendSkypeMessageAsync"
+                && job.Args[0] == null
+                && job.Args[1].ToString() == performanceRecord.CreatorId.ToString()
+                && job.Args[2].ToString() == ActionOnPerformanceRecord.Edit.ToString()), Arg.Any<EnqueuedState>());
         }
 
         #endregion EditPerformanceRecordAsync

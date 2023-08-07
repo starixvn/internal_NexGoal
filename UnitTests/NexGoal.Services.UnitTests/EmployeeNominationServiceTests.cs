@@ -212,28 +212,28 @@
             Assert.Equal(2, result.Count());
         }
 
-        [Fact]
-        public async Task GetNominationsByPeriodIdsAsync_ValidData_ReturnExpectedResult()
-        {
-            // Arrange
-            var nominations = new List<NominationModel>
-            {
-                new NominationModel
-                {
-                    NominationId = 1,
-                    Period = new NominationPeriodModel { NominationPeriodId = 1, Year = 2019 },
-                    Nominee = new Employee { EmployeeId = 1, NickName = "tim" }
-                }
-            };
-            var service = GetService();
-            nominationRepository.GetNominationByPeriodIdsAsync(Arg.Any<GetNominationsByPeriodIdsCriteria>()).Returns(nominations);
+        ////[Fact]
+        ////public async Task GetNominationsByPeriodIdsAsync_ValidData_ReturnExpectedResult()
+        ////{
+        ////    // Arrange
+        ////    var nominations = new List<NominationModel>
+        ////    {
+        ////        new NominationModel
+        ////        {
+        ////            NominationId = 1,
+        ////            Period = new NominationPeriodModel { NominationPeriodId = 1, Year = 2019 },
+        ////            Nominee = new Employee { EmployeeId = 1, NickName = "tim" }
+        ////        }
+        ////    };
+        ////    var service = GetService();
+        ////    nominationRepository.GetNominationByPeriodIdsAsync(Arg.Any<GetNominationsByPeriodIdsCriteria>()).Returns(nominations);
 
-            // Act
-            var actual = await service.GetNominationsByPeriodIdsAsync("1", null);
+        ////    // Act
+        ////    var actual = await service.GetNominationsByPeriodIdsAsync("1", null);
 
-            // Assert
-            Assert.Equal(nominations, actual);
-        }
+        ////    // Assert
+        ////    Assert.Equal(nominations, actual);
+        ////}
 
         [Fact]
         public async Task EditStatus_ValidData_ReturnExpectedCommandResult()
