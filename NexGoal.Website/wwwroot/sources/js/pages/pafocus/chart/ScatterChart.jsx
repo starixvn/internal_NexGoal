@@ -160,7 +160,7 @@ export default class ScatterChart extends Component {
                 fontSize: 14,
                 padding: 20
             },
-            responsive: false,
+            responsive: true,
             showLine: true,
             tooltips: {
                 enabled: false,

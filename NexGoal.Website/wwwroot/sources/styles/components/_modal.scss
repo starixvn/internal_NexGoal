@@ -13,6 +13,10 @@
         }
     }
 
+    @include Mobile {
+        margin-top: 0;
+    }
+
 
     .modal-content {
         @include border-radius(0);

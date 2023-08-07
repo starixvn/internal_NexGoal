@@ -216,6 +216,7 @@ table select {
 
             .table {
                 min-width: 600px;
+                position: unset;
 
                 thead tr th {
                     &.col-monitor {

@@ -299,8 +299,14 @@
             }
         }
     }
+}
 
-    .chart-pa-focus {
-        overflow-x: auto;
+.chart-pa-focus {
+    width: 600px;
+    height: 600px;
+
+    @include Mobile {
+        width: auto;
+        height: auto;
     }
 }
