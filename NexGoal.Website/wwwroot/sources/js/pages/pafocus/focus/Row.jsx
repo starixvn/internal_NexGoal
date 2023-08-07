@@ -18,14 +18,10 @@ export default class Row extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (this.props.data !== nextProps.data
+        return this.props.data !== nextProps.data
             || this.props.focusEvaluationLevelOptions !== nextProps.focusEvaluationLevelOptions
             || this.state.isShowObjectiveModal !== nextState.isShowObjectiveModal
-            || this.state.objectiveSelected !== nextState.objectiveSelected) {
-            return true;
-        }
-
-        return false;
+            || this.state.objectiveSelected !== nextState.objectiveSelected;
     }
 
     getCssClass = () => {

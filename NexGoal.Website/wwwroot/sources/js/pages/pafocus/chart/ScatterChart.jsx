@@ -5,13 +5,9 @@ import { EmptyPlaceHolder } from '../../../constants';
 
 export default class ScatterChart extends Component {
     shouldComponentUpdate(nextProps) {
-        if (this.props.period !== nextProps.period
+        return this.props.period !== nextProps.period
             || this.props.focusEvaluationLevelOptions !== nextProps.focusEvaluationLevelOptions
-            || this.props.pafocuses !== nextProps.pafocuses) {
-            return true;
-        }
-
-        return false;
+            || this.props.pafocuses !== nextProps.pafocuses;
     }
 
     position = {

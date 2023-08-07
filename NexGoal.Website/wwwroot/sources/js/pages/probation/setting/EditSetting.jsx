@@ -74,7 +74,6 @@ export default class EditSetting extends Component {
         values,
         errors,
         touched,
-        handleChange,
         handleSubmit,
         setFieldValue,
         isSubmitting }) => {

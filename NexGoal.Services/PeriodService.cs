@@ -352,7 +352,6 @@
 
         private void CalculatePAGrade(EditPAGradeDto record, IEnumerable<PerformanceGrade> grades)
         {
-            int minGradeId = grades.Min(x => x.GradeId);
             int maxGradeId = grades.Max(x => x.GradeId);
 
             record.GradeId = cryptoService.Decrypt(record.GradeId);

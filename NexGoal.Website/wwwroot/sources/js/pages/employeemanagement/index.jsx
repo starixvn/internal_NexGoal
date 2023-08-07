@@ -140,7 +140,7 @@ export default class EmployeeManagement extends Component {
                 text: `${getResource('SymbolCount')}`,
                 classes: TextCenterCssClass,
                 headerStyle: { width: '50px' },
-                formatter: (cell, row, rowIndex) => rowIndex + 1
+                formatter: (_cell, _row, rowIndex) => rowIndex + 1
             },
             {
                 dataField: 'code',
@@ -177,7 +177,7 @@ export default class EmployeeManagement extends Component {
                 classes: TextCenterCssClass,
                 headerStyle: { width: '80px' },
                 isDummyField: true,
-                formatter: (cell, row) => {
+                formatter: (_cell, row) => {
                     if (this.state.isHost) {
                         return (
                             <a className="fa fa-pencil-square-o" onClick={this.editEmployee.bind(this, row)} />

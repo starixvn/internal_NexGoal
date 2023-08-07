@@ -19,7 +19,7 @@ export default class Table extends Component {
         return !isEqual(this.props, nextProps);
     }
 
-    handleEdit = (event, discipline) => {
+    handleEdit = discipline => {
         this.props.onEdit(discipline);
     };
 
@@ -56,7 +56,7 @@ export default class Table extends Component {
                 text: `${getResource('SymbolCount')}`,
                 classes: TextCenterCssClass,
                 headerStyle: { width: '50px' },
-                formatter: (cell, row, rowIndex) => rowIndex + 1
+                formatter: (_cell, _row, rowIndex) => rowIndex + 1
             },
             {
                 dataField: 'employee.nickName',
@@ -80,19 +80,19 @@ export default class Table extends Component {
                 text: `${getResource('IssueDate')}`,
                 classes: TextCenterCssClass,
                 headerStyle: { width: '120px' },
-                formatter: (cell, row) => `${moment(row.effectiveDate).format('DD MMM, YYYY')}`
+                formatter: (_cell, row) => `${moment(row.effectiveDate).format('DD MMM, YYYY')}`
             },
             {
                 dataField: 'creator.nickName',
                 text: `${getResource('Creator')}`,
-                formatter: (cell, row) => `${row.creator.nickName} (${row.creator.fullName})`
+                formatter: (_cell, row) => `${row.creator.nickName} (${row.creator.fullName})`
             },
             {
                 dataField: 'isActive',
                 text: `${getResource('Active')}`,
                 classes: TextCenterCssClass,
                 headerStyle: { width: '80px' },
-                formatter: (cell, row, rowIndex) => {
+                formatter: (_cell, row, rowIndex) => {
                     const idName = `chb-active-${rowIndex}`;
 
                     if (isHost) {
@@ -123,9 +123,9 @@ export default class Table extends Component {
                 classes: TextCenterCssClass,
                 headerStyle: { width: '80px' },
                 isDummyField: true,
-                formatter: (cell, row) => {
+                formatter: (_cell, row) => {
                     if (isHost) {
-                        return <a className="fa fa-pencil-square-o" onClick={event => this.handleEdit(event, row)} />;
+                        return <a className="fa fa-pencil-square-o" onClick={() => this.handleEdit(row)} />;
                     }
 
                     return '';

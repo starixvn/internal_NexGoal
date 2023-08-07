@@ -41,7 +41,7 @@ export default class Table extends Component {
             text: `${getResource('SymbolCount')}`,
             classes: TextCenterCssClass,
             headerStyle: { width: '50px' },
-            formatter: (cell, row, rowIndex) => rowIndex + 1
+            formatter: (_cell, _row, rowIndex) => rowIndex + 1
         },
         {
             dataField: 'employee.groupName',
@@ -50,13 +50,13 @@ export default class Table extends Component {
         {
             dataField: 'nickName',
             text: `${getResource('Employee')}`,
-            formatter: (cell, row) => `${row.employee.nickName} (${row.employee.fullName})`
+            formatter: (_cell, row) => `${row.employee.nickName} (${row.employee.fullName})`
         },
         {
             dataField: 'evaluator',
             text: `${getResource('Evaluator')}`,
             isDummyField: true,
-            formatter: (cell, row) => {
+            formatter: (_cell, row) => {
                 const evaluatorProcess = row.processes.find(p => p.processId === PerformanceProcess.Evaluator);
 
                 return (
@@ -68,7 +68,7 @@ export default class Table extends Component {
             dataField: 'reviewer',
             text: `${getResource('Reviewer')}`,
             isDummyField: true,
-            formatter: (cell, row) => {
+            formatter: (_cell, row) => {
                 const reviewerProcess = row.processes.find(p => p.processId === PerformanceProcess.Reviewer);
 
                 return (
@@ -93,7 +93,7 @@ export default class Table extends Component {
             text: `${getResource('Include')}`,
             classes: TextCenterCssClass,
             headerStyle: { width: '80px' },
-            formatter: (cell, row, rowIndex) => {
+            formatter: (_cell, row, rowIndex) => {
                 return (
                     <div className="checkbox">
                         <input type="checkbox" className="checkbox-custom" id={'chb-include' + rowIndex}
@@ -110,7 +110,7 @@ export default class Table extends Component {
             classes: TextCenterCssClass,
             headerStyle: { width: '80px' },
             isDummyField: true,
-            formatter: (cell, row) => {
+            formatter: (_cell, row) => {
                 return (
                     <div className="action">
                         <a className="fa fa-pencil-square-o" title="Edit" onClick={() => this.editSetting(row.paRecordId)} />

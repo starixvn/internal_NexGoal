@@ -7,13 +7,9 @@ import Multiselect from '../../../shared/components/react-multiselect/index';
 
 export default class SearchForm extends Component {
     shouldComponentUpdate(nextProps) {
-        if (this.props.filter !== nextProps.filter
+        return this.props.filter !== nextProps.filter
             || this.props.periodOptions !== nextProps.periodOptions
-            || this.props.groupOptions !== nextProps.groupOptions) {
-            return true;
-        }
-
-        return false;
+            || this.props.groupOptions !== nextProps.groupOptions;
     }
 
     handlePeriodChange = selectedOption => {

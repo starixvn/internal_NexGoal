@@ -48,7 +48,7 @@ class Table extends Component {
                 text: `${getResource('SymbolCount')}`,
                 classes: TextCenterCssClass,
                 headerStyle: { width: '50px' },
-                formatter: (cell, row, rowIndex) => rowIndex + 1
+                formatter: (_cell, _row, rowIndex) => rowIndex + 1
             },
             { dataField: 'nickName', text: `${getResource('NickName')}`, headerStyle: { width: '120px' } },
             { dataField: 'fullName', text: `${getResource('FullName')}` },
@@ -59,7 +59,7 @@ class Table extends Component {
                 text: `${getResource('Committee')}`,
                 classes: TextCenterCssClass,
                 headerStyle: { width: '120px' },
-                formatter: (cell, row, rowIndex) => {
+                formatter: (_cell, row, rowIndex) => {
                     const checkboxId = `chb-committee ${rowIndex}`;
 
                     if (isHost) {
@@ -86,7 +86,7 @@ class Table extends Component {
                 text: `${getResource('Nominator')}`,
                 classes: TextCenterCssClass,
                 headerStyle: { width: '120px' },
-                formatter: (cell, row, rowIndex) => {
+                formatter: (_cell, row, rowIndex) => {
                     const checkboxId = `chb-nominator ${rowIndex}`;
 
                     if (isHost) {

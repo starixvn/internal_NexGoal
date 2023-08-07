@@ -30,7 +30,7 @@ export default class Table extends Component {
             text: `${getResource('SymbolCount')}`,
             classes: TextCenterCssClass,
             headerStyle: { width: '50px' },
-            formatter: (cell, row, rowIndex) => rowIndex + 1
+            formatter: (_cell, _row, rowIndex) => rowIndex + 1
         },
         {
             dataField: 'name',
@@ -41,14 +41,14 @@ export default class Table extends Component {
             text: `${getResource('StartDate')}`,
             classes: TextCenterCssClass,
             headerStyle: { width: '120px' },
-            formatter: (cell, row) => row.startDate ? moment(row.startDate).format('DD MMM, YYYY') : ''
+            formatter: (_cell, row) => row.startDate ? moment(row.startDate).format('DD MMM, YYYY') : ''
         },
         {
             dataField: 'endDate',
             text: `${getResource('EndDate')}`,
             classes: TextCenterCssClass,
             headerStyle: { width: '120px' },
-            formatter: (cell, row) => row.endDate ? moment(row.endDate).format('DD MMM, YYYY') : ''
+            formatter: (_cell, row) => row.endDate ? moment(row.endDate).format('DD MMM, YYYY') : ''
         },
         {
             dataField: 'totalEmployees',
@@ -66,7 +66,7 @@ export default class Table extends Component {
             classes: TextCenterCssClass,
             headerStyle: { width: '80px' },
             isDummyField: true,
-            formatter: (cell, row, rowIndex) => {
+            formatter: (_cell, row, rowIndex) => {
                 const checkboxId = `chb-active-${rowIndex}`;
 
                 if (this.props.isHost) {
@@ -94,7 +94,7 @@ export default class Table extends Component {
             classes: TextCenterCssClass,
             headerStyle: { width: '120px' },
             isDummyField: true,
-            formatter: (cell, row) => {
+            formatter: (_cell, row) => {
                 if (this.props.isHost) {
                     return (
                         <Fragment>

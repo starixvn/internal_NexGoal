@@ -22,14 +22,10 @@ export default class TextareaFullscreenEditor extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (this.props.className !== nextProps.className
+        return this.props.className !== nextProps.className
             || this.props.name !== nextProps.name
             || this.props.value !== nextProps.value
-            || this.state.isFullscreen !== nextState.isFullscreen) {
-            return true;
-        }
-
-        return false;
+            || this.state.isFullscreen !== nextState.isFullscreen;
     }
 
     handleChangeMode = () => {

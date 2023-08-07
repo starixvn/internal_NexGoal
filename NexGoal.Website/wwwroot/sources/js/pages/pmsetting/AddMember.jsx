@@ -11,10 +11,6 @@ import { PostRequestHeaders } from '../../constants';
 import getResource from '../../resourceHelper';
 
 export default class AddMember extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     initialObj = {
         members: []
     };
@@ -55,7 +51,6 @@ export default class AddMember extends Component {
         values,
         errors,
         touched,
-        handleChange,
         handleSubmit,
         setFieldValue }) => {
         return (
