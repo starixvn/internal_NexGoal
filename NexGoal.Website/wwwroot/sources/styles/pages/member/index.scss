@@ -372,4 +372,12 @@
             }
         }
     }
+
+    .nomination-btn {
+        justify-content: flex-end !important;
+
+        button {
+            margin-left: 12px !important;
+        }
+    }
 }

@@ -86,71 +86,74 @@ export default class ReviewerForm extends Component {
         return (
             <Fragment>
                 <NexPanel title="Performance Result">
-                    <table className="table table-bordered table-striped result-table">
-                        <tbody>
-                            <tr className="group-row">
-                                <td colSpan="4">A. RESULT</td>
-                            </tr>
-                            <tr>
-                                <td className="text-center text-title">{getResource('Self')}</td>
-                                <td className="text-center text-title">{getResource('Score')}</td>
-                                <td className="text-center text-score">{probationer.selfScore && `${probationer.selfScore} pts`}</td>
-                                <td className="comment-cell comment-text">
-                                    <Paragraph content={probationer.selfComment} />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="text-center text-title" rowSpan="2">
-                                    {getResource('Evaluator')}
-                                    <div>({probationer.settings.find(x => x.processId === PerformanceProcess.Evaluator).evaluatorNickName})</div>
-                                </td>
-                                <td className="text-center text-title">{getResource('Score')}</td>
-                                <td className="text-center text-score">{probationer.evaluatorScore && `${probationer.evaluatorScore} pts`}</td>
-                                <td className="comment-cell comment-text" rowSpan="2">
-                                    <Paragraph content={probationer.evaluatorComment} />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="text-center text-title">{getResource('Result')}</td>
-                                <td className="text-center text-score">{this.renderPerformanceResult(probationer)}</td>
-                            </tr>
-                            <tr>
-                                <td className="text-center text-title">
-                                    {getResource('Reviewer')}
-                                    <div>({probationer.settings.find(x => x.processId === PerformanceProcess.Reviewer).evaluatorNickName})</div>
-                                </td>
-                                <td className="text-center text-title">{getResource('FinalResult')}</td>
-                                <td className="text-score">
-                                    {
-                                        probationer.canEdit &&
-                                        <Select name="isQualified"
-                                            className={`react-select-container ${!validateFormikField(touched, errors, 'isQualified') && 'input-validation-error'}`}
-                                            classNamePrefix="react-select" isDisabled={!probationer.canEdit}
-                                            value={values.isQualified}
-                                            options={ProbationResultOptions} placeholder=""
-                                            isClearable={false} isSearchable={false}
-                                            components={{ SingleValue }}
-                                            onChange={value => setFieldValue('isQualified', value)}
-                                        />
-                                    }
-                                </td>
-                                <td className="comment-cell input-comment">
-                                    {
-                                        probationer.canEdit &&
-                                        <textarea className={!validateFormikField(touched, errors, 'comment') && 'input-validation-error'}
-                                            value={values.comment} onChange={handleChange} name="comment" rows="5"
-                                        />
-                                    }
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div className=" result-table">
+                        <table className="table table-bordered table-striped">
+                            <tbody>
+                                <tr className="group-row">
+                                    <td><span>A. RESULT</span></td>
+                                    <td colSpan="3" />
+                                </tr>
+                                <tr>
+                                    <td className="text-center text-title">{getResource('Self')}</td>
+                                    <td className="text-center text-title">{getResource('Score')}</td>
+                                    <td className="text-center text-score">{probationer.selfScore && `${probationer.selfScore} pts`}</td>
+                                    <td className="comment-cell comment-text">
+                                        <Paragraph content={probationer.selfComment} />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className="text-center text-title" rowSpan="2">
+                                        {getResource('Evaluator')}
+                                        <div>({probationer.settings.find(x => x.processId === PerformanceProcess.Evaluator).evaluatorNickName})</div>
+                                    </td>
+                                    <td className="text-center text-title">{getResource('Score')}</td>
+                                    <td className="text-center text-score">{probationer.evaluatorScore && `${probationer.evaluatorScore} pts`}</td>
+                                    <td className="comment-cell comment-text" rowSpan="2">
+                                        <Paragraph content={probationer.evaluatorComment} />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className="text-center text-title">{getResource('Result')}</td>
+                                    <td className="text-center text-score">{this.renderPerformanceResult(probationer)}</td>
+                                </tr>
+                                <tr>
+                                    <td className="text-center text-title">
+                                        {getResource('Reviewer')}
+                                        <div>({probationer.settings.find(x => x.processId === PerformanceProcess.Reviewer).evaluatorNickName})</div>
+                                    </td>
+                                    <td className="text-center text-title">{getResource('FinalResult')}</td>
+                                    <td className="text-score">
+                                        {
+                                            probationer.canEdit &&
+                                            <Select name="isQualified"
+                                                className={`react-select-container ${!validateFormikField(touched, errors, 'isQualified') && 'input-validation-error'}`}
+                                                classNamePrefix="react-select" isDisabled={!probationer.canEdit}
+                                                value={values.isQualified}
+                                                options={ProbationResultOptions} placeholder=""
+                                                isClearable={false} isSearchable={false}
+                                                components={{ SingleValue }}
+                                                onChange={value => setFieldValue('isQualified', value)}
+                                            />
+                                        }
+                                    </td>
+                                    <td className="comment-cell input-comment">
+                                        {
+                                            probationer.canEdit &&
+                                            <textarea className={!validateFormikField(touched, errors, 'comment') && 'input-validation-error'}
+                                                value={values.comment} onChange={handleChange} name="comment" rows="5"
+                                            />
+                                        }
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <table className="table table-bordered table-striped">
                         <tbody>
                             <tr className="group-row">
                                 <td colSpan="3">
                                     B. DETAILS
-                                <OverlayTrigger placement="bottom" overlay={EvaluationDetailTooltip}>
+                                    <OverlayTrigger placement="bottom" overlay={EvaluationDetailTooltip}>
                                         <i className="icon-info" />
                                     </OverlayTrigger>
                                 </td>
