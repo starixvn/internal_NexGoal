@@ -41,7 +41,7 @@ namespace NexGoal.Core.Services
             {
                 return;
             }
-            var systemName = configuration.GetSection("CompanyName").Value.Equals("Luminet") ? "LumiGoal" : "NexGoal";
+            var systemName = configuration.GetSection("CompanyName").Value.Equals(Constants.LumiCompanyName) ? "LumiGoal" : "NexGoal";
             UpdateCompanyName(email, systemName);
 
             using (var mailclient = new SmtpClient())

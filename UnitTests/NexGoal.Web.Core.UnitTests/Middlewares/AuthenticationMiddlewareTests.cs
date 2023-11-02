@@ -1,4 +1,6 @@
-﻿namespace NexGoal.Web.Core.UnitTests.Middlewares
+﻿using Microsoft.Extensions.Configuration;
+
+namespace NexGoal.Web.Core.UnitTests.Middlewares
 {
     using System.Collections.Generic;
     using System.Security.Claims;
@@ -16,6 +18,7 @@
         private RequestDelegate next;
         private IAuthService authService;
         private LdapSettings ldapSetting;
+        private IConfiguration configuration;
 
         [Fact]
         public async Task InvokeAsync_Authorized_ReturnAsExpected()
@@ -100,12 +103,14 @@
         {
             next = Substitute.For<RequestDelegate>();
             authService = Substitute.For<IAuthService>();
+            // IConfiguration configuration
+            configuration = Substitute.For<IConfiguration>();
             ldapSetting = new LdapSettings
             {
                 Domain = "domain",
                 LDAPUrl = "server"
             };
-            return new AuthenticationMiddleware(next, authService, ldapSetting);
+            return new AuthenticationMiddleware(next, authService, ldapSetting, configuration);
         }
     }
 }

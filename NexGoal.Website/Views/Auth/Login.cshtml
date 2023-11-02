@@ -1,9 +1,12 @@
 ﻿@using Microsoft.Extensions.Configuration
+@using System.Reflection.Metadata
+@using NexGoal.Core.Constants
+
 @inject IConfiguration Configuration
 
 @{
     Layout = null;
-    var systemName = Configuration.GetValue<string>("CompanyName") == "Luminet" ? "LumiGoal" : "NexGoal";
+    var systemName = Configuration.GetValue<string>("CompanyName").Equals(Constants.LumiCompanyName) ? "LumiGoal" : "NexGoal";
 }
 
 

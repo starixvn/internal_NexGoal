@@ -34,7 +34,7 @@
             if (currentSession.EmployeeId <= 0)
             {
                 var companyName = configuration.GetSection("CompanyName").Value;
-                var domainUsername = string.Equals(companyName, "Luminet")
+                var domainUsername = string.Equals(companyName, NexGoal.Core.Constants.Constants.LumiCompanyName)
                     ? ldapSetting.Domain + context.User.Identity.Name
                     : context.User.Identity.Name;
                 EmployeeSession employee = await authService.GetEmployeeByDomainUsernameAsync(domainUsername);

@@ -99,7 +99,7 @@
 
         private bool IsValidAccountLDAP(string username, string password)
         {
-            string userDn = $"{username}@{ldapSetting.Domain.Replace("\\", string.Empty)}";
+            string userDn = $"{username}@{"luminet"}";
             using (var connection = new LdapConnection())
             {
                 try

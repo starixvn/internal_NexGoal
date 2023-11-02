@@ -23,6 +23,7 @@
     using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Extensions;
     using NexGoal.Core;
+    using NexGoal.Core.Constants;
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using NexGoal.Models.Auth;
@@ -155,7 +156,7 @@
 
         private void ConfigureAuthentication(IServiceCollection services, string companyName)
         {
-            if (string.Equals(companyName, "Luminet"))
+            if (string.Equals(companyName, Constants.LumiCompanyName))
             {
                 services.AddAuthentication(options =>
                 {

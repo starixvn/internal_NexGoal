@@ -3,6 +3,7 @@
 @using NexGoal.Core.Models
 @using Microsoft.Extensions.Configuration
 @using Microsoft.Extensions.Options
+@using NexGoal.Core.Constants
 @inject IOptionsSnapshot<AppSettings> appSettings
 @inject IConfiguration Configuration
 @model HeaderViewModel
@@ -12,7 +13,7 @@
     var currentController = ViewContext.RouteData.Values["Controller"].ToString().ToLowerInvariant();
     var currentAction = ViewContext.RouteData.Values["Action"].ToString().ToLowerInvariant();
     var currentUrl = string.Format("/{0}/{1}", currentController, currentAction);
-    var logoName = Configuration.GetValue<string>("CompanyName") == "Luminet" ? "lumigoal.svg" : "nexgoal.svg";
+    var logoName = Configuration.GetValue<string>("CompanyName").Equals(Constants.LumiCompanyName) ? "lumigoal.svg" : "nexgoal.svg";
 }
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -63,7 +64,7 @@
         <span class="user-avatar">
             <img alt="Avatar" src="@($"{appSettings.Value.ImageUrl}/{employee.Code}.jpg")" />
         </span>
-        @if (string.Equals(Configuration["CompanyName"], "Luminet"))
+        @if (string.Equals(Configuration["CompanyName"], Constants.LumiCompanyName))
         {
             <span class="log-out"><a href="@Url.Action("Logout", "UserAuth")">Log out</a></span>
         }
