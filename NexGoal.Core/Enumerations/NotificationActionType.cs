@@ -1,6 +1,6 @@
 ﻿namespace NexGoal.Core.Enumerations
 {
-    public enum NotificationActionType
+    public enum NotificationActionType : byte
     {
         MyPageWithCreatePerformanceCheckin = 1,
         MyPageWithSpecificPerformanceCheckin,

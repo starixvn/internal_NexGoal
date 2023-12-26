@@ -58,17 +58,17 @@
                 IsExportExcel = param.IsExportExcel
             };
 
-            ValueTuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>> ValueTuple = param.IsExportExcel
+            var (periods, records) = param.IsExportExcel
                 ? await reportRepository.GetDataForExportPAReportAsync(criteria) : await reportRepository.GetPAReportAsync(criteria);
             IEnumerable<PerformanceGrade> performanceGrades = await commonService.GetPerformanceGradeAsync();
 
-            commonService.MappingGrade(ValueTuple.Item2, performanceGrades);
+            commonService.MappingGrade(records, performanceGrades);
 
-            var groupRecords = ValueTuple.Item2.GroupBy(r => r.PeriodId)
+            var groupRecords = records.GroupBy(r => r.PeriodId)
                 .Select(item => new PARecordGroupByPeriod
                 {
                     PeriodId = item.Key,
-                    Period = ValueTuple.Item1.FirstOrDefault(p => p.PeriodId == item.Key),
+                    Period = periods.FirstOrDefault(p => p.PeriodId == item.Key),
                     Groups = item.GroupBy(g => new { g.Employee.GroupCode, g.Employee.GroupName })
                         .Select(group => new PAReportModel
                         {
@@ -77,7 +77,7 @@
                         })
                 }).ToList();
 
-            var emptyPeriods = ValueTuple.Item1.Where(p => !groupRecords.Any(g => g.PeriodId == p.PeriodId))
+            var emptyPeriods = periods.Where(p => !groupRecords.Exists(g => g.PeriodId == p.PeriodId))
                 .Select(x => new PARecordGroupByPeriod
                 {
                     PeriodId = x.PeriodId,
@@ -102,18 +102,17 @@
             }
 
             var grades = await commonService.GetPerformanceGradeAsync();
-            ValueTuple<IEnumerable<DisciplineModel>, IEnumerable<HRMInfo>, string> hrmAndPrevGrade = await GetPARecordDetailAsync(actorId, paRecordId);
+            var (disciplines, hrmInfos, previousGrade) = await GetPARecordDetailAsync(actorId, paRecordId);
 
-            var previousGrade = hrmAndPrevGrade.Item3;
             previousGrade = cryptoService.Decrypt(previousGrade);
-            int.TryParse(previousGrade, out int gradeId);
+            _ = int.TryParse(previousGrade, out int gradeId);
             var achievements = await GetAchievementAsync(paRecordId);
             var paDetails = new PAReportDetail
             {
                 Employee = employeeInfo,
                 PARecord = paRecord,
-                HRM = hrmAndPrevGrade.Item2,
-                Disciplines = hrmAndPrevGrade.Item1,
+                HRM = hrmInfos,
+                Disciplines = disciplines,
                 AllGrades = grades,
                 Achievements = achievements,
                 PreviousGradeId = previousGrade,
@@ -123,24 +122,16 @@
             return paDetails;
         }
 
-        private async Task<ValueTuple<
-            IEnumerable<DisciplineModel>,
-            IEnumerable<HRMInfo>,
-            string>> GetPARecordDetailAsync(int actorId, int paRecordId)
+        private async Task<ValueTuple<IEnumerable<DisciplineModel>, IEnumerable<HRMInfo>, string>> GetPARecordDetailAsync(int actorId, int paRecordId)
         {
             var criteria = new GetDisciplineHRMInfoAndPreviousPAGradeCriteria
             {
                 ActorId = actorId,
                 PARecordId = paRecordId
             };
-            var details = await baseService.FetchMultipleAsync<DisciplineModel, HRMInfo, string>(criteria);
+            var (disciplines, hrmInfos, previousGrades) = await baseService.FetchMultipleAsync<DisciplineModel, HRMInfo, string>(criteria);
 
-            return new ValueTuple<IEnumerable<DisciplineModel>,
-                IEnumerable<HRMInfo>,
-                string>(details.Item1,
-                details.Item2,
-                details.Item3.FirstOrDefault()
-                );
+            return new (disciplines, hrmInfos, previousGrades.FirstOrDefault());
         }
 
         private async Task<IEnumerable<EmployeeNominationModel>> GetAchievementAsync(int paRecordId)
@@ -149,13 +140,13 @@
             {
                 PARecordId = paRecordId
             };
-            var ValueTuple = await baseService.FetchMultipleAsync<EmployeeNominationModel, NominationPeriodModel>(criteria);
-            foreach (EmployeeNominationModel nomination in ValueTuple.Item1)
+            var (nominations, periods) = await baseService.FetchMultipleAsync<EmployeeNominationModel, NominationPeriodModel>(criteria);
+            foreach (var nomination in nominations)
             {
-                nomination.Period = ValueTuple.Item2.FirstOrDefault(x => x.NominationPeriodId == nomination.NominationPeriodId);
+                nomination.Period = periods.FirstOrDefault(x => x.NominationPeriodId == nomination.NominationPeriodId);
             }
 
-            return ValueTuple.Item1;
+            return nominations;
         }
     }
 }

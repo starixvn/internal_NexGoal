@@ -10,7 +10,6 @@ namespace NexGoal.Core.Services
     using MailKit.Security;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Options;
     using MimeKit;
     using Newtonsoft.Json;
     using NexGoal.Core.Constants;
@@ -19,13 +18,13 @@ namespace NexGoal.Core.Services
     public class BaseMailService : IBaseMailService
     {
         private readonly IConfiguration configuration;
-        private readonly IOptionsSnapshot<MailConfigs> mailConfig;
+        private readonly MailConfigs mailConfig;
         private readonly Fanex.Logging.ILogger fanexlogger;
         private readonly ILogger logger;
 
         public BaseMailService(
             IConfiguration configuration,
-            IOptionsSnapshot<MailConfigs> mailConfig,
+            MailConfigs mailConfig,
             Fanex.Logging.ILogger fanexlogger,
             ILogger<BaseMailService> logger)
         {
@@ -37,7 +36,7 @@ namespace NexGoal.Core.Services
 
         public async Task SendMailAsync(MailModel email)
         {
-            if (email == null || !IsValidEmail(email.ReceiverEmail) || !mailConfig.Value.Enable)
+            if (email == null || !IsValidEmail(email.ReceiverEmail) || !mailConfig.Enable)
             {
                 return;
             }
@@ -49,10 +48,10 @@ namespace NexGoal.Core.Services
                 try
                 {
                     var message = new MimeMessage();
-                    message.From.Add(new MailboxAddress(systemName, mailConfig.Value.Username));
+                    message.From.Add(new MailboxAddress(systemName, mailConfig.Username));
                     message.To.Add(new MailboxAddress(email.ReceiverEmail));
                     message.Subject = email.Subject;
-                    message.Priority = mailConfig.Value.MailPriority;
+                    message.Priority = mailConfig.MailPriority;
 
                     if (email.Cc.Any(x => IsValidEmail(x)))
                     {
@@ -71,11 +70,11 @@ namespace NexGoal.Core.Services
                     message.Body = builder.ToMessageBody();
                     mailclient.ServerCertificateValidationCallback = (s, c, h, e) => true;
                     mailclient.CheckCertificateRevocation = false;
-                    await mailclient.ConnectAsync(mailConfig.Value.SmtpServer, mailConfig.Value.SmtpPort, mailConfig.Value.EnableSsl);
+                    await mailclient.ConnectAsync(mailConfig.SmtpServer, mailConfig.SmtpPort, mailConfig.EnableSsl);
 
-                    if (mailConfig.Value.EnableSsl)
+                    if (mailConfig.EnableSsl)
                     {
-                        await mailclient.AuthenticateAsync(mailConfig.Value.Username, mailConfig.Value.Password);
+                        await mailclient.AuthenticateAsync(mailConfig.Username, mailConfig.Password);
                     }
 
                     await mailclient.SendAsync(message);

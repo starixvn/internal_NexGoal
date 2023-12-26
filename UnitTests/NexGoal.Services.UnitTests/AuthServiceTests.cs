@@ -53,7 +53,7 @@
         {
             // Arrange
             var employee = new Employee { EmployeeId = 1, NickName = "Oliver" };
-            ValueTuple<Employee, bool, int> expected = new ValueTuple<Employee, bool, int>(employee, true, 10);
+            var expected = (employee, true, 10);
 
             var service = GetAuthService();
             baseService.GetDataEntityAsync<Employee>(Arg.Any<GetEmployeeInfoCriteria>()).Returns(employee);

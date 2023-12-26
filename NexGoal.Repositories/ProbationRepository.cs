@@ -100,7 +100,7 @@
 
                     var employees = await multi.ReadAsync<Employee>();
 
-                    return new ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>(groups, employees);
+                    return new (groups, employees);
                 }
             }
         }

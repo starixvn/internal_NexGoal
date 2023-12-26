@@ -15,24 +15,26 @@
     using Hangfire.SqlServer;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.DataProtection;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Infrastructure;
     using Microsoft.AspNetCore.ResponseCompression;
-    using Microsoft.AspNetCore.Server.IISIntegration;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Extensions;
     using NexGoal.Core;
-    using NexGoal.Core.Constants;
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using NexGoal.Models.Auth;
     using NexGoal.Services.Extensions;
     using NexGoal.Web.Core.Extensions;
     using NexGoal.Web.Core.Middlewares;
+    using NexGoal.Web.Core.Services;
     using Sentry;
+    using StackExchange.Redis;
 
     public class Startup
     {
@@ -46,36 +48,44 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<AppSettings>(options => Configuration.GetSection("AppSettings").Bind(options));
-            services.Configure<MailConfigs>(options => Configuration.GetSection("MailConfigs").Bind(options));
-            services.Configure<ChatbotConfigs>(options => Configuration.GetSection("ChatbotConfigs").Bind(options));
+            var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
+            services.AddSingleton(appSettings);
+
+            var mailConfigs = Configuration.GetSection("MailConfigs").Get<MailConfigs>();
+            services.AddSingleton(mailConfigs);
+
+            var chatbotConfigs = Configuration.GetSection("ChatbotConfigs").Get<ChatbotConfigs>();
+            services.AddSingleton(chatbotConfigs);
+
+            var ldapSettings = Configuration.GetSection("LDAPSettings").Get<LdapSettings>();
+            services.AddSingleton(ldapSettings);
 
             var connections = Configuration.GetSection("ConnectionStrings")
-                                   .GetChildren()
-                                   .AsEnumerable()
-                                   .Where(x => !string.IsNullOrWhiteSpace(x.GetValue<string>("Name")))
-                                   .ToDictionary(x => x.GetValue<string>("Name"),
-                                   y => new ConnectionConfiguration(y.GetValue<string>("Name"), y.GetValue<string>("ConnectionString"), y.GetValue<string>("ProviderName")));
+                .GetChildren()
+                .AsEnumerable()
+                .Where(x => !string.IsNullOrWhiteSpace(x.GetValue<string>("Name")))
+                .ToDictionary(x => x.GetValue<string>("Name"),
+                    y => new ConnectionConfiguration(y.GetValue<string>("Name"), y.GetValue<string>("ConnectionString"), y.GetValue<string>("ProviderName")));
 
-            int.TryParse(Configuration.GetSection("ConnectionStringsEncryptionAlgorithm").Value, out int algorithm);
+            _ = byte.TryParse(Configuration.GetSection("ConnectionStringsEncryptionAlgorithm").Value, out byte algorithm);
 
             DbSettingProviderManager
                 .StartNewSession()
-                .Use(new CustomConnectionStringProvider(connections, algorithm, services.BuildServiceProvider().GetService<IOptionsMonitor<AppSettings>>()))
+                .Use(new CustomConnectionStringProvider(connections, algorithm, appSettings))
                 .WithSqlServer()
                 .UseDefaultDbSettingProvider("~/App_Data")
                 .Run();
 
             LogManager
-            .SetDefaultLogCategory(Configuration.GetSection("LogCategory").Value)
-            .Use(new List<ILogEngine>
-            {
-                new SentryLogging(new SentryEngineOptions
+                .SetDefaultLogCategory(Configuration.GetSection("LogCategory").Value)
+                .Use(new List<ILogEngine>
                 {
-                    Dsn = new Dsn(Configuration.GetSection("SentryEngineOptions:Dsn").Value),
-                    FrontEndDsn =  new Dsn(Configuration.GetSection("SentryEngineOptions:FrontEndDsn").Value)
-                })
-            });
+                    new SentryLogging(new SentryEngineOptions
+                    {
+                        Dsn = new Dsn(Configuration.GetSection("SentryEngineOptions:Dsn").Value),
+                        FrontEndDsn =  new Dsn(Configuration.GetSection("SentryEngineOptions:FrontEndDsn").Value)
+                    })
+                });
 
             var hangfireConnectionString = Cryptography.DecryptConnectionString(Configuration.GetSection("HangfireConnectionString").Value);
             services.AddHangfire(config => config.UseSqlServerStorage(hangfireConnectionString, new SqlServerStorageOptions
@@ -84,14 +94,7 @@
                 PrepareSchemaIfNecessary = true
             }));
             services.AddHangfireServer();
-
-            services.Configure<IISOptions>(options =>
-            {
-                options.AutomaticAuthentication = true;
-            });
-
-            var companyName = Configuration.GetSection("CompanyName").Value;
-            ConfigureAuthentication(services, companyName);
+            
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
             services.AddResponseCompression(options =>
             {
@@ -100,12 +103,33 @@
                 options.EnableForHttps = true;
             });
 
-            services.AddMemoryCache();
-            services.AddDistributedMemoryCache();
-            services.AddControllersWithViews()
-                .AddMvcOptions(o =>
-                    o.Filters.Add(new AutoValidateAntiforgeryTokenAttribute())
-                );
+            var companyName = Configuration.GetSection("CompanyName").Value;
+
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie(options =>
+            {
+                options.LoginPath = Configuration.GetSection("AuthSettings:LoginPath").Value;
+                options.LogoutPath = Configuration.GetSection("AuthSettings:LogoutPath").Value;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(int.Parse(Configuration["AuthSettings:SessionTimeout"]));
+                options.SlidingExpiration = true;
+                options.Events.OnSigningOut = context =>
+                {
+                    context.Response.Redirect(options.LoginPath);
+                    return Task.CompletedTask;
+                };
+                options.Cookie = new CookieBuilder
+                {
+                    Name = $"Goal.{companyName}.Cookie",
+                };
+            });
+
+            services.AddAuthorization();
 
             services.AddSession(options =>
             {
@@ -114,17 +138,20 @@
                 options.Cookie.Name = $"Goal.{companyName}.Session";
             });
 
-            var settings = Configuration.GetSection("LDAPSettings");
-            services.Configure<LdapSettings>(options => settings.Bind(options));
-            var ldapSettings = settings.Get<LdapSettings>();
-            ldapSettings ??= new LdapSettings();
+            ConfigDataProtection(services);
 
-            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
-            services.AddSingleton(ldapSettings);
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddScoped<ISessionService, SessionService>();
+
             services.ResolveCoreDI();
             services.ResolveServiceDI();
-            services.ResolveWebCoreDI();
             services.ResolveAutoServiceDI();
+
+            services.AddControllersWithViews()
+                .AddMvcOptions(o =>
+                    o.Filters.Add(new AutoValidateAntiforgeryTokenAttribute())
+                );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -143,11 +170,11 @@
             app.UseResponseCompression();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSession();
+            app.UseCookiePolicy();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseMiddleware<AuthenticationMiddleware>();
+            app.UseSession();
             app.UseHangfireDashboard("/hangfire", new DashboardOptions
             {
                 Authorization = new[] { new HangfireAuthorization() },
@@ -158,36 +185,28 @@
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Auth}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapHangfireDashboard();
             });
         }
 
-        private void ConfigureAuthentication(IServiceCollection services, string companyName)
+        private void ConfigDataProtection(IServiceCollection services)
         {
-            if (string.Equals(companyName, Constants.LumiCompanyName))
+            var redisConnectionString = Configuration.GetSection("RedisConfig:ConnectionString").Value;
+            var appName = Configuration.GetSection("RedisConfig:ApplicationName").Value;
+
+            var redis = ConnectionMultiplexer.Connect(redisConnectionString);
+            services.AddDataProtection()
+                .SetApplicationName(appName)
+                .PersistKeysToStackExchangeRedis(redis, $"{appName}:DataProtection:Keys");
+            
+            services.AddStackExchangeRedisCache(options =>
             {
-                services.AddAuthentication(options =>
-                {
-                    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                }).AddCookie(options =>
-                {
-                    options.LoginPath = Configuration.GetSection("AuthSettings:LoginPath").Value;
-                    options.LogoutPath = Configuration.GetSection("AuthSettings:LogoutPath").Value;
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(int.Parse(Configuration["AuthSettings:SessionTimeout"]));
-                    options.SlidingExpiration = true;
-                    options.Events.OnSigningOut = context =>
-                    {
-                        context.Response.Redirect(options.LoginPath);
-                        return Task.CompletedTask;
-                    };
-                });
-            }
-            else
-            {
-                services.AddAuthentication(IISDefaults.AuthenticationScheme);
-            }
+                options.Configuration = redisConnectionString;
+                options.InstanceName = $"{appName}:Session:";
+            });
         }
+
     }
 }

@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.PA;
     using NexGoal.AutoService.Models.PA;
@@ -19,7 +18,7 @@
 
     public class PAServiceTests
     {
-        private IOptionsSnapshot<AppSettings> configuration;
+        private AppSettings appSettings;
         private IBaseService baseService;
         private IBaseMailService mailService;
         private ICryptoService cryptoService;
@@ -115,9 +114,8 @@
             };
             var mailModel = new MailModel();
             var receiverEmail = "tim.trinh@nexcel.vn";
-            var ValueTuple = new ValueTuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>>(periods, settings);
             var service = GetPAService();
-            baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(ValueTuple);
+            baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns((periods, settings));
             mailService.ReadTextFile(Arg.Any<string>()).Returns(mailMody);
             await mailService.SendMailAsync(Arg.Do<MailModel>(x => mailModel = x));
             mailService.FormatDate(startDate).Returns("20 Dec 2018");
@@ -141,9 +139,9 @@
         public async Task SendNotification_DoNotHaveData_NotSendNotification()
         {
             // Arrange
-            var ValueTuple = new ValueTuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>>(new List<PeriodModel>(), new List<ProcessSettingModel>());
+            var tuple = (new List<PeriodModel>(), new List<ProcessSettingModel>());
             var service = GetPAService();
-            baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(ValueTuple);
+            baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(tuple);
 
             // Act
             await service.SendNotificationAsync();
@@ -188,9 +186,8 @@
 
             var criteria = new CreateNotificationCriteria();
 
-            var ValueTuple = new ValueTuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>>(periods, settings);
             var service = GetPAService();
-            baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(ValueTuple);
+            baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns((periods, settings));
             await baseService.ExecuteNonQueryAsync(Arg.Do<CreateNotificationCriteria>(x => criteria = x));
             mailService.FormatDate(startDate).Returns("20 Dec 2018");
             mailService.FormatDate(endDate).Returns("31 Dec 2018");
@@ -214,13 +211,13 @@
         private PAService GetPAService()
         {
             IWebHostEnvironment hostingEnvironment = Helpers.FakeHostingEnvironment();
-            configuration = Helpers.FakeOptionsSnapshot();
+            appSettings = Helpers.FakeAppSettings();
             baseService = Helpers.FakeBaseService();
             mailService = Helpers.FakeBaseMailService();
             cryptoService = Helpers.FakeCryptoService();
             chatbotService = Helpers.FakeChatbotService();
 
-            return new PAService(hostingEnvironment, configuration, baseService, mailService, cryptoService, chatbotService);
+            return new PAService(hostingEnvironment, appSettings, baseService, mailService, cryptoService, chatbotService);
         }
 
         #endregion Helpers

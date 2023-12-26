@@ -326,7 +326,7 @@
             var fileName = $"{reportDetail.Employee.NickName}_PA_{reportDetail.PARecord.Period.Name}.pdf";
             var file = converter.Convert(pdf);
 
-            return new ValueTuple<string, byte[]>(fileName, file);
+            return new (fileName, file);
         }
 
         private async Task<HtmlToPdfDocument> GetPdfSettingAsync(PAReportDetail reportDetail)

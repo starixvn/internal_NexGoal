@@ -1,7 +1,6 @@
 ﻿@using NexGoal.Models.Common
 @using NexGoal.Core.Models
-@using Microsoft.Extensions.Options
-@inject IOptionsSnapshot<AppSettings> appSettings
+@inject AppSettings appSettings
 @model Employee
 
 @{
@@ -16,7 +15,7 @@
 <input type="hidden" id="member-fullName" value="@Model.FullName" />
 <input type="hidden" id="member-nickName" value="@Model.NickName" />
 <input type="hidden" id="member-jobTitle" value="@Model.JobTitle" />
-<input type="hidden" id="member-avatar" value="@($"{appSettings.Value.ImageUrl}/{Model.Code}.jpg")" />
+<input type="hidden" id="member-avatar" value="@($"{appSettings.ImageUrl}/{Model.Code}.jpg")" />
 <input type="checkbox" hidden id="member-isProbation" @(Model.IsProbation ? "checked" : string.Empty) />
 
 <div id="member-wrapper"></div>

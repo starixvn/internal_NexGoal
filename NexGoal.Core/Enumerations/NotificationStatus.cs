@@ -1,6 +1,6 @@
 ﻿namespace NexGoal.Core.Enumerations
 {
-    public enum NotificationStatus
+    public enum NotificationStatus : byte
     {
         Unread,
         Read

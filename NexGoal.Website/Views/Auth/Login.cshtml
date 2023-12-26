@@ -1,26 +1,60 @@
 ﻿@using Microsoft.Extensions.Configuration
-@using System.Reflection.Metadata
 @using NexGoal.Core.Constants
-
+@using NexGoal.ViewModels.Auth
 @inject IConfiguration Configuration
+@model LoginModel
 
 @{
     Layout = null;
-    var systemName = Configuration.GetValue<string>("CompanyName").Equals(Constants.LumiCompanyName) ? "LumiGoal" : "NexGoal";
+    ViewData["Title"] = ViewLang.Login;
+    
+    var companyName = Configuration.GetValue<string>("CompanyName");
+    var leftLogo = companyName.Equals(Constants.LumiCompanyName) ? "LuminetLeftLogin.png" : "NexcelLeftLogin.svg";
+    var logoName = companyName.Equals(Constants.LumiCompanyName) ? "LogoLuminet.svg" : "LogoNexcel.svg";
 }
-
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Welcome to @systemName</title>
-    <link rel="shortcut icon" type="image/ico" href="~/favicon.ico" />
+    <title>Login</title>
+    <link href="~/dist/styles/login.css" rel="stylesheet" />
 </head>
 <body>
-    <form asp-controller="auth" asp-action="login" method="post">
-        <input type="text" name="username" />
-        <input type="submit" value="Login" />
-    </form>
+    <div class="login @companyName">
+        <div class="login__main">
+            <div class="container">
+                <div class="login__flex">
+                    <div class="login__left">
+                        <img src="~/Images/@leftLogo" alt="leftLogo" class="img-res" />
+                    </div>
+                    <div class="login__form">
+                        <form method="post" asp-controller="Auth" asp-action="Login" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]">
+                            <div class="login__logo">
+                                <img src="~/Images/@logoName" alt="logo" class="img-res" />
+                            </div>
+                            <span asp-validation-for="errorSummary" class="textdanger"></span>
+                            <div class="material-textfield">
+                                <input type="text" asp-for="Username" class="custom-input" , placeholder=" ">
+                                <label asp-for="Username"></label>
+                                <span asp-validation-for="Username" class="textdanger"></span>
+                            </div>
+                            <div class="material-textfield">
+                                <input type="password" asp-for="Password" class="custom-input" , placeholder=" ">
+                                <label asp-for="Password"></label>
+                                <span asp-validation-for="Password" class="textdanger"></span>
+                            </div>
+                            <div class="custom-check">
+                                <input type="checkbox" asp-for="RememberMe" class="styled-checkbox">
+                                <label asp-for="RememberMe" class="form-check-label"></label>
+                            </div>
+                            <div class="login__btn">
+                                <input type="submit" class="btn btn-success submit-form" value="Login">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

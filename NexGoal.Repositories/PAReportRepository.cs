@@ -47,7 +47,7 @@
                         "EvaluatorId");
                     CommonMapping.MappingPerformanceAppraisal(performanceAppraisals, processes);
 
-                    return new ValueTuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>>(selectedPeriods, performanceAppraisals);
+                    return new (selectedPeriods, performanceAppraisals);
                 }
             }
         }
@@ -107,7 +107,7 @@
                     CommonMapping.MappingRelatedPerformanceRecord(processes, performanceRecords);
                     CommonMapping.MappingPerformanceAppraisal(performanceAppraisals, processes);
 
-                    return new ValueTuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>>(selectedPeriods, performanceAppraisals);
+                    return new (selectedPeriods, performanceAppraisals);
                 }
             }
         }

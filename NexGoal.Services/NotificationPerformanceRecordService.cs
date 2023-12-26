@@ -6,7 +6,6 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Options;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
@@ -24,7 +23,7 @@
         private const string SupervisorToSupervisorEmailTemplate = @"EmailTemplates\\PCI\\{0}\\SupervisorToSupervisor.cshtml";
 
         private readonly IWebHostEnvironment hostingEnvironment;
-        private readonly IOptionsSnapshot<AppSettings> configuration;
+        private readonly AppSettings appSettings;
         private readonly IBaseService baseService;
         private readonly ICommonService commonService;
         private readonly IBaseMailService mailService;
@@ -32,14 +31,14 @@
 
         public NotificationPerformanceRecordService(
             IWebHostEnvironment hostingEnvironment,
-            IOptionsSnapshot<AppSettings> configuration,
+            AppSettings appSettings,
             IBaseService baseService,
             ICommonService commonService,
             IBaseMailService mailService,
             ISkypeNotiService skypeNotiService)
         {
             this.hostingEnvironment = hostingEnvironment;
-            this.configuration = configuration;
+            this.appSettings = appSettings;
             this.baseService = baseService;
             this.commonService = commonService;
             this.mailService = mailService;
@@ -48,15 +47,14 @@
 
         public async Task SendMailAsync(string performanceRecordIds, int actorId, ActionOnPerformanceRecord action)
         {
-            IEnumerable<int> recordIds = performanceRecordIds.Split(",").Select(x => int.Parse(x));
-            ValueTuple<IEnumerable<EmployeeDto>, IEnumerable<ProcessSettingDto>> ValueTuple =
-                await GetSettingToSendNotificationAsync(performanceRecordIds, actorId, ReceiveNotificationType.Email);
-            Employee actor = await commonService.GetEmployeeByIdAsync(actorId);
+            var recordIds = performanceRecordIds.Split(",").Select(x => int.Parse(x)).ToList();
+            var (employees, processSettings) = await GetSettingToSendNotificationAsync(performanceRecordIds, actorId, ReceiveNotificationType.Email);
+            var actor = await commonService.GetEmployeeByIdAsync(actorId);
 
             foreach (int recordId in recordIds)
             {
-                IEnumerable<ProcessSettingDto> receivers = ValueTuple.Item2.Where(x => x.PerformanceRecordId == recordId);
-                if (receivers.Any(x => x.NotificationMode == PerformanceRecordMailMode.MemberToSupervisor))
+                var receivers = processSettings.Where(x => x.PerformanceRecordId == recordId).ToList();
+                if (receivers.Exists(x => x.NotificationMode == PerformanceRecordMailMode.MemberToSupervisor))
                 {
                     var receiver = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.MemberToSupervisor).OrderBy(x => x.Priority).First();
                     var cc = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.MemberToSupervisor && x.EvaluatorId != receiver.EvaluatorId)
@@ -65,16 +63,16 @@
                     await SendMailFromMemberToSupervisorAsync(actor, receiver, cc, action);
                 }
 
-                if (receivers.Any(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToMember))
+                if (receivers.Exists(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToMember))
                 {
                     var receiver = receivers.First(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToMember);
 
                     await SendMailFromSupervisorToMemberAsync(actor, receiver, action);
                 }
 
-                if (receivers.Any(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToSupervisor))
+                if (receivers.Exists(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToSupervisor))
                 {
-                    EmployeeDto employee = ValueTuple.Item1.First(y => y.PerformanceRecordId == recordId);
+                    var employee = employees.First(y => y.PerformanceRecordId == recordId);
                     var receiver = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToSupervisor).OrderBy(x => x.Priority).First();
                     var cc = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToSupervisor && x.EvaluatorId != receiver.EvaluatorId)
                         .Select(x => x.Email);
@@ -87,15 +85,14 @@
         public async Task SendNotificationAsync(string performanceRecordIds, int actorId, ActionOnPerformanceRecord action)
         {
             var notifications = new List<CreateNotificationModel>();
-            IEnumerable<int> recordIds = performanceRecordIds.Split(",").Select(x => int.Parse(x));
-            ValueTuple<IEnumerable<EmployeeDto>, IEnumerable<ProcessSettingDto>> ValueTuple =
-                await GetSettingToSendNotificationAsync(performanceRecordIds, actorId, ReceiveNotificationType.Notification);
-            Employee actor = await commonService.GetEmployeeByIdAsync(actorId);
+            var recordIds = performanceRecordIds.Split(",").Select(x => int.Parse(x)).ToList();
+            var (employees, processSettings) = await GetSettingToSendNotificationAsync(performanceRecordIds, actorId, ReceiveNotificationType.Notification);
+            var actor = await commonService.GetEmployeeByIdAsync(actorId);
 
             foreach (int recordId in recordIds)
             {
-                EmployeeDto employee = ValueTuple.Item1.First(y => y.PerformanceRecordId == recordId);
-                IEnumerable<ProcessSettingDto> receivers = ValueTuple.Item2.Where(x => x.PerformanceRecordId == recordId);
+                var employee = employees.First(y => y.PerformanceRecordId == recordId);
+                var receivers = processSettings.Where(x => x.PerformanceRecordId == recordId).ToList();
 
                 notifications.AddRange(receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.MemberToSupervisor)
                     .Select(x => new CreateNotificationModel
@@ -104,8 +101,8 @@
                         Content = action == ActionOnPerformanceRecord.Create
                             ? string.Format(Message.NotificationTemplate_CreatePCI_MemberToSupervisor, actor.NickName)
                             : string.Format(Message.NotificationTemplate_EditPCI_MemberToSupervisor, actor.NickName),
-                        StatusId = (int)NotificationStatus.Unread,
-                        ActionTypeId = (int)NotificationActionType.MemberPageWithSpecificPerformanceCheckin,
+                        StatusId = (byte)NotificationStatus.Unread,
+                        ActionTypeId = (byte)NotificationActionType.MemberPageWithSpecificPerformanceCheckin,
                         RecordId = recordId
                     }));
 
@@ -116,8 +113,8 @@
                         Content = action == ActionOnPerformanceRecord.Create
                             ? string.Format(Message.NotificationTemplate_CreatePCI_SupervisorToMember, actor.NickName)
                             : string.Format(Message.NotificationTemplate_EditPCI_SupervisorToMember, actor.NickName),
-                        StatusId = (int)NotificationStatus.Unread,
-                        ActionTypeId = (int)NotificationActionType.MyPageWithSpecificPerformanceCheckin,
+                        StatusId = (byte)NotificationStatus.Unread,
+                        ActionTypeId = (byte)NotificationActionType.MyPageWithSpecificPerformanceCheckin,
                         RecordId = recordId
                     }));
 
@@ -128,8 +125,8 @@
                         Content = action == ActionOnPerformanceRecord.Create
                             ? string.Format(Message.NotificationTemplate_CreatePCI_SupervisorToSupervisor, actor.NickName, employee.Nickname)
                             : string.Format(Message.NotificationTemplate_EditPCI_SupervisorToSupervisor, actor.NickName, employee.Nickname),
-                        StatusId = (int)NotificationStatus.Unread,
-                        ActionTypeId = (int)NotificationActionType.MemberPageWithSpecificPerformanceCheckin,
+                        StatusId = (byte)NotificationStatus.Unread,
+                        ActionTypeId = (byte)NotificationActionType.MemberPageWithSpecificPerformanceCheckin,
                         RecordId = recordId
                     }));
             }
@@ -148,31 +145,30 @@
 
         public async Task SendSkypeMessageAsync(string performanceRecordIds, int actorId, ActionOnPerformanceRecord action)
         {
-            IEnumerable<int> recordIds = performanceRecordIds.Split(",").Select(x => int.Parse(x));
-            ValueTuple<IEnumerable<EmployeeDto>, IEnumerable<ProcessSettingDto>> ValueTuple =
-                await GetSettingToSendNotificationAsync(performanceRecordIds, actorId, ReceiveNotificationType.SkypeMessage);
-            Employee actor = await commonService.GetEmployeeByIdAsync(actorId);
+            var recordIds = performanceRecordIds.Split(",").Select(x => int.Parse(x)).ToList();
+            var (employees, processSettings) = await GetSettingToSendNotificationAsync(performanceRecordIds, actorId, ReceiveNotificationType.SkypeMessage);
+            var actor = await commonService.GetEmployeeByIdAsync(actorId);
 
             foreach (int recordId in recordIds)
             {
-                IEnumerable<ProcessSettingDto> receivers = ValueTuple.Item2.Where(x => x.PerformanceRecordId == recordId);
-                if (receivers.Any(x => x.NotificationMode == PerformanceRecordMailMode.MemberToSupervisor))
+                var receivers = processSettings.Where(x => x.PerformanceRecordId == recordId).ToList();
+                if (receivers.Exists(x => x.NotificationMode == PerformanceRecordMailMode.MemberToSupervisor))
                 {
                     var conversations = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.MemberToSupervisor).OrderBy(x => x.Priority);
 
                     await skypeNotiService.SendMessageMemberToSupervisorAsync(actor, conversations, action);
                 }
 
-                if (receivers.Any(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToMember))
+                if (receivers.Exists(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToMember))
                 {
                     var conversations = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToMember);
 
                     await skypeNotiService.SendMessageSupervisorToMemberAsync(actor, conversations, action);
                 }
 
-                if (receivers.Any(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToSupervisor))
+                if (receivers.Exists(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToSupervisor))
                 {
-                    EmployeeDto employee = ValueTuple.Item1.First(y => y.PerformanceRecordId == recordId);
+                    var employee = employees.First(y => y.PerformanceRecordId == recordId);
                     var conversations = receivers.Where(x => x.NotificationMode == PerformanceRecordMailMode.SupervisorToSupervisor);
 
                     await skypeNotiService.SendMessageSupervisorToSupervisorAsync(actor, conversations, employee, action);
@@ -211,7 +207,7 @@
                 mailService.ReadTextFile(filePath),
                 receiver.Nickname,
                 actor.NickName,
-                $"{configuration.Value.ApplicationDomain}/member?recordId={receiver.PerformanceRecordId}");
+                $"{appSettings.ApplicationDomain}/member?recordId={receiver.PerformanceRecordId}");
 
             var mailModel = new MailModel
             {
@@ -239,7 +235,7 @@
                 mailService.ReadTextFile(filePath),
                 receiver.Nickname,
                 actor.NickName,
-                $"{configuration.Value.ApplicationDomain}?recordId={receiver.PerformanceRecordId}");
+                $"{appSettings.ApplicationDomain}?recordId={receiver.PerformanceRecordId}");
 
             var mailModel = new MailModel
             {
@@ -269,7 +265,7 @@
                 receiver.Nickname,
                 actor.NickName,
                 employee.Nickname,
-                $"{configuration.Value.ApplicationDomain}/member?recordId={receiver.PerformanceRecordId}");
+                $"{appSettings.ApplicationDomain}/member?recordId={receiver.PerformanceRecordId}");
 
             var mailModel = new MailModel
             {

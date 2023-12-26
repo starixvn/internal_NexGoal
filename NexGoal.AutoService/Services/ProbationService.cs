@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.Probation;
     using NexGoal.AutoService.Models.Notification;
@@ -24,7 +23,7 @@
         private const string RemindMailTemplateToEvaluator = "EmailTemplates\\Probation\\RemindToEvaluator.cshtml";
 
         private readonly IWebHostEnvironment hostingEnvironment;
-        private readonly IOptionsSnapshot<AppSettings> configuration;
+        private readonly AppSettings appSettings;
         private readonly IBaseService baseService;
         private readonly IBaseMailService mailService;
         private readonly IChatbotService chatbotService;
@@ -33,18 +32,18 @@
 
         public ProbationService(
             IWebHostEnvironment hostingEnvironment,
-            IOptionsSnapshot<AppSettings> configuration,
+            AppSettings appSettings,
             IBaseService baseService,
             IBaseMailService mailService,
             IChatbotService chatbotService)
         {
             this.hostingEnvironment = hostingEnvironment;
-            this.configuration = configuration;
+            this.appSettings = appSettings;
             this.baseService = baseService;
             this.mailService = mailService;
             this.chatbotService = chatbotService;
-            memberPage = $"{configuration.Value.ApplicationDomain}/member?activeTab=4";
-            probationSettingPage = $"{configuration.Value.ApplicationDomain}/Probation/Setting";
+            memberPage = $"{appSettings.ApplicationDomain}/member?activeTab=4";
+            probationSettingPage = $"{appSettings.ApplicationDomain}/Probation/Setting";
         }
 
         public async Task SendMailAsync()
@@ -73,7 +72,7 @@
                         body = string.Format(
                             mailService.ReadTextFile(startToMemberPath),
                             setting.Nickname,
-                            configuration.Value.ApplicationDomain,
+                            appSettings.ApplicationDomain,
                             mailService.FormatDate(setting.EndDate));
                         await SendEmailAsync(Message.EmailSubject_Probation_StartToEvaluator, body, setting.Email);
                         break;
@@ -152,7 +151,7 @@
                     case PerformanceProcess.Self:
                         message = string.Format(Message.SkypeMessageTemplate_Probation_StartToMember,
                             setting.Nickname,
-                            configuration.Value.ApplicationDomain,
+                            appSettings.ApplicationDomain,
                             mailService.FormatDate(setting.EndDate));
                         await chatbotService.SendMessageAsync(setting.ConversationId, message);
                         break;
@@ -273,19 +272,18 @@
             return content;
         }
 
-        private static int GetActionType(PerformanceProcess processId)
+        private static byte GetActionType(PerformanceProcess processId)
         {
-            var actionTypeId = 0;
-
+            byte actionTypeId;
             switch (processId)
             {
                 case PerformanceProcess.HumanResource:
-                    actionTypeId = (int)NotificationActionType.ProbationSettingPage;
+                    actionTypeId = (byte)NotificationActionType.ProbationSettingPage;
                     break;
 
                 case PerformanceProcess.Evaluator:
                 case PerformanceProcess.Reviewer:
-                    actionTypeId = (int)NotificationActionType.MemberPageWithActiveProbationTab;
+                    actionTypeId = (byte)NotificationActionType.MemberPageWithActiveProbationTab;
                     break;
 
                 default:

@@ -38,8 +38,8 @@
 
         public async Task<JsonResult> GetGroupAndMember()
         {
-            ValueTuple<IEnumerable<Group>, IEnumerable<Employee>> tuple = await reportService.GetGroupAndMemberAsync(sessionService.EmployeeId);
-            return Json(new { Groups = tuple.Item1, Members = tuple.Item2 });
+            var (groups, members) = await reportService.GetGroupAndMemberAsync(sessionService.EmployeeId);
+            return Json(new { Groups = groups, Members = members });
         }
 
         public async Task<JsonResult> GetPARecords(GetPARecordMultiPeriodParam model)

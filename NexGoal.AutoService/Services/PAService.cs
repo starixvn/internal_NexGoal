@@ -6,7 +6,6 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.PA;
     using NexGoal.AutoService.Models;
@@ -28,7 +27,7 @@
         private const string EndEvaluationMailTemplateToSelf = "EmailTemplates\\PA\\EndToSelf.cshtml";
 
         private readonly IWebHostEnvironment hostingEnvironment;
-        private readonly IOptionsSnapshot<AppSettings> configuration;
+        private readonly AppSettings appSettings;
         private readonly IBaseService baseService;
         private readonly IBaseMailService mailService;
         private readonly ICryptoService cryptoService;
@@ -36,14 +35,14 @@
 
         public PAService(
             IWebHostEnvironment hostingEnvironment,
-            IOptionsSnapshot<AppSettings> configuration,
+            AppSettings appSettings,
             IBaseService baseService,
             IBaseMailService mailService,
             ICryptoService cryptoService,
             IChatbotService chatbotService)
         {
             this.hostingEnvironment = hostingEnvironment;
-            this.configuration = configuration;
+            this.appSettings = appSettings;
             this.baseService = baseService;
             this.mailService = mailService;
             this.cryptoService = cryptoService;
@@ -81,7 +80,7 @@
 
         public async Task SendMailAsync()
         {
-            ValueTuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> ValueTuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Email);
+            var (periods, processSettings) = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Email);
 
             var remindStartEvaluationToSelfPath = Path.Combine(hostingEnvironment.WebRootPath, RemindStartEvaluationMailTemplateToSelf);
             var remindStartEvaluationToSupervisorPath = Path.Combine(hostingEnvironment.WebRootPath, RemindStartEvaluationMailTemplateToSupervisor);
@@ -89,16 +88,16 @@
             var remindToReviewerPath = Path.Combine(hostingEnvironment.WebRootPath, RemindMailTemplateToReviewer);
             var endEvaluationMailPath = Path.Combine(hostingEnvironment.WebRootPath, EndEvaluationMailTemplateToSelf);
 
-            foreach (PeriodModel period in ValueTuple.Item1)
+            foreach (var period in periods)
             {
-                IEnumerable<ProcessSettingModel> settings = ValueTuple.Item2.Where(x => x.PeriodId == period.PeriodId);
+                var settings = processSettings.Where(x => x.PeriodId == period.PeriodId).ToList();
                 var subjectRemindStartEvaluationMail = string.Format(Message.EmailSubject_PA_RemindStartEvaluation, period.Name);
                 var subjectStartMail = string.Format(Message.EmailSubject_PA_StartToReviewer, period.Name);
                 var subjectRemindMail = string.Format(Message.EmailSubject_PA_RemindToReviewer, period.Name);
                 var subjectEndEvaluationMail = string.Format(Message.EmailSubject_PA_EndEvaluation, period.Name);
                 var body = string.Empty;
 
-                foreach (ProcessSettingModel setting in settings)
+                foreach (var setting in settings)
                 {
                     switch (setting.NotificationMode)
                     {
@@ -119,7 +118,7 @@
                                 setting.Nickname,
                                 period.Name,
                                 mailService.FormatDate(setting.EndDate),
-                                $"{configuration.Value.ApplicationDomain}/member?activeTab=3");
+                                $"{appSettings.ApplicationDomain}/member?activeTab=3");
                             await SendEmailAsync(subjectStartMail, body, setting);
                             break;
 
@@ -129,7 +128,7 @@
                                 setting.Nickname,
                                 period.Name,
                                 mailService.FormatDate(setting.EndDate),
-                                $"{configuration.Value.ApplicationDomain}/member?activeTab=3");
+                                $"{appSettings.ApplicationDomain}/member?activeTab=3");
                             await SendEmailAsync(subjectRemindMail, body, setting);
                             break;
 
@@ -138,7 +137,7 @@
                                 mailService.ReadTextFile(endEvaluationMailPath),
                                 setting.Nickname,
                                 period.Name,
-                                configuration.Value.ApplicationDomain);
+                                appSettings.ApplicationDomain);
                             await SendEmailAsync(subjectEndEvaluationMail, body, setting);
                             break;
 
@@ -151,14 +150,14 @@
 
         public async Task SendSkypeMessage()
         {
-            ValueTuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> ValueTuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.SkypeMessage);
+            var (periods, processSettings) = await GetSettingToSendNotificationAsync(ReceiveNotificationType.SkypeMessage);
 
-            foreach (PeriodModel period in ValueTuple.Item1)
+            foreach (var period in periods)
             {
-                IEnumerable<ProcessSettingModel> settings = ValueTuple.Item2.Where(x => x.PeriodId == period.PeriodId);
+                var settings = processSettings.Where(x => x.PeriodId == period.PeriodId).ToList();
                 var message = string.Empty;
 
-                foreach (ProcessSettingModel setting in settings)
+                foreach (var setting in settings)
                 {
                     switch (setting.NotificationMode)
                     {
@@ -175,7 +174,7 @@
                                 setting.Nickname,
                                 period.Name,
                                 mailService.FormatDate(setting.EndDate),
-                                configuration.Value.ApplicationDomain);
+                                appSettings.ApplicationDomain);
                             await chatbotService.SendMessageAsync(setting.ConversationId, message);
 
                             break;
@@ -185,7 +184,7 @@
                                 setting.Nickname,
                                 period.Name,
                                 mailService.FormatDate(setting.EndDate),
-                                configuration.Value.ApplicationDomain);
+                                appSettings.ApplicationDomain);
                             await chatbotService.SendMessageAsync(setting.ConversationId, message);
 
                             break;
@@ -194,7 +193,7 @@
                             message = string.Format(Message.SkypeMessageTemplate_PA_EndEvaluation,
                                 setting.Nickname,
                                 period.Name,
-                                configuration.Value.ApplicationDomain);
+                                appSettings.ApplicationDomain);
                             await chatbotService.SendMessageAsync(setting.ConversationId, message);
 
                             break;
@@ -209,12 +208,12 @@
         public async Task SendNotificationAsync()
         {
             var notifications = new List<NotificationModel>();
-            ValueTuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> ValueTuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Notification);
+            var (periods, processSettings) = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Notification);
 
-            foreach (PeriodModel period in ValueTuple.Item1)
+            foreach (var period in periods)
             {
-                IEnumerable<ProcessSettingModel> settings = ValueTuple.Item2.Where(x => x.PeriodId == period.PeriodId);
-                foreach (ProcessSettingModel setting in settings)
+                var settings = processSettings.Where(x => x.PeriodId == period.PeriodId).ToList();
+                foreach (var setting in settings)
                 {
                     switch (setting.NotificationMode)
                     {
@@ -227,8 +226,8 @@
                                         ? Message.NotificationTemplate_PA_RemindStartEvaluationToMember
                                         : Message.NotificationTemplate_PA_RemindStartEvaluationToSupervisor,
                                     mailService.FormatDate(period.StartDate)),
-                                StatusId = (int)NotificationStatus.Unread,
-                                ActionTypeId = (int)NotificationActionType.MyPageWithCreatePerformanceCheckin
+                                StatusId = (byte)NotificationStatus.Unread,
+                                ActionTypeId = (byte)NotificationActionType.MyPageWithCreatePerformanceCheckin
                             });
                             break;
 
@@ -240,8 +239,8 @@
                                     Message.NotificationTemplate_PA_StartToReviewer,
                                     period.Name,
                                     mailService.FormatDate(setting.EndDate)),
-                                StatusId = (int)NotificationStatus.Unread,
-                                ActionTypeId = (int)NotificationActionType.MemberPageWithActivePerformanceAppraisalTab
+                                StatusId = (byte)NotificationStatus.Unread,
+                                ActionTypeId = (byte)NotificationActionType.MemberPageWithActivePerformanceAppraisalTab
                             });
                             break;
 
@@ -252,8 +251,8 @@
                                 Content = string.Format(Message.NotificationTemplate_PA_RemindToReviewer,
                                     period.Name,
                                     mailService.FormatDate(setting.EndDate)),
-                                StatusId = (int)NotificationStatus.Unread,
-                                ActionTypeId = (int)NotificationActionType.MemberPageWithActivePerformanceAppraisalTab
+                                StatusId = (byte)NotificationStatus.Unread,
+                                ActionTypeId = (byte)NotificationActionType.MemberPageWithActivePerformanceAppraisalTab
                             });
                             break;
 
@@ -262,8 +261,8 @@
                             {
                                 EmployeeId = setting.EvaluatorId,
                                 Content = string.Format(Message.NotificationTemplate_PA_EndEvaluation, period.Name),
-                                StatusId = (int)NotificationStatus.Unread,
-                                ActionTypeId = (int)NotificationActionType.MyPageWithSpecificPerformanceCheckin,
+                                StatusId = (byte)NotificationStatus.Unread,
+                                ActionTypeId = (byte)NotificationActionType.MyPageWithSpecificPerformanceCheckin,
                                 RecordId = setting.PerformanceRecordId
                             });
                             break;
@@ -295,11 +294,11 @@
             {
                 switch (record.StatusId)
                 {
-                    case (int)PARecordStatus.InProgress:
+                    case (byte)PARecordStatus.InProgress:
                         CalculatePAGrade(record, grades);
                         break;
 
-                    case (int)PARecordStatus.Closed:
+                    case (byte)PARecordStatus.Closed:
                         CalculateNullFinalPAGrade(record, grades);
 
                         break;
@@ -314,11 +313,10 @@
 
         private void CalculatePAGrade(EditPAGradeDto record, IEnumerable<PerformanceGrade> grades)
         {
-            int minGradeId = grades.Min(x => x.GradeId);
             int maxGradeId = grades.Max(x => x.GradeId);
 
             record.GradeId = cryptoService.Decrypt(record.GradeId);
-            int.TryParse(record.GradeId, out int gradeId);
+            _ = int.TryParse(record.GradeId, out int gradeId);
 
             if (!grades.Any(x => x.GradeId == gradeId))
             {

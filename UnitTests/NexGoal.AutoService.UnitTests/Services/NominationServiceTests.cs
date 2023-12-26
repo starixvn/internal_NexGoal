@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.Nomination;
     using NexGoal.AutoService.Models.Nomination;
@@ -17,7 +16,7 @@
 
     public class NominationServiceTests
     {
-        private IOptionsSnapshot<AppSettings> configuration;
+        private AppSettings appSettings;
         private IBaseService baseService;
         private IBaseMailService mailService;
         private IChatbotService chatbotService;
@@ -58,9 +57,8 @@
             var mailSubject = string.Format("The Nomination {0} process has begun!", periods[0].Title);
             var mailMody = "The Nomination is in progress";
             var receiverEmail = "tim.trinh@nexcel.vn";
-            var ValueTuple = new ValueTuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>>(periods, settings);
             var service = GetNominationService();
-            baseService.FetchMultipleAsync<NominationPeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(ValueTuple);
+            baseService.FetchMultipleAsync<NominationPeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns((periods, settings));
             mailService.ReadTextFile(Arg.Any<string>()).Returns(mailMody);
             await mailService.SendMailAsync(Arg.Do<MailModel>(x => mailModel = x));
 
@@ -90,9 +88,8 @@
             var mailSubject = string.Format("The Nomination {0} process is almost over!", periods[0].Title);
             var mailMody = "The Nomination is going to be closed";
             var receiverEmail = "tim.trinh@nexcel.vn";
-            var ValueTuple = new ValueTuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>>(periods, settings);
             var service = GetNominationService();
-            baseService.FetchMultipleAsync<NominationPeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(ValueTuple);
+            baseService.FetchMultipleAsync<NominationPeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns((periods, settings));
             mailService.ReadTextFile(Arg.Any<string>()).Returns(mailMody);
             await mailService.SendMailAsync(Arg.Do<MailModel>(x => mailModel = x));
 
@@ -114,10 +111,9 @@
         public async Task SendNotification_DoNotHaveData_NotSendNotification()
         {
             // Arrange
-            var ValueTuple = new ValueTuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>>
-                (new List<NominationPeriodModel>(), new List<ProcessSettingModel>());
+            var tuple = (new List<NominationPeriodModel>(), new List<ProcessSettingModel>());
             var service = GetNominationService();
-            baseService.FetchMultipleAsync<NominationPeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(ValueTuple);
+            baseService.FetchMultipleAsync<NominationPeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(tuple);
 
             // Act
             await service.SendNotificationAsync();
@@ -149,10 +145,9 @@
                 " StatusId=\"0\" ActionTypeId=\"5\" RecordId=\"\" />";
 
             var criteria = new CreateNotificationCriteria();
-
-            var ValueTuple = new ValueTuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>>(periods, settings);
+            
             var service = GetNominationService();
-            baseService.FetchMultipleAsync<NominationPeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(ValueTuple);
+            baseService.FetchMultipleAsync<NominationPeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns((periods, settings));
             await baseService.ExecuteNonQueryAsync(Arg.Do<CreateNotificationCriteria>(x => criteria = x));
             mailService.FormatDate(endDate).Returns("20 Dec 2018");
 
@@ -172,12 +167,12 @@
         private NominationService GetNominationService()
         {
             IWebHostEnvironment hostingEnvironment = Helpers.FakeHostingEnvironment();
-            configuration = Helpers.FakeOptionsSnapshot();
+            appSettings = Helpers.FakeAppSettings();
             baseService = Helpers.FakeBaseService();
             mailService = Helpers.FakeBaseMailService();
             chatbotService = Helpers.FakeChatbotService();
 
-            return new NominationService(hostingEnvironment, configuration, baseService, mailService, chatbotService);
+            return new NominationService(hostingEnvironment, appSettings, baseService, mailService, chatbotService);
         }
 
         #endregion Helpers

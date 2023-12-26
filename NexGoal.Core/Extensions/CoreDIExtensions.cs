@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Core.Extensions
 {
+    using Fanex.Caching;
     using Fanex.Data.Repository;
     using Fanex.Logging;
     using Microsoft.Extensions.DependencyInjection;
@@ -10,13 +11,14 @@
     {
         public static void ResolveCoreDI(this IServiceCollection services)
         {
-            services.AddTransient<IDynamicRepository, DynamicRepository>();
-            services.AddTransient<IBaseRepository, BaseRepository>();
-            services.AddTransient<IChatbotService, ChatbotService>();
-            services.AddTransient<IBaseService, BaseService>();
-            services.AddTransient<IBaseMailService, BaseMailService>();
+            services.AddSingleton<IDynamicRepository, DynamicRepository>();
+            services.AddSingleton<IBaseRepository, BaseRepository>();
+            services.AddSingleton<IChatbotService, ChatbotService>();
+            services.AddSingleton<IBaseService, BaseService>();
+            services.AddSingleton<IBaseMailService, BaseMailService>();
             services.AddSingleton<ICryptoService, CryptoService>();
-            services.AddTransient<ILogger, Logger>();
+            services.AddSingleton<ILogger, Logger>();
+            services.AddSingleton<ICacheService, CacheService>();
         }
     }
 }

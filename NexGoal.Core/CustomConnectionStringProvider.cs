@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Data.SqlClient;
     using Fanex.Data;
-    using Microsoft.Extensions.Options;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
 
@@ -14,15 +13,15 @@
         private const string InvalidPassword = "Could not read the password.";
 
         private readonly ICryptoService cryptoService;
-        private readonly int algorithm;
+        private readonly byte algorithm;
 
         public CustomConnectionStringProvider(
             Dictionary<string, ConnectionConfiguration> connections,
-            int algorithm,
-            IOptionsMonitor<AppSettings> configuration)
+            byte algorithm,
+            AppSettings appSettings)
         {
             this.algorithm = algorithm;
-            cryptoService = new CryptoService(configuration);
+            cryptoService = new CryptoService(appSettings);
 
             ConnectionMaps = connections;
             PasswordDecryptor = DecryptConnectionString;

@@ -12,7 +12,7 @@ body,
 html {
     margin: 0;
     padding: 0;
-    background-color: #e2e4e9;
+    background-color: #fff;
     font-family: "Roboto";
     display: flex;
     justify-content: center;
@@ -284,6 +284,15 @@ html {
 
             &:hover {
                 background-color: darken(#002a66, 5%);
+            }
+        }
+    }
+
+    &.Nexcel {
+        .login__btn {
+            .submit-form {
+                background: #EF6724;
+                box-shadow: 2px 4px 7px 1px rgba(0, 0, 0, 0.26);
             }
         }
     }

@@ -2,8 +2,9 @@
 {
     public class LdapSettings
     {
-        public string LDAPUrl { get; set; } = string.Empty;
-
-        public string Domain { get; set; } = string.Empty;
+        public string Domain { get; set; }
+        public string Host { get; set; } = string.Empty;
+        public short Port { get; set; }
+        public string LoginSchema { get; set; }
     }
 }

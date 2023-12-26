@@ -3,7 +3,7 @@ namespace NexGoal.Services.UnitTests
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Microsoft.Extensions.Caching.Memory;
+    using Fanex.Caching;
     using NexGoal.Core.Services;
     using NexGoal.Criteria;
     using NexGoal.Criteria.Common;
@@ -18,7 +18,7 @@ namespace NexGoal.Services.UnitTests
     public class CommonServiceTests
     {
         private IBaseService baseService;
-        private IMemoryCache memoryCache;
+        private ICacheService cacheService;
 
         #region GetReferenceResourcesByNames
 
@@ -279,8 +279,8 @@ namespace NexGoal.Services.UnitTests
         private CommonService GetCommonService()
         {
             baseService = Helpers.FakeBaseService();
-            memoryCache = Substitute.For<IMemoryCache>();
-            var service = new CommonService(baseService, memoryCache, Helpers.FakeCryptoService());
+            cacheService = Substitute.For<ICacheService>();
+            var service = new CommonService(baseService, cacheService, Helpers.FakeCryptoService());
 
             return service;
         }

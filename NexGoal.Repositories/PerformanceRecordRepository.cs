@@ -342,7 +342,7 @@
                         },
                         "EmployeeId, EmployeeId, NominationPeriodId");
 
-                    return new ValueTuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>>(members, performanceRecords);
+                    return new (members, performanceRecords);
                 }
             }
         }

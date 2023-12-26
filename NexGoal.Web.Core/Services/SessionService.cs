@@ -24,20 +24,20 @@ namespace NexGoal.Web.Core.Services
 
         public int EmployeeId
         {
-            get => _session?.GetInt32(SessionKey.InternalEmployeeId) ?? 0;
-            set => _session?.SetInt32(SessionKey.InternalEmployeeId, value);
+            get => _session.Get<int>(SessionKey.InternalEmployeeId);
+            set => _session.Set(SessionKey.InternalEmployeeId, value);
         }
 
         public string NickName
         {
-            get => _session.GetString(SessionKey.InternalNickName) ?? string.Empty;
-            set => _session.SetString(SessionKey.InternalNickName, value);
+            get => _session.Get<string>(SessionKey.InternalNickName);
+            set => _session.Set(SessionKey.InternalNickName, value);
         }
 
         public string FullName
         {
-            get => _session.GetString(SessionKey.InternalFullName) ?? string.Empty;
-            set => _session.SetString(SessionKey.InternalFullName, value);
+            get => _session.Get<string>(SessionKey.InternalFullName);
+            set => _session.Set(SessionKey.InternalFullName, value);
         }
 
         public bool IsInProbation
