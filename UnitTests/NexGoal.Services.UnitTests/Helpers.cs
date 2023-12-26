@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Options;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Models;
@@ -33,17 +32,14 @@
 
         public static ISkypeNotiService FakeSkypeNotiService() => Substitute.For<ISkypeNotiService>();
 
-        public static IOptionsSnapshot<AppSettings> FakeOptionsSnapshot()
+        public static AppSettings FakeAppSettings()
         {
             var appSettings = new AppSettings
             {
-                ApplicationDomain = "https://goal.nexcel.vn"
+                ApplicationDomain = "https://app-domain.dev"
             };
 
-            var config = Substitute.For<IOptionsSnapshot<AppSettings>>();
-            config.Value.Returns(appSettings);
-
-            return config;
+            return appSettings;
         }
     }
 }

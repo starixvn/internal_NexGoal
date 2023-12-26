@@ -1,6 +1,6 @@
 ﻿namespace NexGoal.Core.Enumerations
 {
-    public enum PARecordStatus
+    public enum PARecordStatus : byte
     {
         NotGenerated = 1,
         Opened = 2,

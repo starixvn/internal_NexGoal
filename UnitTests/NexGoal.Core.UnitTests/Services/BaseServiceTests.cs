@@ -152,7 +152,7 @@
         public async Task FetchMultipleAsync_CriteriaIsValid_ReturnExpectedData()
         {
             // Arrange
-            var expected = new ValueTuple<IEnumerable<int>, IEnumerable<int>>(new List<int> { 1, 2 }, new List<int> { 1, 2 });
+            var expected = (new List<int> { 1, 2 }, new List<int> { 1, 2 });
             var criteria = Substitute.For<ICriteria>();
             criteria.IsValid().Returns(true);
             var baseService = GetBaseService();
@@ -201,7 +201,7 @@
         public async Task FetchMultipleAsyncThird_CriteriaIsValid_ReturnExpectedData()
         {
             // Arrange
-            var expected = new ValueTuple<IEnumerable<int>, IEnumerable<int>, IEnumerable<int>>(new List<int> { 1, 2 }, new List<int> { 1, 2 }, new List<int> { 1, 2 });
+            var expected = (new List<int> { 1, 2 }, new List<int> { 1, 2 }, new List<int> { 1, 2 });
             var criteria = Substitute.For<ICriteria>();
             criteria.IsValid().Returns(true);
             var baseService = GetBaseService();

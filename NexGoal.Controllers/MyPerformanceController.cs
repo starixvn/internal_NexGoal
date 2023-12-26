@@ -34,9 +34,9 @@
         public async Task<JsonResult> GetPerformanceTimeline(GetPerformanceTimelineParam param)
         {
             param.EmployeeId = sessionService.EmployeeId;
-            ValueTuple<IEnumerable<PerformanceRecord>, int> tuple = await performanceService.GetPerformanceTimelineAsync(param);
+            var (performanceRecords, totalItems) = await performanceService.GetPerformanceTimelineAsync(param);
 
-            return Json(new { performanceRecords = tuple.Item1, totalItems = tuple.Item2 });
+            return Json(new { performanceRecords, totalItems });
         }
 
         [Route("Self/Performance/Create")]
@@ -47,7 +47,7 @@
             {
                 performanceRecord.EmployeeIds = sessionService.EmployeeId.ToString();
                 performanceRecord.CreatorId = sessionService.EmployeeId;
-                performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
+                performanceRecord.TypeId = (byte)PerformanceRecordType.PerformanceCheckin;
                 CommandResult commandResult = await performanceService.CreatePerformanceRecordAsync(performanceRecord);
 
                 return Json(commandResult);
@@ -65,7 +65,7 @@
             {
                 performanceRecord.EmployeeIds = sessionService.EmployeeId.ToString();
                 performanceRecord.CreatorId = sessionService.EmployeeId;
-                performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
+                performanceRecord.TypeId = (byte)PerformanceRecordType.PerformanceCheckin;
                 CommandResult commandResult = await performanceService.CreateDraftPerformanceRecordAsync(performanceRecord);
 
                 return Json(commandResult);
@@ -83,7 +83,7 @@
             {
                 performanceRecord.EmployeeIds = sessionService.EmployeeId.ToString();
                 performanceRecord.CreatorId = sessionService.EmployeeId;
-                performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
+                performanceRecord.TypeId = (byte)PerformanceRecordType.PerformanceCheckin;
                 CommandResult commandResult = await performanceService.EditPerformanceRecordAsync(performanceRecord);
 
                 return Json(commandResult);
@@ -101,7 +101,7 @@
             {
                 performanceRecord.EmployeeIds = sessionService.EmployeeId.ToString();
                 performanceRecord.CreatorId = sessionService.EmployeeId;
-                performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
+                performanceRecord.TypeId = (byte)PerformanceRecordType.PerformanceCheckin;
                 CommandResult commandResult = await performanceService.EditDraftPerformanceRecordAsync(performanceRecord);
 
                 return Json(commandResult);

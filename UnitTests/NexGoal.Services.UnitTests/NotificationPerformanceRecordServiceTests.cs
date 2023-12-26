@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Options;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
@@ -17,7 +16,7 @@
     public class NotificationPerformanceRecordServiceTests
     {
         private IWebHostEnvironment hostingEnvironment;
-        private IOptionsSnapshot<AppSettings> configuration;
+        private AppSettings appSettings;
         private IBaseService baseService;
         private ICommonService commonService;
         private IBaseMailService mailService;
@@ -59,10 +58,10 @@
             };
             var actor = new Employee { EmployeeId = 1, NickName = "tim" };
             var mailModel = new MailModel();
-            var ValueTuple = new ValueTuple<IEnumerable<EmployeeDto>, IEnumerable<ProcessSettingDto>>(employees, settings);
             var service = GetService();
             commonService.GetEmployeeByIdAsync(1).Returns(actor);
-            baseService.FetchMultipleAsync<EmployeeDto, ProcessSettingDto>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(ValueTuple);
+            baseService.FetchMultipleAsync<EmployeeDto, ProcessSettingDto>(Arg.Any<GetSettingToSendNotificationCriteria>())
+                .Returns((employees, settings));
             mailService.ReadTextFile(Arg.Any<string>()).Returns(mailMody);
             await mailService.SendMailAsync(Arg.Do<MailModel>(x => mailModel = x));
 
@@ -82,7 +81,7 @@
         private NotificationPerformanceRecordService GetService()
         {
             hostingEnvironment = Helpers.FakeHostingEnvironment();
-            configuration = Helpers.FakeOptionsSnapshot();
+            appSettings = Helpers.FakeAppSettings();
             baseService = Helpers.FakeBaseService();
             commonService = Helpers.FakeCommonService();
             mailService = Helpers.FakeBaseMailService();
@@ -90,7 +89,7 @@
 
             return new NotificationPerformanceRecordService(
                 hostingEnvironment,
-                configuration,
+                appSettings,
                 baseService,
                 commonService,
                 mailService,

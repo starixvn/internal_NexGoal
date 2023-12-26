@@ -1,6 +1,6 @@
 ﻿namespace NexGoal.Core.Enumerations
 {
-    public enum PerformanceRecordType
+    public enum PerformanceRecordType : byte
     {
         PerformanceCheckin = 1,
         PerformanceAppraisal = 2,

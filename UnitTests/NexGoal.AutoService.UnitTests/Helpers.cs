@@ -1,7 +1,6 @@
 ﻿namespace NexGoal.AutoService.UnitTests
 {
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Options;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NSubstitute;
@@ -18,17 +17,14 @@
 
         public static IChatbotService FakeChatbotService() => Substitute.For<IChatbotService>();
 
-        public static IOptionsSnapshot<AppSettings> FakeOptionsSnapshot()
+        public static AppSettings FakeAppSettings()
         {
             var appSettings = new AppSettings
             {
                 ApplicationDomain = "https://goal.nexcel.vn"
             };
 
-            var config = Substitute.For<IOptionsSnapshot<AppSettings>>();
-            config.Value.Returns(appSettings);
-
-            return config;
+            return appSettings;
         }
     }
 }

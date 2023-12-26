@@ -2,24 +2,23 @@
 {
     using System.Text;
     using System.Threading.Tasks;
-    using Microsoft.Extensions.Options;
     using NexGoal.Core.Models;
     using RestSharp;
 
     public class ChatbotService : IChatbotService
     {
         private readonly IRestClient webClient;
-        private readonly IOptionsSnapshot<ChatbotConfigs> configuration;
+        private readonly ChatbotConfigs chatbotConfigs;
 
-        public ChatbotService(IOptionsSnapshot<ChatbotConfigs> configuration)
+        public ChatbotService(ChatbotConfigs chatbotConfigs)
         {
             webClient = new RestClient { Encoding = Encoding.UTF8 };
-            this.configuration = configuration;
+            this.chatbotConfigs = chatbotConfigs;
         }
 
         public async Task SendMessageAsync(string conversationId, string message)
         {
-            if (!string.IsNullOrWhiteSpace(conversationId) && configuration.Value.Enable)
+            if (!string.IsNullOrWhiteSpace(conversationId) && chatbotConfigs.Enable)
             {
                 ChatbotToken token = await GetTokenAsync();
                 await ForwardToBotAsync(message, conversationId, token);
@@ -28,7 +27,7 @@
 
         private async Task ForwardToBotAsync(string message, string conversationId, ChatbotToken token)
         {
-            webClient.BaseUrl = configuration.Value.BotServiceUrl;
+            webClient.BaseUrl = chatbotConfigs.BotServiceUrl;
 
             var request = new RestRequest("/messages/forward", Method.POST);
             request.AddHeader("Authorization", $"Bearer {token.AccessToken}");
@@ -41,13 +40,13 @@
 
         private async Task<ChatbotToken> GetTokenAsync()
         {
-            webClient.BaseUrl = configuration.Value.TokenUrl;
+            webClient.BaseUrl = chatbotConfigs.TokenUrl;
 
             var request = new RestRequest(Method.POST);
             request.AddParameter("grant_type", "client_credentials");
-            request.AddParameter("client_id", configuration.Value.MicrosoftAppId);
-            request.AddParameter("client_secret", configuration.Value.MicrosoftAppPassword);
-            request.AddParameter("scope", $"{configuration.Value.MicrosoftAppId}/.default");
+            request.AddParameter("client_id", chatbotConfigs.MicrosoftAppId);
+            request.AddParameter("client_secret", chatbotConfigs.MicrosoftAppPassword);
+            request.AddParameter("scope", $"{chatbotConfigs.MicrosoftAppId}/.default");
 
             request.AddHeader("Content-type", "application/x-www-form-urlencoded");
 

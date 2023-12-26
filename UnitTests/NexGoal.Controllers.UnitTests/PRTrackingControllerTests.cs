@@ -28,13 +28,10 @@
         [Fact]
         public async Task GetGroupsAndMembersAsync_WhenCalled_ReturnsExpectedJsonResult()
         {
-            var expected = new ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>(
-                    new List<Group> { new Group { GroupId = 1, Name = "MGT" } },
-                    new List<Employee> { new Employee { EmployeeId = 1, GroupId = 1 } });
-
+            var groups = new List<Group> { new Group { GroupId = 1, Name = "MGT" } };
+            var employees = new List<Employee> { new Employee { EmployeeId = 1, GroupId = 1 } };
             var controller = GetContronller();
-            prTrackingService.GetGroupsAndMembersAsync(sessionService.EmployeeId)
-                .Returns(expected);
+            prTrackingService.GetGroupsAndMembersAsync(sessionService.EmployeeId).Returns((groups, employees));
 
             var result = await controller.GetGroupsAndMembers();
 

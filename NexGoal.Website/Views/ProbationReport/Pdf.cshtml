@@ -1,7 +1,6 @@
 ﻿@using NexGoal.Web.Core.Extensions
 @using NexGoal.Core.Models
-@using Microsoft.Extensions.Options
-@inject IOptionsSnapshot<AppSettings> appSettings
+@inject AppSettings appSettings
 @model NexGoal.Models.Probation.ProbationReportPdfModel
 
 @{
@@ -10,7 +9,7 @@
     var attendances = Model.Hrm.Attendances.ToList();
 }
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Probation Report</title>
     <link rel="shortcut icon" type="image/ico" href="~/favicon.ico" />
@@ -23,7 +22,7 @@
             <table class="info-rate">
                 <tr>
                     <td rowspan="5" class="user-info">
-                        <img src="@($"{appSettings.Value.ImageUrl}/{Model.Code}.jpg")" alt="avatar" class="avatar" />
+                        <img src="@($"{appSettings.ImageUrl}/{Model.Code}.jpg")" alt="avatar" class="avatar" />
                         <ul>
                             <li class="info">
                                 <span class="label">Full Name:</span>

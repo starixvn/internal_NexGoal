@@ -42,7 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fanex.Data.SqlServer" Version="4.2.2" />
+    <PackageReference Include="Fanex.Data.SqlServer" Version="4.2.3" />
     <PackageReference Include="Fanex.Logging.Sentry" Version="1.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
     <PackageReference Include="SonarAnalyzer.CSharp" Version="8.34.0.42011">
@@ -59,10 +59,4 @@
   <Target Name="CreateLogsFolder" AfterTargets="Publish">
     <MakeDir Directories="$(PublishDir)Logs" Condition="!Exists('$(PublishDir)Logs')" />
   </Target>
-
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties wwwroot_4package_1json__JSONSchema="http://json.schemastore.org/modernizrrc" />
-    </VisualStudio>
-  </ProjectExtensions>
 </Project>

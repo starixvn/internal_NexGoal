@@ -7,18 +7,18 @@
     {
         public static void ResolveRepositoryDI(this IServiceCollection services)
         {
-            services.AddScoped<IDisciplineRepository, DisciplineRepository>();
-            services.AddScoped<IPARepository, PARepository>();
-            services.AddScoped<IPAFocusRepository, PAFocusRepository>();
-            services.AddScoped<IEmployeeNominationRepository, EmployeeNominationRepository>();
-            services.AddScoped<IPAReportRepository, PAReportRepository>();
-            services.AddScoped<IPerformanceRecordRepository, PerformanceRecordRepository>();
-            services.AddScoped<IPRTrackingRepository, PRTrackingRepository>();
-            services.AddScoped<IProbationRepository, ProbationRepository>();
-            services.AddScoped<IPRReactionRepository, PRReactionRepository>();
-            services.AddScoped<IPRFeedbackReactionRepository, PRFeedbackReactionRepository>();
-            services.AddScoped<IPRFeedbackRepository, PRFeedbackRepository>();
-            services.AddScoped<IMasterReportRepository, MasterReportRepository>();
+            services.AddSingleton<IDisciplineRepository, DisciplineRepository>();
+            services.AddSingleton<IPARepository, PARepository>();
+            services.AddSingleton<IPAFocusRepository, PAFocusRepository>();
+            services.AddSingleton<IEmployeeNominationRepository, EmployeeNominationRepository>();
+            services.AddSingleton<IPAReportRepository, PAReportRepository>();
+            services.AddSingleton<IPerformanceRecordRepository, PerformanceRecordRepository>();
+            services.AddSingleton<IPRTrackingRepository, PRTrackingRepository>();
+            services.AddSingleton<IProbationRepository, ProbationRepository>();
+            services.AddSingleton<IPRReactionRepository, PRReactionRepository>();
+            services.AddSingleton<IPRFeedbackReactionRepository, PRFeedbackReactionRepository>();
+            services.AddSingleton<IPRFeedbackRepository, PRFeedbackRepository>();
+            services.AddSingleton<IMasterReportRepository, MasterReportRepository>();
         }
     }
 }

@@ -6,7 +6,6 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.PAFocus;
     using NexGoal.AutoService.Models.Notification;
@@ -24,20 +23,20 @@
         private const string RemindMailTemplateToEvaluator = "EmailTemplates\\PAFocus\\RemindToEvaluator.cshtml";
 
         private readonly IWebHostEnvironment hostingEnvironment;
-        private readonly IOptionsSnapshot<AppSettings> configuration;
+        private readonly AppSettings appSettings;
         private readonly IBaseService baseService;
         private readonly IBaseMailService mailService;
         private readonly IChatbotService chatbotService;
 
         public PAFocusService(
             IWebHostEnvironment hostingEnvironment,
-            IOptionsSnapshot<AppSettings> configuration,
+            AppSettings appSettings,
             IBaseService baseService,
             IBaseMailService mailService,
             IChatbotService chatbotService)
         {
             this.hostingEnvironment = hostingEnvironment;
-            this.configuration = configuration;
+            this.appSettings = appSettings;
             this.baseService = baseService;
             this.mailService = mailService;
             this.chatbotService = chatbotService;
@@ -56,19 +55,19 @@
 
         public async Task SendMailAsync()
         {
-            ValueTuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> ValueTuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Email);
+            var (periods, processSettings) = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Email);
 
             var startMailPath = Path.Combine(hostingEnvironment.WebRootPath, StartMailTemplateToEvaluator);
             var remindMailPath = Path.Combine(hostingEnvironment.WebRootPath, RemindMailTemplateToEvaluator);
             var body = string.Empty;
 
-            foreach (PeriodModel period in ValueTuple.Item1)
+            foreach (var period in periods)
             {
-                IEnumerable<ProcessSettingModel> settings = ValueTuple.Item2.Where(x => x.PeriodId == period.PeriodId);
+                var settings = processSettings.Where(x => x.PeriodId == period.PeriodId).ToList();
                 var subjectStartMail = string.Format(Message.EmailSubject_PAFocus_Start, period.Name);
                 var subjectRemindMail = string.Format(Message.EmailSubject_PAFocus_Remind, period.Name);
 
-                foreach (ProcessSettingModel focusSetting in settings)
+                foreach (var focusSetting in settings)
                 {
                     switch (focusSetting.NotificationMode)
                     {
@@ -78,7 +77,7 @@
                                 focusSetting.Nickname,
                                 period.Name,
                                 mailService.FormatDate(period.FocusEndDate),
-                                $"{configuration.Value.ApplicationDomain}/pafocus");
+                                $"{appSettings.ApplicationDomain}/pafocus");
                             await SendEmailAsync(subjectStartMail, body, focusSetting.Email);
                             break;
 
@@ -88,7 +87,7 @@
                                 focusSetting.Nickname,
                                 period.Name,
                                 mailService.FormatDate(period.FocusEndDate),
-                                $"{configuration.Value.ApplicationDomain}/pafocus");
+                                $"{appSettings.ApplicationDomain}/pafocus");
                             await SendEmailAsync(subjectRemindMail, body, focusSetting.Email);
                             break;
 
@@ -102,19 +101,19 @@
         public async Task SendNotificationAsync()
         {
             var notifications = new List<NotificationModel>();
-            ValueTuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> ValueTuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Notification);
+            var (periods, processSettings) = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Notification);
 
-            foreach (PeriodModel period in ValueTuple.Item1)
+            foreach (var period in periods)
             {
-                IEnumerable<ProcessSettingModel> settings = ValueTuple.Item2.Where(x => x.PeriodId == period.PeriodId);
+                var settings = processSettings.Where(x => x.PeriodId == period.PeriodId).ToList();
                 notifications.AddRange(settings.Select(x => new NotificationModel
                 {
                     EmployeeId = x.EvaluatorId,
                     Content = x.NotificationMode == MailMode.Start
-                    ? string.Format(Message.NotificationTemplate_PAFocus_Start, period.Name, mailService.FormatDate(period.FocusEndDate))
-                    : string.Format(Message.NotificationTemplate_PAFocus_Remind, period.Name, mailService.FormatDate(period.FocusEndDate)),
-                    StatusId = (int)NotificationStatus.Unread,
-                    ActionTypeId = (int)NotificationActionType.PAFocus
+                        ? string.Format(Message.NotificationTemplate_PAFocus_Start, period.Name, mailService.FormatDate(period.FocusEndDate))
+                        : string.Format(Message.NotificationTemplate_PAFocus_Remind, period.Name, mailService.FormatDate(period.FocusEndDate)),
+                    StatusId = (byte)NotificationStatus.Unread,
+                    ActionTypeId = (byte)NotificationActionType.PAFocus
                 }));
             }
 
@@ -131,12 +130,12 @@
 
         public async Task SendSkypeMessage()
         {
-            ValueTuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>> ValueTuple = await GetSettingToSendNotificationAsync(ReceiveNotificationType.SkypeMessage);
+            var (periods, processSettings) = await GetSettingToSendNotificationAsync(ReceiveNotificationType.SkypeMessage);
             var message = string.Empty;
 
-            foreach (PeriodModel period in ValueTuple.Item1)
+            foreach (var period in periods)
             {
-                IEnumerable<ProcessSettingModel> settings = ValueTuple.Item2.Where(x => x.PeriodId == period.PeriodId);
+                var settings = processSettings.Where(x => x.PeriodId == period.PeriodId).ToList();
 
                 foreach (ProcessSettingModel focusSetting in settings)
                 {
@@ -147,7 +146,7 @@
                                 focusSetting.Nickname,
                                 period.Name,
                                 mailService.FormatDate(period.FocusEndDate),
-                                configuration.Value.ApplicationDomain);
+                                appSettings.ApplicationDomain);
                             await chatbotService.SendMessageAsync(focusSetting.ConversationId, message);
                             break;
 
@@ -156,7 +155,7 @@
                                 focusSetting.Nickname,
                                 period.Name,
                                 mailService.FormatDate(period.FocusEndDate),
-                                configuration.Value.ApplicationDomain);
+                                appSettings.ApplicationDomain);
                             await chatbotService.SendMessageAsync(focusSetting.ConversationId, message);
                             break;
 

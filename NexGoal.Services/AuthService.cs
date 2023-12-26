@@ -64,12 +64,7 @@
 
             var info = await baseService.GetDataEntityAsync<Employee>(criteria);
 
-            var ValueTuple = new ValueTuple<Employee, bool, int>(
-                info,
-                criteria.IsHasMember,
-                criteria.UnreadNotification);
-
-            return ValueTuple;
+            return new (info, criteria.IsHasMember, criteria.UnreadNotification);
         }
 
         public async Task WriteLogLoginAsync(LogLogin logInfo)

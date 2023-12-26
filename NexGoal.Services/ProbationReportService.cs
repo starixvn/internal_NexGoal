@@ -216,7 +216,7 @@
                 probationer.SelfScore = cryptoService.Decrypt(probationer.SelfScore);
                 probationer.EvaluatorScore = cryptoService.Decrypt(probationer.EvaluatorScore);
                 var hrm = await probationRepository.GetHRM(new GetHRMCriteria { EmployeeId = employeeId });
-                return new ValueTuple<ProbationReportModel, IEnumerable<KPIGroupModel>, HRMModel>(probationer, groups, hrm);
+                return new (probationer, groups, hrm);
             }
 
             return default;

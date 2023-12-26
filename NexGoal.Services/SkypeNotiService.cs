@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Microsoft.Extensions.Options;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
@@ -12,14 +11,14 @@
 
     public class SkypeNotiService : ISkypeNotiService
     {
-        private readonly IOptionsSnapshot<AppSettings> configuration;
+        private readonly AppSettings appSettings;
         private readonly IChatbotService chatbotService;
 
         public SkypeNotiService(
-            IOptionsSnapshot<AppSettings> configuration,
+            AppSettings appSettings,
             IChatbotService chatbotService)
         {
-            this.configuration = configuration;
+            this.appSettings = appSettings;
             this.chatbotService = chatbotService;
         }
 
@@ -30,8 +29,8 @@
             foreach (var reciever in recievers)
             {
                 var message = action == ActionOnPerformanceRecord.Create ?
-                    string.Format(Message.SkypeMessageTemplate_PR_CreateMemberToSuperVisor, reciever.Nickname, actor.NickName, configuration.Value.ApplicationDomain) :
-                    string.Format(Message.SkypeMessageTemplate_PR_EditMemberToSupervisor, reciever.Nickname, actor.NickName, configuration.Value.ApplicationDomain);
+                    string.Format(Message.SkypeMessageTemplate_PR_CreateMemberToSuperVisor, reciever.Nickname, actor.NickName, appSettings.ApplicationDomain) :
+                    string.Format(Message.SkypeMessageTemplate_PR_EditMemberToSupervisor, reciever.Nickname, actor.NickName, appSettings.ApplicationDomain);
 
                 await chatbotService.SendMessageAsync(reciever.ConversationId, message);
             }
@@ -44,8 +43,8 @@
             foreach (var reciever in recievers)
             {
                 var message = action == ActionOnPerformanceRecord.Create ?
-                    string.Format(Message.SkypeMessageTemplate_PR_CreateSupervisorToMember, reciever.Nickname, actor.NickName, configuration.Value.ApplicationDomain) :
-                    string.Format(Message.SkypeMessageTemplate_PR_EditSupervisorToMember, reciever.Nickname, actor.NickName, configuration.Value.ApplicationDomain);
+                    string.Format(Message.SkypeMessageTemplate_PR_CreateSupervisorToMember, reciever.Nickname, actor.NickName, appSettings.ApplicationDomain) :
+                    string.Format(Message.SkypeMessageTemplate_PR_EditSupervisorToMember, reciever.Nickname, actor.NickName, appSettings.ApplicationDomain);
 
                 await chatbotService.SendMessageAsync(reciever.ConversationId, message);
             }
@@ -59,8 +58,8 @@
             foreach (var reciever in recievers)
             {
                 var message = action == ActionOnPerformanceRecord.Create ?
-                    string.Format(Message.SkypeMessageTemplate_PR_CreateSupervisorToSupervisor, reciever.Nickname, actor.NickName, employee.Nickname, configuration.Value.ApplicationDomain) :
-                    string.Format(Message.SkypeMessageTemplate_PR_EditSupervisorToSupervisor, reciever.Nickname, actor.NickName, employee.Nickname, configuration.Value.ApplicationDomain);
+                    string.Format(Message.SkypeMessageTemplate_PR_CreateSupervisorToSupervisor, reciever.Nickname, actor.NickName, employee.Nickname, appSettings.ApplicationDomain) :
+                    string.Format(Message.SkypeMessageTemplate_PR_EditSupervisorToSupervisor, reciever.Nickname, actor.NickName, employee.Nickname, appSettings.ApplicationDomain);
 
                 await chatbotService.SendMessageAsync(reciever.ConversationId, message);
             }

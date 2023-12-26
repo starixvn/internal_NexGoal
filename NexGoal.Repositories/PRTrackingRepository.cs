@@ -29,7 +29,7 @@
                         prTracking.Details = details.Where(x => x.EmployeeId == prTracking.EmployeeId);
                     }
 
-                    return new ValueTuple<PeriodModel, IEnumerable<PRTrackingModel>>(period, prTrackings);
+                    return new (period, prTrackings);
                 }
             }
         }
@@ -44,7 +44,7 @@
 
                     var employees = await multi.ReadAsync<Employee>();
 
-                    return new ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>(groups, employees);
+                    return new (groups, employees);
                 }
             }
         }

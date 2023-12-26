@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.PAFocus;
     using NexGoal.AutoService.Models.PAFocus;
@@ -18,7 +17,7 @@
 
     public class PAFocusServiceTests
     {
-        private IOptionsSnapshot<AppSettings> configuration;
+        private AppSettings appSettings;
         private IBaseService baseService;
         private IBaseMailService mailService;
         private IChatbotService chatbotService;
@@ -63,9 +62,8 @@
             var mailSubject = string.Format("The PA Focus for the {0} has begun!", periods[0].Name);
             var mailMody = "The PA Focus has begun!";
             var receiverEmail = "tim.trinh@nexcel.vn";
-            var ValueTuple = new ValueTuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>>(periods, settings);
             var service = GetPAFocusService();
-            baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(ValueTuple);
+            baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns((periods, settings));
             mailService.ReadTextFile(Arg.Any<string>()).Returns(mailMody);
             await mailService.SendMailAsync(Arg.Do<MailModel>(x => mailModel = x));
 
@@ -95,9 +93,8 @@
             var mailSubject = string.Format("The PA Focus for the {0} is almost over!", periods[0].Name);
             var mailMody = "The PA Focus is going to be closed";
             var receiverEmail = "tim.trinh@nexcel.vn";
-            var ValueTuple = new ValueTuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>>(periods, settings);
             var service = GetPAFocusService();
-            baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(ValueTuple);
+            baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns((periods, settings));
             mailService.ReadTextFile(Arg.Any<string>()).Returns(mailMody);
             await mailService.SendMailAsync(Arg.Do<MailModel>(x => mailModel = x));
 
@@ -119,10 +116,9 @@
         public async Task SendNotification_DoNotHaveData_NotSendNotification()
         {
             // Arrange
-            var ValueTuple = new ValueTuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>>
-                (new List<PeriodModel>(), new List<ProcessSettingModel>());
+            var tuple = (new List<PeriodModel>(), new List<ProcessSettingModel>());
             var service = GetPAFocusService();
-            baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(ValueTuple);
+            baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(tuple);
 
             // Act
             await service.SendNotificationAsync();
@@ -155,9 +151,8 @@
 
             var criteria = new CreateNotificationCriteria();
 
-            var ValueTuple = new ValueTuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>>(periods, settings);
             var service = GetPAFocusService();
-            baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns(ValueTuple);
+            baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(Arg.Any<GetSettingToSendNotificationCriteria>()).Returns((periods, settings));
             await baseService.ExecuteNonQueryAsync(Arg.Do<CreateNotificationCriteria>(x => criteria = x));
             mailService.FormatDate(endDate).Returns("20 Dec 2018");
 
@@ -177,12 +172,12 @@
         private PAFocusService GetPAFocusService()
         {
             IWebHostEnvironment hostingEnvironment = Helpers.FakeHostingEnvironment();
-            configuration = Helpers.FakeOptionsSnapshot();
+            appSettings = Helpers.FakeAppSettings();
             baseService = Helpers.FakeBaseService();
             mailService = Helpers.FakeBaseMailService();
             chatbotService = Helpers.FakeChatbotService();
 
-            return new PAFocusService(hostingEnvironment, configuration, baseService, mailService, chatbotService);
+            return new PAFocusService(hostingEnvironment, appSettings, baseService, mailService, chatbotService);
         }
 
         #endregion Helpers

@@ -3,8 +3,7 @@
 @using NexGoal.Core.Models
 @using NexGoal.Models.PerformanceRecord
 @using NexGoal.Models.PRFeedback
-@using Microsoft.Extensions.Options
-@inject IOptionsSnapshot<AppSettings> appSettings
+@inject AppSettings appSettings
 @model PerformanceRecord
 
 @{
@@ -42,7 +41,7 @@
 {
     <div class="record">
         <div class="avatar-user">
-            <img src="@($"{appSettings.Value.ImageUrl}/{Model.Creator.Code}.jpg")" class="avatar" alt="avatar" />
+            <img src="@($"{appSettings.ImageUrl}/{Model.Creator.Code}.jpg")" class="avatar" alt="avatar" />
             <div class="person-info">
                 <div class="@getRoleClass(Model.RoleId)">@Model.Creator.NickName</div>
                 <div>

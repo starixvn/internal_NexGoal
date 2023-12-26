@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Options;
     using NexGoal.AutoService.Criterias;
     using NexGoal.AutoService.Criterias.Probation;
     using NexGoal.AutoService.Models.PA;
@@ -17,7 +16,7 @@
 
     public class ProbationServiceTests
     {
-        private IOptionsSnapshot<AppSettings> configuration;
+        private AppSettings appSettings;
         private IBaseService baseService;
         private IBaseMailService mailService;
         private IChatbotService chatbotService;
@@ -107,12 +106,12 @@
         private ProbationService GetProbationService()
         {
             IWebHostEnvironment hostingEnvironment = Helpers.FakeHostingEnvironment();
-            configuration = Helpers.FakeOptionsSnapshot();
+            appSettings = Helpers.FakeAppSettings();
             baseService = Helpers.FakeBaseService();
             mailService = Helpers.FakeBaseMailService();
             chatbotService = Helpers.FakeChatbotService();
 
-            return new ProbationService(hostingEnvironment, configuration, baseService, mailService, chatbotService);
+            return new ProbationService(hostingEnvironment, appSettings, baseService, mailService, chatbotService);
         }
 
         #endregion Helpers

@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Fanex.Caching;
     using Microsoft.AspNetCore.Mvc.Rendering;
-    using Microsoft.Extensions.Caching.Memory;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Services;
@@ -23,16 +23,16 @@
     public class CommonService : ICommonService
     {
         private readonly IBaseService baseService;
-        private readonly IMemoryCache memoryCache;
+        private readonly ICacheService cacheService;
         private readonly ICryptoService cryptoService;
 
         public CommonService(
             IBaseService baseService,
-            IMemoryCache memoryCache,
+            ICacheService cacheService,
             ICryptoService cryptoService)
         {
             this.baseService = baseService;
-            this.memoryCache = memoryCache;
+            this.cacheService = cacheService;
             this.cryptoService = cryptoService;
         }
 
@@ -103,18 +103,17 @@
 
         public async Task<IEnumerable<PerformanceGrade>> GetPerformanceGradeAsync()
         {
-            memoryCache.TryGetValue(CacheKeys.PerformanceGrades, out IEnumerable<PerformanceGrade> performanceGrades);
+            var performanceGrades = await cacheService.GetAsync<IEnumerable<PerformanceGrade>>(CacheKeys.PerformanceGrades);
             if (performanceGrades == null)
             {
                 var criteria = new GetPerformanceGradeCriteria();
                 performanceGrades = await baseService.GetDataAsync<PerformanceGrade>(criteria);
 
-                var cacheExpirationOptions = new MemoryCacheEntryOptions
+                var cacheItemOptions = new CacheItemOptions
                 {
-                    SlidingExpiration = TimeSpan.FromDays(30),
-                    Priority = CacheItemPriority.Normal
+                    RelativeExpiration = TimeSpan.FromDays(30)
                 };
-                memoryCache.Set(CacheKeys.PerformanceGrades, performanceGrades, cacheExpirationOptions);
+                await cacheService.SetAsync(CacheKeys.PerformanceGrades, performanceGrades, cacheItemOptions);
             }
 
             return performanceGrades;
@@ -183,11 +182,11 @@
         public void MappingGrade(PARecordModel performanceAppraisal, IEnumerable<PerformanceGrade> performanceGrades)
         {
             performanceAppraisal.GradeId = cryptoService.Decrypt(performanceAppraisal.GradeId);
-            int.TryParse(performanceAppraisal.GradeId, out int gradeId);
+            _ = int.TryParse(performanceAppraisal.GradeId, out int gradeId);
             performanceAppraisal.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
 
             performanceAppraisal.OriginalGradeId = cryptoService.Decrypt(performanceAppraisal.OriginalGradeId);
-            int.TryParse(performanceAppraisal.OriginalGradeId, out gradeId);
+            _ = int.TryParse(performanceAppraisal.OriginalGradeId, out gradeId);
             performanceAppraisal.OriginalGrade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
 
             MappingGrade(performanceAppraisal.Processes, performanceGrades);
@@ -200,7 +199,7 @@
                 foreach (PerformanceRecord performanceRecord in process.RelatedPerformanceRecords)
                 {
                     performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
-                    int.TryParse(performanceRecord.GradeId, out int gradeId);
+                    _ = int.TryParse(performanceRecord.GradeId, out int gradeId);
                     performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
                 }
 
@@ -211,7 +210,7 @@
         public void MappingGrade(PAProcessModel process, IEnumerable<PerformanceGrade> performanceGrades)
         {
             process.GradeId = cryptoService.Decrypt(process.GradeId);
-            int.TryParse(process.GradeId, out int gradeId);
+            _ = int.TryParse(process.GradeId, out int gradeId);
             PerformanceGrade grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
 
             if (grade != null)

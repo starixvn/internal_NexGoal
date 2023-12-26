@@ -3,10 +3,8 @@
     using System.IO;
     using System.Security.Cryptography.X509Certificates;
     using Microsoft.Extensions.FileProviders;
-    using Microsoft.Extensions.Options;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
-    using NSubstitute;
     using Xunit;
 
     public class CryptoServiceTests
@@ -20,8 +18,8 @@
         {
             // Arrange
             var cert = GetX509Certificate2();
-            IOptionsMonitor<AppSettings> configuration = FakeOptionsMonitor(true);
-            var service = GetCryptoService(configuration, cert);
+            var appSettings = FakeAppSettings(true);
+            var service = GetCryptoService(appSettings, cert);
 
             // Act
             var cipherText = service.Encrypt(plainText);
@@ -36,8 +34,8 @@
             // Arrange
             var plainText = "123456";
             var cert = GetX509Certificate2();
-            IOptionsMonitor<AppSettings> configuration = FakeOptionsMonitor(false);
-            var service = GetCryptoService(configuration, cert);
+            var appSettings = FakeAppSettings(false);
+            var service = GetCryptoService(appSettings, cert);
 
             // Act
             var cipherText = service.Encrypt(plainText);
@@ -52,8 +50,8 @@
             // Arrange
             var plainText = "123456";
             X509Certificate2 cert = GetX509Certificate2();
-            IOptionsMonitor<AppSettings> configuration = FakeOptionsMonitor(true);
-            var service = GetCryptoService(configuration, cert);
+            var appSettings = FakeAppSettings(true);
+            var service = GetCryptoService(appSettings, cert);
 
             // Act
             var cipherText = service.Encrypt(plainText);
@@ -73,8 +71,8 @@
         {
             // Arrange
             var cert = GetX509Certificate2();
-            IOptionsMonitor<AppSettings> configuration = FakeOptionsMonitor(true);
-            var service = GetCryptoService(configuration, cert);
+            var appSettings = FakeAppSettings(true);
+            var service = GetCryptoService(appSettings, cert);
 
             // Act
             var plainText = service.Decrypt(cipherText);
@@ -89,8 +87,8 @@
             // Arrange
             var cipherText = "123456";
             var cert = GetX509Certificate2();
-            IOptionsMonitor<AppSettings> configuration = FakeOptionsMonitor(false);
-            var service = GetCryptoService(configuration, cert);
+            var appSettings = FakeAppSettings(false);
+            var service = GetCryptoService(appSettings, cert);
 
             // Act
             var plainText = service.Decrypt(cipherText);
@@ -105,8 +103,8 @@
             // Arrange
             var expected = "123456";
             X509Certificate2 cert = GetX509Certificate2();
-            IOptionsMonitor<AppSettings> configuration = FakeOptionsMonitor(true);
-            var service = GetCryptoService(configuration, cert);
+            var appSettings = FakeAppSettings(true);
+            var service = GetCryptoService(appSettings, cert);
             var cipherText = service.Encrypt(expected);
 
             // Act
@@ -120,17 +118,14 @@
 
         #region Helpers
 
-        private IOptionsMonitor<AppSettings> FakeOptionsMonitor(bool enableEncrypt)
+        private static AppSettings FakeAppSettings(bool enableEncrypt)
         {
             var appSettings = new AppSettings
             {
                 EnableEncrypt = enableEncrypt
             };
 
-            var config = Substitute.For<IOptionsMonitor<AppSettings>>();
-            config.CurrentValue.Returns(appSettings);
-
-            return config;
+            return appSettings;
         }
 
         private static X509Certificate2 GetX509Certificate2()
@@ -153,10 +148,10 @@
         }
 
         private static CryptoService GetCryptoService(
-            IOptionsMonitor<AppSettings> config,
+            AppSettings appSettings,
             X509Certificate2 cert)
         {
-            var service = new CryptoService(config, cert);
+            var service = new CryptoService(appSettings, cert);
 
             return service;
         }
