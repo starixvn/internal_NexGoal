@@ -149,6 +149,11 @@
         text-align: center;
         transition: linear .2s;
 
+        @include Mobile {
+            width: 40px;
+            height: 40px;
+        }
+
         .lines {
             background: #fff;
             width: 20px;

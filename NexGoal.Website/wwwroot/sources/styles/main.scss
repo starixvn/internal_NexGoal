@@ -30,6 +30,10 @@ $fa-font-path: "~font-awesome/fonts";
     .icon-search {
         cursor: pointer;
     }
+
+    @include Mobile {
+        margin-right: 10px;
+    }
 }
 
 .icon-chevron-down {
