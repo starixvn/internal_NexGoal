@@ -183,7 +183,7 @@
             var controller = GetPAFocusController();
             focusService.GetPeriodAsync().Returns(periods);
             focusService.GetPAFocusAsync(param).Returns(paFocuses);
-            exportExcelService.ExportAsync(periods.First(), paFocuses).Returns(bytes);
+            exportExcelService.ExportAsync(periods[0], paFocuses).Returns(bytes);
 
             // Act
             var actual = await controller.ExportToExcel(param);
@@ -192,7 +192,7 @@
             var fileResult = Assert.IsType<FileContentResult>(actual);
             Assert.Equal(bytes, fileResult.FileContents);
             Assert.Equal(MimeType.XLSX, fileResult.ContentType);
-            Assert.Equal($"PA Focus of {periods.First().Name}.xlsx", fileResult.FileDownloadName);
+            Assert.Equal($"PA Focus of {periods[0].Name}.xlsx", fileResult.FileDownloadName);
         }
 
         #region Helpers

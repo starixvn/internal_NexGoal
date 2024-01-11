@@ -13,7 +13,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/NexGoal.Website/bin/Debug/net6.0/NexGoal.Website.dll",
+            "program": "${workspaceFolder}/NexGoal.Website/bin/Debug/net7.0/NexGoal.Website.dll",
             "args": [],
             "cwd": "${workspaceFolder}/NexGoal.Website",
             "stopAtEntry": false,

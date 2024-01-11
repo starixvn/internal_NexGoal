@@ -23,9 +23,9 @@
 
     public class ExportPAReportService : IExportPAReportService
     {
-        private const string ExcelTemplatePath = @"ExcelTemplates\\PAReport.xlsx";
+        private const string ExcelTemplatePath = "ExcelTemplates/PAReport.xlsx";
         private const string PADetailView = "PAReport/Pdf";
-        private const string PDFStylePath = @"dist\\styles\\paDetail-pdf.css";
+        private const string PDFStylePath = "dist/styles/paDetail-pdf.css";
         private const string RevisedIcon = "✔";
         private const int TotalColumns = 12;
         private const int TitleHeight = 25;
@@ -71,7 +71,7 @@
         public async Task<byte[]> ExportExcelAsync(GetPARecordMultiPeriodParam param)
         {
             var paRecords = await reportService.GetPAReportAsync(param);
-            var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.WebRootPath, ExcelTemplatePath));
+            var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.ContentRootPath, ExcelTemplatePath));
 
             using (var templatePackage = new ExcelPackage(fileInfo))
             {

@@ -10,9 +10,8 @@
     using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
-    using NexGoal.Models.PerformanceRecord;
     using NexGoal.Repositories;
-    using NexGoal.Resources;
+    using Org.BouncyCastle.Crypto.Fpe;
 
     public class PARecordService : IPARecordService
     {
@@ -67,7 +66,7 @@
             foreach (PerformanceAppraisalResult performanceAppraisal in performanceAppraisals)
             {
                 performanceAppraisal.GradeId = cryptoService.Decrypt(performanceAppraisal.GradeId);
-                int.TryParse(performanceAppraisal.GradeId, out int gradeId);
+                _ = int.TryParse(performanceAppraisal.GradeId, out int gradeId);
                 performanceAppraisal.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
             }
 
@@ -92,7 +91,7 @@
             foreach (PerformanceAppraisalResult performanceAppraisal in performanceAppraisals)
             {
                 performanceAppraisal.GradeId = cryptoService.Decrypt(performanceAppraisal.GradeId);
-                int.TryParse(performanceAppraisal.GradeId, out int gradeId);
+                _ = int.TryParse(performanceAppraisal.GradeId, out int gradeId);
                 performanceAppraisal.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
             }
 

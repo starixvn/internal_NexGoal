@@ -18,9 +18,9 @@
 
     public class NotificationPerformanceRecordService : INotificationPerformanceRecordService
     {
-        private const string MemberToSupervisorEmailTemplate = @"EmailTemplates\\PCI\\{0}\\MemberToSupervisor.cshtml";
-        private const string SupervisorToMemberEmailTemplate = @"EmailTemplates\\PCI\\{0}\\SupervisorToMember.cshtml";
-        private const string SupervisorToSupervisorEmailTemplate = @"EmailTemplates\\PCI\\{0}\\SupervisorToSupervisor.cshtml";
+        private const string MemberToSupervisorEmailTemplate = "EmailTemplates/PCI/{0}/MemberToSupervisor.txt";
+        private const string SupervisorToMemberEmailTemplate = "EmailTemplates/PCI/{0}/SupervisorToMember.txt";
+        private const string SupervisorToSupervisorEmailTemplate = "EmailTemplates/PCI/{0}/SupervisorToSupervisor.txt";
 
         private readonly IWebHostEnvironment hostingEnvironment;
         private readonly AppSettings appSettings;
@@ -201,7 +201,7 @@
             var subject = action == ActionOnPerformanceRecord.Create
                 ? string.Format(Message.EmailSubject_CreatePCI_MemberToSupervisor, actor.NickName)
                 : string.Format(Message.EmailSubject_EditPCI_MemberToSupervisor, actor.NickName);
-            var filePath = Path.Combine(hostingEnvironment.WebRootPath, emailTemplate);
+            var filePath = Path.Combine(hostingEnvironment.ContentRootPath, emailTemplate);
 
             var body = string.Format(
                 mailService.ReadTextFile(filePath),
@@ -229,7 +229,7 @@
             var subject = action == ActionOnPerformanceRecord.Create
                 ? string.Format(Message.EmailSubject_CreatePCI_SupervisorToMember, actor.NickName)
                 : string.Format(Message.EmailSubject_EditPCI_SupervisorToMember, actor.NickName);
-            var filePath = Path.Combine(hostingEnvironment.WebRootPath, emailTemplate);
+            var filePath = Path.Combine(hostingEnvironment.ContentRootPath, emailTemplate);
 
             var body = string.Format(
                 mailService.ReadTextFile(filePath),
@@ -258,7 +258,7 @@
             var subject = action == ActionOnPerformanceRecord.Create
                 ? string.Format(Message.EmailSubject_CreatePCI_SupervisorToSupervisor, actor.NickName, employee.Nickname)
                 : string.Format(Message.EmailSubject_EditPCI_SupervisorToSupervisor, actor.NickName, employee.Nickname);
-            var filePath = Path.Combine(hostingEnvironment.WebRootPath, emailTemplate);
+            var filePath = Path.Combine(hostingEnvironment.ContentRootPath, emailTemplate);
 
             var body = string.Format(
                 mailService.ReadTextFile(filePath),

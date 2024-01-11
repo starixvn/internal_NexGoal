@@ -17,10 +17,10 @@
 
     public class ProbationService : IProbationService
     {
-        private const string StartMailTemplateToHR = "EmailTemplates\\Probation\\StartToHR.cshtml";
-        private const string StartMailTemplateToMember = "EmailTemplates\\Probation\\StartToMember.cshtml";
-        private const string StartMailTemplateToEvaluator = "EmailTemplates\\Probation\\StartToEvaluator.cshtml";
-        private const string RemindMailTemplateToEvaluator = "EmailTemplates\\Probation\\RemindToEvaluator.cshtml";
+        private const string StartMailTemplateToHR = "EmailTemplates/Probation/StartToHR.txt";
+        private const string StartMailTemplateToMember = "EmailTemplates/Probation/StartToMember.txt";
+        private const string StartMailTemplateToEvaluator = "EmailTemplates/Probation/StartToEvaluator.txt";
+        private const string RemindMailTemplateToEvaluator = "EmailTemplates/Probation/RemindToEvaluator.txt";
 
         private readonly IWebHostEnvironment hostingEnvironment;
         private readonly AppSettings appSettings;
@@ -50,11 +50,11 @@
         {
             IEnumerable<ProbationProcessSettingModel> settings = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Email);
 
-            var startToHRPath = Path.Combine(hostingEnvironment.WebRootPath, StartMailTemplateToHR);
-            var startToMemberPath = Path.Combine(hostingEnvironment.WebRootPath, StartMailTemplateToMember);
-            var startToEvaluatorPath = Path.Combine(hostingEnvironment.WebRootPath, StartMailTemplateToEvaluator);
-            var remindToEvaluatorPath = Path.Combine(hostingEnvironment.WebRootPath, RemindMailTemplateToEvaluator);
-            var body = string.Empty;
+            var startToHRPath = Path.Combine(hostingEnvironment.ContentRootPath, StartMailTemplateToHR);
+            var startToMemberPath = Path.Combine(hostingEnvironment.ContentRootPath, StartMailTemplateToMember);
+            var startToEvaluatorPath = Path.Combine(hostingEnvironment.ContentRootPath, StartMailTemplateToEvaluator);
+            var remindToEvaluatorPath = Path.Combine(hostingEnvironment.ContentRootPath, RemindMailTemplateToEvaluator);
+            string body;
 
             foreach (ProbationProcessSettingModel setting in settings)
             {

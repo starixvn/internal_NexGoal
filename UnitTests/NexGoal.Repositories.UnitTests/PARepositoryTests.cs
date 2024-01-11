@@ -132,8 +132,8 @@ namespace NexGoal.Repositories.UnitTests
             var actual = await repository.GetPARecordByIdAsync(criteria);
 
             // Assert
-            Assert.Equal(performanceAppraisals.First(), actual);
-            Assert.Equal(performanceAppraisals.First().Processes, processes);
+            Assert.Equal(performanceAppraisals[0], actual);
+            Assert.Equal(performanceAppraisals[0].Processes, processes);
         }
 
         #endregion GetPARecordByIdAsync
@@ -182,7 +182,7 @@ namespace NexGoal.Repositories.UnitTests
 
             // Assert
             Assert.Equal(performanceAppraisals, actual);
-            Assert.Equal(performanceAppraisals.First().Processes, processes.Where(x => x.PARecordId == performanceAppraisals.First().PARecordId));
+            Assert.Equal(performanceAppraisals[0].Processes, processes.Where(x => x.PARecordId == performanceAppraisals[0].PARecordId));
             Assert.Equal(performanceAppraisals[1].Processes, processes.Where(x => x.PARecordId == performanceAppraisals[1].PARecordId));
         }
     }

@@ -30,7 +30,6 @@
     using NexGoal.Core.Models;
     using NexGoal.Models.Auth;
     using NexGoal.Services.Extensions;
-    using NexGoal.Web.Core.Extensions;
     using NexGoal.Web.Core.Middlewares;
     using NexGoal.Web.Core.Services;
     using Sentry;
@@ -45,9 +44,19 @@
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            LogManager
+                .SetDefaultLogCategory(Configuration.GetSection("LogCategory").Value)
+                .Use(new List<ILogEngine>
+                {
+                    new SentryLogging(new SentryEngineOptions
+                    {
+                        Dsn = new Dsn(Configuration.GetSection("SentryEngineOptions:Dsn").Value),
+                        FrontEndDsn = new Dsn(Configuration.GetSection("SentryEngineOptions:FrontEndDsn").Value)
+                    })
+                });
+
             var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
             services.AddSingleton(appSettings);
 
@@ -76,17 +85,6 @@
                 .UseDefaultDbSettingProvider("~/App_Data")
                 .Run();
 
-            LogManager
-                .SetDefaultLogCategory(Configuration.GetSection("LogCategory").Value)
-                .Use(new List<ILogEngine>
-                {
-                    new SentryLogging(new SentryEngineOptions
-                    {
-                        Dsn = new Dsn(Configuration.GetSection("SentryEngineOptions:Dsn").Value),
-                        FrontEndDsn =  new Dsn(Configuration.GetSection("SentryEngineOptions:FrontEndDsn").Value)
-                    })
-                });
-
             var hangfireConnectionString = Cryptography.DecryptConnectionString(Configuration.GetSection("HangfireConnectionString").Value);
             services.AddHangfire(config => config.UseSqlServerStorage(hangfireConnectionString, new SqlServerStorageOptions
             {
@@ -105,31 +103,9 @@
 
             var companyName = Configuration.GetSection("CompanyName").Value;
 
-            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+            services.AddSingleton<IConverter>(new SynchronizedConverter(new PdfTools()));
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            }).AddCookie(options =>
-            {
-                options.LoginPath = Configuration.GetSection("AuthSettings:LoginPath").Value;
-                options.LogoutPath = Configuration.GetSection("AuthSettings:LogoutPath").Value;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(int.Parse(Configuration["AuthSettings:SessionTimeout"]));
-                options.SlidingExpiration = true;
-                options.Events.OnSigningOut = context =>
-                {
-                    context.Response.Redirect(options.LoginPath);
-                    return Task.CompletedTask;
-                };
-                options.Cookie = new CookieBuilder
-                {
-                    Name = $"Goal.{companyName}.Cookie",
-                };
-            });
-
-            services.AddAuthorization();
+            ConfigAuthentication(services, companyName);
 
             services.AddSession(options =>
             {
@@ -189,6 +165,33 @@
 
                 endpoints.MapHangfireDashboard();
             });
+        }
+
+        private void ConfigAuthentication(IServiceCollection services, string companyName)
+        {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie(options =>
+            {
+                options.LoginPath = Configuration.GetSection("AuthSettings:LoginPath").Value;
+                options.LogoutPath = Configuration.GetSection("AuthSettings:LogoutPath").Value;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(int.Parse(Configuration["AuthSettings:SessionTimeout"]));
+                options.SlidingExpiration = true;
+                options.Events.OnSigningOut = context =>
+                {
+                    context.Response.Redirect(options.LoginPath);
+                    return Task.CompletedTask;
+                };
+                options.Cookie = new CookieBuilder
+                {
+                    Name = $"Goal.{companyName}.Cookie",
+                };
+            });
+
+            services.AddAuthorization();
         }
 
         private void ConfigDataProtection(IServiceCollection services)

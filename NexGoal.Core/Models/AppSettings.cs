@@ -6,8 +6,8 @@
     {
         public string ApplicationDomain { get; set; }
         public Uri ImageUrl { get; set; }
-        public string CertFilePath { get; set; }
-        public string PasswordToSignCertFile { get; set; }
+        public string RSAPublicKeyPath { get; set; }
+        public string RSAPrivateKeyPath { get; set; }
         public bool EnableEncrypt { get; set; }
     }
 }

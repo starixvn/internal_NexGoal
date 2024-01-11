@@ -75,8 +75,8 @@
 
             // Assert
             Assert.Equal(performanceRecords, actual);
-            Assert.Single(performanceRecords.First().Projects);
-            Assert.Equal(performanceRecords.First().Projects.First(), projects.First());
+            Assert.Single(performanceRecords[0].Projects);
+            Assert.Equal(performanceRecords[0].Projects.First(), projects[0]);
         }
 
         [Fact]
@@ -295,8 +295,8 @@
 
             // Assert
             Assert.Equal(performanceRecords, actual);
-            Assert.Single(performanceRecords.First().Projects);
-            Assert.Equal(performanceRecords.First().Projects.First(), projects.First());
+            Assert.Single(performanceRecords[0].Projects);
+            Assert.Equal(performanceRecords[0].Projects.First(), projects[0]);
         }
 
         [Fact]
@@ -360,10 +360,10 @@
 
             // Assert
             Assert.Equal(performanceRecords, actual);
-            Assert.Single(performanceRecords.First().Projects);
-            Assert.Equal(performanceRecords.First().Projects.First(), projects.First());
-            Assert.Single(performanceRecords.First().Employees);
-            Assert.Equal(performanceRecords.First().Employees.First(), employees.First());
+            Assert.Single(performanceRecords[0].Projects);
+            Assert.Equal(performanceRecords[0].Projects.First(), projects[0]);
+            Assert.Single(performanceRecords[0].Employees);
+            Assert.Equal(performanceRecords[0].Employees.First(), employees[0]);
         }
 
         [Fact]
@@ -427,10 +427,10 @@
 
             // Assert
             Assert.Equal(performanceRecords, actual);
-            Assert.Single(performanceRecords.First().Projects);
-            Assert.Equal(performanceRecords.First().Projects.First(), projects.First());
-            Assert.Single(performanceRecords.First().Employees);
-            Assert.Equal(performanceRecords.First().Employees.First(), employees.First());
+            Assert.Single(performanceRecords[0].Projects);
+            Assert.Equal(performanceRecords[0].Projects.First(), projects[0]);
+            Assert.Single(performanceRecords[0].Employees);
+            Assert.Equal(performanceRecords[0].Employees.First(), employees[0]);
         }
 
         [Fact]

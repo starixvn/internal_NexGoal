@@ -138,7 +138,7 @@
             // Assert
             Assert.Equal(nominations, actual);
             Assert.Single(actual.First().Nominators);
-            Assert.Equal(records.First(), actual.First().Nominators.First());
+            Assert.Equal(records[0], actual.First().Nominators.First());
         }
     }
 }

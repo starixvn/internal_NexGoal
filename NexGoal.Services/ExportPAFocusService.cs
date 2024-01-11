@@ -26,7 +26,7 @@
             Poor
         };
 
-        private const string ExcelTemplatePath = @"ExcelTemplates\\PAFocus.xlsx";
+        private const string ExcelTemplatePath = "ExcelTemplates/PAFocus.xlsx";
         private const int TotalCells = 11;
         private const int PAFocusColumnWidth = 60;
 
@@ -57,7 +57,7 @@
         {
             string[] refNames = { ReferenceResource.FocusEvaluationLevel };
             IEnumerable<ReferenceResourceModel> referenceResources = await commonService.GetReferenceResourcesByNamesAsync(refNames);
-            var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.WebRootPath, ExcelTemplatePath));
+            var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.ContentRootPath, ExcelTemplatePath));
             using (var templatePackage = new ExcelPackage(fileInfo))
             {
                 using (var package = new ExcelPackage())
@@ -147,8 +147,8 @@
             TemplateRowIndex templateRowIndex;
             const byte MinStone = 3;
             const byte MaxStone = 9;
-            int.TryParse(paFocus.BonusGiven, out int bonusGiven);
-            int.TryParse(paFocus.Contribution, out int contribution);
+            _ = int.TryParse(paFocus.BonusGiven, out int bonusGiven);
+            _ = int.TryParse(paFocus.Contribution, out int contribution);
             var condition = bonusGiven + contribution;
             var isReadyPromotion = !string.IsNullOrWhiteSpace(paFocus.IsReadyPromotion) ? paFocus.IsReadyPromotion.ToLowerInvariant() : string.Empty;
 

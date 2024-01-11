@@ -20,11 +20,11 @@
 
     public class PAService : IPAService
     {
-        private const string RemindStartEvaluationMailTemplateToSelf = "EmailTemplates\\PA\\RemindStartToSelf.cshtml";
-        private const string RemindStartEvaluationMailTemplateToSupervisor = "EmailTemplates\\PA\\RemindStartToSupervisor.cshtml";
-        private const string StartMailTemplateToReviewer = "EmailTemplates\\PA\\StartToReviewer.cshtml";
-        private const string RemindMailTemplateToReviewer = "EmailTemplates\\PA\\RemindToReviewer.cshtml";
-        private const string EndEvaluationMailTemplateToSelf = "EmailTemplates\\PA\\EndToSelf.cshtml";
+        private const string RemindStartEvaluationMailTemplateToSelf = "EmailTemplates/PA/RemindStartToSelf.txt";
+        private const string RemindStartEvaluationMailTemplateToSupervisor = "EmailTemplates/PA/RemindStartToSupervisor.txt";
+        private const string StartMailTemplateToReviewer = "EmailTemplates/PA/StartToReviewer.txt";
+        private const string RemindMailTemplateToReviewer = "EmailTemplates/PA/RemindToReviewer.txt";
+        private const string EndEvaluationMailTemplateToSelf = "EmailTemplates/PA/EndToSelf.txt";
 
         private readonly IWebHostEnvironment hostingEnvironment;
         private readonly AppSettings appSettings;
@@ -82,11 +82,11 @@
         {
             var (periods, processSettings) = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Email);
 
-            var remindStartEvaluationToSelfPath = Path.Combine(hostingEnvironment.WebRootPath, RemindStartEvaluationMailTemplateToSelf);
-            var remindStartEvaluationToSupervisorPath = Path.Combine(hostingEnvironment.WebRootPath, RemindStartEvaluationMailTemplateToSupervisor);
-            var startToReviewerPath = Path.Combine(hostingEnvironment.WebRootPath, StartMailTemplateToReviewer);
-            var remindToReviewerPath = Path.Combine(hostingEnvironment.WebRootPath, RemindMailTemplateToReviewer);
-            var endEvaluationMailPath = Path.Combine(hostingEnvironment.WebRootPath, EndEvaluationMailTemplateToSelf);
+            var remindStartEvaluationToSelfPath = Path.Combine(hostingEnvironment.ContentRootPath, RemindStartEvaluationMailTemplateToSelf);
+            var remindStartEvaluationToSupervisorPath = Path.Combine(hostingEnvironment.ContentRootPath, RemindStartEvaluationMailTemplateToSupervisor);
+            var startToReviewerPath = Path.Combine(hostingEnvironment.ContentRootPath, StartMailTemplateToReviewer);
+            var remindToReviewerPath = Path.Combine(hostingEnvironment.ContentRootPath, RemindMailTemplateToReviewer);
+            var endEvaluationMailPath = Path.Combine(hostingEnvironment.ContentRootPath, EndEvaluationMailTemplateToSelf);
 
             foreach (var period in periods)
             {
