@@ -18,8 +18,8 @@
 
     public class NominationService : INominationService
     {
-        private const string StartMailTemplateToNominator = "EmailTemplates\\Nomination\\StartToNominator.cshtml";
-        private const string RemindMailTemplateToNominator = "EmailTemplates\\Nomination\\RemindToNominator.cshtml";
+        private const string StartMailTemplateToNominator = "EmailTemplates/Nomination/StartToNominator.txt";
+        private const string RemindMailTemplateToNominator = "EmailTemplates/Nomination/RemindToNominator.txt";
 
         private readonly IWebHostEnvironment hostingEnvironment;
         private readonly AppSettings appSettings;
@@ -45,8 +45,8 @@
         {
             var (periods, processSettings) = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Email);
 
-            var startMailPath = Path.Combine(hostingEnvironment.WebRootPath, StartMailTemplateToNominator);
-            var remindMailPath = Path.Combine(hostingEnvironment.WebRootPath, RemindMailTemplateToNominator);
+            var startMailPath = Path.Combine(hostingEnvironment.ContentRootPath, StartMailTemplateToNominator);
+            var remindMailPath = Path.Combine(hostingEnvironment.ContentRootPath, RemindMailTemplateToNominator);
             var body = string.Empty;
 
             foreach (var period in periods)

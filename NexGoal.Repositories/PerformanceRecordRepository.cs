@@ -79,7 +79,7 @@
 
                     foreach (PerformanceRecord performanceRecord in performanceRecords)
                     {
-                        if (performanceRecord.TypeId == (int)PerformanceRecordType.SystemPerformanceAppraisal)
+                        if (performanceRecord.TypeId == (byte)PerformanceRecordType.SystemPerformanceAppraisal)
                         {
                             performanceRecord.PASummary = paSummaries.FirstOrDefault(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
                         }
@@ -253,7 +253,7 @@
                         performanceRecord.Reactions = reactions.Where(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
                         performanceRecord.Feedbacks = feedbacks.Where(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
 
-                        if (performanceRecord.TypeId == (int)PerformanceRecordType.SystemPerformanceAppraisal)
+                        if (performanceRecord.TypeId == (byte)PerformanceRecordType.SystemPerformanceAppraisal)
                         {
                             performanceRecord.PASummary = paSummaries.FirstOrDefault(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
                         }

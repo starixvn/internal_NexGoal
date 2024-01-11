@@ -82,11 +82,11 @@
                 pafocus.BonusGiven = cryptoService.Decrypt(pafocus.BonusGiven);
 
                 pafocus.GradeId = cryptoService.Decrypt(pafocus.GradeId);
-                int.TryParse(pafocus.GradeId, out int gradeId);
+                _ = int.TryParse(pafocus.GradeId, out int gradeId);
                 pafocus.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
 
                 pafocus.OriginalGradeId = cryptoService.Decrypt(pafocus.OriginalGradeId);
-                int.TryParse(pafocus.OriginalGradeId, out gradeId);
+                _ = int.TryParse(pafocus.OriginalGradeId, out gradeId);
                 pafocus.OriginalGrade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
             }
 

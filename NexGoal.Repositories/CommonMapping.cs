@@ -38,8 +38,8 @@
             foreach (PAProcessModel process in processes)
             {
                 var recordIds = !string.IsNullOrWhiteSpace(process.RelatedPerformanceRecordIds)
-                    ? process.RelatedPerformanceRecordIds.Split(',') : new string[] { };
-                process.RelatedPerformanceRecords = performanceRecords.Where(x => recordIds.Any(y => y == x.PerformanceRecordId.ToString()))
+                    ? process.RelatedPerformanceRecordIds.Split(',').ToList() : new List<string>();
+                process.RelatedPerformanceRecords = performanceRecords.Where(x => recordIds.Exists(y => y == x.PerformanceRecordId.ToString()))
                     .OrderByDescending(x => x.CreatedDate);
             }
         }

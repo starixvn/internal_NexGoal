@@ -1,25 +1,41 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
+<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
+    <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <CodeAnalysisRuleSet>NexGoal.Website.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <CodeAnalysisRuleSet>NexGoal.Website.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="App_Data\AutoSPNames.xml" />
     <None Remove="App_Data\SPNames.xml" />
+    <None Remove="EmailTemplates\Nomination\RemindToNominator.txt" />
+    <None Remove="EmailTemplates\Nomination\StartToNominator.txt" />
+    <None Remove="EmailTemplates\PAFocus\RemindToEvaluator.txt" />
+    <None Remove="EmailTemplates\PAFocus\StartToEvaluator.txt" />
+    <None Remove="EmailTemplates\PA\EndToSelf.txt" />
+    <None Remove="EmailTemplates\PA\RemindStartToSelf.txt" />
+    <None Remove="EmailTemplates\PA\RemindStartToSupervisor.txt" />
+    <None Remove="EmailTemplates\PA\RemindToReviewer.txt" />
+    <None Remove="EmailTemplates\PA\StartToReviewer.txt" />
+    <None Remove="EmailTemplates\PCI\Create\MemberToSupervisor.txt" />
+    <None Remove="EmailTemplates\PCI\Create\SupervisorToMember.txt" />
+    <None Remove="EmailTemplates\PCI\Create\SupervisorToSupervisor.txt" />
+    <None Remove="EmailTemplates\PCI\Edit\MemberToSupervisor.txt" />
+    <None Remove="EmailTemplates\PCI\Edit\SupervisorToMember.txt" />
+    <None Remove="EmailTemplates\PCI\Edit\SupervisorToSupervisor.txt" />
+    <None Remove="EmailTemplates\Probation\RemindToEvaluator.txt" />
+    <None Remove="EmailTemplates\Probation\StartToEvaluator.txt" />
+    <None Remove="EmailTemplates\Probation\StartToHR.txt" />
+    <None Remove="EmailTemplates\Probation\StartToMember.txt" />
+    <None Remove="ExcelTemplates\MasterReport.xlsx" />
+    <None Remove="ExcelTemplates\PAFocus.xlsx" />
+    <None Remove="ExcelTemplates\PAReport.xlsx" />
+    <None Remove="ExcelTemplates\ProbationReport.xlsx" />
     <None Remove="logs\log.txt" />
   </ItemGroup>
-
   <ItemGroup>
     <AdditionalFiles Include="..\SonarQube\nexgoal\CSharp\SonarLint.xml" Link="SonarLint.xml" />
     <Content Include="App_Data\AutoSPNames.xml">
@@ -28,34 +44,93 @@
     <Content Include="App_Data\SPNames.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="EmailTemplates\Nomination\RemindToNominator.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\Nomination\StartToNominator.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PAFocus\RemindToEvaluator.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PAFocus\StartToEvaluator.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PA\EndToSelf.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PA\RemindStartToSelf.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PA\RemindStartToSupervisor.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PA\RemindToReviewer.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PA\StartToReviewer.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PCI\Create\MemberToSupervisor.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PCI\Create\SupervisorToMember.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PCI\Create\SupervisorToSupervisor.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PCI\Edit\MemberToSupervisor.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PCI\Edit\SupervisorToMember.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PCI\Edit\SupervisorToSupervisor.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\Probation\RemindToEvaluator.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\Probation\StartToEvaluator.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\Probation\StartToHR.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\Probation\StartToMember.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExcelTemplates\MasterReport.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExcelTemplates\PAFocus.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExcelTemplates\PAReport.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExcelTemplates\ProbationReport.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="logs\log.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
-    <None Include="./lib/wkhtmlox/64/libwkhtmltox.dll" Link="libwkhtmltox.dll" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)' == 'Release'">
-    <None Include="./lib/wkhtmlox/32/libwkhtmltox.dll" Link="libwkhtmltox.dll" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="Fanex.Data.SqlServer" Version="4.2.3" />
-    <PackageReference Include="Fanex.Logging.Sentry" Version="1.0.6" />
-    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.34.0.42011">
+    <None Include="./lib/wkhtmlox/64/libwkhtmltox.dll" Link="libwkhtmltox.dll" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="./lib/wkhtmlox/64/libwkhtmltox.so" Link="libwkhtmltox.so" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.16.0.82469">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\NexGoal.Controllers\NexGoal.Controllers.csproj" />
     <ProjectReference Include="..\NexGoal.Models\NexGoal.Models.csproj" />
   </ItemGroup>
-
   <Target Name="CreateLogsFolder" AfterTargets="Publish">
     <MakeDir Directories="$(PublishDir)Logs" Condition="!Exists('$(PublishDir)Logs')" />
   </Target>

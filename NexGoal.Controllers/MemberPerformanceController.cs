@@ -49,13 +49,13 @@
             if (ModelState.IsValid)
             {
                 performanceRecord.CreatorId = sessionService.EmployeeId;
-                performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
+                performanceRecord.TypeId = (byte)PerformanceRecordType.PerformanceCheckin;
                 CommandResult commandResult = await performanceService.CreatePerformanceRecordAsync(performanceRecord);
 
                 return Json(commandResult);
             }
 
-            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors[0].ErrorMessage });
             return Json(new { isSuccessful = false, errors });
         }
 
@@ -66,13 +66,13 @@
             if (ModelState.IsValid)
             {
                 performanceRecord.CreatorId = sessionService.EmployeeId;
-                performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
+                performanceRecord.TypeId = (byte)PerformanceRecordType.PerformanceCheckin;
                 CommandResult commandResult = await performanceService.CreateDraftPerformanceRecordAsync(performanceRecord);
 
                 return Json(commandResult);
             }
 
-            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors[0].ErrorMessage });
             return Json(new { isSuccessful = false, errors });
         }
 
@@ -83,13 +83,13 @@
             if (ModelState.IsValid)
             {
                 performanceRecord.CreatorId = sessionService.EmployeeId;
-                performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
+                performanceRecord.TypeId = (byte)PerformanceRecordType.PerformanceCheckin;
                 CommandResult commandResult = await performanceService.EditPerformanceRecordAsync(performanceRecord);
 
                 return Json(commandResult);
             }
 
-            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors[0].ErrorMessage });
             return Json(new { isSuccessful = false, errors });
         }
 
@@ -100,13 +100,13 @@
             if (ModelState.IsValid)
             {
                 performanceRecord.CreatorId = sessionService.EmployeeId;
-                performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
+                performanceRecord.TypeId = (byte)PerformanceRecordType.PerformanceCheckin;
                 CommandResult commandResult = await performanceService.EditDraftPerformanceRecordAsync(performanceRecord);
 
                 return Json(commandResult);
             }
 
-            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors[0].ErrorMessage });
             return Json(new { isSuccessful = false, errors });
         }
 

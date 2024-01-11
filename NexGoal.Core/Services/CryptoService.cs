@@ -1,27 +1,24 @@
 namespace NexGoal.Core.Services
 {
     using System;
+    using System.IO;
     using System.Security.Cryptography;
-    using System.Security.Cryptography.X509Certificates;
     using System.Text;
     using NexGoal.Core.Models;
 
     public class CryptoService : ICryptoService
     {
         private const bool OptimalAsymmetricEncryptionPadding = false;
-
+        private readonly string publicKey;
+        private readonly string privateKey;
+        private const short KeySize = 2048;
         private readonly AppSettings appSettings;
-        private readonly RSACryptoServiceProvider privateRSA;
-        private readonly RSACryptoServiceProvider publicRSA;
 
-        public CryptoService(
-            AppSettings appSettings,
-            X509Certificate2 cert2 = null)
+        public CryptoService(AppSettings appSettings)
         {
             this.appSettings = appSettings;
-            var cert = cert2 ?? InitCertificate();
-            privateRSA = GetPrivateKeyRsaCryptoServiceProvider(cert);
-            publicRSA = GetPublicKeyRsaCryptoServiceProvider(cert);
+            publicKey = ReadTextFile(appSettings.RSAPublicKeyPath);
+            privateKey = ReadTextFile(appSettings.RSAPrivateKeyPath);
         }
 
         public string Encrypt(string plainText)
@@ -33,14 +30,19 @@ namespace NexGoal.Core.Services
                 if (appSettings.EnableEncrypt)
                 {
                     byte[] bytesToEncrypt = ASCIIEncoding.ASCII.GetBytes(plainText);
-                    byte[] encryptedBytes = publicRSA.Encrypt(bytesToEncrypt, OptimalAsymmetricEncryptionPadding);
-                    cipherText = Convert.ToBase64String(encryptedBytes);
+
+                    using (var rsa = new RSACryptoServiceProvider(KeySize))
+                    {
+                        rsa.FromXmlString(publicKey);
+                        byte[] encryptedBytes = rsa.Encrypt(bytesToEncrypt, OptimalAsymmetricEncryptionPadding);
+                        cipherText = Convert.ToBase64String(encryptedBytes);
+                    }
                 }
                 else
                 {
                     cipherText = plainText;
                 }
-            }
+            } 
 
             return cipherText;
         }
@@ -54,9 +56,13 @@ namespace NexGoal.Core.Services
                 if (appSettings.EnableEncrypt)
                 {
                     byte[] bytesToDecrypt = Convert.FromBase64String(cipherText);
-                    byte[] plainbytes = privateRSA.Decrypt(bytesToDecrypt, OptimalAsymmetricEncryptionPadding);
-                    var enc = new ASCIIEncoding();
-                    plainText = enc.GetString(plainbytes);
+                    using (var rsa = new RSACryptoServiceProvider(KeySize))
+                    {
+                        rsa.FromXmlString(privateKey);
+                        byte[] plainbytes = rsa.Decrypt(bytesToDecrypt, OptimalAsymmetricEncryptionPadding);
+                        var enc = new ASCIIEncoding();
+                        plainText = enc.GetString(plainbytes);
+                    }
                 }
                 else
                 {
@@ -67,33 +73,15 @@ namespace NexGoal.Core.Services
             return plainText;
         }
 
-        private X509Certificate2 InitCertificate()
+        private static string ReadTextFile(string filePath)
         {
-            ////var cert = X509Certificate2.CreateFromEncryptedPemFile(configuration.CurrentValue.CertFilePath, configuration.CurrentValue.PasswordToSignCertFile);
-            const X509KeyStorageFlags flags = X509KeyStorageFlags.Exportable;
-            return new X509Certificate2(appSettings.CertFilePath, appSettings.PasswordToSignCertFile, flags);
-        }
+            var text = string.Empty;
+            if(File.Exists(filePath))
+            {
+                text = File.ReadAllText(filePath);
+            }
 
-        private static RSACryptoServiceProvider GetPublicKeyRsaCryptoServiceProvider(X509Certificate2 certificate)
-        {
-            RSA rsa = certificate.GetRSAPublicKey();
-            RSAParameters rsaParameters = rsa.ExportParameters(false);
-
-            var rsacsp = new RSACryptoServiceProvider(rsa.KeySize);
-            rsacsp.ImportParameters(rsaParameters);
-
-            return rsacsp;
-        }
-
-        private static RSACryptoServiceProvider GetPrivateKeyRsaCryptoServiceProvider(X509Certificate2 certificate)
-        {
-            RSA rsa = certificate.GetRSAPrivateKey();
-            RSAParameters rsaParameters = rsa.ExportParameters(true);
-
-            var rsacsp = new RSACryptoServiceProvider(rsa.KeySize);
-            rsacsp.ImportParameters(rsaParameters);
-
-            return rsacsp;
+            return text;
         }
     }
 }

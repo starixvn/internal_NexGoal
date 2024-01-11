@@ -188,7 +188,7 @@
                 {
                     PerformanceRecordId = 1,
                     NominationPeriod = new NominationPeriodModel { NominationPeriodId = 1, Quarter = 4, Year = 2018 },
-                    TypeId = (int)PerformanceRecordType.Nomination
+                    TypeId = (byte)PerformanceRecordType.Nomination
                 }
             };
 
@@ -197,7 +197,7 @@
                 {
                     PerformanceRecordId = 2,
                     NominationPeriod = new NominationPeriodModel { NominationPeriodId = 1, Quarter = 4, Year = 2022 },
-                    TypeId = (int)PerformanceRecordType.Nomination
+                    TypeId = (byte)PerformanceRecordType.Nomination
                 }
             };
 

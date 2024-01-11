@@ -270,14 +270,14 @@
 
         private static IEnumerable<PerformanceRecord> GroupDataMemberPerformance(IEnumerable<PerformanceRecord> performanceRecords)
         {
-            var records = performanceRecords.Where(x => x.TypeId == (int)PerformanceRecordType.Nomination).ToList();
-            var systemNominations = performanceRecords.Where(x => x.TypeId == (int)PerformanceRecordType.SystemNomination);
+            var records = performanceRecords.Where(x => x.TypeId == (byte)PerformanceRecordType.Nomination).ToList();
+            var systemNominations = performanceRecords.Where(x => x.TypeId == (byte)PerformanceRecordType.SystemNomination);
 
             foreach (PerformanceRecord nomination in systemNominations)
             {
-                if (!records.Any(x => x.NominationPeriod.NominationPeriodId == nomination.NominationPeriod.NominationPeriodId
+                if (!records.Exists(x => x.NominationPeriod.NominationPeriodId == nomination.NominationPeriod.NominationPeriodId
                     && x.NominationStatusId == nomination.NominationStatusId
-                    && x.TypeId == (int)PerformanceRecordType.SystemNomination))
+                    && x.TypeId == (byte)PerformanceRecordType.SystemNomination))
                 {
                     records.Add(nomination);
                 }
@@ -285,7 +285,7 @@
                 {
                     int index = records.FindIndex(x => x.NominationPeriod.NominationPeriodId == nomination.NominationPeriod.NominationPeriodId
                         && x.NominationStatusId == nomination.NominationStatusId
-                        && x.TypeId == (int)PerformanceRecordType.SystemNomination);
+                        && x.TypeId == (byte)PerformanceRecordType.SystemNomination);
                     records[index].Employees = records[index].Employees.Concat(nomination.Employees);
                 }
             }
@@ -298,28 +298,28 @@
             return performanceRecords.GroupBy(p => p.PerformanceRecordId).Select(k => new PerformanceRecord
             {
                 PerformanceRecordId = k.Key,
-                Employees = k.FirstOrDefault().Employees,
-                CreatedDate = k.FirstOrDefault().CreatedDate,
-                Creator = k.FirstOrDefault().Creator,
-                Feedbacks = k.FirstOrDefault().Feedbacks,
-                Grade = k.FirstOrDefault().Grade,
-                IsAllowEditFeedback = k.FirstOrDefault().IsAllowEditFeedback,
-                IsDraft = k.FirstOrDefault().IsDraft,
-                IsHost = k.FirstOrDefault().IsHost,
-                ModifiedDate = k.FirstOrDefault().ModifiedDate,
-                NominationPeriod = k.FirstOrDefault().NominationPeriod,
-                NominationStatusId = k.FirstOrDefault().NominationStatusId,
-                PASummary = k.FirstOrDefault().PASummary,
-                Period = k.FirstOrDefault().Period,
-                Projects = k.FirstOrDefault().Projects,
-                Reactions = k.FirstOrDefault().Reactions,
-                TypeId = k.FirstOrDefault().TypeId,
-                RoleId = k.FirstOrDefault().RoleId,
+                Employees = k.First().Employees,
+                CreatedDate = k.First().CreatedDate,
+                Creator = k.First().Creator,
+                Feedbacks = k.First().Feedbacks,
+                Grade = k.First().Grade,
+                IsAllowEditFeedback = k.First().IsAllowEditFeedback,
+                IsDraft = k.First().IsDraft,
+                IsHost = k.First().IsHost,
+                ModifiedDate = k.First().ModifiedDate,
+                NominationPeriod = k.First().NominationPeriod,
+                NominationStatusId = k.First().NominationStatusId,
+                PASummary = k.First().PASummary,
+                Period = k.First().Period,
+                Projects = k.First().Projects,
+                Reactions = k.First().Reactions,
+                TypeId = k.First().TypeId,
+                RoleId = k.First().RoleId,
                 KPIGroupIds = k.GroupBy(t => t.KPIGroupId).Select(y => new TemplateKPINominationInfoModel
                 {
                     KpiGroupId = y.Key,
-                    Name = y.FirstOrDefault().Name,
-                    Rate = y.FirstOrDefault().Rate,
+                    Name = y.First().Name,
+                    Rate = y.First().Rate,
                     Kpis = y.Select(kpi => new KPIModel { KpiId = kpi.KPIId, Comment = kpi.Comment, KpiName = kpi.KPIName })
                 })
             });

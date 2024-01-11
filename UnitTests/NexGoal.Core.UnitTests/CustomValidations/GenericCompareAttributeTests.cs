@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
     using NexGoal.Core.CustomValidations;
     using NexGoal.Core.Enumerations;
     using Xunit;
@@ -44,7 +43,7 @@
 
             // Assert
             Assert.Single(validationResults);
-            Assert.Equal(errorMessage, validationResults.First().ErrorMessage);
+            Assert.Equal(errorMessage, validationResults[0].ErrorMessage);
         }
 
         private class GreaterThan

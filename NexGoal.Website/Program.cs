@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Website
 {
     using System;
+    using Fanex.Logging;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
     using NLog;
@@ -10,7 +11,7 @@
     {
         public static void Main(string[] args)
         {
-            var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+            var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
             try
             {
@@ -19,11 +20,12 @@
             catch (Exception exception)
             {
                 logger.Error(exception, "Stopped program because of exception");
+                LogService.Error(exception.Message, exception);
                 throw;
             }
             finally
             {
-                LogManager.Shutdown();
+                NLog.LogManager.Shutdown();
             }
         }
 

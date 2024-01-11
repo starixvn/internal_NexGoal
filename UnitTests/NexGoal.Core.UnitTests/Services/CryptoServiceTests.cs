@@ -1,8 +1,5 @@
 ﻿namespace NexGoal.Core.UnitTests.Services
 {
-    using System.IO;
-    using System.Security.Cryptography.X509Certificates;
-    using Microsoft.Extensions.FileProviders;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using Xunit;
@@ -17,9 +14,8 @@
         public void Encrypt_PlainTextIsNullOrWhiteSpace_ReturnEmpty(string plainText)
         {
             // Arrange
-            var cert = GetX509Certificate2();
             var appSettings = FakeAppSettings(true);
-            var service = GetCryptoService(appSettings, cert);
+            var service = GetCryptoService(appSettings);
 
             // Act
             var cipherText = service.Encrypt(plainText);
@@ -33,9 +29,8 @@
         {
             // Arrange
             var plainText = "123456";
-            var cert = GetX509Certificate2();
             var appSettings = FakeAppSettings(false);
-            var service = GetCryptoService(appSettings, cert);
+            var service = GetCryptoService(appSettings);
 
             // Act
             var cipherText = service.Encrypt(plainText);
@@ -49,9 +44,8 @@
         {
             // Arrange
             var plainText = "123456";
-            X509Certificate2 cert = GetX509Certificate2();
             var appSettings = FakeAppSettings(true);
-            var service = GetCryptoService(appSettings, cert);
+            var service = GetCryptoService(appSettings);
 
             // Act
             var cipherText = service.Encrypt(plainText);
@@ -70,9 +64,8 @@
         public void Decrypt_CipherTextIsNullOrWhiteSpace_ReturnEmpty(string cipherText)
         {
             // Arrange
-            var cert = GetX509Certificate2();
             var appSettings = FakeAppSettings(true);
-            var service = GetCryptoService(appSettings, cert);
+            var service = GetCryptoService(appSettings);
 
             // Act
             var plainText = service.Decrypt(cipherText);
@@ -86,9 +79,8 @@
         {
             // Arrange
             var cipherText = "123456";
-            var cert = GetX509Certificate2();
             var appSettings = FakeAppSettings(false);
-            var service = GetCryptoService(appSettings, cert);
+            var service = GetCryptoService(appSettings);
 
             // Act
             var plainText = service.Decrypt(cipherText);
@@ -102,9 +94,8 @@
         {
             // Arrange
             var expected = "123456";
-            X509Certificate2 cert = GetX509Certificate2();
             var appSettings = FakeAppSettings(true);
-            var service = GetCryptoService(appSettings, cert);
+            var service = GetCryptoService(appSettings);
             var cipherText = service.Encrypt(expected);
 
             // Act
@@ -128,30 +119,9 @@
             return appSettings;
         }
 
-        private static X509Certificate2 GetX509Certificate2()
+        private static CryptoService GetCryptoService(AppSettings appSettings)
         {
-            var assembly = typeof(CryptoServiceTests).Assembly;
-            var embeddedFileProvider = new EmbeddedFileProvider(assembly, "NexGoal.Core.UnitTests");
-            var certificateFileInfo = embeddedFileProvider.GetFileInfo("Test.pfx");
-
-            using (var certificateStream = certificateFileInfo.CreateReadStream())
-            {
-                byte[] certificate;
-                using (var memoryStream = new MemoryStream())
-                {
-                    certificateStream.CopyTo(memoryStream);
-                    certificate = memoryStream.ToArray();
-
-                    return new X509Certificate2(certificate, "123456", X509KeyStorageFlags.Exportable);
-                }
-            }
-        }
-
-        private static CryptoService GetCryptoService(
-            AppSettings appSettings,
-            X509Certificate2 cert)
-        {
-            var service = new CryptoService(appSettings, cert);
+            var service = new CryptoService(appSettings);
 
             return service;
         }

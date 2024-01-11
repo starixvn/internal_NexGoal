@@ -53,7 +53,7 @@
                 return Json(commandResult);
             }
 
-            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors[0].ErrorMessage });
             return Json(new { isSuccessful = false, errors });
         }
 
@@ -71,7 +71,7 @@
                 return Json(commandResult);
             }
 
-            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors[0].ErrorMessage });
             return Json(new { isSuccessful = false, errors });
         }
 
@@ -89,7 +89,7 @@
                 return Json(commandResult);
             }
 
-            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors[0].ErrorMessage });
             return Json(new { isSuccessful = false, errors });
         }
 
@@ -107,7 +107,7 @@
                 return Json(commandResult);
             }
 
-            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors[0].ErrorMessage });
             return Json(new { isSuccessful = false, errors });
         }
 

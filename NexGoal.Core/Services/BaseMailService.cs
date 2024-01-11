@@ -49,13 +49,13 @@ namespace NexGoal.Core.Services
                 {
                     var message = new MimeMessage();
                     message.From.Add(new MailboxAddress(systemName, mailConfig.Username));
-                    message.To.Add(new MailboxAddress(email.ReceiverEmail));
+                    message.To.Add(new MailboxAddress(string.Empty, email.ReceiverEmail));
                     message.Subject = email.Subject;
                     message.Priority = mailConfig.MailPriority;
 
                     if (email.Cc.Any(x => IsValidEmail(x)))
                     {
-                        message.Cc.AddRange(email.Cc.Where(x => IsValidEmail(x)).Select(x => new MailboxAddress(x)));
+                        message.Cc.AddRange(email.Cc.Where(x => IsValidEmail(x)).Select(x => new MailboxAddress(string.Empty, x)));
                     }
 
                     var builder = new BodyBuilder
@@ -102,7 +102,7 @@ namespace NexGoal.Core.Services
             }
         }
 
-        private void UpdateCompanyName(MailModel email, string systemName)
+        private static void UpdateCompanyName(MailModel email, string systemName)
         {
             string body = email.Body.Replace("**SystemName**", systemName);
             email.Body = body;

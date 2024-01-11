@@ -101,8 +101,8 @@
 
             // Assert
             Assert.Single(actual);
-            Assert.Equal(menus.First().MenuId, actual.First().MenuId);
-            Assert.Equal(menus.First().Name, actual.First().Name);
+            Assert.Equal(menus[0].MenuId, actual.First().MenuId);
+            Assert.Equal(menus[0].Name, actual.First().Name);
         }
 
         #endregion GetMenuByEmployeeIdAsync

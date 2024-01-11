@@ -19,8 +19,8 @@
 
     public class PAFocusService : IPAFocusService
     {
-        private const string StartMailTemplateToEvaluator = "EmailTemplates\\PAFocus\\StartToEvaluator.cshtml";
-        private const string RemindMailTemplateToEvaluator = "EmailTemplates\\PAFocus\\RemindToEvaluator.cshtml";
+        private const string StartMailTemplateToEvaluator = "EmailTemplates/PAFocus/StartToEvaluator.txt";
+        private const string RemindMailTemplateToEvaluator = "EmailTemplates/PAFocus/RemindToEvaluator.txt";
 
         private readonly IWebHostEnvironment hostingEnvironment;
         private readonly AppSettings appSettings;
@@ -57,8 +57,8 @@
         {
             var (periods, processSettings) = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Email);
 
-            var startMailPath = Path.Combine(hostingEnvironment.WebRootPath, StartMailTemplateToEvaluator);
-            var remindMailPath = Path.Combine(hostingEnvironment.WebRootPath, RemindMailTemplateToEvaluator);
+            var startMailPath = Path.Combine(hostingEnvironment.ContentRootPath, StartMailTemplateToEvaluator);
+            var remindMailPath = Path.Combine(hostingEnvironment.ContentRootPath, RemindMailTemplateToEvaluator);
             var body = string.Empty;
 
             foreach (var period in periods)

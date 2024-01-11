@@ -60,7 +60,7 @@
             var controller = GetNominationAssessmentController();
             employeeNominationService.EditStatusAsync(1, 1, sessionService.EmployeeId).Returns(new CommandResult { Code = 0 });
 
-            var actual = await controller.EditStatus(1, 1).ConfigureAwait(false);
+            var actual = await controller.EditStatus(1, 1);
 
             var json = Assert.IsType<JsonResult>(actual);
             var commandResult = Assert.IsType<CommandResult>(json.Value);

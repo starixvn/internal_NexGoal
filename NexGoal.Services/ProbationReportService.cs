@@ -18,9 +18,9 @@
 
     public class ProbationReportService : IProbationReportService
     {
-        private const string ExcelTemplatePath = @"ExcelTemplates\\Probation Report.xlsx";
+        private const string ExcelTemplatePath = "ExcelTemplates/ProbationReport.xlsx";
         private const string PDFViewName = "ProbationReport/Pdf";
-        private const string PDFStylePath = @"dist\\styles\\probation-report-pdf.css";
+        private const string PDFStylePath = "dist/styles/probation-report-pdf.css";
         private Color passedColor = Color.FromArgb(1, 67, 135, 0);
         private Color failedColor = Color.FromArgb(1, 226, 44, 4);
 
@@ -94,7 +94,7 @@
         {
             var data = await GetAsync(model);
 
-            var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.WebRootPath, ExcelTemplatePath));
+            var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.ContentRootPath, ExcelTemplatePath));
             using (var package = new ExcelPackage(fileInfo, true))
             {
                 ExcelWorksheet worksheet = package.Workbook.Worksheets.First();
@@ -171,11 +171,12 @@
             {
                 PagesCount = true,
                 HtmlContent = htmlString,
-                WebSettings = {
+                WebSettings =
+                {
                     DefaultEncoding = "utf-8",
                     Background = true,
                     LoadImages = true,
-                   UserStyleSheet = Path.Combine(hostingEnvironment.WebRootPath, PDFStylePath)
+                    UserStyleSheet = Path.Combine(hostingEnvironment.WebRootPath, PDFStylePath)
                 },
                 FooterSettings = { FontName = "Arial", FontSize = 7, Spacing = 1.5, Center = "[page]" }
             };

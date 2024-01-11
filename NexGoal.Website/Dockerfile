@@ -1,4 +1,4 @@
-FROM hub.nexdev.net/base/dotnet/core/sdk:6.0-alpine AS builder
+FROM hub.nexdev.net/base/dotnet/core/sdk:7.0-alpine AS builder
 
 WORKDIR /src
 
@@ -29,13 +29,22 @@ COPY ["NexGoal.Services/", "NexGoal.Services/"]
 COPY ["NexGoal.AutoService/", "NexGoal.AutoService/"]
 COPY ["NexGoal.Controllers/", "NexGoal.Controllers/"]
 COPY ["NexGoal.Website/", "NexGoal.Website/"]
-
+COPY ["SonarQube/", "SonarQube/"]
 WORKDIR /src/NexGoal.Website
 
 RUN --mount=type=cache,target=/root/.nuget/packages \
     dotnet publish -r linux-x64 --self-contained false -o /app
 
-FROM hub.nexdev.net/base/dotnet/core/aspnet:6.0-alpine AS base
+FROM hub.nexdev.net/base/dotnet/core/aspnet:7.0-slim AS base
+
+RUN sed -i 's/DEFAULT@SECLEVEL=2/DEFAULT@SECLEVEL=1/g' /etc/ssl/openssl.cnf
+RUN sed -i 's/MinProtocol = TLSv1.2/MinProtocol = TLSv1/g' /etc/ssl/openssl.cnf
+RUN sed -i 's/DEFAULT@SECLEVEL=2/DEFAULT@SECLEVEL=1/g' /usr/lib/ssl/openssl.cnf
+RUN sed -i 's/MinProtocol = TLSv1.2/MinProtocol = TLSv1/g' /usr/lib/ssl/openssl.cnf
+
+RUN apt-get update \
+  && apt-get install -y --allow-unauthenticated libgdiplus \
+  && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 # Don’t run as root
 RUN adduser --disabled-password \
@@ -46,6 +55,6 @@ USER dotnetuser
 
 WORKDIR /app
 COPY --from=builder /app .
-ENV TZ="Asia/Ho_Chi_Minh"
+ENV TZ="Asia/Bangkok"
 
 ENTRYPOINT ["dotnet", "NexGoal.Website.dll"]

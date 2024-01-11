@@ -32,7 +32,7 @@
 
     public class MasterReportService : IMasterReportService
     {
-        private const string ExcelTemplatePath = @"ExcelTemplates\\MasterReport.xlsx";
+        private const string ExcelTemplatePath = "ExcelTemplates/MasterReport.xlsx";
 
         private readonly IMasterReportRepository reportRepository;
         private readonly IBaseService baseService;
@@ -71,7 +71,7 @@
             var groupedRecord = records
                 .GroupBy(x => new { x.GroupId, x.GroupName }, (key, elements) => new { Key = key, Records = elements });
 
-            var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.WebRootPath, ExcelTemplatePath));
+            var fileInfo = new FileInfo(Path.Combine(hostingEnvironment.ContentRootPath, ExcelTemplatePath));
             using (var package = new ExcelPackage(fileInfo, true))
             {
                 ExcelWorksheet worksheet = package.Workbook.Worksheets.First();
@@ -132,11 +132,11 @@
                 record.BonusGiven = bonusGiven?.Value;
 
                 record.GradeId = cryptoService.Decrypt(record.GradeId);
-                int.TryParse(record.GradeId, out int gradeId);
+                _ = int.TryParse(record.GradeId, out int gradeId);
                 record.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId)?.Name;
 
                 record.OriginalGradeId = cryptoService.Decrypt(record.OriginalGradeId);
-                int.TryParse(record.OriginalGradeId, out int originalGradeId);
+                _ = int.TryParse(record.OriginalGradeId, out int originalGradeId);
                 record.OriginalGrade = performanceGrades.FirstOrDefault(x => x.GradeId == originalGradeId)?.Name;
 
                 commonService.MappingGrade(record.Processes, performanceGrades);
@@ -333,7 +333,7 @@
         {
             var points = processes.Select(x =>
             {
-                int.TryParse(x.GradeId, out int gradeId);
+                _ = int.TryParse(x.GradeId, out int gradeId);
                 var grade = performanceGrades.FirstOrDefault(g => g.GradeId == gradeId);
 
                 return grade != null ? grade.Point : 3f;
@@ -422,8 +422,8 @@
 
             if (record.GradeId != record.OriginalGradeId)
             {
-                int.TryParse(record.GradeId, out int gradeId);
-                int.TryParse(record.OriginalGradeId, out int originalGradeId);
+                _ = int.TryParse(record.GradeId, out int gradeId);
+                _ = int.TryParse(record.OriginalGradeId, out int originalGradeId);
 
                 if (gradeId != unsatisfactoryGradeId || originalGradeId != 0)
                 {
