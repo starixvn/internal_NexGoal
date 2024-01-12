@@ -30,4 +30,20 @@ $(document).ready(function () {
 
         $('.dropdown-toggle', this).blur();
     });
+
+    $('.user-avatar').on('click', function () {
+        let dropdown = $(this).find('.dropdown-menu');
+        if ($(dropdown).hasClass('open')) {
+            $(dropdown).removeClass('open');
+        } else {
+            $(dropdown).addClass('open');
+        }
+    });
+
+    $(document).click(function (event) {
+        let $target = $(event.target);
+        if (!$target.closest('.user-avatar').length && $('.user-avatar .dropdown-menu').hasClass('open')) {
+            $('.user-avatar .dropdown-menu').removeClass('open');
+        }
+    });
 });

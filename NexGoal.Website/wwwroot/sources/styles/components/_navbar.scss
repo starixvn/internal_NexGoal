@@ -107,6 +107,7 @@
         position: relative;
         margin-left: 20px;
         top: -2px;
+        cursor: pointer;
 
         img {
             width: 28px;
@@ -116,17 +117,20 @@
             top: 2px;
             left: 2px;
         }
-    }
 
-    .log-out {
-        margin-left: 20px;
+        .dropdown-menu {
+            border-radius: 0;
+            border: none;
 
-        a {
-            color: #B6BFD8;
-            font-size: 14px;
+            &.open {
+                display: block;
+                right: 0;
+                left: unset;
+            }
 
-            &:hover{
-                color: #fff;
+            a {
+                padding: 4px 16px;
+                color: #324476;
             }
         }
     }
