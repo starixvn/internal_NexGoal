@@ -24,7 +24,7 @@
         {
             get
             {
-                var today = DateTime.Now.Date;
+                var today = DateTimeOffset.Now.Date;
 
                 if (StartDateForNominator.Date > today)
                 {

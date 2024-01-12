@@ -4,6 +4,8 @@ namespace NexGoal.Core.Services
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Net.Security;
+    using System.Security.Cryptography.X509Certificates;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using MailKit.Net.Smtp;
@@ -68,7 +70,7 @@ namespace NexGoal.Core.Services
                     }
 
                     message.Body = builder.ToMessageBody();
-                    mailclient.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    mailclient.ServerCertificateValidationCallback += RemoteCertificateValidationCallback;
                     mailclient.CheckCertificateRevocation = false;
                     await mailclient.ConnectAsync(mailConfig.SmtpServer, mailConfig.SmtpPort, mailConfig.EnableSsl);
 
@@ -148,5 +150,8 @@ namespace NexGoal.Core.Services
 
             logger.LogInformation(message);
         }
+
+        private static bool RemoteCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+            => sslPolicyErrors == SslPolicyErrors.None;
     }
 }

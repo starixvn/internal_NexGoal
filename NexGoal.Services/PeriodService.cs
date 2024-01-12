@@ -117,7 +117,7 @@
             bool isChangeEndDate = model.EndDate.HasValue
                 && period.EndDate.HasValue
                 && period.EndDate.Value.Date != model.EndDate.Value.Date
-                && model.EndDate.Value.Date < DateTime.Now.Date;
+                && model.EndDate.Value.Date < DateTimeOffset.Now.Date;
             if (commandResult.IsSuccessful && isChangeEndDate)
             {
                 commandResult = await EditFinalPAGradeAsync(actorId, criteria.PeriodId);

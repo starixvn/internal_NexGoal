@@ -342,11 +342,11 @@
 
         private void MappingDataForPerformanceRecordAsync(PerformanceRecord performanceRecord, IEnumerable<PerformanceGrade> performanceGrades, int actorId, PeriodModel currentPeriod)
         {
-            var today = DateTime.Now;
+            var today = DateTimeOffset.Now.DateTime;
             performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
             _ = int.TryParse(performanceRecord.GradeId, out int gradeId);
             performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
-            var createdDate = performanceRecord.CreatedDate ?? DateTime.MinValue;
+            var createdDate = performanceRecord.CreatedDate ?? DateTimeOffset.MinValue.DateTime;
 
             performanceRecord.IsAllowEditFeedback = performanceRecord.CreatedDate >= currentPeriod.DisciplineStartDate && currentPeriod.StartDate > today;
 

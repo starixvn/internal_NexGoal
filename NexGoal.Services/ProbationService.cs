@@ -40,7 +40,7 @@
                 EmployeeId = employeeId
             });
 
-            var today = DateTime.Today;
+            var today = DateTimeOffset.Now.DateTime;
 
             foreach (var probationer in probationers)
             {

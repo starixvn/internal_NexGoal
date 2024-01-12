@@ -154,7 +154,7 @@
             app.UseHangfireDashboard("/hangfire", new DashboardOptions
             {
                 Authorization = new[] { new HangfireAuthorization() },
-                IsReadOnlyFunc = (context) => true
+                IsReadOnlyFunc = (_) => true
             });
 
             app.UseEndpoints(endpoints =>
