@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NexGoal.Criteria\NexGoal.Criteria.csproj" />
+    <ProjectReference Include="..\..\NexGoal.Criteria\NexGoal.Criteria.csproj" />
   </ItemGroup>
 
 </Project>

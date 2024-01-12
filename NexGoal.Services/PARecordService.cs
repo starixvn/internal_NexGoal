@@ -11,7 +11,6 @@
     using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
     using NexGoal.Repositories;
-    using Org.BouncyCastle.Crypto.Fpe;
 
     public class PARecordService : IPARecordService
     {

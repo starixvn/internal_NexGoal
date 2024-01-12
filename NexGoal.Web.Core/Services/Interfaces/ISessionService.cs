@@ -1,6 +1,5 @@
 namespace NexGoal.Web.Core.Services
 {
-    using System;
     using System.Collections.Generic;
     using NexGoal.Core.Enumerations;
     using NexGoal.Models.Auth;

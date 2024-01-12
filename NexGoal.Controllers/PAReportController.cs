@@ -1,12 +1,9 @@
 ﻿namespace NexGoal.Controllers
 {
-    using System;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
-    using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
     using NexGoal.Models.Report;
     using NexGoal.Services;

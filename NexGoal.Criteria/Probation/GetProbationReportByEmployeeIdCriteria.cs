@@ -1,7 +1,6 @@
 ﻿namespace NexGoal.Criteria.Probation
 {
     using Fanex.Data.Repository;
-    using System;
 
     public class GetProbationReportByEmployeeIdCriteria : CriteriaBase
     {

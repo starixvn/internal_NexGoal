@@ -1,15 +1,13 @@
 ﻿namespace NexGoal.Controllers
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
-    using Newtonsoft.Json;
     using NexGoal.Models.Probation;
     using NexGoal.Services;
     using NexGoal.ViewModels.Probation;
     using NexGoal.Web.Core.Services;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class MyProbationController : BaseController
     {
