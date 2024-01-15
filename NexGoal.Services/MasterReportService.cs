@@ -344,11 +344,12 @@
 
         private void WritePerformanceRecordByProcess(ExcelRange cell, IEnumerable<PAProcessModel> processes)
         {
-            foreach (PAProcessModel process in processes)
+            var groupRecords = processes.Select(x => x.RelatedPerformanceRecords).ToList();
+            foreach (var groupRecord in groupRecords)
             {
-                int totalRecords = process.RelatedPerformanceRecords.Count();
+                int totalRecords = groupRecord.Count();
                 int recordIndex = 1;
-                foreach (PerformanceRecord record in process.RelatedPerformanceRecords)
+                foreach (var record in groupRecord)
                 {
                     string comment = commonService.RemoveInvalidXmlChars(record.Comment);
                     cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
