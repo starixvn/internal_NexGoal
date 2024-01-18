@@ -49,7 +49,7 @@ export default class EvaluatorForm extends Component {
         handleChange,
         handleSubmit,
         setFieldValue,
-        isSubmitting
+        setFieldError
     }) => {
         let score = 0;
 
@@ -77,7 +77,10 @@ export default class EvaluatorForm extends Component {
                                                         <Rating initialRating={kpi.evaluatorPoint / 1.11 || 0}
                                                             emptySymbol={emptySymbol}
                                                             fullSymbol={fullSymbol}
-                                                            onChange={value => setFieldValue(`evaluations.${gIndex}.details.${index}.evaluatorPoint`, round(value * 1.11, 2))}
+                                                            onChange={value => {
+                                                                setFieldValue(`evaluations.${gIndex}.details.${index}.evaluatorPoint`, round(value * 1.11, 2))
+                                                                setFieldError(`evaluations.${gIndex}.details.${index}.evaluatorPoint`, null)
+                                                            }}
                                                             className={`rating ${getIn(touched, `evaluations.${gIndex}.details.${index}.evaluatorPoint`)
                                                                 && getIn(errors, `evaluations.${gIndex}.details.${index}.evaluatorPoint`)
                                                                 && InputErrorCssClass}`}
@@ -116,7 +119,10 @@ export default class EvaluatorForm extends Component {
                                             options={ProbationResultOptions} placeholder=""
                                             isClearable={false} isSearchable={false}
                                             components={{ SingleValue }}
-                                            onChange={value => setFieldValue('isQualifiedByEvaluator', value)}
+                                            onChange={value => {
+                                                setFieldValue('isQualifiedByEvaluator', value)
+                                                setFieldError(`isQualifiedByEvaluator`, null)
+                                            }}
                                         />
                                         :
                                         values.isQualifiedByEvaluator && this.renderPerformanceResult(values.isQualifiedByEvaluator)
@@ -137,7 +143,12 @@ export default class EvaluatorForm extends Component {
                             <tr>
                                 <td colSpan="3" className="comment-cell">
                                     <textarea className={!validateFormikField(touched, errors, 'comment') && InputErrorCssClass} rows="7"
-                                        value={values.comment} onChange={handleChange} name="comment" readOnly={!this.props.probationer.canEdit}
+                                        value={values.comment}
+                                        onChange={(e) => {
+                                            handleChange(e)
+                                            setFieldError(`comment`, null)
+                                        }}
+                                        name="comment" readOnly={!this.props.probationer.canEdit}
                                     />
                                 </td>
                             </tr>
@@ -148,48 +159,89 @@ export default class EvaluatorForm extends Component {
                 <div className="button-group">
                     <a className="btn btn-default btn-cancel" href="/member/index?activeTab=4">{getResource('Back')}</a>
                     {this.props.probationer.canEdit &&
-                        <button className="btn btn-primary" disabled={isSubmitting} type="button" onClick={handleSubmit}>{getResource('Submit')}</button>
+                        <button className="btn btn-primary"  type="button" onClick={handleSubmit}>{getResource('Submit')}</button>
                     }
                 </div>
             </Fragment>
 
         );
+    }; 
+
+    validateData = (values) => {
+        const errors = {};
+
+        if (!values.comment) {
+            errors.comment = 'Required';
+            toast.error("Please comment at Evaluator's Comment");
+        }
+
+        if (!values.isQualifiedByEvaluator) {
+            errors.isQualifiedByEvaluator = 'Required';
+            toast.error("Please select result for employee");
+        }
+
+        var isRatingAllKPI = true;
+        values.evaluations.forEach((eva, indexEva) => {
+            if (!errors.evaluations) {
+                errors.evaluations = [];
+            }
+            errors.evaluations[indexEva] = {};
+
+            eva.details.forEach((kpi, indexKPI) => {
+                if (!errors.evaluations[indexEva].details) {
+                    errors.evaluations[indexEva].details = [];
+                }
+                errors.evaluations[indexEva].details[indexKPI] = {};
+                if (!kpi.evaluatorPoint) {
+                    isRatingAllKPI = false;
+                    errors.evaluations[indexEva].details[indexKPI].evaluatorPoint = 'Required';
+                }
+            })
+        })
+
+        if (!isRatingAllKPI) {
+            toast.error("Please rating all KPIs for employee");
+        }
+
+        return errors;
     };
 
     handleSubmit = (values, { setSubmitting }) => {
-        const evaluations = flatMap(values.evaluations, kpiGroup => kpiGroup.details.map(kpi => ({
-            employeeId: kpi.employeeId,
-            kpiId: kpi.kpiId,
-            point: kpi.evaluatorPoint
-        })));
+        if (true) {
+            const evaluations = flatMap(values.evaluations, kpiGroup => kpiGroup.details.map(kpi => ({
+                employeeId: kpi.employeeId,
+                kpiId: kpi.kpiId,
+                point: kpi.evaluatorPoint
+            })));
 
-        const submitData = {
-            employeeId: this.props.probationer.employeeId,
-            comment: values.comment,
-            evaluations: evaluations,
-            totalScore: round(sumBy(evaluations, 'point')),
-            isQualifiedByEvaluator: values.isQualifiedByEvaluator.value
-        };
+            const submitData = {
+                employeeId: this.props.probationer.employeeId,
+                comment: values.comment,
+                evaluations: evaluations,
+                totalScore: round(sumBy(evaluations, 'point')),
+                isQualifiedByEvaluator: values.isQualifiedByEvaluator.value
+            };
 
-        axios({
-            url: resolveClientUrl('Probation/EditEvaluatorEvaluation'),
-            method: 'post',
-            data: stringify({
-                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                ...submitData
-            }),
-            headers: PostRequestHeaders
-        }).then(response => {
-            const data = response.data;
+            axios({
+                url: resolveClientUrl('Probation/EditEvaluatorEvaluation'),
+                method: 'post',
+                data: stringify({
+                    __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                    ...submitData
+                }),
+                headers: PostRequestHeaders
+            }).then(response => {
+                const data = response.data;
 
-            if (data.isSuccessful) {
-                toast.success(getResource('UpdatedSuccessfully'));
-            } else {
-                toast.error(data.message);
-            }
+                if (data.isSuccessful) {
+                    toast.success(getResource('UpdatedSuccessfully'));
+                } else {
+                    toast.error(data.message);
+                }
 
-            setSubmitting(false);
-        }).catch(axiosError);
+                setSubmitting(false);
+            }).catch(axiosError);
+        }
     };
 
     render() {
@@ -201,8 +253,9 @@ export default class EvaluatorForm extends Component {
                     isQualifiedByEvaluator: this.props.probationer.isQualifiedByEvaluator !== null ?
                         ProbationResultOptions.find(x => x.value === this.props.probationer.isQualifiedByEvaluator) : null
                 }}
+                validateOnChange={false}
                 render={this.renderForm}
-                validationSchema={this.schema}
+                validate={this.validateData}
                 onSubmit={this.handleSubmit}
             />
         );

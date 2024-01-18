@@ -100,6 +100,7 @@ export default class MyProbation extends Component {
         handleChange,
         handleSubmit,
         setFieldValue,
+        setFieldError,
         isSubmitting
     }) => {
         let score = 0;
@@ -125,7 +126,10 @@ export default class MyProbation extends Component {
                                                         <Rating initialRating={kpi.selfPoint / 1.11 || 0}
                                                             emptySymbol={emptySymbol}
                                                             fullSymbol={fullSymbol}
-                                                            onChange={value => setFieldValue(`evaluations.${gIndex}.details.${index}.selfPoint`, round(value * 1.11, 2))}
+                                                            onChange={value => {
+                                                                setFieldError(`evaluations.${gIndex}.details.${index}.selfPoint`, null)
+                                                                setFieldValue(`evaluations.${gIndex}.details.${index}.selfPoint`, round(value * 1.11, 2))
+                                                            }}
                                                             className={`rating ${getIn(touched, `evaluations.${gIndex}.details.${index}.selfPoint`)
                                                                 && getIn(errors, `evaluations.${gIndex}.details.${index}.selfPoint`)
                                                                 && 'input-validation-error'}`}
@@ -153,7 +157,14 @@ export default class MyProbation extends Component {
                             <tr>
                                 <td colSpan={2} className="comment-cell">
                                     <textarea className={touched.comment && errors.comment && 'input-validation-error'}
-                                        value={values.comment} onChange={handleChange} name="comment" rows="7" readOnly={!this.state.probationer.canEdit} />
+                                        name="comment"
+                                        value={values.comment}
+                                        onChange={(e) => {
+                                            handleChange(e)
+                                            setFieldError(`comment`, null)
+                                        }}
+                                        rows="7"
+                                        readOnly={!this.state.probationer.canEdit} />
                                 </td>
                             </tr>
                         </tbody>
@@ -201,6 +212,41 @@ export default class MyProbation extends Component {
         }).catch(axiosError);
     };
 
+    validateData = (values) => {
+        console.log(values)
+        const errors = {};
+
+        if (!values.comment) {
+            errors.comment = 'Required';
+            toast.error("Please comment at Employee's Comment");
+        }
+
+        var isRatingAllKPI = true;
+        values.evaluations.forEach((eva, indexEva) => {
+            if (!errors.evaluations) {
+                errors.evaluations = [];
+            }
+            errors.evaluations[indexEva] = {};
+
+            eva.details.forEach((kpi, indexKPI) => {
+                if (!errors.evaluations[indexEva].details) {
+                    errors.evaluations[indexEva].details = [];
+                }
+                errors.evaluations[indexEva].details[indexKPI] = {};
+                if (!kpi.selfPoint) {
+                    isRatingAllKPI = false;
+                    errors.evaluations[indexEva].details[indexKPI].selfPoint = 'Required';
+                }
+            })
+        })
+
+        if (!isRatingAllKPI) {
+            toast.error("Please rating all KPIs");
+        }
+
+        return errors;
+    };
+
     render() {
         if (this.state.probationer) {
             return (
@@ -234,7 +280,8 @@ export default class MyProbation extends Component {
                                             evaluations: this.state.evaluationDetails
                                         }}
                                         render={this.renderForm}
-                                        validationSchema={this.schema}
+                                        validateOnChange={false}
+                                        validate={this.validateData}
                                         onSubmit={this.handleSubmit}
                                     />
                                 </Fragment>
