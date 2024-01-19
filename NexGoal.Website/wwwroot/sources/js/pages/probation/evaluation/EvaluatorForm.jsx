@@ -207,41 +207,39 @@ export default class EvaluatorForm extends Component {
     };
 
     handleSubmit = (values, { setSubmitting }) => {
-        if (true) {
-            const evaluations = flatMap(values.evaluations, kpiGroup => kpiGroup.details.map(kpi => ({
-                employeeId: kpi.employeeId,
-                kpiId: kpi.kpiId,
-                point: kpi.evaluatorPoint
-            })));
+        const evaluations = flatMap(values.evaluations, kpiGroup => kpiGroup.details.map(kpi => ({
+            employeeId: kpi.employeeId,
+            kpiId: kpi.kpiId,
+            point: kpi.evaluatorPoint
+        })));
 
-            const submitData = {
-                employeeId: this.props.probationer.employeeId,
-                comment: values.comment,
-                evaluations: evaluations,
-                totalScore: round(sumBy(evaluations, 'point')),
-                isQualifiedByEvaluator: values.isQualifiedByEvaluator.value
-            };
+        const submitData = {
+            employeeId: this.props.probationer.employeeId,
+            comment: values.comment,
+            evaluations: evaluations,
+            totalScore: round(sumBy(evaluations, 'point')),
+            isQualifiedByEvaluator: values.isQualifiedByEvaluator.value
+        };
 
-            axios({
-                url: resolveClientUrl('Probation/EditEvaluatorEvaluation'),
-                method: 'post',
-                data: stringify({
-                    __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                    ...submitData
-                }),
-                headers: PostRequestHeaders
-            }).then(response => {
-                const data = response.data;
+        axios({
+            url: resolveClientUrl('Probation/EditEvaluatorEvaluation'),
+            method: 'post',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                ...submitData
+            }),
+            headers: PostRequestHeaders
+        }).then(response => {
+            const data = response.data;
 
-                if (data.isSuccessful) {
-                    toast.success(getResource('UpdatedSuccessfully'));
-                } else {
-                    toast.error(data.message);
-                }
+            if (data.isSuccessful) {
+                toast.success(getResource('UpdatedSuccessfully'));
+            } else {
+                toast.error(data.message);
+            }
 
-                setSubmitting(false);
-            }).catch(axiosError);
-        }
+            setSubmitting(false);
+        }).catch(axiosError);
     };
 
     render() {

@@ -63,7 +63,7 @@ export default class Evaluation extends Component {
         Promise.all(promises)
             .then(([evaluationDetailResponse, probationerResponse, hrmResponse, myGroupResponse, currentPerformancePeriodResponse]) => {
                 this.myGroupOptions = myGroupResponse.data.map(group => {
-                    return { value: group.groupId, label: group.name };
+                    return { id: group.groupId, text: group.name, checked: true };
                 });
                 const probationer = probationerResponse.data;
 

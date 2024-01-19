@@ -213,7 +213,6 @@ export default class MyProbation extends Component {
     };
 
     validateData = (values) => {
-        console.log(values)
         const errors = {};
 
         if (!values.comment) {
