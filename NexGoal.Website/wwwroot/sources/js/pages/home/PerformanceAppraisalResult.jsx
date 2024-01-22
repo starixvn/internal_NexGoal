@@ -22,11 +22,11 @@ export default class PerformanceAppraisalResult extends Component {
         const performanceAppraisalResults = Object.keys(pAs).map(key => {
             return {
                 year: key,
-                records: pAs[key]
+                records: pAs[key].sort(function (a, b) { return new Date(b.period.startDate) - new Date(a.period.startDate); })
             };
         });
 
-        return performanceAppraisalResults;
+        return performanceAppraisalResults.sort(function (a, b) { return b.year - a.year; });
     };
 
     render() {
