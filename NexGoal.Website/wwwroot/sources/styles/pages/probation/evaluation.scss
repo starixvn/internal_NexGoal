@@ -1,6 +1,7 @@
 ﻿@import "../../abstracts/variables";
 @import "../../abstracts/mixins";
 @import "../../components/react-select";
+@import "../../components/react-multiselect";
 @import "../../components/tables";
 @import "../../components/form";
 @import "../../components/buttons";
@@ -122,11 +123,13 @@
         .react-select__single-value {
             top: 12px;
         }
-    }
-}
 
-.react-select-container.input-validation-error {
-    border: 1px solid #ff4545;
+        &.input-validation-error {
+            .react-select__control {
+                border-color: #ff4545;
+            }
+        }
+    }
 }
 
 .quality-table {

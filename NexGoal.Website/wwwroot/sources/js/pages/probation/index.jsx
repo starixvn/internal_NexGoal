@@ -6,7 +6,6 @@ import { stringify } from 'qs';
 import Rating from 'react-rating';
 import { toast } from 'react-toastify';
 import moment from 'moment';
-import { object, string, array, number } from 'yup';
 import { flatMap, round, sumBy } from 'lodash';
 import { Formik, getIn } from 'formik';
 import { OverlayTrigger } from 'react-bootstrap';
@@ -73,19 +72,6 @@ export default class MyProbation extends Component {
             }).catch(axiosError);
     }
 
-    schema = object().shape({
-        comment: string().required(),
-        evaluations: array().of(
-            object().shape({
-                details: array().of(
-                    object().shape({
-                        selfPoint: number().required().min(1)
-                    })
-                )
-            })
-        )
-    });
-
     evaluationDetailTitle = <Fragment>
         Quality of Work
         <OverlayTrigger placement="bottom" overlay={EvaluationDetailTooltip}>
@@ -127,8 +113,8 @@ export default class MyProbation extends Component {
                                                             emptySymbol={emptySymbol}
                                                             fullSymbol={fullSymbol}
                                                             onChange={value => {
-                                                                setFieldError(`evaluations.${gIndex}.details.${index}.selfPoint`, null)
-                                                                setFieldValue(`evaluations.${gIndex}.details.${index}.selfPoint`, round(value * 1.11, 2))
+                                                                setFieldValue(`evaluations.${gIndex}.details.${index}.selfPoint`, round(value * 1.11, 2));
+                                                                setFieldError(`evaluations.${gIndex}.details.${index}.selfPoint`, null);
                                                             }}
                                                             className={`rating ${getIn(touched, `evaluations.${gIndex}.details.${index}.selfPoint`)
                                                                 && getIn(errors, `evaluations.${gIndex}.details.${index}.selfPoint`)
@@ -157,14 +143,13 @@ export default class MyProbation extends Component {
                             <tr>
                                 <td colSpan={2} className="comment-cell">
                                     <textarea className={touched.comment && errors.comment && 'input-validation-error'}
-                                        name="comment"
-                                        value={values.comment}
-                                        onChange={(e) => {
-                                            handleChange(e)
-                                            setFieldError(`comment`, null)
-                                        }}
-                                        rows="7"
+                                        name="comment" rows="7"
                                         readOnly={!this.state.probationer.canEdit} />
+                                        value={values.comment}
+                                        onChange={event => {
+                                            handleChange(event);
+                                            setFieldError(`comment`, null);
+                                        }}
                                 </td>
                             </tr>
                         </tbody>
@@ -212,15 +197,15 @@ export default class MyProbation extends Component {
         }).catch(axiosError);
     };
 
-    validateData = (values) => {
+    validateData = values => {
         const errors = {};
+        let isValid = true;
 
         if (!values.comment) {
             errors.comment = 'Required';
-            toast.error("Please comment at Employee's Comment");
+            isValid = false;
         }
 
-        var isRatingAllKPI = true;
         values.evaluations.forEach((eva, indexEva) => {
             if (!errors.evaluations) {
                 errors.evaluations = [];
@@ -233,14 +218,14 @@ export default class MyProbation extends Component {
                 }
                 errors.evaluations[indexEva].details[indexKPI] = {};
                 if (!kpi.selfPoint) {
-                    isRatingAllKPI = false;
+                    isValid = false;
                     errors.evaluations[indexEva].details[indexKPI].selfPoint = 'Required';
                 }
             })
         })
 
-        if (!isRatingAllKPI) {
-            toast.error("Please rating all KPIs");
+        if (!isValid) {
+            toast.error('Please input all required fields.');
         }
 
         return errors;

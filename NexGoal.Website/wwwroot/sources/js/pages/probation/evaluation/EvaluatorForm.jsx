@@ -1,7 +1,6 @@
 ﻿import React, { Component, Fragment } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
-import { object, array, number, string } from 'yup';
 import Rating from 'react-rating';
 import { flatMap, round, sumBy } from 'lodash';
 import { Formik, getIn } from 'formik';
@@ -19,20 +18,6 @@ import { emptySymbol, fullSymbol } from '../RatingSymbol';
 import NexPanel from '../../../shared/components/NexPanel';
 
 export default class EvaluatorForm extends Component {
-    schema = object().shape({
-        comment: string().required(),
-        evaluations: array().of(
-            object().shape({
-                details: array().of(
-                    object().shape({
-                        evaluatorPoint: number().required()
-                    })
-                )
-            })
-        ),
-        isQualifiedByEvaluator: object().required()
-    });
-
     evaluationDetailTitle = <Fragment>
         Quality of Work
         <OverlayTrigger placement="bottom" overlay={EvaluationDetailTooltip}>
@@ -78,8 +63,8 @@ export default class EvaluatorForm extends Component {
                                                             emptySymbol={emptySymbol}
                                                             fullSymbol={fullSymbol}
                                                             onChange={value => {
-                                                                setFieldValue(`evaluations.${gIndex}.details.${index}.evaluatorPoint`, round(value * 1.11, 2))
-                                                                setFieldError(`evaluations.${gIndex}.details.${index}.evaluatorPoint`, null)
+                                                                setFieldValue(`evaluations.${gIndex}.details.${index}.evaluatorPoint`, round(value * 1.11, 2));
+                                                                setFieldError(`evaluations.${gIndex}.details.${index}.evaluatorPoint`, null);
                                                             }}
                                                             className={`rating ${getIn(touched, `evaluations.${gIndex}.details.${index}.evaluatorPoint`)
                                                                 && getIn(errors, `evaluations.${gIndex}.details.${index}.evaluatorPoint`)
@@ -120,8 +105,8 @@ export default class EvaluatorForm extends Component {
                                             isClearable={false} isSearchable={false}
                                             components={{ SingleValue }}
                                             onChange={value => {
-                                                setFieldValue('isQualifiedByEvaluator', value)
-                                                setFieldError(`isQualifiedByEvaluator`, null)
+                                                setFieldValue('isQualifiedByEvaluator', value);
+                                                setFieldError(`isQualifiedByEvaluator`, null);
                                             }}
                                         />
                                         :
@@ -144,9 +129,9 @@ export default class EvaluatorForm extends Component {
                                 <td colSpan="3" className="comment-cell">
                                     <textarea className={!validateFormikField(touched, errors, 'comment') && InputErrorCssClass} rows="7"
                                         value={values.comment}
-                                        onChange={(e) => {
-                                            handleChange(e)
-                                            setFieldError(`comment`, null)
+                                        onChange={event => {
+                                            handleChange(event);
+                                            setFieldError(`comment`, null);
                                         }}
                                         name="comment" readOnly={!this.props.probationer.canEdit}
                                     />
@@ -167,20 +152,20 @@ export default class EvaluatorForm extends Component {
         );
     }; 
 
-    validateData = (values) => {
+    validateData = values => {
         const errors = {};
+        let isValid = true;
 
         if (!values.comment) {
             errors.comment = 'Required';
-            toast.error("Please comment at Evaluator's Comment");
+            isValid = false;
         }
 
         if (!values.isQualifiedByEvaluator) {
             errors.isQualifiedByEvaluator = 'Required';
-            toast.error("Please select result for employee");
+            isValid = false;
         }
 
-        var isRatingAllKPI = true;
         values.evaluations.forEach((eva, indexEva) => {
             if (!errors.evaluations) {
                 errors.evaluations = [];
@@ -191,16 +176,17 @@ export default class EvaluatorForm extends Component {
                 if (!errors.evaluations[indexEva].details) {
                     errors.evaluations[indexEva].details = [];
                 }
+
                 errors.evaluations[indexEva].details[indexKPI] = {};
                 if (!kpi.evaluatorPoint) {
-                    isRatingAllKPI = false;
+                    isValid = false;
                     errors.evaluations[indexEva].details[indexKPI].evaluatorPoint = 'Required';
                 }
             })
         })
 
-        if (!isRatingAllKPI) {
-            toast.error("Please rating all KPIs for employee");
+        if (!isValid) {
+            toast.error('Please input all required fields.');
         }
 
         return errors;
