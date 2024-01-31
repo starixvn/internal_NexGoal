@@ -204,7 +204,6 @@ export default class Row extends Component {
 
     handleChangeObjective = objective => {
         const pafocus = this.props.data;
-
         this.props.onChange(pafocus.employee.groupCode, pafocus.paFocusId, objective.name, objective.value);
     };
 
@@ -266,6 +265,9 @@ export default class Row extends Component {
                     this.state.isShowObjectiveModal &&
                     <ObjectiveModal
                         isHost={pafocus.isHost}
+                        empId={pafocus.employee.employeeId}
+                        disciplineStartDate={this.props.disciplineStartDate}
+                        disciplineEndDate={this.props.disciplineEndDate}
                         objective={this.state.objectiveSelected}
                         isShow={this.state.isShowObjectiveModal}
                         onClose={this.handleCloseObjectiveModal}

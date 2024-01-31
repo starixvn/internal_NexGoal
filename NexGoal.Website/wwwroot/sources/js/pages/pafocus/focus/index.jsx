@@ -46,7 +46,9 @@ export default class PAFocus extends Component {
                         value: period.periodId,
                         label: period.name,
                         focusStartDate: period.focusStartDate,
-                        focusEndDate: period.focusEndDate
+                        focusEndDate: period.focusEndDate,
+                        disciplineStartDate: period.disciplineStartDate,
+                        disciplineEndDate: period.disciplineEndDate
                     };
                 });
 

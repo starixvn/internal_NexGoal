@@ -21,15 +21,18 @@
         private readonly ICommonService commonService;
         private readonly IPAFocusService focusService;
         private readonly IExportPAFocusService exportExcelService;
+        private readonly IPerformanceRecordService performanceService;
 
         public PAFocusController(
             ISessionService sessionService,
             ICommonService commonService,
             IPAFocusService focusService,
+            IPerformanceRecordService performanceService,
             IExportPAFocusService exportExcelService) : base(sessionService)
         {
             this.commonService = commonService;
             this.focusService = focusService;
+            this.performanceService = performanceService;
             this.exportExcelService = exportExcelService;
         }
 
@@ -54,6 +57,13 @@
             IEnumerable<PeriodBaseModel> periods = await focusService.GetPeriodAsync();
 
             return Json(periods);
+        }
+
+        public async Task<JsonResult> GetPRByEmployeeId(int empId)
+        {
+            var performanceRecords = await performanceService.GetPerformanceRecordByEmployeeAsync(empId);
+
+            return Json(performanceRecords);
         }
 
         public async Task<JsonResult> GetGroup()

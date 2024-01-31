@@ -125,6 +125,8 @@ export default class Table extends Component {
                                                 return (
                                                     <Row key={`member${member.paFocusId}`}
                                                         data={member}
+                                                        disciplineStartDate={period && period.disciplineStartDate}
+                                                        disciplineEndDate={period && period.disciplineEndDate}
                                                         rowIndex={index + 1}
                                                         focusEvaluationLevelOptions={this.props.focusEvaluationLevelOptions}
                                                         onChange={this.props.onChange}
