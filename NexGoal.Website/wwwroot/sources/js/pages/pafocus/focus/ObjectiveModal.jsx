@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Form, FormGroup, Modal } from 'react-bootstrap';
 import { Formik } from 'formik';
 import axios from 'axios';
-import { axiosError, resolveClientUrl } from '../../../common-functions';
+import { axiosError, resolveClientUrl, blockUI, unblockUI } from '../../../common-functions';
 import { toast } from 'react-toastify';
 
 import getResource from '../../../resourceHelper';
@@ -18,23 +18,26 @@ export default class ObjectiveModal extends Component {
     };
 
     getNextObjectives = (setFieldValue) => {
-        toast.info("Please wait...")
-        axios(resolveClientUrl('PAFocus/GetPRByEmployeeId'), { params: { empId: this.props.empId }})
-            .then(response => {
-                const { disciplineStartDate, disciplineEndDate } = this.props;
-                let startDate = new Date(disciplineStartDate).getTime();
-                let endDate = new Date(disciplineEndDate).getTime();
-                let data = response.data.filter(item => {
-                    let createdDate = new Date(item.createdDate).setHours(0, 0, 0, 0);
-                    return startDate <= createdDate && createdDate <= endDate && item.creator.employeeId !== -1 && item.comment;
-                }) 
+        blockUI();
+        const { disciplineStartDate, disciplineEndDate, employee } = this.props;
+        let startDate = new Date(disciplineStartDate);
+        let endDate = new Date(disciplineEndDate);
+        endDate.setDate(endDate.getDate() + 1);
 
+        axios(resolveClientUrl('PAFocus/GetLastPerformanceRecordByEmployee'),
+            {
+                params: {
+                    employeeId: employee.employeeId,
+                    fromDate: startDate,
+                    toDate: endDate
+                }
+            }).then(response => {
+                let data = response.data;
                 setTimeout(() => {
-                    toast.dismiss();
-                    data.length >= 1 ? setFieldValue(`value`, data[0].comment) : toast.info("No data found!");
-                }, "200");
-            })
-            .catch(axiosError);
+                    data && data.comment ? setFieldValue(`value`, data.comment) : toast.info("No data found!");
+                    unblockUI();
+                }, "300");
+            }).catch(axiosError);
     }
 
     handleSubmit = values => {
@@ -75,7 +78,7 @@ export default class ObjectiveModal extends Component {
                 <Modal.Footer>
                     {
                         this.props.objective.name === "nextObjective" &&
-                        <Button className="btn-cancel" onClick={() => this.getNextObjectives(setFieldValue)}>Load employee's next objectives</Button>
+                        <Button className="btn-cancel" onClick={() => this.getNextObjectives(setFieldValue)}>{`Load ${this.props.employee.nickName }'s next objectives`}</Button>
                     }
                    
                     <Button className="btn-cancel" onClick={this.props.onClose}>{getResource('Cancel')}</Button>

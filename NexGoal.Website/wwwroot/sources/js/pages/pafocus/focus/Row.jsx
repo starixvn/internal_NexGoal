@@ -265,7 +265,7 @@ export default class Row extends Component {
                     this.state.isShowObjectiveModal &&
                     <ObjectiveModal
                         isHost={pafocus.isHost}
-                        empId={pafocus.employee.employeeId}
+                        employee={pafocus.employee}
                         disciplineStartDate={this.props.disciplineStartDate}
                         disciplineEndDate={this.props.disciplineEndDate}
                         objective={this.state.objectiveSelected}

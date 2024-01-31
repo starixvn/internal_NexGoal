@@ -164,6 +164,7 @@
     <Setting Key="PAFocus_GetMember" SpName="PAFocus_GetMember" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PAFocus_Get" SpName="PAFocus_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PAFocus_Update" SpName="PAFocus_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PerformanceRecord_GetTheLastByEmployee" SpName="PerformanceRecord_GetTheLastByEmployee" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Nomination Report">
     <Setting Key="NominationReport_GetPeriods" SpName="NominationReport_GetPeriods" DbName="bodb_NexGoal" Plain="0"></Setting>

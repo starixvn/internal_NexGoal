@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -7,9 +8,11 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PAFocus;
+    using NexGoal.Criteria.PerformanceRecord;
     using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.PAFocus;
+    using NexGoal.Models.PerformanceRecord;
     using NexGoal.Repositories;
 
     public class PAFocusService : IPAFocusService
@@ -108,6 +111,18 @@
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria);
+        }
+
+        public async Task<PerformanceRecord> GetLastPerformanceRecordByEmployeeAsync(int employeeId, DateTime fromDate, DateTime toDate)
+        {
+            var criteria = new GetLastPerformanceRecordByEmployeeCriteria
+            {
+                EmployeeId = employeeId,
+                FromDate = fromDate,
+                ToDate = toDate
+            };
+
+            return await baseService.GetDataEntityAsync<PerformanceRecord>(criteria);
         }
     }
 }

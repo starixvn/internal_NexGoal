@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -21,18 +22,15 @@
         private readonly ICommonService commonService;
         private readonly IPAFocusService focusService;
         private readonly IExportPAFocusService exportExcelService;
-        private readonly IPerformanceRecordService performanceService;
 
         public PAFocusController(
             ISessionService sessionService,
             ICommonService commonService,
             IPAFocusService focusService,
-            IPerformanceRecordService performanceService,
             IExportPAFocusService exportExcelService) : base(sessionService)
         {
             this.commonService = commonService;
             this.focusService = focusService;
-            this.performanceService = performanceService;
             this.exportExcelService = exportExcelService;
         }
 
@@ -59,11 +57,11 @@
             return Json(periods);
         }
 
-        public async Task<JsonResult> GetPRByEmployeeId(int empId)
+        public async Task<JsonResult> GetLastPerformanceRecordByEmployee(int employeeId, DateTime fromDate, DateTime toDate)
         {
-            var performanceRecords = await performanceService.GetPerformanceRecordByEmployeeAsync(empId);
+            var performanceRecord = await focusService.GetLastPerformanceRecordByEmployeeAsync(employeeId, fromDate, toDate);
 
-            return Json(performanceRecords);
+            return Json(performanceRecord);
         }
 
         public async Task<JsonResult> GetGroup()
