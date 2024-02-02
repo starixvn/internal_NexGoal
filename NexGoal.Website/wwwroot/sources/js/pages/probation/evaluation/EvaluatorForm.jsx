@@ -153,7 +153,7 @@ export default class EvaluatorForm extends Component {
     }; 
 
     validateData = values => {
-        const errors = {};
+        let errors = {};
         let isValid = true;
 
         if (!values.comment) {
@@ -187,6 +187,8 @@ export default class EvaluatorForm extends Component {
 
         if (!isValid) {
             toast.error('Please input all required fields.');
+        } else {
+            errors = {};
         }
 
         return errors;

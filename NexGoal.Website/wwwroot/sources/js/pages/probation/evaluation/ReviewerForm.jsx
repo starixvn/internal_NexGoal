@@ -185,7 +185,7 @@ export default class ReviewerForm extends Component {
         );
     };
 
-    handleSubmit = (values, { setErrors, setSubmitting }) => {
+    handleSubmit = (values, { setSubmitting }) => {
         axios({
             url: resolveClientUrl('Probation/EditReviewerEvaluation'),
             method: 'post',

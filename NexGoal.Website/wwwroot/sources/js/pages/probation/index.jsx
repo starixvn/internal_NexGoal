@@ -144,12 +144,13 @@ export default class MyProbation extends Component {
                                 <td colSpan={2} className="comment-cell">
                                     <textarea className={touched.comment && errors.comment && 'input-validation-error'}
                                         name="comment" rows="7"
-                                        readOnly={!this.state.probationer.canEdit} />
+                                        readOnly={!this.state.probationer.canEdit}
                                         value={values.comment}
                                         onChange={event => {
                                             handleChange(event);
                                             setFieldError(`comment`, null);
                                         }}
+                                    />
                                 </td>
                             </tr>
                         </tbody>
@@ -198,7 +199,7 @@ export default class MyProbation extends Component {
     };
 
     validateData = values => {
-        const errors = {};
+        let errors = {};
         let isValid = true;
 
         if (!values.comment) {
@@ -226,6 +227,8 @@ export default class MyProbation extends Component {
 
         if (!isValid) {
             toast.error('Please input all required fields.');
+        } else {
+            errors = {};
         }
 
         return errors;
