@@ -9,13 +9,9 @@ import StickyBlock from '../../../shared/components/StickyBlock';
 
 export default class Table extends Component {
     shouldComponentUpdate(nextProps) {
-        if (this.props.data !== nextProps.data
+        return this.props.data !== nextProps.data
             || this.props.period !== nextProps.period
-            || this.props.focusEvaluationLevelOptions !== nextProps.focusEvaluationLevelOptions) {
-            return true;
-        }
-
-        return false;
+            || this.props.focusEvaluationLevelOptions !== nextProps.focusEvaluationLevelOptions;
     }
 
     getTooltipBestSuitedToTeamGoals = () => {

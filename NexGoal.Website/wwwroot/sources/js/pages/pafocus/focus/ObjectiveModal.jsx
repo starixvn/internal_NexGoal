@@ -17,26 +17,23 @@ export default class ObjectiveModal extends Component {
         onSubmit: PropTypes.func
     };
 
-    getNextObjectives = (setFieldValue) => {
+    getNextObjectives = setFieldValue => {
         blockUI();
         const { disciplineStartDate, disciplineEndDate, employee } = this.props;
-        let startDate = new Date(disciplineStartDate);
-        let endDate = new Date(disciplineEndDate);
-        endDate.setDate(endDate.getDate() + 1);
 
         axios(resolveClientUrl('PAFocus/GetLastPerformanceRecordByEmployee'),
             {
                 params: {
                     employeeId: employee.employeeId,
-                    fromDate: startDate,
-                    toDate: endDate
+                    fromDate: disciplineStartDate,
+                    toDate: disciplineEndDate
                 }
             }).then(response => {
-                let data = response.data;
+                const data = response.data;
                 setTimeout(() => {
-                    data && data.comment ? setFieldValue(`value`, data.comment) : toast.info("No data found!");
+                    data && data.comment ? setFieldValue(`value`, data.comment) : toast.info('No data found!');
                     unblockUI();
-                }, "300");
+                }, 300);
             }).catch(axiosError);
     }
 
@@ -76,12 +73,13 @@ export default class ObjectiveModal extends Component {
                     </FormGroup>
                 </Modal.Body>
                 <Modal.Footer>
+                    <Button className="btn-cancel" onClick={this.props.onClose}>{getResource('Cancel')}</Button>
                     {
                         this.props.objective.name === "nextObjective" &&
-                        <Button className="btn-cancel" onClick={() => this.getNextObjectives(setFieldValue)}>{`Load ${this.props.employee.nickName }'s next objectives`}</Button>
+                        <Button bsStyle="primary" onClick={() => this.getNextObjectives(setFieldValue)}>
+                            {`Load ${this.props.employee.nickName}'s latest PR`}
+                        </Button>
                     }
-                   
-                    <Button className="btn-cancel" onClick={this.props.onClose}>{getResource('Cancel')}</Button>
                     <Button type="submit" bsStyle="primary">{getResource('Submit')}</Button>
                 </Modal.Footer>
             </Form>
