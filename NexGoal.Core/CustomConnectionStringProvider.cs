@@ -2,8 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Data.SqlClient;
     using Fanex.Data;
+    using Microsoft.Data.SqlClient;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
 

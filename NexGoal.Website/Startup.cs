@@ -116,6 +116,7 @@
 
             ConfigDataProtection(services);
 
+            services.AddHttpClient();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddScoped<ISessionService, SessionService>();
