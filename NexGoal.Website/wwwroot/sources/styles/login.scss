@@ -280,7 +280,11 @@ html {
             box-shadow: 0px 4px 16px rgba(0, 38, 91, 0.2);
             border-radius: 4px;
             width: 100%;
-            padding: 1.8rem 2rem 1.9rem 2rem;
+            padding: 1.6rem 2rem 1.5rem 2rem;
+            transition: 0.35s;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
 
             &:hover {
                 background-color: darken(#002a66, 5%);
