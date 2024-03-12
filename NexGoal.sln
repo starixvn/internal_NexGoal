@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32106.194
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34601.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Core", "NexGoal.Core\NexGoal.Core.csproj", "{960EA39B-CD6A-4F0B-A9B4-85A145F65793}"
 EndProject
@@ -23,9 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Website", "NexGoal.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{63CCDB0E-35CA-4105-A118-D906485CA6B9}"
 	ProjectSection(SolutionItems) = preProject
+		SonarQube\NexGoalCSharp.ruleset = SonarQube\NexGoalCSharp.ruleset
 		SonarQube\nexgoal_js_settings.json = SonarQube\nexgoal_js_settings.json
 		SonarQube\nexgoal_ts_settings.json = SonarQube\nexgoal_ts_settings.json
-		SonarQube\NexGoalCSharp.ruleset = SonarQube\NexGoalCSharp.ruleset
 		SonarQube\SolutionBinding.sqconfig = SonarQube\SolutionBinding.sqconfig
 		SonarQube\nexgoal\CSharp\SonarLint.xml = SonarQube\nexgoal\CSharp\SonarLint.xml
 	EndProjectSection
@@ -51,6 +51,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.AutoService", "NexGoal.AutoService\NexGoal.AutoService.csproj", "{DC13365E-E949-46BD-9BE0-6F7947D0B0F9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nexgoal.Criteria.UnitTests", "UnitTests\Nexgoal.Criteria.UnitTests\Nexgoal.Criteria.UnitTests.csproj", "{FE9B0D56-5F25-407D-B071-7F39D97C74C2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.BackgroundJob", "NexGoal.BackgroundJob\NexGoal.BackgroundJob.csproj", "{751BDE08-65E8-4038-93B2-8688FCAFBD28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,6 +131,10 @@ Global
 		{FE9B0D56-5F25-407D-B071-7F39D97C74C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE9B0D56-5F25-407D-B071-7F39D97C74C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE9B0D56-5F25-407D-B071-7F39D97C74C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{751BDE08-65E8-4038-93B2-8688FCAFBD28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{751BDE08-65E8-4038-93B2-8688FCAFBD28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{751BDE08-65E8-4038-93B2-8688FCAFBD28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{751BDE08-65E8-4038-93B2-8688FCAFBD28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

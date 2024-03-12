@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Functions>
+  <Function Name="Redmine">
+    <Setting Key="CustomValues_GetMaxId" SpName="CustomValues_GetMaxId" DbName="Redmine" Plain="0"></Setting>
+    <Setting Key="Projects_GetLastUpdated" SpName="Projects_GetLastUpdated" DbName="Redmine" Plain="0"></Setting>
+    <Setting Key="TimeEntries_GetLastUpdated" SpName="TimeEntries_GetLastUpdated" DbName="Redmine" Plain="0"></Setting>
+    <Setting Key="Users_GetLastUpdated" SpName="Users_GetLastUpdated" DbName="Redmine" Plain="0"></Setting>
+    <Setting Key="CustomValues_Sync" SpName="CustomValues_Sync" DbName="Redmine" Plain="0"></Setting>
+    <Setting Key="Projects_Sync" SpName="Projects_Sync" DbName="Redmine" Plain="0"></Setting>
+    <Setting Key="TimeEntries_Sync" SpName="TimeEntries_Sync" DbName="Redmine" Plain="0"></Setting>
+    <Setting Key="Users_Sync" SpName="Users_Sync" DbName="Redmine" Plain="0"></Setting>
+    <Setting Key="Sync_CustomValues_GetByMinId" SpName="Sync_CustomValues_GetByMinId" DbName="Nexdev" Plain="0"></Setting>
+    <Setting Key="Sync_Project_GetByLastUpdated" SpName="Sync_Project_GetByLastUpdated" DbName="Nexdev" Plain="0"></Setting>
+    <Setting Key="Sync_TimeEntries_GetByLastUpdated" SpName="Sync_TimeEntries_GetByLastUpdated" DbName="Nexdev" Plain="0"></Setting>
+    <Setting Key="Sync_Users_GetByLastUpdated" SpName="Sync_Users_GetByLastUpdated" DbName="Nexdev" Plain="0"></Setting>
+  </Function>
+</Functions>

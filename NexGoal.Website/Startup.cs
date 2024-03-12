@@ -8,6 +8,7 @@
     using DinkToPdf;
     using DinkToPdf.Contracts;
     using Fanex.Data;
+    using Fanex.Data.MySql;
     using Fanex.Data.SqlServer;
     using Fanex.Logging;
     using Fanex.Logging.Sentry;
@@ -69,7 +70,7 @@
             var ldapSettings = Configuration.GetSection("LDAPSettings").Get<LdapSettings>();
             services.AddSingleton(ldapSettings);
 
-            var connections = Configuration.GetSection("ConnectionStrings")
+            var connections = Configuration.GetSection("ConnectionStrings1")
                 .GetChildren()
                 .AsEnumerable()
                 .Where(x => !string.IsNullOrWhiteSpace(x.GetValue<string>("Name")))
@@ -77,11 +78,12 @@
                     y => new ConnectionConfiguration(y.GetValue<string>("Name"), y.GetValue<string>("ConnectionString"), y.GetValue<string>("ProviderName")));
 
             _ = byte.TryParse(Configuration.GetSection("ConnectionStringsEncryptionAlgorithm").Value, out byte algorithm);
-
+            
             DbSettingProviderManager
                 .StartNewSession()
                 .Use(new CustomConnectionStringProvider(connections, algorithm, appSettings))
                 .WithSqlServer()
+                .WithMySql()
                 .UseDefaultDbSettingProvider("~/App_Data")
                 .Run();
 

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
@@ -9,7 +9,6 @@
     <CodeAnalysisRuleSet>NexGoal.Website.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="App_Data\AutoSPNames.xml" />
     <None Remove="App_Data\SPNames.xml" />
     <None Remove="EmailTemplates\Nomination\RemindToNominator.txt" />
     <None Remove="EmailTemplates\Nomination\StartToNominator.txt" />
@@ -38,9 +37,6 @@
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\SonarQube\nexgoal\CSharp\SonarLint.xml" Link="SonarLint.xml" />
-    <Content Include="App_Data\AutoSPNames.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="App_Data\SPNames.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
