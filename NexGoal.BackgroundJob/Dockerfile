@@ -7,8 +7,11 @@ WORKDIR /app
 FROM hub.nexdev.net/base/dotnet/core/sdk:8.0-alpine AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+RUN dotnet nuget add source https://nuget.nexdev.net/api/v2
+
 COPY ["NexGoal.BackgroundJob/NexGoal.BackgroundJob.csproj", "NexGoal.BackgroundJob/"]
-RUN dotnet restore "./NexGoal.BackgroundJob/./NexGoal.BackgroundJob.csproj"
+RUN --mount=type=cache,target=/root/.nuget/packages \
+    dotnet restore "./NexGoal.BackgroundJob/./NexGoal.BackgroundJob.csproj"
 COPY . .
 WORKDIR "/src/NexGoal.BackgroundJob"
 RUN dotnet build "./NexGoal.BackgroundJob.csproj" -c $BUILD_CONFIGURATION -o /app/build
