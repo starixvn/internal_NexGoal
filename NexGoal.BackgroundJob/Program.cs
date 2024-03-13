@@ -1,14 +1,13 @@
-using Fanex.Logging.Sentry;
-using Fanex.Logging;
-using Sentry;
-using NexGoal.BackgroundJob.Workers;
-using Fanex.Data.SqlServer;
 using Fanex.Data.MySql;
-using Microsoft.Extensions.Configuration;
-using NexGoal.BackgroundJob;
-using NexGoal.Core.Services;
 using Fanex.Data.Repository;
+using Fanex.Data.SqlServer;
+using Fanex.Logging;
+using Fanex.Logging.Sentry;
+using NexGoal.BackgroundJob;
+using NexGoal.BackgroundJob.Workers;
 using NexGoal.Core.Repositories;
+using NexGoal.Core.Services;
+using Sentry;
 
 var builder = Host.CreateApplicationBuilder(args);
 
