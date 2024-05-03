@@ -1,4 +1,4 @@
-﻿namespace NexGoal.Website
+﻿﻿namespace NexGoal.Website
 {
     using System;
     using System.Collections.Generic;
@@ -8,7 +8,6 @@
     using DinkToPdf;
     using DinkToPdf.Contracts;
     using Fanex.Data;
-    using Fanex.Data.MySql;
     using Fanex.Data.SqlServer;
     using Fanex.Logging;
     using Fanex.Logging.Sentry;
@@ -70,7 +69,7 @@
             var ldapSettings = Configuration.GetSection("LDAPSettings").Get<LdapSettings>();
             services.AddSingleton(ldapSettings);
 
-            var connections = Configuration.GetSection("ConnectionStrings1")
+            var connections = Configuration.GetSection("ConnectionStrings")
                 .GetChildren()
                 .AsEnumerable()
                 .Where(x => !string.IsNullOrWhiteSpace(x.GetValue<string>("Name")))
@@ -78,12 +77,11 @@
                     y => new ConnectionConfiguration(y.GetValue<string>("Name"), y.GetValue<string>("ConnectionString"), y.GetValue<string>("ProviderName")));
 
             _ = byte.TryParse(Configuration.GetSection("ConnectionStringsEncryptionAlgorithm").Value, out byte algorithm);
-            
+
             DbSettingProviderManager
                 .StartNewSession()
                 .Use(new CustomConnectionStringProvider(connections, algorithm, appSettings))
                 .WithSqlServer()
-                .WithMySql()
                 .UseDefaultDbSettingProvider("~/App_Data")
                 .Run();
 
@@ -213,6 +211,5 @@
                 options.InstanceName = $"{appName}:Session:";
             });
         }
-
     }
 }
