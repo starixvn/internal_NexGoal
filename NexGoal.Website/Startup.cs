@@ -11,8 +11,6 @@
     using Fanex.Data.SqlServer;
     using Fanex.Logging;
     using Fanex.Logging.Sentry;
-    using Hangfire;
-    using Hangfire.SqlServer;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.DataProtection;
@@ -84,14 +82,6 @@
                 .WithSqlServer()
                 .UseDefaultDbSettingProvider("~/App_Data")
                 .Run();
-
-            var hangfireConnectionString = Cryptography.DecryptConnectionString(Configuration.GetSection("HangfireConnectionString").Value);
-            services.AddHangfire(config => config.UseSqlServerStorage(hangfireConnectionString, new SqlServerStorageOptions
-            {
-                SchemaName = Configuration.GetSection("HangfireSchemaName").Value,
-                PrepareSchemaIfNecessary = true
-            }));
-            services.AddHangfireServer();
             
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
             services.AddResponseCompression(options =>
@@ -152,19 +142,12 @@
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
-            app.UseHangfireDashboard("/hangfire", new DashboardOptions
-            {
-                Authorization = new[] { new HangfireAuthorization() },
-                IsReadOnlyFunc = (_) => true
-            });
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-
-                endpoints.MapHangfireDashboard();
             });
         }
 

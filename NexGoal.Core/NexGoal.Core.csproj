@@ -22,8 +22,6 @@
     <PackageReference Include="Fanex.Data.SqlServer" Version="4.2.5.3" />
     <PackageReference Include="Fanex.Caching" Version="2.2.4" />
     <PackageReference Include="Fanex.Logging.Sentry" Version="1.0.6" />
-    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.6" />
-    <PackageReference Include="Hangfire.SqlServer" Version="1.8.6" />
     <PackageReference Include="MailKit" Version="4.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="8.0.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
