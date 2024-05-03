@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Models.Period
 {
-    using System;
     using NexGoal.Models.Common;
 
     public class PeriodModel : PeriodBaseModel
