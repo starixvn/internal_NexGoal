@@ -375,8 +375,8 @@
             try
             {
                 await notificationService.SendMailAsync(performanceRecordIds, creatorId, action);
-                ////await notificationService.SendNotificationAsync(performanceRecordIds, creatorId, action);
-                ////await notificationService.SendSkypeMessageAsync(performanceRecordIds, creatorId, action);
+                await notificationService.SendNotificationAsync(performanceRecordIds, creatorId, action);
+                await notificationService.SendSkypeMessageAsync(performanceRecordIds, creatorId, action);
             }
             catch (Exception ex)
             {
