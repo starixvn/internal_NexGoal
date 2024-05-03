@@ -4,15 +4,15 @@ namespace NexGoal.Core.Services
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Net;
+    using System.Net.Mail;
     using System.Net.Security;
     using System.Security.Cryptography.X509Certificates;
+    using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
-    using MailKit.Net.Smtp;
-    using MailKit.Security;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
-    using MimeKit;
     using Newtonsoft.Json;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Models;
@@ -45,62 +45,36 @@ namespace NexGoal.Core.Services
             var systemName = configuration.GetSection("CompanyName").Value.Equals(Constants.LumiCompanyName) ? "LumiGoal" : "NexGoal";
             UpdateCompanyName(email, systemName);
 
-            using (var mailclient = new SmtpClient())
+            try
             {
-                try
+                var client = new SmtpClient(mailConfig.SmtpServer, mailConfig.SmtpPort);
+                var msg = new MailMessage
                 {
-                    var message = new MimeMessage();
-                    message.From.Add(new MailboxAddress(systemName, mailConfig.Username));
-                    message.To.Add(new MailboxAddress(string.Empty, email.ReceiverEmail));
-                    message.Subject = email.Subject;
-                    message.Priority = mailConfig.MailPriority;
+                    From = new MailAddress(mailConfig.Username, systemName)
+                };
+                msg.To.Add(email.ReceiverEmail);
 
-                    if (email.Cc.Any(x => IsValidEmail(x)))
-                    {
-                        message.Cc.AddRange(email.Cc.Where(x => IsValidEmail(x)).Select(x => new MailboxAddress(string.Empty, x)));
-                    }
-
-                    var builder = new BodyBuilder
-                    {
-                        HtmlBody = email.Body
-                    };
-                    foreach (MimeEntity attachment in email.Attachments)
-                    {
-                        builder.Attachments.Add(attachment);
-                    }
-
-                    message.Body = builder.ToMessageBody();
-                    mailclient.ServerCertificateValidationCallback += RemoteCertificateValidationCallback;
-                    mailclient.CheckCertificateRevocation = false;
-                    await mailclient.ConnectAsync(mailConfig.SmtpServer, mailConfig.SmtpPort, mailConfig.EnableSsl);
-
-                    if (mailConfig.EnableSsl)
-                    {
-                        await mailclient.AuthenticateAsync(mailConfig.Username, mailConfig.Password);
-                    }
-
-                    await mailclient.SendAsync(message);
-
-                    WriteLogSendEmail(email);
-                }
-                catch (AuthenticationException ex)
+                var mailccs = email.Cc.Where(x => IsValidEmail(x)).ToList();
+                foreach(var mailcc in mailccs)
                 {
-                    await WriteLogErrorAsync(ex, email);
+                    msg.CC.Add(mailcc);
                 }
-                catch (SmtpCommandException ex)
-                {
-                    await WriteLogErrorAsync(ex, email);
-                }
-                catch (SmtpProtocolException ex)
-                {
-                    await WriteLogErrorAsync(ex, email);
-                }
-                catch (Exception ex)
-                {
-                    await WriteLogErrorAsync(ex, email);
-                }
+                msg.Subject = email.Subject;
+                msg.SubjectEncoding = Encoding.UTF8;
+                msg.IsBodyHtml = true;
+                msg.Body = email.Body;
+                msg.BodyEncoding = Encoding.UTF8;
+                msg.Priority = MailPriority.Normal;
 
-                await mailclient.DisconnectAsync(true);
+                ServicePointManager.ServerCertificateValidationCallback = RemoteCertificateValidationCallback;
+
+                client.SendAsync(msg, null);
+
+                WriteLogSendEmail(email);
+            }
+            catch (Exception ex)
+            {
+                await WriteLogErrorAsync(ex, email);
             }
         }
 
