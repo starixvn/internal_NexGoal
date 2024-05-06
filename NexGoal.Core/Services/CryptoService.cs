@@ -6,19 +6,23 @@ namespace NexGoal.Core.Services
     using System.Text;
     using NexGoal.Core.Models;
 
-    public class CryptoService : ICryptoService
+    public class CryptoService : ICryptoService, IDisposable
     {
         private const bool OptimalAsymmetricEncryptionPadding = false;
-        private readonly string publicKey;
-        private readonly string privateKey;
+        private readonly RSACryptoServiceProvider publicRSA;
+        private readonly RSACryptoServiceProvider privateRSA;
         private const short KeySize = 2048;
         private readonly AppSettings appSettings;
 
         public CryptoService(AppSettings appSettings)
         {
             this.appSettings = appSettings;
-            publicKey = ReadTextFile(appSettings.RSAPublicKeyPath);
-            privateKey = ReadTextFile(appSettings.RSAPrivateKeyPath);
+
+            publicRSA = new RSACryptoServiceProvider(KeySize);
+            publicRSA.FromXmlString(ReadTextFile(appSettings.RSAPublicKeyPath));
+
+            privateRSA = new RSACryptoServiceProvider(KeySize);
+            privateRSA.FromXmlString(ReadTextFile(appSettings.RSAPrivateKeyPath));
         }
 
         public string Encrypt(string plainText)
@@ -31,12 +35,8 @@ namespace NexGoal.Core.Services
                 {
                     byte[] bytesToEncrypt = ASCIIEncoding.ASCII.GetBytes(plainText);
 
-                    using (var rsa = new RSACryptoServiceProvider(KeySize))
-                    {
-                        rsa.FromXmlString(publicKey);
-                        byte[] encryptedBytes = rsa.Encrypt(bytesToEncrypt, OptimalAsymmetricEncryptionPadding);
-                        cipherText = Convert.ToBase64String(encryptedBytes);
-                    }
+                    byte[] encryptedBytes = publicRSA.Encrypt(bytesToEncrypt, OptimalAsymmetricEncryptionPadding);
+                    cipherText = Convert.ToBase64String(encryptedBytes);
                 }
                 else
                 {
@@ -56,13 +56,9 @@ namespace NexGoal.Core.Services
                 if (appSettings.EnableEncrypt)
                 {
                     byte[] bytesToDecrypt = Convert.FromBase64String(cipherText);
-                    using (var rsa = new RSACryptoServiceProvider(KeySize))
-                    {
-                        rsa.FromXmlString(privateKey);
-                        byte[] plainbytes = rsa.Decrypt(bytesToDecrypt, OptimalAsymmetricEncryptionPadding);
-                        var enc = new ASCIIEncoding();
-                        plainText = enc.GetString(plainbytes);
-                    }
+                    byte[] plainbytes = privateRSA.Decrypt(bytesToDecrypt, OptimalAsymmetricEncryptionPadding);
+                    var enc = new ASCIIEncoding();
+                    plainText = enc.GetString(plainbytes);
                 }
                 else
                 {
@@ -82,6 +78,21 @@ namespace NexGoal.Core.Services
             }
 
             return text;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                publicRSA.Dispose();
+                privateRSA.Dispose();
+            }
         }
     }
 }
