@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Website.Views.Shared.Components.Menu
 {
     using System.Threading.Tasks;
+    using Fanex.Logging;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Services;
     using NexGoal.ViewModels.Auth;
@@ -8,27 +9,35 @@
 
     public class MenuViewComponent : ViewComponent
     {
+        private readonly ILogger logger;
         private readonly ISessionService sessionService;
         private readonly IAuthService authService;
 
         public MenuViewComponent(
+            ILogger logger,
             ISessionService sessionService,
             IAuthService authService)
         {
+            this.logger = logger;
             this.sessionService = sessionService;
             this.authService = authService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var employeeInfo = await authService.GetEmployeeInfoAsync(sessionService.EmployeeId);
+            (var userInfo, var isHasMember, var unreadNotification) = await authService.GetEmployeeInfoAsync(sessionService.EmployeeId);
             var viewModel = new HeaderViewModel
             {
                 MenuItems = sessionService.MenuItems,
-                UserInfo = employeeInfo.Item1,
-                IsHasMember = employeeInfo.Item2,
-                UnreadNotification = employeeInfo.Item3
+                UserInfo = userInfo,
+                IsHasMember = isHasMember,
+                UnreadNotification = unreadNotification
             };
+
+            if (sessionService.MenuItems == null)
+            {
+                await logger.InfoAsync($"null menu {userInfo.FullName} ({userInfo.NickName})");
+            }
 
             return View("Menu", viewModel);
         }

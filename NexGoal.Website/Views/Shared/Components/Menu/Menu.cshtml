@@ -25,7 +25,7 @@
         <div class="toggle-btn" id="js-btnToggleMenu">
             <span class="lines"></span>
         </div>
-        @if (Model != null && Model.MenuItems.Any())
+        @if (Model != null && Model.MenuItems != null && Model.MenuItems.Any())
         {
             <ul class="nav navbar-nav">
                 @foreach (MenuItemSession menuGroup in Model.MenuItems)
