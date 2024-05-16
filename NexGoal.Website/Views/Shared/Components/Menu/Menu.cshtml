@@ -1,10 +1,5 @@
 ﻿@using NexGoal.ViewModels.Auth
 @using NexGoal.Models.Auth
-@using NexGoal.Core.Models
-@using Microsoft.Extensions.Configuration
-@using NexGoal.Core.Constants
-@inject AppSettings appSettings
-@inject IConfiguration Configuration
 @model HeaderViewModel
 
 @{
@@ -12,25 +7,24 @@
     var currentController = ViewContext.RouteData.Values["Controller"].ToString().ToLowerInvariant();
     var currentAction = ViewContext.RouteData.Values["Action"].ToString().ToLowerInvariant();
     var currentUrl = string.Format("/{0}/{1}", currentController, currentAction);
-    var logoName = Configuration.GetValue<string>("CompanyName").Equals(Constants.LumiCompanyName) ? "lumigoal.svg" : "nexgoal.svg";
 }
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="pull-left left-bar">
         <a class="navbar-brand" asp-controller="home" asp-action="index">
-            <img src="~/sources/styles/images/@logoName" alt="@logoName" />
+            <img src="~/sources/styles/images/@Model.LogoName" alt="@Model.LogoName" />
         </a>
     </div>
     <div class="pull-left nav-hamberger" id="js-navHamburger">
         <div class="toggle-btn" id="js-btnToggleMenu">
             <span class="lines"></span>
         </div>
-        @if (Model != null && Model.MenuItems != null && Model.MenuItems.Any())
+        @if (Model.MenuItems != null && Model.MenuItems.Any())
         {
             <ul class="nav navbar-nav">
                 @foreach (MenuItemSession menuGroup in Model.MenuItems)
                 {
-                    @if (menuGroup.Childs.Any())
+                    @if (menuGroup.Childs != null && menuGroup.Childs.Any())
                     {
                         <li class="dropdown @(menuGroup.Childs.Any(c => currentUrl.Equals(c.Link.ToLowerInvariant(), StringComparison.CurrentCultureIgnoreCase)) ? "active" : string.Empty)">
                             <a href="javascript:;" class="dropdown-toggle">
@@ -61,7 +55,7 @@
         <div id="search-member-wrapper" class="search-member-wrapper"></div>
         <div id="notification" class="search-member-wrapper"></div>
         <div class="user-avatar">
-            <img alt="Avatar" src="@($"{appSettings.ImageUrl}/{employee.Code}.jpg")" />
+            <img alt="Avatar" src="@($"{Model.ImageUrl}/{employee.Code}.jpg")" />
             <ul class="dropdown-menu">
                 <li><a href="@Url.Action("Logout", "Auth")">Log out</a></li>
             </ul>
@@ -74,10 +68,10 @@
     <span id="employeeInfo-nickName">@employee.NickName</span>
     <span id="employeeInfo-jobTitle">@employee.JobTitle</span>
     <span id="employeeInfo-unreadNoti">@Model.UnreadNotification</span>
-    <img id="employeeInfo-avatar" src="@($"{appSettings.ImageUrl}/{employee.Code}.jpg")" alt="employee-avatar" />
+    <img id="employeeInfo-avatar" src="@($"{Model.ImageUrl}/{employee.Code}.jpg")" alt="employee-avatar" />
     <input type="hidden" id="employeeInfo-groupname" value="@employee.GroupName" />
     <input type="hidden" id="employeeInfo-joineddate" value="@employee.JoinedDate" />
     <input type="checkbox" id="employeeInfo-isProbation" @(employee.IsProbation ? "checked" : string.Empty) />
-    <input type="checkbox" id="employeeInfo-isHasMember" @(Model.IsHasMember ? "checked" : string.Empty) />
+    <input type="checkbox" id="employeeInfo-hasMember" @(Model.HasMember ? "checked" : string.Empty) />
     <input type="hidden" id="employeeInfo-code" value="@employee.Code" />
 </div>

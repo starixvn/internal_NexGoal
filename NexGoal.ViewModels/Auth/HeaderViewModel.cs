@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.ViewModels.Auth
 {
+    using System;
     using System.Collections.Generic;
     using NexGoal.Models.Auth;
     using NexGoal.Models.Common;
@@ -12,6 +13,9 @@
 
         public int UnreadNotification { get; set; }
 
-        public bool IsHasMember { get; set; }
+        public bool HasMember { get; set; }
+        
+        public Uri ImageUrl { get; set; }
+        public string LogoName { get; set; }
     }
 }
