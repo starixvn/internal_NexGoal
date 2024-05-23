@@ -163,6 +163,7 @@ BEGIN
 		INNER JOIN #tblMember AS mem ON mem.EmployeeId = CAST(record.EmployeeIds AS VARCHAR(20))
 	WHERE reaction.CreatorId = @ActorId
 		OR mem.IsHost = 1
+		OR record.CreatorId = @ActorId
 	ORDER BY reaction.CreatedDate ASC
 
 	SELECT feedback.PRFeedbackId,

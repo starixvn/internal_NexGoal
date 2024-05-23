@@ -224,7 +224,7 @@ export default class PerformanceRecord extends Component {
                     </div>
                 }
                 {
-                    !isHideInteraction &&
+                    !this.props.isHideInteraction &&
                     <Interaction className="pr-comment"
                         creator={creator}
                         isReadOnly={this.props.feedbackReadOnly || !record.isAllowEditFeedback}
