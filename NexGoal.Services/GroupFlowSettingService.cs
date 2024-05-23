@@ -30,21 +30,21 @@
         public async Task<IEnumerable<GroupFlowSettingModel>> GetGroupFlowSettingAsync()
         {
             var criteria = new GetGroupFlowSettingCriteria();
-            var ValueTuple = await baseService.FetchMultipleAsync<GroupFlowSettingModel, FlowSettingModel>(criteria);
+            (var groupFlows, var settings) = await baseService.FetchMultipleAsync<GroupFlowSettingModel, FlowSettingModel>(criteria);
 
-            foreach (GroupFlowSettingModel groupFlowSetting in ValueTuple.Item1)
+            foreach (var groupFlow in groupFlows)
             {
-                IEnumerable<FlowSettingModel> flowSettings = ValueTuple.Item2.Where(x => x.GroupId == groupFlowSetting.GroupId);
+                var flowSettings = settings.Where(x => x.GroupId == groupFlow.GroupId).ToList();
                 foreach (FlowSettingModel flowSetting in flowSettings)
                 {
                     switch (flowSetting.ProcessId)
                     {
                         case (int)PerformanceProcess.Evaluator:
-                            groupFlowSetting.Evaluator = flowSetting;
+                            groupFlow.Evaluator = flowSetting;
                             break;
 
                         case (int)PerformanceProcess.Reviewer:
-                            groupFlowSetting.Reviewer = flowSetting;
+                            groupFlow.Reviewer = flowSetting;
                             break;
 
                         default:
@@ -54,7 +54,7 @@
                 }
             }
 
-            return ValueTuple.Item1;
+            return groupFlows;
         }
 
         public async Task<GroupFlowSettingModel> GetByIdAsync(int groupId)
@@ -75,11 +75,11 @@
             {
                 switch (flowSetting.ProcessId)
                 {
-                    case (int)PerformanceProcess.Evaluator:
+                    case (byte)PerformanceProcess.Evaluator:
                         groupFlowSetting.Evaluator = flowSetting;
                         break;
 
-                    case (int)PerformanceProcess.Reviewer:
+                    case (byte)PerformanceProcess.Reviewer:
                         groupFlowSetting.Reviewer = flowSetting;
                         break;
 

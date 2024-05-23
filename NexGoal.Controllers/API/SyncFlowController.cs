@@ -22,8 +22,8 @@
         public async Task<ActionResult> GetFlow()
         {
             var criteria = new GetFlowToSyncCriteria();
-            var tuple = await baseService.FetchMultipleAsync<GroupFlow, EmployeeFlow>(criteria);
-            return new JsonResult(new { groupFlows = tuple.Item1, employeeFlows = tuple.Item2 });
+            (var groupFlows, var employeeFlows) = await baseService.FetchMultipleAsync<GroupFlow, EmployeeFlow>(criteria);
+            return new JsonResult(new { groupFlows, employeeFlows });
         }
     }
 }

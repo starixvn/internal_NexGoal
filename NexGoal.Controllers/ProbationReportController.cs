@@ -40,9 +40,9 @@
         [HttpGet]
         public async Task<IActionResult> GetGroupsAndEmployees()
         {
-            var result = await probationReportService.GetGroupsAndEmployeesAsync(sessionService.EmployeeId);
+            (var groups, var employees) = await probationReportService.GetGroupsAndEmployeesAsync(sessionService.EmployeeId);
 
-            return Json(new { groups = result.Item1, employees = result.Item2 });
+            return Json(new { groups, employees });
         }
 
         [HttpGet]
@@ -64,11 +64,11 @@
         [HttpGet]
         public async Task<IActionResult> GetByEmployeeId(int id)
         {
-            var result = await probationReportService.GetByEmployeeIdAsync(id, sessionService.EmployeeId);
+            (var probationer, var details, var hrm) = await probationReportService.GetByEmployeeIdAsync(id, sessionService.EmployeeId);
 
-            if (result.Item1 != null)
+            if (probationer != null)
             {
-                return Json(new { probationer = result.Item1, details = result.Item2, hrm = result.Item3 });
+                return Json(new { probationer, details, hrm });
             }
 
             return NotFound();

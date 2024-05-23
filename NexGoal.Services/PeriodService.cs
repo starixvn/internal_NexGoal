@@ -152,11 +152,8 @@
                 StatusId = statusId
             };
 
-            var result = await baseService.FetchMultipleAsync<PARecordModel, PAProcessModel>(criteria);
+            (var paRecords, var paProcesses) = await baseService.FetchMultipleAsync<PARecordModel, PAProcessModel>(criteria);
             IEnumerable<Employee> employees = await commonService.GetEmployeesAsync(isEnabled: null);
-
-            IEnumerable<PARecordModel> paRecords = result.Item1;
-            IEnumerable<PAProcessModel> paProcesses = result.Item2;
 
             foreach (PAProcessModel process in paProcesses)
             {
@@ -227,20 +224,20 @@
                 PARecordId = paRecordId
             };
 
-            var result = await baseService.FetchMultipleAsync<PARecordModel, PAProcessModel>(criteria);
+            (var paRecords, var processes) = await baseService.FetchMultipleAsync<PARecordModel, PAProcessModel>(criteria);
 
-            PARecordModel paRecord = result.Item1.FirstOrDefault();
+            var paRecord = paRecords.FirstOrDefault();
             if (paRecord != null)
             {
                 IEnumerable<Employee> employees = await commonService.GetEmployeesAsync(isEnabled: null);
                 paRecord.Employee = employees.FirstOrDefault(x => x.EmployeeId == paRecord.EmployeeId);
 
-                foreach (PAProcessModel process in result.Item2)
+                foreach (PAProcessModel process in processes)
                 {
                     process.Evaluator = employees.FirstOrDefault(x => x.EmployeeId == process.EvaluatorId);
                 }
 
-                paRecord.Processes = result.Item2;
+                paRecord.Processes = processes;
             }
 
             return paRecord;

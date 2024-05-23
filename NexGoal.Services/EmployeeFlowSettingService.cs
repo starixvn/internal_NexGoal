@@ -47,21 +47,21 @@
         public async Task<IEnumerable<EmployeeFlowSettingModel>> GetEmployeeFlowSettingAsync()
         {
             var criteria = new GetEmployeeFlowSettingCriteria();
-            var ValueTuple = await baseService.FetchMultipleAsync<EmployeeFlowSettingModel, FlowSettingModel>(criteria);
+            (var empFlows, var settings) = await baseService.FetchMultipleAsync<EmployeeFlowSettingModel, FlowSettingModel>(criteria);
 
-            foreach (EmployeeFlowSettingModel employeeFlowSetting in ValueTuple.Item1)
+            foreach (var empFlow in empFlows)
             {
-                IEnumerable<FlowSettingModel> flowSettings = ValueTuple.Item2.Where(x => x.EmployeeId == employeeFlowSetting.EmployeeId);
+                var flowSettings = settings.Where(x => x.EmployeeId == empFlow.EmployeeId).ToList();
                 foreach (FlowSettingModel flowSetting in flowSettings)
                 {
                     switch (flowSetting.ProcessId)
                     {
                         case (int)PerformanceProcess.Evaluator:
-                            employeeFlowSetting.Evaluator = flowSetting;
+                            empFlow.Evaluator = flowSetting;
                             break;
 
                         case (int)PerformanceProcess.Reviewer:
-                            employeeFlowSetting.Reviewer = flowSetting;
+                            empFlow.Reviewer = flowSetting;
                             break;
 
                         default:
@@ -71,7 +71,7 @@
                 }
             }
 
-            return ValueTuple.Item1;
+            return empFlows;
         }
 
         public async Task<EmployeeFlowSettingModel> GetByIdAsync(int employeeId)

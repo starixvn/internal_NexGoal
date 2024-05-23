@@ -192,12 +192,10 @@
 
         public async Task<ValueTuple<ProbationReportModel, IEnumerable<KPIGroupModel>, HRMModel>> GetByEmployeeIdAsync(int employeeId, int actorId)
         {
-            var result = await baseService.FetchMultipleAsync<ProbationReportModel, KPIGroupModel, EncryptedProbationEvaluationDetailModel>(
-                new GetProbationReportByEmployeeIdCriteria { EmployeeId = employeeId, ActorId = actorId });
-
-            var probationer = result.Item1.FirstOrDefault();
-            var groups = result.Item2;
-            var details = result.Item3;
+            var criteria = new GetProbationReportByEmployeeIdCriteria { EmployeeId = employeeId, ActorId = actorId };
+            (var probationers, var groups, var details) =
+                await baseService.FetchMultipleAsync<ProbationReportModel, KPIGroupModel, EncryptedProbationEvaluationDetailModel>(criteria);
+            var probationer = probationers.FirstOrDefault();
 
             if (probationer != null)
             {
@@ -225,16 +223,13 @@
 
         private async Task<ProbationReportPdfModel> GetPdfData(int employeeId, int actorId)
         {
-            var result = await baseService.FetchMultipleAsync<ProbationReportPdfModel, KPIGroupModel, EncryptedProbationEvaluationDetailModel>(
-                new GetProbationReportByEmployeeIdCriteria { EmployeeId = employeeId, ActorId = actorId });
-
-            var probationer = result.Item1.FirstOrDefault();
+            var criteria = new GetProbationReportByEmployeeIdCriteria { EmployeeId = employeeId, ActorId = actorId };
+            (var probationers, var groups, var details) =
+                await baseService.FetchMultipleAsync<ProbationReportPdfModel, KPIGroupModel, EncryptedProbationEvaluationDetailModel>(criteria);
+            var probationer = probationers.FirstOrDefault();
 
             if (probationer != null)
             {
-                var groups = result.Item2;
-                var details = result.Item3;
-
                 foreach (var group in groups)
                 {
                     group.Details = details.Where(x => x.KPIGroupId == group.KPIGroupId).Select(x => new ProbationEvaluationDetailModel

@@ -68,8 +68,8 @@
             PAReportDetail paDetails = await reportService.GetPAReportDetailAsync(sessionService.EmployeeId, id);
             if (paDetails.PARecord != null)
             {
-                var tuple = await exportService.ExportPdfAsync(paDetails);
-                return File(tuple.Item2, MimeType.PDF, tuple.Item1);
+                (var fileName, var bytes) = await exportService.ExportPdfAsync(paDetails);
+                return File(bytes, MimeType.PDF, fileName);
             }
 
             return RedirectToAction("PageNotFound", "Error");

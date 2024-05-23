@@ -55,11 +55,8 @@
 
         public async Task<IEnumerable<KPIGroupModel>> GetEvaluationDetailAsync(int employeeId)
         {
-            var result = await baseService.FetchMultipleAsync<KPIGroupModel, EncryptedProbationEvaluationDetailModel>(
-                new GetEvaluationDetailCriteria { EmployeeId = employeeId });
-
-            var groups = result.Item1;
-            var details = result.Item2;
+            var criteria = new GetEvaluationDetailCriteria { EmployeeId = employeeId };
+            (var groups, var details) = await baseService.FetchMultipleAsync<KPIGroupModel, EncryptedProbationEvaluationDetailModel>(criteria);
 
             foreach (var group in groups)
             {
