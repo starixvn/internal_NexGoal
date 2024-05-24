@@ -8,7 +8,7 @@
 
         public string EmployeeIds { get; set; }
 
-        public bool NoPR { get; set; }
+        public int? NoPR { get; set; }
 
         public override string GetSettingKey() => "PRTracking_Get";
 

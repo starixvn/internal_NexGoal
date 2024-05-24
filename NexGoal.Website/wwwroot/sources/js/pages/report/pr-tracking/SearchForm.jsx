@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
+import Select from 'react-select';
 
 import getResource from '../../../resourceHelper';
 import Multiselect from '../../../shared/components/react-multiselect/index';
@@ -13,8 +14,8 @@ export default class SearchForm extends Component {
         this.props.onFilterChange('employees', selectedOption);
     };
 
-    handleNoPRChange = event => {
-        this.props.onFilterChange('noPR', event.target.checked);
+    handleNoPRChange = selectedOption => {
+        this.props.onFilterChange('noPR', selectedOption);
     };
 
     handleSubmit = event => {
@@ -23,7 +24,7 @@ export default class SearchForm extends Component {
     };
 
     render() {
-        const { filter, groupOptions, employeeOptions } = this.props;
+        const { filter, groupOptions, employeeOptions, noPROptions } = this.props;
 
         return (
             <Form inline className="form-filter" onSubmit={this.handleSubmit}>
@@ -50,12 +51,14 @@ export default class SearchForm extends Component {
                     </div>
                 </FormGroup>
                 <FormGroup>
-                    <div className="checkbox">
-                        <input type="checkbox" name="noPR"
-                            checked={filter.noPR}
-                            onChange={this.handleNoPRChange} id="noPR" className="checkbox-custom"
+                    <ControlLabel>No PR</ControlLabel>
+                    <div className="control-content select-noPR">
+                        <Select name="noPR"
+                            className="react-select-container" classNamePrefix="react-select"
+                            value={filter.noPR}
+                            options={noPROptions}
+                            onChange={this.handleNoPRChange}
                         />
-                        <label htmlFor="noPR">No PR</label>
                     </div>
                 </FormGroup>
                 <FormGroup>

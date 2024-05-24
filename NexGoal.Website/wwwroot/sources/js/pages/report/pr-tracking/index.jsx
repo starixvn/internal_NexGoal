@@ -7,17 +7,20 @@ import getResource from '../../../resourceHelper';
 import Breadcrumb from '../../../shared/components/Breadcrumb';
 import SearchForm from './SearchForm';
 import Table from './Table';
-import { PerformanceProcess } from '../../../constants';
+import { PerformanceProcess,NoPROptions } from '../../../constants';
+
 
 export default class PRTracking extends Component {
     constructor(props) {
         super(props);
 
+        const defaultNoPR = { value: null, label: '' };
+
         this.state = {
             filter: {
                 groups: [],
                 employees: [],
-                noPR: false
+                noPR: null
             },
             groupOptions: [],
             employeeOptions: [],
@@ -26,6 +29,8 @@ export default class PRTracking extends Component {
         };
 
         this.employees = [];
+        this.noPROptions = [defaultNoPR, ...NoPROptions.map(ns => ({ value: ns.value, label: ns.text }))];
+
     }
 
     componentDidMount() {
@@ -95,7 +100,7 @@ export default class PRTracking extends Component {
 
         axios.get(resolveClientUrl('PRTracking/Get'), {
             params: {
-                noPR: filter.noPR,
+                noPR: filter.noPR ? filter.noPR.value : null,
                 employeeIds: filter.employees.map(x => x.id).toString()
             }
         }).then(response => {
@@ -140,6 +145,7 @@ export default class PRTracking extends Component {
                         <SearchForm filter={filter}
                             groupOptions={groupOptions}
                             employeeOptions={employeeOptions}
+                            noPROptions={this.noPROptions}
                             onFilterChange={this.handleFilterChange}
                             onSubmit={this.getPRTracking}
                         />
