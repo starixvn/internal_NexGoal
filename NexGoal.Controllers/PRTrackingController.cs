@@ -27,7 +27,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(string employeeIds, int? noPR)
+        public async Task<IActionResult> Get(string employeeIds, byte? noPR)
         {
             (var period, var employees) = await trackingService.GetAsync(sessionService.EmployeeId, employeeIds, noPR);
 

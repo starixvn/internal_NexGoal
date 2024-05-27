@@ -18,7 +18,7 @@
             this.repository = repository;
         }
 
-        public async Task<ValueTuple<PeriodModel, IEnumerable<PRTrackingModel>>> GetAsync(int actorId, string employeeIds, int? noPR)
+        public async Task<ValueTuple<PeriodModel, IEnumerable<PRTrackingModel>>> GetAsync(int actorId, string employeeIds, byte? noPR)
         {
             return await repository.GetAsync(new GetPRCriteria
             {

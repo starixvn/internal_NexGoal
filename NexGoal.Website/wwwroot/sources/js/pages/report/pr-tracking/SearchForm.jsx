@@ -57,7 +57,7 @@ export default class SearchForm extends Component {
                             className="react-select-container" classNamePrefix="react-select"
                             value={filter.noPR}
                             options={noPROptions}
-                            onChange={this.handleNoPRChange}
+                            onChange={this.handleNoPRChange} isClearable
                         />
                     </div>
                 </FormGroup>

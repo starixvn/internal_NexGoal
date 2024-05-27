@@ -5,6 +5,13 @@ import { PerformanceProcess, EmptyPlaceHolder } from '../../../constants';
 import { noDataIndication } from '../../../common-functions';
 
 export default class Table extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            localNoPR: props.noPR
+        };
+    }
+
     getOverlay = details => {
         if (details.length > 0) {
             return (<Tooltip id="tooltip">{details.map(d => <p className="creator-item" key={d.creatorId}>{d.creatorNickname}: {d.quantity}</p>)}</Tooltip>);
@@ -13,31 +20,49 @@ export default class Table extends Component {
         return <Fragment />;
     };
 
-    renderEmployee = (employee, index) => (
-        <tr key={employee.employeeId}>
-            <td className="text-center">{index + 1}</td>
-            <td>{employee.nickName} ({employee.fullName})</td>
-            <td>{employee.jobTitle}</td>
-            <td className="text-center">{employee.selfPRQuantity > 0 ? employee.selfPRQuantity : EmptyPlaceHolder}</td>
-            <td className="text-center">
-                <OverlayTrigger placement="bottom" overlay={this.getOverlay(employee.details.filter(d => d.roleId === PerformanceProcess.ProjectManager))}>
-                    <span className="pr-quantity">{employee.pmPRQuantity > 0 ? employee.pmPRQuantity : EmptyPlaceHolder}</span>
-                </OverlayTrigger>
-            </td>
+    updateChildNoPR = (newNoPR) => {
+        this.setState({ NoPR: newNoPR });
+    };
 
-            <td className="text-center">
-                <OverlayTrigger placement="bottom" overlay={this.getOverlay(employee.details.filter(d => d.roleId === PerformanceProcess.Evaluator))}>
-                    <span className="pr-quantity">{employee.evaluatorPRQuantity > 0 ? employee.evaluatorPRQuantity : EmptyPlaceHolder}</span>
-                </OverlayTrigger>
-            </td>
-            <td className="text-center">
-                <OverlayTrigger placement="bottom" overlay={this.getOverlay(employee.details.filter(d => d.roleId === PerformanceProcess.Reviewer))}>
-                    <span className="pr-quantity">{employee.reviewerPRQuantity > 0 ? employee.reviewerPRQuantity : EmptyPlaceHolder}</span>
-                </OverlayTrigger>
-            </td>
+    renderEmployee = (employee, index) => {
+        const { nickName, fullName, jobTitle, selfPRQuantity, details } = employee;
 
-        </tr>
-    );
+        const noPR = this.state.NoPR;
+        const renderPRQuantity = (roleId, quantity) => {
+            const filteredDetails = details.filter(d => d.roleId === roleId);
+            const noPRValue = noPR && noPR.value;
+    
+            if (noPRValue === roleId && filteredDetails.length > quantity) {
+                return filteredDetails.filter(d => d.quantity === 0).map(detail => detail.creatorNickname).join(', ');
+            } else {
+                return quantity > 0 ? quantity : EmptyPlaceHolder;
+            }
+        };
+    
+        return (
+            <tr key={employee.employeeId}>
+                <td className="text-center">{index + 1}</td>
+                <td>{`${nickName} (${fullName})`}</td>
+                <td>{jobTitle}</td>
+                <td className="text-center">{selfPRQuantity > 0 ? selfPRQuantity : EmptyPlaceHolder}</td>
+                <td className="text-center">
+                    <OverlayTrigger placement="bottom" overlay={this.getOverlay(details.filter(d => d.roleId === PerformanceProcess.ProjectManager))}>
+                        <span className="pr-quantity">{renderPRQuantity(PerformanceProcess.ProjectManager, employee.pmPRQuantity)}</span>
+                    </OverlayTrigger>
+                </td>
+                <td className="text-center">
+                    <OverlayTrigger placement="bottom" overlay={this.getOverlay(details.filter(d => d.roleId === PerformanceProcess.Evaluator))}>
+                        <span className="pr-quantity">{renderPRQuantity(PerformanceProcess.Evaluator, employee.evaluatorPRQuantity)}</span>
+                    </OverlayTrigger>
+                </td>
+                <td className="text-center">
+                    <OverlayTrigger placement="bottom" overlay={this.getOverlay(details.filter(d => d.roleId === PerformanceProcess.Reviewer))}>
+                        <span className="pr-quantity">{renderPRQuantity(PerformanceProcess.Reviewer, employee.reviewerPRQuantity)}</span>
+                    </OverlayTrigger>
+                </td>
+            </tr>
+        );
+    };
 
     renderData = data => {
         return (

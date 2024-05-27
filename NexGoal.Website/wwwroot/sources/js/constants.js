@@ -19,13 +19,6 @@ export const PAEditOptions = [
     { value: false, label: 'No' }
 ];
 
-export const NoPROptions = [
-    { value: 2, text: 'Self' },
-    { value: 3, text: 'Project Manager' },
-    { value: 4, text: 'Evaluator' },
-    { value: 5, text: 'Reviewer' }
-];
-
 export const TargetType = {
     Probation: 1,
     SemiAnnual: 2

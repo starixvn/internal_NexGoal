@@ -206,41 +206,15 @@ BEGIN
 		INNER JOIN dbo.func_GetSortedEmployee(@ActorId) se ON r.EmployeeId = se.EmployeeId
 	WHERE @NoPR IS NULL
 		OR (
-			@NoPR = @SelfProcessId
+			@NoPR IN (@PMProcessId, @EvaluatorProcessId, @ReviewerProcessId, @SelfProcessId)
 			AND NOT EXISTS (
 				SELECT 1
 				FROM #detail AS d WITH (NOLOCK)
 				WHERE d.EmployeeId = r.EmployeeId
-					AND d.Quantity > 0	AND d.RoleId = @SelfProcessId
-				)
-			)
-		OR (
-			@NoPR = @PMProcessId
-			AND NOT EXISTS (
-				SELECT 1
-				FROM #detail AS d WITH (NOLOCK)
-				WHERE d.EmployeeId = r.EmployeeId AND d.RoleId = @PMProcessId
+					AND d.RoleId = @NoPR
 				HAVING MIN(d.Quantity) > 0
-				)
 			)
-		OR (
-			@NoPR = @EvaluatorProcessId
-			AND NOT EXISTS (
-				SELECT 1
-				FROM #detail AS d WITH (NOLOCK)
-				WHERE d.EmployeeId = r.EmployeeId AND d.RoleId = @EvaluatorProcessId
-				HAVING MIN(d.Quantity) > 0
-				)
-			)
-		OR (
-			@NoPR = @ReviewerProcessId
-			AND NOT EXISTS (
-				SELECT 1
-				FROM #detail AS d WITH (NOLOCK)
-				WHERE d.EmployeeId = r.EmployeeId AND d.RoleId = @ReviewerProcessId
-				HAVING MIN(d.Quantity) > 0
-				)
-			)
+		)
 	ORDER BY se.RankIndex
 
 	SELECT d.EmployeeId
@@ -251,42 +225,16 @@ BEGIN
 		,d.Quantity
 	FROM #detail AS d WITH (NOLOCK)
 	WHERE @NoPR IS NULL
-		OR (
-			@NoPR = @SelfProcessId
-			AND NOT EXISTS (
-				SELECT 1
-				FROM #detail AS d1 WITH (NOLOCK)
-				WHERE d1.EmployeeId = d.EmployeeId
-					AND d1.Quantity > 0	AND d1.RoleId = @SelfProcessId
-				)
-			)
-		OR (
-			@NoPR = @PMProcessId
-			AND NOT EXISTS (
-				SELECT 1
-				FROM #detail AS d1 WITH (NOLOCK)
-				WHERE d1.EmployeeId = d.EmployeeId AND d1.RoleId = @PMProcessId
-				HAVING MIN(d1.Quantity) > 0
-				)
-			)
-		OR (
-			@NoPR = @EvaluatorProcessId
-			AND NOT EXISTS (
-				SELECT 1
-				FROM #detail AS d1 WITH (NOLOCK)
-				WHERE d1.EmployeeId = d.EmployeeId AND d1.RoleId = @EvaluatorProcessId
-				HAVING MIN(d1.Quantity) > 0
-				)
-			)
-		OR (
-			@NoPR = @ReviewerProcessId
-			AND NOT EXISTS (
-				SELECT 1
-				FROM #detail AS d1 WITH (NOLOCK)
-				WHERE d1.EmployeeId = d.EmployeeId AND d1.RoleId = @ReviewerProcessId
-				HAVING MIN(d1.Quantity) > 0
-				)
-			)
+		 OR (
+        @NoPR IN (@PMProcessId, @EvaluatorProcessId, @ReviewerProcessId, @SelfProcessId)
+        AND NOT EXISTS (
+            SELECT 1
+            FROM #detail AS d1 WITH (NOLOCK)
+            WHERE d1.EmployeeId = d.EmployeeId
+                AND d1.RoleId = @NoPR
+            HAVING MIN(d1.Quantity) > 0
+        )
+    )
 
 	DROP TABLE #member
 

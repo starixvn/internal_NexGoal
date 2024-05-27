@@ -7,14 +7,19 @@ import getResource from '../../../resourceHelper';
 import Breadcrumb from '../../../shared/components/Breadcrumb';
 import SearchForm from './SearchForm';
 import Table from './Table';
-import { PerformanceProcess,NoPROptions } from '../../../constants';
+import { PerformanceProcess } from '../../../constants';
 
 
 export default class PRTracking extends Component {
     constructor(props) {
         super(props);
 
-        const defaultNoPR = { value: null, label: '' };
+        const NoPROptions = [
+            { value: 2, text: 'Self' },
+            { value: 3, text: 'Project Manager' },
+            { value: 4, text: 'Evaluator' },
+            { value: 5, text: 'Reviewer' }
+        ];
 
         this.state = {
             filter: {
@@ -29,8 +34,8 @@ export default class PRTracking extends Component {
         };
 
         this.employees = [];
-        this.noPROptions = [defaultNoPR, ...NoPROptions.map(ns => ({ value: ns.value, label: ns.text }))];
-
+        this.noPROptions = NoPROptions.map(ns => ({ value: ns.value, label: ns.text }));
+        this.childRef = React.createRef();
     }
 
     componentDidMount() {
@@ -97,6 +102,9 @@ export default class PRTracking extends Component {
 
     getPRTracking = () => {
         const filter = this.state.filter;
+        if (this.childRef.current) {
+            this.childRef.current.updateChildNoPR(this.state.filter.noPR);
+        }
 
         axios.get(resolveClientUrl('PRTracking/Get'), {
             params: {
@@ -153,6 +161,8 @@ export default class PRTracking extends Component {
 
                     <Table tableData={tableData}
                         period={period}
+                        noPR = {filter.noPR}
+                        ref={this.childRef}
                     />
                 </div>
             </div>
