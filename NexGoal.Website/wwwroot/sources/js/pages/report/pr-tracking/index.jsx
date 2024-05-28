@@ -14,13 +14,6 @@ export default class PRTracking extends Component {
     constructor(props) {
         super(props);
 
-        const NoPROptions = [
-            { value: 2, text: 'Self' },
-            { value: 3, text: 'Project Manager' },
-            { value: 4, text: 'Evaluator' },
-            { value: 5, text: 'Reviewer' }
-        ];
-
         this.state = {
             filter: {
                 groups: [],
@@ -34,8 +27,6 @@ export default class PRTracking extends Component {
         };
 
         this.employees = [];
-        this.noPROptions = NoPROptions.map(ns => ({ value: ns.value, label: ns.text }));
-        this.childRef = React.createRef();
     }
 
     componentDidMount() {
@@ -69,42 +60,12 @@ export default class PRTracking extends Component {
                     employees: employeeOptions
                 };
 
-                this.setState({ filter, employeeOptions, groupOptions }, this.getPRTracking);
+                this.setState({ filter, employeeOptions, groupOptions }, this.getPRTracking(filter));
             }).catch(axiosError);
     }
 
-    handleFilterChange = (name, value) => {
-        if (name === 'groups') {
-            const employeeChoosens = this.employees.filter(e => value.some(v => v.id === e.groupId))
-                .map(e => ({
-                    id: e.employeeId,
-                    text: `${e.nickName} (${e.fullName})`,
-                    checked: true
-                }));
-
-            this.setState({
-                employeeOptions: employeeChoosens,
-                filter: {
-                    ...this.state.filter,
-                    [name]: value,
-                    employees: employeeChoosens
-                }
-            });
-        } else {
-            this.setState({
-                filter: {
-                    ...this.state.filter,
-                    [name]: value
-                }
-            });
-        }
-    };
-
-    getPRTracking = () => {
-        const filter = this.state.filter;
-        if (this.childRef.current) {
-            this.childRef.current.updateChildNoPR(this.state.filter.noPR);
-        }
+    getPRTracking = filter => {
+        this.setState({ filter});
 
         axios.get(resolveClientUrl('PRTracking/Get'), {
             params: {
@@ -139,6 +100,7 @@ export default class PRTracking extends Component {
             });
         }).catch(axiosError);
     };
+
     render() {
         const { filter, period, groupOptions, employeeOptions, tableData } = this.state;
 
@@ -151,10 +113,9 @@ export default class PRTracking extends Component {
                     {
                         this.employees.length > 1 && groupOptions.length > 0 &&
                         <SearchForm filter={filter}
+                            employees = {this.employees}
                             groupOptions={groupOptions}
                             employeeOptions={employeeOptions}
-                            noPROptions={this.noPROptions}
-                            onFilterChange={this.handleFilterChange}
                             onSubmit={this.getPRTracking}
                         />
                     }
@@ -162,7 +123,6 @@ export default class PRTracking extends Component {
                     <Table tableData={tableData}
                         period={period}
                         noPR = {filter.noPR}
-                        ref={this.childRef}
                     />
                 </div>
             </div>

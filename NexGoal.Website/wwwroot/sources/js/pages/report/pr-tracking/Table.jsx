@@ -5,12 +5,6 @@ import { PerformanceProcess, EmptyPlaceHolder } from '../../../constants';
 import { noDataIndication } from '../../../common-functions';
 
 export default class Table extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            localNoPR: props.noPR
-        };
-    }
 
     getOverlay = details => {
         if (details.length > 0) {
@@ -20,14 +14,9 @@ export default class Table extends Component {
         return <Fragment />;
     };
 
-    updateChildNoPR = (newNoPR) => {
-        this.setState({ NoPR: newNoPR });
-    };
-
     renderEmployee = (employee, index) => {
         const { nickName, fullName, jobTitle, selfPRQuantity, details } = employee;
-
-        const noPR = this.state.NoPR;
+        const noPR = this.props.noPR;
         const renderPRQuantity = (roleId, quantity) => {
             const filteredDetails = details.filter(d => d.roleId === roleId);
             const noPRValue = noPR && noPR.value;

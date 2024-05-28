@@ -6,26 +6,68 @@ import getResource from '../../../resourceHelper';
 import Multiselect from '../../../shared/components/react-multiselect/index';
 
 export default class SearchForm extends Component {
-    handleGroupChange = selectedOption => {
-        this.props.onFilterChange('groups', selectedOption);
+    constructor(props) {
+        super(props);
+        const NoPROptions = [
+            { value: 2, text: 'Self' },
+            { value: 3, text: 'Project Manager' },
+            { value: 4, text: 'Evaluator' },
+            { value: 5, text: 'Reviewer' }
+        ];
+
+        this.state = {
+            filter: {
+                groups: props.groupOptions,
+                employees: props.employeeOptions,
+                noPR: null
+            },
+        employees : props.employees,
+        employeeOptions: props.employeeOptions
+        };
+
+        this.noPROptions = NoPROptions.map(ns => ({ value: ns.value, label: ns.text }));
+    }
+
+    handleFilterChange = (name, value) => {
+        if (name === 'groups') {
+            const employeeChoosens = this.state.employees.filter(e => value.some(v => v.id === e.groupId))
+                .map(e => ({
+                    id: e.employeeId,
+                    text: `${e.nickName} (${e.fullName})`,
+                    checked: true
+                }));
+
+            this.setState({
+                employeeOptions: employeeChoosens,
+                filter: {
+                    ...this.state.filter,
+                    [name]: value,
+                    employees: employeeChoosens
+                }
+            });
+        } else {
+            this.setState({
+                filter: {
+                    ...this.state.filter,
+                    [name]: value
+                }
+            });
+        }
     };
 
-    handleEmployeeChange = selectedOption => {
-        this.props.onFilterChange('employees', selectedOption);
-    };
+    handleGroupChange = selectedOption => this.handleFilterChange('groups', selectedOption);
 
-    handleNoPRChange = selectedOption => {
-        this.props.onFilterChange('noPR', selectedOption);
-    };
+    handleEmployeeChange = selectedOption => { this.handleFilterChange('employees', selectedOption);};
+
+    handleNoPRChange = selectedOption => { this.handleFilterChange('noPR', selectedOption);};
 
     handleSubmit = event => {
         event.preventDefault();
-        this.props.onSubmit();
+        this.props.onSubmit(this.state.filter);
     };
 
     render() {
-        const { filter, groupOptions, employeeOptions, noPROptions } = this.props;
-
+        const { groupOptions } = this.props;
         return (
             <Form inline className="form-filter" onSubmit={this.handleSubmit}>
                 {
@@ -40,12 +82,11 @@ export default class SearchForm extends Component {
                         </div>
                     </FormGroup>
                 }
-
                 <FormGroup>
                     <ControlLabel>{getResource('Employee')}</ControlLabel>
                     <div className="control-content employee-width pr-tracking-search-form">
                         <Multiselect hasSearchBox
-                            items={employeeOptions}
+                            items={this.state.employeeOptions}
                             onChange={this.handleEmployeeChange}
                         />
                     </div>
@@ -55,8 +96,8 @@ export default class SearchForm extends Component {
                     <div className="control-content select-noPR">
                         <Select name="noPR"
                             className="react-select-container" classNamePrefix="react-select"
-                            value={filter.noPR}
-                            options={noPROptions}
+                            value={this.state.filter.noPR}
+                            options={this.noPROptions}
                             onChange={this.handleNoPRChange} isClearable
                         />
                     </div>
