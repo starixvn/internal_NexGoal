@@ -36,6 +36,7 @@ module.exports = {
         [`${styleDistPath}/login`]: `${styleSourcePath}/login.scss`,
         //
         [`${jsDistPath}/main`]: './sources/js/main.js',
+        [`${jsDistPath}/menu`]: './sources/js/shared/layouts/Menu.jsx',
         [`${jsDistPath}/search-member`]: './sources/js/SearchMember.jsx',
         [`${jsDistPath}/notification`]: './sources/js/NotificationBell.jsx',
         [`${jsDistPath}/notification-center`]: `${jsSourcePath}/notification/index.jsx`,

@@ -4,9 +4,6 @@
 
 @{
     var employee = Model.UserInfo;
-    var currentController = ViewContext.RouteData.Values["Controller"].ToString().ToLowerInvariant();
-    var currentAction = ViewContext.RouteData.Values["Action"].ToString().ToLowerInvariant();
-    var currentUrl = string.Format("/{0}/{1}", currentController, currentAction);
 }
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -15,41 +12,8 @@
             <img src="~/sources/styles/images/@Model.LogoName" alt="@Model.LogoName" />
         </a>
     </div>
-    <div class="pull-left nav-hamberger" id="js-navHamburger">
-        <div class="toggle-btn" id="js-btnToggleMenu">
-            <span class="lines"></span>
-        </div>
-        @if (Model.MenuItems != null && Model.MenuItems.Any())
-        {
-            <ul class="nav navbar-nav">
-                @foreach (MenuItemSession menuGroup in Model.MenuItems)
-                {
-                    @if (menuGroup.Childs != null && menuGroup.Childs.Any())
-                    {
-                        <li class="dropdown @(menuGroup.Childs.Any(c => currentUrl.Equals(c.Link.ToLowerInvariant(), StringComparison.CurrentCultureIgnoreCase)) ? "active" : string.Empty)">
-                            <a href="javascript:;" class="dropdown-toggle">
-                                @menuGroup.Name <span class="icon-submenu"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                @foreach (MenuItemSession child in menuGroup.Childs)
-                                {
-                                    <li class="@(currentUrl.Equals(child.Link.ToLowerInvariant(),  StringComparison.CurrentCultureIgnoreCase) ? "active" : string.Empty)">
-                                        <a href="@child.Link">@child.Name</a>
-                                    </li>
-                                }
-                            </ul>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="@(currentUrl.Equals(menuGroup.Link.ToLowerInvariant(),  StringComparison.CurrentCultureIgnoreCase) ? "active" : string.Empty)">
-                            <a href="@menuGroup.Link">@menuGroup.Name</a>
-                        </li>
-                    }
-                }
-            </ul>
-        }
-    </div>
+
+    <div id="menu-wrapper"></div>
 
     <div class="auth-info pull-right">
         <div id="search-member-wrapper" class="search-member-wrapper"></div>
