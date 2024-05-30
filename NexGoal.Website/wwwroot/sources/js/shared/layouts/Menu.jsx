@@ -29,7 +29,8 @@ export default class Menu extends Component {
 
     setCurrentUrl = () => {
         const path = window.location.pathname.toLowerCase();
-        const currentUrl = path === '/' ? '/home/index' : path;
+        const isHomeOrMyProbation = path === '/' || path === '/myprobation';
+        const currentUrl = isHomeOrMyProbation ? '/home/index' : path;
         this.setState({ currentUrl });
     }
 
