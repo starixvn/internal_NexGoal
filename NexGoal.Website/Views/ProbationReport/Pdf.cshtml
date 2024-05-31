@@ -22,7 +22,7 @@
             <table class="info-rate">
                 <tr>
                     <td rowspan="5" class="user-info">
-                        <img src="@($"{appSettings.ImageUrl}/{Model.Code}.jpg")" alt="avatar" class="avatar" />
+                        <img src="data:image/jpg;base64,@Model.Base64Avatar" alt="avatar" class="avatar" />
                         <ul>
                             <li class="info">
                                 <span class="label">Full Name:</span>

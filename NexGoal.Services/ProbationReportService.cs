@@ -5,10 +5,13 @@
     using System.Drawing;
     using System.IO;
     using System.Linq;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using DinkToPdf;
     using DinkToPdf.Contracts;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.DependencyInjection;
+    using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Probation;
     using NexGoal.Models.Common;
@@ -38,6 +41,7 @@
         private const int ReviewerResultColumn = 12;
         private const int ReviewerCommentColumn = 13;
 
+        private readonly AppSettings appSettings;
         private readonly IProbationRepository probationRepository;
         private readonly IBaseService baseService;
         private readonly ICryptoService cryptoService;
@@ -45,20 +49,22 @@
         private readonly IViewRenderService viewRenderService;
         private readonly IConverter converter;
         private readonly ICommonService commonService;
+        private readonly HttpClient httpClient;
 
-        public ProbationReportService(IProbationRepository probationRepository, IBaseService baseService, ICryptoService cryptoService,
-            IWebHostEnvironment hostingEnvironment,
-             IViewRenderService viewRenderService,
-            IConverter converter,
-            ICommonService commonService)
+        public ProbationReportService(
+            AppSettings appSettings,
+            IHttpClientFactory httpClientFactory,
+            IServiceProvider serviceProvider)
         {
-            this.probationRepository = probationRepository;
-            this.baseService = baseService;
-            this.cryptoService = cryptoService;
-            this.hostingEnvironment = hostingEnvironment;
-            this.viewRenderService = viewRenderService;
-            this.converter = converter;
-            this.commonService = commonService;
+            this.appSettings = appSettings;
+            hostingEnvironment = serviceProvider.GetRequiredService<IWebHostEnvironment>();
+            commonService = serviceProvider.GetRequiredService<ICommonService>();
+            probationRepository = serviceProvider.GetRequiredService<IProbationRepository>();
+            baseService = serviceProvider.GetRequiredService<IBaseService>();
+            cryptoService = serviceProvider.GetRequiredService<ICryptoService>();
+            viewRenderService = serviceProvider.GetRequiredService<IViewRenderService>();
+            converter = serviceProvider.GetRequiredService<IConverter>();
+            httpClient = httpClientFactory.CreateClient();
         }
 
         public async Task<ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndEmployeesAsync(int actorId)
@@ -138,7 +144,7 @@
 
         public async Task<PdfModel> ExportPdfAsync(int employeeId, int actorId)
         {
-            var reportModel = await GetPdfData(employeeId, actorId);
+            var reportModel = await GetPdfDataAsync(employeeId, actorId);
 
             if (reportModel != null)
             {
@@ -221,7 +227,7 @@
             return default;
         }
 
-        private async Task<ProbationReportPdfModel> GetPdfData(int employeeId, int actorId)
+        private async Task<ProbationReportPdfModel> GetPdfDataAsync(int employeeId, int actorId)
         {
             var criteria = new GetProbationReportByEmployeeIdCriteria { EmployeeId = employeeId, ActorId = actorId };
             (var probationers, var groups, var details) =
@@ -243,6 +249,16 @@
                     });
                 }
 
+                var requestUri = new Uri($"{appSettings.ImageUrl}/{probationer.Code}.jpg");
+                using (var response = await httpClient.GetAsync(requestUri))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var imageBytes = await response.Content.ReadAsByteArrayAsync();
+                        probationer.Base64Avatar = Convert.ToBase64String(imageBytes);
+                    }
+                }
+
                 probationer.SelfScore = cryptoService.Decrypt(probationer.SelfScore);
                 probationer.EvaluatorScore = cryptoService.Decrypt(probationer.EvaluatorScore);
 
@@ -250,6 +266,7 @@
 
                 probationer.Hrm = await probationRepository.GetHRM(new GetHRMCriteria { EmployeeId = employeeId });
             }
+
             return probationer;
         }
 

@@ -39,5 +39,7 @@
         public bool? IsQualifiedByEvaluator { get; set; }
 
         public bool CanViewEvaluatorResult { get; set; }
+
+        public string Base64Avatar { get; set; }
     }
 }
