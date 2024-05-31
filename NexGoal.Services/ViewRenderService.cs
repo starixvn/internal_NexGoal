@@ -54,7 +54,7 @@
                 );
 
                 await viewResult.View.RenderAsync(viewContext);
-                return sw.ToString();
+                return sw.GetStringBuilder().ToString();
             }
         }
 
