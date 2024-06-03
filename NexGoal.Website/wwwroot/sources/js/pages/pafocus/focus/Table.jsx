@@ -64,10 +64,17 @@ export default class Table extends Component {
         this.props.onExportToExcel();
     };
 
+    getDateFieldValue = (period, fieldName, defaultValue) => {
+        return period && period[fieldName] ? moment(period[fieldName]).format(DateFormat) : defaultValue;
+    };
+
     render() {
-        const period = this.props.period,
-            focusStartDate = period && period.focusStartDate ? moment(period.focusStartDate).format(DateFormat) : '',
-            focusEndDate = period && period.focusEndDate ? moment(period.focusEndDate).format(DateFormat) : '';
+        const period = this.props.period;
+        const focusStartDate = this.getDateFieldValue(period, 'focusStartDate', ''),
+            focusEndDate = this.getDateFieldValue(period, 'focusEndDate', ''),
+            disciplineStartDate = this.getDateFieldValue(period, 'disciplineStartDate', moment().format(DateFormat)),
+            disciplineEndDate = this.getDateFieldValue(period, 'disciplineEndDate', moment().format(DateFormat));
+
         const pafocuses = this.props.data;
 
         return (
@@ -112,8 +119,8 @@ export default class Table extends Component {
                                                     return (
                                                         <Row key={`member${member.paFocusId}`}
                                                             data={member}
-                                                        disciplineStartDate={period && period.disciplineStartDate}
-                                                        disciplineEndDate={period && period.disciplineEndDate}
+                                                            disciplineStartDate={disciplineStartDate}
+                                                            disciplineEndDate={disciplineEndDate}
                                                             rowIndex={index + 1}
                                                             focusEvaluationLevelOptions={this.props.focusEvaluationLevelOptions}
                                                             onChange={this.props.onChange}

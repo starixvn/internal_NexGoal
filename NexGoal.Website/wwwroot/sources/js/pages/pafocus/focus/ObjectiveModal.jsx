@@ -30,10 +30,13 @@ export default class ObjectiveModal extends Component {
                 }
             }).then(response => {
                 const data = response.data;
-                setTimeout(() => {
-                    data && data.comment ? setFieldValue(`value`, data.comment) : toast.info('No data found!');
-                    unblockUI();
-                }, 300);
+                if (data) {
+                    setFieldValue(`value`, data.comment);
+                } else {
+                    toast.info('No data found!');
+                }
+
+                unblockUI();
             }).catch(axiosError);
     }
 
