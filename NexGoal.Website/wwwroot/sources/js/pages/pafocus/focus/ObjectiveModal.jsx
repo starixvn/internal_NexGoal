@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Button, Form, FormGroup, Modal } from 'react-bootstrap';
 import { Formik } from 'formik';
 import axios from 'axios';
-import { axiosError, resolveClientUrl, blockUI, unblockUI } from '../../../common-functions';
 import { toast } from 'react-toastify';
 
 import getResource from '../../../resourceHelper';
+import { axiosError, resolveClientUrl } from '../../../common-functions';
 
 export default class ObjectiveModal extends Component {
     static propTypes = {
@@ -18,7 +18,6 @@ export default class ObjectiveModal extends Component {
     };
 
     getNextObjectives = setFieldValue => {
-        blockUI();
         const { disciplineStartDate, disciplineEndDate, employee } = this.props;
 
         axios(resolveClientUrl('PAFocus/GetLastPerformanceRecordByEmployee'),
@@ -35,8 +34,6 @@ export default class ObjectiveModal extends Component {
                 } else {
                     toast.info('No data found!');
                 }
-
-                unblockUI();
             }).catch(axiosError);
     }
 
