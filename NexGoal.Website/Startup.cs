@@ -67,7 +67,7 @@
             var ldapSettings = Configuration.GetSection("LDAPSettings").Get<LdapSettings>();
             services.AddSingleton(ldapSettings);
 
-            var accessSettings = Configuration.GetSection("AccessSettings").Get<AccessSettings>();
+            var accessSettings = Configuration.GetSection("AccessControlSettings").Get<AccessControlSettings>();
             services.AddSingleton(accessSettings);
 
             var connections = Configuration.GetSection("ConnectionStrings")
@@ -127,7 +127,6 @@
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseStaticFiles();
 
             if (env.IsDevelopment())
             {
@@ -135,15 +134,18 @@
             }
             else
             {
-                app.UseMiddleware<AccessControlMiddleware>();
                 app.UseMiddleware<ErrorHandlingMiddleware>();
                 app.UseHsts();
             }
 
             app.UseResponseCompression();
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseRouting();
+
+            app.UseMiddleware<AccessControlMiddleware>();
+
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
