@@ -27,20 +27,19 @@
         };
 
         private const string ExcelTemplatePath = "ExcelTemplates/PAFocus.xlsx";
-        private const int TotalCells = 11;
-        private const int PAFocusColumnWidth = 60;
+        private const byte TotalCells = 11;
 
-        private const int RowIndexColumn = 1;
-        private const int NickNameColumn = 2;
-        private const int FullNameColumn = 3;
-        private const int JobTitleColumn = 4;
-        private const int GroupNameColumn = 5;
-        private const int ContributionColumn = 6;
-        private const int BonusGivenColumn = 7;
-        private const int ReadyPromotionColumn = 8;
-        private const int PAGradeColumn = 9;
-        private const int CurrentObjectiveColumn = 10;
-        private const int NextObjectiveColumn = 11;
+        private const byte RowIndexColumn = 1;
+        private const byte NickNameColumn = 2;
+        private const byte FullNameColumn = 3;
+        private const byte JobTitleColumn = 4;
+        private const byte GroupNameColumn = 5;
+        private const byte ContributionColumn = 6;
+        private const byte BonusGivenColumn = 7;
+        private const byte ReadyPromotionColumn = 8;
+        private const byte PAGradeColumn = 9;
+        private const byte CurrentObjectiveColumn = 10;
+        private const byte NextObjectiveColumn = 11;
 
         private readonly IWebHostEnvironment hostingEnvironment;
         private readonly ICommonService commonService;
@@ -118,14 +117,12 @@
                         currentRow++;
                     }
 
-                    worksheet.Column(NickNameColumn).AutoFit();
-                    worksheet.Column(FullNameColumn).AutoFit();
-                    worksheet.Column(JobTitleColumn).AutoFit();
-                    worksheet.Column(GroupNameColumn).AutoFit();
-                    worksheet.Column(ContributionColumn).AutoFit();
-                    worksheet.Column(BonusGivenColumn).AutoFit();
-                    worksheet.Column(ReadyPromotionColumn).AutoFit();
-                    worksheet.Column(PAGradeColumn).AutoFit();
+                    const byte ColumnWidth = 20;
+                    const byte PAFocusColumnWidth = 60;
+
+                    worksheet.Column(FullNameColumn).Width = ColumnWidth;
+                    worksheet.Column(JobTitleColumn).Width = ColumnWidth;
+                    worksheet.Column(GroupNameColumn).Width = ColumnWidth;
                     worksheet.Column(CurrentObjectiveColumn).Width = PAFocusColumnWidth;
                     worksheet.Column(NextObjectiveColumn).Width = PAFocusColumnWidth;
 
