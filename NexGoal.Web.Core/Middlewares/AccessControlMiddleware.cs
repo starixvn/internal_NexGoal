@@ -21,7 +21,7 @@
 
         public async Task Invoke(HttpContext context)
         {
-            if (!context.Request.Path.StartsWithSegments("/Whoami"))
+            if (!context.Request.Path.StartsWithSegments("/Whoami") && !context.Request.Path.StartsWithSegments("/api"))
             {
                 var today = DateTimeOffset.Now.Date;
                 var isPublicAccess = accessSettings.PublicDateRanges.Exists(dateRange =>
