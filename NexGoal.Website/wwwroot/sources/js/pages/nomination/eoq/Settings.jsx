@@ -56,15 +56,16 @@ class Settings extends Component {
     };
 
     handleSubmit = (values, { setErrors }) => {
+        const dateFormat = 'YYYY-MM-DD';
         const eoq = stringify({
             __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
             eoqId: this.state.eoq.eoqyId,
             quarter: values.quarter,
             year: values.year,
-            startDateForNominator: values.startDateForNominator.toDate(),
-            endDateForNominator: values.endDateForNominator.toDate(),
-            remindDateForNominator: values.remindDateForNominator.toDate(),
-            endDateForCommittee: values.endDateForCommittee.toDate(),
+            startDateForNominator: values.startDateForNominator.format(dateFormat),
+            endDateForNominator: values.endDateForNominator.format(dateFormat),
+            remindDateForNominator: values.remindDateForNominator.format(dateFormat),
+            endDateForCommittee: values.endDateForCommittee.format(dateFormat),
             description: values.description
         });
 
