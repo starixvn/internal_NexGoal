@@ -46,11 +46,11 @@ class GroupFlowSetting extends Component {
                 const data = response.data;
 
                 this.setState({
-                    evaluator: {
+                    evaluator: !data.evaluator ? data.evaluator : {
                         ...data.evaluator,
                         avatar: `${document.imageUrl}/${data.evaluator.code}.jpg`
                     },
-                    reviewer: {
+                    reviewer: !data.reviewer ? data.reviewer : {
                         ...data.reviewer,
                         avatar: `${document.imageUrl}/${data.reviewer.code}.jpg`
                     },
