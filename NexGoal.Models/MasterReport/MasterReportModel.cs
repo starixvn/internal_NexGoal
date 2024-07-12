@@ -41,8 +41,6 @@
         public float ActualWorkingDay { get; set; }
         public float TotalSpentTime { get; set; }
 
-        public bool IsGroupLeader { get; set; }
-
         public IEnumerable<AwardModel> Awards { get; set; } = new List<AwardModel>();
         public IEnumerable<PAProcessModel> Processes { get; set; } = new List<PAProcessModel>();
     }
