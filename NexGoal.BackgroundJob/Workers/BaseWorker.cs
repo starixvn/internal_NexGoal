@@ -1,3 +1,5 @@
+using Cronos;
+
 namespace NexGoal.BackgroundJob.Workers
 {
     public abstract class BaseWorker : BackgroundService
@@ -25,7 +27,12 @@ namespace NexGoal.BackgroundJob.Workers
                         logger.Error(ex.ToString());
                     }
 
-                    await Task.Delay(TimeSpan.FromSeconds(jobSetting.TimeInterval), stoppingToken);
+                    var cronExpression = CronExpression.Parse(jobSetting.CronExpression);
+                    var currentUtcTime = DateTimeOffset.UtcNow.UtcDateTime;
+                    var occurenceTime = cronExpression.GetNextOccurrence(currentUtcTime);
+
+                    var delay = occurenceTime.GetValueOrDefault() - currentUtcTime;
+                    await Task.Delay(delay, stoppingToken);
                 }
             }
         }

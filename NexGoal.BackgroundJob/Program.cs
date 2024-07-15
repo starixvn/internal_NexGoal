@@ -31,6 +31,11 @@ builder.Services.AddFanexMySql(builder.Configuration);
 
 builder.Services.Configure<List<JobSetting>>(builder.Configuration.GetSection("JobSettings"));
 builder.Services.AddHostedService<SyncRedmineDataWorker>();
+builder.Services.AddHostedService<SyncProbationDataWorker>();
+builder.Services.AddHostedService<SyncPeriodDataWorker>();
+builder.Services.AddHostedService<SyncPADataWorker>();
+builder.Services.AddHostedService<SyncPAFocusDataWorker>();
+builder.Services.AddHostedService<SyncNominationDataWorker>();
 var host = builder.Build();
 host.Run();
 

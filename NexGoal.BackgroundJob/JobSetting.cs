@@ -6,6 +6,7 @@
 
         public bool IsEnabled { get; set; }
 
-        public int TimeInterval { get; set; }
+        public string CronExpression { get; set; }
+
     }
 }
