@@ -20,19 +20,19 @@ namespace NexGoal.BackgroundJob.Workers
                 {
                     try
                     {
+                        var cronExpression = CronExpression.Parse(jobSetting.CronExpression);
+                        var currentUtcTime = DateTimeOffset.UtcNow.UtcDateTime;
+                        var occurenceTime = cronExpression.GetNextOccurrence(currentUtcTime);
+
+                        var delay = occurenceTime.GetValueOrDefault() - currentUtcTime;
+                        await Task.Delay(delay, stoppingToken);
+
                         await ExecuteJobAsync();
                     }
                     catch (Exception ex)
                     {
                         logger.Error(ex.ToString());
                     }
-
-                    var cronExpression = CronExpression.Parse(jobSetting.CronExpression);
-                    var currentUtcTime = DateTimeOffset.UtcNow.UtcDateTime;
-                    var occurenceTime = cronExpression.GetNextOccurrence(currentUtcTime);
-
-                    var delay = occurenceTime.GetValueOrDefault() - currentUtcTime;
-                    await Task.Delay(delay, stoppingToken);
                 }
             }
         }
