@@ -4,17 +4,38 @@ using Fanex.Data.SqlServer;
 using Fanex.Logging;
 using Fanex.Logging.Sentry;
 using NexGoal.BackgroundJob;
+using NexGoal.BackgroundJob.Services;
 using NexGoal.BackgroundJob.Workers;
+using NexGoal.Core.Models;
 using NexGoal.Core.Repositories;
 using NexGoal.Core.Services;
 using Sentry;
 
 var builder = Host.CreateApplicationBuilder(args);
-
 builder.Services.AddSingleton<Fanex.Logging.ILogger, Logger>();
+
+var appSettings = builder.Configuration.GetSection("AppSettings").Get<AppSettings>();
+builder.Services.AddSingleton(appSettings);
+
+var mailConfigs = builder.Configuration.GetSection("MailConfigs").Get<MailConfigs>();
+builder.Services.AddSingleton(mailConfigs);
+
+var chatbotConfigs = builder.Configuration.GetSection("ChatbotConfigs").Get<ChatbotConfigs>();
+builder.Services.AddSingleton(chatbotConfigs);
+
+
+builder.Services.AddSingleton<IChatbotService, ChatbotService>();
+builder.Services.AddSingleton<IBaseMailService, BaseMailService>();
+builder.Services.AddSingleton<ICryptoService, CryptoService>();
+builder.Services.AddSingleton<IBaseService, BaseService>();
 builder.Services.AddSingleton<IBaseService, BaseService>();
 builder.Services.AddSingleton<IDynamicRepository, DynamicRepository>();
 builder.Services.AddSingleton<IBaseRepository, BaseRepository>();
+builder.Services.AddSingleton<IPeriodService, PeriodService>();
+builder.Services.AddSingleton<IPAService, PAService>();
+builder.Services.AddSingleton<IPAFocusService, PAFocusService>();
+builder.Services.AddSingleton<INominationService, NominationService>();
+builder.Services.AddSingleton<IProbationService, ProbationService>();
 
 LogManager
     .SetDefaultLogCategory(builder.Configuration.GetSection("LogCategory").Value)
@@ -26,6 +47,8 @@ LogManager
             FrontEndDsn = new Dsn(builder.Configuration.GetSection("SentryEngineOptions:FrontEndDsn").Value)
         })
     });
+
+builder.Services.AddHttpClient();
 builder.Services.AddFanexSql(builder.Configuration);
 builder.Services.AddFanexMySql(builder.Configuration);
 
@@ -38,4 +61,3 @@ builder.Services.AddHostedService<SyncPAFocusDataWorker>();
 builder.Services.AddHostedService<SyncNominationDataWorker>();
 var host = builder.Build();
 host.Run();
-

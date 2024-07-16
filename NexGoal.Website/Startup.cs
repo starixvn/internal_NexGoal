@@ -1,4 +1,4 @@
-﻿﻿namespace NexGoal.Website
+﻿namespace NexGoal.Website
 {
     using System;
     using System.Collections.Generic;
@@ -22,7 +22,6 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using NexGoal.AutoService.Extensions;
     using NexGoal.Core;
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
@@ -85,7 +84,7 @@
                 .WithSqlServer()
                 .UseDefaultDbSettingProvider("~/App_Data")
                 .Run();
-            
+
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
             services.AddResponseCompression(options =>
             {
@@ -116,7 +115,6 @@
 
             services.ResolveCoreDI();
             services.ResolveServiceDI();
-            services.ResolveAutoServiceDI();
 
             services.AddControllersWithViews()
                 .AddMvcOptions(o =>
@@ -194,7 +192,7 @@
             services.AddDataProtection()
                 .SetApplicationName(appName)
                 .PersistKeysToStackExchangeRedis(redis, $"{appName}:DataProtection:Keys");
-            
+
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = redisConnectionString;

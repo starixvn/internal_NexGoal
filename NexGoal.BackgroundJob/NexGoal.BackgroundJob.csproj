@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NexGoal.AutoService\NexGoal.AutoService.csproj" />
+    <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj" />
+    <ProjectReference Include="..\NexGoal.Resources\NexGoal.Resources.csproj" />
   </ItemGroup>
 </Project>

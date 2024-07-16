@@ -1,8 +1,8 @@
 namespace NexGoal.BackgroundJob.Workers
 {
+    using Criterias.Redmine;
     using Microsoft.Extensions.Options;
-    using NexGoal.AutoService.Criterias.Redmine;
-    using NexGoal.AutoService.Models.Redmine;
+    using Models.Redmine;
     using NexGoal.Core.Services;
 
     public class SyncRedmineDataWorker : BaseWorker
@@ -84,21 +84,21 @@ namespace NexGoal.BackgroundJob.Workers
 
         private async Task SyncCustomValue()
         {
-                var criteria = new GetMaxCustomValueCriteria();
-                var maxCustomValueId = await baseService.GetDataEntityAsync<int>(criteria);
+            var criteria = new GetMaxCustomValueCriteria();
+            var maxCustomValueId = await baseService.GetDataEntityAsync<int>(criteria);
 
-                var criteria2 = new GetCustomValueByMinIdCriteria
-                {
-                    MinCustomValueId = maxCustomValueId
-                };
-                var customValues = await baseService.GetDataAsync<CustomValue>(criteria2);
+            var criteria2 = new GetCustomValueByMinIdCriteria
+            {
+                MinCustomValueId = maxCustomValueId
+            };
+            var customValues = await baseService.GetDataAsync<CustomValue>(criteria2);
 
-                var criteria3 = new SyncCustomValueCriteria
-                {
-                    CustomValues = customValues.ToList()
-                };
+            var criteria3 = new SyncCustomValueCriteria
+            {
+                CustomValues = customValues.ToList()
+            };
 
-                await baseService.ExecuteNonQueryAsync(criteria3);
+            await baseService.ExecuteNonQueryAsync(criteria3);
 
         }
     }

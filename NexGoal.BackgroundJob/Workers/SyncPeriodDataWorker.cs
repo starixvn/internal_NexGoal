@@ -1,7 +1,7 @@
 namespace NexGoal.BackgroundJob.Workers
 {
-    using AutoService.Services;
     using Microsoft.Extensions.Options;
+    using Services;
 
     public class SyncPeriodDataWorker : BaseWorker
     {
@@ -11,7 +11,7 @@ namespace NexGoal.BackgroundJob.Workers
             IOptions<List<JobSetting>> jobSettings,
             IPeriodService periodService) : base(logger)
         {
-            jobSetting = JobHelper.GetJobConfig(jobSettings.Value, JobConstants.SyncPeriodDataWorker);
+            jobSetting = JobHelper.GetJobConfig(jobSettings.Value, JobConstants.SyncPeriodData);
             this.periodService = periodService;
         }
 

@@ -1,7 +1,7 @@
 namespace NexGoal.BackgroundJob.Workers
 {
-    using AutoService.Services;
     using Microsoft.Extensions.Options;
+    using Services;
 
     public class SyncProbationDataWorker : BaseWorker
     {
@@ -11,7 +11,7 @@ namespace NexGoal.BackgroundJob.Workers
             IOptions<List<JobSetting>> jobSettings,
             IProbationService probationService) : base(logger)
         {
-            jobSetting = JobHelper.GetJobConfig(jobSettings.Value, JobConstants.SyncProbationDataWorker);
+            jobSetting = JobHelper.GetJobConfig(jobSettings.Value, JobConstants.SyncProbationData);
             this.probationService = probationService;
         }
 

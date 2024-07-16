@@ -1,7 +1,7 @@
 namespace NexGoal.BackgroundJob.Workers
 {
-    using AutoService.Services;
     using Microsoft.Extensions.Options;
+    using Services;
 
     public class SyncPAFocusDataWorker : BaseWorker
     {
@@ -11,7 +11,7 @@ namespace NexGoal.BackgroundJob.Workers
             IOptions<List<JobSetting>> jobSettings,
             IPAFocusService focusService) : base(logger)
         {
-            jobSetting = JobHelper.GetJobConfig(jobSettings.Value, JobConstants.SyncPAFocusDataWorker);
+            jobSetting = JobHelper.GetJobConfig(jobSettings.Value, JobConstants.SyncPAFocusData);
             this.focusService = focusService;
         }
 

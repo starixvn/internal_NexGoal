@@ -1,7 +1,7 @@
 namespace NexGoal.BackgroundJob.Workers
 {
     using Microsoft.Extensions.Options;
-    using NexGoal.AutoService.Services;
+    using Services;
 
     public class SyncNominationDataWorker : BaseWorker
     {
@@ -11,7 +11,7 @@ namespace NexGoal.BackgroundJob.Workers
             IOptions<List<JobSetting>> jobSettings,
             INominationService nominationService) : base(logger)
         {
-            jobSetting = JobHelper.GetJobConfig(jobSettings.Value, JobConstants.SyncNominationDataWorker);
+            jobSetting = JobHelper.GetJobConfig(jobSettings.Value, JobConstants.SyncNominationData);
             this.nominationService = nominationService;
         }
 

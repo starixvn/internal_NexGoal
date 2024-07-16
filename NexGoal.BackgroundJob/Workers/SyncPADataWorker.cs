@@ -1,7 +1,7 @@
 namespace NexGoal.BackgroundJob.Workers
 {
     using Microsoft.Extensions.Options;
-    using NexGoal.AutoService.Services;
+    using Services;
 
     public class SyncPADataWorker : BaseWorker
     {
@@ -11,7 +11,7 @@ namespace NexGoal.BackgroundJob.Workers
             IOptions<List<JobSetting>> jobSettings,
             IPAService paService) : base(logger)
         {
-            jobSetting = JobHelper.GetJobConfig(jobSettings.Value, JobConstants.SyncPADataWorker);
+            jobSetting = JobHelper.GetJobConfig(jobSettings.Value, JobConstants.SyncPAData);
             this.paService = paService;
         }
 
