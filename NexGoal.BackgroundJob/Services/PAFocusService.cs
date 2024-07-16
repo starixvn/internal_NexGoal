@@ -7,7 +7,6 @@
     using System.Threading.Tasks;
     using Criterias;
     using Criterias.PAFocus;
-    using Microsoft.AspNetCore.Hosting;
     using Models.Notification;
     using Models.PAFocus;
     using Models.Period;

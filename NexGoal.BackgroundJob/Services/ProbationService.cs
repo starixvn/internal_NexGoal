@@ -6,7 +6,6 @@
     using System.Threading.Tasks;
     using Criterias;
     using Criterias.Probation;
-    using Microsoft.AspNetCore.Hosting;
     using Models.Notification;
     using Models.PA;
     using NexGoal.Core.Enumerations;
