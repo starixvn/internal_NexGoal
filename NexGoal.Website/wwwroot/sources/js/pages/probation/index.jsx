@@ -59,7 +59,7 @@ export default class MyProbation extends Component {
                     setting.toDate = moment(setting.toDate);
                 });
 
-                const selfProcess = probationer.settings.find(x => x.processId = PerformanceProcess.Self);
+                const selfProcess = probationer.settings.find(x => x.processId === PerformanceProcess.Self);
 
                 const today = moment().format('YYYY-MMM-DD');
                 const fromDate = moment(selfProcess.fromDate).format('YYYY-MMM-DD');
