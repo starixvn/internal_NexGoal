@@ -61,13 +61,16 @@ export default class MyProbation extends Component {
 
                 const selfProcess = probationer.settings.find(x => x.processId = PerformanceProcess.Self);
 
+                const today = moment().format('YYYY-MMM-DD');
+                const fromDate = moment(selfProcess.fromDate).format('YYYY-MMM-DD');
+
                 this.setState({
                     evaluationDetails: evaluationDetailResponse.data,
                     probationer: probationer,
                     hrm: hrmResponse.data,
                     performanceAppraisals: performanceAppraisalsResponse.data,
                     selfProcess: selfProcess,
-                    showEvaluationForm: moment().isSameOrAfter(selfProcess.fromDate)
+                    showEvaluationForm: moment(today).isSameOrAfter(fromDate)
                 });
             }).catch(axiosError);
     }
