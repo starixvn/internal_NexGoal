@@ -40,15 +40,15 @@ export default class Menu extends Component {
         });
     };
 
-    handleMouseEnter = (index) => {
+    handleMouseEnter = index => {
         this.setState({ hoverItem: index });
-      };
+    };
     
-      handleMouseLeave = () => {
+    handleMouseLeave = () => {
         this.setState({ hoverItem: null });
-      };
+    };
 
-      isActive = (link) => {
+    isActive = link => {
         return this.state.currentUrl === link.toLowerCase() ? 'active' : '';
     };
 
@@ -56,36 +56,40 @@ export default class Menu extends Component {
         const { menuItems, hoverItem, currentUrl, isExpanded } = this.state
 
         return (
-            <div className={`pull-left nav-hamberger ${isExpanded ? 'expended' : ''}`} id="js-navHamburger">
-                <div className="toggle-btn" id="js-btnToggleMenu" onClick={this.onToggleMenu}>
-                    <span className="lines"></span>
+            <div className={`pull-left nav-hamberger ${isExpanded ? 'expended' : ''}`} id='js-navHamburger'>
+                <div className='toggle-btn' id='js-btnToggleMenu' onClick={this.onToggleMenu}>
+                    <span className='lines'></span>
                 </div>
                 { menuItems && menuItems.length > 0 && (
-                    <ul className="nav navbar-nav">
-                        {menuItems.map((menuGroup, index) => (
-                            menuGroup.childs && menuGroup.childs.length > 0 ? (
-                                <li key={menuGroup.name} className={`dropdown ${hoverItem === index ? 'open' : ''} ${
-                                    menuGroup.childs.some(c => currentUrl === c.link.toLowerCase()) ? 'active' : ''}`}
-                                    onMouseEnter={() => this.handleMouseEnter(index)}
-                                    onMouseLeave={this.handleMouseLeave}
-                                >
-                                    <a href="javascript:;" className="dropdown-toggle">
-                                        {menuGroup.name} <span className="icon-submenu"></span>
-                                    </a>
-                                    <ul className="dropdown-menu">
-                                        {menuGroup.childs.map(child => (
-                                            <li key={child.name} className={this.isActive(child.link)} >
-                                                <a href={child.link}>{child.name}</a>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </li>
-                            ) : (
-                                <li key={menuGroup.name} className={this.isActive(menuGroup.link)} >
-                                    <a href={menuGroup.link}>{menuGroup.name}</a>
-                                </li>
+                    <ul className='nav navbar-nav'>
+                        {
+                            menuItems.map((menuGroup, index) => (
+                                menuGroup.childs && menuGroup.childs.length > 0 ?
+                                    <li key={menuGroup.name} className={`dropdown ${hoverItem === index ? 'open' : ''} ${
+                                        menuGroup.childs.some(c => currentUrl === c.link.toLowerCase()) ? 'active' : ''}`}
+                                        onMouseEnter={() => this.handleMouseEnter(index)}
+                                        onMouseLeave={this.handleMouseLeave}
+                                    >
+                                        <a href='javascript:;' className='dropdown-toggle'>
+                                            {menuGroup.name} <span className='icon-submenu'></span>
+                                        </a>
+                                        <ul className='dropdown-menu'>
+                                            {
+                                                menuGroup.childs.map(child =>
+                                                    <li key={child.name} className={this.isActive(child.link)} >
+                                                        <a href={child.link}>{child.name}</a>
+                                                    </li>
+                                                )
+                                            }
+                                        </ul>
+                                    </li>
+                                    :
+                                    <li key={menuGroup.name} className={this.isActive(menuGroup.link)} >
+                                        <a href={menuGroup.link}>{menuGroup.name}</a>
+                                    </li>
+                                )
                             )
-                        ))}
+                        }
                     </ul>
                 )}
             </div>

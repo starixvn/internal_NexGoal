@@ -3,10 +3,8 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Web.Core.Services;
 
-    public class MenuController : BaseController
+    public class MenuController(ISessionService sessionService) : BaseController (sessionService)
     {
-        public MenuController(ISessionService sessionService) : base(sessionService){}
-
         public JsonResult GetMenuItems()
         {
             var menu = sessionService.MenuItems;

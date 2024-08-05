@@ -8,7 +8,7 @@ WebFont.load({
     }
 });
 
-$(document).ready(function () {
+$(function () {
     $('.user-avatar').on('click', function () {
         let dropdown = $(this).find('.dropdown-menu');
         if ($(dropdown).hasClass('open')) {

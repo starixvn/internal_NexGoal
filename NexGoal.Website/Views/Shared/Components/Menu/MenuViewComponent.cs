@@ -44,7 +44,6 @@
 
             var viewModel = new HeaderViewModel
             {
-                MenuItems = sessionService.MenuItems,
                 UserInfo = userInfo,
                 HasMember = hasMember,
                 UnreadNotification = unreadNotification,

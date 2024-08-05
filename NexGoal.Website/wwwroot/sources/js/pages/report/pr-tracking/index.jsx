@@ -9,7 +9,6 @@ import SearchForm from './SearchForm';
 import Table from './Table';
 import { PerformanceProcess } from '../../../constants';
 
-
 export default class PRTracking extends Component {
     constructor(props) {
         super(props);

@@ -99,11 +99,6 @@ export default class PerformanceRecord extends Component {
         );
     };
 
-    isHideInteraction = (record, creator) => {
-        const currentUserCode = document.getElementById('employeeInfo-code').value;
-        return this.props.isHideInteraction || (creator.code === currentUserCode && record.typeId === 1 && record.roleId === 3);
-    };
-
     getHighlightedCssClass = () => this.props.isHighlighted ? 'highlighted' : '';
 
     renderCreatorForPerformanceCheckin = (employees, creator) => {
@@ -163,7 +158,6 @@ export default class PerformanceRecord extends Component {
     renderPerformanceCheckin = () => {
         const record = this.props.data;
         const { employees, creator } = record;
-        const isHideInteraction = this.isHideInteraction(record, creator);
 
         let commentWrapperClass = 'expanded';
         if (this.state.isExpanded) {

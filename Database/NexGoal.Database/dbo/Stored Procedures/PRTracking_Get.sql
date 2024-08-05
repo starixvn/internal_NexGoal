@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[PRTracking_Get] @ActorId INT
 	,@EmployeeIds VARCHAR(MAX) = NULL
-	,@NoPR INT = NULL
+	,@NoPR TINYINT = NULL
 AS
 /*
 Created: 20190506@Elton.Ton
@@ -33,10 +33,10 @@ BEGIN
 
 	IF @PeriodId IS NULL RETURN
 
-	CREATE TABLE #member (EmployeeId INT)
+	CREATE TABLE #tmpMember (EmployeeId INT)
 
 	SELECT val
-	INTO #selectedEmp
+	INTO #tmpSelectedEmployee
 	FROM dbo.func_SplitString(@EmployeeIds, ',')
 
 	IF EXISTS (
@@ -46,22 +46,22 @@ BEGIN
 				AND er.RoleId IN (@HRRoleId, @ManagementRoleId, @PSTRoleId)
 			)
 	BEGIN
-		INSERT INTO #member (EmployeeId)
+		INSERT INTO #tmpMember (EmployeeId)
 		SELECT e.EmployeeId
 		FROM dbo.Employee AS e WITH (NOLOCK)
 		WHERE e.IsDeleted = 0
 			AND e.[Enabled] = 1
 			AND EXISTS (
 				SELECT 1
-				FROM #selectedEmp AS se WITH (NOLOCK)
+				FROM #tmpSelectedEmployee AS se WITH (NOLOCK)
 				WHERE se.val = EmployeeId
 				)
 	END
 	ELSE
 	BEGIN
-		INSERT INTO #member (EmployeeId)
+		INSERT INTO #tmpMember (EmployeeId)
 		SELECT val
-		FROM #selectedEmp AS se WITH (NOLOCK)
+		FROM #tmpSelectedEmployee AS se WITH (NOLOCK)
 		WHERE EXISTS (
 				SELECT 1
 				FROM dbo.func_GetMember(@ActorId)
@@ -76,13 +76,13 @@ BEGIN
 		,e.GroupId
 		,jt.[Name] AS JobTitle
 		,g.[Name] AS GroupName
-	INTO #result
+	INTO #tmpResult
 	FROM dbo.Employee AS e WITH (NOLOCK)
 		INNER JOIN dbo.JobTitle AS jt WITH (NOLOCK) ON e.JobTitleId = jt.JobTitleId
 		INNER JOIN dbo.[Group] AS g WITH (NOLOCK) ON e.GroupId = g.GroupId
 	WHERE EXISTS (
 			SELECT 1
-			FROM #member AS m WITH (NOLOCK)
+			FROM #tmpMember AS m WITH (NOLOCK)
 			WHERE m.EmployeeId = e.EmployeeId
 			)
 
@@ -92,11 +92,11 @@ BEGIN
 		,e.FullName AS CreatorFullname
 		,@SelfProcessId AS RoleId
 		,selfPR.Quantity
-	INTO #detail
-	FROM #member AS m WITH (NOLOCK)
+	INTO #tmpDetail
+	FROM #tmpMember AS m WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS e WITH (NOLOCK) ON m.EmployeeId = e.EmployeeId
 		CROSS APPLY (
-		SELECT COUNT(*) AS Quantity
+		SELECT COUNT(1) AS Quantity
 		FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
 		WHERE m.EmployeeId = pr.EmployeeId
 			AND pr.TypeId = 1
@@ -106,13 +106,13 @@ BEGIN
 				AND @WorkingToDate
 		) selfPR
 
-	INSERT INTO #detail
+	INSERT INTO #tmpDetail
 	SELECT efs.EmployeeId
 		,e.EmployeeId AS CreatorId
 		,e.NickName AS CreatorNickname
 		,e.FullName AS CreatorFullname
 		,efs.ProcessId AS RoleId
-		,COUNT(pr.PerformanceRecordId) Quantity
+		,COUNT(pr.PerformanceRecordId) AS Quantity
 	FROM dbo.EmployeeFlowSetting AS efs WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS e WITH (NOLOCK) ON efs.EvaluatorId = e.EmployeeId
 		AND efs.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
@@ -124,7 +124,7 @@ BEGIN
 			AND @WorkingToDate
 	WHERE EXISTS (
 			SELECT 1
-			FROM #member AS m WITH (NOLOCK)
+			FROM #tmpMember AS m WITH (NOLOCK)
 			WHERE m.EmployeeId = efs.EmployeeId
 			)
 	GROUP BY efs.EmployeeId
@@ -133,13 +133,13 @@ BEGIN
 		,e.FullName
 		,efs.ProcessId
 
-	INSERT INTO #detail
+	INSERT INTO #tmpDetail
 	SELECT member.EmployeeId
 		,e.EmployeeId AS CreatorId
 		,e.NickName AS CreatorNickname
 		,e.FullName AS CreatorFullname
 		,gfs.ProcessId AS RoleId
-		,COUNT(pr.PerformanceRecordId) Quantity
+		,COUNT(pr.PerformanceRecordId) AS Quantity
 	FROM dbo.GroupFlowSetting AS gfs WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS member WITH (NOLOCK) ON gfs.GroupId = member.GroupId
 		INNER JOIN dbo.Employee e WITH (NOLOCK) ON gfs.EvaluatorId = e.EmployeeId
@@ -152,7 +152,7 @@ BEGIN
 			AND @WorkingToDate
 	WHERE EXISTS (
 			SELECT 1
-			FROM #member AS m WITH (NOLOCK)
+			FROM #tmpMember AS m WITH (NOLOCK)
 			WHERE m.EmployeeId = member.EmployeeId
 			)
 		AND NOT EXISTS (
@@ -166,7 +166,7 @@ BEGIN
 		,e.FullName
 		,gfs.ProcessId
 
-	INSERT INTO #detail
+	INSERT INTO #tmpDetail
 	SELECT pms.MemberId AS EmployeeId
 		,e.EmployeeId AS CreatorId
 		,e.NickName AS CreatorNickname
@@ -176,7 +176,7 @@ BEGIN
 	FROM dbo.PMSetting AS pms WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS e WITH (NOLOCK) ON pms.ProjectManagerId = e.EmployeeId
 		CROSS APPLY (
-		SELECT COUNT(*) AS Quantity
+		SELECT COUNT(1) AS Quantity
 		FROM PerformanceRecord AS pr WITH (NOLOCK)
 		WHERE pr.EmployeeId = pms.MemberId
 			AND pr.CreatorId = pms.ProjectManagerId
@@ -187,7 +187,7 @@ BEGIN
 		) PMPR
 	WHERE EXISTS (
 			SELECT 1
-			FROM #member AS m WITH (NOLOCK)
+			FROM #tmpMember AS m WITH (NOLOCK)
 			WHERE m.EmployeeId = pms.MemberId
 			)
 
@@ -202,19 +202,19 @@ BEGIN
 		,GroupId
 		,JobTitle
 		,GroupName
-	FROM #result AS r WITH (NOLOCK)
+	FROM #tmpResult AS r WITH (NOLOCK)
 		INNER JOIN dbo.func_GetSortedEmployee(@ActorId) se ON r.EmployeeId = se.EmployeeId
 	WHERE @NoPR IS NULL
 		OR (
 			@NoPR IN (@PMProcessId, @EvaluatorProcessId, @ReviewerProcessId, @SelfProcessId)
 			AND NOT EXISTS (
 				SELECT 1
-				FROM #detail AS d WITH (NOLOCK)
+				FROM #tmpDetail AS d WITH (NOLOCK)
 				WHERE d.EmployeeId = r.EmployeeId
 					AND d.RoleId = @NoPR
 				HAVING MIN(d.Quantity) > 0
+				)
 			)
-		)
 	ORDER BY se.RankIndex
 
 	SELECT d.EmployeeId
@@ -223,24 +223,25 @@ BEGIN
 		,d.CreatorFullname
 		,d.RoleId
 		,d.Quantity
-	FROM #detail AS d WITH (NOLOCK)
+	FROM #tmpDetail AS d WITH (NOLOCK)
 	WHERE @NoPR IS NULL
-		 OR (
-        @NoPR IN (@PMProcessId, @EvaluatorProcessId, @ReviewerProcessId, @SelfProcessId)
-        AND NOT EXISTS (
-            SELECT 1
-            FROM #detail AS d1 WITH (NOLOCK)
-            WHERE d1.EmployeeId = d.EmployeeId
-                AND d1.RoleId = @NoPR
-            HAVING MIN(d1.Quantity) > 0
-        )
-    )
+		OR (
+			@NoPR IN (@PMProcessId, @EvaluatorProcessId, @ReviewerProcessId, @SelfProcessId)
+			AND NOT EXISTS (
+				SELECT 1
+				FROM #tmpDetail AS d1 WITH (NOLOCK)
+				WHERE d1.EmployeeId = d.EmployeeId
+					AND d1.RoleId = @NoPR
+				HAVING MIN(d1.Quantity) > 0
+				)
+			)
 
-	DROP TABLE #member
+	DROP TABLE #tmpMember
 
-	DROP TABLE #selectedEmp
+	DROP TABLE #tmpSelectedEmployee
 
-	DROP TABLE #result
+	DROP TABLE #tmpResult
 
-	DROP TABLE #detail
+	DROP TABLE #tmpDetail
 END
+

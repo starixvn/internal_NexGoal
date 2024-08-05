@@ -23,11 +23,11 @@
 
             repository.GetAsync(Arg.Do<GetPRCriteria>(x => criteria = x)).Returns(expected);
 
-            var actual = await service.GetAsync(1, "367", false);
+            var actual = await service.GetAsync(1, "367", 1);
 
             Assert.Equal(1, criteria.ActorId);
             Assert.Equal("367", criteria.EmployeeIds);
-            Assert.False(criteria.NoPR);
+            Assert.Equal((byte)1, criteria.NoPR);
             Assert.Equal(expected.Item1.PeriodId, actual.Item1.PeriodId);
             Assert.Equal(expected.Item1.Name, actual.Item1.Name);
         }
