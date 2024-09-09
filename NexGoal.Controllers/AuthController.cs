@@ -40,27 +40,19 @@
         {
             if (ModelState.IsValid)
             {
-                bool isValidUser = IsValidAccountLDAP(loginModel.Username, loginModel.Password);
-                if (!isValidUser)
+                var domainUsername = ldapSetting.Domain + loginModel.Username;
+                EmployeeSession employee = await authService.GetEmployeeByDomainUsernameAsync(domainUsername);
+
+                if(employee == null)
                 {
-                    ModelState.AddModelError(nameof(loginModel.errorSummary), "Username or password incorrect!");
+                    ModelState.AddModelError(nameof(loginModel.errorSummary), "User not found");
                 }
                 else
                 {
-                    var domainUsername = ldapSetting.Domain + loginModel.Username;
-                    EmployeeSession employee = await authService.GetEmployeeByDomainUsernameAsync(domainUsername);
-
-                    if(employee == null)
-                    {
-                        ModelState.AddModelError(nameof(loginModel.errorSummary), "User not found");
-                    }
-                    else
-                    {
-                        await DoLoginAsync(employee, loginModel);
-                        return Url.IsLocalUrl(loginModel.ReturnUrl) 
-                            ? Redirect(loginModel.ReturnUrl) 
-                            : (ActionResult)RedirectToAction("Index", "Home");
-                    }
+                    await DoLoginAsync(employee, loginModel);
+                    return Url.IsLocalUrl(loginModel.ReturnUrl) 
+                        ? Redirect(loginModel.ReturnUrl) 
+                        : (ActionResult)RedirectToAction("Index", "Home");
                 }
             }
             
