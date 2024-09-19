@@ -4,6 +4,7 @@
 
     public class AppSettings
     {
+        public string ApplicationName { get; set; }
         public string ApplicationDomain { get; set; }
         public Uri ImageUrl { get; set; }
         public string RSAPublicKeyPath { get; set; }

@@ -422,7 +422,7 @@ export default class PerformanceRecord extends Component {
                     <div className="avatar nexgoal-system"><img src={resolveClientUrl('dist/avatars/icon-nexgoal.svg')} alt="avatar" /></div>
                     <div className="person-info">
                         <span onClick={() => this.showPADetails(record.paSummary.paRecordId)}
-                            className={`${getRoleClassName(record.roleId)} nextGoalText`}>NexGoal - {record.period ? record.period.name : ''}
+                            className={`${getRoleClassName(record.roleId)} nextGoalText`}>{document.applicationName} - {record.period ? record.period.name : ''}
                         </span>
                         <div className="submit-date">{createdDate}</div>
                     </div>

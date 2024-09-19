@@ -17,31 +17,15 @@
     using NexGoal.Repositories.Interfaces;
     using NexGoal.Resources;
 
-    public class PerformanceRecordService : IPerformanceRecordService
-    {
-        private readonly IBaseService baseService;
-        private readonly ICryptoService cryptoService;
-        private readonly ICommonService commonService;
-        private readonly INotificationPerformanceRecordService notificationService;
-        private readonly IPerformanceRecordRepository performanceRecordRepository;
-        private readonly ILogger logger;
-
-        public PerformanceRecordService(
+    public class PerformanceRecordService(
+            NexGoalSystemInfo goalSystemInfo,
             ILogger logger,
             IBaseService baseService,
             ICryptoService cryptoService,
             ICommonService commonService,
             INotificationPerformanceRecordService notificationService,
-            IPerformanceRecordRepository performanceRecordRepository)
-        {
-            this.logger = logger;
-            this.baseService = baseService;
-            this.cryptoService = cryptoService;
-            this.commonService = commonService;
-            this.notificationService = notificationService;
-            this.performanceRecordRepository = performanceRecordRepository;
-        }
-
+            IPerformanceRecordRepository performanceRecordRepository) : IPerformanceRecordService
+    {
         public async Task<IEnumerable<PerformanceRecord>> GetPerformanceRecordByEmployeeAsync(int employeeId)
         {
             var criteria = new GetPerformanceRecordByEmployeeCriteria
@@ -340,7 +324,7 @@
 
             if (performanceRecord.Creator.EmployeeId == Constants.NexGoalSystemId)
             {
-                performanceRecord.Creator = NexGoalSystemInfo.NexGoal;
+                performanceRecord.Creator = goalSystemInfo;
             }
         }
 

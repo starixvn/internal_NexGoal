@@ -44,6 +44,7 @@
     @Html.Hidden("RootURL", Url.Content("~/"))
     <script type="text/javascript">
         document.imageUrl = '@appSettings.ImageUrl';
+        document.applicationName = '@appSettings.ApplicationName';
     </script>
     <script src="~/dist/resources/resource_en_US.js" asp-append-version="true"></script>
     <script src="~/dist/vendors/react.js" asp-append-version="true"></script>

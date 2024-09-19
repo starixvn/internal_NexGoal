@@ -26,6 +26,7 @@
     using NexGoal.Core;
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
+    using NexGoal.Models;
     using NexGoal.Models.Auth;
     using NexGoal.Services.Extensions;
     using NexGoal.Web.Core.Middlewares;
@@ -57,6 +58,12 @@
 
             var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
             services.AddSingleton(appSettings);
+
+            services.AddSingleton(new NexGoalSystemInfo
+            {
+                NickName = appSettings.ApplicationName,
+                FullName = appSettings.ApplicationName
+            });
 
             var mailConfigs = Configuration.GetSection("MailConfigs").Get<MailConfigs>();
             services.AddSingleton(mailConfigs);

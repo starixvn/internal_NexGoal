@@ -3,13 +3,8 @@
     using NexGoal.Core.Constants;
     using NexGoal.Models.Common;
 
-    public static class NexGoalSystemInfo
+    public class NexGoalSystemInfo : Employee
     {
-        public static Employee NexGoal => new Employee
-        {
-            EmployeeId = Constants.NexGoalSystemId,
-            NickName = "NexGoal",
-            FullName = "NexGoal"
-        };
+        public override int EmployeeId { get; set; } = Constants.NexGoalSystemId;
     }
 }
