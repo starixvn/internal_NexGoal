@@ -1,9 +1,11 @@
 ﻿namespace NexGoal.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Net;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using Fanex.Data;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Mvc;
@@ -33,6 +35,31 @@
         public ActionResult Login()
         {
             return View();
+        }
+
+        public async Task<ActionResult> SSO(string userName, string redirectUrl = null)
+        {
+            if (string.IsNullOrEmpty(userName))
+            {
+                return RedirectToAction("Login");
+            }
+
+            var userNameValue = Cryptography.DecryptPassword(userName.Replace(" ", "+"));
+            var domainUsername = ldapSetting.Domain + userNameValue;
+            var employee = await authService.GetEmployeeByDomainUsernameAsync(domainUsername);
+
+            if (employee != null)
+            {
+                var loginModel = new LoginModel
+                {
+                    Username = userNameValue,
+                };
+
+                await DoLoginAsync(employee, loginModel);
+                return !string.IsNullOrWhiteSpace(redirectUrl) && Url.IsLocalUrl(redirectUrl) ? Redirect(redirectUrl) : RedirectToAction("Index", "Home");
+            }
+
+            return RedirectToAction("Login");
         }
 
         [HttpPost]
