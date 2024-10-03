@@ -37,18 +37,19 @@
             return View();
         }
 
-        public async Task<ActionResult> SSO(string userName, string redirectUrl = null)
+        public async Task<ActionResult> SSO(string userName, string time, string redirectUrl = null)
         {
-            if (string.IsNullOrEmpty(userName))
-            {
-                return RedirectToAction("Login");
-            }
+            const string DateTimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
+            const byte TimeExpiration = 5;
 
             var userNameValue = Cryptography.DecryptPassword(userName.Replace(" ", "+"));
+            var timeValue = Cryptography.DecryptPassword(time.Replace(" ", "+"));
+            var currentTime = DateTime.UtcNow.ToString(DateTimeFormat);
+            var expiration = DateTime.ParseExact(currentTime, DateTimeFormat, null) - DateTime.ParseExact(timeValue, DateTimeFormat, null);
             var domainUsername = ldapSetting.Domain + userNameValue;
             var employee = await authService.GetEmployeeByDomainUsernameAsync(domainUsername);
 
-            if (employee != null)
+            if (employee != null && expiration.TotalSeconds <= TimeExpiration)
             {
                 var loginModel = new LoginModel
                 {
