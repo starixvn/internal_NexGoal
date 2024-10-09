@@ -12,11 +12,15 @@ FROM hub.nexdev.net/base/dotnet/core/sdk:8.0-alpine AS builder
 
 WORKDIR /src
 
+COPY ["NexGoal.Resources/NexGoal.Resources.csproj", "NexGoal.Resources/"]
+COPY ["NexGoal.Core/NexGoal.Core.csproj", "NexGoal.Core/"]
 COPY ["NexGoal.BackgroundJob/NexGoal.BackgroundJob.csproj", "NexGoal.BackgroundJob/"]
 
 RUN dotnet nuget add source https://nuget.nexdev.net/api/v2
 RUN dotnet restore -v n -r linux-x64 "NexGoal.BackgroundJob/NexGoal.BackgroundJob.csproj"
 
+COPY ["NexGoal.Resources/", "NexGoal.Resources/"]
+COPY ["NexGoal.Core/", "NexGoal.Core/"]
 COPY ["NexGoal.BackgroundJob/", "NexGoal.BackgroundJob/"]
 
 WORKDIR "/src/NexGoal.BackgroundJob"
