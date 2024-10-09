@@ -1,12 +1,11 @@
 ﻿namespace NexGoal.BackgroundJob.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-    using Criterias;
-    using Criterias.Nomination;
+    using Criteria;
+    using Criteria.Nomination;
     using Models.Nomination;
     using Models.Notification;
     using NexGoal.Core.Enumerations;
@@ -15,30 +14,15 @@
     using NexGoal.Core.Services;
     using NexGoal.Resources;
 
-    public class NominationService : INominationService
+    public class NominationService(
+        IHostEnvironment hostingEnvironment,
+        AppSettings appSettings,
+        IBaseService baseService,
+        IBaseMailService mailService,
+        IChatbotService chatbotService) : INominationService
     {
         private const string StartMailTemplateToNominator = "EmailTemplates/Nomination/StartToNominator.txt";
         private const string RemindMailTemplateToNominator = "EmailTemplates/Nomination/RemindToNominator.txt";
-
-        private readonly IHostEnvironment hostingEnvironment;
-        private readonly AppSettings appSettings;
-        private readonly IBaseService baseService;
-        private readonly IBaseMailService mailService;
-        private readonly IChatbotService chatbotService;
-
-        public NominationService(
-            IHostEnvironment hostingEnvironment,
-            AppSettings appSettings,
-            IBaseService baseService,
-            IBaseMailService mailService,
-            IChatbotService chatbotService)
-        {
-            this.hostingEnvironment = hostingEnvironment;
-            this.appSettings = appSettings;
-            this.baseService = baseService;
-            this.mailService = mailService;
-            this.chatbotService = chatbotService;
-        }
 
         public async Task SendMailAsync()
         {
@@ -158,11 +142,11 @@
             return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
-        private async Task<ValueTuple<IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>>> GetSettingToSendNotificationAsync(ReceiveNotificationType receiveType)
+        private async Task<(IEnumerable<NominationPeriodModel>, IEnumerable<ProcessSettingModel>)> GetSettingToSendNotificationAsync(ReceiveNotificationType receiveType)
         {
             var criteria = new GetSettingToSendNotificationCriteria
             {
-                ReceiveType = (int)receiveType
+                ReceiveType = (byte)receiveType
             };
 
             return await baseService.FetchMultipleAsync<NominationPeriodModel, ProcessSettingModel>(criteria);

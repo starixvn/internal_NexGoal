@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
-    using NexGoal.BackgroundJob.Criterias;
-    using NexGoal.BackgroundJob.Criterias.PA;
+    using NexGoal.BackgroundJob.Criteria;
+    using NexGoal.BackgroundJob.Criteria.PA;
     using NexGoal.BackgroundJob.Models.PA;
     using NexGoal.BackgroundJob.Models.Period;
     using NexGoal.BackgroundJob.Services;
@@ -102,8 +102,8 @@
             string mailMody)
         {
             // Arrange
-            var startDate = new DateTime(2018, 12, 20);
-            var endDate = new DateTime(2018, 12, 31);
+            var startDate = new DateTime(2018, 12, 20, 0, 0, 0, DateTimeKind.Utc);
+            var endDate = new DateTime(2018, 12, 31, 0, 0, 0, DateTimeKind.Utc);
             var periods = new List<PeriodModel>
             {
                 new PeriodModel { PeriodId = 1, Name = "2h 2018", StartDate = startDate, EndDate = endDate }
@@ -154,8 +154,8 @@
         public async Task SendNotification_HasData_ExpectedSendNotification()
         {
             // Arrange
-            var startDate = new DateTime(2018, 12, 20);
-            var endDate = new DateTime(2018, 12, 31);
+            var startDate = new DateTime(2018, 12, 20, 0, 0, 0, DateTimeKind.Utc);
+            var endDate = new DateTime(2018, 12, 31, 0, 0, 0, DateTimeKind.Utc);
             var periods = new List<PeriodModel>
             {
                 new PeriodModel { PeriodId = 1, Name = "2h 2018", StartDate = startDate, EndDate = endDate }

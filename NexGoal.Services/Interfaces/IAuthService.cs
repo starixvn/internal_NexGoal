@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Models.Auth;
@@ -14,7 +13,7 @@
 
         Task<IEnumerable<MenuItemSession>> GetMenuByEmployeeIdAsync(int employeeId);
 
-        Task<ValueTuple<Employee, bool, int>> GetEmployeeInfoAsync(int employeeId);
+        Task<(Employee, bool, int)> GetEmployeeInfoAsync(int employeeId);
 
         Task WriteLogLoginAsync(LogLogin logInfo);
     }

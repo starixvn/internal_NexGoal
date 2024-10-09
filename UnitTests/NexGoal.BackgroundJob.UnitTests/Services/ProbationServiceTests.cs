@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
-    using NexGoal.BackgroundJob.Criterias;
-    using NexGoal.BackgroundJob.Criterias.Probation;
+    using NexGoal.BackgroundJob.Criteria;
+    using NexGoal.BackgroundJob.Criteria.Probation;
     using NexGoal.BackgroundJob.Models.PA;
     using NexGoal.BackgroundJob.Services;
     using NexGoal.Core.Enumerations;
@@ -27,7 +27,7 @@
         public async Task SendMail_Remind_ExpectedSendMail()
         {
             // Arrange
-            var endDate = new DateTime(2018, 12, 20);
+            var endDate = new DateTime(2018, 12, 20, 0, 0, 0, DateTimeKind.Utc);
             var receiverEmail = "tim.trinh@nexcel.vn";
             var settings = new List<ProbationProcessSettingModel>
             {
@@ -77,7 +77,7 @@
         public async Task SendNotification_Remind_ExpectedSendNotification()
         {
             // Arrange
-            var endDate = new DateTime(2018, 12, 20);
+            var endDate = new DateTime(2018, 12, 20, 0, 0, 0, DateTimeKind.Utc);
             var settings = new List<ProbationProcessSettingModel>
             {
                 new ProbationProcessSettingModel { ProcessId = PerformanceProcess.HumanResource, EvaluatorId = 204, Nickname = "albert", EndDate = endDate, ProbationerNickname="tim" },

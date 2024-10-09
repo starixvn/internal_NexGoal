@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using NexGoal.BackgroundJob.Criterias.Period;
+    using NexGoal.BackgroundJob.Criteria.Period;
     using NexGoal.BackgroundJob.Services;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;

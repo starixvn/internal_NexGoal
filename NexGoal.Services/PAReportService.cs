@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -15,29 +14,14 @@
     using NexGoal.Models.Report;
     using NexGoal.Repositories;
 
-    public class PAReportService : IPAReportService
+    public class PAReportService(
+        IPAReportRepository reportRepository,
+        IPARecordService paRecordService,
+        IBaseService baseService,
+        ICryptoService cryptoService,
+        ICommonService commonService) : IPAReportService
     {
-        private readonly IPAReportRepository reportRepository;
-        private readonly IPARecordService paRecordService;
-        private readonly IBaseService baseService;
-        private readonly ICryptoService cryptoService;
-        private readonly ICommonService commonService;
-
-        public PAReportService(
-            IPAReportRepository reportRepository,
-            IPARecordService paRecordService,
-            IBaseService baseService,
-            ICryptoService cryptoService,
-            ICommonService commonService)
-        {
-            this.paRecordService = paRecordService;
-            this.reportRepository = reportRepository;
-            this.baseService = baseService;
-            this.cryptoService = cryptoService;
-            this.commonService = commonService;
-        }
-
-        public async Task<ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupAndMemberAsync(int actorId)
+        public async Task<(IEnumerable<Group>, IEnumerable<Employee>)> GetGroupAndMemberAsync(int actorId)
         {
             var criteria = new GetGroupAndMemberForReportCriteria
             {
@@ -122,7 +106,7 @@
             return paDetails;
         }
 
-        private async Task<ValueTuple<IEnumerable<DisciplineModel>, IEnumerable<HRMInfo>, string>> GetPARecordDetailAsync(int actorId, int paRecordId)
+        private async Task<(IEnumerable<DisciplineModel>, IEnumerable<HRMInfo>, string)> GetPARecordDetailAsync(int actorId, int paRecordId)
         {
             var criteria = new GetDisciplineHRMInfoAndPreviousPAGradeCriteria
             {

@@ -15,6 +15,6 @@
 
         Task SendNotificationAsync();
 
-        Task SendSkypeMessage();
+        Task SendSkypeMessageAsync();
     }
 }

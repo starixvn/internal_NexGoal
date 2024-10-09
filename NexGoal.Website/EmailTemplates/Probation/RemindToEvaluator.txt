@@ -1,0 +1,13 @@
+﻿<div>
+    <strong>Dear {0},</strong>
+</div>
+<p>
+    The Probation evaluation process for {1} will end at 23:59, {2}.
+    <br />
+    Please visit <a href="{3}">**SystemName**</a> to complete the evaluation form(s).
+    <br />
+    <br />
+    Thank you,
+    <br />
+    **SystemName**
+</p>

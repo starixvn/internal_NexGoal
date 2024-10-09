@@ -4,8 +4,8 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-    using Criterias;
-    using Criterias.Probation;
+    using Criteria;
+    using Criteria.Probation;
     using Models.Notification;
     using Models.PA;
     using NexGoal.Core.Enumerations;
@@ -14,36 +14,19 @@
     using NexGoal.Core.Services;
     using NexGoal.Resources;
 
-    public class ProbationService : IProbationService
+    public class ProbationService(
+        IHostEnvironment hostingEnvironment,
+        AppSettings appSettings,
+        IBaseService baseService,
+        IBaseMailService mailService,
+        IChatbotService chatbotService) : IProbationService
     {
         private const string StartMailTemplateToHR = "EmailTemplates/Probation/StartToHR.txt";
         private const string StartMailTemplateToMember = "EmailTemplates/Probation/StartToMember.txt";
         private const string StartMailTemplateToEvaluator = "EmailTemplates/Probation/StartToEvaluator.txt";
         private const string RemindMailTemplateToEvaluator = "EmailTemplates/Probation/RemindToEvaluator.txt";
-
-        private readonly IHostEnvironment hostingEnvironment;
-        private readonly AppSettings appSettings;
-        private readonly IBaseService baseService;
-        private readonly IBaseMailService mailService;
-        private readonly IChatbotService chatbotService;
-        private readonly string memberPage;
-        private readonly string probationSettingPage;
-
-        public ProbationService(
-            IHostEnvironment hostingEnvironment,
-            AppSettings appSettings,
-            IBaseService baseService,
-            IBaseMailService mailService,
-            IChatbotService chatbotService)
-        {
-            this.hostingEnvironment = hostingEnvironment;
-            this.appSettings = appSettings;
-            this.baseService = baseService;
-            this.mailService = mailService;
-            this.chatbotService = chatbotService;
-            memberPage = $"{appSettings.ApplicationDomain}/member?activeTab=4";
-            probationSettingPage = $"{appSettings.ApplicationDomain}/Probation/Setting";
-        }
+        private readonly string memberPage = $"{appSettings.ApplicationDomain}/member?activeTab=4";
+        private readonly string probationSettingPage = $"{appSettings.ApplicationDomain}/Probation/Setting";
 
         public async Task SendMailAsync()
         {
@@ -55,7 +38,7 @@
             var remindToEvaluatorPath = Path.Combine(hostingEnvironment.ContentRootPath, RemindMailTemplateToEvaluator);
             string body;
 
-            foreach (ProbationProcessSettingModel setting in settings)
+            foreach (var setting in settings)
             {
                 switch (setting.ProcessId)
                 {

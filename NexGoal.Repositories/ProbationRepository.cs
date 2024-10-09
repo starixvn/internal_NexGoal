@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Repositories
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -90,7 +89,7 @@
             }
         }
 
-        public async Task<ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndEmployeesAsync(ICriteria criteria)
+        public async Task<(IEnumerable<Group>, IEnumerable<Employee>)> GetGroupsAndEmployeesAsync(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {

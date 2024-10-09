@@ -1,6 +1,6 @@
-﻿namespace NexGoal.BackgroundJob.UnitTests.Criterias.PAFocus
+﻿namespace NexGoal.BackgroundJob.UnitTests.Criteria.PAFocus
 {
-    using NexGoal.BackgroundJob.Criterias.PAFocus;
+    using NexGoal.BackgroundJob.Criteria.PAFocus;
     using Xunit;
 
     public class GetSettingToSendNotificationCriteriaTests

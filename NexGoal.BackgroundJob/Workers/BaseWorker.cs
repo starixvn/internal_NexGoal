@@ -1,16 +1,10 @@
-using Cronos;
-
 namespace NexGoal.BackgroundJob.Workers
 {
-    public abstract class BaseWorker : BackgroundService
-    {
-        private readonly Fanex.Logging.ILogger logger;
-        protected JobSetting? jobSetting;
+    using Cronos;
 
-        protected BaseWorker(Fanex.Logging.ILogger logger)
-        {
-            this.logger = logger;
-        }
+    public abstract class BaseWorker(Fanex.Logging.ILogger logger) : BackgroundService
+    {
+        protected JobSetting jobSetting;
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -31,7 +25,7 @@ namespace NexGoal.BackgroundJob.Workers
                     }
                     catch (Exception ex)
                     {
-                        logger.Error(ex.ToString());
+                        await logger.ErrorAsync(ex.ToString());
                     }
                 }
             }

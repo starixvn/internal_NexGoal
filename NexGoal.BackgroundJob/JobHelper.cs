@@ -2,10 +2,9 @@
 {
     public static class JobHelper
     {
-        public static JobSetting? GetJobConfig(IEnumerable<JobSetting> jobSettings, string jobName)
+        public static JobSetting GetJobConfig(IEnumerable<JobSetting> jobSettings, string jobName)
         {
-            var jobSetting = jobSettings.FirstOrDefault(job => job.JobName.Equals(jobName, StringComparison.OrdinalIgnoreCase));
-            return jobSetting;
+            return jobSettings.FirstOrDefault(job => job.JobName.Equals(jobName));
         }
 
         public static bool IsEnabledJob(IEnumerable<JobSetting> jobConfigs, string jobName)

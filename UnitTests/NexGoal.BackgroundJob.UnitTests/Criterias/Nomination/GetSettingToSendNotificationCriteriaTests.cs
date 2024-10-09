@@ -1,6 +1,6 @@
-﻿namespace NexGoal.BackgroundJob.UnitTests.Criterias.Nomination
+﻿namespace NexGoal.BackgroundJob.UnitTests.Criteria.Nomination
 {
-    using NexGoal.BackgroundJob.Criterias.Nomination;
+    using NexGoal.BackgroundJob.Criteria.Nomination;
     using Xunit;
 
     public class GetSettingToSendNotificationCriteriaTests

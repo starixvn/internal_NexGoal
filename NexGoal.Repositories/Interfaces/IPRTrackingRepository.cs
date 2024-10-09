@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Repositories
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Fanex.Data.Repository;
@@ -10,8 +9,8 @@
 
     public interface IPRTrackingRepository
     {
-        Task<ValueTuple<PeriodModel, IEnumerable<PRTrackingModel>>> GetAsync(ICriteria criteria);
+        Task<(PeriodModel, IEnumerable<PRTrackingModel>)> GetAsync(ICriteria criteria);
 
-        Task<ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndMembersAsync(ICriteria criteria);
+        Task<(IEnumerable<Group>, IEnumerable<Employee>)> GetGroupsAndMembersAsync(ICriteria criteria);
     }
 }

@@ -194,7 +194,7 @@
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria))
+                using (var multi = await db.QueryMultipleAsync(criteria))
                 {
                     var performanceRecords = multi.Read<PerformanceRecord, Employee, NominationPeriodModel, PeriodBaseModel, PerformanceRecord>(
                         (performanceRecord, creator, nomination, period) =>
@@ -268,7 +268,7 @@
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria))
+                using (var multi = await db.QueryMultipleAsync(criteria))
                 {
                     var performanceRecords = multi.Read<PerformanceRecord, Employee, PerformanceRecord>(
                         (performanceRecord, creator) =>
@@ -323,11 +323,11 @@
             }
         }
 
-        public async Task<ValueTuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>>> GetMemberPerformanceTimelineAsync(ICriteria criteria)
+        public async Task<(IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>)> GetMemberPerformanceTimelineAsync(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria))
+                using (var multi = await db.QueryMultipleAsync(criteria))
                 {
                     var members = multi.Read<MemberPerformanceTimelineModel>();
 

@@ -12,7 +12,6 @@ using NexGoal.Core.Services;
 using Sentry;
 
 var builder = Host.CreateApplicationBuilder(args);
-builder.Services.AddSingleton<Fanex.Logging.ILogger, Logger>();
 
 var appSettings = builder.Configuration.GetSection("AppSettings").Get<AppSettings>();
 builder.Services.AddSingleton(appSettings);
@@ -23,13 +22,16 @@ builder.Services.AddSingleton(mailConfigs);
 var chatbotConfigs = builder.Configuration.GetSection("ChatbotConfigs").Get<ChatbotConfigs>();
 builder.Services.AddSingleton(chatbotConfigs);
 
+var jobSettings = builder.Configuration.GetSection("JobSettings").Get<List<JobSetting>>();
+builder.Services.AddSingleton(jobSettings);
 
+builder.Services.AddSingleton<IDynamicRepository, DynamicRepository>();
+builder.Services.AddSingleton<Fanex.Logging.ILogger, Logger>();
 builder.Services.AddSingleton<IChatbotService, ChatbotService>();
 builder.Services.AddSingleton<IBaseMailService, BaseMailService>();
 builder.Services.AddSingleton<ICryptoService, CryptoService>();
 builder.Services.AddSingleton<IBaseService, BaseService>();
 builder.Services.AddSingleton<IBaseService, BaseService>();
-builder.Services.AddSingleton<IDynamicRepository, DynamicRepository>();
 builder.Services.AddSingleton<IBaseRepository, BaseRepository>();
 builder.Services.AddSingleton<IPeriodService, PeriodService>();
 builder.Services.AddSingleton<IPAService, PAService>();
@@ -52,12 +54,12 @@ builder.Services.AddHttpClient();
 builder.Services.AddFanexSql(builder.Configuration);
 builder.Services.AddFanexMySql(builder.Configuration);
 
-builder.Services.Configure<List<JobSetting>>(builder.Configuration.GetSection("JobSettings"));
 builder.Services.AddHostedService<SyncRedmineDataWorker>();
-builder.Services.AddHostedService<SyncProbationDataWorker>();
-builder.Services.AddHostedService<SyncPeriodDataWorker>();
-builder.Services.AddHostedService<SyncPADataWorker>();
-builder.Services.AddHostedService<SyncPAFocusDataWorker>();
-builder.Services.AddHostedService<SyncNominationDataWorker>();
+builder.Services.AddHostedService<ProbationWorker>();
+builder.Services.AddHostedService<PeriodWorker>();
+builder.Services.AddHostedService<PAWorker>();
+builder.Services.AddHostedService<PAFocusWorker>();
+builder.Services.AddHostedService<NominationWorker>();
+
 var host = builder.Build();
-host.Run();
+await host.RunAsync();

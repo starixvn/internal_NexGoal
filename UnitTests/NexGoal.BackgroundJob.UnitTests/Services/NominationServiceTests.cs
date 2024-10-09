@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
-    using NexGoal.BackgroundJob.Criterias;
-    using NexGoal.BackgroundJob.Criterias.Nomination;
+    using NexGoal.BackgroundJob.Criteria;
+    using NexGoal.BackgroundJob.Criteria.Nomination;
     using NexGoal.BackgroundJob.Models.Nomination;
     using NexGoal.BackgroundJob.Services;
     using NexGoal.Core.Enumerations;
@@ -126,7 +126,7 @@
         public async Task SendNotification_HasData_ExpectedSendNotification()
         {
             // Arrange
-            var endDate = new DateTime(2018, 12, 20);
+            var endDate = new DateTime(2018, 12, 20, 0, 0, 0, DateTimeKind.Utc);
             var periods = new List<NominationPeriodModel>
             {
                 new NominationPeriodModel { NominationPeriodId = 1, Quarter = 4, Year = 2018, EndDateForNominator = endDate },

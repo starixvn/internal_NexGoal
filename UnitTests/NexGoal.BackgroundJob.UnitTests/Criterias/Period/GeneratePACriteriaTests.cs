@@ -1,6 +1,6 @@
-﻿namespace NexGoal.BackgroundJob.UnitTests.Criterias.Period
+﻿namespace NexGoal.BackgroundJob.UnitTests.Criteria.Period
 {
-    using NexGoal.BackgroundJob.Criterias.Period;
+    using NexGoal.BackgroundJob.Criteria.Period;
     using Xunit;
 
     public class GeneratePACriteriaTests

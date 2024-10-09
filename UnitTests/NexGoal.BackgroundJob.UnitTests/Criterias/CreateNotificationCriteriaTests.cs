@@ -1,6 +1,6 @@
-﻿namespace NexGoal.BackgroundJob.UnitTests.Criterias
+﻿namespace NexGoal.BackgroundJob.UnitTests.Criteria
 {
-    using NexGoal.BackgroundJob.Criterias;
+    using NexGoal.BackgroundJob.Criteria;
     using Xunit;
 
     public class CreateNotificationCriteriaTests

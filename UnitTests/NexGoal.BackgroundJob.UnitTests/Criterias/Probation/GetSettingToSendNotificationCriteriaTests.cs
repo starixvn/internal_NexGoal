@@ -1,6 +1,6 @@
-﻿namespace NexGoal.BackgroundJob.UnitTests.Criterias.Probation
+﻿namespace NexGoal.BackgroundJob.UnitTests.Criteria.Probation
 {
-    using NexGoal.BackgroundJob.Criterias.Probation;
+    using NexGoal.BackgroundJob.Criteria.Probation;
     using Xunit;
 
     public class GetSettingToSendNotificationCriteriaTests

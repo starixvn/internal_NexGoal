@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Repositories
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -12,16 +11,14 @@
 
     public class PRTrackingRepository : IPRTrackingRepository
     {
-        public async Task<ValueTuple<PeriodModel, IEnumerable<PRTrackingModel>>> GetAsync(ICriteria criteria)
+        public async Task<(PeriodModel, IEnumerable<PRTrackingModel>)> GetAsync(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
                 using (var multi = await db.QueryMultipleAsync(criteria))
                 {
                     var period = await multi.ReadFirstOrDefaultAsync<PeriodModel>();
-
                     var prTrackings = await multi.ReadAsync<PRTrackingModel>();
-
                     var details = await multi.ReadAsync<PRTrackingDetailModel>();
 
                     foreach (var prTracking in prTrackings)
@@ -34,14 +31,13 @@
             }
         }
 
-        public async Task<ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndMembersAsync(ICriteria criteria)
+        public async Task<(IEnumerable<Group>, IEnumerable<Employee>)> GetGroupsAndMembersAsync(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
                 using (var multi = await db.QueryMultipleAsync(criteria))
                 {
                     var groups = await multi.ReadAsync<Group>();
-
                     var employees = await multi.ReadAsync<Employee>();
 
                     return new (groups, employees);

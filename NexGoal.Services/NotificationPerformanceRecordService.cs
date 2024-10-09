@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -16,34 +15,17 @@
     using NexGoal.Models.PerformanceRecord.Notification;
     using NexGoal.Resources;
 
-    public class NotificationPerformanceRecordService : INotificationPerformanceRecordService
+    public class NotificationPerformanceRecordService(
+        IWebHostEnvironment hostingEnvironment,
+        AppSettings appSettings,
+        IBaseService baseService,
+        ICommonService commonService,
+        IBaseMailService mailService,
+        ISkypeNotiService skypeNotiService) : INotificationPerformanceRecordService
     {
         private const string MemberToSupervisorEmailTemplate = "EmailTemplates/PCI/{0}/MemberToSupervisor.txt";
         private const string SupervisorToMemberEmailTemplate = "EmailTemplates/PCI/{0}/SupervisorToMember.txt";
         private const string SupervisorToSupervisorEmailTemplate = "EmailTemplates/PCI/{0}/SupervisorToSupervisor.txt";
-
-        private readonly IWebHostEnvironment hostingEnvironment;
-        private readonly AppSettings appSettings;
-        private readonly IBaseService baseService;
-        private readonly ICommonService commonService;
-        private readonly IBaseMailService mailService;
-        private readonly ISkypeNotiService skypeNotiService;
-
-        public NotificationPerformanceRecordService(
-            IWebHostEnvironment hostingEnvironment,
-            AppSettings appSettings,
-            IBaseService baseService,
-            ICommonService commonService,
-            IBaseMailService mailService,
-            ISkypeNotiService skypeNotiService)
-        {
-            this.hostingEnvironment = hostingEnvironment;
-            this.appSettings = appSettings;
-            this.baseService = baseService;
-            this.commonService = commonService;
-            this.mailService = mailService;
-            this.skypeNotiService = skypeNotiService;
-        }
 
         public async Task SendMailAsync(string performanceRecordIds, int actorId, ActionOnPerformanceRecord action)
         {
@@ -176,7 +158,7 @@
             }
         }
 
-        private async Task<ValueTuple<IEnumerable<EmployeeDto>, IEnumerable<ProcessSettingDto>>> GetSettingToSendNotificationAsync(
+        private async Task<(IEnumerable<EmployeeDto>, IEnumerable<ProcessSettingDto>)> GetSettingToSendNotificationAsync(
             string performanceRecordIds,
             int actorId,
             ReceiveNotificationType receiveType)
@@ -185,7 +167,7 @@
             {
                 PerformanceRecordIds = performanceRecordIds,
                 ActorId = actorId,
-                ReceiveType = (int)receiveType
+                ReceiveType = (byte)receiveType
             };
 
             return await baseService.FetchMultipleAsync<EmployeeDto, ProcessSettingDto>(criteria);

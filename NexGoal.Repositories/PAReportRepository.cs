@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Repositories
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Fanex.Data;
@@ -15,16 +14,15 @@
 
     public interface IPAReportRepository
     {
-        Task<ValueTuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>>> GetPAReportAsync(ICriteria criteria);
+        Task<(IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>)> GetPAReportAsync(ICriteria criteria);
 
-        Task<ValueTuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>>> GetDataForExportPAReportAsync(ICriteria criteria);
+        Task<(IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>)> GetDataForExportPAReportAsync(ICriteria criteria);
     }
 
 #pragma warning disable S1192 // String literals should not be duplicated
-
     public class PAReportRepository : IPAReportRepository
     {
-        public async Task<ValueTuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>>> GetPAReportAsync(ICriteria criteria)
+        public async Task<(IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>)> GetPAReportAsync(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
@@ -52,7 +50,7 @@
             }
         }
 
-        public async Task<ValueTuple<IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>>> GetDataForExportPAReportAsync(ICriteria criteria)
+        public async Task<(IEnumerable<PeriodBaseModel>, IEnumerable<PARecordModel>)> GetDataForExportPAReportAsync(ICriteria criteria)
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {

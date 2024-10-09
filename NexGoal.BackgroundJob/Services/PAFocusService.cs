@@ -5,8 +5,8 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-    using Criterias;
-    using Criterias.PAFocus;
+    using Criteria;
+    using Criteria.PAFocus;
     using Models.Notification;
     using Models.PAFocus;
     using Models.Period;
@@ -16,30 +16,15 @@
     using NexGoal.Core.Services;
     using NexGoal.Resources;
 
-    public class PAFocusService : IPAFocusService
+    public class PAFocusService(
+        IHostEnvironment hostingEnvironment,
+        AppSettings appSettings,
+        IBaseService baseService,
+        IBaseMailService mailService,
+        IChatbotService chatbotService) : IPAFocusService
     {
         private const string StartMailTemplateToEvaluator = "EmailTemplates/PAFocus/StartToEvaluator.txt";
         private const string RemindMailTemplateToEvaluator = "EmailTemplates/PAFocus/RemindToEvaluator.txt";
-
-        private readonly IHostEnvironment hostingEnvironment;
-        private readonly AppSettings appSettings;
-        private readonly IBaseService baseService;
-        private readonly IBaseMailService mailService;
-        private readonly IChatbotService chatbotService;
-
-        public PAFocusService(
-            IHostEnvironment hostingEnvironment,
-            AppSettings appSettings,
-            IBaseService baseService,
-            IBaseMailService mailService,
-            IChatbotService chatbotService)
-        {
-            this.hostingEnvironment = hostingEnvironment;
-            this.appSettings = appSettings;
-            this.baseService = baseService;
-            this.mailService = mailService;
-            this.chatbotService = chatbotService;
-        }
 
         public async Task<CommandResult> GenerateAsync()
         {
@@ -172,11 +157,11 @@
             return await baseService.GetDataAsync<int>(criteria);
         }
 
-        private async Task<ValueTuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>>> GetSettingToSendNotificationAsync(ReceiveNotificationType receiveType)
+        private async Task<(IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>)> GetSettingToSendNotificationAsync(ReceiveNotificationType receiveType)
         {
             var criteria = new GetSettingToSendNotificationCriteria
             {
-                ReceiveType = (int)receiveType
+                ReceiveType = (byte)receiveType
             };
 
             return await baseService.FetchMultipleAsync<PeriodModel, ProcessSettingModel>(criteria);

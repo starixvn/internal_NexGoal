@@ -1,12 +1,11 @@
 ﻿namespace NexGoal.BackgroundJob.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-    using Criterias;
-    using Criterias.PA;
+    using Criteria;
+    using Criteria.PA;
     using Models;
     using Models.Notification;
     using Models.PA;
@@ -17,36 +16,19 @@
     using NexGoal.Core.Services;
     using NexGoal.Resources;
 
-    public class PAService : IPAService
+    public class PAService(
+        IHostEnvironment hostingEnvironment,
+        AppSettings appSettings,
+        IBaseService baseService,
+        IBaseMailService mailService,
+        ICryptoService cryptoService,
+        IChatbotService chatbotService) : IPAService
     {
         private const string RemindStartEvaluationMailTemplateToSelf = "EmailTemplates/PA/RemindStartToSelf.txt";
         private const string RemindStartEvaluationMailTemplateToSupervisor = "EmailTemplates/PA/RemindStartToSupervisor.txt";
         private const string StartMailTemplateToReviewer = "EmailTemplates/PA/StartToReviewer.txt";
         private const string RemindMailTemplateToReviewer = "EmailTemplates/PA/RemindToReviewer.txt";
         private const string EndEvaluationMailTemplateToSelf = "EmailTemplates/PA/EndToSelf.txt";
-
-        private readonly IHostEnvironment hostingEnvironment;
-        private readonly AppSettings appSettings;
-        private readonly IBaseService baseService;
-        private readonly IBaseMailService mailService;
-        private readonly ICryptoService cryptoService;
-        private readonly IChatbotService chatbotService;
-
-        public PAService(
-            IHostEnvironment hostingEnvironment,
-            AppSettings appSettings,
-            IBaseService baseService,
-            IBaseMailService mailService,
-            ICryptoService cryptoService,
-            IChatbotService chatbotService)
-        {
-            this.hostingEnvironment = hostingEnvironment;
-            this.appSettings = appSettings;
-            this.baseService = baseService;
-            this.mailService = mailService;
-            this.cryptoService = cryptoService;
-            this.chatbotService = chatbotService;
-        }
 
         public async Task<CommandResult> EditGradeAsync()
         {
@@ -147,7 +129,7 @@
             }
         }
 
-        public async Task SendSkypeMessage()
+        public async Task SendSkypeMessageAsync()
         {
             var (periods, processSettings) = await GetSettingToSendNotificationAsync(ReceiveNotificationType.SkypeMessage);
 
@@ -333,7 +315,7 @@
             record.GradeId = cryptoService.Encrypt(minGradeId.ToString());
         }
 
-        private async Task<ValueTuple<IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>>> GetSettingToSendNotificationAsync(ReceiveNotificationType receiveType)
+        private async Task<(IEnumerable<PeriodModel>, IEnumerable<ProcessSettingModel>)> GetSettingToSendNotificationAsync(ReceiveNotificationType receiveType)
         {
             var criteria = new GetSettingToSendNotificationCriteria
             {

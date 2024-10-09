@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Models.Common;
@@ -9,8 +8,8 @@
 
     public interface IPRTrackingService
     {
-        Task<ValueTuple<PeriodModel, IEnumerable<PRTrackingModel>>> GetAsync(int actorId, string employeeIds, byte? noPR);
+        Task<(PeriodModel, IEnumerable<PRTrackingModel>)> GetAsync(int actorId, string employeeIds, byte? noPR);
 
-        Task<ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndMembersAsync(int actorId);
+        Task<(IEnumerable<Group>, IEnumerable<Employee>)> GetGroupsAndMembersAsync(int actorId);
     }
 }

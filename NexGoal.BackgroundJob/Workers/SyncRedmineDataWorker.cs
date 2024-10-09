@@ -1,7 +1,6 @@
 namespace NexGoal.BackgroundJob.Workers
 {
-    using Criterias.Redmine;
-    using Microsoft.Extensions.Options;
+    using Criteria.Redmine;
     using Models.Redmine;
     using NexGoal.Core.Services;
 
@@ -9,11 +8,12 @@ namespace NexGoal.BackgroundJob.Workers
     {
         private readonly IBaseService baseService;
 
-        public SyncRedmineDataWorker(Fanex.Logging.ILogger logger,
-            IOptions<List<JobSetting>> jobSettings,
+        public SyncRedmineDataWorker(
+            Fanex.Logging.ILogger logger,
+            List<JobSetting> jobSettings,
             IBaseService baseService) : base(logger)
         {
-            jobSetting = JobHelper.GetJobConfig(jobSettings.Value, JobConstants.SyncRedmineData);
+            jobSetting = JobHelper.GetJobConfig(jobSettings, JobConstants.SyncRedmineData);
             this.baseService = baseService;
         }
 
@@ -40,7 +40,6 @@ namespace NexGoal.BackgroundJob.Workers
             {
                 Users = users.ToList()
             };
-
             await baseService.ExecuteNonQueryAsync(criteria3);
         }
 
@@ -59,7 +58,6 @@ namespace NexGoal.BackgroundJob.Workers
             {
                 Projects = projects.ToList()
             };
-
             await baseService.ExecuteNonQueryAsync(criteria3);
         }
 
@@ -78,7 +76,6 @@ namespace NexGoal.BackgroundJob.Workers
             {
                 TimeEntries = timeEntries.ToList()
             };
-
             await baseService.ExecuteNonQueryAsync(criteria3);
         }
 
@@ -97,9 +94,7 @@ namespace NexGoal.BackgroundJob.Workers
             {
                 CustomValues = customValues.ToList()
             };
-
             await baseService.ExecuteNonQueryAsync(criteria3);
-
         }
     }
 }

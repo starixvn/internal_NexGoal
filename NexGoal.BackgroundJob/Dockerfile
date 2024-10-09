@@ -1,26 +1,39 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+ARG CI_REGISTRY_IMAGE
 
-FROM hub.nexdev.net/base/dotnet/core/aspnet:8.0-slim AS base
-USER app
-WORKDIR /app
+FROM $CI_REGISTRY_IMAGE:builder AS deps
 
-FROM hub.nexdev.net/base/dotnet/core/sdk:8.0-alpine AS build
-ARG BUILD_CONFIGURATION=Release
+RUN mkdir -p /src/packages
+
+FROM hub.nexdev.net/base/dotnet/core/sdk:8.0-alpine AS builder
+
+ENV NUGET_PACKAGES=/src/packages
+
+COPY --from=deps $NUGET_PACKAGES/. $NUGET_PACKAGES/
+
 WORKDIR /src
-RUN dotnet nuget add source https://nuget.nexdev.net/api/v2
 
 COPY ["NexGoal.BackgroundJob/NexGoal.BackgroundJob.csproj", "NexGoal.BackgroundJob/"]
-RUN --mount=type=cache,target=/root/.nuget/packages \
-    dotnet restore "./NexGoal.BackgroundJob/./NexGoal.BackgroundJob.csproj"
-COPY . .
+
+RUN dotnet nuget add source https://nuget.nexdev.net/api/v2
+RUN dotnet restore -v n -r linux-x64 "NexGoal.BackgroundJob/NexGoal.BackgroundJob.csproj"
+
+COPY ["NexGoal.BackgroundJob/", "NexGoal.BackgroundJob/"]
+
 WORKDIR "/src/NexGoal.BackgroundJob"
-RUN dotnet build "./NexGoal.BackgroundJob.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./NexGoal.BackgroundJob.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish -r linux-x64 --self-contained false -o /app
 
-FROM base AS final
+FROM hub.nexdev.net/base/dotnet/core/aspnet:8.0-slim AS base
+
+# Don’t run as root
+RUN adduser --disabled-password \
+  --home /app \
+  --gecos '' dotnetuser && chown -R dotnetuser /app && chown -R dotnetuser /tmp
+USER dotnetuser
+#
+
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=builder /app .
+ENV TZ="Asia/Bangkok"
+
 ENTRYPOINT ["dotnet", "NexGoal.BackgroundJob.dll"]
