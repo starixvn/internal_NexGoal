@@ -1,4 +1,4 @@
-﻿namespace NexGoal.Repositories.Interfaces
+﻿namespace NexGoal.Repositories
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;

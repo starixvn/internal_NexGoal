@@ -6,17 +6,11 @@
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
 
-    public class ChatbotService : IChatbotService
+    public class ChatbotService(
+        ChatbotConfigs chatbotConfigs,
+        IHttpClientFactory httpClientFactory) : IChatbotService
     {
-        private readonly ChatbotConfigs chatbotConfigs;
-        private readonly HttpClient httpClient;
-
-        public ChatbotService(ChatbotConfigs chatbotConfigs,
-            IHttpClientFactory httpClientFactory)
-        {
-            this.chatbotConfigs = chatbotConfigs;
-            httpClient = httpClientFactory.CreateClient();
-        }
+        private readonly HttpClient httpClient = httpClientFactory.CreateClient();
 
         public async Task SendMessageAsync(string conversationId, string message)
         {

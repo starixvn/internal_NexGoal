@@ -14,7 +14,7 @@
     using NexGoal.Models;
     using NexGoal.Models.PerformanceRecord;
     using NexGoal.Models.Period;
-    using NexGoal.Repositories.Interfaces;
+    using NexGoal.Repositories;
     using NexGoal.Resources;
 
     public class PerformanceRecordService(

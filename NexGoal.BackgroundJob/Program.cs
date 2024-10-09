@@ -29,8 +29,6 @@ builder.Services.AddSingleton<IDynamicRepository, DynamicRepository>();
 builder.Services.AddSingleton<Fanex.Logging.ILogger, Logger>();
 builder.Services.AddSingleton<IChatbotService, ChatbotService>();
 builder.Services.AddSingleton<IBaseMailService, BaseMailService>();
-builder.Services.AddSingleton<ICryptoService, CryptoService>();
-builder.Services.AddSingleton<IBaseService, BaseService>();
 builder.Services.AddSingleton<IBaseService, BaseService>();
 builder.Services.AddSingleton<IBaseRepository, BaseRepository>();
 builder.Services.AddSingleton<IPeriodService, PeriodService>();
