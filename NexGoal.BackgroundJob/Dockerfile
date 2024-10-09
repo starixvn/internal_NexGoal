@@ -22,6 +22,7 @@ RUN dotnet restore -v n -r linux-x64 "NexGoal.BackgroundJob/NexGoal.BackgroundJo
 COPY ["NexGoal.Resources/", "NexGoal.Resources/"]
 COPY ["NexGoal.Core/", "NexGoal.Core/"]
 COPY ["NexGoal.BackgroundJob/", "NexGoal.BackgroundJob/"]
+COPY ["SonarQube/", "SonarQube/"]
 
 WORKDIR "/src/NexGoal.BackgroundJob"
 
