@@ -2,9 +2,34 @@ namespace NexGoal.BackgroundJob.Workers
 {
     using Cronos;
 
-    public abstract class BaseWorker(Fanex.Logging.ILogger logger) : BackgroundService
+    public abstract class BaseWorker(Fanex.Logging.ILogger logger, ILogger<BaseWorker> logfile) : BackgroundService
     {
+        private readonly ILogger logfile = logfile;
+
         protected JobSetting jobSetting;
+
+        public override Task StartAsync(CancellationToken cancellationToken)
+        {
+            logfile.LogInformation($"{jobSetting.JobName}: Start");
+            return base.StartAsync(cancellationToken);
+        }
+
+        private async Task RunJobAsync()
+        {
+            try
+            {
+                if (jobSetting.IsEnabled)
+                {
+                    logfile.LogInformation($"{jobSetting.JobName}: Doing...");
+                    await ExecuteJobAsync();
+                    logfile.LogInformation($"{jobSetting.JobName}: Done.");
+                }
+            }
+            catch (Exception ex)
+            {
+                await logger.ErrorAsync($"{jobSetting.JobName}: Error - {ex}");
+            }
+        }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -21,7 +46,7 @@ namespace NexGoal.BackgroundJob.Workers
                         var delay = occurenceTime.GetValueOrDefault() - currentUtcTime;
                         await Task.Delay(delay, stoppingToken);
 
-                        await ExecuteJobAsync();
+                        await RunJobAsync();
                     }
                     catch (Exception ex)
                     {
@@ -31,6 +56,23 @@ namespace NexGoal.BackgroundJob.Workers
             }
         }
 
-        public abstract Task ExecuteJobAsync();
+        public virtual async Task ExecuteJobAsync()
+        {
+            await Task.CompletedTask;
+        }
+
+        public override async Task StopAsync(CancellationToken cancellationToken)
+        {
+            logfile.LogInformation($"{jobSetting.JobName}: Stop");
+
+            await base.StopAsync(cancellationToken);
+        }
+
+        public override void Dispose()
+        {
+            logfile.LogInformation($"{jobSetting.JobName}: Disposed");
+            GC.SuppressFinalize(this);
+            base.Dispose();
+        }
     }
 }

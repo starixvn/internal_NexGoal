@@ -9,16 +9,19 @@ namespace NexGoal.BackgroundJob.Workers
     {
         private readonly IBaseService baseService;
         private readonly IEmployeeService employeeService;
+        private readonly ILogger<SyncEmployeeWorker> logfile;
 
         public SyncEmployeeWorker(
             Fanex.Logging.ILogger logger,
+            ILogger<SyncEmployeeWorker> logfile,
             List<JobSetting> jobSettings,
             IBaseService baseService,
-            IEmployeeService employeeService) : base(logger)
+            IEmployeeService employeeService) : base(logger, logfile)
         {
             jobSetting = JobHelper.GetJobConfig(jobSettings, JobConstants.SyncEmployeeJob);
             this.baseService = baseService;
             this.employeeService = employeeService;
+            this.logfile = logfile;
         }
 
         public override async Task ExecuteJobAsync()

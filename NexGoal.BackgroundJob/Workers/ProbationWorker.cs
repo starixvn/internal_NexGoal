@@ -5,14 +5,17 @@ namespace NexGoal.BackgroundJob.Workers
     public class ProbationWorker : BaseWorker
     {
         private readonly IProbationService probationService;
+        private readonly ILogger<ProbationWorker> logfile;
 
         public ProbationWorker(
             Fanex.Logging.ILogger logger,
+            ILogger<ProbationWorker> logfile,
             List<JobSetting> jobSettings,
-            IProbationService probationService) : base(logger)
+            IProbationService probationService) : base(logger, logfile)
         {
             jobSetting = JobHelper.GetJobConfig(jobSettings, JobConstants.ProbationJob);
             this.probationService = probationService;
+            this.logfile = logfile;
         }
 
         public override async Task ExecuteJobAsync()

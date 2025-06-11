@@ -5,14 +5,17 @@ namespace NexGoal.BackgroundJob.Workers
     public class NominationWorker : BaseWorker
     {
         private readonly INominationService nominationService;
+        private readonly ILogger<NominationWorker> logfile;
 
         public NominationWorker(
             Fanex.Logging.ILogger logger,
+            ILogger<NominationWorker> logfile,
             List<JobSetting> jobSettings,
-            INominationService nominationService) : base(logger)
+            INominationService nominationService) : base(logger, logfile)
         {
             jobSetting = JobHelper.GetJobConfig(jobSettings, JobConstants.NominationJob);
             this.nominationService = nominationService;
+            this.logfile = logfile;
         }
 
         public override async Task ExecuteJobAsync()
