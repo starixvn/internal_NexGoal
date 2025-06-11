@@ -17,3 +17,23 @@ CREATE TABLE dbo.Employee (
 );
 
 GO
+
+CREATE TABLE [dbo].[Group](
+	[GroupId] [int] PRIMARY KEY NOT NULL,
+	[Code] [varchar](20) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+	[DepartmentId] [int] NULL,
+	[Rank] [int] NULL,
+	[IsDeleted] [bit] NULL,
+	[ParentId] [int] NULL,
+    [ModifiedDate] [datetime] NULL,
+    [SyncDate] [datetime] NULL
+);
+
+GO
+
+
+
+
+
+

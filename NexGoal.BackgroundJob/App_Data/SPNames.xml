@@ -36,5 +36,7 @@
     <Function>
         <Setting Key="SyncEmployee_GetLastModifiedDate" SpName="SyncEmployee_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0"></Setting>
         <Setting Key="SyncEmployee_Import" SpName="SyncEmployee_Import" DbName="bodb_NexGoal" Plain="0"></Setting>
+        <Setting Key="SyncGroup_GetLastModifiedDate" SpName="SyncGroup_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0"></Setting>
+        <Setting Key="SyncGroup_Import" SpName="SyncGroup_Import" DbName="bodb_NexGoal" Plain="0"></Setting>
     </Function>
 </Functions>
