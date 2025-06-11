@@ -33,4 +33,8 @@
         <Setting Key="Sync_TimeEntries_GetByLastUpdated" SpName="Sync_TimeEntries_GetByLastUpdated" DbName="Nexdev" Plain="0"></Setting>
         <Setting Key="Sync_Users_GetByLastUpdated" SpName="Sync_Users_GetByLastUpdated" DbName="Nexdev" Plain="0"></Setting>
   </Function>
+    <Function>
+        <Setting Key="SyncEmployee_GetLastModifiedDate" SpName="SyncEmployee_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0"></Setting>
+        <Setting Key="SyncEmployee_Import" SpName="SyncEmployee_Import" DbName="bodb_NexGoal" Plain="0"></Setting>
+    </Function>
 </Functions>

@@ -1,0 +1,19 @@
+CREATE TABLE dbo.Employee (
+    EmployeeId INT PRIMARY KEY,
+    DomainUsername NVARCHAR(255),
+    Code NVARCHAR(50),
+    FullName NVARCHAR(255),
+    NickName NVARCHAR(255),
+    GroupId INT,
+    Enabled BIT,
+    IsDeleted BIT,
+    JoinedDate DATE,
+    ConfirmedDate DATE,
+    JobTitleId INT,
+    Email NVARCHAR(255),
+    ConversationId NVARCHAR(255),
+	ModifiedDate DATETIME NULL,
+    SyncDate DATETIME NULL
+);
+
+GO

@@ -18,66 +18,69 @@ namespace NexGoal.Core.Services
         {
             this.appSettings = appSettings;
 
-            publicRSA = new RSACryptoServiceProvider(KeySize);
-            publicRSA.FromXmlString(ReadTextFile(appSettings.RSAPublicKeyPath));
+            if (appSettings.EnableEncrypt)
+            {
+                publicRSA = new RSACryptoServiceProvider(KeySize);
+                privateRSA = new RSACryptoServiceProvider(KeySize);
 
-            privateRSA = new RSACryptoServiceProvider(KeySize);
-            privateRSA.FromXmlString(ReadTextFile(appSettings.RSAPrivateKeyPath));
+                try
+                {
+                    var publicKey = ReadTextFile(appSettings.RSAPublicKeyPath);
+                    var privateKey = ReadTextFile(appSettings.RSAPrivateKeyPath);
+
+                    if (!string.IsNullOrEmpty(publicKey))
+                        publicRSA.FromXmlString(publicKey);
+                    if (!string.IsNullOrEmpty(privateKey))
+                        privateRSA.FromXmlString(privateKey);
+                }
+                catch
+                {
+                    // If there's any error reading or parsing the keys, disable encryption
+                    this.appSettings.EnableEncrypt = false;
+                }
+            }
         }
 
         public string Encrypt(string plainText)
         {
-            var cipherText = string.Empty;
+            if (!appSettings.EnableEncrypt || string.IsNullOrWhiteSpace(plainText))
+                return plainText;
 
-            if (!string.IsNullOrWhiteSpace(plainText))
+            try
             {
-                if (appSettings.EnableEncrypt)
-                {
-                    byte[] bytesToEncrypt = ASCIIEncoding.ASCII.GetBytes(plainText);
-
-                    byte[] encryptedBytes = publicRSA.Encrypt(bytesToEncrypt, OptimalAsymmetricEncryptionPadding);
-                    cipherText = Convert.ToBase64String(encryptedBytes);
-                }
-                else
-                {
-                    cipherText = plainText;
-                }
-            } 
-
-            return cipherText;
+                byte[] bytesToEncrypt = ASCIIEncoding.ASCII.GetBytes(plainText);
+                byte[] encryptedBytes = publicRSA.Encrypt(bytesToEncrypt, OptimalAsymmetricEncryptionPadding);
+                return Convert.ToBase64String(encryptedBytes);
+            }
+            catch
+            {
+                return plainText;
+            }
         }
 
         public string Decrypt(string cipherText)
         {
-            var plainText = string.Empty;
+            if (!appSettings.EnableEncrypt || string.IsNullOrWhiteSpace(cipherText))
+                return cipherText;
 
-            if (!string.IsNullOrWhiteSpace(cipherText))
+            try
             {
-                if (appSettings.EnableEncrypt)
-                {
-                    byte[] bytesToDecrypt = Convert.FromBase64String(cipherText);
-                    byte[] plainbytes = privateRSA.Decrypt(bytesToDecrypt, OptimalAsymmetricEncryptionPadding);
-                    var enc = new ASCIIEncoding();
-                    plainText = enc.GetString(plainbytes);
-                }
-                else
-                {
-                    plainText = cipherText;
-                }
+                byte[] bytesToDecrypt = Convert.FromBase64String(cipherText);
+                byte[] plainbytes = privateRSA.Decrypt(bytesToDecrypt, OptimalAsymmetricEncryptionPadding);
+                return ASCIIEncoding.ASCII.GetString(plainbytes);
             }
-
-            return plainText;
+            catch
+            {
+                return cipherText;
+            }
         }
 
         private static string ReadTextFile(string filePath)
         {
-            var text = string.Empty;
-            if(File.Exists(filePath))
-            {
-                text = File.ReadAllText(filePath);
-            }
+            if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
+                return string.Empty;
 
-            return text;
+            return File.ReadAllText(filePath);
         }
 
         public void Dispose()
@@ -90,8 +93,8 @@ namespace NexGoal.Core.Services
         {
             if (disposing)
             {
-                publicRSA.Dispose();
-                privateRSA.Dispose();
+                publicRSA?.Dispose();
+                privateRSA?.Dispose();
             }
         }
     }

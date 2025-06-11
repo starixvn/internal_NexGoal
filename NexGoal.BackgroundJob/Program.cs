@@ -5,6 +5,7 @@ using Fanex.Logging;
 using Fanex.Logging.Sentry;
 using NexGoal.BackgroundJob;
 using NexGoal.BackgroundJob.Services;
+using NexGoal.BackgroundJob.Services.Interface;
 using NexGoal.BackgroundJob.Workers;
 using NexGoal.Core.Models;
 using NexGoal.Core.Repositories;
@@ -25,6 +26,11 @@ builder.Services.AddSingleton(chatbotConfigs);
 var jobSettings = builder.Configuration.GetSection("JobSettings").Get<List<JobSetting>>();
 builder.Services.AddSingleton(jobSettings);
 
+var syncHrmApiSettings = builder.Configuration.GetSection("SyncHrmApiSettings").Get<SyncHrmSetting>();
+builder.Services.AddSingleton(syncHrmApiSettings);
+
+builder.Services.AddHttpClient();
+
 builder.Services.AddSingleton<Fanex.Logging.ILogger, Logger>();
 builder.Services.AddSingleton<IDynamicRepository, DynamicRepository>();
 builder.Services.AddSingleton<IBaseRepository, BaseRepository>();
@@ -38,6 +44,9 @@ builder.Services.AddSingleton<IPAFocusService, PAFocusService>();
 builder.Services.AddSingleton<INominationService, NominationService>();
 builder.Services.AddSingleton<IProbationService, ProbationService>();
 
+builder.Services.AddSingleton<IHttpClientService, HttpClientService>();
+builder.Services.AddSingleton<IEmployeeService, EmployeeService>();
+
 LogManager
     .SetDefaultLogCategory(builder.Configuration.GetSection("LogCategory").Value)
     .Use(new List<ILogEngine>
@@ -49,16 +58,17 @@ LogManager
         })
     });
 
-builder.Services.AddHttpClient();
 builder.Services.AddFanexSql(builder.Configuration);
 builder.Services.AddFanexMySql(builder.Configuration);
 
 builder.Services.AddHostedService<SyncRedmineDataWorker>();
+builder.Services.AddHostedService<SyncEmployeeWorker>();
 builder.Services.AddHostedService<ProbationWorker>();
 builder.Services.AddHostedService<PeriodWorker>();
 builder.Services.AddHostedService<PAWorker>();
 builder.Services.AddHostedService<PAFocusWorker>();
 builder.Services.AddHostedService<NominationWorker>();
+
 
 var host = builder.Build();
 await host.RunAsync();

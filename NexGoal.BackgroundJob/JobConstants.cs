@@ -8,5 +8,6 @@
         public const string PAJob = "PAJob";
         public const string PAFocusJob = "PAFocusJob";
         public const string NominationJob = "NominationJob";
+        public const string SyncEmployeeJob = "SyncEmployeeJob";
     }
 }
