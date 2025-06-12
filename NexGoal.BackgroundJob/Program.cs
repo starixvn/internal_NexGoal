@@ -47,6 +47,8 @@ builder.Services.AddSingleton<IProbationService, ProbationService>();
 builder.Services.AddSingleton<IHttpClientService, HttpClientService>();
 builder.Services.AddSingleton<IEmployeeService, EmployeeService>();
 builder.Services.AddSingleton<IGroupService, GroupService>();
+builder.Services.AddSingleton<IEmployeeAttendanceService, EmployeeAttendanceService>();
+builder.Services.AddSingleton<IEmployeeCalendarService, EmployeeCalendarService>();
 
 LogManager
     .SetDefaultLogCategory(builder.Configuration.GetSection("LogCategory").Value)
@@ -62,14 +64,19 @@ LogManager
 builder.Services.AddFanexSql(builder.Configuration);
 builder.Services.AddFanexMySql(builder.Configuration);
 
-builder.Services.AddHostedService<SyncRedmineDataWorker>();
 builder.Services.AddHostedService<SyncEmployeeWorker>();
 builder.Services.AddHostedService<SyncGroupWorker>();
+builder.Services.AddHostedService<SyncEmployeeAttendanceWorker>();
+builder.Services.AddHostedService<SyncEmployeeCalendarWorker>();
+builder.Services.AddHostedService<SyncRedmineDataWorker>();
 builder.Services.AddHostedService<ProbationWorker>();
 builder.Services.AddHostedService<PeriodWorker>();
 builder.Services.AddHostedService<PAWorker>();
 builder.Services.AddHostedService<PAFocusWorker>();
 builder.Services.AddHostedService<NominationWorker>();
+
+
+
 
 
 

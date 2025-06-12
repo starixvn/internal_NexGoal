@@ -33,7 +33,40 @@ CREATE TABLE [dbo].[Group](
 GO
 
 
+CREATE TABLE [dbo].[EmployeeAttendance](
+	[Id] [bigint]  NOT NULL,
+	[EmpId] [int] NOT NULL,
+	[AttendanceDate] [datetime] NOT NULL,
+	[InFixed] [datetime] NULL,
+	[OutFixed] [datetime] NULL,
+	[LeaveTypeId] [int] NULL,
+	[TotalWorkHours] [decimal](18, 2) NULL,
+	[LeaveDay] [decimal](18, 1) NULL,
+	[LeaveTypeId2] [int] NULL,
+    [InsertDate] [datetime] NULL,
+    [SyncDate] [datetime] NULL
+ CONSTRAINT [PK_EmployeeAttendance] PRIMARY KEY NONCLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
 
 
-
-
+CREATE TABLE [dbo].[EmployeeCalendar](
+	[Id] [bigint]NOT NULL,
+	[EmpId] [int] NOT NULL,
+	[WorkDate] [datetime] NOT NULL,
+    [IsOffDay] [bit] NULL,
+	[IsHoliday] [bit] NULL,
+	[IsLeaveDay] [bit] NULL,
+	[LeaveDay] [decimal](18, 1) NULL,
+	[ModifiedDate] [datetime] NULL,
+    [SyncDate] [datetime] NULL
+ CONSTRAINT [PK_EmployeeCalendar] PRIMARY KEY NONCLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO

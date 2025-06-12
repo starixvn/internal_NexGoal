@@ -10,5 +10,7 @@
         public const string NominationJob = "NominationJob";
         public const string SyncEmployeeJob = "SyncEmployeeJob";
         public const string SyncGroupJob = "SyncGroupJob";
+        public const string SyncEmployeeAttendanceJob = "SyncEmployeeAttendanceJob";
+        public const string SyncEmployeeCalendarJob = "SyncEmployeeCalendarJob";
     }
 }

@@ -38,5 +38,9 @@
         <Setting Key="SyncEmployee_Import" SpName="SyncEmployee_Import" DbName="bodb_NexGoal" Plain="0"></Setting>
         <Setting Key="SyncGroup_GetLastModifiedDate" SpName="SyncGroup_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0"></Setting>
         <Setting Key="SyncGroup_Import" SpName="SyncGroup_Import" DbName="bodb_NexGoal" Plain="0"></Setting>
+        <Setting Key="SyncEmployeeAttendance_GetLastModifiedDate" SpName="SyncEmployeeAttendance_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0"></Setting>
+        <Setting Key="SyncEmployeeAttendance_Import" SpName="SyncEmployeeAttendance_Import" DbName="bodb_NexGoal" Plain="0"></Setting>
+        <Setting Key="SyncEmployeeCalendar_GetLastModifiedDate" SpName="SyncEmployeeCalendar_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0"></Setting>
+        <Setting Key="SyncEmployeeCalendar_Import" SpName="SyncEmployeeCalendar_Import" DbName="bodb_NexGoal" Plain="0"></Setting>
     </Function>
 </Functions>
