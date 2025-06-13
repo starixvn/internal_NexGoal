@@ -47,5 +47,7 @@
         <Setting Key="SyncTOEIC_GetLastModifiedDate" SpName="SyncTOEIC_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0"></Setting>
         <Setting Key="SyncTOEIC_Import" SpName="SyncTOEIC_Import" DbName="bodb_NexGoal" Plain="0"></Setting>
         <Setting Key="SyncJobTitle_Import" SpName="SyncJobTitle_Import" DbName="bodb_NexGoal" Plain="0"></Setting>
+        <Setting Key="SyncWorkingTimeRequest_GetLastModifiedDate" SpName="SyncWorkingTimeRequest_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0"></Setting>
+        <Setting Key="SyncWorkingTimeRequest_Import" SpName="SyncWorkingTimeRequest_Import" DbName="bodb_NexGoal" Plain="0"></Setting>
     </Function>
 </Functions>

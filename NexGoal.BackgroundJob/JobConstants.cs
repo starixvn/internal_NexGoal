@@ -15,5 +15,6 @@
         public const string SyncEmployeeOvertimeJob = "SyncEmployeeOvertimeJob";
         public const string SyncTOEICJob = "SyncTOEICJob";
         public const string SyncJobTitleJob = "SyncJobTitleJob";
+        public const string SyncWorkingTimeRequestJob = "SyncWorkingTimeRequestJob";
     }
 }

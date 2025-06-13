@@ -52,6 +52,7 @@ builder.Services.AddSingleton<IEmployeeCalendarService, EmployeeCalendarService>
 builder.Services.AddSingleton<IEmployeeOvertimeService, EmployeeOvertimeService>();
 builder.Services.AddSingleton<ITOEICService, TOEICService>();
 builder.Services.AddSingleton<IJobTitleService, JobTitleService>();
+builder.Services.AddSingleton<IWorkingTimeRequestService, WorkingTimeRequestService>();
 
 LogManager
     .SetDefaultLogCategory(builder.Configuration.GetSection("LogCategory").Value)
@@ -74,6 +75,7 @@ builder.Services.AddHostedService<SyncEmployeeCalendarWorker>();
 builder.Services.AddHostedService<SyncEmployeeOvertimeWorker>();
 builder.Services.AddHostedService<SyncTOEICWorker>();
 builder.Services.AddHostedService<JobTitleSyncWorker>();
+builder.Services.AddHostedService<SyncWorkingTimeRequestWorker>();
 builder.Services.AddHostedService<SyncRedmineDataWorker>();
 builder.Services.AddHostedService<ProbationWorker>();
 builder.Services.AddHostedService<PeriodWorker>();
