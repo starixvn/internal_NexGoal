@@ -52,7 +52,7 @@ BEGIN
             END,
             CASE 
                 WHEN ISNUMERIC(LeaveDay) = 1 THEN CAST(LeaveDay AS DECIMAL(18,1))
-                ELSE NULL 
+                ELSE NULL   
             END,
             LeaveTypeId2,
             CASE WHEN ISDATE(InsertDate) = 1 THEN CAST(InsertDate AS DATETIME) ELSE NULL END
@@ -93,6 +93,7 @@ BEGIN
             Target.TotalWorkHours = Source.TotalWorkHours,
             Target.LeaveDay = Source.LeaveDay,
             Target.LeaveTypeId2 = Source.LeaveTypeId2,
+            Target.InsertDate = Source.InsertDate,
             Target.SyncDate = GETDATE()
     WHEN NOT MATCHED BY TARGET THEN
         INSERT (

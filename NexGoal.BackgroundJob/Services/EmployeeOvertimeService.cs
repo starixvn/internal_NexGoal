@@ -17,7 +17,7 @@ namespace NexGoal.BackgroundJob.Services
         public async Task<IEnumerable<EmployeeOvertime>> GetOvertimesAsync(DateTime? lastModifiedDate = null)
         {
             var parameters = new Dictionary<string, object>{
-                {"lastModifiedDate", lastModifiedDate?.ToString("yyyy-MM-ddTHH:mm:ssZ") ?? new DateTime(2025, 1, 1).ToString("yyyy-MM-ddTHH:mm:ssZ")}
+                {"lastModifiedDate", lastModifiedDate?.ToString("yyyy-MM-ddTHH:mm:ssZ") ?? new DateTime(2020, 1, 1).ToString("yyyy-MM-ddTHH:mm:ssZ")}
             };
 
             var result = await httpClientService.ExecuteGetAsync<List<EmployeeOvertime>>(syncHrmApiSettings.Url + "/employee/overtime", syncHrmApiSettings.ApiKey, parameters);

@@ -10,7 +10,7 @@ namespace NexGoal.BackgroundJob.Criteria.Hrm
 
     public class SyncJobTitleCriteria : CommandBaseCriteria
     {
-        private const string _JobTitleTpl = "<JobTitle Id='{0}' Name='{1}' ModifiedDate='{2}' SyncDate='{3}'></JobTitle>";
+        private const string _JobTitleTpl = "<JobTitle Id='{0}' Name='{1}' ModifiedDate='{2}' ></JobTitle>";
 
         [SpParam(Ignored = true)]
         public IList<JobTitle> JobTitles { get; set; }

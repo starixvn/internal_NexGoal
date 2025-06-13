@@ -65,6 +65,8 @@ LogManager
         })
     });
 
+
+
 builder.Services.AddFanexSql(builder.Configuration);
 builder.Services.AddFanexMySql(builder.Configuration);
 
