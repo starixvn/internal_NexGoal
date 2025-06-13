@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[PerformanceRecord_GetByEmployee] @EmployeeId INT
+﻿CREATE OR ALTER PROCEDURE [dbo].[PerformanceRecord_GetByEmployee] @EmployeeId INT
 AS
 /*
 Created: 20180912@Tim.Trinh
@@ -178,7 +178,7 @@ BEGIN
 		,Comment
 		,IsDraft
 		,CreatedDate
-		,ModifiedDate
+		,record.ModifiedDate
 		,RoleId
 		,TypeId
 		,NominationStatusId

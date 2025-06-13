@@ -15,6 +15,7 @@ namespace NexGoal.BackgroundJob.Models.Hrm
         public int? LeaveTypeId2 { get; set; }
         public int? LateIn { get; set; }
         public int? EarlyOut { get; set; }
+        public bool? Absence { get; set; }
         public DateTime? InsertDate { get; set; }
     }
 } 

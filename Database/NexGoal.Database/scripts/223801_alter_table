@@ -45,6 +45,7 @@ CREATE TABLE [dbo].[EmployeeAttendance](
 	[LeaveTypeId2] [int] NULL,
 	[LateIn] [int] NULL,
     [EarlyOut] [int] NULL,
+    [Absence] [bit] NULL,
     [InsertDate] [datetime] NULL,
     [SyncDate] [datetime] NULL,
   

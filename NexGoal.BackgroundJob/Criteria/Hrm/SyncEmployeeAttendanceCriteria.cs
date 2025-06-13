@@ -9,7 +9,7 @@ namespace NexGoal.BackgroundJob.Criteria.Hrm
     public class SyncEmployeeAttendanceCriteria : CommandBaseCriteria
     {
         private const string _AttendanceTpl = "<EmployeeAttendance Id='{0}' EmpId='{1}' AttendanceDate='{2}' InFixed='{3}' OutFixed='{4}' " +
-            "LeaveTypeId='{5}' TotalWorkHours='{6}' LeaveDay='{7}' LeaveTypeId2='{8}' LateIn='{9}' EarlyOut='{10}' InsertDate='{11}'></EmployeeAttendance>";
+            "LeaveTypeId='{5}' TotalWorkHours='{6}' LeaveDay='{7}' LeaveTypeId2='{8}' LateIn='{9}' EarlyOut='{10}' Absence='{11}' InsertDate='{12}'></EmployeeAttendance>";
 
         [SpParam(Ignored = true)]
         public IList<EmployeeAttendance> Attendances { get; set; }
@@ -36,6 +36,7 @@ namespace NexGoal.BackgroundJob.Criteria.Hrm
                             attendance.LeaveTypeId2,
                             attendance.LateIn,
                             attendance.EarlyOut,
+                            attendance.Absence,
                             attendance.InsertDate);
                     }
                 }
