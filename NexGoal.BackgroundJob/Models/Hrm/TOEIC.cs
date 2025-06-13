@@ -11,6 +11,5 @@ namespace NexGoal.BackgroundJob.Models.Hrm
         public DateTime? LRExamDate { get; set; }
         public DateTime? InputDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
-        public DateTime? SyncDate { get; set; }
     }
 } 

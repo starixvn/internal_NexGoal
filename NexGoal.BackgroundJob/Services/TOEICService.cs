@@ -17,7 +17,7 @@ namespace NexGoal.BackgroundJob.Services
         public async Task<IEnumerable<TOEIC>> GetTOEICsAsync(DateTime? lastModifiedDate = null)
         {
             var parameters = new Dictionary<string, object>{
-                {"lastModifiedDate", lastModifiedDate?.ToString("yyyy-MM-ddTHH:mm:ssZ") ?? new DateTime(2025, 1, 1).ToString("yyyy-MM-ddTHH:mm:ssZ")}
+                {"lastModifiedDate", lastModifiedDate?.ToString("yyyy-MM-ddTHH:mm:ssZ") ?? new DateTime(2000, 1, 1).ToString("yyyy-MM-ddTHH:mm:ssZ")}
             };
 
             var result = await httpClientService.ExecuteGetAsync<List<TOEIC>>(syncHrmApiSettings.Url + "/employee/toeic", syncHrmApiSettings.ApiKey, parameters);

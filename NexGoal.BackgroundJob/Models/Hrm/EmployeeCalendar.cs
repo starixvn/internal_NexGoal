@@ -12,6 +12,5 @@ namespace NexGoal.BackgroundJob.Models.Hrm
         public bool? IsLeaveDay { get; set; }
         public decimal? LeaveDay { get; set; }
         public DateTime? ModifiedDate { get; set; }
-        public DateTime? SyncDate { get; set; }
     }
 } 

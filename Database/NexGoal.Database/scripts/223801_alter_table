@@ -90,16 +90,6 @@ CREATE TABLE [dbo].[EmployeeOvertime](
 GO
 
 
-USE [NexHRM]
-GO
-
-/****** Object:  Table [dbo].[TOEIC_]    Script Date: 6/13/2025 9:44:19 AM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
 CREATE TABLE [dbo].[TOEIC](
 	[EmpId] [int] NOT NULL,
 	[MinimumScore] [int] NULL,
@@ -129,16 +119,6 @@ CREATE TABLE [dbo].[JobTitle](
 ) ON [PRIMARY]
 GO
 
-
-USE [NexHRM]
-GO
-
-/****** Object:  Table [dbo].[WorkingTimeRequest]    Script Date: 6/13/2025 10:15:42 AM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
 
 CREATE TABLE [dbo].[WorkingTimeRequest](
 	[Id] [bigint]  NOT NULL,

@@ -42,18 +42,18 @@ BEGIN
             EmpId,
             RequestType,
             Status,
-            FromDate,
-            ToDate,
-            TotalDays,
+            CASE WHEN ISDATE(FromDate) = 1 THEN CAST(FromDate AS DATETIME) ELSE NULL END,
+            CASE WHEN ISDATE(ToDate) = 1 THEN CAST(ToDate AS DATETIME) ELSE NULL END,
+            CASE WHEN ISNUMERIC(TotalDays) = 1 THEN CAST(TotalDays AS DECIMAL(18,1)) ELSE NULL END,
             ModifiedDate
         FROM OPENXML(@DocHandler, '/ROOT/WorkingTimeRequest', 1) WITH (
             Id BIGINT,
             EmpId INT,
             RequestType SMALLINT,
             Status TINYINT,
-            FromDate DATETIME,
-            ToDate DATETIME,
-            TotalDays NUMERIC(5,1),
+            FromDate NVARCHAR(50),
+            ToDate NVARCHAR(50),
+            TotalDays NVARCHAR(50),
             ModifiedDate DATETIME
         )
 
