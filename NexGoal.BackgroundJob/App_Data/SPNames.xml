@@ -46,5 +46,6 @@
         <Setting Key="SyncEmployeeOvertime_Import" SpName="SyncEmployeeOvertime_Import" DbName="bodb_NexGoal" Plain="0"></Setting>
         <Setting Key="SyncTOEIC_GetLastModifiedDate" SpName="SyncTOEIC_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0"></Setting>
         <Setting Key="SyncTOEIC_Import" SpName="SyncTOEIC_Import" DbName="bodb_NexGoal" Plain="0"></Setting>
+        <Setting Key="SyncJobTitle_Import" SpName="SyncJobTitle_Import" DbName="bodb_NexGoal" Plain="0"></Setting>
     </Function>
 </Functions>
