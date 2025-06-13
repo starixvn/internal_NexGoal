@@ -13,6 +13,8 @@ namespace NexGoal.BackgroundJob.Models.Hrm
         public decimal? TotalWorkHours { get; set; }
         public decimal? LeaveDay { get; set; }
         public int? LeaveTypeId2 { get; set; }
+        public int? LateIn { get; set; }
+        public int? EarlyOut { get; set; }
         public DateTime? InsertDate { get; set; }
     }
 } 

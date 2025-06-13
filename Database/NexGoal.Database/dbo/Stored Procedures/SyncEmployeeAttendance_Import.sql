@@ -32,6 +32,8 @@ BEGIN
         TotalWorkHours DECIMAL(18,2),
         LeaveDay DECIMAL(18,1),
         LeaveTypeId2 INT,
+        LateIn INT,
+        EarlyOut INT,
         InsertDate DATETIME
     )
  
@@ -55,6 +57,8 @@ BEGIN
                 ELSE NULL   
             END,
             LeaveTypeId2,
+            LateIn,
+            EarlyOut,
             CASE WHEN ISDATE(InsertDate) = 1 THEN CAST(InsertDate AS DATETIME) ELSE NULL END
         FROM OPENXML(@DocHandler, '/ROOT/EmployeeAttendance', 1) WITH (
             Id BIGINT,
@@ -66,6 +70,8 @@ BEGIN
             TotalWorkHours NVARCHAR(50),
             LeaveDay NVARCHAR(50),
             LeaveTypeId2 INT,
+            LateIn INT,
+            EarlyOut INT,
             InsertDate NVARCHAR(50)
         )
 
@@ -93,17 +99,21 @@ BEGIN
             Target.TotalWorkHours = Source.TotalWorkHours,
             Target.LeaveDay = Source.LeaveDay,
             Target.LeaveTypeId2 = Source.LeaveTypeId2,
+            Target.LateIn = Source.LateIn,
+            Target.EarlyOut = Source.EarlyOut,
             Target.InsertDate = Source.InsertDate,
             Target.SyncDate = GETDATE()
     WHEN NOT MATCHED BY TARGET THEN
         INSERT (
             Id, EmpId, AttendanceDate, InFixed, OutFixed, 
             LeaveTypeId, TotalWorkHours, LeaveDay, LeaveTypeId2,
+            LateIn, EarlyOut,
             InsertDate, SyncDate
         )
         VALUES (
             Source.Id, Source.EmpId, Source.AttendanceDate, Source.InFixed, Source.OutFixed, 
             Source.LeaveTypeId, Source.TotalWorkHours, Source.LeaveDay, Source.LeaveTypeId2,
+            Source.LateIn, Source.EarlyOut,
             Source.InsertDate, GETDATE()
         );
 

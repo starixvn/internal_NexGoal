@@ -43,8 +43,11 @@ CREATE TABLE [dbo].[EmployeeAttendance](
 	[TotalWorkHours] [decimal](18, 2) NULL,
 	[LeaveDay] [decimal](18, 1) NULL,
 	[LeaveTypeId2] [int] NULL,
+	[LateIn] [int] NULL,
+    [EarlyOut] [int] NULL,
     [InsertDate] [datetime] NULL,
-    [SyncDate] [datetime] NULL
+    [SyncDate] [datetime] NULL,
+  
  CONSTRAINT [PK_EmployeeAttendance] PRIMARY KEY NONCLUSTERED 
 (
 	[Id] ASC
