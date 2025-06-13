@@ -50,6 +50,7 @@ builder.Services.AddSingleton<IGroupService, GroupService>();
 builder.Services.AddSingleton<IEmployeeAttendanceService, EmployeeAttendanceService>();
 builder.Services.AddSingleton<IEmployeeCalendarService, EmployeeCalendarService>();
 builder.Services.AddSingleton<IEmployeeOvertimeService, EmployeeOvertimeService>();
+builder.Services.AddSingleton<ITOEICService, TOEICService>();
 
 LogManager
     .SetDefaultLogCategory(builder.Configuration.GetSection("LogCategory").Value)
@@ -70,13 +71,13 @@ builder.Services.AddHostedService<SyncGroupWorker>();
 builder.Services.AddHostedService<SyncEmployeeAttendanceWorker>();
 builder.Services.AddHostedService<SyncEmployeeCalendarWorker>();
 builder.Services.AddHostedService<SyncEmployeeOvertimeWorker>();
+builder.Services.AddHostedService<SyncTOEICWorker>();
 builder.Services.AddHostedService<SyncRedmineDataWorker>();
 builder.Services.AddHostedService<ProbationWorker>();
 builder.Services.AddHostedService<PeriodWorker>();
 builder.Services.AddHostedService<PAWorker>();
 builder.Services.AddHostedService<PAFocusWorker>();
 builder.Services.AddHostedService<NominationWorker>();
-
 
 
 
