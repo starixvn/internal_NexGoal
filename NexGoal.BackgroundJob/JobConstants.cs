@@ -12,5 +12,6 @@
         public const string SyncGroupJob = "SyncGroupJob";
         public const string SyncEmployeeAttendanceJob = "SyncEmployeeAttendanceJob";
         public const string SyncEmployeeCalendarJob = "SyncEmployeeCalendarJob";
+        public const string SyncEmployeeOvertimeJob = "SyncEmployeeOvertimeJob";
     }
 }

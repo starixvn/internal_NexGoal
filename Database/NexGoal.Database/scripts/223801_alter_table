@@ -70,3 +70,23 @@ CREATE TABLE [dbo].[EmployeeCalendar](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+
+
+
+CREATE TABLE [dbo].[EmployeeOvertime](
+	[OvertimeId] [int] NOT NULL,
+	[EmployeeId] [int] NOT NULL,
+	[Date] [datetime] NOT NULL,
+	[Hour] [numeric](18, 1) NOT NULL,
+	[ModifiedDate] [datetime] NULL,
+	[SyncDate] [datetime] NULL
+ CONSTRAINT [PK_EmployeeOvertime] PRIMARY KEY CLUSTERED 
+(
+	[OvertimeId] ASC,
+	[EmployeeId] ASC,
+	[Date] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+

@@ -49,6 +49,7 @@ builder.Services.AddSingleton<IEmployeeService, EmployeeService>();
 builder.Services.AddSingleton<IGroupService, GroupService>();
 builder.Services.AddSingleton<IEmployeeAttendanceService, EmployeeAttendanceService>();
 builder.Services.AddSingleton<IEmployeeCalendarService, EmployeeCalendarService>();
+builder.Services.AddSingleton<IEmployeeOvertimeService, EmployeeOvertimeService>();
 
 LogManager
     .SetDefaultLogCategory(builder.Configuration.GetSection("LogCategory").Value)
@@ -68,6 +69,7 @@ builder.Services.AddHostedService<SyncEmployeeWorker>();
 builder.Services.AddHostedService<SyncGroupWorker>();
 builder.Services.AddHostedService<SyncEmployeeAttendanceWorker>();
 builder.Services.AddHostedService<SyncEmployeeCalendarWorker>();
+builder.Services.AddHostedService<SyncEmployeeOvertimeWorker>();
 builder.Services.AddHostedService<SyncRedmineDataWorker>();
 builder.Services.AddHostedService<ProbationWorker>();
 builder.Services.AddHostedService<PeriodWorker>();
