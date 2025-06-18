@@ -1,4 +1,4 @@
-﻿CREATE OR ALTER PROCEDURE [dbo].[SyncEmployee_Import]	
+﻿CREATE OR ALTER   PROCEDURE [dbo].[SyncEmployee_Import]	
 	@EmployeeXml NVARCHAR(MAX)
 
 	,@ErrCode INT = 0 OUTPUT
@@ -51,7 +51,7 @@ BEGIN
 		JobTitleId INT,
 		Email VARCHAR(50),
 		ConversationId VARCHAR(255),
-		ModifiedDate DATETIME
+		ModifiedDate DATETIME NULL
 	)
  
 	BEGIN TRY
@@ -88,7 +88,7 @@ BEGIN
 			JobTitleId INT,
 			Email VARCHAR(50),
 			ConversationId VARCHAR(255),
-			ModifiedDate DATETIME
+			ModifiedDate DATETIME 
 		)
 
 		EXEC sp_xml_removedocument @DocHandler

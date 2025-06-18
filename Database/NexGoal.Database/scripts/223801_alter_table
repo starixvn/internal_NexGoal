@@ -1,146 +1,955 @@
-CREATE TABLE dbo.Employee (
-    EmployeeId INT PRIMARY KEY,
-    DomainUsername NVARCHAR(255),
-    Code NVARCHAR(50),
-    FullName NVARCHAR(255),
-    NickName NVARCHAR(255),
-    GroupId INT,
-    Enabled BIT,
-    IsDeleted BIT,
-    JoinedDate DATE,
-    ConfirmedDate DATE,
-    JobTitleId INT,
-    Email NVARCHAR(255),
-    ConversationId NVARCHAR(255),
-	ModifiedDate DATETIME NULL,
-    SyncDate DATETIME NULL
-);
+USE NexGoal2;
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[SyncEmployee_GetLastModifiedDate]
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT MAX(ModifiedDate) AS LastModifiedDate
+	FROM [dbo].[Employee]
+	WHERE ModifiedDate IS NOT NULL;
+END
 
 GO
 
-CREATE TABLE [dbo].[Group](
-	[GroupId] [int] PRIMARY KEY NOT NULL,
-	[Code] [varchar](20) NOT NULL,
-	[Name] [nvarchar](50) NOT NULL,
-	[DepartmentId] [int] NULL,
-	[Rank] [int] NULL,
-	[IsDeleted] [bit] NULL,
-	[ParentId] [int] NULL,
-    [ModifiedDate] [datetime] NULL,
-    [SyncDate] [datetime] NULL
-);
+CREATE OR ALTER   PROCEDURE [dbo].[SyncEmployee_Import]	
+	@EmployeeXml NVARCHAR(MAX)
+
+	,@ErrCode INT = 0 OUTPUT
+	,@ErrMsg nvarchar(200) = '' OUTPUT
+AS
+/*
+EXEC [dbo].[SyncEmployee_Import]	
+	@UserXML ='<ROOT>
+	"<Employee EmployeeId='{0}' DomainUsername='{1}' Code='{2}' FullName='{3}' NickName='{4}' GroupId='{5}' Enabled='{6}' JoinedDate='{7}' "
+        + "ConfirmedDate='{8}' JobTitleId='{9}' Email='{10}' ConversationId='{11}' IsDeleted='{12}'></Employee>"
+</ROOT>'
+
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+
+	-- For write log
+	DECLARE 
+		@StartRun					DATETIME,
+		@EndRun						DATETIME,
+		@Duration					INT,
+		@LogTraderData				NVARCHAR(MAX),	
+		@LogTraderOldData			NVARCHAR(MAX),	
+		@Xml						XML		 
+
+	
+	DECLARE @DocHandler INT
+
+	SELECT @EmployeeXml = REPLACE(ISNULL(@EmployeeXml,''),'&','&amp;')
+	
+	PRINT LEN(@EmployeeXml)
+
+	IF OBJECT_ID('tempdb..#Employee') IS NOT NULL
+	BEGIN
+		DROP TABLE #Employee
+	END
+
+	CREATE TABLE #Employee (		
+		EmployeeId INT,
+		DomainUsername VARCHAR(50),
+		Code VARCHAR(20),
+		FullName NVARCHAR(50),
+		NickName NVARCHAR(20),
+		GroupId INT,
+		Enabled BIT,
+		IsDeleted BIT,
+		JoinedDate DATE,
+		ConfirmedDate DATE,
+		JobTitleId INT,
+		Email VARCHAR(50),
+		ConversationId VARCHAR(255),
+		ModifiedDate DATETIME NULL
+	)
+ 
+	BEGIN TRY
+		EXEC sp_xml_preparedocument @DocHandler OUTPUT
+			,@EmployeeXml
+
+		INSERT INTO #Employee
+		SELECT
+			EmployeeId,
+			DomainUsername,
+			Code,
+			FullName,
+			NickName,
+			GroupId,
+			Enabled,
+			IsDeleted,
+			CASE WHEN ISDATE(JoinedDate) = 1 THEN CAST(JoinedDate AS DATE) ELSE NULL END,
+			CASE WHEN ISDATE(ConfirmedDate) = 1 THEN CAST(ConfirmedDate AS DATE) ELSE NULL END,
+			JobTitleId,
+			Email,
+			ConversationId,
+			ModifiedDate
+		FROM OPENXML(@DocHandler, '/ROOT/Employee', 1) WITH (
+			EmployeeId INT,
+			DomainUsername VARCHAR(50),
+			Code VARCHAR(20),
+			FullName NVARCHAR(50),
+			NickName NVARCHAR(20),
+			GroupId INT,
+			Enabled BIT,
+			IsDeleted BIT,
+			JoinedDate NVARCHAR(50),
+			ConfirmedDate NVARCHAR(50),
+			JobTitleId INT,
+			Email VARCHAR(50),
+			ConversationId VARCHAR(255),
+			ModifiedDate DATETIME 
+		)
+
+		EXEC sp_xml_removedocument @DocHandler
+	END TRY
+
+	BEGIN CATCH
+		SELECT @ErrCode = 100
+			,@ErrMsg = N'Paramter invalid.'
+		PRINT 1
+		RETURN
+	END CATCH;
+	 
+	MERGE INTO [dbo].[Employee] AS Target
+	USING #Employee AS Source
+	ON Target.EmployeeId = Source.EmployeeId
+	WHEN MATCHED THEN
+		UPDATE SET
+			Target.DomainUsername = Source.DomainUsername,
+			Target.Code = Source.Code,
+			Target.FullName = Source.FullName,
+			Target.NickName = Source.NickName,
+			Target.GroupId = Source.GroupId,
+			Target.Enabled = Source.Enabled,
+			Target.IsDeleted = Source.IsDeleted,
+			Target.JoinedDate = Source.JoinedDate,
+			Target.ConfirmedDate = Source.ConfirmedDate,
+			Target.JobTitleId = Source.JobTitleId,
+			Target.Email = Source.Email,
+			Target.ConversationId = Source.ConversationId,
+			Target.ModifiedDate = Source.ModifiedDate,
+			Target.SyncDate = GETDATE()
+	WHEN NOT MATCHED BY TARGET THEN
+		INSERT (
+			EmployeeId, DomainUsername, Code, FullName, NickName, GroupId, Enabled, IsDeleted,
+			JoinedDate, ConfirmedDate, JobTitleId, Email, ConversationId, ModifiedDate, SyncDate
+		)
+		VALUES (
+			Source.EmployeeId, Source.DomainUsername, Source.Code, Source.FullName, Source.NickName, Source.GroupId,
+			Source.Enabled, Source.IsDeleted, Source.JoinedDate, Source.ConfirmedDate, Source.JobTitleId, Source.Email, Source.ConversationId, Source.ModifiedDate, GETDATE()
+		);
+
+	SELECT @ErrCode = 0, @ErrMsg = '';
+
+	DROP TABLE #Employee;
+END
 
 GO
 
+CREATE OR ALTER PROCEDURE [dbo].[SyncEmployeeAttendance_GetLastModifiedDate]
+AS
+BEGIN
+	SET NOCOUNT ON;
 
-CREATE TABLE [dbo].[EmployeeAttendance](
-	[Id] [bigint]  NOT NULL,
-	[EmpId] [int] NOT NULL,
-	[AttendanceDate] [datetime] NOT NULL,
-	[InFixed] [datetime] NULL,
-	[OutFixed] [datetime] NULL,
-	[LeaveTypeId] [int] NULL,
-	[TotalWorkHours] [decimal](18, 2) NULL,
-	[LeaveDay] [decimal](18, 1) NULL,
-	[LeaveTypeId2] [int] NULL,
-	[LateIn] [int] NULL,
-    [EarlyOut] [int] NULL,
-    [Absence] [bit] NULL,
-    [InsertDate] [datetime] NULL,
-    [SyncDate] [datetime] NULL,
-  
- CONSTRAINT [PK_EmployeeAttendance] PRIMARY KEY NONCLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+	SELECT MAX(InsertDate) AS LastModifiedDate
+	FROM [dbo].[EmployeeAttendance]
+	WHERE InsertDate IS NOT NULL;
+END
 
 GO
 
+CREATE OR ALTER   PROCEDURE [dbo].[SyncEmployeeAttendance_Import]    
+    @AttendanceXml NVARCHAR(MAX),
+    @ErrCode INT = 0 OUTPUT,
+    @ErrMsg nvarchar(200) = '' OUTPUT
+AS
+/*
+EXEC [dbo].[SyncEmployeeAttendance_Import]    
+    @AttendanceXml ='<ROOT>
+    <EmployeeAttendance Id='1' EmpId='1' AttendanceDate='2024-03-20' InFixed='2024-03-20 08:00' OutFixed='2024-03-20 17:00' 
+        LeaveTypeId='0' TotalWorkHours='8.00' LeaveDay='0' LeaveTypeId2='0' InsertDate='2024-03-20'></EmployeeAttendance>
+    </ROOT>'
+*/
+BEGIN
+    SET NOCOUNT ON;
 
-CREATE TABLE [dbo].[EmployeeCalendar](
-	[Id] [bigint]NOT NULL,
-	[EmpId] [int] NOT NULL,
-	[WorkDate] [datetime] NOT NULL,
-    [IsOffDay] [bit] NULL,
-	[IsHoliday] [bit] NULL,
-	[IsLeaveDay] [bit] NULL,
-	[LeaveDay] [decimal](18, 1) NULL,
-	[ModifiedDate] [datetime] NULL,
-    [SyncDate] [datetime] NULL
- CONSTRAINT [PK_EmployeeCalendar] PRIMARY KEY NONCLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+    DECLARE @DocHandler INT
+
+    SELECT @AttendanceXml = REPLACE(ISNULL(@AttendanceXml,''),'&','&amp;')
+    
+    IF OBJECT_ID('tempdb..#EmployeeAttendance') IS NOT NULL
+    BEGIN
+        DROP TABLE #EmployeeAttendance
+    END
+
+    CREATE TABLE #EmployeeAttendance (        
+        Id BIGINT,
+        EmpId INT,
+        AttendanceDate DATETIME,
+        InFixed DATETIME,
+        OutFixed DATETIME,
+        LeaveTypeId INT,
+        TotalWorkHours DECIMAL(18,2),
+        LeaveDay DECIMAL(18,1),
+        LeaveTypeId2 INT,
+        LateIn INT,
+        EarlyOut INT,
+        Absence BIT,
+        InsertDate DATETIME
+    )
+ 
+    BEGIN TRY
+        EXEC sp_xml_preparedocument @DocHandler OUTPUT, @AttendanceXml
+
+        INSERT INTO #EmployeeAttendance
+        SELECT
+            Id,
+            EmpId,
+            AttendanceDate,
+            CASE WHEN ISDATE(InFixed) = 1 THEN CAST(InFixed AS DATETIME) ELSE NULL END,
+            CASE WHEN ISDATE(OutFixed) = 1 THEN CAST(OutFixed AS DATETIME) ELSE NULL END,
+            LeaveTypeId,
+            CASE 
+                WHEN ISNUMERIC(TotalWorkHours) = 1 THEN CAST(TotalWorkHours AS DECIMAL(18,2))
+                ELSE NULL 
+            END,
+            CASE 
+                WHEN ISNUMERIC(LeaveDay) = 1 THEN CAST(LeaveDay AS DECIMAL(18,1))
+                ELSE NULL   
+            END,
+            LeaveTypeId2,
+            LateIn,
+            EarlyOut,
+            Absence,
+            CASE WHEN ISDATE(InsertDate) = 1 THEN CAST(InsertDate AS DATETIME) ELSE NULL END
+        FROM OPENXML(@DocHandler, '/ROOT/EmployeeAttendance', 1) WITH (
+            Id BIGINT,
+            EmpId INT,
+            AttendanceDate DATETIME,
+            InFixed NVARCHAR(50),
+            OutFixed NVARCHAR(50),
+            LeaveTypeId INT,
+            TotalWorkHours NVARCHAR(50),
+            LeaveDay NVARCHAR(50),
+            LeaveTypeId2 INT,
+            LateIn INT,
+            EarlyOut INT,
+            Absence BIT,
+            InsertDate NVARCHAR(50)
+        )
+
+        EXEC sp_xml_removedocument @DocHandler
+    END TRY
+    BEGIN CATCH
+        IF @DocHandler IS NOT NULL
+            EXEC sp_xml_removedocument @DocHandler
+
+        SELECT @ErrCode = ERROR_NUMBER()
+            ,@ErrMsg = ERROR_MESSAGE()
+        RETURN
+    END CATCH;
+     
+    MERGE INTO [dbo].[EmployeeAttendance] AS Target
+    USING #EmployeeAttendance AS Source
+    ON Target.Id = Source.Id
+    WHEN MATCHED THEN
+        UPDATE SET
+            Target.EmpId = Source.EmpId,
+            Target.AttendanceDate = Source.AttendanceDate,
+            Target.InFixed = Source.InFixed,
+            Target.OutFixed = Source.OutFixed,
+            Target.LeaveTypeId = Source.LeaveTypeId,
+            Target.TotalWorkHours = Source.TotalWorkHours,
+            Target.LeaveDay = Source.LeaveDay,
+            Target.LeaveTypeId2 = Source.LeaveTypeId2,
+            Target.LateIn = Source.LateIn,
+            Target.EarlyOut = Source.EarlyOut,
+            Target.Absence = Source.Absence,
+            Target.InsertDate = Source.InsertDate,
+            Target.SyncDate = GETDATE()
+    WHEN NOT MATCHED BY TARGET THEN
+        INSERT (
+            Id, EmpId, AttendanceDate, InFixed, OutFixed, 
+            LeaveTypeId, TotalWorkHours, LeaveDay, LeaveTypeId2,
+            LateIn, EarlyOut,
+            Absence,
+            InsertDate, SyncDate
+        )
+        VALUES (
+            Source.Id, Source.EmpId, Source.AttendanceDate, Source.InFixed, Source.OutFixed, 
+            Source.LeaveTypeId, Source.TotalWorkHours, Source.LeaveDay, Source.LeaveTypeId2,
+            Source.LateIn, Source.EarlyOut,
+            Source.Absence,
+            Source.InsertDate, GETDATE()
+        );
+
+    SELECT @ErrCode = 0, @ErrMsg = '';
+
+    DROP TABLE #EmployeeAttendance;
+END 
+
+GO
+CREATE OR ALTER PROCEDURE [dbo].[SyncEmployeeCalendar_GetLastModifiedDate]
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT MAX(ModifiedDate) AS LastModifiedDate
+    FROM [dbo].[EmployeeCalendar]
+    WHERE ModifiedDate IS NOT NULL;
+END 
+
 GO
 
+CREATE OR ALTER   PROCEDURE [dbo].[SyncEmployeeCalendar_Import]    
+    @CalendarXml NVARCHAR(MAX),
+    @ErrCode INT = 0 OUTPUT,
+    @ErrMsg nvarchar(200) = '' OUTPUT
+AS
+/*
+EXEC [dbo].[SyncEmployeeCalendar_Import]    
+    @CalendarXml ='<ROOT>
+    <EmployeeCalendar Id='1' EmpId='1' WorkDate='2024-03-20' IsHoliday='0' IsLeaveDay='0' 
+        LeaveDay='0' ModifiedDate='2024-03-20'></EmployeeCalendar>
+    </ROOT>'
+*/
+BEGIN
+    SET NOCOUNT ON;
 
+    DECLARE @DocHandler INT
 
-CREATE TABLE [dbo].[EmployeeOvertime](
-	[OvertimeId] [int] NOT NULL,
-	[EmployeeId] [int] NOT NULL,
-	[Date] [datetime] NOT NULL,
-	[Hour] [numeric](18, 1) NOT NULL,
-	[ModifiedDate] [datetime] NULL,
-	[SyncDate] [datetime] NULL
- CONSTRAINT [PK_EmployeeOvertime] PRIMARY KEY CLUSTERED 
-(
-	[OvertimeId] ASC,
-	[EmployeeId] ASC,
-	[Date] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+    SELECT @CalendarXml = REPLACE(ISNULL(@CalendarXml,''),'&','&amp;')
+    
+    IF OBJECT_ID('tempdb..#EmployeeCalendar') IS NOT NULL
+    BEGIN
+        DROP TABLE #EmployeeCalendar
+    END
+
+    CREATE TABLE #EmployeeCalendar (        
+        Id BIGINT,
+        EmpId INT,
+        WorkDate DATETIME,
+        IsOffDay BIT,
+        IsHoliday BIT,
+        IsLeaveDay BIT,
+        LeaveDay DECIMAL(18,1),
+        ModifiedDate DATETIME
+    )
+ 
+    BEGIN TRY
+        EXEC sp_xml_preparedocument @DocHandler OUTPUT, @CalendarXml
+
+        INSERT INTO #EmployeeCalendar
+        SELECT
+            Id,
+            EmpId,
+            WorkDate,
+            IsOffDay,
+            IsHoliday,
+            IsLeaveDay,
+            CASE 
+                WHEN ISNUMERIC(LeaveDay) = 1 THEN CAST(LeaveDay AS DECIMAL(18,1))
+                ELSE NULL 
+            END,
+            ModifiedDate
+        FROM OPENXML(@DocHandler, '/ROOT/EmployeeCalendar', 1) WITH (
+            Id BIGINT,
+            EmpId INT,
+            WorkDate DATETIME,
+            IsOffDay BIT,
+            IsHoliday BIT,
+            IsLeaveDay BIT,
+            LeaveDay NVARCHAR(50),
+            ModifiedDate DATETIME
+        )
+
+        EXEC sp_xml_removedocument @DocHandler
+    END TRY
+    BEGIN CATCH
+        IF @DocHandler IS NOT NULL
+            EXEC sp_xml_removedocument @DocHandler
+
+        SELECT @ErrCode = ERROR_NUMBER()
+            ,@ErrMsg = ERROR_MESSAGE()
+        RETURN
+    END CATCH;
+     
+    MERGE INTO [dbo].[EmployeeCalendar] AS Target
+    USING #EmployeeCalendar AS Source
+    ON Target.Id = Source.Id
+    WHEN MATCHED THEN
+        UPDATE SET
+            Target.EmpId = Source.EmpId,
+            Target.WorkDate = Source.WorkDate,
+            Target.IsOffDay = Source.IsOffDay,
+            Target.IsHoliday = Source.IsHoliday,
+            Target.IsLeaveDay = Source.IsLeaveDay,
+            Target.LeaveDay = Source.LeaveDay,
+            Target.ModifiedDate = Source.ModifiedDate,
+            Target.SyncDate = GETDATE()
+    WHEN NOT MATCHED BY TARGET THEN
+        INSERT (
+            Id, EmpId, WorkDate, IsOffDay, IsHoliday, IsLeaveDay, 
+            LeaveDay, ModifiedDate, SyncDate
+        )
+        VALUES (
+            Source.Id, Source.EmpId, Source.WorkDate, Source.IsOffDay, Source.IsHoliday, Source.IsLeaveDay, 
+            Source.LeaveDay, Source.ModifiedDate, GETDATE()
+        );
+
+    SELECT @ErrCode = 0, @ErrMsg = '';
+      
+
+    DROP TABLE #EmployeeCalendar;
+END 
+
 GO
 
+CREATE OR ALTER PROCEDURE [dbo].[SyncEmployeeOvertime_GetLastModifiedDate]
+AS
+BEGIN
+    SET NOCOUNT ON;
 
-CREATE TABLE [dbo].[TOEIC](
-	[EmpId] [int] NOT NULL,
-	[MinimumScore] [int] NULL,
-	[Listening] [int] NULL,
-	[Reading] [int] NULL,
-	[LRExamDate] [datetime] NULL,
-	[InputDate] [datetime] NULL,
-	[ModifiedDate] [datetime] NULL,
-	[SyncDate] [datetime] NULL,
- CONSTRAINT [PK_TOEIC] PRIMARY KEY CLUSTERED 
-(
-	[EmpId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+    SELECT MAX(ModifiedDate) AS LastModifiedDate
+    FROM [dbo].[EmployeeOvertime]
+    WHERE ModifiedDate IS NOT NULL;
+END 
+
 GO
 
+CREATE OR ALTER   PROCEDURE [dbo].[SyncEmployeeOvertime_Import]    
+    @OvertimeXml NVARCHAR(MAX),
+    @ErrCode INT = 0 OUTPUT,
+    @ErrMsg nvarchar(200) = '' OUTPUT
+AS
+/*
+EXEC [dbo].[SyncEmployeeOvertime_Import]    
+    @OvertimeXml ='<ROOT>
+    <EmployeeOvertime OvertimeId='1' EmployeeId='1' Date='2024-03-20' 
+        Hour='2.5' ModifiedDate='2024-03-20'></EmployeeOvertime>
+    </ROOT>'
+*/
+BEGIN
+    SET NOCOUNT ON;
 
-CREATE TABLE [dbo].[JobTitle](
-	[JobTitleId] [int]  NOT NULL,
-	[Name] [nvarchar](100) NOT NULL,
-	[ModifiedDate] [datetime] NULL,
-	[SyncDate] [datetime] NULL
- CONSTRAINT [PK_JobTitle] PRIMARY KEY CLUSTERED 
-(
-	[JobTitleId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+    DECLARE @DocHandler INT
+
+    SELECT @OvertimeXml = REPLACE(ISNULL(@OvertimeXml,''),'&','&amp;')
+    
+    IF OBJECT_ID('tempdb..#EmployeeOvertime') IS NOT NULL
+    BEGIN
+        DROP TABLE #EmployeeOvertime
+    END
+
+    CREATE TABLE #EmployeeOvertime (        
+        OvertimeId INT,
+        EmployeeId INT,
+        Date DATETIME,
+        Hour DECIMAL(18,1),
+        ModifiedDate DATETIME
+    )
+ 
+    BEGIN TRY
+        EXEC sp_xml_preparedocument @DocHandler OUTPUT, @OvertimeXml
+
+        INSERT INTO #EmployeeOvertime
+        SELECT
+            OvertimeId,
+            EmployeeId,
+            Date,
+            CASE 
+                WHEN ISNUMERIC(Hour) = 1 THEN CAST(Hour AS DECIMAL(18,1))
+                ELSE NULL 
+            END,
+            ModifiedDate
+        FROM OPENXML(@DocHandler, '/ROOT/EmployeeOvertime', 1) WITH (
+            OvertimeId INT,
+            EmployeeId INT,
+            Date DATETIME,
+            Hour NVARCHAR(50),
+            ModifiedDate DATETIME
+        )
+
+        EXEC sp_xml_removedocument @DocHandler
+    END TRY
+    BEGIN CATCH
+        IF @DocHandler IS NOT NULL
+            EXEC sp_xml_removedocument @DocHandler
+
+        SELECT @ErrCode = ERROR_NUMBER()
+            ,@ErrMsg = ERROR_MESSAGE()
+        RETURN
+    END CATCH;
+     
+    BEGIN TRY
+        MERGE INTO [dbo].[EmployeeOvertime] AS Target
+        USING #EmployeeOvertime AS Source
+        ON Target.OvertimeId = Source.OvertimeId 
+            AND Target.EmployeeId = Source.EmployeeId
+            AND Target.Date = Source.Date
+        WHEN MATCHED THEN
+            UPDATE SET
+                Target.Hour = Source.Hour,
+                Target.ModifiedDate = Source.ModifiedDate,
+                Target.SyncDate = GETDATE()
+        WHEN NOT MATCHED BY TARGET THEN
+            INSERT (
+                OvertimeId, EmployeeId, Date, Hour, 
+                ModifiedDate, SyncDate
+            )
+            VALUES (
+                Source.OvertimeId, Source.EmployeeId, Source.Date, Source.Hour, 
+                Source.ModifiedDate, GETDATE()
+            );
+
+        SELECT @ErrCode = 0, @ErrMsg = '';
+    END TRY
+    BEGIN CATCH
+        SELECT @ErrCode = ERROR_NUMBER()
+            ,@ErrMsg = ERROR_MESSAGE()
+    END CATCH;
+
+    IF OBJECT_ID('tempdb..#EmployeeOvertime') IS NOT NULL
+        DROP TABLE #EmployeeOvertime;
+END 
+
 GO
 
+CREATE OR ALTER PROCEDURE [dbo].[SyncGroup_GetLastModifiedDate]
+AS
+BEGIN
+	SET NOCOUNT ON;
 
-CREATE TABLE [dbo].[WorkingTimeRequest](
-	[Id] [bigint]  NOT NULL,
-	[EmpId] [int] NOT NULL,
-	[RequestType] [smallint] NOT NULL,
-	[Status] [tinyint] NOT NULL,
-	[FromDate] [datetime] NOT NULL,
-	[ToDate] [datetime] NULL,
-	[TotalDays] [numeric](5, 1) NULL,
-	[ModifiedDate] [datetime] NULL,
-	[SyncDate] [datetime] NULL,
- CONSTRAINT [PK_WorkingTimeRequest] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+	SELECT MAX(ModifiedDate) AS LastModifiedDate
+	FROM [dbo].[Group]
+	WHERE ModifiedDate IS NOT NULL;
+END
+
 GO
 
+CREATE OR ALTER   PROCEDURE [dbo].[SyncGroup_Import]	
+	@GroupXml NVARCHAR(MAX),
+	@ErrCode INT = 0 OUTPUT,
+	@ErrMsg nvarchar(200) = '' OUTPUT
+AS
+/*
+EXEC [dbo].[SyncGroup_Import]	
+	@GroupXml ='<ROOT>
+	<Group GroupId='1' Code='G001' Name='Group 1' DepartmentId='1' Rank='1' IsDeleted='0' ParentId='0' ModifiedDate='2024-03-20'></Group>
+	</ROOT>'
+*/
+BEGIN
+	SET NOCOUNT ON;
 
+	-- For write log
+	DECLARE 
+		@StartRun					DATETIME,
+		@EndRun						DATETIME,
+		@Duration					INT,
+		@LogTraderData				NVARCHAR(MAX),	
+		@LogTraderOldData			NVARCHAR(MAX),	
+		@Xml						XML		 
 
+	DECLARE @DocHandler INT
 
+	SELECT @GroupXml = REPLACE(ISNULL(@GroupXml,''),'&','&amp;')
+	
+	IF OBJECT_ID('tempdb..#Group') IS NOT NULL
+	BEGIN
+		DROP TABLE #Group
+	END
+
+	CREATE TABLE #Group (		
+		GroupId INT,
+		Code VARCHAR(20),
+		Name NVARCHAR(50),
+		DepartmentId INT,
+		Rank INT,
+		IsDeleted BIT,
+		ParentId INT,
+		ModifiedDate DATETIME
+	)
+ 
+	BEGIN TRY
+		EXEC sp_xml_preparedocument @DocHandler OUTPUT, @GroupXml
+
+		INSERT INTO #Group
+		SELECT
+			GroupId,
+			Code,
+			Name,
+			DepartmentId,
+			Rank,
+			IsDeleted,
+			ParentId,
+			CASE WHEN ISDATE(ModifiedDate) = 1 THEN CAST(ModifiedDate AS DATETIME) ELSE NULL END
+		FROM OPENXML(@DocHandler, '/ROOT/Group', 1) WITH (
+			GroupId INT,
+			Code VARCHAR(20),
+			Name NVARCHAR(50),
+			DepartmentId INT,
+			Rank INT,
+			IsDeleted BIT,
+			ParentId INT,
+			ModifiedDate NVARCHAR(50)
+		)
+
+		EXEC sp_xml_removedocument @DocHandler
+	END TRY
+
+	BEGIN CATCH
+		SELECT @ErrCode = 100
+			,@ErrMsg = N'Parameter invalid.'
+		RETURN
+	END CATCH;
+	 
+	MERGE INTO [dbo].[Group] AS Target
+	USING #Group AS Source
+	ON Target.GroupId = Source.GroupId
+	WHEN MATCHED THEN
+		UPDATE SET
+			Target.Code = Source.Code,
+			Target.Name = Source.Name,
+			Target.DepartmentId = Source.DepartmentId,
+			Target.Rank = Source.Rank,
+			Target.IsDeleted = Source.IsDeleted,
+			Target.ParentId = Source.ParentId,
+			Target.ModifiedDate = Source.ModifiedDate,
+			Target.SyncDate = GETDATE()
+	WHEN NOT MATCHED BY TARGET THEN
+		INSERT (
+			GroupId, Code, Name, DepartmentId, Rank, IsDeleted, ParentId, ModifiedDate, SyncDate
+		)
+		VALUES (
+			Source.GroupId, Source.Code, Source.Name, Source.DepartmentId, Source.Rank,
+			Source.IsDeleted, Source.ParentId, Source.ModifiedDate, GETDATE()
+		);
+
+	SELECT @ErrCode = 0, @ErrMsg = '';
+
+	DROP TABLE #Group;
+END
+
+GO
+
+CREATE OR ALTER   PROCEDURE [dbo].[SyncJobTitle_Import]    
+    @JobTitleXml NVARCHAR(MAX),
+    @ErrCode INT = 0 OUTPUT,
+    @ErrMsg nvarchar(200) = '' OUTPUT
+AS
+/*
+EXEC [dbo].[SyncJobTitle_Import]    
+    @JobTitleXml ='<ROOT>
+    <JobTitle Id='1' Name='Software Engineer' ModifiedDate='2024-03-20'></JobTitle>
+    </ROOT>'
+*/
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @DocHandler INT
+
+    SELECT @JobTitleXml = REPLACE(ISNULL(@JobTitleXml,''),'&','&amp;')
+    
+    IF OBJECT_ID('tempdb..#JobTitle') IS NOT NULL
+    BEGIN
+        DROP TABLE #JobTitle
+    END
+
+    CREATE TABLE #JobTitle (        
+        JobTitleId INT,
+        Name NVARCHAR(100),
+        ModifiedDate DATETIME
+    )
+ 
+    BEGIN TRY
+        EXEC sp_xml_preparedocument @DocHandler OUTPUT, @JobTitleXml
+
+        INSERT INTO #JobTitle
+        SELECT
+            Id,
+            Name,
+            ModifiedDate
+        FROM OPENXML(@DocHandler, '/ROOT/JobTitle', 1) WITH (
+            Id INT,
+            Name NVARCHAR(100),
+            ModifiedDate DATETIME
+        )
+
+        EXEC sp_xml_removedocument @DocHandler
+    END TRY
+    BEGIN CATCH
+        IF @DocHandler IS NOT NULL
+            EXEC sp_xml_removedocument @DocHandler
+
+        SELECT @ErrCode = ERROR_NUMBER()
+            ,@ErrMsg = ERROR_MESSAGE()
+        RETURN
+    END CATCH;
+     
+    BEGIN TRY
+        MERGE INTO [dbo].[JobTitle] AS Target
+        USING #JobTitle AS Source
+        ON Target.JobTitleId = Source.JobTitleId
+        WHEN MATCHED THEN
+            UPDATE SET
+                Target.Name = Source.Name,
+                Target.ModifiedDate = Source.ModifiedDate,
+                Target.SyncDate = GETDATE()
+        WHEN NOT MATCHED BY TARGET THEN
+            INSERT (
+                JobTitleId, Name, ModifiedDate, SyncDate
+            )
+            VALUES (
+                Source.JobTitleId, Source.Name, Source.ModifiedDate, GETDATE()
+            );
+
+        SELECT @ErrCode = 0, @ErrMsg = '';
+    END TRY
+    BEGIN CATCH
+        SELECT @ErrCode = ERROR_NUMBER()
+            ,@ErrMsg = ERROR_MESSAGE()
+    END CATCH;
+
+    IF OBJECT_ID('tempdb..#JobTitle') IS NOT NULL
+        DROP TABLE #JobTitle;
+END 
+
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[SyncTOEIC_GetLastModifiedDate]
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT MAX(ModifiedDate) AS LastModifiedDate
+    FROM [dbo].[TOEIC]
+    WHERE ModifiedDate IS NOT NULL;
+END 
+
+GO
+
+CREATE OR ALTER   PROCEDURE [dbo].[SyncTOEIC_Import]    
+    @TOEICXml NVARCHAR(MAX),
+    @ErrCode INT = 0 OUTPUT,
+    @ErrMsg nvarchar(200) = '' OUTPUT
+AS
+/*
+EXEC [dbo].[SyncTOEIC_Import]    
+    @TOEICXml ='<ROOT>
+    <TOEIC EmpId='1' MinimumScore='600' Listening='300' Reading='300' 
+        LRExamDate='2024-03-20' InputDate='2024-03-20' ModifiedDate='2024-03-20'></TOEIC>
+    </ROOT>'
+*/
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @DocHandler INT
+
+    SELECT @TOEICXml = REPLACE(ISNULL(@TOEICXml,''),'&','&amp;')
+    
+    IF OBJECT_ID('tempdb..#TOEIC') IS NOT NULL
+    BEGIN
+        DROP TABLE #TOEIC
+    END
+
+    CREATE TABLE #TOEIC (        
+        EmpId INT,
+        MinimumScore INT,
+        Listening INT,
+        Reading INT,
+        LRExamDate DATETIME,
+        InputDate DATETIME,
+        ModifiedDate DATETIME
+    )
+ 
+    BEGIN TRY
+        EXEC sp_xml_preparedocument @DocHandler OUTPUT, @TOEICXml
+
+        INSERT INTO #TOEIC
+        SELECT
+            EmpId,
+            MinimumScore,
+            Listening,
+            Reading,
+            LRExamDate,
+            InputDate,
+            ModifiedDate
+        FROM OPENXML(@DocHandler, '/ROOT/TOEIC', 1) WITH (
+            EmpId INT,
+            MinimumScore INT,
+            Listening INT,
+            Reading INT,
+            LRExamDate DATETIME,
+            InputDate DATETIME,
+            ModifiedDate DATETIME
+        )
+
+        EXEC sp_xml_removedocument @DocHandler
+    END TRY
+    BEGIN CATCH
+        IF @DocHandler IS NOT NULL
+            EXEC sp_xml_removedocument @DocHandler
+
+        SELECT @ErrCode = ERROR_NUMBER()
+            ,@ErrMsg = ERROR_MESSAGE()
+        RETURN
+    END CATCH;
+     
+    BEGIN TRY
+        MERGE INTO [dbo].[TOEIC] AS Target
+        USING #TOEIC AS Source
+        ON Target.EmpId = Source.EmpId
+        WHEN MATCHED THEN
+            UPDATE SET
+                Target.MinimumScore = Source.MinimumScore,
+                Target.Listening = Source.Listening,
+                Target.Reading = Source.Reading,
+                Target.LRExamDate = Source.LRExamDate,
+                Target.InputDate = Source.InputDate,
+                Target.ModifiedDate = Source.ModifiedDate,
+                Target.SyncDate = GETDATE()
+        WHEN NOT MATCHED BY TARGET THEN
+            INSERT (
+                EmpId, MinimumScore, Listening, Reading, 
+                LRExamDate, InputDate, ModifiedDate, SyncDate
+            )
+            VALUES (
+                Source.EmpId, Source.MinimumScore, Source.Listening, Source.Reading, 
+                Source.LRExamDate, Source.InputDate, Source.ModifiedDate, GETDATE()
+            );
+
+        SELECT @ErrCode = 0, @ErrMsg = '';
+    END TRY
+    BEGIN CATCH
+        SELECT @ErrCode = ERROR_NUMBER()
+            ,@ErrMsg = ERROR_MESSAGE()
+    END CATCH;
+
+    IF OBJECT_ID('tempdb..#TOEIC') IS NOT NULL
+        DROP TABLE #TOEIC;
+END
+
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[SyncWorkingTimeRequest_GetLastModifiedDate]
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT MAX(ModifiedDate) AS LastModifiedDate
+    FROM [dbo].[WorkingTimeRequest]
+    WHERE ModifiedDate IS NOT NULL;
+END 
+
+GO
+
+CREATE OR ALTER   PROCEDURE [dbo].[SyncWorkingTimeRequest_Import]    
+    @WorkingTimeRequestXml NVARCHAR(MAX),
+    @ErrCode INT = 0 OUTPUT,
+    @ErrMsg nvarchar(200) = '' OUTPUT
+AS
+/*
+EXEC [dbo].[SyncWorkingTimeRequest_Import]    
+    @WorkingTimeRequestXml ='<ROOT>
+    <WorkingTimeRequest Id='1' EmpId='1' RequestType='1' Status='1' 
+        FromDate='2024-03-20' ToDate='2024-03-21' TotalDays='1.5' ModifiedDate='2024-03-20'></WorkingTimeRequest>
+    </ROOT>'
+*/
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @DocHandler INT
+
+    SELECT @WorkingTimeRequestXml = REPLACE(ISNULL(@WorkingTimeRequestXml,''),'&','&amp;')
+    
+    IF OBJECT_ID('tempdb..#WorkingTimeRequest') IS NOT NULL
+    BEGIN
+        DROP TABLE #WorkingTimeRequest
+    END
+
+    CREATE TABLE #WorkingTimeRequest (        
+        Id BIGINT,
+        EmpId INT,
+        RequestType SMALLINT,
+        Status TINYINT,
+        FromDate DATETIME,
+        ToDate DATETIME,
+        TotalDays NUMERIC(5,1),
+        ModifiedDate DATETIME
+    )
+ 
+    BEGIN TRY
+        EXEC sp_xml_preparedocument @DocHandler OUTPUT, @WorkingTimeRequestXml
+
+        INSERT INTO #WorkingTimeRequest
+        SELECT
+            Id,
+            EmpId,
+            RequestType,
+            Status,
+            CASE WHEN ISDATE(FromDate) = 1 THEN CAST(FromDate AS DATETIME) ELSE NULL END,
+            CASE WHEN ISDATE(ToDate) = 1 THEN CAST(ToDate AS DATETIME) ELSE NULL END,
+            CASE WHEN ISNUMERIC(TotalDays) = 1 THEN CAST(TotalDays AS DECIMAL(18,1)) ELSE NULL END,
+            ModifiedDate
+        FROM OPENXML(@DocHandler, '/ROOT/WorkingTimeRequest', 1) WITH (
+            Id BIGINT,
+            EmpId INT,
+            RequestType SMALLINT,
+            Status TINYINT,
+            FromDate NVARCHAR(50),
+            ToDate NVARCHAR(50),
+            TotalDays NVARCHAR(50),
+            ModifiedDate DATETIME
+        )
+
+        EXEC sp_xml_removedocument @DocHandler
+    END TRY
+    BEGIN CATCH
+        IF @DocHandler IS NOT NULL
+            EXEC sp_xml_removedocument @DocHandler
+
+        SELECT @ErrCode = ERROR_NUMBER()
+            ,@ErrMsg = ERROR_MESSAGE()
+        RETURN
+    END CATCH;
+     
+    BEGIN TRY
+        MERGE INTO [dbo].[WorkingTimeRequest] AS Target
+        USING #WorkingTimeRequest AS Source
+        ON Target.Id = Source.Id
+        WHEN MATCHED THEN
+            UPDATE SET
+                Target.EmpId = Source.EmpId,
+                Target.RequestType = Source.RequestType,
+                Target.Status = Source.Status,
+                Target.FromDate = Source.FromDate,
+                Target.ToDate = Source.ToDate,
+                Target.TotalDays = Source.TotalDays,
+                Target.ModifiedDate = Source.ModifiedDate,
+                Target.SyncDate = GETDATE()
+        WHEN NOT MATCHED BY TARGET THEN
+            INSERT (
+                Id, EmpId, RequestType, Status, FromDate, ToDate, TotalDays, ModifiedDate, SyncDate
+            )
+            VALUES (
+                Source.Id, Source.EmpId, Source.RequestType, Source.Status, 
+                Source.FromDate, Source.ToDate, Source.TotalDays, Source.ModifiedDate, GETDATE()
+            );
+
+        SELECT @ErrCode = 0, @ErrMsg = '';
+    END TRY
+    BEGIN CATCH
+        SELECT @ErrCode = ERROR_NUMBER()
+            ,@ErrMsg = ERROR_MESSAGE()
+    END CATCH;
+
+    IF OBJECT_ID('tempdb..#WorkingTimeRequest') IS NOT NULL
+        DROP TABLE #WorkingTimeRequest;
+END
+GO

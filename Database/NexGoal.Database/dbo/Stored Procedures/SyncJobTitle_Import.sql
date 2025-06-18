@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[SyncJobTitle_Import]    
+CREATE OR ALTER   PROCEDURE [dbo].[SyncJobTitle_Import]    
     @JobTitleXml NVARCHAR(MAX),
     @ErrCode INT = 0 OUTPUT,
     @ErrMsg nvarchar(200) = '' OUTPUT

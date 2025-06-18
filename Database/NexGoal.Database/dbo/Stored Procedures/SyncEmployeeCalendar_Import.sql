@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[SyncEmployeeCalendar_Import]    
+CREATE OR ALTER   PROCEDURE [dbo].[SyncEmployeeCalendar_Import]    
     @CalendarXml NVARCHAR(MAX),
     @ErrCode INT = 0 OUTPUT,
     @ErrMsg nvarchar(200) = '' OUTPUT

@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[SyncEmployeeOvertime_Import]    
+CREATE OR ALTER   PROCEDURE [dbo].[SyncEmployeeOvertime_Import]    
     @OvertimeXml NVARCHAR(MAX),
     @ErrCode INT = 0 OUTPUT,
     @ErrMsg nvarchar(200) = '' OUTPUT

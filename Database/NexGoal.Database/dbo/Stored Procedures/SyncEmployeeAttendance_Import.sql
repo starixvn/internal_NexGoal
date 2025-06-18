@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[SyncEmployeeAttendance_Import]    
+CREATE OR ALTER   PROCEDURE [dbo].[SyncEmployeeAttendance_Import]    
     @AttendanceXml NVARCHAR(MAX),
     @ErrCode INT = 0 OUTPUT,
     @ErrMsg nvarchar(200) = '' OUTPUT

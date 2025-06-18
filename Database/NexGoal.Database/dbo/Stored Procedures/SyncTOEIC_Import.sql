@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[SyncTOEIC_Import]    
+CREATE OR ALTER   PROCEDURE [dbo].[SyncTOEIC_Import]    
     @TOEICXml NVARCHAR(MAX),
     @ErrCode INT = 0 OUTPUT,
     @ErrMsg nvarchar(200) = '' OUTPUT
@@ -97,4 +97,4 @@ BEGIN
 
     IF OBJECT_ID('tempdb..#TOEIC') IS NOT NULL
         DROP TABLE #TOEIC;
-END 
+END
