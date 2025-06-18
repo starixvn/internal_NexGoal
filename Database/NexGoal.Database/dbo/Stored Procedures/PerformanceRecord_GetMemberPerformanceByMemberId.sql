@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[PerformanceRecord_GetMemberPerformanceByMemberId] @ActorId INT
+﻿CREATE OR ALTER PROCEDURE [dbo].[PerformanceRecord_GetMemberPerformanceByMemberId] @ActorId INT
 	,@EmployeeId INT
 AS
 /*
@@ -211,7 +211,7 @@ BEGIN
 		,Comment
 		,IsDraft
 		,CreatedDate
-		,ModifiedDate
+		,record.ModifiedDate
 		,RoleId
 		,TypeId
 		,NominationStatusId

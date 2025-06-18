@@ -1,5 +1,5 @@
 ﻿
-CREATE PROCEDURE [dbo].[PerformanceRecord_GetByIds] @PerformanceRecordIds VARCHAR(MAX)
+CREATE OR ALTER PROCEDURE [dbo].[PerformanceRecord_GetByIds] @PerformanceRecordIds VARCHAR(MAX)
 	,@CreatorId INT
 AS
 /*
@@ -27,7 +27,7 @@ BEGIN
 		,Comment
 		,0 AS IsDraft
 		,CreatedDate
-		,ModifiedDate
+		,record.ModifiedDate
 		,RoleId
 		,TypeId
 		,e.EmployeeId
