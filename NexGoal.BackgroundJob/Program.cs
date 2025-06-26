@@ -13,78 +13,77 @@ using NexGoal.Core.Services;
 using Sentry;
 
 var builder = Host.CreateApplicationBuilder(args);
+var services = builder.Services;
+var configuration = builder.Configuration;
 
-var appSettings = builder.Configuration.GetSection("AppSettings").Get<AppSettings>();
-builder.Services.AddSingleton(appSettings);
+var appSettings = configuration.GetSection("AppSettings").Get<AppSettings>();
+services.AddSingleton(appSettings);
 
-var mailConfigs = builder.Configuration.GetSection("MailConfigs").Get<MailConfigs>();
-builder.Services.AddSingleton(mailConfigs);
+var mailConfigs = configuration.GetSection("MailConfigs").Get<MailConfigs>();
+services.AddSingleton(mailConfigs);
 
-var chatbotConfigs = builder.Configuration.GetSection("ChatbotConfigs").Get<ChatbotConfigs>();
-builder.Services.AddSingleton(chatbotConfigs);
+var chatbotConfigs = configuration.GetSection("ChatbotConfigs").Get<ChatbotConfigs>();
+services.AddSingleton(chatbotConfigs);
 
-var jobSettings = builder.Configuration.GetSection("JobSettings").Get<List<JobSetting>>();
-builder.Services.AddSingleton(jobSettings);
+var jobSettings = configuration.GetSection("JobSettings").Get<List<JobSetting>>();
+services.AddSingleton(jobSettings);
 
-var syncHrmApiSettings = builder.Configuration.GetSection("SyncHrmApiSettings").Get<SyncHrmSetting>();
-builder.Services.AddSingleton(syncHrmApiSettings);
+var syncHrmApiSettings = configuration.GetSection("SyncHrmApiSettings").Get<SyncHrmSetting>();
+services.AddSingleton(syncHrmApiSettings);
 
-builder.Services.AddHttpClient();
+services.AddHttpClient();
 
-builder.Services.AddSingleton<Fanex.Logging.ILogger, Logger>();
-builder.Services.AddSingleton<IDynamicRepository, DynamicRepository>();
-builder.Services.AddSingleton<IBaseRepository, BaseRepository>();
-builder.Services.AddSingleton<IChatbotService, ChatbotService>();
-builder.Services.AddSingleton<IBaseMailService, BaseMailService>();
-builder.Services.AddSingleton<IBaseService, BaseService>();
-builder.Services.AddSingleton<ICryptoService, CryptoService>();
-builder.Services.AddSingleton<IPeriodService, PeriodService>();
-builder.Services.AddSingleton<IPAService, PAService>();
-builder.Services.AddSingleton<IPAFocusService, PAFocusService>();
-builder.Services.AddSingleton<INominationService, NominationService>();
-builder.Services.AddSingleton<IProbationService, ProbationService>();
+services.AddSingleton<Fanex.Logging.ILogger, Logger>();
+services.AddSingleton<IDynamicRepository, DynamicRepository>();
+services.AddSingleton<IBaseRepository, BaseRepository>();
+services.AddSingleton<IChatbotService, ChatbotService>();
+services.AddSingleton<IBaseMailService, BaseMailService>();
+services.AddSingleton<IBaseService, BaseService>();
+services.AddSingleton<ICryptoService, CryptoService>();
+services.AddSingleton<IPeriodService, PeriodService>();
+services.AddSingleton<IPAService, PAService>();
+services.AddSingleton<IPAFocusService, PAFocusService>();
+services.AddSingleton<INominationService, NominationService>();
+services.AddSingleton<IProbationService, ProbationService>();
 
-builder.Services.AddSingleton<IHttpClientService, HttpClientService>();
-builder.Services.AddSingleton<IEmployeeService, EmployeeService>();
-builder.Services.AddSingleton<IGroupService, GroupService>();
-builder.Services.AddSingleton<IEmployeeAttendanceService, EmployeeAttendanceService>();
-builder.Services.AddSingleton<IEmployeeCalendarService, EmployeeCalendarService>();
-builder.Services.AddSingleton<IEmployeeOvertimeService, EmployeeOvertimeService>();
-builder.Services.AddSingleton<ITOEICService, TOEICService>();
-builder.Services.AddSingleton<IJobTitleService, JobTitleService>();
-builder.Services.AddSingleton<IWorkingTimeRequestService, WorkingTimeRequestService>();
+services.AddSingleton<IHttpClientService, HttpClientService>();
+services.AddSingleton<IEmployeeService, EmployeeService>();
+services.AddSingleton<IGroupService, GroupService>();
+services.AddSingleton<IEmployeeAttendanceService, EmployeeAttendanceService>();
+services.AddSingleton<IEmployeeCalendarService, EmployeeCalendarService>();
+services.AddSingleton<IEmployeeOvertimeService, EmployeeOvertimeService>();
+services.AddSingleton<ITOEICService, TOEICService>();
+services.AddSingleton<IJobTitleService, JobTitleService>();
+services.AddSingleton<IWorkingTimeRequestService, WorkingTimeRequestService>();
 
 LogManager
-    .SetDefaultLogCategory(builder.Configuration.GetSection("LogCategory").Value)
+    .SetDefaultLogCategory(configuration.GetSection("LogCategory").Value)
     .Use(new List<ILogEngine>
     {
         new SentryLogging(new SentryEngineOptions
         {
-            Dsn = new Dsn(builder.Configuration.GetSection("SentryEngineOptions:Dsn").Value),
-            FrontEndDsn = new Dsn(builder.Configuration.GetSection("SentryEngineOptions:FrontEndDsn").Value)
+            Dsn = new Dsn(configuration.GetSection("SentryEngineOptions:Dsn").Value),
+            FrontEndDsn = new Dsn(configuration.GetSection("SentryEngineOptions:FrontEndDsn").Value)
         })
     });
 
+services.AddFanexSql(configuration);
+services.AddFanexMySql(configuration);
 
-
-builder.Services.AddFanexSql(builder.Configuration);
-builder.Services.AddFanexMySql(builder.Configuration);
-
-builder.Services.AddHostedService<SyncEmployeeWorker>();
-builder.Services.AddHostedService<SyncGroupWorker>();
-builder.Services.AddHostedService<SyncEmployeeAttendanceWorker>();
-builder.Services.AddHostedService<SyncEmployeeCalendarWorker>();
-builder.Services.AddHostedService<SyncEmployeeOvertimeWorker>();
-builder.Services.AddHostedService<SyncTOEICWorker>();
-builder.Services.AddHostedService<JobTitleSyncWorker>();
-builder.Services.AddHostedService<SyncWorkingTimeRequestWorker>();
-builder.Services.AddHostedService<SyncRedmineDataWorker>();
-builder.Services.AddHostedService<ProbationWorker>();
-builder.Services.AddHostedService<PeriodWorker>();
-builder.Services.AddHostedService<PAWorker>();
-builder.Services.AddHostedService<PAFocusWorker>();
-builder.Services.AddHostedService<NominationWorker>();
-
+services.AddHostedService<SyncEmployeeWorker>();
+services.AddHostedService<SyncGroupWorker>();
+services.AddHostedService<SyncEmployeeAttendanceWorker>();
+services.AddHostedService<SyncEmployeeCalendarWorker>();
+services.AddHostedService<SyncEmployeeOvertimeWorker>();
+services.AddHostedService<SyncTOEICWorker>();
+services.AddHostedService<JobTitleSyncWorker>();
+services.AddHostedService<SyncWorkingTimeRequestWorker>();
+services.AddHostedService<SyncRedmineDataWorker>();
+services.AddHostedService<ProbationWorker>();
+services.AddHostedService<PeriodWorker>();
+services.AddHostedService<PAWorker>();
+services.AddHostedService<PAFocusWorker>();
+services.AddHostedService<NominationWorker>();
 
 var host = builder.Build();
 await host.RunAsync();

@@ -29,9 +29,14 @@ namespace NexGoal.Core.Services
                     var privateKey = ReadTextFile(appSettings.RSAPrivateKeyPath);
 
                     if (!string.IsNullOrEmpty(publicKey))
+                    {
                         publicRSA.FromXmlString(publicKey);
+                    }
+
                     if (!string.IsNullOrEmpty(privateKey))
+                    {
                         privateRSA.FromXmlString(privateKey);
+                    }
                 }
                 catch
                 {
@@ -44,12 +49,14 @@ namespace NexGoal.Core.Services
         public string Encrypt(string plainText)
         {
             if (!appSettings.EnableEncrypt || string.IsNullOrWhiteSpace(plainText))
+            {
                 return plainText;
+            }
 
             try
             {
-                byte[] bytesToEncrypt = ASCIIEncoding.ASCII.GetBytes(plainText);
-                byte[] encryptedBytes = publicRSA.Encrypt(bytesToEncrypt, OptimalAsymmetricEncryptionPadding);
+                var bytesToEncrypt = ASCIIEncoding.ASCII.GetBytes(plainText);
+                var encryptedBytes = publicRSA.Encrypt(bytesToEncrypt, OptimalAsymmetricEncryptionPadding);
                 return Convert.ToBase64String(encryptedBytes);
             }
             catch
@@ -61,12 +68,14 @@ namespace NexGoal.Core.Services
         public string Decrypt(string cipherText)
         {
             if (!appSettings.EnableEncrypt || string.IsNullOrWhiteSpace(cipherText))
+            {
                 return cipherText;
+            }
 
             try
             {
-                byte[] bytesToDecrypt = Convert.FromBase64String(cipherText);
-                byte[] plainbytes = privateRSA.Decrypt(bytesToDecrypt, OptimalAsymmetricEncryptionPadding);
+                var bytesToDecrypt = Convert.FromBase64String(cipherText);
+                var plainbytes = privateRSA.Decrypt(bytesToDecrypt, OptimalAsymmetricEncryptionPadding);
                 return ASCIIEncoding.ASCII.GetString(plainbytes);
             }
             catch
@@ -78,7 +87,9 @@ namespace NexGoal.Core.Services
         private static string ReadTextFile(string filePath)
         {
             if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
+            {
                 return string.Empty;
+            }
 
             return File.ReadAllText(filePath);
         }
