@@ -70,8 +70,8 @@ LogManager
 services.AddFanexSql(configuration);
 services.AddFanexMySql(configuration);
 
-services.AddHostedService<SyncEmployeeWorker>();
 services.AddHostedService<SyncGroupWorker>();
+services.AddHostedService<SyncEmployeeWorker>();
 services.AddHostedService<SyncEmployeeAttendanceWorker>();
 services.AddHostedService<SyncEmployeeCalendarWorker>();
 services.AddHostedService<SyncEmployeeOvertimeWorker>();
