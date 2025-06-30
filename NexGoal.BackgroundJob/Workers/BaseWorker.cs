@@ -37,23 +37,21 @@ namespace NexGoal.BackgroundJob.Workers
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                if (jobSetting is { IsEnabled: true })
+                
+                try
                 {
-                    try
-                    {
-                        var cronExpression = CronExpression.Parse(jobSetting.CronExpression);
-                        var currentUtcTime = DateTimeOffset.UtcNow.UtcDateTime;
-                        var occurenceTime = cronExpression.GetNextOccurrence(currentUtcTime);
+                    var cronExpression = CronExpression.Parse(jobSetting.CronExpression);
+                    var currentUtcTime = DateTimeOffset.UtcNow.UtcDateTime;
+                    var occurenceTime = cronExpression.GetNextOccurrence(currentUtcTime);
 
-                        var delay = occurenceTime.GetValueOrDefault() - currentUtcTime;
-                        await Task.Delay(delay, stoppingToken);
+                    var delay = occurenceTime.GetValueOrDefault() - currentUtcTime;
+                    await Task.Delay(delay, stoppingToken);
 
-                        await RunJobAsync();
-                    }
-                    catch (Exception ex)
-                    {
-                        await logger.ErrorAsync(ex.ToString());
-                    }
+                    await RunJobAsync();
+                }
+                catch (Exception ex)
+                {
+                    await logger.ErrorAsync(ex.ToString());
                 }
             }
         }
