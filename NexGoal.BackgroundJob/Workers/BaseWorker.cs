@@ -2,7 +2,9 @@ namespace NexGoal.BackgroundJob.Workers
 {
     using Cronos;
 
-    public abstract class BaseWorker(Fanex.Logging.ILogger logger, ILogger<BaseWorker> logfile) : BackgroundService
+    public abstract class BaseWorker(
+        Fanex.Logging.ILogger logger,
+        ILogger<BaseWorker> logfile) : BackgroundService
     {
         private readonly ILogger logfile = logfile;
 
@@ -35,7 +37,7 @@ namespace NexGoal.BackgroundJob.Workers
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                if (jobSetting != null && jobSetting.IsEnabled)
+                if (jobSetting is { IsEnabled: true })
                 {
                     try
                     {
