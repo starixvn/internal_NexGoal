@@ -1,5 +1,4 @@
 ﻿@using NexGoal.Core.Models
-@using Microsoft.Extensions.Options
 @inject AppSettings appSettings
 <!DOCTYPE html>
 <html lang="en">
@@ -51,10 +50,6 @@
     <script src="~/dist/js/menu.js" asp-append-version="true"></script>
     <script src="~/dist/js/search-member.js" asp-append-version="true"></script>
     <script src="~/dist/js/notification.js" asp-append-version="true"></script>
-
-    <environment exclude="Development">
-        @Html.Raw(Fanex.Logging.LogManager.RenderJavascriptLogger())
-    </environment>
 
     @RenderSection("Scripts", required: false)
 </body>
