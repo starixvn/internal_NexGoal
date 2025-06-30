@@ -1,20 +1,23 @@
 namespace NexGoal.BackgroundJob.Workers
 {
-    using Microsoft.Extensions.Options;
-    using NexGoal.AutoService.Criterias.Redmine;
-    using NexGoal.AutoService.Models.Redmine;
+    using Criteria.Redmine;
+    using Models.Redmine;
     using NexGoal.Core.Services;
 
     public class SyncRedmineDataWorker : BaseWorker
     {
         private readonly IBaseService baseService;
+        private readonly ILogger<SyncRedmineDataWorker> logfile;
 
-        public SyncRedmineDataWorker(Fanex.Logging.ILogger logger,
-            IOptions<List<JobSetting>> jobSettings,
-            IBaseService baseService) : base(logger)
+        public SyncRedmineDataWorker(
+            Fanex.Logging.ILogger logger,
+            ILogger<SyncRedmineDataWorker> logfile,
+            List<JobSetting> jobSettings,
+            IBaseService baseService) : base(logger, logfile)
         {
-            jobSetting = JobHelper.GetJobConfig(jobSettings.Value, JobConstants.SyncRedmineData);
+            jobSetting = JobHelper.GetJobConfig(jobSettings, JobConstants.SyncRedmineData);
             this.baseService = baseService;
+            this.logfile = logfile;
         }
 
         public override async Task ExecuteJobAsync()
@@ -40,7 +43,6 @@ namespace NexGoal.BackgroundJob.Workers
             {
                 Users = users.ToList()
             };
-
             await baseService.ExecuteNonQueryAsync(criteria3);
         }
 
@@ -59,7 +61,6 @@ namespace NexGoal.BackgroundJob.Workers
             {
                 Projects = projects.ToList()
             };
-
             await baseService.ExecuteNonQueryAsync(criteria3);
         }
 
@@ -78,28 +79,25 @@ namespace NexGoal.BackgroundJob.Workers
             {
                 TimeEntries = timeEntries.ToList()
             };
-
             await baseService.ExecuteNonQueryAsync(criteria3);
         }
 
         private async Task SyncCustomValue()
         {
-                var criteria = new GetMaxCustomValueCriteria();
-                var maxCustomValueId = await baseService.GetDataEntityAsync<int>(criteria);
+            var criteria = new GetMaxCustomValueCriteria();
+            var maxCustomValueId = await baseService.GetDataEntityAsync<int>(criteria);
 
-                var criteria2 = new GetCustomValueByMinIdCriteria
-                {
-                    MinCustomValueId = maxCustomValueId
-                };
-                var customValues = await baseService.GetDataAsync<CustomValue>(criteria2);
+            var criteria2 = new GetCustomValueByMinIdCriteria
+            {
+                MinCustomValueId = maxCustomValueId
+            };
+            var customValues = await baseService.GetDataAsync<CustomValue>(criteria2);
 
-                var criteria3 = new SyncCustomValueCriteria
-                {
-                    CustomValues = customValues.ToList()
-                };
-
-                await baseService.ExecuteNonQueryAsync(criteria3);
-
+            var criteria3 = new SyncCustomValueCriteria
+            {
+                CustomValues = customValues.ToList()
+            };
+            await baseService.ExecuteNonQueryAsync(criteria3);
         }
     }
 }

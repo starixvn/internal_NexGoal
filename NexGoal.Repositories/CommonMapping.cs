@@ -18,12 +18,12 @@
             IEnumerable<PRFeedbackModel> feedbacks = null,
             IEnumerable<PRFeedbackReactionModel> feedbackReactions = null)
         {
-            foreach (PRFeedbackModel feedback in feedbacks)
+            foreach (var feedback in feedbacks)
             {
                 feedback.Reactions = feedbackReactions?.Where(x => x.PRFeedbackId == feedback.PRFeedbackId);
             }
 
-            foreach (PerformanceRecord performanceRecord in performanceRecords)
+            foreach (var performanceRecord in performanceRecords)
             {
                 performanceRecord.Projects = projects?.Where(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
                 performanceRecord.Reactions = reactions?.Where(x => x.PerformanceRecordId == performanceRecord.PerformanceRecordId);
@@ -35,7 +35,7 @@
             IEnumerable<PAProcessModel> processes,
             IEnumerable<PerformanceRecord> performanceRecords)
         {
-            foreach (PAProcessModel process in processes)
+            foreach (var process in processes)
             {
                 var recordIds = !string.IsNullOrWhiteSpace(process.RelatedPerformanceRecordIds)
                     ? process.RelatedPerformanceRecordIds.Split(',').ToList() : new List<string>();
@@ -48,7 +48,7 @@
             IEnumerable<PARecordModel> performanceAppraisals,
             IEnumerable<PAProcessModel> processes)
         {
-            foreach (PARecordModel performanceAppraisal in performanceAppraisals)
+            foreach (var performanceAppraisal in performanceAppraisals)
             {
                 performanceAppraisal.Processes = processes.Where(x => x.PARecordId == performanceAppraisal.PARecordId).OrderBy(x => x.ProcessId);
             }

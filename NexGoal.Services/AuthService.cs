@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -9,15 +8,8 @@
     using NexGoal.Models.Auth;
     using NexGoal.Models.Common;
 
-    public class AuthService : IAuthService
+    public class AuthService(IBaseService baseService) : IAuthService
     {
-        private readonly IBaseService baseService;
-
-        public AuthService(IBaseService baseService)
-        {
-            this.baseService = baseService;
-        }
-
         public async Task<EmployeeSession> GetEmployeeByDomainUsernameAsync(string domainUsername)
         {
             var criteria = new GetEmployeeByDomainUsernameCriteria
@@ -45,9 +37,9 @@
                 EmployeeId = employeeId
             };
 
-            IEnumerable<MenuItemSession> menuItems = await baseService.GetDataAsync<MenuItemSession>(criteria);
-            IEnumerable<MenuItemSession> menuGroups = menuItems.Where(x => x.ParentId == null);
-            foreach (MenuItemSession menuGroup in menuGroups)
+            var menuItems = await baseService.GetDataAsync<MenuItemSession>(criteria);
+            var menuGroups = menuItems.Where(x => x.ParentId == null);
+            foreach (var menuGroup in menuGroups)
             {
                 menuGroup.Childs = menuItems.Where(x => x.ParentId == menuGroup.MenuId);
             }
@@ -55,7 +47,7 @@
             return menuGroups;
         }
 
-        public async Task<ValueTuple<Employee, bool, int>> GetEmployeeInfoAsync(int employeeId)
+        public async Task<(Employee, bool, int)> GetEmployeeInfoAsync(int employeeId)
         {
             var criteria = new GetEmployeeInfoCriteria
             {

@@ -1,0 +1,38 @@
+namespace NexGoal.BackgroundJob.Workers
+{
+    using NexGoal.BackgroundJob.Criteria.Hrm;
+    using NexGoal.BackgroundJob.Services;
+    using NexGoal.Core.Models;
+    using NexGoal.Core.Services;
+
+    public class SyncEmployeeOvertimeWorker : BaseWorker
+    {
+        private readonly IBaseService baseService;
+        private readonly IEmployeeOvertimeService employeeOvertimeService;
+        private readonly ILogger<SyncEmployeeOvertimeWorker> logfile;
+
+        public SyncEmployeeOvertimeWorker(
+            Fanex.Logging.ILogger logger,
+            ILogger<SyncEmployeeOvertimeWorker> logfile,
+            List<JobSetting> jobSettings,
+            IBaseService baseService,
+            IEmployeeOvertimeService employeeOvertimeService) : base(logger, logfile)
+        {
+            jobSetting = JobHelper.GetJobConfig(jobSettings, JobConstants.SyncEmployeeOvertimeJob);
+            this.baseService = baseService;
+            this.employeeOvertimeService = employeeOvertimeService;
+            this.logfile = logfile;
+        }
+
+        public override async Task ExecuteJobAsync()
+        {
+            var lastModifiedDate = await employeeOvertimeService.GetLastModifiedDateAsync();
+            var overtimes = await employeeOvertimeService.GetOvertimesAsync(lastModifiedDate);
+            var result = new CommandResult { Code = 0 };
+            if (overtimes.Any())
+            {
+                result = await employeeOvertimeService.ImportOvertimesAsync(new SyncEmployeeOvertimeCriteria { Overtimes = overtimes.ToList() });
+            }
+        }
+    }
+} 

@@ -1,26 +1,36 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+FROM hub.nexdev.net/base/dotnet/core/sdk:8.0-alpine AS builder
 
-FROM hub.nexdev.net/base/dotnet/core/aspnet:8.0-slim AS base
-USER app
-WORKDIR /app
-
-FROM hub.nexdev.net/base/dotnet/core/sdk:8.0-alpine AS build
-ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-RUN dotnet nuget add source https://nuget.nexdev.net/api/v2
 
+COPY ["NexGoal.Resources/NexGoal.Resources.csproj", "NexGoal.Resources/"]
+COPY ["NexGoal.Core/NexGoal.Core.csproj", "NexGoal.Core/"]
 COPY ["NexGoal.BackgroundJob/NexGoal.BackgroundJob.csproj", "NexGoal.BackgroundJob/"]
+
+RUN dotnet nuget add source https://nuget.nexdev.net/api/v2
 RUN --mount=type=cache,target=/root/.nuget/packages \
-    dotnet restore "./NexGoal.BackgroundJob/./NexGoal.BackgroundJob.csproj"
-COPY . .
+    dotnet restore -v n -r linux-x64 "NexGoal.BackgroundJob/NexGoal.BackgroundJob.csproj"
+
+COPY ["NexGoal.Resources/", "NexGoal.Resources/"]
+COPY ["NexGoal.Core/", "NexGoal.Core/"]
+COPY ["NexGoal.BackgroundJob/", "NexGoal.BackgroundJob/"]
+COPY ["SonarQube/", "SonarQube/"]
+
 WORKDIR "/src/NexGoal.BackgroundJob"
-RUN dotnet build "./NexGoal.BackgroundJob.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./NexGoal.BackgroundJob.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN --mount=type=cache,target=/root/.nuget/packages \
+    dotnet publish -r linux-x64 --self-contained false -c Release -o /app
 
-FROM base AS final
+FROM hub.nexdev.net/base/dotnet/core/aspnet:8.0-alpine AS base
+
+# Don’t run as root
+RUN adduser --disabled-password \
+  --home /app \
+  --gecos '' dotnetuser && chown -R dotnetuser /app && chown -R dotnetuser /tmp
+USER dotnetuser
+#
+
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=builder /app .
+ENV TZ="Asia/Bangkok"
+
 ENTRYPOINT ["dotnet", "NexGoal.BackgroundJob.dll"]

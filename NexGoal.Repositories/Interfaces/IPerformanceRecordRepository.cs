@@ -1,6 +1,5 @@
-﻿namespace NexGoal.Repositories.Interfaces
+﻿namespace NexGoal.Repositories
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Fanex.Data.Repository;
@@ -22,6 +21,6 @@
 
         Task<IEnumerable<PerformanceRecord>> GetMemberPerformanceDetailAsync(ICriteria criteria);
 
-        Task<ValueTuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>>> GetMemberPerformanceTimelineAsync(ICriteria criteria);
+        Task<(IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecord>)> GetMemberPerformanceTimelineAsync(ICriteria criteria);
     }
 }

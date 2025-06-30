@@ -14,34 +14,17 @@
     using NexGoal.Models;
     using NexGoal.Models.PerformanceRecord;
     using NexGoal.Models.Period;
-    using NexGoal.Repositories.Interfaces;
+    using NexGoal.Repositories;
     using NexGoal.Resources;
 
-    public class PerformanceRecordService : IPerformanceRecordService
+    public class PerformanceRecordService(
+        ILogger logger,
+        IBaseService baseService,
+        ICryptoService cryptoService,
+        ICommonService commonService,
+        INotificationPerformanceRecordService notificationService,
+        IPerformanceRecordRepository performanceRecordRepository) : IPerformanceRecordService
     {
-        private readonly IBaseService baseService;
-        private readonly ICryptoService cryptoService;
-        private readonly ICommonService commonService;
-        private readonly INotificationPerformanceRecordService notificationService;
-        private readonly IPerformanceRecordRepository performanceRecordRepository;
-        private readonly ILogger logger;
-
-        public PerformanceRecordService(
-            ILogger logger,
-            IBaseService baseService,
-            ICryptoService cryptoService,
-            ICommonService commonService,
-            INotificationPerformanceRecordService notificationService,
-            IPerformanceRecordRepository performanceRecordRepository)
-        {
-            this.logger = logger;
-            this.baseService = baseService;
-            this.cryptoService = cryptoService;
-            this.commonService = commonService;
-            this.notificationService = notificationService;
-            this.performanceRecordRepository = performanceRecordRepository;
-        }
-
         public async Task<IEnumerable<PerformanceRecord>> GetPerformanceRecordByEmployeeAsync(int employeeId)
         {
             var criteria = new GetPerformanceRecordByEmployeeCriteria
@@ -65,7 +48,7 @@
             return performanceRecords;
         }
 
-        public async Task<ValueTuple<IEnumerable<PerformanceRecord>, int>> GetPerformanceTimelineAsync(GetPerformanceTimelineParam param)
+        public async Task<(IEnumerable<PerformanceRecord>, int)> GetPerformanceTimelineAsync(GetPerformanceTimelineParam param)
         {
             var criteria = new GetPerformanceTimelineCriteria
             {

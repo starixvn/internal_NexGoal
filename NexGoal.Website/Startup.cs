@@ -1,4 +1,4 @@
-﻿﻿namespace NexGoal.Website
+﻿namespace NexGoal.Website
 {
     using System;
     using System.Collections.Generic;
@@ -7,7 +7,9 @@
     using System.Threading.Tasks;
     using DinkToPdf;
     using DinkToPdf.Contracts;
+    using Fanex.Caching;
     using Fanex.Data;
+    using Fanex.Data.Repository;
     using Fanex.Data.SqlServer;
     using Fanex.Logging;
     using Fanex.Logging.Sentry;
@@ -22,12 +24,13 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using NexGoal.AutoService.Extensions;
     using NexGoal.Core;
-    using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
+    using NexGoal.Core.Repositories;
+    using NexGoal.Core.Services;
     using NexGoal.Models.Auth;
-    using NexGoal.Services.Extensions;
+    using NexGoal.Repositories;
+    using NexGoal.Services;
     using NexGoal.Web.Core.Middlewares;
     using NexGoal.Web.Core.Services;
     using Sentry;
@@ -85,7 +88,7 @@
                 .WithSqlServer()
                 .UseDefaultDbSettingProvider("~/App_Data")
                 .Run();
-            
+
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
             services.AddResponseCompression(options =>
             {
@@ -110,13 +113,7 @@
             ConfigDataProtection(services);
 
             services.AddHttpClient();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
-            services.AddScoped<ISessionService, SessionService>();
-
-            services.ResolveCoreDI();
-            services.ResolveServiceDI();
-            services.ResolveAutoServiceDI();
+            ResolveDI(services);
 
             services.AddControllersWithViews()
                 .AddMvcOptions(o =>
@@ -194,12 +191,73 @@
             services.AddDataProtection()
                 .SetApplicationName(appName)
                 .PersistKeysToStackExchangeRedis(redis, $"{appName}:DataProtection:Keys");
-            
+
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = redisConnectionString;
                 options.InstanceName = $"{appName}:Session:";
             });
+        }
+
+        private static void ResolveDI(IServiceCollection services)
+        {
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddSingleton<ILogger, Logger>();
+
+            services.AddSingleton<IDynamicRepository, DynamicRepository>();
+            services.AddSingleton<IDisciplineRepository, DisciplineRepository>();
+            services.AddSingleton<IPARepository, PARepository>();
+            services.AddSingleton<IPAFocusRepository, PAFocusRepository>();
+            services.AddSingleton<IEmployeeNominationRepository, EmployeeNominationRepository>();
+            services.AddSingleton<IPAReportRepository, PAReportRepository>();
+            services.AddSingleton<IPerformanceRecordRepository, PerformanceRecordRepository>();
+            services.AddSingleton<IPRTrackingRepository, PRTrackingRepository>();
+            services.AddSingleton<IProbationRepository, ProbationRepository>();
+            services.AddSingleton<IPRReactionRepository, PRReactionRepository>();
+            services.AddSingleton<IPRFeedbackReactionRepository, PRFeedbackReactionRepository>();
+            services.AddSingleton<IPRFeedbackRepository, PRFeedbackRepository>();
+            services.AddSingleton<IMasterReportRepository, MasterReportRepository>();
+            services.AddSingleton<IBaseRepository, BaseRepository>();
+
+            services.AddScoped<ISessionService, SessionService>();
+            services.AddSingleton<IChatbotService, ChatbotService>();
+            services.AddSingleton<IBaseService, BaseService>();
+            services.AddSingleton<IBaseMailService, BaseMailService>();
+            services.AddSingleton<ICryptoService, CryptoService>();
+            services.AddSingleton<ICacheService, CacheService>();
+            services.AddSingleton<IAuthService, AuthService>();
+            services.AddSingleton<ICommonService, CommonService>();
+            services.AddSingleton<IFunctionService, FunctionService>();
+            services.AddSingleton<INominationPeriodService, NominationPeriodService>();
+            services.AddSingleton<IEOQService, EOQService>();
+            services.AddSingleton<IEOYService, EOYService>();
+            services.AddSingleton<IEmployeeService, EmployeeService>();
+            services.AddSingleton<IDisciplineService, DisciplineService>();
+            services.AddSingleton<IPeriodService, PeriodService>();
+            services.AddSingleton<IGroupFlowSettingService, GroupFlowSettingService>();
+            services.AddSingleton<IEmployeeFlowSettingService, EmployeeFlowSettingService>();
+            services.AddSingleton<INotificationPerformanceRecordService, NotificationPerformanceRecordService>();
+            services.AddSingleton<IPerformanceRecordService, PerformanceRecordService>();
+            services.AddSingleton<IPARecordService, PARecordService>();
+            services.AddSingleton<IEmployeeNominationService, EmployeeNominationService>();
+            services.AddSingleton<IRedmineService, RedmineService>();
+            services.AddSingleton<IPAFocusService, PAFocusService>();
+            services.AddSingleton<IExportPAFocusService, ExportPAFocusService>();
+            services.AddSingleton<IPAReportService, PAReportService>();
+            services.AddScoped<IExportPAReportService, ExportPAReportService>();
+            services.AddSingleton<INominationReportService, NominationReportService>();
+            services.AddSingleton<INotificationService, NotificationService>();
+            services.AddSingleton<IPMSettingService, PMSettingService>();
+            services.AddSingleton<IMasterReportService, MasterReportService>();
+            services.AddScoped<IViewRenderService, ViewRenderService>();
+            services.AddSingleton<ISkypeNotiService, SkypeNotiService>();
+            services.AddSingleton<IPRTrackingService, PRTrackingService>();
+            services.AddSingleton<IProbationService, ProbationService>();
+            services.AddScoped<IProbationReportService, ProbationReportService>();
+            services.AddSingleton<IPRReactionService, PRReactionService>();
+            services.AddSingleton<IPRFeedbackService, PRFeedbackService>();
+            services.AddSingleton<IPRFeedbackReactionService, PRFeedbackReactionService>();
         }
     }
 }

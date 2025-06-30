@@ -1,0 +1,13 @@
+﻿<div>
+    <strong>Dear HR-Admin Dept,</strong>
+</div>
+<p>
+    The Probation evaluation process for {0} has begun.
+    <br />
+    Please go to <a href="{1}">**SystemName**</a> and review the Probation settings, follow up on the progress and make a reminder for related people (if needed).
+    <br />
+    <br />
+    Thank you,
+    <br />
+    **SystemName**
+</p>

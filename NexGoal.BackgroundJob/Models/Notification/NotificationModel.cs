@@ -1,0 +1,16 @@
+﻿namespace NexGoal.BackgroundJob.Models.Notification
+{
+    using System;
+    using NexGoal.Core.Extensions;
+
+    [Serializable]
+    [XMLName("Row")]
+    public class NotificationModel
+    {
+        public int EmployeeId { get; set; }
+        public string Content { get; set; }
+        public int StatusId { get; set; }
+        public int ActionTypeId { get; set; }
+        public int? RecordId { get; set; }
+    }
+}

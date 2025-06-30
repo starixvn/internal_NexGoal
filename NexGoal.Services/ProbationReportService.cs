@@ -19,7 +19,10 @@
     using NexGoal.Repositories;
     using OfficeOpenXml;
 
-    public class ProbationReportService : IProbationReportService
+    public class ProbationReportService(
+        AppSettings appSettings,
+        IHttpClientFactory httpClientFactory,
+        IServiceProvider serviceProvider) : IProbationReportService
     {
         private const string ExcelTemplatePath = "ExcelTemplates/ProbationReport.xlsx";
         private const string PDFViewName = "ProbationReport/Pdf";
@@ -41,38 +44,22 @@
         private const int ReviewerResultColumn = 12;
         private const int ReviewerCommentColumn = 13;
 
-        private readonly AppSettings appSettings;
-        private readonly IProbationRepository probationRepository;
-        private readonly IBaseService baseService;
-        private readonly ICryptoService cryptoService;
-        private readonly IWebHostEnvironment hostingEnvironment;
-        private readonly IViewRenderService viewRenderService;
-        private readonly IConverter converter;
-        private readonly ICommonService commonService;
-        private readonly HttpClient httpClient;
+        private readonly IProbationRepository probationRepository = serviceProvider.GetRequiredService<IProbationRepository>();
+        private readonly IBaseService baseService = serviceProvider.GetRequiredService<IBaseService>();
+        private readonly ICryptoService cryptoService = serviceProvider.GetRequiredService<ICryptoService>();
+        private readonly IWebHostEnvironment hostingEnvironment = serviceProvider.GetRequiredService<IWebHostEnvironment>();
+        private readonly IViewRenderService viewRenderService = serviceProvider.GetRequiredService<IViewRenderService>();
+        private readonly IConverter converter = serviceProvider.GetRequiredService<IConverter>();
+        private readonly ICommonService commonService = serviceProvider.GetRequiredService<ICommonService>();
+        private readonly HttpClient httpClient = httpClientFactory.CreateClient();
 
-        public ProbationReportService(
-            AppSettings appSettings,
-            IHttpClientFactory httpClientFactory,
-            IServiceProvider serviceProvider)
+        public async Task<(IEnumerable<Group>, IEnumerable<Employee>)> GetGroupsAndEmployeesAsync(int actorId)
         {
-            this.appSettings = appSettings;
-            hostingEnvironment = serviceProvider.GetRequiredService<IWebHostEnvironment>();
-            commonService = serviceProvider.GetRequiredService<ICommonService>();
-            probationRepository = serviceProvider.GetRequiredService<IProbationRepository>();
-            baseService = serviceProvider.GetRequiredService<IBaseService>();
-            cryptoService = serviceProvider.GetRequiredService<ICryptoService>();
-            viewRenderService = serviceProvider.GetRequiredService<IViewRenderService>();
-            converter = serviceProvider.GetRequiredService<IConverter>();
-            httpClient = httpClientFactory.CreateClient();
-        }
-
-        public async Task<ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndEmployeesAsync(int actorId)
-        {
-            return await probationRepository.GetGroupsAndEmployeesAsync(new GetGroupsAndEmployeesCriteria
+            var criteria = new GetGroupsAndEmployeesCriteria
             {
                 ActorId = actorId
-            });
+            };
+            return await probationRepository.GetGroupsAndEmployeesAsync(criteria);
         }
 
         public async Task<IEnumerable<ProbationReportModel>> GetAsync(GetProbationReportModel model)
@@ -196,7 +183,7 @@
             return pdf;
         }
 
-        public async Task<ValueTuple<ProbationReportModel, IEnumerable<KPIGroupModel>, HRMModel>> GetByEmployeeIdAsync(int employeeId, int actorId)
+        public async Task<(ProbationReportModel, IEnumerable<KPIGroupModel>, HRMModel)> GetByEmployeeIdAsync(int employeeId, int actorId)
         {
             var criteria = new GetProbationReportByEmployeeIdCriteria { EmployeeId = employeeId, ActorId = actorId };
             (var probationers, var groups, var details) =

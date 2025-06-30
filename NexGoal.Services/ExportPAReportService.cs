@@ -21,7 +21,12 @@
 
 #pragma warning disable S109 // Magic numbers should not be used
 
-    public class ExportPAReportService : IExportPAReportService
+    public class ExportPAReportService(
+        IWebHostEnvironment hostingEnvironment,
+        IPAReportService reportService,
+        IViewRenderService viewRenderService,
+        IConverter converter,
+        ICommonService commonService) : IExportPAReportService
     {
         private const string ExcelTemplatePath = "ExcelTemplates/PAReport.xlsx";
         private const string PADetailView = "PAReport/Pdf";
@@ -48,25 +53,6 @@
         private const int PACommentColumn = 11;
         private const int RevisedStatusColumn = 12;
         private const int coppyCellToeicFail = 9;
-
-        private readonly IWebHostEnvironment hostingEnvironment;
-        private readonly IPAReportService reportService;
-        private readonly IViewRenderService viewRenderService;
-        private readonly IConverter converter;
-        private readonly ICommonService commonService;
-
-        public ExportPAReportService(IWebHostEnvironment hostingEnvironment,
-            IPAReportService reportService,
-            IViewRenderService viewRenderService,
-            IConverter converter,
-            ICommonService commonService)
-        {
-            this.hostingEnvironment = hostingEnvironment;
-            this.reportService = reportService;
-            this.viewRenderService = viewRenderService;
-            this.converter = converter;
-            this.commonService = commonService;
-        }
 
         public async Task<byte[]> ExportExcelAsync(GetPARecordMultiPeriodParam param)
         {
@@ -320,7 +306,7 @@
             }
         }
 
-        public async Task<ValueTuple<string, byte[]>> ExportPdfAsync(PAReportDetail reportDetail)
+        public async Task<(string, byte[])> ExportPdfAsync(PAReportDetail reportDetail)
         {
             var pdf = await GetPdfSettingAsync(reportDetail);
             var fileName = $"{reportDetail.Employee.NickName}_PA_{reportDetail.PARecord.Period.Name}.pdf";

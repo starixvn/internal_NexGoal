@@ -2,7 +2,6 @@
 {
     using System;
     using System.ComponentModel;
-    using System.Reflection;
 
     public static class EnumHelper
     {
@@ -12,8 +11,8 @@
 
             if (enumType != null)
             {
-                FieldInfo fi = enumType.GetType().GetField(enumType.ToString());
-                DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
+                var fi = enumType.GetType().GetField(enumType.ToString());
+                var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
                 description = attributes.Length > 0 ? attributes[0].Description : enumType.ToString();
             }
 

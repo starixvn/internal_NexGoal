@@ -6,7 +6,7 @@
     {
         public int ActorId { get; set; }
         public string PerformanceRecordIds { get; set; }
-        public int ReceiveType { get; set; }
+        public byte ReceiveType { get; set; }
 
         public override string GetSettingKey() => "PerformanceRecord_GetSettingToSendNotification";
 

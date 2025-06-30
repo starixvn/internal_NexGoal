@@ -20,7 +20,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NexGoal.AutoService\NexGoal.AutoService.csproj" />
     <ProjectReference Include="..\NexGoal.ViewModels\NexGoal.ViewModels.csproj" />
     <ProjectReference Include="..\NexGoal.Web.Core\NexGoal.Web.Core.csproj" />
   </ItemGroup>

@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Models.Common;
@@ -9,7 +8,7 @@
 
     public interface IPAReportService
     {
-        Task<ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupAndMemberAsync(int actorId);
+        Task<(IEnumerable<Group>, IEnumerable<Employee>)> GetGroupAndMemberAsync(int actorId);
 
         Task<IEnumerable<PARecordGroupByPeriod>> GetPAReportAsync(GetPARecordMultiPeriodParam param);
 

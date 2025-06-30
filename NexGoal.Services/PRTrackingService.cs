@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Criteria.PRTracking;
@@ -9,31 +8,26 @@
     using NexGoal.Models.PRTracking;
     using NexGoal.Repositories;
 
-    public class PRTrackingService : IPRTrackingService
+    public class PRTrackingService(IPRTrackingRepository repository) : IPRTrackingService
     {
-        private readonly IPRTrackingRepository repository;
-
-        public PRTrackingService(IPRTrackingRepository repository)
+        public async Task<(PeriodModel, IEnumerable<PRTrackingModel>)> GetAsync(int actorId, string employeeIds, byte? noPR)
         {
-            this.repository = repository;
-        }
-
-        public async Task<ValueTuple<PeriodModel, IEnumerable<PRTrackingModel>>> GetAsync(int actorId, string employeeIds, byte? noPR)
-        {
-            return await repository.GetAsync(new GetPRCriteria
+            var criteria = new GetPRCriteria
             {
                 ActorId = actorId,
                 EmployeeIds = employeeIds,
                 NoPR = noPR
-            });
+            };
+            return await repository.GetAsync(criteria);
         }
 
-        public async Task<ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndMembersAsync(int actorId)
+        public async Task<(IEnumerable<Group>, IEnumerable<Employee>)> GetGroupsAndMembersAsync(int actorId)
         {
-            return await repository.GetGroupsAndMembersAsync(new GetGroupsAndMembersCriteria
+            var criteria = new GetGroupsAndMembersCriteria
             {
                 ActorId = actorId
-            });
+            };
+            return await repository.GetGroupsAndMembersAsync(criteria);
         }
     }
 }

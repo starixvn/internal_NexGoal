@@ -1,4 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="SonarQube - Nexus / NexGoal Nexcel CSharp" ToolsVersion="15.0">
-  <Include Path="..\..\sonarqube\nexgoalcsharp.ruleset" Action="Default" />
-</RuleSet>

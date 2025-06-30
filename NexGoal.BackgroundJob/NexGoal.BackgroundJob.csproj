@@ -1,30 +1,113 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
-
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>dotnet-NexGoal.BackgroundJob-3dd02f5a-77b4-467a-b516-bf2954831d07</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="App_Data\SPNames.xml" />
+    <None Remove="EmailTemplates\Nomination\RemindToNominator.txt" />
+    <None Remove="EmailTemplates\Nomination\StartToNominator.txt" />
+    <None Remove="EmailTemplates\PAFocus\RemindToEvaluator.txt" />
+    <None Remove="EmailTemplates\PAFocus\StartToEvaluator.txt" />
+    <None Remove="EmailTemplates\PA\EndToSelf.txt" />
+    <None Remove="EmailTemplates\PA\RemindStartToSelf.txt" />
+    <None Remove="EmailTemplates\PA\RemindStartToSupervisor.txt" />
+    <None Remove="EmailTemplates\PA\RemindToReviewer.txt" />
+    <None Remove="EmailTemplates\PA\StartToReviewer.txt" />
+    <None Remove="EmailTemplates\PCI\Create\MemberToSupervisor.txt" />
+    <None Remove="EmailTemplates\PCI\Create\SupervisorToMember.txt" />
+    <None Remove="EmailTemplates\PCI\Create\SupervisorToSupervisor.txt" />
+    <None Remove="EmailTemplates\PCI\Edit\MemberToSupervisor.txt" />
+    <None Remove="EmailTemplates\PCI\Edit\SupervisorToMember.txt" />
+    <None Remove="EmailTemplates\PCI\Edit\SupervisorToSupervisor.txt" />
+    <None Remove="EmailTemplates\Probation\RemindToEvaluator.txt" />
+    <None Remove="EmailTemplates\Probation\StartToEvaluator.txt" />
+    <None Remove="EmailTemplates\Probation\StartToHR.txt" />
+    <None Remove="EmailTemplates\Probation\StartToMember.txt" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="App_Data\SPNames.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="EmailTemplates\Nomination\RemindToNominator.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\Nomination\StartToNominator.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PAFocus\RemindToEvaluator.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PAFocus\StartToEvaluator.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PA\EndToSelf.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PA\RemindStartToSelf.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PA\RemindStartToSupervisor.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PA\RemindToReviewer.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PA\StartToReviewer.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PCI\Create\MemberToSupervisor.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PCI\Create\SupervisorToMember.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PCI\Create\SupervisorToSupervisor.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PCI\Edit\MemberToSupervisor.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PCI\Edit\SupervisorToMember.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\PCI\Edit\SupervisorToSupervisor.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\Probation\RemindToEvaluator.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\Probation\StartToEvaluator.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\Probation\StartToHR.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\Probation\StartToMember.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
-
   <ItemGroup>
+    <PackageReference Include="Cronos" Version="0.11.0" />
     <PackageReference Include="Fanex.Logging.Sentry" Version="1.0.6" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\NexGoal.AutoService\NexGoal.AutoService.csproj" />
+    <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj" />
+    <ProjectReference Include="..\NexGoal.Resources\NexGoal.Resources.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="appsettings.LOCAL.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="appsettings.NEXAWS.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="appsettings.NEXAWS_1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

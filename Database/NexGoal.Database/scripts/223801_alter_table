@@ -1,0 +1,1902 @@
+USE NexGoal2;
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[SyncEmployee_GetLastModifiedDate]
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT MAX(ModifiedDate) AS LastModifiedDate
+	FROM [dbo].[Employee]
+	WHERE ModifiedDate IS NOT NULL;
+END
+
+GO
+
+CREATE OR ALTER   PROCEDURE [dbo].[SyncEmployee_Import]	
+	@EmployeeXml NVARCHAR(MAX)
+
+	,@ErrCode INT = 0 OUTPUT
+	,@ErrMsg nvarchar(200) = '' OUTPUT
+AS
+/*
+EXEC [dbo].[SyncEmployee_Import]	
+	@UserXML ='<ROOT>
+	"<Employee EmployeeId='{0}' DomainUsername='{1}' Code='{2}' FullName='{3}' NickName='{4}' GroupId='{5}' Enabled='{6}' JoinedDate='{7}' "
+        + "ConfirmedDate='{8}' JobTitleId='{9}' Email='{10}' ConversationId='{11}' IsDeleted='{12}'></Employee>"
+</ROOT>'
+
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+
+	-- For write log
+	DECLARE 
+		@StartRun					DATETIME,
+		@EndRun						DATETIME,
+		@Duration					INT,
+		@LogTraderData				NVARCHAR(MAX),	
+		@LogTraderOldData			NVARCHAR(MAX),	
+		@Xml						XML		 
+
+	
+	DECLARE @DocHandler INT
+
+	SELECT @EmployeeXml = REPLACE(ISNULL(@EmployeeXml,''),'&','&amp;')
+	
+	PRINT LEN(@EmployeeXml)
+
+	IF OBJECT_ID('tempdb..#Employee') IS NOT NULL
+	BEGIN
+		DROP TABLE #Employee
+	END
+
+	CREATE TABLE #Employee (		
+		EmployeeId INT,
+		DomainUsername VARCHAR(50),
+		Code VARCHAR(20),
+		FullName NVARCHAR(50),
+		NickName NVARCHAR(20),
+		GroupId INT,
+		Enabled BIT,
+		IsDeleted BIT,
+		JoinedDate DATE,
+		ConfirmedDate DATE,
+		JobTitleId INT,
+		Email VARCHAR(50),
+		ConversationId VARCHAR(255),
+		ModifiedDate DATETIME NULL
+	)
+ 
+	BEGIN TRY
+		EXEC sp_xml_preparedocument @DocHandler OUTPUT
+			,@EmployeeXml
+
+		INSERT INTO #Employee
+		SELECT
+			EmployeeId,
+			DomainUsername,
+			Code,
+			FullName,
+			NickName,
+			GroupId,
+			Enabled,
+			IsDeleted,
+			CASE WHEN ISDATE(JoinedDate) = 1 THEN CAST(JoinedDate AS DATE) ELSE NULL END,
+			CASE WHEN ISDATE(ConfirmedDate) = 1 THEN CAST(ConfirmedDate AS DATE) ELSE NULL END,
+			JobTitleId,
+			Email,
+			ConversationId,
+			ModifiedDate
+		FROM OPENXML(@DocHandler, '/ROOT/Employee', 1) WITH (
+			EmployeeId INT,
+			DomainUsername VARCHAR(50),
+			Code VARCHAR(20),
+			FullName NVARCHAR(50),
+			NickName NVARCHAR(20),
+			GroupId INT,
+			Enabled BIT,
+			IsDeleted BIT,
+			JoinedDate NVARCHAR(50),
+			ConfirmedDate NVARCHAR(50),
+			JobTitleId INT,
+			Email VARCHAR(50),
+			ConversationId VARCHAR(255),
+			ModifiedDate DATETIME 
+		)
+
+		EXEC sp_xml_removedocument @DocHandler
+	END TRY
+
+	BEGIN CATCH
+		SELECT @ErrCode = 100
+			,@ErrMsg = N'Paramter invalid.'
+		PRINT 1
+		RETURN
+	END CATCH;
+	 
+	MERGE INTO [dbo].[Employee] AS Target
+	USING #Employee AS Source
+	ON Target.EmployeeId = Source.EmployeeId
+	WHEN MATCHED THEN
+		UPDATE SET
+			Target.DomainUsername = Source.DomainUsername,
+			Target.Code = Source.Code,
+			Target.FullName = Source.FullName,
+			Target.NickName = Source.NickName,
+			Target.GroupId = Source.GroupId,
+			Target.Enabled = Source.Enabled,
+			Target.IsDeleted = Source.IsDeleted,
+			Target.JoinedDate = Source.JoinedDate,
+			Target.ConfirmedDate = Source.ConfirmedDate,
+			Target.JobTitleId = Source.JobTitleId,
+			Target.Email = Source.Email,
+			Target.ConversationId = Source.ConversationId,
+			Target.ModifiedDate = Source.ModifiedDate,
+			Target.SyncDate = GETDATE()
+	WHEN NOT MATCHED BY TARGET THEN
+		INSERT (
+			EmployeeId, DomainUsername, Code, FullName, NickName, GroupId, Enabled, IsDeleted,
+			JoinedDate, ConfirmedDate, JobTitleId, Email, ConversationId, ModifiedDate, SyncDate
+		)
+		VALUES (
+			Source.EmployeeId, Source.DomainUsername, Source.Code, Source.FullName, Source.NickName, Source.GroupId,
+			Source.Enabled, Source.IsDeleted, Source.JoinedDate, Source.ConfirmedDate, Source.JobTitleId, Source.Email, Source.ConversationId, Source.ModifiedDate, GETDATE()
+		);
+
+	SELECT @ErrCode = 0, @ErrMsg = '';
+
+	DROP TABLE #Employee;
+END
+
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[SyncEmployeeAttendance_GetLastModifiedDate]
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT MAX(InsertDate) AS LastModifiedDate
+	FROM [dbo].[EmployeeAttendance]
+	WHERE InsertDate IS NOT NULL;
+END
+
+GO
+
+CREATE OR ALTER   PROCEDURE [dbo].[SyncEmployeeAttendance_Import]    
+    @AttendanceXml NVARCHAR(MAX),
+    @ErrCode INT = 0 OUTPUT,
+    @ErrMsg nvarchar(200) = '' OUTPUT
+AS
+/*
+EXEC [dbo].[SyncEmployeeAttendance_Import]    
+    @AttendanceXml ='<ROOT>
+    <EmployeeAttendance Id='1' EmpId='1' AttendanceDate='2024-03-20' InFixed='2024-03-20 08:00' OutFixed='2024-03-20 17:00' 
+        LeaveTypeId='0' TotalWorkHours='8.00' LeaveDay='0' LeaveTypeId2='0' InsertDate='2024-03-20'></EmployeeAttendance>
+    </ROOT>'
+*/
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @DocHandler INT
+
+    SELECT @AttendanceXml = REPLACE(ISNULL(@AttendanceXml,''),'&','&amp;')
+    
+    IF OBJECT_ID('tempdb..#EmployeeAttendance') IS NOT NULL
+    BEGIN
+        DROP TABLE #EmployeeAttendance
+    END
+
+    CREATE TABLE #EmployeeAttendance (        
+        Id BIGINT,
+        EmpId INT,
+        AttendanceDate DATETIME,
+        InFixed DATETIME,
+        OutFixed DATETIME,
+        LeaveTypeId INT,
+        TotalWorkHours DECIMAL(18,2),
+        LeaveDay DECIMAL(18,1),
+        LeaveTypeId2 INT,
+        LateIn INT,
+        EarlyOut INT,
+        Absence BIT,
+        InsertDate DATETIME
+    )
+ 
+    BEGIN TRY
+        EXEC sp_xml_preparedocument @DocHandler OUTPUT, @AttendanceXml
+
+        INSERT INTO #EmployeeAttendance
+        SELECT
+            Id,
+            EmpId,
+            AttendanceDate,
+            CASE WHEN ISDATE(InFixed) = 1 THEN CAST(InFixed AS DATETIME) ELSE NULL END,
+            CASE WHEN ISDATE(OutFixed) = 1 THEN CAST(OutFixed AS DATETIME) ELSE NULL END,
+            LeaveTypeId,
+            CASE 
+                WHEN ISNUMERIC(TotalWorkHours) = 1 THEN CAST(TotalWorkHours AS DECIMAL(18,2))
+                ELSE NULL 
+            END,
+            CASE 
+                WHEN ISNUMERIC(LeaveDay) = 1 THEN CAST(LeaveDay AS DECIMAL(18,1))
+                ELSE NULL   
+            END,
+            LeaveTypeId2,
+            LateIn,
+            EarlyOut,
+            Absence,
+            CASE WHEN ISDATE(InsertDate) = 1 THEN CAST(InsertDate AS DATETIME) ELSE NULL END
+        FROM OPENXML(@DocHandler, '/ROOT/EmployeeAttendance', 1) WITH (
+            Id BIGINT,
+            EmpId INT,
+            AttendanceDate DATETIME,
+            InFixed NVARCHAR(50),
+            OutFixed NVARCHAR(50),
+            LeaveTypeId INT,
+            TotalWorkHours NVARCHAR(50),
+            LeaveDay NVARCHAR(50),
+            LeaveTypeId2 INT,
+            LateIn INT,
+            EarlyOut INT,
+            Absence BIT,
+            InsertDate NVARCHAR(50)
+        )
+
+        EXEC sp_xml_removedocument @DocHandler
+    END TRY
+    BEGIN CATCH
+        IF @DocHandler IS NOT NULL
+            EXEC sp_xml_removedocument @DocHandler
+
+        SELECT @ErrCode = ERROR_NUMBER()
+            ,@ErrMsg = ERROR_MESSAGE()
+        RETURN
+    END CATCH;
+     
+    MERGE INTO [dbo].[EmployeeAttendance] AS Target
+    USING #EmployeeAttendance AS Source
+    ON Target.Id = Source.Id
+    WHEN MATCHED THEN
+        UPDATE SET
+            Target.EmpId = Source.EmpId,
+            Target.AttendanceDate = Source.AttendanceDate,
+            Target.InFixed = Source.InFixed,
+            Target.OutFixed = Source.OutFixed,
+            Target.LeaveTypeId = Source.LeaveTypeId,
+            Target.TotalWorkHours = Source.TotalWorkHours,
+            Target.LeaveDay = Source.LeaveDay,
+            Target.LeaveTypeId2 = Source.LeaveTypeId2,
+            Target.LateIn = Source.LateIn,
+            Target.EarlyOut = Source.EarlyOut,
+            Target.Absence = Source.Absence,
+            Target.InsertDate = Source.InsertDate,
+            Target.SyncDate = GETDATE()
+    WHEN NOT MATCHED BY TARGET THEN
+        INSERT (
+            Id, EmpId, AttendanceDate, InFixed, OutFixed, 
+            LeaveTypeId, TotalWorkHours, LeaveDay, LeaveTypeId2,
+            LateIn, EarlyOut,
+            Absence,
+            InsertDate, SyncDate
+        )
+        VALUES (
+            Source.Id, Source.EmpId, Source.AttendanceDate, Source.InFixed, Source.OutFixed, 
+            Source.LeaveTypeId, Source.TotalWorkHours, Source.LeaveDay, Source.LeaveTypeId2,
+            Source.LateIn, Source.EarlyOut,
+            Source.Absence,
+            Source.InsertDate, GETDATE()
+        );
+
+    SELECT @ErrCode = 0, @ErrMsg = '';
+
+    DROP TABLE #EmployeeAttendance;
+END 
+
+GO
+CREATE OR ALTER PROCEDURE [dbo].[SyncEmployeeCalendar_GetLastModifiedDate]
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT MAX(ModifiedDate) AS LastModifiedDate
+    FROM [dbo].[EmployeeCalendar]
+    WHERE ModifiedDate IS NOT NULL;
+END 
+
+GO
+
+CREATE OR ALTER   PROCEDURE [dbo].[SyncEmployeeCalendar_Import]    
+    @CalendarXml NVARCHAR(MAX),
+    @ErrCode INT = 0 OUTPUT,
+    @ErrMsg nvarchar(200) = '' OUTPUT
+AS
+/*
+EXEC [dbo].[SyncEmployeeCalendar_Import]    
+    @CalendarXml ='<ROOT>
+    <EmployeeCalendar Id='1' EmpId='1' WorkDate='2024-03-20' IsHoliday='0' IsLeaveDay='0' 
+        LeaveDay='0' ModifiedDate='2024-03-20'></EmployeeCalendar>
+    </ROOT>'
+*/
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @DocHandler INT
+
+    SELECT @CalendarXml = REPLACE(ISNULL(@CalendarXml,''),'&','&amp;')
+    
+    IF OBJECT_ID('tempdb..#EmployeeCalendar') IS NOT NULL
+    BEGIN
+        DROP TABLE #EmployeeCalendar
+    END
+
+    CREATE TABLE #EmployeeCalendar (        
+        Id BIGINT,
+        EmpId INT,
+        WorkDate DATETIME,
+        IsOffDay BIT,
+        IsHoliday BIT,
+        IsLeaveDay BIT,
+        LeaveDay DECIMAL(18,1),
+        ModifiedDate DATETIME
+    )
+ 
+    BEGIN TRY
+        EXEC sp_xml_preparedocument @DocHandler OUTPUT, @CalendarXml
+
+        INSERT INTO #EmployeeCalendar
+        SELECT
+            Id,
+            EmpId,
+            WorkDate,
+            IsOffDay,
+            IsHoliday,
+            IsLeaveDay,
+            CASE 
+                WHEN ISNUMERIC(LeaveDay) = 1 THEN CAST(LeaveDay AS DECIMAL(18,1))
+                ELSE NULL 
+            END,
+            ModifiedDate
+        FROM OPENXML(@DocHandler, '/ROOT/EmployeeCalendar', 1) WITH (
+            Id BIGINT,
+            EmpId INT,
+            WorkDate DATETIME,
+            IsOffDay BIT,
+            IsHoliday BIT,
+            IsLeaveDay BIT,
+            LeaveDay NVARCHAR(50),
+            ModifiedDate DATETIME
+        )
+
+        EXEC sp_xml_removedocument @DocHandler
+    END TRY
+    BEGIN CATCH
+        IF @DocHandler IS NOT NULL
+            EXEC sp_xml_removedocument @DocHandler
+
+        SELECT @ErrCode = ERROR_NUMBER()
+            ,@ErrMsg = ERROR_MESSAGE()
+        RETURN
+    END CATCH;
+     
+    MERGE INTO [dbo].[EmployeeCalendar] AS Target
+    USING #EmployeeCalendar AS Source
+    ON Target.Id = Source.Id
+    WHEN MATCHED THEN
+        UPDATE SET
+            Target.EmpId = Source.EmpId,
+            Target.WorkDate = Source.WorkDate,
+            Target.IsOffDay = Source.IsOffDay,
+            Target.IsHoliday = Source.IsHoliday,
+            Target.IsLeaveDay = Source.IsLeaveDay,
+            Target.LeaveDay = Source.LeaveDay,
+            Target.ModifiedDate = Source.ModifiedDate,
+            Target.SyncDate = GETDATE()
+    WHEN NOT MATCHED BY TARGET THEN
+        INSERT (
+            Id, EmpId, WorkDate, IsOffDay, IsHoliday, IsLeaveDay, 
+            LeaveDay, ModifiedDate, SyncDate
+        )
+        VALUES (
+            Source.Id, Source.EmpId, Source.WorkDate, Source.IsOffDay, Source.IsHoliday, Source.IsLeaveDay, 
+            Source.LeaveDay, Source.ModifiedDate, GETDATE()
+        );
+
+    SELECT @ErrCode = 0, @ErrMsg = '';
+      
+
+    DROP TABLE #EmployeeCalendar;
+END 
+
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[SyncEmployeeOvertime_GetLastModifiedDate]
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT MAX(ModifiedDate) AS LastModifiedDate
+    FROM [dbo].[EmployeeOvertime]
+    WHERE ModifiedDate IS NOT NULL;
+END 
+
+GO
+
+CREATE OR ALTER   PROCEDURE [dbo].[SyncEmployeeOvertime_Import]    
+    @OvertimeXml NVARCHAR(MAX),
+    @ErrCode INT = 0 OUTPUT,
+    @ErrMsg nvarchar(200) = '' OUTPUT
+AS
+/*
+EXEC [dbo].[SyncEmployeeOvertime_Import]    
+    @OvertimeXml ='<ROOT>
+    <EmployeeOvertime OvertimeId='1' EmployeeId='1' Date='2024-03-20' 
+        Hour='2.5' ModifiedDate='2024-03-20'></EmployeeOvertime>
+    </ROOT>'
+*/
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @DocHandler INT
+
+    SELECT @OvertimeXml = REPLACE(ISNULL(@OvertimeXml,''),'&','&amp;')
+    
+    IF OBJECT_ID('tempdb..#EmployeeOvertime') IS NOT NULL
+    BEGIN
+        DROP TABLE #EmployeeOvertime
+    END
+
+    CREATE TABLE #EmployeeOvertime (        
+        OvertimeId INT,
+        EmployeeId INT,
+        Date DATETIME,
+        Hour DECIMAL(18,1),
+        ModifiedDate DATETIME
+    )
+ 
+    BEGIN TRY
+        EXEC sp_xml_preparedocument @DocHandler OUTPUT, @OvertimeXml
+
+        INSERT INTO #EmployeeOvertime
+        SELECT
+            OvertimeId,
+            EmployeeId,
+            Date,
+            CASE 
+                WHEN ISNUMERIC(Hour) = 1 THEN CAST(Hour AS DECIMAL(18,1))
+                ELSE NULL 
+            END,
+            ModifiedDate
+        FROM OPENXML(@DocHandler, '/ROOT/EmployeeOvertime', 1) WITH (
+            OvertimeId INT,
+            EmployeeId INT,
+            Date DATETIME,
+            Hour NVARCHAR(50),
+            ModifiedDate DATETIME
+        )
+
+        EXEC sp_xml_removedocument @DocHandler
+    END TRY
+    BEGIN CATCH
+        IF @DocHandler IS NOT NULL
+            EXEC sp_xml_removedocument @DocHandler
+
+        SELECT @ErrCode = ERROR_NUMBER()
+            ,@ErrMsg = ERROR_MESSAGE()
+        RETURN
+    END CATCH;
+     
+    BEGIN TRY
+        MERGE INTO [dbo].[EmployeeOvertime] AS Target
+        USING #EmployeeOvertime AS Source
+        ON Target.OvertimeId = Source.OvertimeId 
+            AND Target.EmployeeId = Source.EmployeeId
+            AND Target.Date = Source.Date
+        WHEN MATCHED THEN
+            UPDATE SET
+                Target.Hour = Source.Hour,
+                Target.ModifiedDate = Source.ModifiedDate,
+                Target.SyncDate = GETDATE()
+        WHEN NOT MATCHED BY TARGET THEN
+            INSERT (
+                OvertimeId, EmployeeId, Date, Hour, 
+                ModifiedDate, SyncDate
+            )
+            VALUES (
+                Source.OvertimeId, Source.EmployeeId, Source.Date, Source.Hour, 
+                Source.ModifiedDate, GETDATE()
+            );
+
+        SELECT @ErrCode = 0, @ErrMsg = '';
+    END TRY
+    BEGIN CATCH
+        SELECT @ErrCode = ERROR_NUMBER()
+            ,@ErrMsg = ERROR_MESSAGE()
+    END CATCH;
+
+    IF OBJECT_ID('tempdb..#EmployeeOvertime') IS NOT NULL
+        DROP TABLE #EmployeeOvertime;
+END 
+
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[SyncGroup_GetLastModifiedDate]
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT MAX(ModifiedDate) AS LastModifiedDate
+	FROM [dbo].[Group]
+	WHERE ModifiedDate IS NOT NULL;
+END
+
+GO
+
+CREATE OR ALTER   PROCEDURE [dbo].[SyncGroup_Import]	
+	@GroupXml NVARCHAR(MAX),
+	@ErrCode INT = 0 OUTPUT,
+	@ErrMsg nvarchar(200) = '' OUTPUT
+AS
+/*
+EXEC [dbo].[SyncGroup_Import]	
+	@GroupXml ='<ROOT>
+	<Group GroupId='1' Code='G001' Name='Group 1' DepartmentId='1' Rank='1' IsDeleted='0' ParentId='0' ModifiedDate='2024-03-20'></Group>
+	</ROOT>'
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+	-- For write log
+	DECLARE 
+		@StartRun					DATETIME,
+		@EndRun						DATETIME,
+		@Duration					INT,
+		@LogTraderData				NVARCHAR(MAX),	
+		@LogTraderOldData			NVARCHAR(MAX),	
+		@Xml						XML		 
+
+	DECLARE @DocHandler INT
+
+	SELECT @GroupXml = REPLACE(ISNULL(@GroupXml,''),'&','&amp;')
+	
+	IF OBJECT_ID('tempdb..#Group') IS NOT NULL
+	BEGIN
+		DROP TABLE #Group
+	END
+
+	CREATE TABLE #Group (		
+		GroupId INT,
+		Code VARCHAR(20),
+		Name NVARCHAR(50),
+		DepartmentId INT,
+		Rank INT,
+		IsDeleted BIT,
+		ParentId INT,
+		ModifiedDate DATETIME
+	)
+ 
+	BEGIN TRY
+		EXEC sp_xml_preparedocument @DocHandler OUTPUT, @GroupXml
+
+		INSERT INTO #Group
+		SELECT
+			GroupId,
+			Code,
+			Name,
+			DepartmentId,
+			Rank,
+			IsDeleted,
+			ParentId,
+			CASE WHEN ISDATE(ModifiedDate) = 1 THEN CAST(ModifiedDate AS DATETIME) ELSE NULL END
+		FROM OPENXML(@DocHandler, '/ROOT/Group', 1) WITH (
+			GroupId INT,
+			Code VARCHAR(20),
+			Name NVARCHAR(50),
+			DepartmentId INT,
+			Rank INT,
+			IsDeleted BIT,
+			ParentId INT,
+			ModifiedDate NVARCHAR(50)
+		)
+
+		EXEC sp_xml_removedocument @DocHandler
+	END TRY
+
+	BEGIN CATCH
+		SELECT @ErrCode = 100
+			,@ErrMsg = N'Parameter invalid.'
+		RETURN
+	END CATCH;
+	 
+	MERGE INTO [dbo].[Group] AS Target
+	USING #Group AS Source
+	ON Target.GroupId = Source.GroupId
+	WHEN MATCHED THEN
+		UPDATE SET
+			Target.Code = Source.Code,
+			Target.Name = Source.Name,
+			Target.DepartmentId = Source.DepartmentId,
+			Target.Rank = Source.Rank,
+			Target.IsDeleted = Source.IsDeleted,
+			Target.ParentId = Source.ParentId,
+			Target.ModifiedDate = Source.ModifiedDate,
+			Target.SyncDate = GETDATE()
+	WHEN NOT MATCHED BY TARGET THEN
+		INSERT (
+			GroupId, Code, Name, DepartmentId, Rank, IsDeleted, ParentId, ModifiedDate, SyncDate
+		)
+		VALUES (
+			Source.GroupId, Source.Code, Source.Name, Source.DepartmentId, Source.Rank,
+			Source.IsDeleted, Source.ParentId, Source.ModifiedDate, GETDATE()
+		);
+
+	SELECT @ErrCode = 0, @ErrMsg = '';
+
+	DROP TABLE #Group;
+END
+
+GO
+
+CREATE OR ALTER   PROCEDURE [dbo].[SyncJobTitle_Import]    
+    @JobTitleXml NVARCHAR(MAX),
+    @ErrCode INT = 0 OUTPUT,
+    @ErrMsg nvarchar(200) = '' OUTPUT
+AS
+/*
+EXEC [dbo].[SyncJobTitle_Import]    
+    @JobTitleXml ='<ROOT>
+    <JobTitle Id='1' Name='Software Engineer' ModifiedDate='2024-03-20'></JobTitle>
+    </ROOT>'
+*/
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @DocHandler INT
+
+    SELECT @JobTitleXml = REPLACE(ISNULL(@JobTitleXml,''),'&','&amp;')
+    
+    IF OBJECT_ID('tempdb..#JobTitle') IS NOT NULL
+    BEGIN
+        DROP TABLE #JobTitle
+    END
+
+    CREATE TABLE #JobTitle (        
+        JobTitleId INT,
+        Name NVARCHAR(100),
+        ModifiedDate DATETIME
+    )
+ 
+    BEGIN TRY
+        EXEC sp_xml_preparedocument @DocHandler OUTPUT, @JobTitleXml
+
+        INSERT INTO #JobTitle
+        SELECT
+            Id,
+            Name,
+            ModifiedDate
+        FROM OPENXML(@DocHandler, '/ROOT/JobTitle', 1) WITH (
+            Id INT,
+            Name NVARCHAR(100),
+            ModifiedDate DATETIME
+        )
+
+        EXEC sp_xml_removedocument @DocHandler
+    END TRY
+    BEGIN CATCH
+        IF @DocHandler IS NOT NULL
+            EXEC sp_xml_removedocument @DocHandler
+
+        SELECT @ErrCode = ERROR_NUMBER()
+            ,@ErrMsg = ERROR_MESSAGE()
+        RETURN
+    END CATCH;
+     
+    BEGIN TRY
+        MERGE INTO [dbo].[JobTitle] AS Target
+        USING #JobTitle AS Source
+        ON Target.JobTitleId = Source.JobTitleId
+        WHEN MATCHED THEN
+            UPDATE SET
+                Target.Name = Source.Name,
+                Target.ModifiedDate = Source.ModifiedDate,
+                Target.SyncDate = GETDATE()
+        WHEN NOT MATCHED BY TARGET THEN
+            INSERT (
+                JobTitleId, Name, ModifiedDate, SyncDate
+            )
+            VALUES (
+                Source.JobTitleId, Source.Name, Source.ModifiedDate, GETDATE()
+            );
+
+        SELECT @ErrCode = 0, @ErrMsg = '';
+    END TRY
+    BEGIN CATCH
+        SELECT @ErrCode = ERROR_NUMBER()
+            ,@ErrMsg = ERROR_MESSAGE()
+    END CATCH;
+
+    IF OBJECT_ID('tempdb..#JobTitle') IS NOT NULL
+        DROP TABLE #JobTitle;
+END 
+
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[SyncTOEIC_GetLastModifiedDate]
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT MAX(ModifiedDate) AS LastModifiedDate
+    FROM [dbo].[TOEIC]
+    WHERE ModifiedDate IS NOT NULL;
+END 
+
+GO
+
+CREATE OR ALTER   PROCEDURE [dbo].[SyncTOEIC_Import]    
+    @TOEICXml NVARCHAR(MAX),
+    @ErrCode INT = 0 OUTPUT,
+    @ErrMsg nvarchar(200) = '' OUTPUT
+AS
+/*
+EXEC [dbo].[SyncTOEIC_Import]    
+    @TOEICXml ='<ROOT>
+    <TOEIC EmpId='1' MinimumScore='600' Listening='300' Reading='300' 
+        LRExamDate='2024-03-20' InputDate='2024-03-20' ModifiedDate='2024-03-20'></TOEIC>
+    </ROOT>'
+*/
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @DocHandler INT
+
+    SELECT @TOEICXml = REPLACE(ISNULL(@TOEICXml,''),'&','&amp;')
+    
+    IF OBJECT_ID('tempdb..#TOEIC') IS NOT NULL
+    BEGIN
+        DROP TABLE #TOEIC
+    END
+
+    CREATE TABLE #TOEIC (        
+        EmpId INT,
+        MinimumScore INT,
+        Listening INT,
+        Reading INT,
+        LRExamDate DATETIME,
+        InputDate DATETIME,
+        ModifiedDate DATETIME
+    )
+ 
+    BEGIN TRY
+        EXEC sp_xml_preparedocument @DocHandler OUTPUT, @TOEICXml
+
+        INSERT INTO #TOEIC
+        SELECT
+            EmpId,
+            MinimumScore,
+            Listening,
+            Reading,
+            LRExamDate,
+            InputDate,
+            ModifiedDate
+        FROM OPENXML(@DocHandler, '/ROOT/TOEIC', 1) WITH (
+            EmpId INT,
+            MinimumScore INT,
+            Listening INT,
+            Reading INT,
+            LRExamDate DATETIME,
+            InputDate DATETIME,
+            ModifiedDate DATETIME
+        )
+
+        EXEC sp_xml_removedocument @DocHandler
+    END TRY
+    BEGIN CATCH
+        IF @DocHandler IS NOT NULL
+            EXEC sp_xml_removedocument @DocHandler
+
+        SELECT @ErrCode = ERROR_NUMBER()
+            ,@ErrMsg = ERROR_MESSAGE()
+        RETURN
+    END CATCH;
+     
+    BEGIN TRY
+        MERGE INTO [dbo].[TOEIC] AS Target
+        USING #TOEIC AS Source
+        ON Target.EmpId = Source.EmpId
+        WHEN MATCHED THEN
+            UPDATE SET
+                Target.MinimumScore = Source.MinimumScore,
+                Target.Listening = Source.Listening,
+                Target.Reading = Source.Reading,
+                Target.LRExamDate = Source.LRExamDate,
+                Target.InputDate = Source.InputDate,
+                Target.ModifiedDate = Source.ModifiedDate,
+                Target.SyncDate = GETDATE()
+        WHEN NOT MATCHED BY TARGET THEN
+            INSERT (
+                EmpId, MinimumScore, Listening, Reading, 
+                LRExamDate, InputDate, ModifiedDate, SyncDate
+            )
+            VALUES (
+                Source.EmpId, Source.MinimumScore, Source.Listening, Source.Reading, 
+                Source.LRExamDate, Source.InputDate, Source.ModifiedDate, GETDATE()
+            );
+
+        SELECT @ErrCode = 0, @ErrMsg = '';
+    END TRY
+    BEGIN CATCH
+        SELECT @ErrCode = ERROR_NUMBER()
+            ,@ErrMsg = ERROR_MESSAGE()
+    END CATCH;
+
+    IF OBJECT_ID('tempdb..#TOEIC') IS NOT NULL
+        DROP TABLE #TOEIC;
+END
+
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[SyncWorkingTimeRequest_GetLastModifiedDate]
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT MAX(ModifiedDate) AS LastModifiedDate
+    FROM [dbo].[WorkingTimeRequest]
+    WHERE ModifiedDate IS NOT NULL;
+END 
+
+GO
+
+CREATE OR ALTER   PROCEDURE [dbo].[SyncWorkingTimeRequest_Import]    
+    @WorkingTimeRequestXml NVARCHAR(MAX),
+    @ErrCode INT = 0 OUTPUT,
+    @ErrMsg nvarchar(200) = '' OUTPUT
+AS
+/*
+EXEC [dbo].[SyncWorkingTimeRequest_Import]    
+    @WorkingTimeRequestXml ='<ROOT>
+    <WorkingTimeRequest Id='1' EmpId='1' RequestType='1' Status='1' 
+        FromDate='2024-03-20' ToDate='2024-03-21' TotalDays='1.5' ModifiedDate='2024-03-20'></WorkingTimeRequest>
+    </ROOT>'
+*/
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @DocHandler INT
+
+    SELECT @WorkingTimeRequestXml = REPLACE(ISNULL(@WorkingTimeRequestXml,''),'&','&amp;')
+    
+    IF OBJECT_ID('tempdb..#WorkingTimeRequest') IS NOT NULL
+    BEGIN
+        DROP TABLE #WorkingTimeRequest
+    END
+
+    CREATE TABLE #WorkingTimeRequest (        
+        Id BIGINT,
+        EmpId INT,
+        RequestType SMALLINT,
+        Status TINYINT,
+        FromDate DATETIME,
+        ToDate DATETIME,
+        TotalDays NUMERIC(5,1),
+        ModifiedDate DATETIME
+    )
+ 
+    BEGIN TRY
+        EXEC sp_xml_preparedocument @DocHandler OUTPUT, @WorkingTimeRequestXml
+
+        INSERT INTO #WorkingTimeRequest
+        SELECT
+            Id,
+            EmpId,
+            RequestType,
+            Status,
+            CASE WHEN ISDATE(FromDate) = 1 THEN CAST(FromDate AS DATETIME) ELSE NULL END,
+            CASE WHEN ISDATE(ToDate) = 1 THEN CAST(ToDate AS DATETIME) ELSE NULL END,
+            CASE WHEN ISNUMERIC(TotalDays) = 1 THEN CAST(TotalDays AS DECIMAL(18,1)) ELSE NULL END,
+            ModifiedDate
+        FROM OPENXML(@DocHandler, '/ROOT/WorkingTimeRequest', 1) WITH (
+            Id BIGINT,
+            EmpId INT,
+            RequestType SMALLINT,
+            Status TINYINT,
+            FromDate NVARCHAR(50),
+            ToDate NVARCHAR(50),
+            TotalDays NVARCHAR(50),
+            ModifiedDate DATETIME
+        )
+
+        EXEC sp_xml_removedocument @DocHandler
+    END TRY
+    BEGIN CATCH
+        IF @DocHandler IS NOT NULL
+            EXEC sp_xml_removedocument @DocHandler
+
+        SELECT @ErrCode = ERROR_NUMBER()
+            ,@ErrMsg = ERROR_MESSAGE()
+        RETURN
+    END CATCH;
+     
+    BEGIN TRY
+        MERGE INTO [dbo].[WorkingTimeRequest] AS Target
+        USING #WorkingTimeRequest AS Source
+        ON Target.Id = Source.Id
+        WHEN MATCHED THEN
+            UPDATE SET
+                Target.EmpId = Source.EmpId,
+                Target.RequestType = Source.RequestType,
+                Target.Status = Source.Status,
+                Target.FromDate = Source.FromDate,
+                Target.ToDate = Source.ToDate,
+                Target.TotalDays = Source.TotalDays,
+                Target.ModifiedDate = Source.ModifiedDate,
+                Target.SyncDate = GETDATE()
+        WHEN NOT MATCHED BY TARGET THEN
+            INSERT (
+                Id, EmpId, RequestType, Status, FromDate, ToDate, TotalDays, ModifiedDate, SyncDate
+            )
+            VALUES (
+                Source.Id, Source.EmpId, Source.RequestType, Source.Status, 
+                Source.FromDate, Source.ToDate, Source.TotalDays, Source.ModifiedDate, GETDATE()
+            );
+
+        SELECT @ErrCode = 0, @ErrMsg = '';
+    END TRY
+    BEGIN CATCH
+        SELECT @ErrCode = ERROR_NUMBER()
+            ,@ErrMsg = ERROR_MESSAGE()
+    END CATCH;
+
+    IF OBJECT_ID('tempdb..#WorkingTimeRequest') IS NOT NULL
+        DROP TABLE #WorkingTimeRequest;
+END
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[PerformanceRecord_GetByEmployee] @EmployeeId INT
+AS
+/*
+Created: 20180912@Tim.Trinh
+Task: Get PCI by employee.
+DB: bodb_NexGoal
+Original:
+
+Revisions:
+	20191118@elton.ton: get more information for system pa
+	20200217@drake.doi: Get PR's feedback, reaction
+Param's Explanation:
+
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @Today DATE = GETDATE()
+		,@PAClosed TINYINT = 4
+	-- Performance Record Type
+	DECLARE @Checkin TINYINT = 1
+		,@SystemPA TINYINT = 4
+		,@SystemNomination TINYINT = 5
+
+	CREATE TABLE #tblPerformanceRecord (
+		PerformanceRecordId INT
+		,GradeId VARCHAR(MAX)
+		,Comment NVARCHAR(MAX)
+		,IsDraft BIT
+		,ProjectIds VARCHAR(MAX)
+		,CreatedDate DATETIME
+		,ModifiedDate DATETIME
+		,RoleId TINYINT
+		,TypeId TINYINT
+		,EmployeeId INT
+		,CreatorId INT
+		,NominationPeriodId INT
+		,NominationStatusId TINYINT
+		,[Quarter] TINYINT
+		,[Year] INT
+		,PeriodId INT
+		,PeriodName NVARCHAR(300)
+		)
+
+	INSERT INTO #tblPerformanceRecord (
+		PerformanceRecordId
+		,GradeId
+		,Comment
+		,IsDraft
+		,ProjectIds
+		,CreatedDate
+		,ModifiedDate
+		,RoleId
+		,TypeId
+		,EmployeeId
+		,CreatorId
+		,NominationPeriodId
+		,NominationStatusId
+		,[Quarter]
+		,[Year]
+		,PeriodId
+		,PeriodName
+		)
+	-- draft performance record
+	SELECT record.DraftPerformanceRecordId AS PerformanceRecordId
+		,record.GradeId
+		,record.Comment
+		,1 AS IsDraft
+		,record.ProjectIds
+		,record.CreatedDate
+		,record.ModifiedDate
+		,record.RoleId
+		,record.TypeId
+		,emp.EmployeeId
+		,record.CreatorId
+		,NULL AS NominationPeriodId
+		,NULL AS NominationStatusId
+		,NULL AS [Quarter]
+		,NULL AS [Year]
+		,NULL AS PeriodId
+		,NULL AS PeriodName
+	FROM dbo.DraftPerformanceRecord AS record WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON (CASE 
+			WHEN record.EmployeeIds NOT LIKE '%[^0-9]%' THEN CAST(record.EmployeeIds AS INT)
+			ELSE - 1 END
+			) = emp.EmployeeId
+		AND emp.EmployeeId = @EmployeeId
+		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
+	WHERE record.CreatorId = @EmployeeId
+	
+	UNION
+	-- performance record
+	SELECT record.PerformanceRecordId
+		,record.GradeId
+		,record.Comment
+		,0 AS IsDraft
+		,record.ProjectIds
+		,record.CreatedDate
+		,record.ModifiedDate
+		,record.RoleId
+		,record.TypeId
+		,record.EmployeeId
+		,record.CreatorId
+		,NULL AS NominationPeriodId
+		,NULL AS NominationStatusId
+		,NULL AS [Quarter]
+		,NULL AS [Year]
+		,NULL AS PeriodId
+		,NULL AS PeriodName
+	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeId = emp.EmployeeId
+		AND emp.EmployeeId = @EmployeeId
+		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
+	WHERE record.TypeId = @Checkin
+	
+	UNION
+	-- system PA
+	SELECT record.PerformanceRecordId
+		,record.GradeId
+		,record.Comment
+		,0 AS IsDraft
+		,record.ProjectIds
+		,record.CreatedDate
+		,record.ModifiedDate
+		,record.RoleId
+		,record.TypeId
+		,record.EmployeeId
+		,record.CreatorId
+		,NULL AS NominationPeriodId
+		,NULL AS NominationStatusId
+		,NULL AS [Quarter]
+		,NULL AS [Year]
+		,p.PeriodId AS PeriodId
+		,p.[Name] AS PeriodName
+	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeId = emp.EmployeeId
+		AND emp.EmployeeId = @EmployeeId
+		INNER JOIN dbo.PARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
+		AND pa.StatusId = @PAClosed
+		AND emp.EmployeeId = pa.EmployeeId
+		INNER JOIN dbo.Period AS p WITH (NOLOCK) ON pa.PeriodId = p.PeriodId
+		AND p.IsActive = 1
+		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
+	WHERE record.TypeId = @SystemPA
+	
+	UNION
+	-- nomination result
+	SELECT record.PerformanceRecordId
+		,record.GradeId
+		,record.Comment
+		,0 AS IsDraft
+		,record.ProjectIds
+		,record.CreatedDate
+		,record.ModifiedDate
+		,record.RoleId
+		,record.TypeId
+		,record.EmployeeId
+		,record.CreatorId
+		,nomination.EOQYId AS NominationPeriodId
+		,nomination.StatusId AS NominationStatusId
+		,period.[Quarter]
+		,period.[Year]
+		,NULL AS PeriodId
+		,NULL AS PeriodName
+	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeId = emp.EmployeeId
+		AND emp.EmployeeId = @EmployeeId
+		LEFT JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
+		LEFT JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
+		AND period.EndDateForCommittee IS NOT NULL
+		AND period.EndDateForCommittee < @Today
+	WHERE record.TypeId = @SystemNomination
+		AND nomination.NominationId IS NOT NULL
+		AND period.EOQYId IS NOT NULL
+
+	SELECT PerformanceRecordId
+		,GradeId
+		,Comment
+		,IsDraft
+		,CreatedDate
+		,record.ModifiedDate
+		,RoleId
+		,TypeId
+		,NominationStatusId
+		,e.EmployeeId
+		,e.Code
+		,e.NickName
+		,e.FullName
+		,record.CreatorId AS EmployeeId
+		,cre.Code
+		,cre.NickName
+		,cre.FullName
+		,NominationPeriodId
+		,[Quarter]
+		,[Year]
+		,PeriodId
+		,PeriodName AS [Name]
+	FROM #tblPerformanceRecord AS record
+		LEFT JOIN dbo.Employee AS e WITH (NOLOCK) ON record.EmployeeId = e.EmployeeId
+		LEFT JOIN dbo.Employee AS cre WITH (NOLOCK) ON record.CreatorId = cre.EmployeeId
+	ORDER BY CASE 
+			WHEN IsDraft = 1 THEN 1
+			ELSE 2
+			END
+		,CreatedDate DESC
+
+	SELECT record.PerformanceRecordId
+		,prj.ProjectId
+		,prj.[Name]
+	FROM #tblPerformanceRecord AS record
+		OUTER APPLY [dbo].[func_SplitString](record.ProjectIds, ',') a
+		INNER JOIN dbo.ProjectTag AS prj WITH (NOLOCK) ON a.val = prj.ProjectId
+
+	SELECT pa.PARecordId
+		,pa.PerformanceRecordId
+		,pa.OriginalGradeId
+		,pa.Toeic
+		,pa.ToeicPolicy
+	FROM dbo.PARecord AS pa WITH (NOLOCK)
+		INNER JOIN dbo.Period AS p WITH (NOLOCK) ON pa.PeriodId = p.PeriodId
+		AND p.IsActive = 1
+	WHERE pa.StatusId = @PAClosed
+		AND pa.PerformanceRecordId IS NOT NULL
+
+	SELECT pa.PARecordId
+		,pap.ProcessId
+		,rr.Value AS Process
+		,pap.GradeId
+		,pap.RelatedPerformanceRecordIds
+	FROM dbo.PARecord AS pa WITH (NOLOCK)
+		INNER JOIN dbo.Period AS p WITH (NOLOCK) ON pa.PeriodId = p.PeriodId
+		AND p.IsActive = 1
+		INNER JOIN dbo.PAProcess AS pap WITH (NOLOCK) ON pa.PARecordId = pap.PARecordId
+		INNER JOIN dbo.RefResource AS rr WITH (NOLOCK) ON pap.ProcessId = rr.ResourceId
+		AND rr.RefName = 'PerformanceProcess'
+	WHERE pa.StatusId = @PAClosed
+		AND pa.PerformanceRecordId IS NOT NULL
+		AND pap.ProcessId > 1
+
+	SELECT reaction.PRReactionId
+		,reaction.PerformanceRecordId
+		,reaction.RoleId
+		,reaction.CreatedDate
+		,creator.EmployeeId
+		,creator.Code
+		,creator.FullName
+		,creator.NickName
+	FROM dbo.PRReaction AS reaction WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON creator.EmployeeId = reaction.CreatorId
+		INNER JOIN #tblPerformanceRecord AS record ON record.IsDraft = 0
+		AND reaction.PerformanceRecordId = record.PerformanceRecordId
+	ORDER BY reaction.CreatedDate ASC
+
+	SELECT feedback.PRFeedbackId
+		,feedback.PerformanceRecordId
+		,feedback.Content
+		,feedback.RoleId
+		,feedback.CreatedDate
+		,feedback.ModifiedDate
+		,creator.EmployeeId
+		,creator.Code
+		,creator.FullName
+		,creator.NickName
+	FROM dbo.PRFeedback AS feedback WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON creator.EmployeeId = feedback.CreatorId
+		INNER JOIN #tblPerformanceRecord AS record ON record.IsDraft = 0
+		AND feedback.PerformanceRecordId = record.PerformanceRecordId
+	ORDER BY feedback.CreatedDate ASC
+
+	SELECT reaction.PRFeedbackReactionId
+		,reaction.PRFeedbackId
+		,reaction.CreatorId
+		,reaction.RoleId
+		,reaction.CreatedDate
+		,creator.EmployeeId
+		,creator.Code
+		,creator.FullName
+		,creator.NickName
+	FROM dbo.PRFeedbackReaction AS reaction WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON creator.EmployeeId = reaction.CreatorId
+		INNER JOIN PRFeedback AS feedback WITH (NOLOCK) ON feedback.PRFeedbackId = reaction.PRFeedbackId
+		INNER JOIN #tblPerformanceRecord AS record ON record.IsDraft = 0
+		AND feedback.PerformanceRecordId = record.PerformanceRecordId
+	ORDER BY reaction.CreatedDate ASC
+
+	DROP TABLE #tblPerformanceRecord
+END
+
+GO
+
+
+CREATE OR ALTER PROCEDURE [dbo].[PerformanceRecord_GetById] @PerformanceRecordId INT
+	,@CreatorId INT
+AS
+/*
+Created: 20180912@Tim.Trinh
+Task: Get PCI by id.
+DB: bodb_NexGoal
+Original:
+
+Revisions:
+Param's Explanation:
+
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT PerformanceRecordId
+		,GradeId
+		,Comment
+		,0 AS IsDraft
+		,CreatedDate
+		,record.ModifiedDate
+		,RoleId
+		,TypeId
+		,e.EmployeeId
+		,e.Code
+		,e.NickName
+		,e.FullName
+		,cre.EmployeeId
+		,cre.Code
+		,cre.NickName
+		,cre.FullName
+	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
+		LEFT JOIN dbo.Employee AS e WITH (NOLOCK) ON record.EmployeeId = e.EmployeeId
+		LEFT JOIN dbo.Employee AS cre WITH (NOLOCK) ON record.CreatorId = cre.EmployeeId
+	WHERE record.PerformanceRecordId = @PerformanceRecordId
+		AND record.CreatorId = @CreatorId
+		AND record.TypeId = 1
+
+	SELECT record.PerformanceRecordId
+		,prj.ProjectId
+		,prj.[Name]
+	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
+		OUTER APPLY [dbo].[func_SplitString](record.ProjectIds, ',') a
+		INNER JOIN dbo.ProjectTag AS prj WITH (NOLOCK) ON a.val = prj.ProjectId
+	WHERE record.PerformanceRecordId = @PerformanceRecordId
+		AND record.CreatorId = @CreatorId
+		AND record.TypeId = 1
+END
+
+GO
+
+
+CREATE OR ALTER PROCEDURE [dbo].[PerformanceRecord_GetByIds] @PerformanceRecordIds VARCHAR(MAX)
+	,@CreatorId INT
+AS
+/*
+Created: 20181127@Tim.Trinh
+Task: Get PCI by ids.
+DB: bodb_NexGoal
+Original:
+
+Revisions:
+Param's Explanation:
+
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+	CREATE TABLE #tblPerformanceRecordIds (PerformanceRecordId INT)
+
+	INSERT INTO #tblPerformanceRecordIds (PerformanceRecordId)
+	SELECT val
+	FROM dbo.func_SplitString(@PerformanceRecordIds, ',')
+	WHERE ISNUMERIC(val) = 1
+
+	SELECT record.PerformanceRecordId
+		,GradeId
+		,Comment
+		,0 AS IsDraft
+		,CreatedDate
+		,record.ModifiedDate
+		,RoleId
+		,TypeId
+		,e.EmployeeId
+		,e.Code
+		,e.NickName
+		,e.FullName
+		,cre.EmployeeId
+		,cre.Code
+		,cre.NickName
+		,cre.FullName
+	FROM #tblPerformanceRecordIds AS per
+		INNER JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON per.PerformanceRecordId = record.PerformanceRecordId
+		LEFT JOIN dbo.Employee AS e WITH (NOLOCK) ON record.EmployeeId = e.EmployeeId
+		LEFT JOIN dbo.Employee AS cre WITH (NOLOCK) ON record.CreatorId = cre.EmployeeId
+	ORDER BY CreatedDate DESC
+
+	SELECT record.PerformanceRecordId
+		,prj.ProjectId
+		,prj.[Name]
+	FROM #tblPerformanceRecordIds AS per
+		INNER JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON per.PerformanceRecordId = record.PerformanceRecordId
+		OUTER APPLY [dbo].[func_SplitString](record.ProjectIds, ',') a
+		INNER JOIN dbo.ProjectTag AS prj WITH (NOLOCK) ON a.val = prj.ProjectId
+
+	DROP TABLE #tblPerformanceRecordIds
+END
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[PerformanceRecord_GetMemberPerformance] @ActorId INT
+AS
+/*
+Created: 20181026@Tim.Trinh
+Task: Get member PCI.
+DB: bodb_NexGoal
+Original:
+
+Revisions:
+- 20200217@drake.doi: Get PR's feedback, reaction
+Param's Explanation:
+
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @PMProcessId TINYINT = 3
+		,@EvaluatorProcessId TINYINT = 4
+		,@ReviewerProcessId TINYINT = 5
+		,@Checkin TINYINT = 1
+
+	CREATE TABLE #tblMember (
+		EmployeeId INT
+		,IsHost BIT
+		)
+
+	CREATE TABLE #tblPerformanceRecord (
+		PerformanceRecordId INT
+		,GradeId VARCHAR(MAX)
+		,Comment NVARCHAR(MAX)
+		,IsDraft BIT
+		,ProjectIds VARCHAR(MAX)
+		,CreatedDate DATETIME
+		,ModifiedDate DATETIME
+		,RoleId TINYINT
+		,EmployeeIds VARCHAR(MAX)
+		,CreatorId INT
+		,TypeId TINYINT
+		)
+
+	INSERT INTO #tblMember (
+		EmployeeId
+		,IsHost
+		)
+	SELECT data.EmployeeId
+		,MAX(data.IsHost)
+	FROM (
+		SELECT EmployeeId
+			,(CASE 
+				WHEN ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId) THEN 1
+				ELSE 0 END
+				) AS IsHost
+		FROM dbo.func_GetMember(@ActorId)
+		WHERE ProcessId IN (@PMProcessId, @EvaluatorProcessId, @ReviewerProcessId)
+		) AS data
+	GROUP BY data.EmployeeId
+
+	INSERT INTO #tblPerformanceRecord (
+		PerformanceRecordId
+		,GradeId
+		,Comment
+		,IsDraft
+		,ProjectIds
+		,CreatedDate
+		,ModifiedDate
+		,RoleId
+		,EmployeeIds
+		,CreatorId
+		,TypeId
+		)
+	SELECT record.DraftPerformanceRecordId AS PerformanceRecordId
+		,record.GradeId
+		,record.Comment
+		,1 AS IsDraft
+		,record.ProjectIds
+		,record.CreatedDate
+		,record.ModifiedDate
+		,record.RoleId
+		,record.EmployeeIds
+		,record.CreatorId
+		,record.TypeId
+	FROM dbo.DraftPerformanceRecord AS record WITH (NOLOCK)
+	WHERE record.EmployeeIds <> CAST(record.CreatorId AS VARCHAR(20))
+		AND record.CreatorId = @ActorId
+	
+	UNION
+	SELECT record.PerformanceRecordId
+		,record.GradeId
+		,record.Comment
+		,0 AS IsDraft
+		,record.ProjectIds
+		,record.CreatedDate
+		,record.ModifiedDate
+		,record.RoleId
+		,CAST(record.EmployeeId AS VARCHAR(20))
+		,record.CreatorId
+		,record.TypeId
+	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeId = emp.EmployeeId
+		AND emp.[Enabled] = 1
+		AND emp.IsDeleted = 0
+		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
+		INNER JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
+	WHERE record.TypeId = @Checkin
+		AND (
+			member.IsHost = 1
+			OR (
+				member.IsHost = 0
+				AND (
+					record.CreatorId = member.EmployeeId
+					OR record.CreatorId = @ActorId
+					)
+				)
+			)
+
+	SELECT PerformanceRecordId
+		,GradeId
+		,Comment
+		,IsDraft
+		,CreatedDate
+		,record.ModifiedDate
+		,RoleId
+		,TypeId
+		,record.CreatorId AS EmployeeId
+		,cre.Code
+		,cre.NickName
+		,cre.FullName
+	FROM #tblPerformanceRecord AS record
+		LEFT JOIN dbo.Employee AS cre WITH (NOLOCK) ON record.CreatorId = cre.EmployeeId
+	ORDER BY CASE 
+			WHEN IsDraft = 1 THEN 1
+			ELSE 2
+			END
+		,CreatedDate DESC
+
+	SELECT record.PerformanceRecordId AS LinkObjectId
+		,e.EmployeeId
+		,e.Code
+		,e.NickName
+		,e.FullName
+	FROM #tblPerformanceRecord AS record
+		OUTER APPLY [dbo].[func_SplitString](record.EmployeeIds, ',') a
+		INNER JOIN dbo.Employee AS e WITH (NOLOCK) ON a.val = e.EmployeeId
+
+	SELECT record.PerformanceRecordId
+		,prj.ProjectId
+		,prj.[Name]
+	FROM #tblPerformanceRecord AS record
+		OUTER APPLY [dbo].[func_SplitString](record.ProjectIds, ',') a
+		INNER JOIN dbo.ProjectTag AS prj WITH (NOLOCK) ON a.val = prj.ProjectId
+
+	SELECT reaction.PRReactionId,
+		reaction.PerformanceRecordId,
+		reaction.RoleId,
+		reaction.CreatedDate,
+		creator.EmployeeId,
+		creator.Code,
+		creator.FullName,
+		creator.NickName
+	FROM PRReaction AS reaction WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON creator.EmployeeId = reaction.CreatorId
+		INNER JOIN #tblPerformanceRecord AS record ON record.IsDraft = 0 AND reaction.PerformanceRecordId = record.PerformanceRecordId 
+		INNER JOIN #tblMember AS mem ON mem.EmployeeId = CAST(record.EmployeeIds AS VARCHAR(20))
+	WHERE reaction.CreatorId = @ActorId
+		OR mem.IsHost = 1
+		OR record.CreatorId = @ActorId
+	ORDER BY reaction.CreatedDate ASC
+
+	SELECT feedback.PRFeedbackId,
+		feedback.PerformanceRecordId,
+		feedback.Content,
+		feedback.RoleId,
+		feedback.CreatedDate,
+		feedback.ModifiedDate,
+		creator.EmployeeId,
+		creator.Code,
+		creator.FullName,
+		creator.NickName
+	FROM PRFeedback AS feedback WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON creator.EmployeeId = feedback.CreatorId
+		INNER JOIN #tblPerformanceRecord AS record ON record.IsDraft = 0 AND feedback.PerformanceRecordId = record.PerformanceRecordId  
+		INNER JOIN #tblMember AS mem ON mem.EmployeeId = CAST(record.EmployeeIds AS VARCHAR(20))
+	WHERE feedback.CreatorId = @ActorId
+		OR mem.IsHost = 1
+	ORDER BY feedback.CreatedDate ASC
+
+	SELECT reaction.PRFeedbackReactionId,
+		reaction.PRFeedbackId,
+		reaction.CreatorId,
+		reaction.RoleId,
+		reaction.CreatedDate,
+		creator.EmployeeId,
+		creator.Code,
+		creator.FullName,
+		creator.NickName
+	FROM PRFeedbackReaction AS reaction WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON creator.EmployeeId = reaction.CreatorId
+		INNER JOIN PRFeedback AS feedback WITH (NOLOCK) ON feedback.PRFeedbackId = reaction.PRFeedbackId
+		INNER JOIN #tblPerformanceRecord AS record ON record.IsDraft = 0 AND feedback.PerformanceRecordId = record.PerformanceRecordId 
+		INNER JOIN #tblMember AS mem ON mem.EmployeeId = CAST(record.EmployeeIds AS VARCHAR(20))
+	WHERE reaction.CreatorId = @ActorId
+		OR feedback.CreatorId = @ActorId
+		OR mem.IsHost = 1
+	ORDER BY reaction.CreatedDate ASC
+
+	DROP TABLE #tblMember
+
+	DROP TABLE #tblPerformanceRecord
+END
+
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[PerformanceRecord_GetMemberPerformanceByMemberId] @ActorId INT
+	,@EmployeeId INT
+AS
+/*
+Created: 20181026@Tim.Trinh
+Task: Get PCI for a member.
+DB: bodb_NexGoal
+Original:
+
+Revisions:
+	20191118@elton.ton: get more information for system pa
+	20200217@drake.doi: Get PR's feedback, reaction
+Param's Explanation:
+
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @Today DATE = GETDATE()
+		,@EmployeeIdString VARCHAR(20)
+		,@PAClosed TINYINT = 4
+	-- process
+	DECLARE @PMProcessId TINYINT = 3
+		,@EvaluatorProcessId TINYINT = 4
+		,@ReviewerProcessId TINYINT = 5
+	-- Performance Record Type
+	DECLARE @Checkin TINYINT = 1
+		,@SystemPA TINYINT = 4
+		,@SystemNomination TINYINT = 5
+		,@IsHost BIT = 0
+
+	SET @EmployeeIdString = CAST(@EmployeeId AS VARCHAR(20))
+
+	CREATE TABLE #tblPerformanceRecord (
+		PerformanceRecordId INT
+		,GradeId VARCHAR(MAX)
+		,Comment NVARCHAR(MAX)
+		,IsDraft BIT
+		,ProjectIds VARCHAR(MAX)
+		,CreatedDate DATETIME
+		,ModifiedDate DATETIME
+		,RoleId TINYINT
+		,EmployeeIds VARCHAR(MAX)
+		,CreatorId INT
+		,NominationStatusId TINYINT
+		,TypeId TINYINT
+		,NominationPeriodId INT
+		,[Quarter] TINYINT
+		,[Year] INT
+		,PeriodId INT
+		,PeriodName NVARCHAR(300)
+		)
+
+	SELECT @IsHost = MAX(data.IsHost)
+	FROM (
+		SELECT EmployeeId
+			,(CASE 
+				WHEN ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId) THEN 1
+				ELSE 0 END
+				) AS IsHost
+		FROM dbo.func_GetMember(@ActorId)
+		WHERE EmployeeId = @EmployeeId
+			AND ProcessId IN (@PMProcessId, @EvaluatorProcessId, @ReviewerProcessId)
+		) AS data
+	GROUP BY data.EmployeeId
+
+	INSERT INTO #tblPerformanceRecord (
+		PerformanceRecordId
+		,GradeId
+		,Comment
+		,IsDraft
+		,ProjectIds
+		,CreatedDate
+		,ModifiedDate
+		,RoleId
+		,EmployeeIds
+		,CreatorId
+		,TypeId
+		,NominationStatusId
+		,NominationPeriodId
+		,[Quarter]
+		,[Year]
+		,PeriodId
+		,PeriodName
+		)
+	SELECT data.PerformanceRecordId
+		,data.GradeId
+		,data.Comment
+		,data.IsDraft
+		,data.ProjectIds
+		,data.CreatedDate
+		,data.ModifiedDate
+		,data.RoleId
+		,data.EmployeeIds
+		,data.CreatorId
+		,data.TypeId
+		,data.NominationStatusId
+		,data.NominationPeriodId
+		,data.[Quarter]
+		,data.[Year]
+		,data.PeriodId
+		,data.PeriodName
+	FROM (
+		SELECT record.DraftPerformanceRecordId AS PerformanceRecordId
+			,record.GradeId
+			,record.Comment
+			,1 AS IsDraft
+			,record.ProjectIds
+			,record.CreatedDate
+			,record.ModifiedDate
+			,record.RoleId
+			,record.EmployeeIds
+			,record.CreatorId
+			,record.TypeId
+			,NULL AS NominationStatusId
+			,NULL AS NominationPeriodId
+			,NULL AS [Quarter]
+			,NULL AS [Year]
+			,NULL AS PeriodId
+			,NULL AS PeriodName
+		FROM dbo.DraftPerformanceRecord AS record WITH (NOLOCK)
+		WHERE record.EmployeeIds <> CAST(record.CreatorId AS VARCHAR(20))
+			AND record.CreatorId = @ActorId
+			AND (
+				@EmployeeIdString = ''
+				OR record.EmployeeIds LIKE @EmployeeIdString
+				OR record.EmployeeIds LIKE @EmployeeIdString + ',%'
+				OR record.EmployeeIds LIKE '%,' + @EmployeeIdString + ',%'
+				OR record.EmployeeIds LIKE '%,' + @EmployeeIdString
+				)
+		
+		UNION
+		SELECT record.PerformanceRecordId
+			,record.GradeId
+			,record.Comment
+			,0 AS IsDraft
+			,record.ProjectIds
+			,record.CreatedDate
+			,record.ModifiedDate
+			,record.RoleId
+			,CAST(record.EmployeeId AS VARCHAR(20))
+			,record.CreatorId
+			,record.TypeId
+			,NULL AS NominationStatusId
+			,NULL AS NominationPeriodId
+			,NULL AS [Quarter]
+			,NULL AS [Year]
+			,p.PeriodId
+			,p.[Name] AS PeriodName
+		FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
+			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeId = emp.EmployeeId
+			AND emp.[Enabled] = 1
+			AND emp.IsDeleted = 0
+			LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
+			LEFT JOIN dbo.PARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
+			AND emp.EmployeeId = pa.EmployeeId
+			AND pa.StatusId = @PAClosed
+			LEFT JOIN dbo.Period AS p WITH (NOLOCK) ON pa.PeriodId = p.PeriodId
+			AND p.IsActive = 1
+		WHERE record.EmployeeId = @EmployeeId
+			AND (
+				record.TypeId = @Checkin
+				OR (
+					record.TypeId = @SystemPA
+					AND pa.PerformanceRecordId IS NOT NULL
+					AND p.PeriodId IS NOT NULL
+					)
+				)
+			AND (
+				@IsHost = 1
+				OR (
+					@IsHost = 0
+					AND (
+						record.CreatorId = @EmployeeId
+						OR record.CreatorId = @ActorId
+						)
+					)
+				)
+		
+		UNION
+		SELECT record.PerformanceRecordId
+			,record.GradeId
+			,record.Comment
+			,0 AS IsDraft
+			,record.ProjectIds
+			,record.CreatedDate
+			,record.ModifiedDate
+			,record.RoleId
+			,CAST(record.EmployeeId AS VARCHAR(20))
+			,record.CreatorId
+			,record.TypeId
+			,nomination.StatusId AS NominationStatusId
+			,nomination.EOQYId AS NominationPeriodId
+			,period.[Quarter]
+			,period.[Year]
+			,NULL AS PeriodId
+			,NULL AS PeriodName
+		FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
+			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeId = emp.EmployeeId
+			INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON emp.EmployeeId = nomination.NomineeId
+			AND record.PerformanceRecordId = nomination.PerformanceRecordId
+			INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
+			AND period.EndDateForCommittee < @Today
+		WHERE emp.EmployeeId = @EmployeeId
+			AND record.TypeId = @SystemNomination
+			AND record.CreatorId = - 1
+		) AS data
+
+	SELECT PerformanceRecordId
+		,GradeId
+		,Comment
+		,IsDraft
+		,CreatedDate
+		,record.ModifiedDate
+		,RoleId
+		,TypeId
+		,NominationStatusId
+		,record.CreatorId AS EmployeeId
+		,cre.Code
+		,cre.NickName
+		,cre.FullName
+		,NominationPeriodId
+		,[Quarter]
+		,[Year]
+		,PeriodId
+		,PeriodName AS [Name]
+	FROM #tblPerformanceRecord AS record
+		LEFT JOIN dbo.Employee AS cre WITH (NOLOCK) ON record.CreatorId = cre.EmployeeId
+	ORDER BY CASE 
+			WHEN IsDraft = 1 THEN 1
+			ELSE 2
+			END
+		,CreatedDate DESC
+
+	SELECT record.PerformanceRecordId AS LinkObjectId
+		,e.EmployeeId
+		,e.Code
+		,e.NickName
+		,e.FullName
+	FROM #tblPerformanceRecord AS record
+		OUTER APPLY [dbo].[func_SplitString](record.EmployeeIds, ',') a
+		INNER JOIN dbo.Employee AS e WITH (NOLOCK) ON a.val = e.EmployeeId
+
+	SELECT record.PerformanceRecordId
+		,prj.ProjectId
+		,prj.[Name]
+	FROM #tblPerformanceRecord AS record
+		OUTER APPLY [dbo].[func_SplitString](record.ProjectIds, ',') a
+		INNER JOIN dbo.ProjectTag AS prj WITH (NOLOCK) ON a.val = prj.ProjectId
+
+	SELECT pa.PARecordId
+		,pa.PerformanceRecordId
+		,pa.OriginalGradeId
+		,pa.Toeic
+		,pa.ToeicPolicy
+	FROM dbo.PARecord AS pa WITH (NOLOCK)
+		INNER JOIN dbo.Period AS p WITH (NOLOCK) ON pa.PeriodId = p.PeriodId
+		AND p.IsActive = 1
+	WHERE pa.StatusId = @PAClosed
+		AND pa.PerformanceRecordId IS NOT NULL
+
+	SELECT pa.PARecordId
+		,pap.ProcessId
+		,rr.Value AS Process
+		,pap.GradeId
+		,pap.RelatedPerformanceRecordIds
+	FROM dbo.PARecord AS pa WITH (NOLOCK)
+		INNER JOIN dbo.Period AS p WITH (NOLOCK) ON pa.PeriodId = p.PeriodId
+		AND p.IsActive = 1
+		INNER JOIN dbo.PAProcess pap WITH (NOLOCK) ON pa.PARecordId = pap.PARecordId
+		INNER JOIN dbo.RefResource rr WITH (NOLOCK) ON pap.ProcessId = rr.ResourceId
+		AND rr.RefName = 'PerformanceProcess'
+	WHERE pa.StatusId = @PAClosed
+		AND pa.PerformanceRecordId IS NOT NULL
+		AND pap.ProcessId > 1
+
+	SELECT reaction.PRReactionId
+		,reaction.PerformanceRecordId
+		,reaction.RoleId
+		,reaction.CreatedDate
+		,creator.EmployeeId
+		,creator.Code
+		,creator.FullName
+		,creator.NickName
+	FROM dbo.PRReaction AS reaction WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON creator.EmployeeId = reaction.CreatorId
+		INNER JOIN #tblPerformanceRecord AS record ON record.IsDraft = 0
+		AND reaction.PerformanceRecordId = record.PerformanceRecordId
+	WHERE reaction.CreatorId = @ActorId
+		OR @IsHost = 1
+	ORDER BY reaction.CreatedDate ASC
+
+	SELECT feedback.PRFeedbackId
+		,feedback.PerformanceRecordId
+		,feedback.Content
+		,feedback.RoleId
+		,feedback.CreatedDate
+		,feedback.ModifiedDate
+		,creator.EmployeeId
+		,creator.Code
+		,creator.FullName
+		,creator.NickName
+	FROM dbo.PRFeedback AS feedback WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON creator.EmployeeId = feedback.CreatorId
+		INNER JOIN #tblPerformanceRecord AS record ON record.IsDraft = 0
+		AND feedback.PerformanceRecordId = record.PerformanceRecordId
+	WHERE feedback.CreatorId = @ActorId
+		OR @IsHost = 1
+	ORDER BY feedback.CreatedDate ASC
+
+	SELECT reaction.PRFeedbackReactionId
+		,reaction.PRFeedbackId
+		,reaction.CreatorId
+		,reaction.RoleId
+		,reaction.CreatedDate
+		,creator.EmployeeId
+		,creator.Code
+		,creator.FullName
+		,creator.NickName
+	FROM dbo.PRFeedbackReaction AS reaction WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON creator.EmployeeId = reaction.CreatorId
+		INNER JOIN PRFeedback AS feedback WITH (NOLOCK) ON feedback.PRFeedbackId = reaction.PRFeedbackId
+		INNER JOIN #tblPerformanceRecord AS record ON record.IsDraft = 0
+		AND feedback.PerformanceRecordId = record.PerformanceRecordId
+	WHERE reaction.CreatorId = @ActorId
+		OR feedback.CreatorId = @ActorId
+		OR @IsHost = 1
+	ORDER BY reaction.CreatedDate ASC
+
+	DROP TABLE #tblPerformanceRecord
+END
+
+GO

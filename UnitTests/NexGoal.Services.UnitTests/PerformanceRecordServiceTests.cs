@@ -11,7 +11,7 @@
     using NexGoal.Models.Common;
     using NexGoal.Models.PerformanceRecord;
     using NexGoal.Models.Period;
-    using NexGoal.Repositories.Interfaces;
+    using NexGoal.Repositories;
     using NSubstitute;
     using Xunit;
 

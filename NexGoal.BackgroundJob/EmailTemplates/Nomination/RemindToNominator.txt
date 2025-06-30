@@ -1,0 +1,13 @@
+﻿<div>
+    <strong>Dear {0},</strong>
+</div>
+<p>
+    The Nomination process for the {1} is going to be closed at 23:59, {2}.
+    <br />
+    Please log in to <a href="{3}">**SystemName**</a> to nominate for your nominee(s).
+    <br />
+    <br />
+    Thank you,
+    <br />
+    **SystemName**
+</p>

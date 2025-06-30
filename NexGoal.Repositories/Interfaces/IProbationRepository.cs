@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Repositories
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Fanex.Data.Repository;
@@ -17,6 +16,6 @@
 
         Task<HRMModel> GetHRM(ICriteria criteria);
 
-        Task<ValueTuple<IEnumerable<Group>, IEnumerable<Employee>>> GetGroupsAndEmployeesAsync(ICriteria criteria);
+        Task<(IEnumerable<Group>, IEnumerable<Employee>)> GetGroupsAndEmployeesAsync(ICriteria criteria);
     }
 }

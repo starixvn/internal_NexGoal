@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services
 {
-    using System;
     using System.Threading.Tasks;
     using NexGoal.Models.PARecord;
     using NexGoal.Models.Report;
@@ -9,6 +8,6 @@
     {
         Task<byte[]> ExportExcelAsync(GetPARecordMultiPeriodParam param);
 
-        Task<ValueTuple<string, byte[]>> ExportPdfAsync(PAReportDetail reportDetail);
+        Task<(string, byte[])> ExportPdfAsync(PAReportDetail reportDetail);
     }
 }

@@ -1,0 +1,14 @@
+﻿<div>
+    <strong>Dear {0},</strong>
+</div>
+<p>
+    The PA Focus for the {1} is in progress and will end at 23:59, {2}.
+    <br />
+    Please log in to <a href="{3}">**SystemName**</a> to set the objectives for your team members.
+    <br />
+    <br />
+    Thank you,
+    <br />
+    **SystemName**
+</p>
+

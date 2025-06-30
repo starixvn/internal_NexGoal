@@ -1,0 +1,162 @@
+USE NexGoal2;
+GO
+
+EXEC sp_rename 'Employee', 'Employee_bk';
+EXEC sp_rename 'EmployeeAttendance', 'EmployeeAttendance_bk';
+EXEC sp_rename 'EmployeeCalendar', 'EmployeeCalendar_bk';
+EXEC sp_rename 'EmployeeOvertime', 'EmployeeOvertime_bk';
+EXEC sp_rename 'TOEIC', 'TOEIC_bk';
+EXEC sp_rename 'JobTitle', 'JobTitle_bk';
+EXEC sp_rename 'WorkingTimeRequest', 'WorkingTimeRequest_bk';
+EXEC sp_rename 'Group', 'Group_bk';
+
+GO
+
+CREATE TABLE [dbo].[Employee](
+	[EmployeeId] [int] NOT NULL,
+	[DomainUsername] [nvarchar](255) NULL,
+	[Code] [nvarchar](50) NULL,
+	[FullName] [nvarchar](255) NULL,
+	[NickName] [nvarchar](255) NULL,
+	[GroupId] [int] NULL,
+	[Enabled] [bit] NULL,
+	[IsDeleted] [bit] NULL,
+	[JoinedDate] [date] NULL,
+	[ConfirmedDate] [date] NULL,
+	[JobTitleId] [int] NULL,
+	[Email] [nvarchar](255) NULL,
+	[ConversationId] [nvarchar](255) NULL,
+	[ModifiedDate] [datetime] NULL,
+	[SyncDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[EmployeeId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+CREATE TABLE [dbo].[Group](
+	[GroupId] [int] NOT NULL,
+	[Code] [varchar](20) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+	[DepartmentId] [int] NULL,
+	[Rank] [int] NULL,
+	[IsDeleted] [bit] NULL,
+	[ParentId] [int] NULL,
+	[ModifiedDate] [datetime] NULL,
+	[SyncDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[GroupId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[EmployeeAttendance](
+	[Id] [bigint] NOT NULL,
+	[EmpId] [int] NOT NULL,
+	[AttendanceDate] [datetime] NOT NULL,
+	[InFixed] [datetime] NULL,
+	[OutFixed] [datetime] NULL,
+	[LeaveTypeId] [int] NULL,
+	[TotalWorkHours] [decimal](18, 2) NULL,
+	[LeaveDay] [decimal](18, 1) NULL,
+	[LeaveTypeId2] [int] NULL,
+	[LateIn] [int] NULL,
+	[EarlyOut] [int] NULL,
+	[Absence] [bit] NULL,
+	[InsertDate] [datetime] NULL,
+	[SyncDate] [datetime] NULL,
+ CONSTRAINT [PK_EmployeeAttendance] PRIMARY KEY NONCLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+CREATE TABLE [dbo].[EmployeeCalendar](
+	[Id] [bigint] NOT NULL,
+	[EmpId] [int] NOT NULL,
+	[WorkDate] [datetime] NOT NULL,
+	[IsOffDay] [bit] NULL,
+	[IsHoliday] [bit] NULL,
+	[IsLeaveDay] [bit] NULL,
+	[LeaveDay] [decimal](18, 1) NULL,
+	[ModifiedDate] [datetime] NULL,
+	[SyncDate] [datetime] NULL,
+ CONSTRAINT [PK_EmployeeCalendar] PRIMARY KEY NONCLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[EmployeeOvertime](
+	[OvertimeId] [int] NOT NULL,
+	[EmployeeId] [int] NOT NULL,
+	[Date] [datetime] NOT NULL,
+	[Hour] [numeric](18, 1) NOT NULL,
+	[ModifiedDate] [datetime] NULL,
+	[SyncDate] [datetime] NULL,
+ CONSTRAINT [PK_EmployeeOvertime] PRIMARY KEY CLUSTERED 
+(
+	[OvertimeId] ASC,
+	[EmployeeId] ASC,
+	[Date] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[TOEIC](
+	[EmpId] [int] NOT NULL,
+	[MinimumScore] [int] NULL,
+	[Listening] [int] NULL,
+	[Reading] [int] NULL,
+	[LRExamDate] [datetime] NULL,
+	[InputDate] [datetime] NULL,
+	[ModifiedDate] [datetime] NULL,
+	[SyncDate] [datetime] NULL,
+ CONSTRAINT [PK_TOEIC] PRIMARY KEY CLUSTERED 
+(
+	[EmpId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[JobTitle](
+	[JobTitleId] [int] NOT NULL,
+	[Name] [nvarchar](100) NOT NULL,
+	[ModifiedDate] [datetime] NULL,
+	[SyncDate] [datetime] NULL,
+ CONSTRAINT [PK_JobTitle] PRIMARY KEY CLUSTERED 
+(
+	[JobTitleId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+CREATE TABLE [dbo].[WorkingTimeRequest](
+	[Id] [bigint] NOT NULL,
+	[EmpId] [int] NOT NULL,
+	[RequestType] [smallint] NOT NULL,
+	[Status] [tinyint] NOT NULL,
+	[FromDate] [datetime] NOT NULL,
+	[ToDate] [datetime] NULL,
+	[TotalDays] [numeric](5, 1) NULL,
+	[ModifiedDate] [datetime] NULL,
+	[SyncDate] [datetime] NULL,
+ CONSTRAINT [PK_WorkingTimeRequest] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+
+
+
+
