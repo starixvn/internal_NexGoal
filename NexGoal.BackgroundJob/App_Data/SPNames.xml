@@ -18,36 +18,37 @@
         <Setting Key="Auto_Notification_Insert" SpName="Auto_Notification_Insert" DbName="bodb_NexGoal" Plain="0" />
         <Setting Key="Auto_Probation_GetSettingToSendNotification" SpName="Auto_Probation_GetSettingToSendNotification" DbName="bodb_NexGoal" Plain="0" />
         <Setting Key="Auto_Probation_InsertNewEmployee" SpName="Auto_Probation_InsertNewEmployee" DbName="bodb_NexGoal" Plain="0" />
+        <Setting Key="PerformanceGrade_Get" SpName="PerformanceGrade_Get" DbName="bodb_NexGoal" Plain="0" />
     </Function>
     <Function Name="Redmine">
-        <Setting Key="CustomValues_GetMaxId" SpName="CustomValues_GetMaxId" DbName="Redmine" Plain="0"></Setting>
-        <Setting Key="Projects_GetLastUpdated" SpName="Projects_GetLastUpdated" DbName="Redmine" Plain="0"></Setting>
-        <Setting Key="TimeEntries_GetLastUpdated" SpName="TimeEntries_GetLastUpdated" DbName="Redmine" Plain="0"></Setting>
-        <Setting Key="Users_GetLastUpdated" SpName="Users_GetLastUpdated" DbName="Redmine" Plain="0"></Setting>
-        <Setting Key="CustomValues_Sync" SpName="CustomValues_Sync" DbName="Redmine" Plain="0"></Setting>
-        <Setting Key="Projects_Sync" SpName="Projects_Sync" DbName="Redmine" Plain="0"></Setting>
-        <Setting Key="TimeEntries_Sync" SpName="TimeEntries_Sync" DbName="Redmine" Plain="0"></Setting>
-        <Setting Key="Users_Sync" SpName="Users_Sync" DbName="Redmine" Plain="0"></Setting>
-        <Setting Key="Sync_CustomValues_GetByMinId" SpName="Sync_CustomValues_GetByMinId" DbName="Nexdev" Plain="0"></Setting>
-        <Setting Key="Sync_Project_GetByLastUpdated" SpName="Sync_Project_GetByLastUpdated" DbName="Nexdev" Plain="0"></Setting>
-        <Setting Key="Sync_TimeEntries_GetByLastUpdated" SpName="Sync_TimeEntries_GetByLastUpdated" DbName="Nexdev" Plain="0"></Setting>
-        <Setting Key="Sync_Users_GetByLastUpdated" SpName="Sync_Users_GetByLastUpdated" DbName="Nexdev" Plain="0"></Setting>
+        <Setting Key="CustomValues_GetMaxId" SpName="CustomValues_GetMaxId" DbName="Redmine" Plain="0" />
+        <Setting Key="Projects_GetLastUpdated" SpName="Projects_GetLastUpdated" DbName="Redmine" Plain="0" />
+        <Setting Key="TimeEntries_GetLastUpdated" SpName="TimeEntries_GetLastUpdated" DbName="Redmine" Plain="0" />
+        <Setting Key="Users_GetLastUpdated" SpName="Users_GetLastUpdated" DbName="Redmine" Plain="0" />
+        <Setting Key="CustomValues_Sync" SpName="CustomValues_Sync" DbName="Redmine" Plain="0" />
+        <Setting Key="Projects_Sync" SpName="Projects_Sync" DbName="Redmine" Plain="0" />
+        <Setting Key="TimeEntries_Sync" SpName="TimeEntries_Sync" DbName="Redmine" Plain="0" />
+        <Setting Key="Users_Sync" SpName="Users_Sync" DbName="Redmine" Plain="0" />
+        <Setting Key="Sync_CustomValues_GetByMinId" SpName="Sync_CustomValues_GetByMinId" DbName="Nexdev" Plain="0" />
+        <Setting Key="Sync_Project_GetByLastUpdated" SpName="Sync_Project_GetByLastUpdated" DbName="Nexdev" Plain="0" />
+        <Setting Key="Sync_TimeEntries_GetByLastUpdated" SpName="Sync_TimeEntries_GetByLastUpdated" DbName="Nexdev" Plain="0" />
+        <Setting Key="Sync_Users_GetByLastUpdated" SpName="Sync_Users_GetByLastUpdated" DbName="Nexdev" Plain="0" />
   </Function>
     <Function>
-        <Setting Key="SyncEmployee_GetLastModifiedDate" SpName="SyncEmployee_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0"></Setting>
-        <Setting Key="SyncEmployee_Import" SpName="SyncEmployee_Import" DbName="bodb_NexGoal" Plain="0"></Setting>
-        <Setting Key="SyncGroup_GetLastModifiedDate" SpName="SyncGroup_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0"></Setting>
-        <Setting Key="SyncGroup_Import" SpName="SyncGroup_Import" DbName="bodb_NexGoal" Plain="0"></Setting>
-        <Setting Key="SyncEmployeeAttendance_GetLastModifiedDate" SpName="SyncEmployeeAttendance_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0"></Setting>
-        <Setting Key="SyncEmployeeAttendance_Import" SpName="SyncEmployeeAttendance_Import" DbName="bodb_NexGoal" Plain="0"></Setting>
-        <Setting Key="SyncEmployeeCalendar_GetLastModifiedDate" SpName="SyncEmployeeCalendar_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0"></Setting>
-        <Setting Key="SyncEmployeeCalendar_Import" SpName="SyncEmployeeCalendar_Import" DbName="bodb_NexGoal" Plain="0"></Setting>
-        <Setting Key="SyncEmployeeOvertime_GetLastModifiedDate" SpName="SyncEmployeeOvertime_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0"></Setting>
-        <Setting Key="SyncEmployeeOvertime_Import" SpName="SyncEmployeeOvertime_Import" DbName="bodb_NexGoal" Plain="0"></Setting>
-        <Setting Key="SyncTOEIC_GetLastModifiedDate" SpName="SyncTOEIC_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0"></Setting>
-        <Setting Key="SyncTOEIC_Import" SpName="SyncTOEIC_Import" DbName="bodb_NexGoal" Plain="0"></Setting>
-        <Setting Key="SyncJobTitle_Import" SpName="SyncJobTitle_Import" DbName="bodb_NexGoal" Plain="0"></Setting>
-        <Setting Key="SyncWorkingTimeRequest_GetLastModifiedDate" SpName="SyncWorkingTimeRequest_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0"></Setting>
-        <Setting Key="SyncWorkingTimeRequest_Import" SpName="SyncWorkingTimeRequest_Import" DbName="bodb_NexGoal" Plain="0"></Setting>
+        <Setting Key="SyncEmployee_GetLastModifiedDate" SpName="SyncEmployee_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0" />
+        <Setting Key="SyncEmployee_Import" SpName="SyncEmployee_Import" DbName="bodb_NexGoal" Plain="0" />
+        <Setting Key="SyncGroup_GetLastModifiedDate" SpName="SyncGroup_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0" />
+        <Setting Key="SyncGroup_Import" SpName="SyncGroup_Import" DbName="bodb_NexGoal" Plain="0" />
+        <Setting Key="SyncEmployeeAttendance_GetLastModifiedDate" SpName="SyncEmployeeAttendance_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0" />
+        <Setting Key="SyncEmployeeAttendance_Import" SpName="SyncEmployeeAttendance_Import" DbName="bodb_NexGoal" Plain="0" />
+        <Setting Key="SyncEmployeeCalendar_GetLastModifiedDate" SpName="SyncEmployeeCalendar_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0" />
+        <Setting Key="SyncEmployeeCalendar_Import" SpName="SyncEmployeeCalendar_Import" DbName="bodb_NexGoal" Plain="0" />
+        <Setting Key="SyncEmployeeOvertime_GetLastModifiedDate" SpName="SyncEmployeeOvertime_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0" />
+        <Setting Key="SyncEmployeeOvertime_Import" SpName="SyncEmployeeOvertime_Import" DbName="bodb_NexGoal" Plain="0" />
+        <Setting Key="SyncTOEIC_GetLastModifiedDate" SpName="SyncTOEIC_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0" />
+        <Setting Key="SyncTOEIC_Import" SpName="SyncTOEIC_Import" DbName="bodb_NexGoal" Plain="0" />
+        <Setting Key="SyncJobTitle_Import" SpName="SyncJobTitle_Import" DbName="bodb_NexGoal" Plain="0" />
+        <Setting Key="SyncWorkingTimeRequest_GetLastModifiedDate" SpName="SyncWorkingTimeRequest_GetLastModifiedDate" DbName="bodb_NexGoal" Plain="0" />
+        <Setting Key="SyncWorkingTimeRequest_Import" SpName="SyncWorkingTimeRequest_Import" DbName="bodb_NexGoal" Plain="0" />
     </Function>
 </Functions>
