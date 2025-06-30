@@ -4,7 +4,7 @@ namespace NexGoal.BackgroundJob.Criteria.Hrm
 
     public class SyncGroupGetLastModifiedDateCriteria : CriteriaBase
     {
-        public override string GetSettingKey() => "SyncEmployee_GetLastModifiedDate";
+        public override string GetSettingKey() => "SyncGroup_GetLastModifiedDate";
 
         public override bool IsValid() => true;
     }
