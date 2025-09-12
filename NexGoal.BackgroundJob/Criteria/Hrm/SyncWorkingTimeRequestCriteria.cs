@@ -1,9 +1,8 @@
 namespace NexGoal.BackgroundJob.Criteria.Hrm
 {
-    using System;
     using System.Collections.Generic;
-    using System.Text;
     using System.Linq;
+    using System.Text;
     using Fanex.Data;
     using NexGoal.BackgroundJob.Models.Hrm;
     using NexGoal.Core.Criteria;
@@ -11,7 +10,7 @@ namespace NexGoal.BackgroundJob.Criteria.Hrm
     public class SyncWorkingTimeRequestCriteria : CommandBaseCriteria
     {
         private const string _WorkingTimeRequestTpl = "<WorkingTimeRequest Id='{0}' EmpId='{1}' RequestType='{2}' " +
-            "Status='{3}' FromDate='{4}' ToDate='{5}' TotalDays='{6}' ModifiedDate='{7}'></WorkingTimeRequest>";
+            "Status='{3}' FromDate='{4}' ToDate='{5}' TotalDays='{6}' ModifiedDate='{7}' />";
 
         [SpParam(Ignored = true)]
         public IList<WorkingTimeRequest> WorkingTimeRequests { get; set; }
@@ -37,6 +36,7 @@ namespace NexGoal.BackgroundJob.Criteria.Hrm
                             request.ModifiedDate);
                     }
                 }
+
                 return value.Append("</ROOT>").ToString();
             }
         }
@@ -45,4 +45,4 @@ namespace NexGoal.BackgroundJob.Criteria.Hrm
 
         public override bool IsValid() => WorkingTimeRequests != null && WorkingTimeRequests.Any();
     }
-} 
+}

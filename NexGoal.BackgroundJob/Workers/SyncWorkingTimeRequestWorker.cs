@@ -1,28 +1,21 @@
 namespace NexGoal.BackgroundJob.Workers
 {
     using NexGoal.BackgroundJob.Criteria.Hrm;
-    using NexGoal.BackgroundJob.Services;
-    using NexGoal.BackgroundJob.Services.Interface;
+    using NexGoal.BackgroundJob.Services.Interfaces;
     using NexGoal.Core.Models;
-    using NexGoal.Core.Services;
 
     public class SyncWorkingTimeRequestWorker : BaseWorker
     {
-        private readonly IBaseService baseService;
         private readonly IWorkingTimeRequestService workingTimeRequestService;
-        private readonly ILogger<SyncWorkingTimeRequestWorker> logfile;
 
         public SyncWorkingTimeRequestWorker(
             Fanex.Logging.ILogger logger,
             ILogger<SyncWorkingTimeRequestWorker> logfile,
             List<JobSetting> jobSettings,
-            IBaseService baseService,
             IWorkingTimeRequestService workingTimeRequestService) : base(logger, logfile)
         {
             jobSetting = JobHelper.GetJobConfig(jobSettings, JobConstants.SyncWorkingTimeRequestJob);
-            this.baseService = baseService;
             this.workingTimeRequestService = workingTimeRequestService;
-            this.logfile = logfile;
         }
 
         public override async Task ExecuteJobAsync()
@@ -36,4 +29,4 @@ namespace NexGoal.BackgroundJob.Workers
             }
         }
     }
-} 
+}

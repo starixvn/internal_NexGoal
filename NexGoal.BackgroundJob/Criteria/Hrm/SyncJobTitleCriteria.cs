@@ -1,16 +1,15 @@
 namespace NexGoal.BackgroundJob.Criteria.Hrm
 {
-    using System;
     using System.Collections.Generic;
-    using System.Text;
     using System.Linq;
+    using System.Text;
     using Fanex.Data;
     using NexGoal.BackgroundJob.Models.Hrm;
     using NexGoal.Core.Criteria;
 
     public class SyncJobTitleCriteria : CommandBaseCriteria
     {
-        private const string _JobTitleTpl = "<JobTitle Id='{0}' Name='{1}' ModifiedDate='{2}' ></JobTitle>";
+        private const string _JobTitleTpl = "<JobTitle Id='{0}' Name='{1}' ModifiedDate='{2}' />";
 
         [SpParam(Ignored = true)]
         public IList<JobTitle> JobTitles { get; set; }
@@ -24,13 +23,10 @@ namespace NexGoal.BackgroundJob.Criteria.Hrm
                 {
                     foreach (var jobTitle in JobTitles)
                     {
-                        value.AppendFormat(
-                            _JobTitleTpl,
-                            jobTitle.Id,
-                            jobTitle.Name,
-                            jobTitle.ModifiedDate);
+                        value.AppendFormat(_JobTitleTpl, jobTitle.Id, jobTitle.Name, jobTitle.ModifiedDate);
                     }
                 }
+
                 return value.Append("</ROOT>").ToString();
             }
         }
@@ -39,4 +35,4 @@ namespace NexGoal.BackgroundJob.Criteria.Hrm
 
         public override bool IsValid() => JobTitles != null && JobTitles.Any();
     }
-} 
+}

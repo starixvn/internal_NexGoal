@@ -5,10 +5,9 @@ namespace NexGoal.BackgroundJob.Services
     using System.Threading.Tasks;
     using NexGoal.BackgroundJob.Criteria.Hrm;
     using NexGoal.BackgroundJob.Models.Hrm;
-    using NexGoal.BackgroundJob.Services.Interface;
+    using NexGoal.BackgroundJob.Services.Interfaces;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
-    using Newtonsoft.Json;
 
     public class JobTitleService(
         IBaseService baseService,
@@ -17,12 +16,13 @@ namespace NexGoal.BackgroundJob.Services
     {
         public async Task<IEnumerable<JobTitle>> GetJobTitlesAsync(DateTime? lastModifiedDate = null)
         {
-            var parameters = new Dictionary<string, object>{
-                {"lastModifiedDate", lastModifiedDate?.ToString("yyyy-MM-ddTHH:mm:ssZ") ?? new DateTime(2020, 1, 1).ToString("yyyy-MM-ddTHH:mm:ssZ")}
+            var defaultModifiedDate = new DateTimeOffset(2020, 1, 1, 0, 0, 0, TimeSpan.Zero).DateTime;
+            var parameters = new Dictionary<string, object>
+            {
+                {"lastModifiedDate", lastModifiedDate?.ToString("yyyy-MM-ddTHH:mm:ssZ") ?? defaultModifiedDate.ToString("yyyy-MM-ddTHH:mm:ssZ")}
             };
 
             return await httpClientService.ExecuteGetAsync<List<JobTitle>>(syncHrmApiSettings.Url + "/jobtitle", syncHrmApiSettings.ApiKey, parameters);
-
         }
 
         public async Task<CommandResult> ImportJobTitlesAsync(SyncJobTitleCriteria criteria)
@@ -30,4 +30,4 @@ namespace NexGoal.BackgroundJob.Services
             return await baseService.ExecuteNonQueryAsync(criteria);
         }
     }
-} 
+}

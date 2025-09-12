@@ -19,5 +19,4 @@ namespace NexGoal.BackgroundJob.Models.Hrm
         public string ConversationId { get; set; }
         public DateTime? ModifiedDate { get; set; }
     }
-
 }

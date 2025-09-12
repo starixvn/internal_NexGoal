@@ -1,4 +1,4 @@
-namespace NexGoal.BackgroundJob.Services.Interface
+namespace NexGoal.BackgroundJob.Services.Interfaces
 {
     using System;
     using System.Collections.Generic;
@@ -10,6 +10,7 @@ namespace NexGoal.BackgroundJob.Services.Interface
     public interface IJobTitleService
     {
         Task<IEnumerable<JobTitle>> GetJobTitlesAsync(DateTime? lastModifiedDate = null);
+
         Task<CommandResult> ImportJobTitlesAsync(SyncJobTitleCriteria criteria);
     }
-} 
+}

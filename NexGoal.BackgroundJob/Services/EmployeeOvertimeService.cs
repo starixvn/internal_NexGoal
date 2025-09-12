@@ -5,7 +5,7 @@ namespace NexGoal.BackgroundJob.Services
     using System.Threading.Tasks;
     using NexGoal.BackgroundJob.Criteria.Hrm;
     using NexGoal.BackgroundJob.Models.Hrm;
-    using NexGoal.BackgroundJob.Services.Interface;
+    using NexGoal.BackgroundJob.Services.Interfaces;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
 
@@ -16,18 +16,19 @@ namespace NexGoal.BackgroundJob.Services
     {
         public async Task<IEnumerable<EmployeeOvertime>> GetOvertimesAsync(DateTime? lastModifiedDate = null)
         {
-            var parameters = new Dictionary<string, object>{
-                {"lastModifiedDate", lastModifiedDate?.ToString("yyyy-MM-ddTHH:mm:ssZ") ?? new DateTime(2020, 1, 1).ToString("yyyy-MM-ddTHH:mm:ssZ")}
+            var defaultModifiedDate = new DateTimeOffset(2025, 1, 1, 0, 0, 0, TimeSpan.Zero).DateTime;
+            var parameters = new Dictionary<string, object>
+            {
+                {"lastModifiedDate", lastModifiedDate?.ToString("yyyy-MM-ddTHH:mm:ssZ") ?? defaultModifiedDate.ToString("yyyy-MM-ddTHH:mm:ssZ")}
             };
 
-            var result = await httpClientService.ExecuteGetAsync<List<EmployeeOvertime>>(syncHrmApiSettings.Url + "/employee/overtime", syncHrmApiSettings.ApiKey, parameters);
-            return result;
+            return await httpClientService.ExecuteGetAsync<List<EmployeeOvertime>>(syncHrmApiSettings.Url + "/employee/overtime", syncHrmApiSettings.ApiKey, parameters);
         }
 
         public async Task<DateTime?> GetLastModifiedDateAsync()
         {
-            var lastModifiedDate = await baseService.GetDataEntityAsync<DateTime?>(new SyncEmployeeOvertimeGetLastModifiedDateCriteria{});
-            return lastModifiedDate;
+            var criteria = new SyncEmployeeOvertimeGetLastModifiedDateCriteria();
+            return await baseService.GetDataEntityAsync<DateTime?>(criteria);
         }
 
         public async Task<CommandResult> ImportOvertimesAsync(SyncEmployeeOvertimeCriteria criteria)
@@ -35,4 +36,4 @@ namespace NexGoal.BackgroundJob.Services
             return await baseService.ExecuteNonQueryAsync(criteria);
         }
     }
-} 
+}

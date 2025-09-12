@@ -6,6 +6,7 @@ namespace NexGoal.BackgroundJob.Services
     using NexGoal.BackgroundJob.Criteria.Hrm;
     using NexGoal.BackgroundJob.Models.Hrm;
     using NexGoal.BackgroundJob.Services.Interface;
+    using NexGoal.BackgroundJob.Services.Interfaces;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
 

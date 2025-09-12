@@ -5,7 +5,6 @@ namespace NexGoal.BackgroundJob.Workers
     public class PeriodWorker : BaseWorker
     {
         private readonly IPeriodService periodService;
-        private readonly ILogger<PeriodWorker> logfile;
 
         public PeriodWorker(Fanex.Logging.ILogger logger,
             ILogger<PeriodWorker> logfile,
@@ -14,7 +13,6 @@ namespace NexGoal.BackgroundJob.Workers
         {
             jobSetting = JobHelper.GetJobConfig(jobSettings, JobConstants.PeriodJob);
             this.periodService = periodService;
-            this.logfile = logfile;
         }
 
         public override async Task ExecuteJobAsync()
