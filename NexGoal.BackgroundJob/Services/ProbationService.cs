@@ -30,16 +30,16 @@
 
         public async Task SendMailAsync()
         {
-            IEnumerable<ProbationProcessSettingModel> settings = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Email);
+            var settings = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Email);
 
             var startToHRPath = Path.Combine(hostingEnvironment.ContentRootPath, StartMailTemplateToHR);
             var startToMemberPath = Path.Combine(hostingEnvironment.ContentRootPath, StartMailTemplateToMember);
             var startToEvaluatorPath = Path.Combine(hostingEnvironment.ContentRootPath, StartMailTemplateToEvaluator);
             var remindToEvaluatorPath = Path.Combine(hostingEnvironment.ContentRootPath, RemindMailTemplateToEvaluator);
-            string body;
 
             foreach (var setting in settings)
             {
+                string body;
                 switch (setting.ProcessId)
                 {
                     case PerformanceProcess.HumanResource:
@@ -94,7 +94,7 @@
         public async Task SendNotificationAsync()
         {
             var notifications = new List<NotificationModel>();
-            IEnumerable<ProbationProcessSettingModel> settings = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Notification);
+            var settings = await GetSettingToSendNotificationAsync(ReceiveNotificationType.Notification);
 
             notifications.AddRange(settings.Select(x => new NotificationModel
             {
@@ -117,10 +117,10 @@
 
         public async Task SendSkypeMessage()
         {
-            IEnumerable<ProbationProcessSettingModel> settings = await GetSettingToSendNotificationAsync(ReceiveNotificationType.SkypeMessage);
-            var message = string.Empty;
-            foreach (ProbationProcessSettingModel setting in settings)
+            var settings = await GetSettingToSendNotificationAsync(ReceiveNotificationType.SkypeMessage);
+            foreach (var setting in settings)
             {
+                string message;
                 switch (setting.ProcessId)
                 {
                     case PerformanceProcess.HumanResource:
