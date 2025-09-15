@@ -4,7 +4,6 @@
     using Fanex.Logging;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
-    using NexGoal.Core.Constants;
     using NexGoal.Core.Models;
     using NexGoal.Models.Common;
     using NexGoal.Services;
