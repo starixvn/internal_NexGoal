@@ -107,7 +107,7 @@
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(int.Parse(Configuration["AuthSettings:SessionTimeout"]));
                 options.Cookie.IsEssential = true;
-                options.Cookie.Name = $"Goal.{companyName}.Session";
+                options.Cookie.Name = $"{companyName}.Session";
             });
 
             ConfigDataProtection(services);
@@ -175,7 +175,7 @@
                 };
                 options.Cookie = new CookieBuilder
                 {
-                    Name = $"Goal.{companyName}.Cookie",
+                    Name = $"{companyName}.Cookie",
                 };
             });
 

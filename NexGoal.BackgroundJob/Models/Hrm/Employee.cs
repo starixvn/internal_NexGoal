@@ -14,9 +14,10 @@ namespace NexGoal.BackgroundJob.Models.Hrm
         public bool IsDeleted { get; set; }
         public DateTime? JoinedDate { get; set; }
         public DateTime? ConfirmedDate { get; set; }
-        public int JobTitleId { get; set; }
+        public int? JobTitleId { get; set; }
         public string Email { get; set; }
         public string ConversationId { get; set; }
         public DateTime? ModifiedDate { get; set; }
+        public string Password { get; set; }
     }
 }

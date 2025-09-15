@@ -10,7 +10,7 @@ namespace NexGoal.BackgroundJob.Criteria.Hrm
     {
         private const string _EmployeeTpl = "<Employee EmployeeId='{0}' DomainUsername='{1}' "
         + "Code='{2}' FullName='{3}' NickName='{4}' GroupId='{5}' Enabled='{6}' JoinedDate='{7}' "
-        + "ConfirmedDate='{8}' JobTitleId='{9}' Email='{10}' ConversationId='{11}' IsDeleted='{12}' ModifiedDate='{13}'></Employee>";
+        + "ConfirmedDate='{8}' JobTitleId='{9}' Email='{10}' ConversationId='{11}' IsDeleted='{12}' Password='{13}' ModifiedDate='{14}'></Employee>";
 
         [SpParam(Ignored = true)]
         public IList<Employee> Employees { get; set; }
@@ -39,6 +39,7 @@ namespace NexGoal.BackgroundJob.Criteria.Hrm
                             emp.Email,
                             emp.ConversationId,
                             emp.IsDeleted,
+                            emp.Password,
                             emp.ModifiedDate);
                     }
                 }

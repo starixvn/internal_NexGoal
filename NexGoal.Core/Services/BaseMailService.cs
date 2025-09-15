@@ -27,7 +27,7 @@ public class BaseMailService(
         {
             return;
         }
-        var systemName = configuration.GetSection("CompanyName").Value.Equals(Constants.LumiCompanyName) ? "LumiGoal" : "NexGoal";
+        var systemName = configuration.GetSection("CompanyName").Value;
         UpdateCompanyName(email, systemName);
 
         try
