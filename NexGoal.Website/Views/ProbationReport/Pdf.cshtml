@@ -1,12 +1,29 @@
 ﻿@using NexGoal.Web.Core.Extensions
 @using NexGoal.Core.Models
-@inject AppSettings appSettings
 @model NexGoal.Models.Probation.ProbationReportPdfModel
 
 @{
     Layout = null;
 
     var attendances = Model.Hrm.Attendances.ToList();
+
+    void RenderToeicColumn()
+    {
+        <td class="text-center" rowspan="@(attendances.Count + 1)">
+            @if (Model.Hrm.Toeic != null)
+            {
+                <div>
+                    <strong>@Model.Hrm.Toeic.ToeicScore</strong>
+                </div>
+                if (Model.Hrm.Toeic.ExamDate.HasValue)
+                {
+                    <div>
+                        (@Model.Hrm.Toeic.ExamDate.Value.ToString("dd MMM yyyy"))
+                    </div>
+                }
+            }
+        </td>
+    }
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -128,20 +145,7 @@
                                 <td class="text-center">@Helper.RenderHour(attendance.Overtime)</td>
                                 @if (i == 0)
                                 {
-                                    <td class="text-center" rowspan="@(attendances.Count + 1)">
-                                        @if (Model.Hrm.Toeic != null)
-                                        {
-                                            <div>
-                                                <strong>@Model.Hrm.Toeic.ToeicScore</strong>
-                                            </div>
-                                            if (Model.Hrm.Toeic.ExamDate.HasValue)
-                                            {
-                                                <div>
-                                                    (@Model.Hrm.Toeic.ExamDate.Value.ToString("dd MMM yyyy"))
-                                                </div>
-                                            }
-                                        }
-                                    </td>
+                                    RenderToeicColumn();
                                 }
                             </tr>
                         }

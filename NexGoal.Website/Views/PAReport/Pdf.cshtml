@@ -7,6 +7,18 @@
 @{
     Layout = null;
     const string partialViewName = "PAReport/_PARecord";
+
+    string GetToeicClass(int toeicPolicy)
+    {
+        var cssClass = toeicPolicy switch
+        {
+            > 0 => "toeic-passed",
+            < 0 => "toeic-failed",
+            _ => ""
+        };
+
+        return cssClass;
+    }
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -83,18 +95,7 @@
                                                 <td class="text-center">@month.Overtime</td>
                                                 @if (i == 0)
                                                 {
-                                                    var cssClass = "";
-                                                    if (Model.PARecord.ToeicPolicy > 0)
-                                                    {
-                                                        cssClass = "toeic-passed";
-                                                    }
-                                                    else
-                                                    {
-                                                        if (Model.PARecord.ToeicPolicy < 0)
-                                                        {
-                                                            cssClass = "toeic-failed";
-                                                        }
-                                                    }
+                                                    var cssClass = GetToeicClass(Model.PARecord.ToeicPolicy);
                                                     i++;
                                                     <td class="text-center" rowspan="@(Model.HRM.Count())">
                                                         <div class="@cssClass">@Model.PARecord.Toeic</div>

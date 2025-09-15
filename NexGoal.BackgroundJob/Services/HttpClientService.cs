@@ -94,22 +94,21 @@ public class HttpClientService : IHttpClientService
         return default(T);
     }
 
-    private static string BuildUrlWithQueryParams(string baseUrl, HttpMethod method, IDictionary<string, object> data)
+    private static Uri BuildUrlWithQueryParams(string baseUrl, HttpMethod method, IDictionary<string, object> data)
     {
         if (method == HttpMethod.Get && data != null)
         {
             var queryString = string.Join("&", data.Select(x =>
                 $"{HttpUtility.UrlEncode(x.Key)}={HttpUtility.UrlEncode(x.Value?.ToString())}"));
-            return $"{baseUrl}?{queryString}";
+            return new Uri($"{baseUrl}?{queryString}");
         }
 
-        return baseUrl;
+        return new Uri(baseUrl);
     }
 
-    private static HttpRequestMessage CreateRequest(string baseUrl, HttpMethod method, string apiKey)
+    private static HttpRequestMessage CreateRequest(Uri baseUrl, HttpMethod method, string apiKey)
     {
-        var url = new Uri(baseUrl);
-        var request = new HttpRequestMessage(method, url);
+        var request = new HttpRequestMessage(method, baseUrl);
         request.Headers.Accept.Clear();
         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         if (apiKey != null)

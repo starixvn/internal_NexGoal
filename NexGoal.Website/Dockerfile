@@ -45,12 +45,11 @@ FROM hub.nexdev.net/base/dotnet/core/aspnet:8.0-slim AS base
 
 RUN apt-get update \
   && apt-get install -y --allow-unauthenticated libgdiplus \
-  && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
-
-# Don’t run as root
-RUN adduser --disabled-password \
-  --home /app \
-  --gecos '' dotnetuser && chown -R dotnetuser /app && chown -R dotnetuser /tmp
+  && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* \
+  # Don’t run as root
+  && adduser --disabled-password \
+    --home /app \
+    --gecos '' dotnetuser && chown -R dotnetuser /app && chown -R dotnetuser /tmp
 USER dotnetuser
 #
 
