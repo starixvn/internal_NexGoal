@@ -2,7 +2,6 @@ namespace NexGoal.BackgroundJob.Workers
 {
     using NexGoal.BackgroundJob.Criteria.Hrm;
     using NexGoal.BackgroundJob.Services;
-    using NexGoal.Core.Models;
 
     public class SyncEmployeeCalendarWorker : BaseWorker
     {
@@ -22,10 +21,9 @@ namespace NexGoal.BackgroundJob.Workers
         {
             var lastModifiedDate = await employeeCalendarService.GetLastModifiedDateAsync();
             var calendars = await employeeCalendarService.GetCalendarsAsync(lastModifiedDate);
-            var result = new CommandResult { Code = 0 };
             if (calendars.Any())
             {
-                result = await employeeCalendarService.ImportCalendarsAsync(new SyncEmployeeCalendarCriteria { Calendars = calendars.ToList() });
+                await employeeCalendarService.ImportCalendarsAsync(new SyncEmployeeCalendarCriteria { Calendars = calendars.ToList() });
             }
         }
     }

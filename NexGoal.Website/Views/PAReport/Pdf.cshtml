@@ -1,14 +1,12 @@
 ﻿@using NexGoal.Core.Constants
-@using NexGoal.Resources
 @using NexGoal.Web.Core.Extensions
 @using NexGoal.Core.Enumerations
-@using NexGoal.Models.Discipline
 @using NexGoal.Models.Report
 @using NexGoal.Models.PerformanceRecord
 @model PAReportDetail
 @{
     Layout = null;
-    var partialViewName = "PAReport/_PARecord";
+    const string partialViewName = "PAReport/_PARecord";
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -75,7 +73,7 @@
                                         foreach (var month in Model.HRM)
                                         {
                                             <tr>
-                                                <td class="text-center">@string.Format("{0}/{1}", month.Month, month.Year)</td>
+                                                <td class="text-center">@($"{month.Month}/{month.Year}")</td>
                                                 <td class="text-center">@month.MissingCheckInCheckOut</td>
                                                 <td class="text-center">@month.LateIn</td>
                                                 <td class="text-center">@month.EarlyOut</td>
@@ -148,7 +146,7 @@
                                 @if (Model.Disciplines.Any())
                                 {
                                     var index = 0;
-                                    foreach (DisciplineModel discipline in Model.Disciplines)
+                                    foreach (var discipline in Model.Disciplines)
                                     {
                                         index++;
                                         <tr>
@@ -191,8 +189,7 @@
                                     foreach (var achievement in Model.Achievements)
                                     {
                                         index++;
-                                        string statusClass = string.Format("status-{0}",
-                                            achievement.StatusId.ToString().ToLowerInvariant());
+                                        var statusClass = $"status-{achievement.StatusId.ToString().ToLowerInvariant()}";
                                         <tr>
                                             <td class="text-center">@index</td>
                                             <td style="padding: 8px">@achievement.Period.Title</td>
@@ -223,7 +220,7 @@
                                     .SelectMany(x => x.RelatedPerformanceRecords).OrderByDescending(x => x.CreatedDate);
                                 if (records.Any())
                                 {
-                                    foreach (PerformanceRecord record in records)
+                                    foreach (var record in records)
                                     {
                                         @await Html.PartialAsync(partialViewName, record)
                                     }
@@ -245,7 +242,7 @@
                                         .SelectMany(x => x.RelatedPerformanceRecords).OrderByDescending(x => x.CreatedDate);
                                     if (records.Any())
                                     {
-                                        foreach (PerformanceRecord record in records)
+                                        foreach (var record in records)
                                         {
                                             @await Html.PartialAsync(partialViewName, record)
                                         }
@@ -268,7 +265,7 @@
                                         .SelectMany(x => x.RelatedPerformanceRecords).OrderByDescending(x => x.CreatedDate);
                                     if (records.Any())
                                     {
-                                        foreach (PerformanceRecord record in records)
+                                        foreach (var record in records)
                                         {
                                             @await Html.PartialAsync(partialViewName, record)
                                         }
@@ -291,7 +288,7 @@
                                     .SelectMany(x => x.RelatedPerformanceRecords).OrderByDescending(x => x.CreatedDate);
                                 if (records.Any())
                                 {
-                                    foreach (PerformanceRecord record in records)
+                                    foreach (var record in records)
                                     {
                                         @await Html.PartialAsync(partialViewName, record)
                                     }

@@ -4,6 +4,8 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,10 +21,7 @@ public class HttpClientService : IHttpClientService
     private static HttpClient CreateHttpClient()
     {
         var handler = new HttpClientHandler();
-        handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
-        {
-            return true;
-        };
+        handler.ServerCertificateCustomValidationCallback = ServerCertificateCustomValidationCallback;
 
         return new HttpClient(handler);
     }
@@ -148,4 +147,7 @@ public class HttpClientService : IHttpClientService
             throw exception;
         }
     }
+
+    private static bool ServerCertificateCustomValidationCallback(HttpRequestMessage message, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        => true;
 }

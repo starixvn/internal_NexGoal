@@ -4,7 +4,6 @@ namespace NexGoal.BackgroundJob.Workers
     using Microsoft.Extensions.Logging;
     using NexGoal.BackgroundJob.Criteria.Hrm;
     using NexGoal.BackgroundJob.Services.Interfaces;
-    using NexGoal.Core.Models;
 
     public class JobTitleSyncWorker : BaseWorker
     {
@@ -23,10 +22,9 @@ namespace NexGoal.BackgroundJob.Workers
         public override async Task ExecuteJobAsync()
         {
             var jobTitles = await jobTitleService.GetJobTitlesAsync();
-            var result = new CommandResult { Code = 0 };
             if (jobTitles.Any())
             {
-                result = await jobTitleService.ImportJobTitlesAsync(new SyncJobTitleCriteria { JobTitles = jobTitles.ToList() });
+                await jobTitleService.ImportJobTitlesAsync(new SyncJobTitleCriteria { JobTitles = jobTitles.ToList() });
             }
         }
     }

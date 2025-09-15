@@ -48,9 +48,7 @@ export default class Menu extends Component {
         this.setState({ hoverItem: null });
     };
 
-    isActive = link => {
-        return this.state.currentUrl === link.toLowerCase() ? 'active' : '';
-    };
+    isActive = link => this.state.currentUrl === link.toLowerCase() ? 'active' : '';
 
     render() {
         const { menuItems, hoverItem, currentUrl, isExpanded } = this.state

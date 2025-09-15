@@ -2,7 +2,6 @@ namespace NexGoal.BackgroundJob.Workers
 {
     using NexGoal.BackgroundJob.Criteria.Hrm;
     using NexGoal.BackgroundJob.Services;
-    using NexGoal.Core.Models;
 
     public class SyncTOEICWorker : BaseWorker
     {
@@ -22,10 +21,9 @@ namespace NexGoal.BackgroundJob.Workers
         {
             var lastModifiedDate = await toeicService.GetLastModifiedDateAsync();
             var toeics = await toeicService.GetTOEICsAsync(lastModifiedDate);
-            var result = new CommandResult { Code = 0 };
             if (toeics.Any())
             {
-                result = await toeicService.ImportTOEICsAsync(new SyncTOEICCriteria { TOEICs = toeics.ToList() });
+                await toeicService.ImportTOEICsAsync(new SyncTOEICCriteria { TOEICs = toeics.ToList() });
             }
         }
     }
