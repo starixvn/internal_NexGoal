@@ -1,5 +1,4 @@
 ﻿@using Microsoft.Extensions.Configuration
-@using NexGoal.Core.Constants
 @using NexGoal.ViewModels.Auth
 @inject IConfiguration Configuration
 @model LoginModel
@@ -7,10 +6,9 @@
 @{
     Layout = null;
     ViewData["Title"] = ViewLang.Login;
-    
     var companyName = Configuration.GetValue<string>("CompanyName");
-    var leftLogo = companyName.Equals(Constants.LumiCompanyName) ? "LuminetLeftLogin.png" : "NexcelLeftLogin.svg";
-    var logoName = companyName.Equals(Constants.LumiCompanyName) ? "LogoLuminet.svg" : "LogoNexcel.svg";
+    var leftLogo = $"{companyName}LeftLogin.png";
+    var logoName = $"Logo{companyName}.svg";
 }
 <!DOCTYPE html>
 <html lang="en">

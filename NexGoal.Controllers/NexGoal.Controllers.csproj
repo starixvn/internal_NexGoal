@@ -13,7 +13,8 @@
     <AdditionalFiles Include="..\SonarQube\nexgoal\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.3.1" />
+      <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+      <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.3.1" />
     <PackageReference Include="SonarAnalyzer.CSharp" Version="9.21.0.86780">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
