@@ -114,7 +114,7 @@ public class AuthController(
     private async Task<bool> IsValidLoginByPassword(LoginModel model)
     {
         var employee = await authService.GetEmployeeByDomainUsernameAsync(model.Username);
-        return employee != null && BCrypt.Net.BCrypt.Verify(model.Password, employee.Password);
+        return employee != null && !string.IsNullOrWhiteSpace(employee.Password) && BCrypt.Net.BCrypt.Verify(model.Password, employee.Password);
     }
 
     private async Task WriteLogAsync(string username)
