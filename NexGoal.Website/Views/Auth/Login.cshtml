@@ -6,9 +6,9 @@
 @{
     Layout = null;
     ViewData["Title"] = ViewLang.Login;
-    var companyName = Configuration.GetValue<string>("CompanyName");
-    var leftLogo = $"{companyName}LeftLogin.png";
-    var logoName = $"Logo{companyName}.svg";
+    var appName = Configuration.GetValue<string>("AppName");
+    var leftLogo = $"{appName}LeftLogin.png";
+    var logoName = $"Logo{appName}.svg";
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +18,7 @@
     <link href="~/dist/styles/login.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="login @companyName">
+    <div class="login @appName">
         <div class="login__main">
             <div class="container">
                 <div class="login__flex">

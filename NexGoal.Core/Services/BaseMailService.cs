@@ -27,15 +27,15 @@ public class BaseMailService(
         {
             return;
         }
-        var systemName = configuration.GetSection("CompanyName").Value;
-        UpdateCompanyName(email, systemName);
+        var appName = configuration.GetSection("AppName").Value;
+        UpdateAppName(email, appName);
 
         try
         {
             var client = new SmtpClient(mailConfig.SmtpServer, mailConfig.SmtpPort);
             var msg = new MailMessage
             {
-                From = new MailAddress(mailConfig.Username, systemName)
+                From = new MailAddress(mailConfig.Username, appName)
             };
             msg.To.Add(email.ReceiverEmail);
 
@@ -63,18 +63,16 @@ public class BaseMailService(
         }
     }
 
-    private static void UpdateCompanyName(MailModel email, string systemName)
+    private static void UpdateAppName(MailModel email, string appName)
     {
-        var body = email.Body.Replace("**SystemName**", systemName);
+        var body = email.Body.Replace("**SystemName**", appName);
         email.Body = body;
     }
 
     public string ReadTextFile(string filePath)
     {
-        using (var sr = new StreamReader(filePath))
-        {
-            return sr.ReadToEnd();
-        }
+        using var sr = new StreamReader(filePath);
+        return sr.ReadToEnd();
     }
 
     public string FormatDate(DateTime date)

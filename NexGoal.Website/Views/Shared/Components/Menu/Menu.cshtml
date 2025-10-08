@@ -3,13 +3,13 @@
 
 @{
     var employee = Model.UserInfo;
-    var logo = $"{Model.CompanyName}.svg";
+    var logo = $"{Model.AppName}.svg";
 }
 
-<nav class="navbar navbar-inverse navbar-fixed-top @Model.CompanyName">
+<nav class="navbar navbar-inverse navbar-fixed-top @Model.AppName">
     <div class="pull-left left-bar">
         <a class="navbar-brand" asp-controller="home" asp-action="index">
-            <img src="~/sources/styles/images/@logo" alt="@Model.CompanyName" />
+            <img src="~/sources/styles/images/@logo" alt="@Model.AppName" />
         </a>
     </div>
 

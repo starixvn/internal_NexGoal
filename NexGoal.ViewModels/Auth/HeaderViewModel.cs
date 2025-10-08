@@ -12,6 +12,6 @@
         public bool HasMember { get; set; }
         
         public Uri ImageUrl { get; set; }
-        public string CompanyName { get; set; }
+        public string AppName { get; set; }
     }
 }

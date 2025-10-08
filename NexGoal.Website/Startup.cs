@@ -93,21 +93,21 @@
             services.AddResponseCompression(options =>
             {
                 options.Providers.Add<GzipCompressionProvider>();
-                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "image/svg+xml" });
+                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(["image/svg+xml"]);
                 options.EnableForHttps = true;
             });
 
-            var companyName = Configuration.GetSection("CompanyName").Value;
+            var appName = Configuration.GetSection("AppName").Value;
 
             services.AddSingleton<IConverter>(new SynchronizedConverter(new PdfTools()));
 
-            ConfigAuthentication(services, companyName);
+            ConfigAuthentication(services, appName);
 
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(int.Parse(Configuration["AuthSettings:SessionTimeout"]));
                 options.Cookie.IsEssential = true;
-                options.Cookie.Name = $"{companyName}.Session";
+                options.Cookie.Name = $"{appName}.Session";
             });
 
             ConfigDataProtection(services);
@@ -155,7 +155,7 @@
             });
         }
 
-        private void ConfigAuthentication(IServiceCollection services, string companyName)
+        private void ConfigAuthentication(IServiceCollection services, string appName)
         {
             services.AddAuthentication(options =>
             {
@@ -175,7 +175,7 @@
                 };
                 options.Cookie = new CookieBuilder
                 {
-                    Name = $"{companyName}.Cookie",
+                    Name = $"{appName}.Cookie",
                 };
             });
 

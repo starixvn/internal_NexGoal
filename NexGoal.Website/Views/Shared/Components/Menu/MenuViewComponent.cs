@@ -32,7 +32,7 @@
                 HasMember = hasMember,
                 UnreadNotification = unreadNotification,
                 ImageUrl = appSettings.ImageUrl,
-                CompanyName = configuration.GetValue<string>("CompanyName")
+                AppName = configuration.GetValue<string>("AppName")
             };
 
             return View("Menu", viewModel);
