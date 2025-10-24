@@ -9,6 +9,5 @@
         public const int PerformanceCheckinDuration = 7;
         public const int MinGradeId = 1;
         public const string Newline = "\n";
-        public const string LumiCompanyName = "Lumiplus";
     }
 }

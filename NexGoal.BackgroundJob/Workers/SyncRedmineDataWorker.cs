@@ -7,7 +7,6 @@ namespace NexGoal.BackgroundJob.Workers
     public class SyncRedmineDataWorker : BaseWorker
     {
         private readonly IBaseService baseService;
-        private readonly ILogger<SyncRedmineDataWorker> logfile;
 
         public SyncRedmineDataWorker(
             Fanex.Logging.ILogger logger,
@@ -17,7 +16,6 @@ namespace NexGoal.BackgroundJob.Workers
         {
             jobSetting = JobHelper.GetJobConfig(jobSettings, JobConstants.SyncRedmineData);
             this.baseService = baseService;
-            this.logfile = logfile;
         }
 
         public override async Task ExecuteJobAsync()

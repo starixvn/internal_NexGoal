@@ -1,39 +1,40 @@
-﻿@using NexGoal.Resources
-@using NexGoal.Core.Enumerations
+﻿@using NexGoal.Core.Enumerations
 @using NexGoal.Core.Models
-@using NexGoal.Models.PerformanceRecord
 @using NexGoal.Models.PRFeedback
+@using NexGoal.Models.PerformanceRecord
 @inject AppSettings appSettings
 @model PerformanceRecord
 
 @{
-    string getRoleClass(int roleId)
+    string GetRoleClass(int roleId)
     {
-        var roleClass = string.Empty;
-        switch (roleId)
+        var roleClass = roleId switch
         {
-            case (byte)PerformanceProcess.Self:
-                roleClass = "role-member";
-                break;
-
-            case (byte)PerformanceProcess.Evaluator:
-                roleClass = "role-evaluator";
-                break;
-
-            case (byte)PerformanceProcess.ProjectManager:
-                roleClass = "role-pm";
-                break;
-
-            case (byte)PerformanceProcess.Reviewer:
-                roleClass = "role-reviewer";
-                break;
-
-            default:
-                roleClass = "role-member";
-                break;
-        }
+            (byte)PerformanceProcess.Self => "role-member",
+            (byte)PerformanceProcess.Evaluator => "role-evaluator",
+            (byte)PerformanceProcess.ProjectManager => "role-pm",
+            (byte)PerformanceProcess.Reviewer => "role-reviewer",
+            _ => "role-member"
+        };
 
         return roleClass;
+    }
+
+    void RenderFeedback(PRFeedbackModel feedback)
+    {
+        <div class="feedback">
+            <strong>@feedback.Creator.NickName</strong> commented:
+            <br />
+            <p>@feedback.Content</p>
+
+            @if (feedback.Reactions.Any())
+            {
+                var creator = string.Join(", ", feedback.Reactions.Select(x => x.Creator.NickName));
+
+                <br />
+                <span><strong>@creator</strong> liked this comment.</span>
+            }
+        </div>
     }
 }
 
@@ -43,11 +44,11 @@
         <div class="avatar-user">
             <img src="@($"{appSettings.ImageUrl}/{Model.Creator.Code}.jpg")" class="avatar" alt="avatar" />
             <div class="person-info">
-                <div class="@getRoleClass(Model.RoleId)">@Model.Creator.NickName</div>
+                <div class="@GetRoleClass(Model.RoleId)">@Model.Creator.NickName</div>
                 <div>
                     @(Model.CreatedDate.HasValue
-                    ? string.Format("{0} at {1}", Model.CreatedDate.Value.ToString("dd MMM yyyy"), Model.CreatedDate.Value.ToString("HH:mm"))
-                    : string.Empty)
+                            ? $"{Model.CreatedDate.Value:dd MMM yyyy} at {Model.CreatedDate.Value:HH:mm}"
+                            : string.Empty)
                 </div>
             </div>
         </div>
@@ -66,21 +67,9 @@
                 <div class="reaction">
                     <strong>@creator</strong> liked this PR.
                 </div>
-                @foreach (PRFeedbackModel feedback in Model.Feedbacks)
+                @foreach (var feedback in Model.Feedbacks)
                 {
-                    <div class="feedback">
-                        <strong>@feedback.Creator.NickName</strong> commented:
-                        <br />
-                        <p>@feedback.Content</p>
-
-                        @if (feedback.Reactions.Any())
-                        {
-                            creator = string.Join(", ", feedback.Reactions.Select(x => x.Creator.NickName));
-
-                            <br />
-                            <span><strong>@creator</strong> liked this comment.</span>
-                        }
-                    </div>
+                    RenderFeedback(feedback);
                 }
             </div>
         }

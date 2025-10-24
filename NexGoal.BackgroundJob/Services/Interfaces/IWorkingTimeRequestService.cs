@@ -1,4 +1,4 @@
-namespace NexGoal.BackgroundJob.Services.Interface
+namespace NexGoal.BackgroundJob.Services.Interfaces
 {
     using System;
     using System.Collections.Generic;
@@ -10,7 +10,9 @@ namespace NexGoal.BackgroundJob.Services.Interface
     public interface IWorkingTimeRequestService
     {
         Task<IEnumerable<WorkingTimeRequest>> GetWorkingTimeRequestsAsync(DateTime? lastModifiedDate = null);
+
         Task<DateTime?> GetLastModifiedDateAsync();
+
         Task<CommandResult> ImportWorkingTimeRequestsAsync(SyncWorkingTimeRequestCriteria criteria);
     }
-} 
+}

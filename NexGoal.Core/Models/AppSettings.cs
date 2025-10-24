@@ -9,5 +9,6 @@
         public string RSAPublicKeyPath { get; set; }
         public string RSAPrivateKeyPath { get; set; }
         public bool EnableEncrypt { get; set; }
+        public byte LoginType { get; set; }
     }
 }

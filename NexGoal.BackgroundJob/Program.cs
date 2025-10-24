@@ -5,7 +5,7 @@ using Fanex.Logging;
 using Fanex.Logging.Sentry;
 using NexGoal.BackgroundJob;
 using NexGoal.BackgroundJob.Services;
-using NexGoal.BackgroundJob.Services.Interface;
+using NexGoal.BackgroundJob.Services.Interfaces;
 using NexGoal.BackgroundJob.Workers;
 using NexGoal.Core.Models;
 using NexGoal.Core.Repositories;

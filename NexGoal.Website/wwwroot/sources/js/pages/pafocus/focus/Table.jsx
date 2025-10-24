@@ -64,9 +64,7 @@ export default class Table extends Component {
         this.props.onExportToExcel();
     };
 
-    getDateFieldValue = (period, fieldName, defaultValue) => {
-        return period && period[fieldName] ? moment(period[fieldName]).format(DateFormat) : defaultValue;
-    };
+    getDateFieldValue = (period, fieldName, defaultValue) => period && period[fieldName] ? moment(period[fieldName]).format(DateFormat) : defaultValue;
 
     render() {
         const period = this.props.period;

@@ -5,7 +5,6 @@ namespace NexGoal.BackgroundJob.Workers
     public class PAWorker : BaseWorker
     {
         private readonly IPAService paService;
-        private readonly ILogger<PAWorker> logfile;
 
         public PAWorker(Fanex.Logging.ILogger logger,
             ILogger<PAWorker> logfile,
@@ -14,7 +13,6 @@ namespace NexGoal.BackgroundJob.Workers
         {
             jobSetting = JobHelper.GetJobConfig(jobSettings, JobConstants.PAJob);
             this.paService = paService;
-            this.logfile = logfile;
         }
 
         public override async Task ExecuteJobAsync()

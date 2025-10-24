@@ -5,30 +5,30 @@ namespace NexGoal.BackgroundJob.Services
     using System.Threading.Tasks;
     using NexGoal.BackgroundJob.Criteria.Hrm;
     using NexGoal.BackgroundJob.Models.Hrm;
-    using NexGoal.BackgroundJob.Services.Interface;
+    using NexGoal.BackgroundJob.Services.Interfaces;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
 
     public class EmployeeCalendarService(
-        IBaseService baseService, 
+        IBaseService baseService,
         IHttpClientService httpClientService,
         SyncHrmSetting syncHrmApiSettings) : IEmployeeCalendarService
     {
-
-        public async Task<IEnumerable<EmployeeCalendar>> GetCalendarsAsync(DateTime? lastModifiedDate = null)
+        public async Task<IEnumerable<EmployeeCalendar>> GetCalendarsAsync(DateTime? lastModifiedDate)
         {
-             var parameters = new Dictionary<string, object>{
-                {"lastModifiedDate", lastModifiedDate?.ToString("yyyy-MM-ddTHH:mm:ssZ") ?? new DateTime(2025, 1, 1).ToString("yyyy-MM-ddTHH:mm:ssZ")}
+            var defaultModifiedDate = new DateTimeOffset(2025, 1, 1, 0, 0, 0, TimeSpan.Zero).DateTime;
+            var parameters = new Dictionary<string, object>
+            {
+                {"lastModifiedDate", lastModifiedDate?.ToString("yyyy-MM-ddTHH:mm:ssZ") ?? defaultModifiedDate.ToString("yyyy-MM-ddTHH:mm:ssZ")}
             };
 
-            var result = await httpClientService.ExecuteGetAsync<List<EmployeeCalendar>>(syncHrmApiSettings.Url + "/employee/calendar", syncHrmApiSettings.ApiKey, parameters);
-            return result;
+            return await httpClientService.ExecuteGetAsync<List<EmployeeCalendar>>(syncHrmApiSettings.Url + "/employee/calendar", syncHrmApiSettings.ApiKey, parameters);
         }
 
-         public async Task<DateTime?> GetLastModifiedDateAsync()
+        public async Task<DateTime?> GetLastModifiedDateAsync()
         {
-            var lastModifiedDate = await baseService.GetDataEntityAsync<DateTime?>(new SyncEmployeeCalendarGetLastModifiedDateCriteria{});
-            return lastModifiedDate;
+            var criteria = new SyncEmployeeCalendarGetLastModifiedDateCriteria();
+            return await baseService.GetDataEntityAsync<DateTime?>(criteria);
         }
 
         public async Task<CommandResult> ImportCalendarsAsync(SyncEmployeeCalendarCriteria criteria)
