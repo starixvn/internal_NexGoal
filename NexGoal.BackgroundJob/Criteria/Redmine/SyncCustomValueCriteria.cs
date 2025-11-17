@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security;
     using System.Text;
     using Fanex.Data;
     using Fanex.Data.Repository;
@@ -30,7 +31,7 @@
                             customValue.CustomizedType,
                             customValue.CustomizedId,
                             customValue.CustomFieldId,
-                            customValue.Value);
+                            SecurityElement.Escape(customValue.Value));
                     }
                 }
 

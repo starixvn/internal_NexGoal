@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security;
     using System.Text;
     using Fanex.Data;
     using Fanex.Data.Repository;
@@ -27,7 +28,7 @@
                         value.AppendFormat(
                             _ProjectTpl,
                             project.Id,
-                            project.Name,
+                            SecurityElement.Escape(project.Name),
                             project.UpdatedOn,
                             project.Status);
                     }
